@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from datetime import datetime
-from typing import Dict, Optional, Type
+from typing import Dict, Optional, Type, List
 
 from superset.db_engine_specs.base import BaseEngineSpec, LimitMethod
 from superset.db_engine_specs.exceptions import (
@@ -82,3 +82,7 @@ class KustoSqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
     def is_readonly_query(cls, parsed_query: ParsedQuery) -> bool:
         """Pessimistic readonly, 100% sure statement won't mutate anything"""
         return parsed_query.sql.lower().startswith("select")
+
+    @classmethod
+    def parse_sql(cls, sql: str) -> List[str]:
+        return [sql]

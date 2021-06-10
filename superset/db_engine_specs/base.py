@@ -1105,3 +1105,7 @@ class BaseEngineSpec:  # pylint: disable=too-many-public-methods
         Some query dialects do not contain "SELECT" word in queries (eg. Kusto)
         """
         return parsed_query.is_select()
+
+    @classmethod
+    def parse_sql(cls, sql: str) -> List[str]:
+        return [str(s).strip(" ;") for s in sqlparse.parse(sql)]
