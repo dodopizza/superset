@@ -807,19 +807,19 @@ class SqlaTable(  # pylint: disable=too-many-public-methods,too-many-instance-at
                     )
 
             from_sql = sqlparse.format(from_sql, strip_comments=True)
-            if len(sqlparse.split(from_sql)) > 1:
-                raise QueryObjectValidationError(
-                    _("Virtual dataset query cannot consist of multiple statements")
-                )
-            parsed_query = ParsedQuery(from_sql)
-            db_engine_spec = self.database.db_engine_spec
-            if not (
-                parsed_query.is_unknown()
-                or db_engine_spec.is_readonly_query(parsed_query)
-            ):
-                raise QueryObjectValidationError(
-                    _("Virtual dataset query must be read-only")
-                )
+            # if len(sqlparse.split(from_sql)) > 1:
+            #     raise QueryObjectValidationError(
+            #         _("Virtual dataset query cannot consist of multiple statements")
+            #     )
+            # parsed_query = ParsedQuery(from_sql)
+            # db_engine_spec = self.database.db_engine_spec
+            # if not (
+            #     parsed_query.is_unknown()
+            #     or db_engine_spec.is_readonly_query(parsed_query)
+            # ):
+            #     raise QueryObjectValidationError(
+            #         _("Virtual dataset query must be read-only")
+            #     )
             return TextAsFrom(sa.text(from_sql), []).alias("expr_qry")
         return self.get_sqla_table()
 
