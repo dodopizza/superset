@@ -40,6 +40,7 @@ class KustoKqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
     allows_joins = True
     allows_subqueries = True
     allows_sql_comments = False
+    run_multiple_statements_as_one = True
 
     _time_grain_expressions = {
         None: "{col}",
@@ -106,4 +107,4 @@ class KustoKqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
     @classmethod
     def execute(cls, cursor: Any, query: str, **kwargs: Any) -> None:
         logger.info(f"KustoKQL Engine execute call {query}")
-        return super().execute(cls, cursor, query, **kwargs)
+        return super().execute(cursor, query, **kwargs)
