@@ -111,4 +111,5 @@ class KustoKqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
 
     @classmethod
     def parse_sql(cls, sql: str) -> List[str]:
+        logger.info(f"parse_sql: Incoming sql: {sql}")
         return [sql]
