@@ -52,7 +52,7 @@ class KustoSqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
         "P0.25Y": "DATEADD(quarter, DATEDIFF(quarter, 0, {col}), 0)",
         "P1Y": "DATEADD(year, DATEDIFF(year, 0, {col}), 0)",
         "1969-12-28T00:00:00Z/P1W": "DATEADD(week, DATEDIFF(week, 0, {col}), 0)",
-        "1969-12-29T00:00:00Z/P1W": "DATEADD(day, DATEADD(week, DATEDIFF(week, 0, {col}), 0), 1)",
+        "1969-12-29T00:00:00Z/P1W": "DATEADD(day, 1, DATEADD(week, DATEDIFF(week, 0, {col}), 0))",
     }
 
     type_code_map: Dict[int, str] = {}  # loaded from get_datatype only if needed
