@@ -47,10 +47,11 @@ class KustoSqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
         "PT0.5H": "DATEADD(minute, DATEDIFF(minute, 0, {col}) / 30 * 30, 0)",
         "PT1H": "DATEADD(hour, DATEDIFF(hour, 0, {col}), 0)",
         "P1D": "DATEADD(day, DATEDIFF(day, 0, {col}), 0)",
-        "P1W": "DATEADD(week, DATEDIFF(week, 0, {col}), 0)",
+        "P1W": "DATEADD(day, -1, DATEADD(week, DATEDIFF(week, 0, {col}), 0))",
         "P1M": "DATEADD(month, DATEDIFF(month, 0, {col}), 0)",
         "P0.25Y": "DATEADD(quarter, DATEDIFF(quarter, 0, {col}), 0)",
         "P1Y": "DATEADD(year, DATEDIFF(year, 0, {col}), 0)",
+        "1969-12-28T00:00:00Z/P1W": "DATEADD(day, -1, DATEADD(week, DATEDIFF(week, 0, {col}), 0))",
         "1969-12-29T00:00:00Z/P1W": "DATEADD(week, DATEDIFF(week, 0, DATEADD(day, -1, {col})), 0)",
     }
 
