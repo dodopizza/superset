@@ -68,7 +68,7 @@ class KustoKqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
     @classmethod
     def convert_dttm(cls, target_type: str, dttm: datetime) -> Optional[str]:
         if target_type.upper() == utils.TemporalType.DATETIME:
-            return f"""datetime({dttm.isoformat(timespec="seconds")}))"""
+            return f"""datetime({dttm.isoformat(timespec="seconds")})"""
         return None
 
     @classmethod
