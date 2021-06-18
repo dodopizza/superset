@@ -485,7 +485,7 @@ class BaseViz:
             query_obj = self.query_obj()
         cache_key = self.cache_key(query_obj, **kwargs) if query_obj else None
         cache_value = None
-        logger.debug("Cache key: {}".format(cache_key))
+        logger.info("Cache key: {}".format(cache_key))
         is_loaded = False
         stacktrace = None
         df = None
@@ -504,7 +504,7 @@ class BaseViz:
                     logger.error(
                         "Error reading cache: " + utils.error_msg_from_exception(ex)
                     )
-                logger.debug("Serving from cache")
+                logger.info("Serving from cache")
 
         if query_obj and not is_loaded:
             if self.force_cached:
