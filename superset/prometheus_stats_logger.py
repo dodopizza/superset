@@ -11,7 +11,7 @@ try:
             super().__init__(prefix)
 
             self._gauge = Gauge(f"{self.prefix}_gauge", "Gauge metric for Superset",
-                                labelnames=["key"])
+                                labelnames=["key"], multiprocess_mode='livesum')
 
             self._summary = Summary(f"{self.prefix}_summary",
                                     f"Summary metric for Superset", labelnames=["key"])
