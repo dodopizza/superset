@@ -1,6 +1,5 @@
 from superset.stats_logger import BaseStatsLogger
 
-# from superset import app
 try:
     from werkzeug.middleware.dispatcher import DispatcherMiddleware
     from prometheus_client import make_wsgi_app, Gauge, Summary
