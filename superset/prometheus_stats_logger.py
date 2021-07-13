@@ -1,4 +1,5 @@
 from superset.stats_logger import BaseStatsLogger
+from typing import Optional
 
 try:
     from werkzeug.middleware.dispatcher import DispatcherMiddleware
