@@ -19,18 +19,16 @@ try:
                                     f"Summary metric for Superset", labelnames=["key"])
 
             self._user_activity = Counter(f"{self.prefix}_user_activity", "User activity counter",
-                                          labelnames=["user_id", "action"])
+                                          labelnames=["user_id", "action", "dashboard_id"])
 
         def incr(self, key: str) -> None:
-            # self._gauge.labels()
             self._counter.labels(key=key).inc()
 
-        def user_activity(self, user_id: str, action: str) -> None:
-            self._user_activity.labels(user_id=user_id, action=action).inc()
+        def user_activity(self, user_id: Optional[int], action: str, dashboard_id: Optional[int]) -> None:
+            self._user_activity.labels(user_id=user_id, action=action, dashboard_id=dashboard_id).inc()
 
         def decr(self, key: str) -> None:
             raise NotImplementedError()
-            # self._gauge.labels(key=key).dec()
 
         def timing(self, key: str, value: float) -> None:
             self._summary.labels(key=key).observe(value)

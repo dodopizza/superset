@@ -29,7 +29,7 @@ from flask_appbuilder.const import API_URI_RIS_KEY
 from sqlalchemy.exc import SQLAlchemyError
 from typing_extensions import Literal
 
-from superset.prometheus_stats_logger import PrometheusStatsLogger
+from superset.stats_logger import BaseStatsLogger
 
 
 def collect_request_payload() -> Dict[str, Any]:
@@ -160,8 +160,7 @@ class AbstractEventLogger(ABC):
             slice_id = 0
 
         if log_to_statsd:
-            self.stats_logger.user_activity(user_id, action)
-            # self.stats_logger.incr(action)
+            self.stats_logger.incr(action)
 
         try:
             # bulk insert
@@ -248,7 +247,7 @@ class AbstractEventLogger(ABC):
         return self._wrapper(f, allow_extra_payload=True)
 
     @property
-    def stats_logger(self) -> PrometheusStatsLogger:
+    def stats_logger(self) -> BaseStatsLogger:
         return current_app.config["STATS_LOGGER"]
 
 
