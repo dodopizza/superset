@@ -108,7 +108,7 @@ class KustoKqlEngineSpec(BaseEngineSpec):  # pylint: disable=abstract-method
     @classmethod
     def execute(cls, cursor: Any, query: str, **kwargs: Any) -> None:
         logger.info(f"KustoKQL Engine execute call {query}")
-        traceback.print_stack()
+        # traceback.print_stack()
         return super().execute(cursor, query, **kwargs)
 
     @classmethod
