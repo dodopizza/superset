@@ -38,9 +38,11 @@ try:
             raise NotImplementedError()
 
         def timing(self, key: str, value: float) -> None:
+            logger.info(f"Metric timing for key {key}")
             self._summary.labels(key=key).observe(value)
 
         def gauge(self, key: str, value: float) -> None:
+            logger.info(f"Metric gauge for key {key}")
             self._gauge.labels(key=key).set(value)
 
 except Exception:  # pylint: disable=broad-except
