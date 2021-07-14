@@ -1,5 +1,9 @@
+import logging
+
 from superset.stats_logger import BaseStatsLogger
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 try:
     from werkzeug.middleware.dispatcher import DispatcherMiddleware
@@ -23,9 +27,11 @@ try:
                                           labelnames=["user_id", "action", "dashboard_id"])
 
         def incr(self, key: str) -> None:
+            logger.info(f"Metric increment for key {key}")
             self._counter.labels(key=key).inc()
 
         def user_activity(self, user_id: Optional[int], action: str, dashboard_id: Optional[int]) -> None:
+            logger.info(f"Metric user_activity for action {action}")
             self._user_activity.labels(user_id=user_id, action=action, dashboard_id=dashboard_id).inc()
 
         def decr(self, key: str) -> None:
