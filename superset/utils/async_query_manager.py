@@ -152,13 +152,15 @@ class AsyncQueryManager:
 
     def parse_jwt_from_request(self, req: Request) -> Dict[str, Any]:
         token = req.cookies.get(self._jwt_cookie_name)
-        logger.warning("Cookies:" + "\n".join(req.cookies.values()))
+        # logger.warning("Cookies:" + "\n".join(req.cookies.values()))
         if not token:
             logger.warning("Token not preset")
             raise AsyncQueryTokenException("Token not preset")
 
         try:
-            return self.parse_jwt(token)
+            result = self.parse_jwt(token)
+            logger.warning(result)
+            return result
         except Exception as exc:
             logger.warning(exc)
             raise AsyncQueryTokenException("Failed to parse token")

@@ -595,6 +595,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 and response_type == utils.ChartDataResultFormat.JSON
             ):
                 try:
+                    logger.warning("explore_json")
                     async_channel_id = async_query_manager.parse_jwt_from_request(
                         request
                     )["channel"]

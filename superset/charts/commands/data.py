@@ -88,6 +88,7 @@ class ChartDataCommand(BaseCommand):
         self._query_context.raise_for_access()
 
     def validate_async_request(self, request: Request) -> None:
+        logger.warning("validate_async_request")
         jwt_data = async_query_manager.parse_jwt_from_request(request)
         self._async_channel_id = jwt_data["channel"]
 
