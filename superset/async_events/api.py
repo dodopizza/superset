@@ -14,6 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import functools
 import logging
 
 from flask import request, Response
@@ -26,6 +27,54 @@ from superset.utils.async_query_manager import AsyncQueryTokenException
 
 logger = logging.getLogger(__name__)
 
+def my_protect(allow_browser_login=False):
+    def _protect(f):
+        if hasattr(f, "_permission_name"):
+            permission_str = f._permission_name
+        else:
+            permission_str = f.__name__
+        logger.warning(permission_str)
+
+        def wraps(self, *args, **kwargs):
+            pass
+            # # Apply method permission name override if exists
+            # permission_str = "{}{}".format(PERMISSION_PREFIX, f._permission_name)
+            # if self.method_permission_name:
+            #     _permission_name = self.method_permission_name.get(f.__name__)
+            #     if _permission_name:
+            #         permission_str = "{}{}".format(PERMISSION_PREFIX, _permission_name)
+            # class_permission_name = self.class_permission_name
+            # if permission_str not in self.base_permissions:
+            #     return self.response_401()
+            # if current_app.appbuilder.sm.is_item_public(
+            #     permission_str, class_permission_name
+            # ):
+            #     return f(self, *args, **kwargs)
+            # if not (self.allow_browser_login or allow_browser_login):
+            #     verify_jwt_in_request()
+            # if current_app.appbuilder.sm.has_access(
+            #     permission_str, class_permission_name
+            # ):
+            #     return f(self, *args, **kwargs)
+            # elif self.allow_browser_login or allow_browser_login:
+            #     if not current_user.is_authenticated:
+            #         verify_jwt_in_request()
+            #     if current_app.appbuilder.sm.has_access(
+            #         permission_str, class_permission_name
+            #     ):
+            #         return f(self, *args, **kwargs)
+            # log.warning(
+            #     LOGMSG_ERR_SEC_ACCESS_DENIED.format(
+            #         permission_str, class_permission_name
+            #     )
+            # )
+            # return self.response_401()
+
+        f._permission_name = permission_str
+        return functools.update_wrapper(wraps, f)
+
+    return _protect
+
 
 class AsyncEventsRestApi(BaseApi):
     resource_name = "async_event"
@@ -36,6 +85,7 @@ class AsyncEventsRestApi(BaseApi):
 
     @expose("/", methods=["GET"])
     @event_logger.log_this
+    @my_protect()
     @protect()
     @safe
     @permission_name("list")
