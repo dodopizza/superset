@@ -92,10 +92,14 @@ class AsyncEventsRestApi(BaseApi):
             async_channel_id = async_query_manager.parse_jwt_from_request(request)[
                 "channel"
             ]
-            last_event_id = request.args.get("last_id")
-            events = async_query_manager.read_events(async_channel_id, last_event_id)
-
         except AsyncQueryTokenException:
             return self.response_401()
+
+        try:
+            last_event_id = request.args.get("last_id")
+            events = async_query_manager.read_events(async_channel_id, last_event_id)
+        except Exception as ex:  # pylint: disable=broad-except
+            logger.exception("!!!!! " + ex)
+            return self.response_500()
 
         return self.response(200, result=events)
