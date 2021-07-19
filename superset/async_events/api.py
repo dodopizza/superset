@@ -89,6 +89,7 @@ class AsyncEventsRestApi(BaseApi):
               $ref: '#/components/responses/500'
         """
         try:
+            logger.warning("getting async channel")
             async_channel_id = async_query_manager.parse_jwt_from_request(request)[
                 "channel"
             ]
