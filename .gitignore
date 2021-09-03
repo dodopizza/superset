@@ -35,6 +35,7 @@ cover
 .idea
 .mypy_cache
 .python-version
+.tool-versions
 .tox
 .vscode
 _build
@@ -49,6 +50,7 @@ dist
 dump.rdb
 env
 venv*
+.venv
 env_py3
 envpy3
 env36
