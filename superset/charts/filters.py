@@ -14,6 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import logging
 from typing import Any
 
 from flask_babel import lazy_gettext as _
@@ -54,6 +55,8 @@ class ChartFavoriteFilter(BaseFavoriteFilter):  # pylint: disable=too-few-public
     class_name = "slice"
     model = Slice
 
+logger = logging.getLogger(__name__)
+
 
 class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     def apply(self, query: Query, value: Any) -> Query:
@@ -61,6 +64,10 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
             return query
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
-        return query.filter(
+        new_query = query.filter(
             or_(self.model.perm.in_(perms), self.model.schema_perm.in_(schema_perms))
         )
+        logger.warning(f"ChartFilter query: {str(new_query)}")
+        return new_query
+
+
