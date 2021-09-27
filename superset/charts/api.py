@@ -23,7 +23,14 @@ from zipfile import ZipFile
 
 import simplejson
 from flask import g, make_response, redirect, request, Response, send_file, url_for
-from flask_appbuilder.api import expose, protect, rison, safe
+from flask_appbuilder import permission_name
+from flask_appbuilder.api import expose, protect, rison, safe, get_list_schema, \
+    merge_response_func
+from flask_appbuilder.const import API_SELECT_COLUMNS_RIS_KEY, API_RESULT_RES_KEY, \
+    API_ORDER_COLUMNS_RES_KEY, API_ORDER_COLUMNS_RIS_KEY, API_LABEL_COLUMNS_RIS_KEY, \
+    API_DESCRIPTION_COLUMNS_RIS_KEY, API_LIST_COLUMNS_RIS_KEY, API_LIST_TITLE_RIS_KEY, \
+    API_DESCRIPTION_COLUMNS_RES_KEY, API_LIST_COLUMNS_RES_KEY, API_LIST_TITLE_RES_KEY
+from flask_appbuilder.exceptions import FABException, InvalidOrderByColumnFABException
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import gettext as _, ngettext
 from marshmallow import ValidationError
@@ -1034,3 +1041,105 @@ class ChartRestApi(BaseSupersetModelRestApi):
         except Exception as exc:  # pylint: disable=broad-except
             logger.exception("Import chart failed")
             return self.response_500(message=str(exc))
+
+    def merge_order_columns(self, response, **kwargs):
+        _pruned_select_cols = kwargs.get(API_SELECT_COLUMNS_RIS_KEY, [])
+        if _pruned_select_cols:
+            response[API_ORDER_COLUMNS_RES_KEY] = [
+                order_col
+                for order_col in self.order_columns
+                if order_col in _pruned_select_cols
+            ]
+        else:
+            response[API_ORDER_COLUMNS_RES_KEY] = self.order_columns
+
+    def merge_list_label_columns(self, response, **kwargs):
+        self.merge_label_columns(response, caller="list", **kwargs)
+
+    def merge_description_columns(self, response, **kwargs):
+        _pruned_select_cols = kwargs.get(API_SELECT_COLUMNS_RIS_KEY, [])
+        if _pruned_select_cols:
+            response[API_DESCRIPTION_COLUMNS_RES_KEY] = self._description_columns_json(
+                _pruned_select_cols
+            )
+        else:
+            # Send all descriptions if cols are or request pruned
+            response[API_DESCRIPTION_COLUMNS_RES_KEY] = self._description_columns_json(
+                self.description_columns
+            )
+
+    def merge_list_columns(self, response, **kwargs):
+        _pruned_select_cols = kwargs.get(API_SELECT_COLUMNS_RIS_KEY, [])
+        if _pruned_select_cols:
+            response[API_LIST_COLUMNS_RES_KEY] = _pruned_select_cols
+        else:
+            response[API_LIST_COLUMNS_RES_KEY] = self.list_columns
+
+    def merge_list_title(self, response, **kwargs):
+        response[API_LIST_TITLE_RES_KEY] = self.list_title
+
+    @expose("/", methods=["GET"])
+    @protect()
+    @safe
+    @permission_name("get")
+    @rison(get_list_schema)
+    @merge_response_func(merge_order_columns, API_ORDER_COLUMNS_RIS_KEY)
+    @merge_response_func(merge_list_label_columns, API_LABEL_COLUMNS_RIS_KEY)
+    @merge_response_func(merge_description_columns, API_DESCRIPTION_COLUMNS_RIS_KEY)
+    @merge_response_func(merge_list_columns, API_LIST_COLUMNS_RIS_KEY)
+    @merge_response_func(merge_list_title, API_LIST_TITLE_RIS_KEY)
+    def get_list(self, **kwargs):
+        return self.get_list_headless(**kwargs)
+
+    def get_list_headless(self, **kwargs) -> Response:
+        """
+            Get list of items from Model
+        """
+        logger.info("Bikkinin enter get_list_headless")
+        _response = dict()
+        _args = kwargs.get("rison", {})
+        # handle select columns
+        select_cols = _args.get(API_SELECT_COLUMNS_RIS_KEY, [])
+        _pruned_select_cols = [col for col in select_cols if col in self.list_columns]
+        # map decorated metadata
+        self.set_response_key_mappings(
+            _response,
+            self.get_list,
+            _args,
+            **{API_SELECT_COLUMNS_RIS_KEY: _pruned_select_cols},
+        )
+        # Create a response schema with the computed response columns,
+        # defined or requested
+        if _pruned_select_cols:
+            _list_model_schema = self.model2schemaconverter.convert(_pruned_select_cols)
+        else:
+            _list_model_schema = self.list_model_schema
+        # handle filters
+        try:
+            joined_filters = self._handle_filters_args(_args)
+        except FABException as e:
+            return self.response_400(message=str(e))
+        # handle base order
+        try:
+            order_column, order_direction = self._handle_order_args(_args)
+        except InvalidOrderByColumnFABException as e:
+            return self.response_400(message=str(e))
+        # handle pagination
+        page_index, page_size = self._handle_page_args(_args)
+        # Make the query
+        logger.info(f"Bikkinin datamodel: {self.datamodel}")
+        logger.info(f"Bikkinin joined_filters: {joined_filters}")
+        count, lst = self.datamodel.query(
+            joined_filters,
+            order_column,
+            order_direction,
+            page=page_index,
+            page_size=page_size,
+            select_columns=self.list_select_columns,
+        )
+        pks = self.datamodel.get_keys(lst)
+        _response[API_RESULT_RES_KEY] = _list_model_schema.dump(lst, many=True)
+        _response["ids"] = pks
+        _response["count"] = count
+        self.pre_get_list(_response)
+        return self.response(200, **_response)
