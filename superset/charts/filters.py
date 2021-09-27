@@ -60,6 +60,7 @@ logger = logging.getLogger(__name__)
 
 class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     def apply(self, query: Query, value: Any) -> Query:
+        print("ChartFilter applied")
         if security_manager.can_access_all_datasources():
             return query
 
