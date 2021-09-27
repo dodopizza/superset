@@ -65,9 +65,9 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
             return query
 
         if not security_manager.can_access_explore():
-            new_query = query.filter(and_(False))
-            logger.warning(f"ChartFilter query block: {str(new_query)}")
-            return new_query
+            # new_query = query.filter(and_(False))
+            logger.warning(f"ChartFilter query block: {str(query.filter(and_(False)))}")
+            # return new_query
 
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
