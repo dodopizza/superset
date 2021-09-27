@@ -18,7 +18,7 @@ import logging
 from typing import Any
 
 from flask_babel import lazy_gettext as _
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlalchemy.orm.query import Query
 
 from superset import security_manager
@@ -57,14 +57,19 @@ class ChartFavoriteFilter(BaseFavoriteFilter):  # pylint: disable=too-few-public
 
 logger = logging.getLogger()
 
+
 class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     def apply(self, query: Query, value: Any) -> Query:
         logger.info("ChartFilter entered")
         if security_manager.can_access_all_datasources():
             return query
+
+        if not security_manager.can_access_explore():
+            new_query = query.filter(and_(False))
+            logger.info(f"ChartFilter new query {new_query}")
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
-        logger.warning(f"ChartFilter query: {str(query)}")
+        logger.info(f"ChartFilter query: {str(query)}")
         return query.filter(
             or_(self.model.perm.in_(perms), self.model.schema_perm.in_(schema_perms))
         )

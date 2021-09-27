@@ -267,6 +267,9 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
 
         return self.can_access("all_datasource_access", "all_datasource_access")
 
+    def can_access_explore(self) -> bool:
+        return self.can_access("explore", "Superset")
+
     def can_access_all_databases(self) -> bool:
         """
         Return True if the user can fully access all the Superset databases, False
