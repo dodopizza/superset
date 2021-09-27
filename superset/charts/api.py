@@ -1127,11 +1127,9 @@ class ChartRestApi(BaseSupersetModelRestApi):
         # handle pagination
         page_index, page_size = self._handle_page_args(_args)
         # Make the query
-        logger.info(f"Bikkinin datamodel: {json.dumps(self.datamodel)}")
-        logger.info(f"Bikkinin joined_filters: {json.dumps(joined_filters)}")
-        logger.info(f"Bikkinin order_column: {json.dumps(order_column)}")
-        logger.info(f"Bikkinin order_direction: {json.dumps(order_direction)}")
+        logger.info(f"Bikkinin datamodel_query: {self.datamodel.session.query(self.datamodel)}")
         logger.info(f"Bikkinin select_columns: {json.dumps(self.list_select_columns)}")
+        logger.info(f"Bikkinin joined_filters: {json.dumps(joined_filters)}")
         count, lst = self.datamodel.query(
             joined_filters,
             order_column,
