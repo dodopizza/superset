@@ -62,6 +62,10 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     def apply(self, query: Query, value: Any) -> Query:
         if security_manager.can_access_all_datasources():
             return query
+
+        if not security_manager.can_access_explore():
+            return query.filter(and_(False))
+
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
         new_query = query.filter(
