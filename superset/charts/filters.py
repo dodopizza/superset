@@ -64,14 +64,16 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
             return query
 
         if not security_manager.can_access_explore():
-            return query.filter(and_(False))
+            new_query = query.filter(and_(False))
+            logger.warning(f"ChartFilter query block: {str(new_query)}")
+            return new_query
 
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
         new_query = query.filter(
             or_(self.model.perm.in_(perms), self.model.schema_perm.in_(schema_perms))
         )
-        logger.warning(f"ChartFilter query: {str(new_query)}")
+
         return new_query
 
 
