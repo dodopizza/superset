@@ -73,7 +73,7 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
         new_query = query.filter(
             or_(self.model.perm.in_(perms), self.model.schema_perm.in_(schema_perms))
         )
-
+        logger.warning(f"ChartFilter query: {str(new_query)}")
         return new_query
 
 
