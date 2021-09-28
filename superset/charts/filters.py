@@ -70,6 +70,10 @@ class ChartFilter(BaseFilter):  # pylint: disable=too-few-public-methods
         perms = security_manager.user_view_menu_names("datasource_access")
         schema_perms = security_manager.user_view_menu_names("schema_access")
         logger.info(f"ChartFilter query: {str(query)}")
-        return query.filter(
+        logger.info(f"ChartFilter perms: {perms}")
+        logger.info(f"ChartFilter schema_perms: {schema_perms}")
+        new_query = query.filter(
             or_(self.model.perm.in_(perms), self.model.schema_perm.in_(schema_perms))
         )
+        logger.info(f"ChartFilter new_query: {str(new_query)}")
+        return new_query
