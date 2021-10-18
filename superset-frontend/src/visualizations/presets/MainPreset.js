@@ -63,7 +63,6 @@ import {
   EchartsTimeseriesScatterChartPlugin,
   EchartsTimeseriesSmoothLineChartPlugin,
   EchartsTimeseriesStepChartPlugin,
-  EchartsBarChartPlugin,
   EchartsGraphChartPlugin,
   EchartsGaugeChartPlugin,
   EchartsRadarChartPlugin,
@@ -145,9 +144,6 @@ export default class MainPreset extends Preset {
         }),
         new EchartsTimeseriesChartPlugin().configure({
           key: 'echarts_timeseries',
-        }),
-        new EchartsBarChartPlugin().configure({
-          key: 'echarts_bar',
         }),
         new EchartsTimeseriesBarChartPlugin().configure({
           key: 'echarts_timeseries_bar',
