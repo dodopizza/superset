@@ -24,6 +24,8 @@ import { logEvent } from '../logger/actions';
 import Chart from './Chart';
 import { updateDataMask } from '../dataMask/actions';
 
+console.log('ChartContainer actions bindingXX => ', actions);
+
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(

@@ -413,6 +413,11 @@ export function exploreJSON(
         return json.result;
       })
       .then(queriesResponse => {
+        console.log(
+          'src/chart/chartAction.js queriesResponseXXX =>',
+          queriesResponse,
+        );
+
         queriesResponse.forEach(resultItem =>
           dispatch(
             logEvent(LOG_ACTIONS_LOAD_CHART, {
@@ -437,6 +442,9 @@ export function exploreJSON(
         return dispatch(chartUpdateSucceeded(queriesResponse, key));
       })
       .catch(response => {
+        console.error('CATCH');
+        console.log('src/chart/chartAction.js responseXXX catch =>', response);
+
         if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
           return dispatch(chartUpdateFailed([response], key));
         }
