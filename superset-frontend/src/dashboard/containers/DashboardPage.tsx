@@ -56,6 +56,9 @@ const DashboardPage: FC<DashboardRouteProps> = ({
       chartsResource.status === ResourceStatus.COMPLETE &&
       datasetsResource.status === ResourceStatus.COMPLETE
     ) {
+      console.log('dashboardResource', dashboardResource);
+      console.log('chartsResource', chartsResource);
+      console.log('datasetsResource', datasetsResource);
       dispatch(
         hydrateDashboard(
           dashboardResource.result,

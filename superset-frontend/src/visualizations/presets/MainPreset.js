@@ -57,6 +57,7 @@ import {
   EchartsPieChartPlugin,
   EchartsBoxPlotChartPlugin,
   EchartsTimeseriesChartPlugin,
+  EchartsBarChartPlugin,
   EchartsGraphChartPlugin,
   EchartsGaugeChartPlugin,
   EchartsRadarChartPlugin,
@@ -125,6 +126,7 @@ export default class MainPreset extends Preset {
         new EchartsTimeseriesChartPlugin().configure({
           key: 'echarts_timeseries',
         }),
+        new EchartsBarChartPlugin().configure({key: 'echarts_bar',}),
         new SelectFilterPlugin().configure({ key: 'filter_select' }),
         new RangeFilterPlugin().configure({ key: 'filter_range' }),
         new TimeFilterPlugin().configure({ key: 'filter_time' }),

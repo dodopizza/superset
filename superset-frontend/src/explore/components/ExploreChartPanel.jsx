@@ -183,6 +183,7 @@ const ExploreChartPanel = props => {
 
   const renderChart = useCallback(() => {
     const { chart } = props;
+    console.log('chartXX', chart);
     const newHeight = calcSectionHeight(splitSizes[0]) - CHART_PANEL_PADDING;
     const chartWidth = chartPanelWidth - CHART_PANEL_PADDING;
     return (
