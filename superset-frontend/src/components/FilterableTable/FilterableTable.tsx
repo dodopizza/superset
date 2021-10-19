@@ -188,6 +188,7 @@ export default class FilterableTable extends PureComponent<
     const PADDING = 40; // accounts for cell padding and width of sorting icon
     const widthsByColumnKey = {};
     const cellContent = [].concat(
+      // @ts-ignore
       ...this.props.orderedColumnKeys.map(key => {
         const cellContentList = this.list.map((data: Datum) =>
           this.getCellContent({ cellData: data[key], columnKey: key }),
@@ -412,6 +413,7 @@ export default class FilterableTable extends PureComponent<
     style: React.CSSProperties;
   }) {
     const columnKey = this.props.orderedColumnKeys[columnIndex];
+    // @ts-ignore
     const cellData = this.list.get(rowIndex)[columnKey];
     const content = this.getCellContent({ cellData, columnKey });
     const cellNode = (

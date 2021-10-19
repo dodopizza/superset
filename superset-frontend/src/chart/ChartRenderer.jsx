@@ -213,6 +213,11 @@ class ChartRenderer extends React.Component {
           }`
         : '';
 
+console.log(
+  'src/chart/ChartRenderer.jsx renderXXX queriesResponse =>',
+  queriesResponse,
+  );
+
     return (
       <SuperChart
         disableErrorBoundary
