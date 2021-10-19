@@ -68,8 +68,9 @@ const propTypes = {
 };
 
 const BLANK = {};
-
-let forcedToRefresh = false;
+const NONEXISTENT_DATASET = t(
+  'The dataset associated with this chart no longer exists',
+);
 
 const defaultProps = {
   addFilter: () => BLANK,
@@ -124,7 +125,6 @@ class Chart extends React.PureComponent {
   }
 
   runQuery() {
-    console.log('Chart runQuery this.props =>', this.props);
     if (this.props.chartId > 0 && isFeatureEnabled(FeatureFlag.CLIENT_CACHE)) {
       // Load saved chart with a GET request
       this.props.actions.getSavedChart(
@@ -181,7 +181,11 @@ class Chart extends React.PureComponent {
     const message = chartAlert || queryResponse?.message;
 
     // if datasource is still loading, don't render JS errors
-    if (chartAlert && datasource === PLACEHOLDER_DATASOURCE) {
+    if (
+      chartAlert !== undefined &&
+      chartAlert !== NONEXISTENT_DATASET &&
+      datasource === PLACEHOLDER_DATASOURCE
+    ) {
       return (
         <Styles
           data-ui-anchor="chart"
@@ -218,39 +222,6 @@ class Chart extends React.PureComponent {
       queriesResponse = [],
     } = this.props;
 
-    console.log(
-      'src/chart/Chart.jsx => queriesResponseXXX',
-      queriesResponse,
-      'chart status =>',
-      chartStatus,
-      'this.props =>',
-      this.props,
-    );
-
-    const alteredProps = this.props;
-
-    const checkNoData = array => {
-      console.log('checkNoData', array, this.props.chartId, chartStatus, '!!!');
-      let someDataMissing = false;
-      if (chartStatus !== 'success') return someDataMissing;
-
-      array.forEach(d => {
-        if (!d.data || !d.data.length) someDataMissing = true;
-      });
-
-      return someDataMissing;
-    };
-
-    const anyMissingData = checkNoData(this.props.queriesResponse);
-
-    if (anyMissingData && !forcedToRefresh) {
-      this.props.actions.triggerQuery(true, this.props.chartId);
-      forcedToRefresh = true;
-    }
-
-    console.log('anyMissingData', anyMissingData);
-    console.log('____');
-
     const isLoading = chartStatus === 'loading';
     const isFaded = refreshOverlayVisible && !errorMessage;
     this.renderContainerStartTime = Logger.getTimestamp();
@@ -283,7 +254,7 @@ class Chart extends React.PureComponent {
             className={`slice_container ${isFaded ? ' faded' : ''}`}
             data-test="slice-container"
           >
-            <ChartRenderer {...alteredProps} data-test={alteredProps.vizType} />
+            <ChartRenderer {...this.props} data-test={this.props.vizType} />
           </div>
 
           {!isLoading && !chartAlert && isFaded && (
