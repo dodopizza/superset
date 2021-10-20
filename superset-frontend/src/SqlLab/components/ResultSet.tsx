@@ -494,6 +494,7 @@ export default class ResultSet extends React.PureComponent<
                   // @ts-ignore Redux types are difficult to work with, ignoring for now
                   query={this.props.query}
                   database={this.props.database}
+                  // @ts-ignore
                   actions={this.props.actions}
                   onClick={this.handleExploreBtnClick}
                 />
@@ -697,6 +698,7 @@ export default class ResultSet extends React.PureComponent<
                     table={tempTable}
                     schema={tempSchema}
                     dbId={exploreDBId}
+                    // @ts-ignore
                     database={this.props.database}
                     actions={this.props.actions}
                   />

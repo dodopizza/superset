@@ -38,6 +38,7 @@ function renderWithProps(props: TableLoaderProps = defaultProps) {
   return render(
     <Provider store={storeWithState({})}>
       <TableLoader {...props} />
+      {/* @ts-ignore */}
       <ToastPresenter />
     </Provider>,
   );

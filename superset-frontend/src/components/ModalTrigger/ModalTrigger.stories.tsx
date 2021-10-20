@@ -41,6 +41,7 @@ export default {
 };
 
 export const InteractiveModalTrigger = (args: IModalTriggerProps) => (
+  // @ts-ignore
   <ModalTrigger triggerNode={<span>Click me</span>} {...args} />
 );
 

@@ -255,6 +255,7 @@ class SliceHeaderControls extends React.PureComponent<
     const resizeLabel = isFullSize ? t('Minimize chart') : t('Maximize chart');
     const menu = (
       <Menu
+        // @ts-ignore
         onClick={this.handleMenuClick}
         selectable={false}
         data-test={`slice_${slice.slice_id}-menu`}

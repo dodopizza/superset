@@ -1066,6 +1066,7 @@ const AlertReportModal: FunctionComponent<AlertReportModalProps> = ({
             <div data-test="owners-select" className="input-container">
               <AsyncSelect
                 name="owners"
+                // @ts-ignore
                 isMulti
                 value={currentAlert ? currentAlert.owners : []}
                 loadOptions={loadOwnerOptions}

@@ -272,6 +272,7 @@ export function Menu({
             </div>
           )}
           <DropdownMenu
+            // @ts-ignore
             mode={showMenu}
             data-test="navbar-top"
             className="main-nav"

@@ -113,6 +113,7 @@ type styleFnWithSerializedStyles = (
 ) => CSSStyles | CSSStyles[];
 
 export type StylesConfig = {
+  // @ts-ignore
   [key in keyof Styles]: styleFnWithSerializedStyles;
 };
 export type PartialStylesConfig = Partial<StylesConfig>;
@@ -298,7 +299,7 @@ const INPUT_TAG_BASE_STYLES = {
 };
 
 export type SelectComponentsType = Omit<
-  SelectComponentsConfig<any>,
+  SelectComponentsConfig<any, any>,
   'Input'
 > & {
   Input: ComponentType<InputProps>;

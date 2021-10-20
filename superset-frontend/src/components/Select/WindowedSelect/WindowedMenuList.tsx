@@ -56,12 +56,12 @@ export type WindowedMenuListProps = {
  */
 
 type MenuListPropsChildren<OptionType> =
-  | Component<OptionProps<OptionType>>[]
+  | Component<OptionProps<OptionType, any>>[]
   | ReactElement[];
 
 export type MenuListProps<
   OptionType extends OptionTypeBase
-> = MenuListComponentProps<OptionType> & {
+> = MenuListComponentProps<OptionType, any> & {
   children: MenuListPropsChildren<OptionType>;
   // theme is not present with built-in @types/react-select, but is actually
   // available via CommonProps.

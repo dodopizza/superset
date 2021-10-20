@@ -81,6 +81,7 @@ const App = () => (
           </Route>
         ))}
       </Switch>
+      {/* @ts-ignore */}
       <ToastPresenter />
     </RootContextProviders>
   </Router>

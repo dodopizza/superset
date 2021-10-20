@@ -39,6 +39,7 @@ export const InteractiveCopyToClipboard = ({ copyNode, ...rest }: any) => {
   return (
     <>
       <CopyToClipboard copyNode={node} {...rest} />
+      {/* @ts-ignore */}
       <ToastPresenter />
     </>
   );

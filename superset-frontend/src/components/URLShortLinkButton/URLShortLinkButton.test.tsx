@@ -65,6 +65,7 @@ test('renders error message on short url error', async () => {
   render(
     <>
       <URLShortLinkButton />
+      {/* @ts-ignore */}
       <ToastPresenter />
     </>,
     { useRedux: true },

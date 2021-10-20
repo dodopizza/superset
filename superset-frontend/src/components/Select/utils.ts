@@ -34,7 +34,7 @@ import { OptionsType as AntdOptionsType } from './Select';
  * Always returns an array.
  */
 export function findValue<OptionType extends OptionTypeBase>(
-  value: ValueType<OptionType> | string,
+  value: ValueType<OptionType, any> | string,
   options: GroupedOptionsType<OptionType> | OptionsType<OptionType> = [],
   valueKey = 'value',
 ): OptionType[] {

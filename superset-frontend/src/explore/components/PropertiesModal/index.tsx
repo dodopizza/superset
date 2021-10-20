@@ -238,6 +238,7 @@ export default function PropertiesModal({
             <h3 style={{ marginTop: '1em' }}>{t('Access')}</h3>
             <FormItem label={t('Owners')}>
               <AsyncSelect
+                // @ts-ignore
                 isMulti
                 name="owners"
                 value={owners || []}

@@ -41,6 +41,7 @@ const store = createStore(
   combineReducers({
     messageToasts: messageToastReducer,
   }),
+  // @ts-ignore
   {},
   compose(applyMiddleware(thunk), initEnhancer(false)),
 );
@@ -49,6 +50,7 @@ const Application = () => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <App user={bootstrap.user} />
+      {/* @ts-ignore */}
       <ToastPresenter />
     </ThemeProvider>
   </Provider>

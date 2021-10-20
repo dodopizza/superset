@@ -60,6 +60,7 @@ function createWrapper(options?: Options) {
     if (useRedux) {
       const store = createStore(
         combineReducers(reducers || reducerIndex),
+        // @ts-ignore
         initialState || {},
         compose(applyMiddleware(thunk)),
       );
