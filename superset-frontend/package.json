@@ -94,6 +94,7 @@
     "@superset-ui/plugin-chart-echarts": "^0.17.84",
     "@superset-ui/plugin-chart-pivot-table": "^0.17.84",
     "@superset-ui/plugin-chart-table": "^0.17.84",
+    "@superset-ui/preset-chart-xy": "^0.17.84",
     "@vx/responsive": "^0.0.195",
     "abortcontroller-polyfill": "^1.1.9",
     "antd": "^4.9.4",
