@@ -45,9 +45,9 @@ module.exports = {
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     ['@babel/plugin-proposal-optional-chaining', { loose: true }],
     ['@babel/plugin-proposal-private-methods', { loose: true }],
-    ['@babel/plugin-proposal-nullish-coalescing-operator', { loose: true }],
     ['@babel/plugin-transform-runtime', { corejs: 3 }],
     'react-hot-loader/babel',
+    '@babel/plugin-proposal-nullish-coalescing-operator',
   ],
   env: {
     // Setup a different config for tests as they run in node instead of a browser
