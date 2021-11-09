@@ -71,7 +71,7 @@ import {
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
   EchartsBarChartPlugin,
-} from '@superset-ui/plugin-chart-echarts';
+} from '@kazakoff/plugin-chart-echarts';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
