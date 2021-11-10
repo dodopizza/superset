@@ -160,13 +160,8 @@ class ChartRenderer extends React.Component {
   }
 
   render() {
-    const {
-      chartAlert,
-      chartStatus,
-      vizType,
-      chartId,
-      refreshOverlayVisible,
-    } = this.props;
+    const { chartAlert, chartStatus, vizType, chartId, refreshOverlayVisible } =
+      this.props;
 
     // Skip chart rendering
     if (
@@ -213,11 +208,6 @@ class ChartRenderer extends React.Component {
             __webpack_require__.h()
           }`
         : '';
-
-    console.log(
-      'src/chart/ChartRenderer.jsx renderXXX queriesResponse =>',
-      queriesResponse,
-    );
 
     return (
       <SuperChart
