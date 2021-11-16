@@ -71,7 +71,7 @@ import {
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
   EchartsBarChartPlugin,
-} from '@kazakoff/plugin-chart-echarts';
+} from '@dodopizza/superset-plugin-chart-echarts';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -80,7 +80,7 @@ import {
   TimeGrainFilterPlugin,
   GroupByFilterPlugin,
 } from 'src/filters/components/';
-import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@kazakoff/plugin-chart-pivot-table';
+import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@dodopizza/superset-plugin-chart-pivot-table';
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
 import TimeTableChartPlugin from '../TimeTable/TimeTableChartPlugin';
 
