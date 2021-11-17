@@ -413,11 +413,6 @@ export function exploreJSON(
         return json.result;
       })
       .then(queriesResponse => {
-        console.log(
-          'src/chart/chartAction.js queriesResponseXXX =>',
-          queriesResponse,
-        );
-
         queriesResponse.forEach(resultItem =>
           dispatch(
             logEvent(LOG_ACTIONS_LOAD_CHART, {
@@ -442,9 +437,6 @@ export function exploreJSON(
         return dispatch(chartUpdateSucceeded(queriesResponse, key));
       })
       .catch(response => {
-        console.error('CATCH');
-        console.log('src/chart/chartAction.js responseXXX catch =>', response);
-
         if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
           return dispatch(chartUpdateFailed([response], key));
         }
@@ -579,8 +571,8 @@ export function redirectSQLLab(formData) {
 export function refreshChart(chartKey, force, dashboardId) {
   return (dispatch, getState) => {
     const chart = (getState().charts || {})[chartKey];
-    const timeout = getState().dashboardInfo.common.conf
-      .SUPERSET_WEBSERVER_TIMEOUT;
+    const timeout =
+      getState().dashboardInfo.common.conf.SUPERSET_WEBSERVER_TIMEOUT;
 
     if (
       !chart.latestQueryFormData ||
