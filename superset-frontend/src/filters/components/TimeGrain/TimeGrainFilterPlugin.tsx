@@ -45,7 +45,7 @@ export default function PluginFilterTimegrain(
   const { defaultValue, inputRef } = formData;
 
   const BIG_COMMON_DURATIONS = [
-    'P1W', // Week
+    'P1D', // Day
     '1969-12-29T00:00:00Z/P1W', // Week starting Monday
     'P1M', // Month
     'P1Y', // Year
