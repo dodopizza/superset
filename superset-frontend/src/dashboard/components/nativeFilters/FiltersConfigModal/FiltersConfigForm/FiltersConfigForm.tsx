@@ -352,9 +352,9 @@ const FiltersConfigForm = (
     return currentDataset ? hasTemporalColumns(currentDataset) : true;
   }, [formFilter.dataset?.value, loadedDatasets]);
 
-  // @ts-ignore
-  const hasDataset = !!nativeFilterItems[formFilter?.filterType]?.value
-    ?.datasourceCount;
+  const hasDataset =
+    // @ts-ignore
+    !!nativeFilterItems[formFilter?.filterType]?.value?.datasourceCount;
 
   const datasetId =
     formFilter?.dataset?.value ??
@@ -503,12 +503,8 @@ const FiltersConfigForm = (
     ...formFilter,
   });
 
-  const [
-    hasDefaultValue,
-    isRequired,
-    defaultValueTooltip,
-    setHasDefaultValue,
-  ] = useDefaultValue(formFilter, filterToEdit);
+  const [hasDefaultValue, isRequired, defaultValueTooltip, setHasDefaultValue] =
+    useDefaultValue(formFilter, filterToEdit);
 
   const showDataset =
     !datasetId || datasetDetails || formFilter?.dataset?.label;

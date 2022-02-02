@@ -44,17 +44,33 @@ export default function PluginFilterTimegrain(
   } = props;
   const { defaultValue, inputRef } = formData;
 
+  const BIG_COMMON_DURATIONS = [
+    'P1D', // Day
+    '1969-12-29T00:00:00Z/P1W', // Week starting Monday
+    'P1M', // Month
+    'P1Y', // Year
+    'P0.25Y', // Quarter
+  ];
+
+  const alteredData = data.filter(
+    ({ duration }) =>
+      duration && BIG_COMMON_DURATIONS.includes(duration as string),
+  );
+
+  console.log('dataXX', data);
+  console.log('alteredDataXX', alteredData);
+
   const [value, setValue] = useState<string[]>(defaultValue ?? []);
   const durationMap = useMemo(
     () =>
-      data.reduce(
+      alteredData.reduce(
         (agg, { duration, name }: { duration: string; name: string }) => ({
           ...agg,
           [duration]: name,
         }),
         {} as { [key in string]: string },
       ),
-    [JSON.stringify(data)],
+    [JSON.stringify(alteredData)],
   );
 
   const handleChange = (values: string[] | string | undefined | null) => {
@@ -87,9 +103,9 @@ export default function PluginFilterTimegrain(
   }, [JSON.stringify(filterState.value)]);
 
   const placeholderText =
-    (data || []).length === 0
+    (alteredData || []).length === 0
       ? t('No data')
-      : tn('%s option', '%s options', data.length, data.length);
+      : tn('%s option', '%s options', alteredData.length, alteredData.length);
 
   const formItemData: FormItemProps = {};
   if (filterState.validateMessage) {
@@ -100,7 +116,7 @@ export default function PluginFilterTimegrain(
     );
   }
 
-  const options = (data || []).map(
+  const options = (alteredData || []).map(
     (row: { name: string; duration: string }) => {
       const { name, duration } = row;
       return {

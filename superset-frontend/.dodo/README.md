@@ -53,3 +53,30 @@ removed XX packages, updated XX packages and audited XXXX packages in XX.XXs
 
 ```
 When commiting, do not forget to change the `package.json` file back
+
+## Important change from November 2021
+
+Instead of linking the `superset-ui` plugins using npm link, we now have a dodo npm
+
+## When developing localy you need to change some files, without commiting them later:
+
+`.npmrc` file:
+```
+you need to get the token to install the superset-ui plugins
+```
+
+`docker-compose.yml` file:
+
+```
+x-superset-image: &superset-image apache/superset:latest-dev
+=>
+x-superset-image: &superset-image apache/superset:1.3.1
+```
+
+`config.py` file:
+
+```
+"DASHBOARD_NATIVE_FILTERS": False
+=>
+"DASHBOARD_NATIVE_FILTERS": True
+```
