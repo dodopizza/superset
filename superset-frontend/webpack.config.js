@@ -343,10 +343,16 @@ const config = {
       {
         test: /\.jsx?$/,
         // include source code for plugins, but exclude node_modules and test files within them
-        exclude: [/superset-ui.*\/node_modules\//, /\.test.jsx?$/],
+        exclude: [
+          /superset-ui.*\/node_modules\//,
+          /dodopizza.*\/node_modules\//,
+          /\.test.jsx?$/,
+        ],
         include: [
           new RegExp(`${APP_DIR}/src`),
           /superset-ui.*\/src/,
+          new RegExp(`${APP_DIR}/src`),
+          /dodopizza.*\/src/,
           new RegExp(`${APP_DIR}/.storybook`),
           /@encodable/,
         ],
@@ -497,6 +503,17 @@ if (isDevMode) {
     if (/superset-ui/.test(pkg) && fs.existsSync(srcPath)) {
       console.log(
         `[Superset Plugin] Use symlink source for ${pkg} @ ${version}`,
+      );
+      // only allow exact match so imports like `@superset-ui/plugin-name/lib`
+      // and `@superset-ui/plugin-name/esm` can still work.
+      config.resolve.alias[`${pkg}$`] = `${pkg}/src`;
+      delete config.resolve.alias[pkg];
+      hasSymlink = true;
+    }
+
+    if (/dodopizza/.test(pkg) && fs.existsSync(srcPath)) {
+      console.log(
+        `[Superset Plugin DODOPIZZA] Use symlink source for ${pkg} @ ${version}`,
       );
       // only allow exact match so imports like `@superset-ui/plugin-name/lib`
       // and `@superset-ui/plugin-name/esm` can still work.
