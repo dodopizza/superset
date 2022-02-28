@@ -83,7 +83,7 @@ const StyledTabs = ({
         }
       }
       .ant-tabs-ink-bar {
-        background: ${theme.colors.secondary.base};
+        background: ${theme.colors.primary.base} !important;
       }
     `}
   />

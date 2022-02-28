@@ -58,6 +58,14 @@ When commiting, do not forget to change the `package.json` file back
 
 Instead of linking the `superset-ui` plugins using npm link, we now have a dodo npm
 
+## Superset login/pass
+
+```
+login: admin
+password: admin
+
+```
+
 ## When developing localy you need to change some files, without commiting them later:
 
 `.npmrc` file:

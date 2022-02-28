@@ -91,7 +91,7 @@ export const MenuItem = styled(AntdMenu.Item)`
         opacity: 0;
         transform: translateX(-50%);
         transition: all ${({ theme }) => theme.transitionTiming}s;
-        background-color: ${({ theme }) => theme.colors.primary.base};
+        // background-color: ${({ theme }) => theme.colors.primary.base};
       }
       &:focus {
         border-bottom: none;

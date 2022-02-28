@@ -59,7 +59,35 @@ setupColors(
 // Setup number formatters
 setupFormatters();
 
+const dodoTheme = {
+  ...supersetTheme,
+  colors: {
+    ...supersetTheme.colors,
+    primary: {
+      base: '#ff6900',
+      dark1: '#e86100',
+      dark2: '#d15700',
+      light1: '#fff0e6',
+      light2: '#fff0e6',
+      light3: '#d2edf4',
+      light4: '#fff0e6',
+      light5: '#f3f8fa',
+    },
+    secondary: {
+      base: '#000',
+      dark1: '#363636',
+      dark2: '#555555',
+      dark3: '#1B1F31',
+      light1: '#8E94B0',
+      light2: '#B4B8CA',
+      light3: '#D9DBE4',
+      light4: '#fff0e6',
+      light5: '#F5F5F8',
+    },
+  },
+};
+
 export const theme = merge(
-  supersetTheme,
+  dodoTheme,
   bootstrapData?.common?.theme_overrides ?? {},
 );
