@@ -162,6 +162,7 @@ export const StyledSubMenu = styled(AntdMenu.SubMenu)`
   .ant-menu-submenu-title {
     position: relative;
     top: ${({ theme }) => -theme.gridUnit - 3}px;
+    display: flex;
     &:after {
       content: '';
       position: absolute;
