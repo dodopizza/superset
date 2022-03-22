@@ -167,7 +167,7 @@ const CustomModal = ({
       ]
     : footer;
 
-  const modalWidth = width || (responsive ? '100vw' : '600px');
+  const modalWidth = width || (responsive ? '100vw' : '630px');
   return (
     <StyledModal
       centered={!!centered}
