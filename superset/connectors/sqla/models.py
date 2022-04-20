@@ -972,6 +972,7 @@ class SqlaTable(  # pylint: disable=too-many-public-methods,too-many-instance-at
         template_kwargs["extra_cache_keys"] = extra_cache_keys
         removed_filters: List[str] = []
         template_kwargs["removed_filters"] = removed_filters
+        # ctx_stack.top.jwt["countryId"]
         template_kwargs["CountryName"] = "Estonia, Vietnam, Россия"
         template_processor = self.get_template_processor(**template_kwargs)
         db_engine_spec = self.db_engine_spec

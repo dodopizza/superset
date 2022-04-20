@@ -457,6 +457,8 @@ class JinjaTemplateProcessor(BaseTemplateProcessor):
                 "get_filters": partial(safe_proxy, extra_cache.get_filters),
             }
         )
+        # todo delete this
+        self._context["Countries"] = "Estonia, Vietnam, Россия"
 
 
 class NoOpTemplateProcessor(
