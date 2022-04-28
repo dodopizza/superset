@@ -150,6 +150,7 @@ class DashboardGetResponseSchema(Schema):
     published = fields.Boolean()
     css = fields.String(description=css_description)
     json_metadata = fields.String(description=json_metadata_description)
+    processed_metadata = fields.String()
     position_json = fields.String(description=position_json_description)
     changed_by_name = fields.String()
     changed_by_url = fields.String()
