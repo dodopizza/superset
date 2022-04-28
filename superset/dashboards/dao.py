@@ -25,6 +25,7 @@ from superset import security_manager
 from superset.dao.base import BaseDAO
 from superset.dashboards.commands.exceptions import DashboardNotFoundError
 from superset.dashboards.filters import DashboardAccessFilter
+from superset.dashboards.processor import get_processor
 from superset.extensions import db
 from superset.models.core import FavStar, FavStarClassName
 from superset.models.dashboard import Dashboard
@@ -41,6 +42,10 @@ class DashboardDAO(BaseDAO):
     @staticmethod
     def get_by_id_or_slug(id_or_slug: str) -> Dashboard:
         dashboard = Dashboard.get(id_or_slug)
+        processed_metadata = get_processor(
+            {"TestVariable": "TestValue"}
+        ).process_template(dashboard.json_metadata)
+        dashboard.processed_metadata = processed_metadata
         if not dashboard:
             raise DashboardNotFoundError()
         security_manager.raise_for_dashboard_access(dashboard)
