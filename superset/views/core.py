@@ -34,7 +34,8 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.security.decorators import (
     has_access,
     has_access_api,
-    permission_name, protect,
+    permission_name,
+    protect,
 )
 from flask_appbuilder.security.sqla import models as ab_models
 from flask_babel import gettext as __, lazy_gettext as _
