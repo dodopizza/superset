@@ -34,7 +34,7 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.security.decorators import (
     has_access,
     has_access_api,
-    permission_name,
+    permission_name, protect,
 )
 from flask_appbuilder.security.sqla import models as ab_models
 from flask_babel import gettext as __, lazy_gettext as _
@@ -201,6 +201,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     """The base views for Superset!"""
 
     logger = logging.getLogger(__name__)
+    allow_browser_login = True
 
     @has_access_api
     @event_logger.log_this
@@ -551,6 +552,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
 
     @event_logger.log_this
     @api
+    @protect()
     @has_access_api
     @handle_api_exception
     @permission_name("explore_json")
