@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Optional
+
 from superset.stats_logger import BaseStatsLogger
 
 try:

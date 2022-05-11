@@ -17,7 +17,7 @@
 import logging
 from typing import Any, Dict
 
-from flask import request, Response, g
+from flask import g, request, Response
 from flask_appbuilder import expose
 from flask_appbuilder.api import BaseApi, safe
 from flask_appbuilder.security.decorators import permission_name, protect
