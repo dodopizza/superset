@@ -68,6 +68,5 @@ try:
         def gauge(self, key: str, value: float) -> None:
             self._gauge.labels(key=key).set(value)
 
-
 except Exception:  # pylint: disable=broad-except
     pass
