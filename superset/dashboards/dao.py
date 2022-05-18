@@ -43,7 +43,7 @@ class DashboardDAO(BaseDAO):
     def get_by_id_or_slug(id_or_slug: str) -> Dashboard:
         dashboard = Dashboard.get(id_or_slug)
         currencies = ['USD', 'Euro']
-        from random import random
+        import random
         processed_metadata = get_processor(
             Currency=random.choice(currencies)
         ).process_template(dashboard.json_metadata)
