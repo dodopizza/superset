@@ -23,6 +23,9 @@ from typing import (
 from jinja2 import DebugUndefined
 from jinja2.sandbox import SandboxedEnvironment
 
+from superset.utils.memoized import memoized
+from flask import current_app
+
 NONE_TYPE = type(None).__name__
 ALLOWED_TYPES = (
     NONE_TYPE,
@@ -39,6 +42,11 @@ ALLOWED_TYPES = (
 )
 
 
+@memoized
+def context_addons() -> Dict[str, Any]:
+    return current_app.config.get("JINJA_CONTEXT_ADDONS", {})
+
+
 class JsonMetadataTemplateProcessor:
     def __init__(
         self,
@@ -50,6 +58,7 @@ class JsonMetadataTemplateProcessor:
 
     def set_context(self, **kwargs: Any) -> None:
         self._context.update(kwargs)
+        self._context.update(context_addons())
 
     def process_template(self, sql: str, **kwargs: Any) -> str:
         template = self._env.from_string(sql)

@@ -42,9 +42,7 @@ class DashboardDAO(BaseDAO):
     @staticmethod
     def get_by_id_or_slug(id_or_slug: str) -> Dashboard:
         dashboard = Dashboard.get(id_or_slug)
-        processed_metadata = get_processor(
-            TestVariable="TestValue"
-        ).process_template(dashboard.json_metadata)
+        processed_metadata = get_processor().process_template(dashboard.json_metadata)
         dashboard.processed_metadata = processed_metadata
         if not dashboard:
             raise DashboardNotFoundError()
