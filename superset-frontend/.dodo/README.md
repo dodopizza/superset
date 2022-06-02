@@ -1,6 +1,17 @@
 # DODO SUPERSET FRONTEND
 
-## for local development
+## Start docker
+
+in the root directory perform
+```
+docker-compose -f docker-compose.yml up
+```
+
+The core version is going to run on http://localhost:8088/
+The version for development is going to run on http://localhost:9000/
+
+
+## for local development of superset-ui plugins
 
 1. Remove `node_modules`
 2. Execute this code in `superset/superset-frontend` directory

@@ -20,24 +20,24 @@ import { isFeatureEnabled, Preset, FeatureFlag } from '@superset-ui/core';
 import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
-} from '@superset-ui/legacy-preset-chart-big-number';
+} from '@dodopizza/ssp-legacy-preset-chart-big-number';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
-import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
+import ChordChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
-import EventFlowChartPlugin from '@superset-ui/legacy-plugin-chart-event-flow';
-import HeatmapChartPlugin from '@superset-ui/legacy-plugin-chart-heatmap';
-import HistogramChartPlugin from '@superset-ui/legacy-plugin-chart-histogram';
-import HorizonChartPlugin from '@superset-ui/legacy-plugin-chart-horizon';
+import EventFlowChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-event-flow';
+import HeatmapChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-heatmap';
+import HistogramChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-histogram';
+import HorizonChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-horizon';
 import MapBoxChartPlugin from '@superset-ui/legacy-plugin-chart-map-box';
 import PairedTTestChartPlugin from '@superset-ui/legacy-plugin-chart-paired-t-test';
-import ParallelCoordinatesChartPlugin from '@superset-ui/legacy-plugin-chart-parallel-coordinates';
-import PartitionChartPlugin from '@superset-ui/legacy-plugin-chart-partition';
-import PivotTableChartPlugin from '@superset-ui/legacy-plugin-chart-pivot-table';
-import RoseChartPlugin from '@superset-ui/legacy-plugin-chart-rose';
-import SankeyChartPlugin from '@superset-ui/legacy-plugin-chart-sankey';
-import SunburstChartPlugin from '@superset-ui/legacy-plugin-chart-sunburst';
-import TableChartPlugin from '@superset-ui/plugin-chart-table';
-import TreemapChartPlugin from '@superset-ui/legacy-plugin-chart-treemap';
+import ParallelCoordinatesChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-parallel-coordinates';
+import PartitionChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-partition';
+import PivotTableChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-pivot-table';
+import RoseChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-rose';
+import SankeyChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-sankey';
+import SunburstChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-sunburst';
+import TableChartPlugin from '@dodopizza/ssp-plugin-chart-table';
+import TreemapChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-treemap';
 import { WordCloudChartPlugin } from '@superset-ui/plugin-chart-word-cloud';
 import WorldMapChartPlugin from '@superset-ui/legacy-plugin-chart-world-map';
 import {
@@ -51,7 +51,7 @@ import {
   LineChartPlugin,
   LineMultiChartPlugin,
   TimePivotChartPlugin,
-} from '@superset-ui/legacy-preset-chart-nvd3';
+} from '@dodopizza/ssp-legacy-preset-chart-nvd3';
 import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   EchartsPieChartPlugin,
@@ -71,7 +71,7 @@ import {
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
   EchartsBarChartPlugin,
-} from '@dodopizza/superset-plugin-chart-echarts';
+} from '@dodopizza/ssp-plugin-chart-echarts';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -80,9 +80,9 @@ import {
   TimeGrainFilterPlugin,
   GroupByFilterPlugin,
 } from 'src/filters/components/';
-import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@dodopizza/superset-plugin-chart-pivot-table';
+import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@dodopizza/ssp-plugin-chart-pivot-table';
+import TimeTableChartPlugin from '@dodopizza/ssp-legacy-plugin-chart-time-table';
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
-import TimeTableChartPlugin from '../TimeTable/TimeTableChartPlugin';
 
 export default class MainPreset extends Preset {
   constructor() {
