@@ -3,3 +3,9 @@ cypress/screenshots
 cypress/videos
 src/temp
 .npmrc-local
+node_modules
+public
+dist
+.terser-plugin-cache
+.env
+yarn-error.log

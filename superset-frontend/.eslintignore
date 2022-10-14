@@ -18,6 +18,7 @@
 **/*.sh
 coverage/**
 dist/*
+public/*
 images/*
 node_modules/*
 node_modules*/*

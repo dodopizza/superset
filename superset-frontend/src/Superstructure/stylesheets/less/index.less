@@ -1,0 +1,35 @@
+// DODO-changed
+// Index .less, any imports here will be included in the final css build
+
+@import '~bootstrap/less/bootstrap.less';
+@import './fonts.less';
+@import './dodo.variables.less';
+@import './cosmo/bootswatch.less';
+
+html,
+body {
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  flex: 0 1 auto;
+}
+
+#app {
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.active-link {
+  color: #fff !important;
+  background: #555 !important;
+}
