@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { getDashboardIdOrSlug } from 'src/Superstructure/utils/routesUtils';
 
-import Dashboard from 'src/dashboard/App';
+import Dashboard from 'src/Superstructure/dashboard/App';
 import { getNavigationConfig } from 'src/Superstructure/parseEnvFile/index';
 
 import AnalyticsMain from 'src/Superstructure/components/MainRoute/index';

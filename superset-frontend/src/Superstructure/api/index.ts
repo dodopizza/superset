@@ -5,7 +5,7 @@ import { APIStore } from './store/index';
 import { API_V1, SUPERSET_ENDPOINT } from '../constants';
 
 const csrfNode = document.querySelector<HTMLInputElement>('#csrf_token');
-const csrfToken = csrfNode?.value;
+const csrfToken = csrfNode ? csrfNode.value : '';
 
 const logger = (params: AxiosRequestConfig) => {
   console.groupCollapsed(`${params.url} [${params.method}]`);

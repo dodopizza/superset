@@ -17,10 +17,10 @@ const {
   PROD_OUTPUT_FOLDER,
   DEV_OUTPUT_FOLDER,
   getHtmlTemplate,
-} = require('./webpack/constants');
+} = require('./utils/constants');
 
-const { rulesStyles } = require('./webpack/styles');
-const { rulesStaticAssets } = require('./webpack/assets');
+const { rulesStyles } = require('./utils/styles');
+const { rulesStaticAssets } = require('./utils/assets');
 
 /**
  * To run local build and to serve it later:
@@ -82,10 +82,10 @@ const getPublicPath = isProdMode =>
   isProdMode ? (publicPath ? `${publicPath}/` : '') : '';
 
 // eslint-disable-next-line import/extensions
-const packageConfig = require('./package.json');
+const packageConfig = require('../package.json');
 
 // input dir
-const ROOT_DIR = path.resolve(__dirname, './');
+const ROOT_DIR = path.resolve(__dirname, '../');
 
 // output dir
 const BUILD_DIR = path.resolve(

@@ -3,7 +3,7 @@ import parseCookie from 'src/Superstructure/utils/parseCookie';
 
 export default function setupClient() {
   const csrfNode = document.querySelector<HTMLInputElement>('#csrf_token');
-  const csrfToken = csrfNode?.value;
+  const csrfToken = csrfNode ? csrfNode.value : '';
 
   // when using flask-jwt-extended csrf is set in cookies
   const cookieCSRFToken = parseCookie().csrf_access_token || '';

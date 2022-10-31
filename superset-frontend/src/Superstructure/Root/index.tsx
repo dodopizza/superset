@@ -18,8 +18,8 @@ import {
   getFullConfig,
   getNavigationConfig,
   APP_VERSION,
-} from '../parseEnvFile/index';
-import { RootComponentWrapper, DashboardComponentWrapper } from './styles';
+} from 'src/Superstructure/parseEnvFile/index';
+import { RootComponentWrapper, DashboardComponentWrapper } from 'src/Superstructure/Root/styles';
 
 const NAV_CONFIG = getNavigationConfig();
 
@@ -82,8 +82,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   const { navigation, basename } = params;
 
   const useNavigationMenu = navigation?.showNavigationMenu;
-
-  console.log('paramsXX', params);
 
   return (
     <>

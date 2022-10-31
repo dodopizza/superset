@@ -6,9 +6,9 @@ import { ThemeProvider } from '@superset-ui/core';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DynamicPluginProvider } from 'src/components/DynamicPlugins';
-import setupApp from '../setup/setupApp';
-import setupPlugins from '../setup/setupPlugins';
-import DashboardPage from './containers/DashboardPage';
+import setupApp from 'src/setup/setupApp';
+import setupPlugins from 'src/setup/setupPlugins';
+import DashboardPage from 'src/Superstructure/dashboard/containers/DashboardPage';
 
 setupApp();
 setupPlugins();

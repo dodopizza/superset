@@ -1,33 +1,16 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO-changed
 import { combineReducers } from 'redux';
 
-import charts from '../../chart/chartReducer';
-import dataMask from '../../dataMask/reducer';
-import dashboardInfo from '../../dashboard/reducers/dashboardInfo';
-import dashboardState from '../../dashboardState';
-import dashboardFilters from '../../dashboardFilters';
-import nativeFilters from '../../nativeFilters';
-import datasources from '../../datasources';
-import sliceEntities from '../../sliceEntities';
-import dashboardLayout from '../../undoableDashboardLayout';
-import messageToasts from '../../messageToasts/reducers';
+import charts from 'src/chart/chartReducer';
+import dataMask from 'src/dataMask/reducer';
+import dashboardInfo from 'src/dashboard/reducers/dashboardInfo';
+import dashboardState from 'src/dashboard/reducers/dashboardState';
+import dashboardFilters from 'src/dashboard/reducers/dashboardFilters';
+import nativeFilters from 'src/dashboard/reducers/nativeFilters';
+import datasources from 'src/dashboard/reducers/datasources';
+import sliceEntities from 'src/dashboard/reducers/sliceEntities';
+import dashboardLayout from 'src/dashboard/reducers/undoableDashboardLayout';
+import messageToasts from 'src/messageToasts/reducers';
 
 const impressionId = (state = '') => state;
 

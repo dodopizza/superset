@@ -1,0 +1,49 @@
+name: Deploy PLUGIN to DEV
+on: [workflow_dispatch]
+
+jobs:
+  build-front-plugin-dev:
+    env:
+      NPM_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+      BUILD_NUMBER: ${{ github.run_number }}
+      AZURE_STORAGE_CONNECTION_STRING: 'BlobEndpoint=https://wedevstorage.blob.core.windows.net;SharedAccessSignature=${{ secrets.ARTIFACTS_STORAGE_SAS }}'
+      MICROFRONTEND_ENV_GITOPS: ${{ secrets.MICROFRONTEND_ENV_GITOPS }}
+
+    runs-on: ubuntu-20.04
+    name: build-front-plugin-dev
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.1'
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@dodopizza'
+          always-auth: true
+      - uses: actions/cache@v2.1.7
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn
+      - run: yarn build:dev
+
+      - name: Upload all frontend artifacts
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: 'BlobEndpoint=https://wedevstorage.blob.core.windows.net;SharedAccessSignature=${{ secrets.ARTIFACTS_STORAGE_SAS }}'
+        run: az storage blob upload-batch -d artifacts -s ./public --destination-path superset-dashboard-plugin/artifact-plugin-dev-${BUILD_NUMBER} --connection-string ${AZURE_STORAGE_CONNECTION_STRING}
+
+  call-deploy-microfrontend-got:
+    needs: build-front-plugin-dev
+    uses: dodopizza/microfrontend-gitops/.github/workflows/deploy-microfrontend.yml@feat-3152815
+    with:
+      build-number: ${{ github.run_number }}
+      environment: dev-got
+      prefix: superset-dashboard-plugin
+      frontend: officemanager
+      entry-points: supersetDashboardPlugin # main|random is supported. If not used -> will take all your bundles
+      blob-directory: artifact-plugin-dev-${{ github.run_number }}
+    secrets:
+      ARTIFACTS_STORAGE_SAS: ${{ secrets.ARTIFACTS_STORAGE_SAS }}
+      MICROFRONTEND_ENV_GITOPS: ${{ secrets.MICROFRONTEND_ENV_GITOPS }}

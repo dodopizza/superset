@@ -4,36 +4,34 @@ import { t } from '@superset-ui/core';
 import { sections } from '@superset-ui/chart-controls';
 import { PLUGIN_SELECTOR } from 'src/Superstructure/constants';
 
-console.log('process.env.business', process.env.business);
-const selector = process.env.business ? PLUGIN_SELECTOR : 'app';
-const appContainer = document.getElementById(selector);
+const appContainer = document.getElementById(PLUGIN_SELECTOR);
 const bootstrapData = JSON.parse(appContainer.getAttribute('data-bootstrap'));
 const druidIsActive = !!bootstrapData?.common?.conf?.DRUID_IS_ACTIVE;
 const druidSection = druidIsActive
   ? [
-      [
-        {
-          name: 'show_druid_time_granularity',
-          config: {
-            type: 'CheckboxControl',
-            label: t('Show Druid granularity dropdown'),
-            default: false,
-            description: t('Check to include Druid granularity dropdown'),
-          },
+    [
+      {
+        name: 'show_druid_time_granularity',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Show Druid granularity dropdown'),
+          default: false,
+          description: t('Check to include Druid granularity dropdown'),
         },
-      ],
-      [
-        {
-          name: 'show_druid_time_origin',
-          config: {
-            type: 'CheckboxControl',
-            label: t('Show Druid time origin'),
-            default: false,
-            description: t('Check to include time origin dropdown'),
-          },
+      },
+    ],
+    [
+      {
+        name: 'show_druid_time_origin',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Show Druid time origin'),
+          default: false,
+          description: t('Check to include time origin dropdown'),
         },
-      ],
-    ]
+      },
+    ],
+  ]
   : [];
 
 export default {
