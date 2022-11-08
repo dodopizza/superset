@@ -1,4 +1,4 @@
-const { STATIC_FILES_DIR } = require('constants');
+const { STATIC_FILES_DIR } = require('./constants');
 
 const rulesStaticAssets = ROOT_DIR => [
   /* for css linking images (and viz plugin thumbnails) */

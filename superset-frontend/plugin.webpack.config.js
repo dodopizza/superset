@@ -17,10 +17,10 @@ const {
   PROD_OUTPUT_FOLDER,
   DEV_OUTPUT_FOLDER,
   getHtmlTemplate,
-} = require('./utils/constants');
+} = require('./webpackUtils/constants');
 
-const { rulesStyles } = require('./utils/styles');
-const { rulesStaticAssets } = require('./utils/assets');
+const { rulesStyles } = require('./webpackUtils/styles');
+const { rulesStaticAssets } = require('./webpackUtils/assets');
 
 /**
  * To run local build and to serve it later:
@@ -82,18 +82,17 @@ const getPublicPath = isProdMode =>
   isProdMode ? (publicPath ? `${publicPath}/` : '') : '';
 
 // eslint-disable-next-line import/extensions
-const packageConfig = require('../package.json');
+const packageConfig = require('./package.json');
 
 // input dir
-const ROOT_DIR = path.resolve(__dirname, '../');
-
+const ROOT_DIR = path.resolve(__dirname, './');
 // output dir
 const BUILD_DIR = path.resolve(
   __dirname,
   isProd ? PROD_OUTPUT_FOLDER : DEV_OUTPUT_FOLDER,
 );
 
-const APP_VERSION_BASE = '1.3';
+const APP_VERSION_BASE = '1.4';
 const date = new Date();
 const APP_VERSION = `${APP_VERSION_BASE}.${date.getMonth()}${date.getDay()}`;
 
