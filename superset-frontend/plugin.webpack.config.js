@@ -92,9 +92,16 @@ const BUILD_DIR = path.resolve(
   isProd ? PROD_OUTPUT_FOLDER : DEV_OUTPUT_FOLDER,
 );
 
-const APP_VERSION_BASE = '1.4';
+/*
+ ** APP VERSION BASE is a base from which the app inherited the code base
+ ** (i.e. 1.3 => was inherited from Superset 1.3)
+*/
+const APP_VERSION_BASE = '1.3';
 const date = new Date();
-const APP_VERSION = `${APP_VERSION_BASE}.${date.getMonth()}${date.getDay()}`;
+const month = date.getMonth();
+const day = date.getDay();
+const hours = date.getHours();
+const APP_VERSION = `${APP_VERSION_BASE}.${month}-${day}:${hours}`;
 
 console.group('Params:');
 console.log('Parsed Args', parsedArgs);
