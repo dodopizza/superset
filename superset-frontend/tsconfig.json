@@ -61,6 +61,10 @@
     "./node_modules/*dodopizza/**/node_modules/**/*",
     "./node_modules/*dodopizza*/**/node_modules/@dodopizza/**/*",
     "./node_modules/*dodopizza/**/node_modules/zrender/**/*",
-    "./node_modules/*dodopizza/**/node_modules/@types/babel__traverse/**/*"
+    "./node_modules/*dodopizza/**/node_modules/@types/babel__traverse/**/*",
+
+    "./node_modules/*superset-ui/**/node_modules/@encodable/**/*",
+    "./node_modules/@encodable/color/**/*",
+    "./node_modules/@encodable/**/*"
   ]
 }

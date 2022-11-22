@@ -57,9 +57,6 @@ export default function PluginFilterTimegrain(
       duration && BIG_COMMON_DURATIONS.includes(duration as string),
   );
 
-  console.log('dataXX', data);
-  console.log('alteredDataXX', alteredData);
-
   const [value, setValue] = useState<string[]>(defaultValue ?? []);
   const durationMap = useMemo(
     () =>

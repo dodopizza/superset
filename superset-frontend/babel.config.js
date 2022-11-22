@@ -48,6 +48,7 @@ module.exports = {
     ['@babel/plugin-transform-runtime', { corejs: 3 }],
     'react-hot-loader/babel',
     '@babel/plugin-proposal-nullish-coalescing-operator',
+    '@babel/plugin-syntax-nullish-coalescing-operator',
   ],
   env: {
     // Setup a different config for tests as they run in node instead of a browser
