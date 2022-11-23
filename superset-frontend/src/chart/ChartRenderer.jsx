@@ -82,6 +82,8 @@ class ChartRenderer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
+    console.log('ChartRenderer STANDALONE');
+
     const resultsReady =
       nextProps.queriesResponse &&
       ['success', 'rendered'].indexOf(nextProps.chartStatus) > -1 &&

@@ -83,7 +83,7 @@ function selectFocusedFilterScope(dashboardState, dashboardFilters) {
  * If the chart is in the scope of the focused filter,
  * renders a highlight around the chart.
  *
- * If ChartHolder were a function component, this could be implemented as a hook instead.
+ * If ChartHolderPlugin were a function component, this could be implemented as a hook instead.
  */
 const FilterFocusHighlight = React.forwardRef(
   ({ chartId, ...otherProps }, ref) => {
@@ -135,7 +135,7 @@ const FilterFocusHighlight = React.forwardRef(
   },
 );
 
-class ChartHolder extends React.Component {
+class ChartHolderPlugin extends React.Component {
   static renderInFocusCSS(columnName) {
     return (
       <style>
@@ -325,7 +325,7 @@ class ChartHolder extends React.Component {
                 />
               )}
               {!!this.state.outlinedComponentId &&
-                ChartHolder.renderInFocusCSS(this.state.outlinedColumnName)}
+                ChartHolderPlugin.renderInFocusCSS(this.state.outlinedColumnName)}
               <Chart
                 componentId={component.id}
                 id={component.meta.chartId}
@@ -361,7 +361,7 @@ class ChartHolder extends React.Component {
   }
 }
 
-ChartHolder.propTypes = propTypes;
-ChartHolder.defaultProps = defaultProps;
+ChartHolderPlugin.propTypes = propTypes;
+ChartHolderPlugin.defaultProps = defaultProps;
 
-export default ChartHolder;
+export default ChartHolderPlugin;
