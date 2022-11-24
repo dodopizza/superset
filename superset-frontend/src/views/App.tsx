@@ -39,6 +39,7 @@ import { store } from './store';
 
 setupApp();
 setupPlugins();
+console.log('This is broken 1.3.1');
 
 const container = document.getElementById('app');
 const bootstrap = JSON.parse(container?.getAttribute('data-bootstrap') ?? '{}');
