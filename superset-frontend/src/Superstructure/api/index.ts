@@ -138,7 +138,16 @@ export const API_HANDLER = {
     const APIState = APIStore.getState();
     const { FRONTEND_LOGGER } = APIState.configReducer;
 
+    console.log('originUrl', originUrl)
+
     const FULL_URL = `${originUrl}${url}`;
+
+    console.log('FULL_URL', FULL_URL)
+    // TODO: dodo change this!
+    const checkedUrl = FULL_URL.split('http:///superset/explore_json').length > 1 ? FULL_URL.split('http:///superset/explore_json').join('/explore_json') : FULL_URL
+
+    console.log('checkedUrl', checkedUrl)
+    console.log('____')
 
     const params = {
       method,
@@ -149,7 +158,7 @@ export const API_HANDLER = {
         // in production mode it is NOT used
         Authorization: APIState.authReducer.Authorization,
       },
-      url: FULL_URL,
+      url: checkedUrl,
     };
 
     if (FRONTEND_LOGGER) logger(params);

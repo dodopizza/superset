@@ -207,6 +207,8 @@ const v1ChartDataRequest = async (
     allowDomainSharding,
   }).toString();
 
+  console.log('buildV1ChartDataPayload', url);
+
   return API_HANDLER.SupersetClient({ method: 'post', url, body: payload });
 };
 

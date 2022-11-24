@@ -99,7 +99,7 @@ const BUILD_DIR = path.resolve(
 const APP_VERSION_BASE = '1.3';
 const date = new Date();
 const month = date.getMonth();
-const day = date.getDay();
+const day = date.getDate();
 const hours = date.getHours();
 const APP_VERSION = `${APP_VERSION_BASE}.${month}-${day}:${hours}`;
 
