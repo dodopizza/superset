@@ -40,6 +40,8 @@ import { store } from './store';
 setupApp();
 setupPlugins();
 
+console.log('Incident November branch');
+
 const container = document.getElementById('app');
 const bootstrap = JSON.parse(container?.getAttribute('data-bootstrap') ?? '{}');
 const user = { ...bootstrap.user };
