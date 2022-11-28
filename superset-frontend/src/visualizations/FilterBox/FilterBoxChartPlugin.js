@@ -2,9 +2,8 @@
 import { t, ChartMetadata, ChartPlugin } from '@superset-ui/core';
 import transformProps from './transformProps';
 import thumbnail from './images/thumbnail.png';
-// DODO todo: -> use different import when standalone and plugin
 import controlPanel from 'src/visualizations/FilterBox/controlPanel';
-// import controlPanel from 'src/Superstructure/visualizations/FilterBox/controlPanel';
+import controlPanelAltered from 'src/Superstructure/visualizations/FilterBox/controlPanel';
 
 const metadata = new ChartMetadata({
   category: t('Tools'),
@@ -16,10 +15,12 @@ const metadata = new ChartMetadata({
   useLegacyApi: true,
 });
 
+console.log('FilterBox process.env.business', process.env.business);
+
 export default class FilterBoxChartPlugin extends ChartPlugin {
   constructor() {
     super({
-      controlPanel,
+      controlPanel: process.env.business ? controlPanelAltered : controlPanel,
       metadata,
       transformProps,
       loadChart: () => import('./FilterBox.jsx'),
