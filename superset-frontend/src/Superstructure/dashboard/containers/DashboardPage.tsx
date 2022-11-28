@@ -12,7 +12,7 @@ import { setDatasources } from 'src/dashboard/actions/datasources';
 import injectCustomCss from 'src/dashboard/util/injectCustomCss';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
-import DashboardContainer from 'src/dashboard/containers/Dashboard';
+import DashboardContainer from 'src/Superstructure/dashboard/containers/Dashboard';
 import ErrorMessageWithStackTrace from 'src/components/ErrorMessage/ErrorMessageWithStackTrace';
 
 interface DashboardPageProps {

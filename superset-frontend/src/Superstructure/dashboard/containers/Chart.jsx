@@ -20,6 +20,8 @@ import getFormDataWithExtraFilters from 'src/dashboard/util/charts/getFormDataWi
 import Chart from 'src/Superstructure/dashboard/components/gridComponents/Chart';
 import { PLACEHOLDER_DATASOURCE } from 'src/dashboard/constants';
 
+console.log('ChartXX grid components is used here')
+
 const EMPTY_FILTERS = {};
 
 function mapStateToProps(

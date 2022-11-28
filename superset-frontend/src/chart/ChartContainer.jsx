@@ -20,15 +20,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actions from './chartAction';
+import * as actionsSS from 'src/Superstructure/chart/chartAction';
 import { logEvent } from '../logger/actions';
 import Chart from './Chart';
 import { updateDataMask } from '../dataMask/actions';
 
+console.log('ChartContainer process.env.business', process.env.business);
+const finalActions = process.env.business ? { ...actionsSS } : { ...actions };
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
       {
-        ...actions,
+        ...finalActions,
         updateDataMask,
         logEvent,
       },

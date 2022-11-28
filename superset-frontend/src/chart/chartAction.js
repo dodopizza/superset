@@ -191,6 +191,8 @@ const v1ChartDataRequest = async (
     allowDomainSharding,
   }).toString();
 
+  console.log('callHereXX')
+
   const querySettings = {
     ...requestParams,
     url,

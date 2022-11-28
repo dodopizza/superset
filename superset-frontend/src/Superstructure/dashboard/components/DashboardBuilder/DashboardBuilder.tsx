@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import { styled, css } from '@superset-ui/core';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import BuilderComponentPane from 'src/dashboard/components/BuilderComponentPane';
-import DashboardComponent from 'src/dashboard/containers/DashboardComponent';
+import DashboardComponent from 'src/Superstructure/dashboard/containers/DashboardComponent';
 import { URL_PARAMS } from 'src/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUrlParam } from 'src/utils/urlUtils';
@@ -24,7 +24,7 @@ import Loading from 'src/Superstructure/components/Loading';
 import { Global } from '@emotion/react';
 // import getDirectPathToTabIndex from 'src/dashboard/util/getDirectPathToTabIndex';
 // import { /* shouldFocusTabs, */ getRootLevelTabsComponent } from './utils';
-import DashboardContainer from './DashboardContainer';
+import DashboardContainer from 'src/Superstructure/dashboard/components/DashboardBuilder/DashboardContainer';
 import { useNativeFilters } from './state';
 
 const MAIN_HEADER_HEIGHT = 53;

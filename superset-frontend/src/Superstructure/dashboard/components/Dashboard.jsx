@@ -6,27 +6,27 @@ import { isFeatureEnabled, t, FeatureFlag } from '@superset-ui/core';
 import { PluginContext } from 'src/components/DynamicPlugins';
 import Loading from 'src/Superstructure/components/Loading';
 import { PLUGIN_SELECTOR } from 'src/Superstructure/constants';
-import getChartIdsFromLayout from '../util/getChartIdsFromLayout';
-import getLayoutComponentFromChartId from '../util/getLayoutComponentFromChartId';
+import getChartIdsFromLayout from 'src/dashboard/util/getChartIdsFromLayout';
+import getLayoutComponentFromChartId from 'src/dashboard/util/getLayoutComponentFromChartId';
 import DashboardBuilder from './DashboardBuilder/DashboardBuilder';
 import {
   chartPropShape,
   slicePropShape,
   dashboardInfoPropShape,
   dashboardStatePropShape,
-} from '../util/propShapes';
+} from 'src/dashboard/util/propShapes';
 import {
   LOG_ACTIONS_HIDE_BROWSER_TAB,
   LOG_ACTIONS_MOUNT_DASHBOARD,
   Logger,
-} from '../../logger/LogUtils';
+} from 'src/logger/LogUtils';
 // import OmniContainer from '../../components/OmniContainer';
-import { areObjectsEqual } from '../../reduxUtils';
+import { areObjectsEqual } from 'src/reduxUtils';
 
-import '../stylesheets/index.less';
-import getLocationHash from '../util/getLocationHash';
-import isDashboardEmpty from '../util/isDashboardEmpty';
-import { getAffectedOwnDataCharts } from '../util/charts/getOwnDataCharts';
+import 'src/dashboard/stylesheets/index.less';
+import getLocationHash from 'src/dashboard/util/getLocationHash';
+import isDashboardEmpty from 'src/dashboard/util/isDashboardEmpty';
+import { getAffectedOwnDataCharts } from 'src/dashboard/util/charts/getOwnDataCharts';
 
 const propTypes = {
   actions: PropTypes.shape({

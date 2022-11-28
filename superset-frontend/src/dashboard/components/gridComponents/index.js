@@ -10,8 +10,8 @@ import {
   TABS_TYPE,
 } from '../../util/componentTypes';
 
-import ChartHolder from 'src/dashboard/components/gridComponents/ChartHolder';
-import ChartHolderPlugin from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
+// import ChartHolder from 'src/dashboard/components/gridComponents/ChartHolder';
+import ChartHolder from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
 
 import Markdown from './Markdown';
 import Column from './Column';
@@ -23,8 +23,8 @@ import TabsConnected from './Tabs';
 
 console.log('gridComponents process.env.business', process.env.business);
 
-export { default as ChartHolderPlugin } from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
-export { default as ChartHolder } from 'src/dashboard/components/gridComponents/ChartHolder';
+export { default as ChartHolder } from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
+// export { default as ChartHolder } from 'src/dashboard/components/gridComponents/ChartHolder';
 
 export { default as Markdown } from './Markdown';
 export { default as Column } from './Column';
@@ -35,7 +35,8 @@ export { default as Tab } from './Tab';
 export { default as Tabs } from './Tabs';
 
 export const componentLookup = {
-  [CHART_TYPE]: !process.env.business ? ChartHolder : ChartHolderPlugin,
+  // [CHART_TYPE]: !process.env.business ? ChartHolder : ChartHolderPlugin,
+  [CHART_TYPE]: ChartHolder,
   [MARKDOWN_TYPE]: Markdown,
   [COLUMN_TYPE]: Column,
   [DIVIDER_TYPE]: Divider,
