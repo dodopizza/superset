@@ -155,11 +155,13 @@ export function getExploreUrl({
   requestParams = {},
   allowDomainSharding = false,
   method = 'POST',
+  cleanUrlFromHostname = false,
 }) {
   if (!formData.datasource) {
     return null;
   }
   let uri = getChartDataUri({ path: '/', allowDomainSharding });
+
   if (curUrl) {
     uri = URI(URI(curUrl).search());
   }
@@ -168,6 +170,7 @@ export function getExploreUrl({
 
   // Building the querystring (search) part of the URI
   const search = uri.search(true);
+
   const { slice_id, extra_filters, adhoc_filters, viz_type } = formData;
   if (slice_id) {
     const form_data = { slice_id };
@@ -208,7 +211,16 @@ export function getExploreUrl({
       }
     });
   }
-  return uri.search(search).directory(directory).toString();
+  const uriString = uri.search(search).directory(directory).toString();
+  console.log('exploreUtils process.env.business', process.env.business);
+  if (process.env.business) {
+    const returningString = cleanUrlFromHostname
+    ? uriString.split('/superset')[1]
+    : uriString;
+
+    return returningString;
+  }
+  return uriString;
 }
 
 export const shouldUseLegacyApi = formData => {
