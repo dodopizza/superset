@@ -4,11 +4,11 @@ import { t } from '@superset-ui/core';
 import { sections } from '@superset-ui/chart-controls';
 import { PLUGIN_SELECTOR } from 'src/Superstructure/constants';
 
-console.log('control panel process.env.business', process.env.business);
+console.log('control panel STANDALONE process.env.business', process.env.business);
 const selector = process.env.business ? PLUGIN_SELECTOR : 'app';
 console.log('Selector:', selector);
 const appContainer = document.getElementById(selector);
-const attributes = appContainer ? appContainer.getAttribute('data-bootstrap') : {}
+const attributes = appContainer ? appContainer.getAttribute('data-bootstrap') : '{}'
 console.log('attributes:', attributes);
 const bootstrapData = JSON.parse(attributes);
 const druidIsActive = !!bootstrapData?.common?.conf?.DRUID_IS_ACTIVE;
