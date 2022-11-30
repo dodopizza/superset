@@ -135,6 +135,7 @@ const legacyChartDataRequest = async (
       ? { dashboard_id: requestParams.dashboard_id }
       : {},
   });
+  console.log('legacyChartDataRequest STANDALONE', url)
   const querySettings = {
     ...requestParams,
     url,
@@ -224,7 +225,7 @@ export async function getChartDataRequest({
       credentials: 'include',
     };
   }
-
+  console.log('getChartDataRequest STANDALONE')
   if (shouldUseLegacyApi(formData)) {
     return legacyChartDataRequest(
       formData,

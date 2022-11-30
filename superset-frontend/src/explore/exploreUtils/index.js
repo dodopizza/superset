@@ -215,6 +215,7 @@ export function getExploreUrl({
   console.log('exploreUtils process.env.business', process.env.business);
   console.log('directory', directory)
   console.log('uriString', uriString)
+  console.log('cleanUrlFromHostname', cleanUrlFromHostname)
 
   if (process.env.business) {
     console.log('Use altered uri string')

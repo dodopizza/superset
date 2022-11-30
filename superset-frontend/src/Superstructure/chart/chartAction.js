@@ -108,6 +108,9 @@ const legacyChartDataRequest = async (
   const allowDomainSharding =
     // eslint-disable-next-line camelcase
     domainShardingEnabled && requestParams?.dashboard_id;
+  console.log('legacyChartDataRequest')
+  console.log('endpointType', endpointType)
+
   const url = getExploreUrl({
     formData,
     endpointType,
@@ -129,6 +132,7 @@ const legacyChartDataRequest = async (
   bodyFormData.append('form_data', JSON.stringify(newFormData));
 
   if (isFeatureEnabled(FeatureFlag.CLIENT_CACHE)) {
+    console.log('PLUGIN isFeatureEnabled true', url)
     return API_HANDLER.SupersetClientNoApi({
       method: 'get',
       url,
@@ -137,6 +141,7 @@ const legacyChartDataRequest = async (
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
+  console.log('PLUGIN isFeatureEnabled false', url)
   return API_HANDLER.SupersetClientNoApi({
     method: 'post',
     url,
