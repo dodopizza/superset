@@ -9,9 +9,9 @@ import {
   TAB_TYPE,
   TABS_TYPE,
 } from '../../util/componentTypes';
-
-// import ChartHolder from 'src/dashboard/components/gridComponents/ChartHolder';
-import ChartHolder from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
+// TODO: fix dodo
+import ChartHolder from 'src/dashboard/components/gridComponents/ChartHolder';
+// import ChartHolder from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
 
 import Markdown from './Markdown';
 import Column from './Column';
@@ -22,9 +22,9 @@ import Tab from './Tab';
 import TabsConnected from './Tabs';
 
 console.log('gridComponents process.env.business', process.env.business);
-
-export { default as ChartHolder } from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
-// export { default as ChartHolder } from 'src/dashboard/components/gridComponents/ChartHolder';
+// TODO: fix dodo
+// export { default as ChartHolder } from 'src/Superstructure/dashboard/components/gridComponents/ChartHolder';
+export { default as ChartHolder } from 'src/dashboard/components/gridComponents/ChartHolder';
 
 export { default as Markdown } from './Markdown';
 export { default as Column } from './Column';

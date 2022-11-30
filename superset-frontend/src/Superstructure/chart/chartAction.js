@@ -226,6 +226,8 @@ export async function getChartDataRequest({
     };
   }
 
+  console.log('getChartDataRequest PLUGIN')
+
   if (shouldUseLegacyApi(formData)) {
     return legacyChartDataRequest(
       formData,

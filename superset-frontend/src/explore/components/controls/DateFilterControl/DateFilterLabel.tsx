@@ -98,10 +98,8 @@ const fetchTimeRange = async (
     console.log('response', response)
 
     const timeRangeString = buildTimeRangeString(
-      //@ts-ignore
-      response?.result?.since || '',
-      //@ts-ignore
-      response?.result?.until || '',
+      response?.json?.since || '',
+      response?.json?.until || '',
     );
 
     console.log('timeRangeString', timeRangeString)
