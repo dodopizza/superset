@@ -64,16 +64,47 @@ const fetchTimeRange = async (
     endpoint = `/api/v1/time_range/?q=${query}`;
   }
 
+  if (process.env.business) {
+    console.log('PLUGIN LOGIC')
+    try {
+      const response = await API_HANDLER.SupersetClient({
+        method: 'get',
+        url: endpoint,
+      });
+
+      console.log('response', response)
+  
+      const timeRangeString = buildTimeRangeString(
+        response?.result?.since || '',
+        response?.result?.until || '',
+      );
+      console.log('timeRangeString', timeRangeString)
+      return {
+        value: formatTimeRange(timeRangeString, endpoints),
+      };
+    } catch (response) {
+      const clientError = await getClientErrorObject(response);
+      return {
+        error: clientError.message || clientError.error,
+      };
+    }
+  }
+
+  console.log('STANDALONE LOGIC')
+
   try {
-    const response = process.env.business ? await API_HANDLER.SupersetClient({
-      method: 'get',
-      url: endpoint,
-    }) : await SupersetClient.get({ endpoint });
+    const response = await SupersetClient.get({ endpoint });
+
+    console.log('response', response)
 
     const timeRangeString = buildTimeRangeString(
+      //@ts-ignore
       response?.result?.since || '',
+      //@ts-ignore
       response?.result?.until || '',
     );
+
+    console.log('timeRangeString', timeRangeString)
     return {
       value: formatTimeRange(timeRangeString, endpoints),
     };

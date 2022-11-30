@@ -108,7 +108,7 @@ const legacyChartDataRequest = async (
   const allowDomainSharding =
     // eslint-disable-next-line camelcase
     domainShardingEnabled && requestParams?.dashboard_id;
-  console.log('legacyChartDataRequest')
+  console.log('legacyChartDataRequest PLUGIN')
   console.log('endpointType', endpointType)
 
   const url = getExploreUrl({
