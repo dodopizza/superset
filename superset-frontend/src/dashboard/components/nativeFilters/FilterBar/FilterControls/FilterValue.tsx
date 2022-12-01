@@ -102,13 +102,31 @@ const FilterValue: React.FC<FilterProps> = ({
       }
       setIsRefreshing(true);
 
-      !process.env.business ? getChartDataRequest : getChartDataRequestPlugin({
-        formData: newFormData,
-        force: false,
-        requestParams: { dashboardId: 0 },
-        ownState: filterOwnState,
-      })
-        .then(({ response, json }) => {
+      if (process.env.business) {
+        getChartDataRequestPlugin({
+          formData: newFormData,
+          force: false,
+          requestParams: { dashboardId: 0 },
+          ownState: filterOwnState,
+        })
+          .then(({ result }) => {
+            setState(result);
+            setError('');
+            setIsRefreshing(false);
+            setIsLoading(false);
+          })
+          .catch((error: Response) => {
+            setError(error.statusText);
+            setIsRefreshing(false);
+            setIsLoading(false);
+          });
+      } else {
+        getChartDataRequest({
+          formData: newFormData,
+          force: false,
+          requestParams: { dashboardId: 0 },
+          ownState: filterOwnState,
+        }).then(({ response, json }) => {
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
             // deal with getChartDataRequest transforming the response data
             const result = 'result' in json ? json.result[0] : json;
@@ -141,13 +159,14 @@ const FilterValue: React.FC<FilterProps> = ({
             setError('');
             setIsRefreshing(false);
             setIsLoading(false);
-          }
-        })
-        .catch((error: Response) => {
-          setError(error.statusText);
-          setIsRefreshing(false);
-          setIsLoading(false);
-        });
+            }
+          })
+          .catch((error: Response) => {
+            setError(error.statusText);
+            setIsRefreshing(false);
+            setIsLoading(false);
+          });
+      }
     }
   }, [
     inViewFirstTime,

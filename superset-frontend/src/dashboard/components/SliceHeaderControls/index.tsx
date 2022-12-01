@@ -324,8 +324,8 @@ class SliceHeaderControls extends React.PureComponent<
         <Menu.Item key={MENU_KEYS.DOWNLOAD_AS_IMAGE}>
           {t('Download as image')}
         </Menu.Item>
-
-        {this.props.slice.viz_type !== 'filter_box' &&
+        {/* // TODO: dodo - make it work */}
+        {(this.props.slice.viz_type !== 'filter_box' && !process.env.business) &&
           this.props.supersetCanCSV && (
             <Menu.Item key={MENU_KEYS.EXPORT_CSV}>{t('Export CSV')}</Menu.Item>
           )}
