@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 
 import { getChartIdsInFilterScope } from 'src/dashboard/util/activeDashboardFilters';
 import Chart from '../../containers/Chart';
+import ChartPlugin from 'src/Superstructure/dashboard/containers/Chart';
 import AnchorLink from '../../../components/AnchorLink';
 import DeleteComponentButton from '../DeleteComponentButton';
 import DragDroppable from '../dnd/DragDroppable';
@@ -203,6 +204,7 @@ class ChartHolder extends React.Component {
 
   componentDidMount() {
     this.hideOutline({}, this.state);
+    console.log('ChartHolderStandalone')
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -290,8 +292,8 @@ class ChartHolder extends React.Component {
     } else {
       chartWidth = Math.floor(
         widthMultiple * columnWidth +
-          (widthMultiple - 1) * GRID_GUTTER_SIZE -
-          CHART_MARGIN,
+        (widthMultiple - 1) * GRID_GUTTER_SIZE -
+        CHART_MARGIN,
       );
       chartHeight = Math.floor(
         component.meta.height * GRID_BASE_UNIT - CHART_MARGIN,
@@ -345,22 +347,38 @@ class ChartHolder extends React.Component {
               )}
               {!!this.state.outlinedComponentId &&
                 ChartHolder.renderInFocusCSS(this.state.outlinedColumnName)}
-              <Chart
-                componentId={component.id}
-                id={component.meta.chartId}
-                dashboardId={dashboardId}
-                width={chartWidth}
-                height={chartHeight}
-                sliceName={
-                  component.meta.sliceNameOverride ||
-                  component.meta.sliceName ||
-                  ''
-                }
-                updateSliceName={this.handleUpdateSliceName}
-                isComponentVisible={isComponentVisible}
-                handleToggleFullSize={this.handleToggleFullSize}
-                isFullSize={isFullSize}
-              />
+              {!process.env.business ?
+                <Chart
+                  componentId={component.id}
+                  id={component.meta.chartId}
+                  dashboardId={dashboardId}
+                  width={chartWidth}
+                  height={chartHeight}
+                  sliceName={
+                    component.meta.sliceNameOverride ||
+                    component.meta.sliceName ||
+                    ''
+                  }
+                  updateSliceName={this.handleUpdateSliceName}
+                  isComponentVisible={isComponentVisible}
+                  handleToggleFullSize={this.handleToggleFullSize}
+                  isFullSize={isFullSize}
+                /> : <ChartPlugin componentId={component.id}
+                  id={component.meta.chartId}
+                  dashboardId={dashboardId}
+                  width={chartWidth}
+                  height={chartHeight}
+                  sliceName={
+                    component.meta.sliceNameOverride ||
+                    component.meta.sliceName ||
+                    ''
+                  }
+                  updateSliceName={this.handleUpdateSliceName}
+                  isComponentVisible={isComponentVisible}
+                  handleToggleFullSize={this.handleToggleFullSize}
+                  isFullSize={isFullSize}
+                />
+              }
               {editMode && (
                 <HoverMenu position="top">
                   <div data-test="dashboard-delete-component-button">

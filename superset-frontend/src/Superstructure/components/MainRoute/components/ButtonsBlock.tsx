@@ -21,7 +21,7 @@ const ButtonsBlock = () => (
       {GO_TO_ANALYTICS_BTN}
     </a>
     <a
-      className="btn btn-secondary btn-sm"
+      className="btn btn-warning btn-sm"
       href={DODOPIZZA_KNOWLEDGEBASE_URL}
       target="_blank"
       rel="noreferrer"

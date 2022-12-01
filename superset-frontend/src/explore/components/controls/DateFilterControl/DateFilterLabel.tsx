@@ -71,14 +71,11 @@ const fetchTimeRange = async (
         method: 'get',
         url: endpoint,
       });
-
-      console.log('response', response)
   
       const timeRangeString = buildTimeRangeString(
         response?.result?.since || '',
         response?.result?.until || '',
       );
-      console.log('timeRangeString', timeRangeString)
       return {
         value: formatTimeRange(timeRangeString, endpoints),
       };

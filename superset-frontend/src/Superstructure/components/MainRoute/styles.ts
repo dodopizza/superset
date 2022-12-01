@@ -9,15 +9,6 @@ const AnalyticsMainWrapper = styled.div`
   margin-left: 32px;
 `;
 
-const StyledH1 = styled.h1`
-  flex: 1;
-  position: relative;
-  margin-top: 0;
-  margin-right: 32px;
-  margin-bottom: 24px;
-  margin-left: 10px;
-`;
-
 const StyledH4 = styled.h4`
   margin-top: 0;
 `;
@@ -46,7 +37,6 @@ const ButtonsWrapper = styled.div`
 
 export {
   AnalyticsMainWrapper,
-  StyledH1,
   StyledH4,
   StyledP,
   Alert,

@@ -15,5 +15,5 @@ export const RootComponentWrapper = styled.section<RootComponentWrapperProps>`
 `;
 
 export const DashboardComponentWrapper = styled.section<DashboardComponentWrapperProps>`
-  width: ${({ withNavigation }) => (withNavigation ? '82%' : '100%')};
+  width: ${({ withNavigation }) => (withNavigation ? '85%' : '100%')};
 `;

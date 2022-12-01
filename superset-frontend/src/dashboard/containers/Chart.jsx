@@ -53,6 +53,7 @@ function mapStateToProps(
   },
   ownProps,
 ) {
+  console.log('Chart container STANDALONE')
   const { id } = ownProps;
   const chart = chartQueries[id] || {};
   const datasource =

@@ -20,7 +20,7 @@ import {
   DashboardStandaloneMode,
 } from 'src/dashboard/util/constants';
 import FilterBar from 'src/dashboard/components/nativeFilters/FilterBar';
-import Loading from 'src/Superstructure/components/Loading';
+import Loading from 'src/components/Loading';
 import { Global } from '@emotion/react';
 // import getDirectPathToTabIndex from 'src/dashboard/util/getDirectPathToTabIndex';
 // import { /* shouldFocusTabs, */ getRootLevelTabsComponent } from './utils';

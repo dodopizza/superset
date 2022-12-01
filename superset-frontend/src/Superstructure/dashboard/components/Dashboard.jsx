@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isFeatureEnabled, t, FeatureFlag } from '@superset-ui/core';
 
 import { PluginContext } from 'src/components/DynamicPlugins';
-import Loading from 'src/Superstructure/components/Loading';
+import Loading from 'src/components/Loading';
 import { PLUGIN_SELECTOR } from 'src/Superstructure/constants';
 import getChartIdsFromLayout from 'src/dashboard/util/getChartIdsFromLayout';
 import getLayoutComponentFromChartId from 'src/dashboard/util/getLayoutComponentFromChartId';

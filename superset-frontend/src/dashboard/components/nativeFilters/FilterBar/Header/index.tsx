@@ -98,7 +98,7 @@ const Header: FC<HeaderProps> = ({
     <Wrapper>
       <TitleArea>
         <span>{t('Filters')}</span>
-        {canEdit && (
+        {(canEdit && !process.env.business ) && (
           <FilterConfigurationLink createNewOnOpen={filterValues.length === 0}>
             <Icons.Edit
               data-test="create-filter"
