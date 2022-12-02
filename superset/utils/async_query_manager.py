@@ -73,14 +73,19 @@ class AsyncQueryManager:
 
     def __init__(self) -> None:
         super().__init__()
+        # self._jwt_cookie_name = None
         self._redis: redis.Redis
         self._stream_prefix: str = ""
         self._stream_limit: Optional[int]
         self._stream_limit_firehose: Optional[int]
-        self._jwt_cookie_name: str
+        self._jwt_cookie_name: str = ""
         self._jwt_cookie_secure: bool = False
         self._jwt_cookie_domain: Optional[str]
         self._jwt_secret: str
+
+    def stupid_init(self, app: Flask) -> None:
+        config = app.config
+        self._jwt_cookie_name = config["GLOBAL_ASYNC_QUERIES_JWT_COOKIE_NAME"]
 
     def init_app(self, app: Flask) -> None:
         config = app.config
