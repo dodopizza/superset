@@ -2,7 +2,7 @@ import { styled } from '@superset-ui/core';
 import { NavLink } from 'react-router-dom';
 
 const LeftNavigationWrapper = styled.section`
-  width: 18%;
+  width: 15%;
   margin-top: 24px;
   min-height: 75vh;
 `;
@@ -17,8 +17,9 @@ const UlContainer = styled.ul`
 const ListItem = styled.li`
   margin-top: 6px;
   font-size: 14px;
-  line-height: 1.1em;
+  line-height: 1.5;
   margin-bottom: 1px;
+  border-radius: 4px;
 `;
 
 const StyledLink = styled(NavLink)`
@@ -30,6 +31,7 @@ const StyledLink = styled(NavLink)`
   padding-bottom: 0.3em;
   color: #69696a;
   background: #f8f8f8;
+  border-radius: 4px;
 
   &:hover {
     background: #f1f1f1;

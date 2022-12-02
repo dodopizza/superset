@@ -135,6 +135,7 @@ const legacyChartDataRequest = async (
       ? { dashboard_id: requestParams.dashboard_id }
       : {},
   });
+  console.log('legacyChartDataRequest STANDALONE', url)
   const querySettings = {
     ...requestParams,
     url,
@@ -173,6 +174,8 @@ const v1ChartDataRequest = async (
     ownState,
   });
 
+  console.log('chart action STANDALONE')
+
   // The dashboard id is added to query params for tracking purposes
   const { slice_id: sliceId } = formData;
   const { dashboard_id: dashboardId } = requestParams;
@@ -190,6 +193,8 @@ const v1ChartDataRequest = async (
     qs,
     allowDomainSharding,
   }).toString();
+
+  console.log('callHereXX')
 
   const querySettings = {
     ...requestParams,
@@ -222,7 +227,7 @@ export async function getChartDataRequest({
       credentials: 'include',
     };
   }
-
+  console.log('getChartDataRequest STANDALONE')
   if (shouldUseLegacyApi(formData)) {
     return legacyChartDataRequest(
       formData,

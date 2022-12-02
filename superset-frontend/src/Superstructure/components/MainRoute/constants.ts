@@ -1,5 +1,4 @@
-const MAIN_TITLE = 'Аналитика (бета)';
-const GO_TO_ANALYTICS_BTN = 'Перейти в аналитику';
+const GO_TO_ANALYTICS_BTN = 'Перейти в аналитику  (standalone)';
 
 const RULES_BTN = 'Правила работы с аналитикой';
 const RULES_TITLE = 'Как работать с аналитикой';
@@ -11,7 +10,6 @@ const RULES_ATTENTION = ` Важно! Проверьте, что в Вашей
 невозможна.`;
 
 export {
-  MAIN_TITLE,
   GO_TO_ANALYTICS_BTN,
   RULES_BTN,
   RULES_TITLE,

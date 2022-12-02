@@ -4,7 +4,7 @@ import React from 'react';
 import Alert from 'src/components/Alert';
 import { styled, logging, t } from '@superset-ui/core';
 
-import { isFeatureEnabled, FeatureFlag } from 'src/featureFlags';
+import { isFeatureEnabled, FeatureFlag } from 'src/Superstructure/utils/featureFlags';
 import { PLACEHOLDER_DATASOURCE } from 'src/dashboard/constants';
 import Button from 'src/components/Button';
 import Loading from 'src/components/Loading';
@@ -109,6 +109,7 @@ class Chart extends React.PureComponent {
 
   runQuery() {
     if (this.props.chartId > 0 && isFeatureEnabled(FeatureFlag.CLIENT_CACHE)) {
+      console.log('runQuery', 'getSavedChart')
       // Load saved chart with a GET request
       this.props.actions.getSavedChart(
         this.props.formData,
@@ -120,6 +121,7 @@ class Chart extends React.PureComponent {
       );
     } else {
       // Create chart with POST request
+      console.log('runQuery', 'postChartFormData')
       this.props.actions.postChartFormData(
         this.props.formData,
         false,

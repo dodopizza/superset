@@ -143,19 +143,6 @@ const legacyChartDataRequest = async (
     body: bodyFormData,
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-
-  // console.log('tXX', t);
-  // const tt = await t;
-  // console.log('ttXX', tt);
-  // const ttt = {
-  //   json: {
-  //     result: {
-  //       ...tt,
-  //     },
-  //   },
-  // };
-  // console.log('tttXX', ttt);
-  // return ttt;
 };
 
 function getChartDataUriAltered({ path, qs }) {
@@ -188,6 +175,8 @@ const v1ChartDataRequest = async (
     ownState,
   });
 
+  console.log('chart action PLUGIN')
+
   // The dashboard id is added to query params for tracking purposes
   const { slice_id: sliceId } = formData;
   const { dashboard_id: dashboardId } = requestParams;
@@ -206,8 +195,6 @@ const v1ChartDataRequest = async (
     qs,
     allowDomainSharding,
   }).toString();
-
-  console.log('buildV1ChartDataPayload', url);
 
   return API_HANDLER.SupersetClient({ method: 'post', url, body: payload });
 };

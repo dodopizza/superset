@@ -280,7 +280,7 @@ class SliceHeaderControls extends React.PureComponent<
           </Menu.Item>
         )}
 
-        {this.props.supersetCanExplore && (
+        {(this.props.supersetCanExplore && !process.env.business) && (
           <Menu.Item key={MENU_KEYS.EXPLORE_CHART}>
             <a href={this.props.exploreUrl} rel="noopener noreferrer">
               {t('View chart in Explore')}
@@ -288,7 +288,7 @@ class SliceHeaderControls extends React.PureComponent<
           </Menu.Item>
         )}
 
-        {this.props.supersetCanExplore && (
+        {(this.props.supersetCanExplore && !process.env.business) && (
           <Menu.Item key={MENU_KEYS.VIEW_QUERY}>
             <ModalTrigger
               triggerNode={
@@ -303,7 +303,7 @@ class SliceHeaderControls extends React.PureComponent<
           </Menu.Item>
         )}
 
-        {supersetCanShare && (
+        {(supersetCanShare && !process.env.business) && (
           <ShareMenuItems
             url={getDashboardUrl({
               pathname: window.location.pathname,
@@ -324,8 +324,8 @@ class SliceHeaderControls extends React.PureComponent<
         <Menu.Item key={MENU_KEYS.DOWNLOAD_AS_IMAGE}>
           {t('Download as image')}
         </Menu.Item>
-
-        {this.props.slice.viz_type !== 'filter_box' &&
+        {/* // TODO: dodo - make it work */}
+        {(this.props.slice.viz_type !== 'filter_box' && !process.env.business) &&
           this.props.supersetCanCSV && (
             <Menu.Item key={MENU_KEYS.EXPORT_CSV}>{t('Export CSV')}</Menu.Item>
           )}
