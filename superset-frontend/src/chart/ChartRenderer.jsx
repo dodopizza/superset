@@ -1,26 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO-changed
 import { snakeCase, isEqual } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { SuperChart, logging, Behavior } from '@superset-ui/core';
 import { Logger, LOG_ACTIONS_RENDER_CHART } from 'src/logger/LogUtils';
+import { LimitWarning } from 'src/Superstructure/components/LimitWarning'
 
 const propTypes = {
   annotationData: PropTypes.object,
@@ -162,7 +146,7 @@ class ChartRenderer extends React.Component {
   }
 
   render() {
-    const { chartAlert, chartStatus, vizType, chartId, refreshOverlayVisible } =
+    const { chartAlert, chartStatus, vizType, chartId, refreshOverlayVisible, formData: { row_limit } } =
       this.props;
 
     // Skip chart rendering
@@ -189,6 +173,11 @@ class ChartRenderer extends React.Component {
       queriesResponse,
     } = this.props;
 
+    const rowCount = Number(queriesResponse[0].rowcount) || 0
+    const rowLimit = Number(row_limit) || 0
+
+    console.log('rowCount', rowCount, 'rowLimit', rowLimit);
+
     // It's bad practice to use unprefixed `vizType` as classnames for chart
     // container. It may cause css conflicts as in the case of legacy table chart.
     // When migrating charts, we should gradually add a `superset-chart-` prefix
@@ -210,6 +199,10 @@ class ChartRenderer extends React.Component {
             __webpack_require__.h()
           }`
         : '';
+
+    if ((rowCount > 0) && (rowLimit > 0) && (rowCount > rowLimit)) {
+      return <LimitWarning />
+    }
 
     return (
       <SuperChart
