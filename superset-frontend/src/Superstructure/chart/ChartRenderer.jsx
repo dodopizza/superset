@@ -198,7 +198,7 @@ class ChartRenderer extends React.Component {
           }`
         : '';
 
-    if ((rowCount > 0) && (rowLimit > 0) && (rowCount > rowLimit)) {
+    if ((rowCount > 0) && (rowLimit > 0) && (rowCount >= rowLimit)) {
       return <LimitWarning />
     }
 
