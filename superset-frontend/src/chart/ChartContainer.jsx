@@ -25,7 +25,6 @@ import { logEvent } from '../logger/actions';
 import Chart from './Chart';
 import { updateDataMask } from '../dataMask/actions';
 
-console.log('ChartContainer process.env.business', process.env.business);
 const finalActions = process.env.business ? { ...actionsSS } : { ...actions };
 function mapDispatchToProps(dispatch) {
   return {

@@ -39,8 +39,6 @@ import { slicePropShape, chartPropShape } from '../../util/propShapes';
 import { isFilterBox } from '../../util/activeDashboardFilters';
 import getFilterValuesByFilterId from '../../util/getFilterValuesByFilterId';
 
-console.log('ChartContainerXX is used here')
-
 const propTypes = {
   id: PropTypes.number.isRequired,
   componentId: PropTypes.string.isRequired,

@@ -1,12 +1,12 @@
 import React from 'react';
 
-const InfoIcon = () => (
+const InfoIcon = ({ color }: {color?: string}) => (
   <div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
-      fill="#1890FF"
+      fill={color || 'black'}
       className="bi bi-info-circle"
       viewBox="0 0 16 16"
     >
@@ -15,5 +15,4 @@ const InfoIcon = () => (
     </svg>
   </div>
 );
-
 export { InfoIcon };

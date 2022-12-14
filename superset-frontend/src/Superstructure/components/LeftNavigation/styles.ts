@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 const LeftNavigationWrapper = styled.section`
   width: 15%;
-  margin-top: 24px;
+  margin-top: -5px;
   min-height: 75vh;
+  padding: 0px 20px 0 0;
 `;
 
 const UlContainer = styled.ul`

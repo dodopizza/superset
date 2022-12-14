@@ -147,29 +147,6 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     dispatch(setDirectPathToChild(pathToTabIndex));
   };
 
-  // setTimeout(() => {
-  //   if (!initPage) {
-  //     const firstTab = getDirectPathToTabIndex(
-  //       getRootLevelTabsComponent(dashboardLayout),
-  //       0,
-  //     );
-  //     console.log('firstTabXX', firstTab);
-  //     // dispatch(setDirectPathToChild(firstTab));
-  //     handleChangeTab({ pathToTabIndex: firstTab });
-  //     initPage = true;
-  //   }
-  // }, 1000);
-
-  // const handleDeleteTopLevelTabs = () => {
-  //   dispatch(deleteTopLevelTabs());
-
-  // const firstTab = getDirectPathToTabIndex(
-  //   getRootLevelTabsComponent(dashboardLayout),
-  //   0,
-  // );
-  //   dispatch(setDirectPathToChild(firstTab));
-  // };
-
   const dashboardRoot = dashboardLayout[DASHBOARD_ROOT_ID];
   const rootChildId = dashboardRoot.children[0];
   const topLevelTabs =

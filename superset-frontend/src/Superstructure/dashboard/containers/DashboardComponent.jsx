@@ -24,7 +24,6 @@ import { connect } from 'react-redux';
 import { logEvent } from 'src/logger/actions';
 import { addDangerToast } from 'src/messageToasts/actions';
 import { componentLookup } from 'src/dashboard/components/gridComponents';
-// DODO: todo
 import getDetailedComponentWidth from 'src/dashboard/util/getDetailedComponentWidth';
 import { getActiveFilters } from 'src/dashboard/util/activeDashboardFilters';
 import { componentShape } from 'src/dashboard/util/propShapes';

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { setConfig as setHotLoaderConfig } from 'react-hot-loader';
 import singleSpaReact from 'single-spa-react';
+import { GlobalError } from 'src/Superstructure/components/GlobalError'
 
 import { RootComponent } from 'src/Superstructure/Root';
 
@@ -19,14 +20,10 @@ export const { bootstrap, mount, unmount } = singleSpaReact({
   ReactDOM,
   rootComponent: RootComponent,
   errorBoundary: err => (
-    <div style={{ padding: '2em' }}>
-      <h1>Error happened =(</h1>
-      <span>Error message:</span>
-      <h2>{err.message}</h2>
-      <span>
-        Stack trace: <br />{' '}
-      </span>
-      <code>{err.stack}</code>
-    </div>
+    <GlobalError
+      title='Error happened =('
+      body={err.message}
+      stackTrace={err.stack}
+    />
   ),
 });

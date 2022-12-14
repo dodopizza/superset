@@ -1,15 +1,9 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
 
-import { AnalyticsMainWrapper, Alert } from './styles';
+import { InfoPanel } from 'src/Superstructure/components';
 
-import {
-  InfoIcon,
-  RowWrapper,
-  ColumnWrapper,
-  RulesBlock,
-  ButtonsBlock,
-} from './components';
+import { ButtonsBlock, RowWrapper, ColumnWrapper } from 'src/Superstructure/components';
 
 const AnalyticsMain = () => {
   // In dodois the div.all has css property min-height, that forces the footer to be overlapped
@@ -20,29 +14,19 @@ const AnalyticsMain = () => {
   }
 
   return (
-    <AnalyticsMainWrapper>
+    <RowWrapper>
       <RowWrapper>
-      </RowWrapper>
-      <RowWrapper>
-        <ColumnWrapper classes="col-sm-12 col-md-6">
-          <Alert>
+        <ColumnWrapper classes="col-sm-12 col-md-8">
+          <InfoPanel>
             <RowWrapper>
-              <ColumnWrapper classes="col-md-1 tinycolumn">
-                <InfoIcon />
-              </ColumnWrapper>
-              <ColumnWrapper classes="col-md-11">
-                <RulesBlock />
+              <ColumnWrapper classes="col-md-11 offset-md-1">
+                <ButtonsBlock />
               </ColumnWrapper>
             </RowWrapper>
-          </Alert>
+          </InfoPanel>
         </ColumnWrapper>
       </RowWrapper>
-      <RowWrapper>
-        <ColumnWrapper classes="col-sm-12 col-md-6">
-          <ButtonsBlock />
-        </ColumnWrapper>
-      </RowWrapper>
-    </AnalyticsMainWrapper>
+    </RowWrapper>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ErrorBanner, Loading, Version } from 'src/Superstructure/components';
+import { GlobalError, Loading, Version, ServiceNotAvailable } from 'src/Superstructure/components';
 import { MicrofrontendParams } from 'src/Superstructure/types/global';
 import { composeAPIConfig } from 'src/Superstructure/config';
 
@@ -20,6 +20,7 @@ import {
   APP_VERSION,
 } from 'src/Superstructure/parseEnvFile/index';
 import { RootComponentWrapper, DashboardComponentWrapper } from 'src/Superstructure/Root/styles';
+import { serializeValue } from 'src/Superstructure/parseEnvFile/utils';
 
 const NAV_CONFIG = getNavigationConfig();
 
@@ -56,6 +57,12 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   console.log(params);
   console.groupEnd();
 
+  const IS_UNAVAILABLE = serializeValue(process.env.isUnavailable) === 'true';
+
+  if (IS_UNAVAILABLE) {
+    return (<ServiceNotAvailable />)
+  }
+
   const [isLoaded, setLoaded] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -86,10 +93,10 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   return (
     <>
       {isError ? (
-        <ErrorBanner
+        <GlobalError
           title="Error happened =("
-          body={errorMessage}
-          stackTrace="INIT_API => failed"
+          body={`${errorMessage}`}
+          stackTrace="Проверьте, что в Вашей учетной записи Dodo IS заполнены e-mail, имя и фамилия. При отсутствии этих данных, авторизация в сервисе невозможна."
         />
       ) : !isLoaded ? (
         <Loading />
@@ -112,7 +119,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
               </DashboardComponentWrapper>
             </Router>
           ) : (
-            <ErrorBanner
+            <GlobalError
               title="Error happened =("
               body="There is no dashboard ID or slug provided."
               stackTrace="Either provide dashboard ID or slug or enable navigation via useNavigationMenu flag"
@@ -122,7 +129,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       ) : (
         isLoaded &&
         (!navigation || !basename) && (
-          <ErrorBanner
+          <GlobalError
             title="Error happened =("
             body="There is no navigation object or basename provided"
             stackTrace="Provide navigation object and|or basename"

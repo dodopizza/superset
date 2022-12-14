@@ -5,9 +5,9 @@ import {
   DODOPIZZA_KNOWLEDGEBASE_URL,
 } from 'src/Superstructure/constants';
 
-import { GO_TO_ANALYTICS_BTN, RULES_BTN } from '../constants';
+import { GO_TO_ANALYTICS_BTN, RULES_BTN } from 'src/Superstructure/messages';
 
-import { ButtonsWrapper } from '../styles';
+import { ButtonsWrapper } from './styles';
 
 const ButtonsBlock = () => (
   <ButtonsWrapper>

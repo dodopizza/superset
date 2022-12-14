@@ -41,8 +41,6 @@ import {
   GRID_MIN_ROW_UNITS,
 } from '../../util/constants';
 
-console.log('ChartContainerXX is used here')
-
 const CHART_MARGIN = 32;
 
 const propTypes = {
@@ -204,7 +202,6 @@ class ChartHolder extends React.Component {
 
   componentDidMount() {
     this.hideOutline({}, this.state);
-    console.log('ChartHolderStandalone')
   }
 
   componentDidUpdate(prevProps, prevState) {

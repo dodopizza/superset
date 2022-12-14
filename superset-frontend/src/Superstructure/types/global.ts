@@ -39,8 +39,12 @@ export interface InitConfig {
   token?: string;
 }
 
-export interface ErrorParams {
-  title: string;
-  body: string;
+export interface PanelMsgParams {
+  title?: string;
+  body?: string;
+  children?: React.ReactNode;
+}
+
+export interface ErrorParams extends PanelMsgParams {
   stackTrace?: string;
 }

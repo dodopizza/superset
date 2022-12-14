@@ -9,12 +9,9 @@ const StyledP = styled.p`
     margin-bottom: 0;
   }
 `;
-const LimitWarningWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
+const InfoPanelWrapper = styled.div`
+  height: auto;
   display: flex;
-  position: absolute;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -22,16 +19,26 @@ const LimitWarningWrapper = styled.div`
 
 const Alert = styled.div`
   line-height: 22px;
-  color: #856404;
-  background-color: #fff3cd;
-  border: 1px solid #ffeeba;
+  color: #004085;
+  background-color: #cce5ff;
+  border: 1px solid #b8daff;
   border-radius: 4px;
   padding: 30px;
+  width: 100%;
+`;
+
+const StyledCode = styled.code`
+  padding: 2px 4px;
+  font-size: 90%;
+  border-radius: 4px;
+  color: #028ffc;
+  background-color: #f7f7f7;
 `;
 
 export {
   StyledH4,
   StyledP,
-  LimitWarningWrapper,
-  Alert
+  InfoPanelWrapper,
+  Alert,
+  StyledCode
 }

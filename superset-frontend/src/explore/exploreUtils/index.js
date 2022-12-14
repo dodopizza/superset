@@ -212,24 +212,15 @@ export function getExploreUrl({
     });
   }
   const uriString = uri.search(search).directory(directory).toString();
-  console.log('exploreUtils process.env.business', process.env.business);
-  console.log('directory', directory)
-  console.log('uriString', uriString)
-  console.log('cleanUrlFromHostname', cleanUrlFromHostname)
 
   if (process.env.business) {
-    console.log('Use altered uri string')
     const returningString = cleanUrlFromHostname
       ? uriString.split('/superset')[1]
       : uriString;
 
-    console.log('returningString', returningString)
-    console.log('_____')
-
     return returningString;
   }
 
-  console.log('_____')
   return uriString;
 }
 

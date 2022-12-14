@@ -109,7 +109,6 @@ class Chart extends React.PureComponent {
 
   runQuery() {
     if (this.props.chartId > 0 && isFeatureEnabled(FeatureFlag.CLIENT_CACHE)) {
-      console.log('runQuery', 'getSavedChart')
       // Load saved chart with a GET request
       this.props.actions.getSavedChart(
         this.props.formData,
@@ -121,7 +120,6 @@ class Chart extends React.PureComponent {
       );
     } else {
       // Create chart with POST request
-      console.log('runQuery', 'postChartFormData')
       this.props.actions.postChartFormData(
         this.props.formData,
         false,

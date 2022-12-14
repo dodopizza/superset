@@ -174,8 +174,6 @@ class ChartRenderer extends React.Component {
     const rowCount = Number(queriesResponse[0].rowcount) || 0
     const rowLimit = Number(row_limit) || 0
 
-    console.log('rowCount', rowCount, 'rowLimit', rowLimit);
-
     // It's bad practice to use unprefixed `vizType` as classnames for chart
     // container. It may cause css conflicts as in the case of legacy table chart.
     // When migrating charts, we should gradually add a `superset-chart-` prefix
@@ -199,7 +197,7 @@ class ChartRenderer extends React.Component {
         : '';
 
     if ((rowCount > 0) && (rowLimit > 0) && (rowCount >= rowLimit)) {
-      return <LimitWarning />
+      return <LimitWarning limit={rowLimit} />
     }
 
     return (

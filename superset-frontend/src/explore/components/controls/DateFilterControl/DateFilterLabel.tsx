@@ -55,7 +55,6 @@ const fetchTimeRange = async (
   endpoints?: TimeRangeEndpoints,
 ) => {
   const query = rison.encode(timeRange);
-  console.log('DateFilterLabel process.env.business', process.env.business);
 
   let endpoint = '';
   if (process.env.business) {
@@ -65,7 +64,6 @@ const fetchTimeRange = async (
   }
 
   if (process.env.business) {
-    console.log('PLUGIN LOGIC')
     try {
       const response = await API_HANDLER.SupersetClient({
         method: 'get',
@@ -87,19 +85,14 @@ const fetchTimeRange = async (
     }
   }
 
-  console.log('STANDALONE LOGIC')
-
   try {
     const response = await SupersetClient.get({ endpoint });
-
-    console.log('response', response)
 
     const timeRangeString = buildTimeRangeString(
       response?.json?.since || '',
       response?.json?.until || '',
     );
 
-    console.log('timeRangeString', timeRangeString)
     return {
       value: formatTimeRange(timeRangeString, endpoints),
     };

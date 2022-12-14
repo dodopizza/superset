@@ -66,6 +66,9 @@ const { rulesStaticAssets } = require('./webpackUtils/assets');
 
  * withMainMenuHelper => true | false
  * - defines the ability to include the main page "Как работать с аналитикой"
+ * 
+ * isUnavailable => true | false
+ * - defines if the SS dashboard plugin temporarly unavailable
 
  */
 const {

@@ -175,8 +175,6 @@ const v1ChartDataRequest = async (
     ownState,
   });
 
-  console.log('chart action PLUGIN')
-
   // The dashboard id is added to query params for tracking purposes
   const { slice_id: sliceId } = formData;
   const { dashboard_id: dashboardId } = requestParams;

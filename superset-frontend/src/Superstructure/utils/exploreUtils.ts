@@ -6,12 +6,21 @@ import {
   buildV1ChartDataPayload,
 } from 'src/explore/exploreUtils';
 
-export const getCSV = (url: string, payload: Record<string, any>) =>
-  API_HANDLER.SupersetClient({
+export const getCSV = async (url: string, payload: Record<string, any>) => {
+  const urlNoProtocol = url.replace(/^https?\:\/\//i, "");
+
+  const response = await API_HANDLER.SupersetClientNoApi({
     method: 'post',
-    url: url.split('api/v1')[1],
+    url: urlNoProtocol.split('/superset')[1],
     body: payload,
   });
+
+  if (response && response.result) {
+    return response.result[0]
+  }
+
+  return null
+}
 
 export const exportChart = ({
   formData,

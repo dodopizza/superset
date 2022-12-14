@@ -15,7 +15,6 @@ import {
 } from 'src/logger/LogUtils';
 import { areObjectsEqual } from 'src/reduxUtils';
 import FileSaver from 'file-saver';
-// DODO: todo. Exporting function needs to be working
 import { exportChart } from 'src/Superstructure/utils/exploreUtils';
 
 import SliceHeader from 'src/dashboard/components/SliceHeader';

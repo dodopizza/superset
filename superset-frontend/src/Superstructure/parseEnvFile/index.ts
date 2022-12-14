@@ -25,8 +25,6 @@ const composeDashboardsList = (
     FINAL_CONFIGURATION,
   } = destination;
 
-  // console.log('isSingleDashboard', isSingleDashboard);
-
   let CONFIG = {};
 
   if (withMainMenuHelper) {
@@ -52,7 +50,7 @@ const composeDashboardsList = (
         ...foundConfig,
       };
 
-      console.log('composed navigation:', CONFIG);
+      console.log('Composed navigation:', CONFIG);
 
       return CONFIG;
     } catch (err) {
@@ -87,8 +85,8 @@ const IS_WITH_COMMON_DASHBOARDS =
   serializeValue(process.env.withCommonDashboards) === 'true';
 const IS_WITH_MAIN_MENU_HELPER =
   serializeValue(process.env.withMainMenuHelper) === 'true';
-
-console.log('withMainMenuHelper', process.env.withMainMenuHelper)
+const IS_UNAVAILABLE =
+  serializeValue(process.env.isUnavailable) === 'true';
 
 console.groupCollapsed('ENV file');
 console.log('ENVIRONMENT', ENVIRONMENT);
@@ -98,6 +96,7 @@ console.log('EXTRA', EXTRA);
 console.log('IS_SINGLE_DASHBOARD', IS_SINGLE_DASHBOARD);
 console.log('IS_WITH_COMMON_DASHBOARDS', IS_WITH_COMMON_DASHBOARDS);
 console.log('IS_WITH_MAIN_MENU_HELPER', IS_WITH_MAIN_MENU_HELPER);
+console.log('IS_UNAVAILABLE', IS_UNAVAILABLE);
 
 // TODO: not working logic
 // const WITH_MAIN_MENU_HELPER = false;

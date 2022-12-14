@@ -2,6 +2,7 @@ import { styled } from '@superset-ui/core';
 
 const StyledH4 = styled.h4`
   margin-top: 0;
+  margin-bottom: 20px;
 `;
 const StyledP = styled.p`
   margin-bottom: 10px;
@@ -9,29 +10,26 @@ const StyledP = styled.p`
     margin-bottom: 0;
   }
 `;
-const LimitWarningWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
+const ServiceNotAvailableWrapper = styled.div`
+  height: auto;
   display: flex;
-  position: absolute;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  max-width: 60%;
 `;
 
 const Alert = styled.div`
   line-height: 22px;
-  color: #856404;
-  background-color: #fff3cd;
-  border: 1px solid #ffeeba;
+  color: #1b1e21;
   border-radius: 4px;
   padding: 30px;
+  width: 100%;
 `;
 
 export {
   StyledH4,
   StyledP,
-  LimitWarningWrapper,
+  ServiceNotAvailableWrapper,
   Alert
 }

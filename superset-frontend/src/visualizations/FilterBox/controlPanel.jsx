@@ -5,7 +5,6 @@ import { sections } from '@superset-ui/chart-controls';
 import { PLUGIN_SELECTOR } from 'src/Superstructure/constants';
 
 const selector = process.env.business ? PLUGIN_SELECTOR : 'app';
-console.log('STANDALONE process.env.business', process.env.business, 'Selector:', selector);
 const appContainer = document.getElementById(selector);
 const attributes = appContainer ? appContainer.getAttribute('data-bootstrap') : '{}'
 
