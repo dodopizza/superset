@@ -1,7 +1,7 @@
 const PROD_DODOPIZZA_COMMON_DASHBOARDS = {
   HRMetrics: {
     idOrSlug: 'HRMetrics',
-    name: 'Метрики HR-услуги КЦ',
+    name: 'Метрики HR — услуги поддержки клиентов',
     route: 'HRMetrics',
     hidden: false,
   },

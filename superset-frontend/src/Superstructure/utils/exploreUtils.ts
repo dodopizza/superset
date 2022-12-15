@@ -9,6 +9,10 @@ import {
 export const getCSV = async (url: string, payload: Record<string, any>) => {
   const urlNoProtocol = url.replace(/^https?\:\/\//i, "");
 
+  console.log('urlNoProtocol', urlNoProtocol);
+  console.log('url', url);
+  console.log('___');
+
   const response = await API_HANDLER.SupersetClientNoApi({
     method: 'post',
     url: urlNoProtocol.split('/superset')[1],
@@ -31,8 +35,12 @@ export const exportChart = ({
 }: any) => {
   let url;
   let payload;
+
+  console.log('shouldUseLegacyApi(formData)', shouldUseLegacyApi(formData));
+
   if (shouldUseLegacyApi(formData)) {
     const endpointType = getLegacyEndpointType({ resultFormat, resultType });
+    console.log('endpointType', endpointType)
     url = getExploreUrl({
       formData,
       endpointType,
@@ -49,5 +57,7 @@ export const exportChart = ({
       ownState,
     } as any);
   }
+  console.log('urlXX', url);
+  console.log('payloadXX', payload);
   return getCSV(url, payload);
 };
