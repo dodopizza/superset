@@ -3,7 +3,7 @@ import {
   shouldUseLegacyApi,
   getLegacyEndpointType,
   getExploreUrl,
-  buildV1ChartDataPayload,
+  // buildV1ChartDataPayload,
 } from 'src/explore/exploreUtils';
 
 export const getCSV = async (url: string, payload: Record<string, any>) => {
