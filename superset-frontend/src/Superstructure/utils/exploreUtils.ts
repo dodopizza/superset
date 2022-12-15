@@ -30,33 +30,34 @@ export const exportChart = ({
   formData,
   resultFormat = 'json',
   resultType = 'full',
-  force = false,
-  ownState = {},
+  // force = false,
+  // ownState = {},
 }: any) => {
   let url;
   let payload;
 
   console.log('shouldUseLegacyApi(formData)', shouldUseLegacyApi(formData));
 
-  if (shouldUseLegacyApi(formData)) {
-    const endpointType = getLegacyEndpointType({ resultFormat, resultType });
-    console.log('endpointType', endpointType)
-    url = getExploreUrl({
-      formData,
-      endpointType,
-      allowDomainSharding: false,
-    });
-    payload = formData;
-  } else {
-    url = '/api/v1/chart/data';
-    payload = buildV1ChartDataPayload({
-      formData,
-      force,
-      resultFormat,
-      resultType,
-      ownState,
-    } as any);
-  }
+  // if (shouldUseLegacyApi(formData)) {
+  const endpointType = getLegacyEndpointType({ resultFormat, resultType });
+  console.log('endpointType', endpointType)
+  url = getExploreUrl({
+    formData,
+    endpointType,
+    allowDomainSharding: false,
+  });
+  payload = formData;
+  // }
+  // else {
+  //   url = '/api/v1/chart/data';
+  //   payload = buildV1ChartDataPayload({
+  //     formData,
+  //     force,
+  //     resultFormat,
+  //     resultType,
+  //     ownState,
+  //   } as any);
+  // }
   console.log('urlXX', url);
   console.log('payloadXX', payload);
   return getCSV(url, payload);
