@@ -89,8 +89,8 @@ const fetchTimeRange = async (
     const response = await SupersetClient.get({ endpoint });
 
     const timeRangeString = buildTimeRangeString(
-      response?.json?.since || '',
-      response?.json?.until || '',
+      response?.json?.result?.since || '',
+      response?.json?.result?.until || '',
     );
 
     return {
