@@ -124,7 +124,9 @@ const legacyChartDataRequest = async (
     ...formData,
     url_params: {},
   };
-
+  // TODO: DODO is it used?
+  console.log('legacyChartDataRequest');
+  console.log('newFormDataXX', newFormData);
   const bodyFormData = new FormData();
   bodyFormData.append('form_data', JSON.stringify(newFormData));
 

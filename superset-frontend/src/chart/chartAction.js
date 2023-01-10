@@ -134,6 +134,7 @@ const legacyChartDataRequest = async (
     requestParams: requestParams.dashboard_id
       ? { dashboard_id: requestParams.dashboard_id }
       : {},
+    cleanUrlFromHostname: true,
   });
 
   const querySettings = {
