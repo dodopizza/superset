@@ -213,21 +213,27 @@ export function getExploreUrl({
   }
   const uriString = uri.search(search).directory(directory).toString();
 
-  // TODO: DODO is it used?
+  if (process.env.business) {
+    const returningString = cleanUrlFromHostname
+      ? uriString.split('/superset')[1]
+      : uriString;
+
+    return returningString;
+  }
 
   // if (process.env.business) {
-  const returningString = cleanUrlFromHostname
-    ? uriString.split('/superset')[1]
-    : uriString;
+  // const returningString = cleanUrlFromHostname
+  //   ? uriString.split('/superset')[1]
+  //   : uriString;
     
-  console.log('getExploreUrl');
-  console.log('cleanUrlFromHostname', cleanUrlFromHostname);
-  console.log('returningStringXX', returningString);
+  // console.log('getExploreUrl');
+  // console.log('cleanUrlFromHostname', cleanUrlFromHostname);
+  // console.log('returningStringXX', returningString);
 
-  return returningString;
+  // return returningString;
   // }
 
-  // return uriString;
+  return uriString;
 }
 
 export const shouldUseLegacyApi = formData => {

@@ -235,6 +235,8 @@ export default class Chart extends React.Component {
 
     const csvFile = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
 
+    console.log('csvFile', csvFile)
+
     FileSaver.saveAs(csvFile, generateFileName(this.props.sliceName, 'csv'));
   }
 
