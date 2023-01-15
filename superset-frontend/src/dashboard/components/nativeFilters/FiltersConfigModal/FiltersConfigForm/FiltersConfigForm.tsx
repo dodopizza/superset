@@ -38,7 +38,6 @@ import { addDangerToast } from 'src/messageToasts/actions';
 import { ClientErrorObject } from 'src/utils/getClientErrorObject';
 import Collapse from 'src/components/Collapse';
 import { getChartDataRequest } from 'src/chart/chartAction';
-import { getChartDataRequest as getChartDataRequestPlugin } from 'src/Superstructure/chart/chartAction';
 import { FeatureFlag, isFeatureEnabled } from 'src/featureFlags';
 import { waitForAsyncData } from 'src/middleware/asyncEvent';
 import Tabs from 'src/components/Tabs';
@@ -320,6 +319,17 @@ const FiltersConfigForm = (
 
   const charts = useSelector<RootState, ChartsState>(({ charts }) => charts);
 
+  const [dashboardId, setDashboardId] = useState<number | null>(null);
+
+  if (charts && !dashboardId) {
+    const chartsArray = Object.values(charts);
+    if (chartsArray.length && chartsArray[0].latestQueryFormData) {
+      setDashboardId(chartsArray[0].latestQueryFormData.dashboardId)
+    } else {
+      console.log('Cannot get dashboard id')
+    }
+  }
+
   const doLoadedDatasetsHaveTemporalColumns = useMemo(
     () =>
       Object.values(loadedDatasets).some(dataset =>
@@ -433,10 +443,11 @@ const FiltersConfigForm = (
         defaultValueQueriesData: null,
         isDataDirty: false,
       });
-      !process.env.business ? getChartDataRequest : getChartDataRequestPlugin({
+
+      getChartDataRequest({
         formData,
         force,
-        requestParams: { dashboardId: 0 },
+        requestParams: { dashboardId },
       })
         .then(({ response, json }) => {
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
