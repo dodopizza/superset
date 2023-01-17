@@ -319,12 +319,13 @@ const FiltersConfigForm = (
 
   const charts = useSelector<RootState, ChartsState>(({ charts }) => charts);
 
-  const dashboardId = useSelector<RootState, boolean>(
+  const dashboardId = useSelector<RootState, number | null>(
     state => {
       //@ts-ignore
       const dashbId = state.dashboardInfo.id || null;
+      console.log('Filter config dashbId', dashbId)
       if (dashbId) return dashbId
-      return false
+      return null
     },
   );
 
@@ -447,9 +448,10 @@ const FiltersConfigForm = (
       getChartDataRequest({
         formData,
         force,
-        requestParams: { dashboardId },
+        // requestParams: { dashboardId: 0 },
       })
         .then(({ response, json }) => {
+          console.log('getChartDataRequest FilterConfigForm')
           console.log('GLOBAL_ASYNC_QUERIES', isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES))
           console.log('json', json)
           console.log('response', response)

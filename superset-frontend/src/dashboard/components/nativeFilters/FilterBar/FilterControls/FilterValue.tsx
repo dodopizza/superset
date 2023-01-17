@@ -50,14 +50,17 @@ const FilterValue: React.FC<FilterProps> = ({
   const isDashboardRefreshing = useSelector<RootState, boolean>(
     state => state.dashboardState.isRefreshing,
   );
-  const dashboardId = useSelector<RootState, boolean>(
+  const dashboardId = useSelector<RootState, number | null>(
     state => {
       //@ts-ignore
       const dashbId = state.dashboardInfo.id || null;
+      console.log('dashbId Filter value', dashbId)
       if (dashbId) return dashbId
-      return false
+      return null
     },
   );
+  console.log('Filter value dashboardIdXX:', dashboardId)
+
   const [state, setState] = useState<ChartDataResponseResult[]>([]);
   const [error, setError] = useState<string>('');
   const [formData, setFormData] = useState<Partial<QueryFormData>>({
@@ -111,13 +114,11 @@ const FilterValue: React.FC<FilterProps> = ({
       }
       setIsRefreshing(true);
 
-      console.log('Filter value dashboardId:', dashboardId)
-
       if (process.env.business) {
         getChartDataRequestPlugin({
           formData: newFormData,
           force: false,
-          requestParams: { dashboardId },
+          // requestParams: { dashboardId: 0 },
           ownState: filterOwnState,
         })
           .then(({ result }) => {
@@ -135,9 +136,14 @@ const FilterValue: React.FC<FilterProps> = ({
         getChartDataRequest({
           formData: newFormData,
           force: false,
-          requestParams: { dashboardId },
+          // requestParams: { dashboardId: 0 },
           ownState: filterOwnState,
         }).then(({ response, json }) => {
+          console.log('getChartDataRequest FilterValue')
+          console.log('GLOBAL_ASYNC_QUERIES', isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES))
+          console.log('json', json)
+          console.log('response', response)
+          console.log('____')
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
             // deal with getChartDataRequest transforming the response data
             const result = 'result' in json ? json.result[0] : json;
@@ -188,7 +194,7 @@ const FilterValue: React.FC<FilterProps> = ({
     hasDataSource,
     isRefreshing,
     isDashboardRefreshing,
-    dashboardId
+    // dashboardId
   ]);
 
   useEffect(() => {
