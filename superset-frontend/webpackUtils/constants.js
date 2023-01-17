@@ -106,7 +106,7 @@ const getHtmlTemplate = htmlWebpackPlugin => `<!DOCTYPE html>
     <footer class="footer">
       <div class="container">
         <div class="footer__inner">
-          <div class="footer__copyright">©&nbsp;2022 Dodo Pizza</div>
+          <div class="footer__copyright">©&nbsp;2023 Dodo Pizza</div>
         </div>
       </div>
     </footer>

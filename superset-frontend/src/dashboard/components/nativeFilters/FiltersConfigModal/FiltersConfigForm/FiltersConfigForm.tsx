@@ -319,16 +319,16 @@ const FiltersConfigForm = (
 
   const charts = useSelector<RootState, ChartsState>(({ charts }) => charts);
 
-  const [dashboardId, setDashboardId] = useState<number | null>(null);
+  const dashboardId = useSelector<RootState, boolean>(
+    state => {
+      //@ts-ignore
+      const dashbId = state.dashboardInfo.id || null;
+      if (dashbId) return dashbId
+      return false
+    },
+  );
 
-  if (charts && !dashboardId) {
-    const chartsArray = Object.values(charts);
-    if (chartsArray.length && chartsArray[0].latestQueryFormData) {
-      setDashboardId(chartsArray[0].latestQueryFormData.dashboardId)
-    } else {
-      console.log('Cannot get dashboard id')
-    }
-  }
+  console.log('Filter config form dashboardId:', dashboardId)
 
   const doLoadedDatasetsHaveTemporalColumns = useMemo(
     () =>
@@ -450,6 +450,10 @@ const FiltersConfigForm = (
         requestParams: { dashboardId },
       })
         .then(({ response, json }) => {
+          console.log('GLOBAL_ASYNC_QUERIES', isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES))
+          console.log('json', json)
+          console.log('response', response)
+          console.log('____')
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
             // deal with getChartDataRequest transforming the response data
             const result = 'result' in json ? json.result[0] : json;

@@ -50,6 +50,14 @@ const FilterValue: React.FC<FilterProps> = ({
   const isDashboardRefreshing = useSelector<RootState, boolean>(
     state => state.dashboardState.isRefreshing,
   );
+  const dashboardId = useSelector<RootState, boolean>(
+    state => {
+      //@ts-ignore
+      const dashbId = state.dashboardInfo.id || null;
+      if (dashbId) return dashbId
+      return false
+    },
+  );
   const [state, setState] = useState<ChartDataResponseResult[]>([]);
   const [error, setError] = useState<string>('');
   const [formData, setFormData] = useState<Partial<QueryFormData>>({
@@ -89,6 +97,7 @@ const FilterValue: React.FC<FilterProps> = ({
       time_range,
     });
     const filterOwnState = filter.dataMask?.ownState || {};
+
     if (
       !isRefreshing &&
       (!areObjectsEqual(formData, newFormData) ||
@@ -102,11 +111,13 @@ const FilterValue: React.FC<FilterProps> = ({
       }
       setIsRefreshing(true);
 
+      console.log('Filter value dashboardId:', dashboardId)
+
       if (process.env.business) {
         getChartDataRequestPlugin({
           formData: newFormData,
           force: false,
-          requestParams: { dashboardId: 0 },
+          requestParams: { dashboardId },
           ownState: filterOwnState,
         })
           .then(({ result }) => {
@@ -124,7 +135,7 @@ const FilterValue: React.FC<FilterProps> = ({
         getChartDataRequest({
           formData: newFormData,
           force: false,
-          requestParams: { dashboardId: 0 },
+          requestParams: { dashboardId },
           ownState: filterOwnState,
         }).then(({ response, json }) => {
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
@@ -177,6 +188,7 @@ const FilterValue: React.FC<FilterProps> = ({
     hasDataSource,
     isRefreshing,
     isDashboardRefreshing,
+    dashboardId
   ]);
 
   useEffect(() => {
