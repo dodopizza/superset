@@ -27,6 +27,7 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import lazy_gettext as _
 from marshmallow import fields, Schema
 from sqlalchemy import and_, distinct, func
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.query import Query
 
 from superset.exceptions import InvalidPayloadFormatError
@@ -420,9 +421,14 @@ class BaseSupersetModelRestApi(ModelRestApi):
         """
         Add statsd metrics to builtin FAB GET list endpoint
         """
-        duration, response = time_function(super().get_list_headless, **kwargs)
-        self.send_stats_metrics(response, self.get_list.__name__, duration)
-        return response
+        logger.error("get_list_headless logger is working")
+        try:
+            duration, response = time_function(super().get_list_headless, **kwargs)
+            self.send_stats_metrics(response, self.get_list.__name__, duration)
+            return response
+        except InvalidRequestError as err:
+            logger.error(f"err.__context__ {err.__context__}")
+            return None
 
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.post",
