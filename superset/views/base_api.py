@@ -429,8 +429,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
         order_column, order_direction = self._handle_order_args(_args)
         page_index, page_size = self._handle_page_args(_args)
 
-        logger.error(f"joined_filters {str(joined_filters)}")
-        logger.error(f"joined_filters inspect {inspect.getsource(joined_filters)}")
+        # logger.error(f"joined_filters inspect {inspect.getsource(joined_filters)}")
         query = self.datamodel.session.query(self.datamodel.obj)
         logger.error(f"str(query) 1 {str(query)}")
         query = self.datamodel.apply_all(
@@ -444,7 +443,9 @@ class BaseSupersetModelRestApi(ModelRestApi):
             self.list_select_columns,
         )
         logger.error(f"str(query) 2 {str(query)}")
-
+        logger.error(f"joined_filters {str(joined_filters.filters)}")
+        for f in joined_filters.filters:
+            print(f"filter {f}")
         count, lst = self.datamodel.query(
             joined_filters,
             order_column,
