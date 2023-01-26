@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import functools
+import inspect
 import logging
 from typing import Any, Callable, cast, Dict, List, Optional, Set, Tuple, Type, Union
 
@@ -423,16 +424,19 @@ class BaseSupersetModelRestApi(ModelRestApi):
         """
         logger.error("get_list_headless logger is working")
         _args = kwargs.get("rison", {})
+        logger.error(f"_args {str(_args)}")
         joined_filters = self._handle_filters_args(_args)
         order_column, order_direction = self._handle_order_args(_args)
         page_index, page_size = self._handle_page_args(_args)
 
         logger.error(f"joined_filters {str(joined_filters)}")
+        logger.error(f"joined_filters inspect {inspect.getsource(joined_filters)}")
         query = self.datamodel.session.query(self.datamodel.obj)
         logger.error(f"str(query) 1 {str(query)}")
         query = self.datamodel.apply_all(
             query,
-            joined_filters,
+            None,
+            # joined_filters,
             order_column,
             order_direction,
             page_index,
