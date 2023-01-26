@@ -434,91 +434,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
         logger.error(f"str(query) 1 {str(query)}")
         logger.error(f"str(order_column) {str(order_column)}")
         logger.error(f"str(order_direction) {str(order_direction)}")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                None, #joined_filters,
-                "", #order_column,
-                "", #order_direction,
-                None,#page_index,
-                None,#page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 0 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 0")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                joined_filters,
-                "", #order_column,
-                "", #order_direction,
-                None,#page_index,
-                None,#page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 1 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 1")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                joined_filters,
-                order_column,
-                "", #order_direction,
-                None,#page_index,
-                None,#page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 2 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 2")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                joined_filters,
-                order_column,
-                order_direction,
-                None,#page_index,
-                None,#page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 3 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 3")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                joined_filters,
-                order_column,
-                order_direction,
-                page_index,
-                None,#page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 4 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 4")
-
-        try:
-            x = self.datamodel.apply_all(
-                query,
-                joined_filters,
-                order_column,
-                order_direction,
-                page_index,
-                page_size,
-                None,#self.list_select_columns,
-            )
-            logger.error(f"str(query) 5 {str(x)}")
-        except:
-            logger.error("datamodel.apply_all 5")
-
+        logger.error(f"str(self.list_select_columns) {str(self.list_select_columns)}")
         try:
             x = self.datamodel.apply_all(
                 query,
@@ -540,12 +456,9 @@ class BaseSupersetModelRestApi(ModelRestApi):
             order_direction,
             page_index,
             page_size,
-            self.list_select_columns,
+            None,
         )
         logger.error(f"str(query) 2 {str(query)}")
-        logger.error(f"joined_filters {str(joined_filters.filters)}")
-        for f in joined_filters.filters:
-            print(f"filter {f}")
         count, lst = self.datamodel.query(
             joined_filters,
             order_column,
