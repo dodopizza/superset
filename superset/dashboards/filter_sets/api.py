@@ -206,7 +206,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         except InvalidRequestError as err:
             logger.error(f"err.__context__ {err.__context__}")
         return None
-        # return self.get_list_headless(**kwargs)
+        return self.get_list_headless(**kwargs)
 
     @expose("/<int:dashboard_id>/filtersets", methods=["POST"])
     @protect()

@@ -422,13 +422,30 @@ class BaseSupersetModelRestApi(ModelRestApi):
         Add statsd metrics to builtin FAB GET list endpoint
         """
         logger.error("get_list_headless logger is working")
-        try:
-            duration, response = time_function(super().get_list_headless, **kwargs)
-            self.send_stats_metrics(response, self.get_list.__name__, duration)
-            return response
-        except InvalidRequestError as err:
-            logger.error(f"err.__context__ {err.__context__}")
-            return None
+        _args = kwargs.get("rison", {})
+        joined_filters = self._handle_filters_args(_args)
+        order_column, order_direction = self._handle_order_args(_args)
+        page_index, page_size = self._handle_page_args(_args)
+
+        logger.error(f"joined_filters {joined_filters}")
+
+        count, lst = self.datamodel.query(
+            joined_filters,
+            order_column,
+            order_direction,
+            page=page_index,
+            page_size=page_size,
+            select_columns=self.list_select_columns,
+        )
+
+        return None
+        # try:
+        #     duration, response = time_function(super().get_list_headless, **kwargs)
+        #     self.send_stats_metrics(response, self.get_list.__name__, duration)
+        #     return response
+        # except InvalidRequestError as err:
+        #     logger.error(f"err.__context__ {err.__context__}")
+        #     return None
 
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.post",
