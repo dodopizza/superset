@@ -428,7 +428,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
         page_index, page_size = self._handle_page_args(_args)
 
         logger.error(f"joined_filters {joined_filters}")
-        query = self.datamodel.session.query(self.datamodel)
+        query = self.datamodel.session.query(self.datamodel.obj)
 
         query = self.datamodel.apply_all(
             query,
