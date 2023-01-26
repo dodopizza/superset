@@ -445,6 +445,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 None,#page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 0 {str(x)}")
         except:
             logger.error("datamodel.apply_all 0")
 
@@ -458,6 +459,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 None,#page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 1 {str(x)}")
         except:
             logger.error("datamodel.apply_all 1")
 
@@ -471,6 +473,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 None,#page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 2 {str(x)}")
         except:
             logger.error("datamodel.apply_all 2")
 
@@ -484,6 +487,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 None,#page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 3 {str(x)}")
         except:
             logger.error("datamodel.apply_all 3")
 
@@ -497,6 +501,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 None,#page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 4 {str(x)}")
         except:
             logger.error("datamodel.apply_all 4")
 
@@ -510,6 +515,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 page_size,
                 None,#self.list_select_columns,
             )
+            logger.error(f"str(query) 5 {str(x)}")
         except:
             logger.error("datamodel.apply_all 5")
 
@@ -523,6 +529,7 @@ class BaseSupersetModelRestApi(ModelRestApi):
                 page_size,
                 self.list_select_columns,
             )
+            logger.error(f"str(query) 6 {str(x)}")
         except:
             logger.error("datamodel.apply_all 6")
 
