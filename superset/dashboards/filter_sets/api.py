@@ -187,6 +187,21 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         rison_data["filters"].append(
             {"col": "dashboard_id", "opr": "eq", "value": str(dashboard_id)}
         )
+        _args = kwargs.get("rison", {})
+        joined_filters = self._handle_filters_args(_args)
+        order_column, order_direction = self._handle_order_args(_args)
+        page_index, page_size = self._handle_page_args(_args)
+
+        logger.error(f"joined_filters {joined_filters}")
+
+        count, lst = self.datamodel.query(
+            joined_filters,
+            order_column,
+            order_direction,
+            page=page_index,
+            page_size=page_size,
+            select_columns=self.list_select_columns,
+        )
         return self.get_list_headless(**kwargs)
 
     @expose("/<int:dashboard_id>/filtersets", methods=["POST"])
