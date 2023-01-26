@@ -28,6 +28,7 @@ from flask_appbuilder.api import (
 )
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
+from sqlalchemy.exc import InvalidRequestError
 
 from superset.commands.exceptions import ObjectNotFoundError
 from superset.dashboards.commands.exceptions import DashboardNotFoundError
@@ -193,16 +194,19 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         page_index, page_size = self._handle_page_args(_args)
 
         logger.error(f"joined_filters {joined_filters}")
-
-        count, lst = self.datamodel.query(
-            joined_filters,
-            order_column,
-            order_direction,
-            page=page_index,
-            page_size=page_size,
-            select_columns=self.list_select_columns,
-        )
-        return self.get_list_headless(**kwargs)
+        try:
+            count, lst = self.datamodel.query(
+                joined_filters,
+                order_column,
+                order_direction,
+                page=page_index,
+                page_size=page_size,
+                select_columns=self.list_select_columns,
+            )
+        except InvalidRequestError as err:
+            logger.error(f"err.__context__ {err.__context__}")
+        return None
+        # return self.get_list_headless(**kwargs)
 
     @expose("/<int:dashboard_id>/filtersets", methods=["POST"])
     @protect()
