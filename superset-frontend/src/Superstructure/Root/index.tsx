@@ -93,11 +93,14 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   return (
     <>
       {isError ? (
-        <GlobalError
-          title="Error happened =("
-          body={`${errorMessage}`}
-          stackTrace="Проверьте, что в Вашей учетной записи Dodo IS заполнены e-mail, имя и фамилия. При отсутствии этих данных, авторизация в сервисе невозможна."
-        />
+        <div>
+          <Version appVersion={APP_VERSION} />
+          <GlobalError
+            title="Error happened =("
+            body={`${errorMessage}`}
+            stackTrace="Проверьте, что в Вашей учетной записи Dodo IS заполнены e-mail, имя и фамилия. При отсутствии этих данных, авторизация в сервисе невозможна."
+          />
+        </div>
       ) : !isLoaded ? (
         <Loading />
       ) : isLoaded && navigation && basename ? (
@@ -129,11 +132,14 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       ) : (
         isLoaded &&
         (!navigation || !basename) && (
-          <GlobalError
-            title="Error happened =("
-            body="There is no navigation object or basename provided"
-            stackTrace="Provide navigation object and|or basename"
-          />
+          <div>
+            <Version appVersion={APP_VERSION} />
+            <GlobalError
+              title="Error happened =("
+              body="There is no navigation object or basename provided"
+              stackTrace="Provide navigation object and|or basename"
+            />
+          </div>
         )
       )}
     </>
