@@ -40,11 +40,11 @@ const AnalyticsMain = () => {
                <RowWrapper>
                 <ColumnWrapper classes="col-md-11">
                   <p>{CSV_TEMP_PROBLEM_RU.subTitle}</p>
-                  <ul>
+                  <ol style={{ paddingLeft: '28px' }}>
                     <li>{CSV_TEMP_PROBLEM_RU.message1}</li>
                     <li>{CSV_TEMP_PROBLEM_RU.message2}</li>
                     <li>{CSV_TEMP_PROBLEM_RU.message3}</li>
-                  </ul>
+                  </ol>
                 </ColumnWrapper>
               </RowWrapper>
             </WarningPanel>
