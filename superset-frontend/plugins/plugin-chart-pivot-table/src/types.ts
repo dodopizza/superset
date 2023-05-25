@@ -26,6 +26,8 @@ import {
   NumberFormatter,
   QueryFormMetric,
   QueryFormColumn,
+  TimeGranularity,
+  ContextMenuFilters,
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -63,7 +65,7 @@ interface PivotTableCustomizeProps {
   rowTotals: boolean;
   valueFormat: string;
   setDataMask: SetDataMaskHook;
-  emitFilter?: boolean;
+  emitCrossFilters?: boolean;
   selectedFilters?: SelectedFiltersType;
   verboseMap: JsonObject;
   columnFormats: JsonObject;
@@ -72,6 +74,14 @@ interface PivotTableCustomizeProps {
   dateFormatters: Record<string, DateFormatter | undefined>;
   legacy_order_by: QueryFormMetric[] | QueryFormMetric | null;
   order_desc: boolean;
+  onContextMenu?: (
+    clientX: number,
+    clientY: number,
+    filters?: ContextMenuFilters,
+  ) => void;
+  timeGrainSqla?: TimeGranularity;
+  time_grain_sqla?: TimeGranularity;
+  granularity_sqla?: string;
 }
 
 export type PivotTableQueryFormData = QueryFormData &
