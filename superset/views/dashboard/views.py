@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import json
+import logging
 import re
 from typing import Callable, List, Union
 
@@ -41,6 +42,8 @@ from superset.views.base import (
 )
 from superset.views.dashboard.mixin import DashboardMixin
 
+logger = logging.getLogger(__name__)
+
 
 class DashboardModelView(
     DashboardMixin, SupersetModelView, DeleteMixin
@@ -61,12 +64,14 @@ class DashboardModelView(
     @has_access
     @expose("/list/")
     def list(self) -> FlaskResponse:
+        logger.info(f"getting list of dashboards, url: {request.url}, user: {g.user}")
         return super().render_app_template()
 
     @action("mulexport", __("Export"), __("Export dashboards?"), "fa-database")
     def mulexport(  # pylint: disable=no-self-use
         self, items: Union["DashboardModelView", List["DashboardModelView"]]
     ) -> FlaskResponse:
+        logger.info(f"exporting dashboard, url: {request.url}, user: {g.user}")
         if not isinstance(items, list):
             items = [items]
         ids = "".join("&id={}".format(d.id) for d in items)
@@ -76,6 +81,7 @@ class DashboardModelView(
     @has_access
     @expose("/export_dashboards_form")
     def download_dashboards(self) -> FlaskResponse:
+        logger.info(f"exporting dashboard from form, url: {request.url}, user:{g.user}")
         if request.args.get("action") == "go":
             ids = request.args.getlist("id")
             return Response(
@@ -116,6 +122,7 @@ class Dashboard(BaseSupersetView):
     @expose("/new/")
     def new(self) -> FlaskResponse:  # pylint: disable=no-self-use
         """Creates a new, blank dashboard and redirects to it in edit mode"""
+        logger.info(f"creating new dashboard, url: {request.url}, user: {g.user}")
         metadata = {}
         if is_feature_enabled("ENABLE_FILTER_BOX_MIGRATION"):
             metadata = {
@@ -130,6 +137,8 @@ class Dashboard(BaseSupersetView):
         )
         db.session.add(new_dashboard)
         db.session.commit()
+        logger.info(f"created new dashboard, url: {request.url},"
+                    f" user: {g.user}, dashboard: {new_dashboard.id}")
         return redirect(f"/superset/dashboard/{new_dashboard.id}/?edit=true")
 
     @expose("/<dashboard_id_or_slug>/embedded")

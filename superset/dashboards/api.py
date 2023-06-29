@@ -322,7 +322,9 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        logger.info(f"getting dashboard, id:{dash.id}, url:{request.url}, user:{g.user}")
         result = self.dashboard_get_response_schema.dump(dash)
+        logger.info(f"got dashboard, id:{dash.id}, url:{request.url}, user:{g.user}")
         return self.response(200, result=result)
 
     @expose("/<id_or_slug>/datasets", methods=["GET"])
@@ -377,11 +379,15 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        logger.info(f"getting datasets for dashboard,"
+                    f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
         try:
             datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
             result = [
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
+            logger.info(f"got datasets for dashboard,"
+                        f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
             return self.response_403()
@@ -438,6 +444,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        logger.info(f"getting chart for dashboard,"
+                    f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
         try:
             charts = DashboardDAO.get_charts_for_dashboard(id_or_slug)
             result = [self.chart_entity_response_schema.dump(chart) for chart in charts]
@@ -449,6 +457,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     form_data = chart.get("form_data")
                     form_data.pop("label_colors", None)
 
+            logger.info(f"got chart for dashboard,"
+                        f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
             return self.response_403()
@@ -498,6 +508,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             500:
               $ref: '#/components/responses/500'
         """
+        logger.info(f"creating new dashboard url: {request.url}, user: {g.user}")
         try:
             item = self.add_model_schema.load(request.json)
         # This validates custom Schema with custom validations
@@ -510,9 +521,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_422(message=ex.normalized_messages())
         except DashboardCreateFailedError as ex:
             logger.error(
-                "Error creating model %s: %s",
+                "Error creating model %s: %s: %s: %s",
                 self.__class__.__name__,
                 str(ex),
+                request.url,
+                g.user,
                 exc_info=True,
             )
             return self.response_422(message=str(ex))
