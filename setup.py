@@ -106,7 +106,7 @@ setup(
         "pyyaml>=5.4",
         "PyJWT>=2.4.0, <3.0",
         "redis",
-        "flask_http_middleware",
+        "flask-http-middleware",
         "selenium>=3.141.0",
         "simplejson>=3.15.0",
         "slackclient==2.5.0",  # PINNED! slack changes file upload api in the future versions
@@ -171,7 +171,7 @@ setup(
         "vertica": ["sqlalchemy-vertica-python>=0.5.9, < 0.6"],
         "netezza": ["nzalchemy>=11.0.2"],
     },
-    python_requires="~=3.8",
+    python_requires="~=3.9",
     author="Apache Software Foundation",
     author_email="dev@superset.apache.org",
     url="https://superset.apache.org/",
