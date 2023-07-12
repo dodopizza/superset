@@ -15,4 +15,3 @@
 # limitations under the License.
 #
 -r development.in
-flask-http-middleware
