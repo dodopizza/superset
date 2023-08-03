@@ -284,6 +284,7 @@ class DashboardPutSchema(BaseDashboardSchema):
     )
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     external_url = fields.String(allow_none=True)
+    extra_language = fields.String(allow_none=True)
 
 
 class ChartFavStarResponseResult(Schema):
