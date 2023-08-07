@@ -23,7 +23,7 @@ from io import BytesIO
 from typing import Any, Callable, Optional
 from zipfile import is_zipfile, ZipFile
 
-from flask import g, make_response, redirect, request, Response, send_file, url_for
+from flask import g, current_app, make_response, redirect, request, Response, send_file, url_for
 from flask_appbuilder import permission_name
 from flask_appbuilder.api import expose, protect, rison, safe
 from flask_appbuilder.hooks import before_request
@@ -573,8 +573,10 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         """
         try:
             item = self.edit_model_schema.load(request.json)
+            assert item.get("extra_language") in current_app.config["LANGUAGES"].keys()
         # This validates custom Schema with custom validations
-        except ValidationError as error:
+        # and checks if the language exists in config.py
+        except ValidationError or AssertionError as error:
             return self.response_400(message=error.messages)
         try:
             changed_model = UpdateDashboardCommand(g.user, pk, item).run()
