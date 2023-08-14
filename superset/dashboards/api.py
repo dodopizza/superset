@@ -32,6 +32,7 @@ from flask_babel import ngettext
 from marshmallow import ValidationError
 from werkzeug.wrappers import Response as WerkzeugResponse
 from werkzeug.wsgi import FileWrapper
+from flask_babel import gettext as _
 
 from superset import is_feature_enabled, thumbnail_cache
 from superset.charts.schemas import ChartEntityResponseSchema
@@ -576,8 +577,10 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             assert item.get("extra_language") in current_app.config["LANGUAGES"].keys()
         # This validates custom Schema with custom validations
         # and checks if the language exists in config.py
-        except ValidationError or AssertionError as error:
+        except ValidationError as error:
             return self.response_400(message=error.messages)
+        except AssertionError:
+            return self.response_400(_("This language is not supported"))
         try:
             changed_model = UpdateDashboardCommand(g.user, pk, item).run()
             last_modified_time = changed_model.changed_on.replace(
