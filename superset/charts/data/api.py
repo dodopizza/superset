@@ -399,22 +399,26 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
-            if len(result["queries"]) == 1:
+            if list_of_data := result["queries"]:
+                data = ''
                 # return single query results csv format
-                data = result["queries"][0]["data"]
+                for i in list_of_data:
+                    logger.warning(i)
+                    data += i.get('data')
+
                 return CsvResponse(data, headers=generate_download_headers("csv"))
 
                 # return multi-query csv results bundled as a zip file
-            encoding = current_app.config["CSV_EXPORT"].get("encoding", "utf-8")
-            files = {
-                f"query_{idx + 1}.csv": str(result["data"]).encode(encoding)
-                for idx, result in enumerate(result["queries"])
-            }
-            return Response(
-                create_zip(files),
-                headers=generate_download_headers("zip"),
-                mimetype="application/zip",
-            )
+            # encoding = current_app.config["CSV_EXPORT"].get("encoding", "utf-8")
+            # files = {
+            #     f"query_{idx + 1}.csv": str(result["data"]).encode(encoding)
+            #     for idx, result in enumerate(result["queries"])
+            # }
+            # return Response(
+            #     create_zip(files),
+            #     headers=generate_download_headers("zip"),
+            #     mimetype="application/zip",
+            # )
 
         if result_format == ChartDataResultFormat.JSON:
             response_data = simplejson.dumps(
