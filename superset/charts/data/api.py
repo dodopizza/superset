@@ -401,13 +401,12 @@ class ChartDataRestApi(ChartRestApi):
                 return self.response_400(_("Empty query result"))
 
             if list_of_data := result["queries"]:
-                data = ''
+                all_data = ''
                 # return single query results csv format
-                for i in list_of_data:
-                    logger.warning(i)
-                    data += i.get('data')
+                for data in list_of_data:
+                    all_data += data.get('data')
 
-                return CsvResponse(data, headers=generate_download_headers("csv"))
+                return CsvResponse(all_data, headers=generate_download_headers("csv"))
 
                 # return multi-query csv results bundled as a zip file
             # encoding = current_app.config["CSV_EXPORT"].get("encoding", "utf-8")
