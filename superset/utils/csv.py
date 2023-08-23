@@ -65,7 +65,8 @@ def df_to_escaped_csv(df: pd.DataFrame, **kwargs: Any) -> Any:
 
     # Escape csv headers
     df = df.rename(columns=escape_values)
-    return df.to_csv(**kwargs)
+    return df.to_dict(orient="records")
+    # return df.to_csv(**kwargs)
 
 
 def df_to_escaped_xlsx(df: pd.DataFrame, **kwargs: Any) -> io.BytesIO:
