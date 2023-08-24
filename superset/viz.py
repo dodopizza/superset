@@ -665,9 +665,7 @@ class BaseViz:  # pylint: disable=too-many-public-methods
 
     def get_csv(self) -> Optional[str, io.BytesIO]:
         df = self.get_df_payload()["df"]  # leverage caching logic
-        include_index = not isinstance(df.index, pd.RangeIndex)
-        list_of_data = csv.df_to_escaped_csv(df, index=include_index,
-                                             **config["CSV_EXPORT"])
+        list_of_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
         if list_of_data:
             df = pd.DataFrame(list_of_data)
             logger.warning(list_of_data)

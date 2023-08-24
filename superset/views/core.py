@@ -2534,7 +2534,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 limit -= 1
             df = query.database.get_df(sql, query.schema)[:limit]
 
-        csv_data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        csv_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
         quoted_csv_name = parse.quote(query.name)
         response = CsvResponse(
             csv_data, headers=generate_download_headers("csv", quoted_csv_name)
