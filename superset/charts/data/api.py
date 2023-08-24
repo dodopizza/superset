@@ -400,22 +400,26 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
-            if len(result["queries"]) == 1:
-                # return single query results csv format
-                data = result["queries"][0]["data"]
-                return CsvResponse(data, headers=generate_download_headers("csv"))
-
-                # return multi-query csv results bundled as a zip file
-            encoding = current_app.config["CSV_EXPORT"].get("encoding", "utf-8")
-            files = {
-                f"query_{idx + 1}.csv": str(result["data"]).encode(encoding)
-                for idx, result in enumerate(result["queries"])
-            }
-            return Response(
-                create_zip(files),
-                headers=generate_download_headers("zip"),
-                mimetype="application/zip",
-            )
+            if list_of_data := result["queries"]:
+                df = pd.DataFrame()
+                for data in list_of_data:
+                    try:
+                        # return query results xlsx format
+                        new_df = delete_tz_from_df(data)
+                        keys_of_new_df = new_df.keys()
+                        exist_df = df.keys()
+                        for key in keys_of_new_df:
+                            if key in exist_df:
+                                new_df.pop(key)
+                        if not new_df.empty:
+                            df = df.join(new_df, how='right', rsuffix='2')
+                    except IndexError:
+                        return self.response_500(
+                            _("Server error occurred while exporting the file")
+                        )
+                config_csv = current_app.config["CSV_EXPORT"]
+                return CsvResponse(df.to_csv(**config_csv),
+                                   headers=generate_download_headers("csv"))
 
         if result_format == ChartDataResultFormat.JSON:
             response_data = simplejson.dumps(
