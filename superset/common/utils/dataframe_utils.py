@@ -16,13 +16,42 @@
 # under the License.
 from __future__ import annotations
 
-from typing import List, TYPE_CHECKING
+import logging
+from typing import List, TYPE_CHECKING, Optional
 
 import numpy as np
 import pandas as pd
 
+from superset.utils.core import GenericDataType
+
 if TYPE_CHECKING:
     from superset.common.query_object import QueryObject
+
+
+def delete_tz_from_df(d: dict) -> pd.DataFrame:
+    coltypes = d.get('coltypes')
+    colnames = d.get('colnames')
+    if isinstance(d.get('data'), pd.DataFrame):
+        data = d.get('data')
+    elif isinstance(d.get('df'), pd.DataFrame):
+        data = d.get('df')
+    else:
+        data = d.get('data') or d.get('df')
+    df = pd.DataFrame(data)
+    for k, key in enumerate(df.keys()):
+        df.rename(columns={key: colnames[k]}, inplace=True)
+    if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
+        for k, type_col in enumerate(coltypes):
+            if type_col == GenericDataType.TEMPORAL:
+                name_col = colnames[k]
+                df[name_col] = pd.to_datetime(df[name_col], utc=True)
+                df[name_col] = df[name_col].dt.tz_localize(None)
+            if type_col == GenericDataType.NUMERIC:
+                name_col = colnames[k]
+                df[name_col] = pd.to_numeric(df[name_col])
+
+        return df
+    return df
 
 
 def left_join_df(

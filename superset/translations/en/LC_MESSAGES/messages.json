@@ -1233,6 +1233,9 @@
       "Edit dashboard properties": [""],
       "Edit CSS": [""],
       "Download as image": [""],
+      "Download": [""],
+      "Export to .CSV": [""],
+      "Export to .XLSX": [""],
       "Toggle fullscreen": [""],
       "There is no chart definition associated with this component, could it have been deleted?": [
         ""
@@ -2046,7 +2049,22 @@
       "Five_and_more_dashboards": ["dashboards"],
       "Added_to": ["Added to"],
       "With space": [""],
-      "Used_in": ["Used in"]
+      "With space rounded": [""],
+      "Used_in": ["Used in"],
+      "Custom": ["Exact date"],
+      "Week starting sunday": [""],
+      "Week starting monday": [""],
+      "Week ending saturday": [""],
+      "Week_ending sunday": [""],
+      "Week starting Sunday": [""],
+      "Week starting Monday": [""],
+      "Week ending Saturday": [""],
+      "%s option": [""],
+      "%s options": [""],
+      "Cached": [""],
+      "Fetched": [""],
+      "Edit chart": [""],
+      "View as table": [""]
     }
   }
 }

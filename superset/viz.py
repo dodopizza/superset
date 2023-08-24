@@ -24,11 +24,13 @@ from __future__ import annotations
 
 import copy
 import dataclasses
+import io
 import logging
 import math
 import re
 from collections import defaultdict, OrderedDict
 from datetime import date, datetime, timedelta
+from io import BytesIO
 from itertools import product
 from typing import (
     Any,
@@ -57,6 +59,7 @@ from pandas.tseries.frequencies import to_offset
 
 from superset import app
 from superset.common.db_query_status import QueryStatus
+from superset.common.utils.dataframe_utils import delete_tz_from_df
 from superset.constants import NULL_STRING
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import (
@@ -660,10 +663,28 @@ class BaseViz:  # pylint: disable=too-many-public-methods
         }
         return content
 
-    def get_csv(self) -> Optional[str]:
+    def get_csv(self) -> Optional[str, io.BytesIO]:
         df = self.get_df_payload()["df"]  # leverage caching logic
-        include_index = not isinstance(df.index, pd.RangeIndex)
-        return csv.df_to_escaped_csv(df, index=include_index, **config["CSV_EXPORT"])
+        list_of_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
+        if list_of_data:
+            df = pd.DataFrame(list_of_data)
+            logger.warning(list_of_data)
+            # return query results xlsx format
+            # new_df = delete_tz_from_df(list_of_data)
+            # keys_of_new_df = new_df.keys()
+            # exist_df = df.keys()
+            # for key in keys_of_new_df:
+            #     if key in exist_df:
+            #         new_df.pop(key)
+            # if not new_df.empty:
+            #     df = df.join(new_df, how='right', rsuffix='2')
+            config_csv = config["CSV_EXPORT"]
+            return df.to_csv(**config_csv)
+
+    def get_xlsx(self) -> BytesIO:
+        d = self.get_df_payload()
+        df = delete_tz_from_df(d)
+        return csv.df_to_escaped_xlsx(df)
 
     def get_data(self, df: pd.DataFrame) -> VizData:  # pylint: disable=no-self-use
         return df.to_dict(orient="records")

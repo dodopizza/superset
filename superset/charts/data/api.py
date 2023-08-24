@@ -16,16 +16,19 @@
 # under the License.
 from __future__ import annotations
 
+import io
 import json
 import logging
 from typing import Any, Dict, Optional, TYPE_CHECKING
 
+import pandas as pd
 import simplejson
-from flask import current_app, g, make_response, request, Response
+from flask import current_app, g, make_response, request, Response, send_file
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
 
+from superset.common.utils.dataframe_utils import delete_tz_from_df
 from superset import is_feature_enabled, security_manager
 from superset.charts.api import ChartRestApi
 from superset.charts.commands.exceptions import (
@@ -47,11 +50,14 @@ from superset.utils.async_query_manager import AsyncQueryTokenException
 from superset.utils.core import create_zip, json_int_dttm_ser
 from superset.views.base import CsvResponse, generate_download_headers
 from superset.views.base_api import statsd_metrics
+from superset import app
+from superset.utils.core import GenericDataType
 
 if TYPE_CHECKING:
     from superset.common.query_context import QueryContext
 
 logger = logging.getLogger(__name__)
+config = app.config
 
 
 class ChartDataRestApi(ChartRestApi):
@@ -239,8 +245,19 @@ class ChartDataRestApi(ChartRestApi):
             and query_context.result_type == ChartDataResultType.FULL
         ):
             return self._run_async(json_body, command)
-
         form_data = json_body.get("form_data")
+
+        if query_context.result_format == ChartDataResultFormat.XLSX:
+            bytes_stream = self._get_data_response(command, form_data=form_data,
+                                                   datasource=query_context.datasource
+                                                   )
+
+            return send_file(path_or_file=bytes_stream,
+                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                             as_attachment=True,
+                             attachment_filename="data.xlsx"
+                             )
+
         return self._get_data_response(
             command, form_data=form_data, datasource=query_context.datasource
         )
@@ -250,7 +267,7 @@ class ChartDataRestApi(ChartRestApi):
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
-        f".data_from_cache",
+                                             f".data_from_cache",
         log_to_statsd=False,
     )
     def data_from_cache(self, cache_key: str) -> Response:
@@ -332,7 +349,7 @@ class ChartDataRestApi(ChartRestApi):
         result: Dict[Any, Any],
         form_data: Optional[Dict[str, Any]] = None,
         datasource: Optional[BaseDatasource] = None,
-    ) -> Response:
+    ) -> Optional[Response, io.BytesIO]:
         result_type = result["query_context"].result_type
         result_format = result["query_context"].result_format
 
@@ -341,6 +358,39 @@ class ChartDataRestApi(ChartRestApi):
         # post-processing of data, eg, the pivot table.
         if result_type == ChartDataResultType.POST_PROCESSED:
             result = apply_post_process(result, form_data, datasource)
+        if result_format == ChartDataResultFormat.XLSX:
+            # Verify user has permission to export XLSX file
+            if not security_manager.can_access("can_csv", "Superset"):
+                return self.response_403()
+
+            if not result["queries"]:
+                return self.response_400(_("Empty query result"))
+
+            if list_of_data := result["queries"]:
+                df = pd.DataFrame()
+                for data in list_of_data:
+                    try:
+                        # return query results xlsx format
+                        new_df = delete_tz_from_df(data)
+                        keys_of_new_df = new_df.keys()
+                        exist_df = df.keys()
+                        for key in keys_of_new_df:
+                            if key in exist_df:
+                                new_df.pop(key)
+                        if not new_df.empty:
+                            df = df.join(new_df, how='right', rsuffix='2')
+                    except IndexError:
+                        return self.response_500(
+                            _("Server error occurred while exporting the file")
+                        )
+
+                excel_writer = io.BytesIO()
+                writer = pd.ExcelWriter(excel_writer, mode="w", engine="xlsxwriter")
+                df.to_excel(writer, startrow=0, merge_cells=False,
+                            sheet_name="Sheet_1", index_label=None, index=False)
+                writer.save()
+                excel_writer.seek(0)
+                return excel_writer
 
         if result_format == ChartDataResultFormat.CSV:
             # Verify user has permission to export CSV file
@@ -350,22 +400,26 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
-            if len(result["queries"]) == 1:
-                # return single query results csv format
-                data = result["queries"][0]["data"]
-                return CsvResponse(data, headers=generate_download_headers("csv"))
-
-            # return multi-query csv results bundled as a zip file
-            encoding = current_app.config["CSV_EXPORT"].get("encoding", "utf-8")
-            files = {
-                f"query_{idx + 1}.csv": result["data"].encode(encoding)
-                for idx, result in enumerate(result["queries"])
-            }
-            return Response(
-                create_zip(files),
-                headers=generate_download_headers("zip"),
-                mimetype="application/zip",
-            )
+            if list_of_data := result["queries"]:
+                df = pd.DataFrame()
+                for data in list_of_data:
+                    try:
+                        # return query results xlsx format
+                        new_df = delete_tz_from_df(data)
+                        keys_of_new_df = new_df.keys()
+                        exist_df = df.keys()
+                        for key in keys_of_new_df:
+                            if key in exist_df:
+                                new_df.pop(key)
+                        if not new_df.empty:
+                            df = df.join(new_df, how='right', rsuffix='2')
+                    except IndexError:
+                        return self.response_500(
+                            _("Server error occurred while exporting the file")
+                        )
+                config_csv = current_app.config["CSV_EXPORT"]
+                return CsvResponse(df.to_csv(**config_csv),
+                                   headers=generate_download_headers("csv"))
 
         if result_format == ChartDataResultFormat.JSON:
             response_data = simplejson.dumps(
@@ -385,7 +439,7 @@ class ChartDataRestApi(ChartRestApi):
         force_cached: bool = False,
         form_data: Optional[Dict[str, Any]] = None,
         datasource: Optional[BaseDatasource] = None,
-    ) -> Response:
+    ) -> Optional[Response, io.BytesIO]:
         try:
             result = command.run(force_cached=force_cached)
         except ChartDataCacheLoadError as exc:

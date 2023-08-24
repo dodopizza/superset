@@ -21,6 +21,7 @@ import logging
 import re
 from contextlib import closing
 from datetime import datetime, timedelta
+from io import BytesIO
 from typing import Any, Callable, cast, Dict, List, Optional, Union
 from urllib import parse
 
@@ -28,7 +29,7 @@ import backoff
 import humanize
 import pandas as pd
 import simplejson as json
-from flask import abort, flash, g, redirect, render_template, request, Response
+from flask import abort, flash, g, redirect, render_template, request, Response, send_file
 from flask_appbuilder import expose
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.api import protect
@@ -488,11 +489,14 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
 
     def generate_json(
         self, viz_obj: BaseViz, response_type: Optional[str] = None
-    ) -> FlaskResponse:
+    ) -> Optional[FlaskResponse, BytesIO]:
         if response_type == ChartDataResultFormat.CSV:
             return CsvResponse(
                 viz_obj.get_csv(), headers=generate_download_headers("csv")
             )
+
+        if response_type == ChartDataResultFormat.XLSX:
+            return viz_obj.get_xlsx()
 
         if response_type == ChartDataResultType.QUERY:
             return self.get_query_string_response(viz_obj)
@@ -705,7 +709,18 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 force=force,
             )
 
+            if response_type == ChartDataResultFormat.XLSX:
+                bytes_stream = self.generate_json(viz_obj, response_type)
+                return send_file(path_or_file=bytes_stream,
+                                 mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                 as_attachment=True,
+                                 attachment_filename="data.xlsx"
+                                 )
+            if response_type == ChartDataResultFormat.CSV:
+                return self.generate_json(viz_obj, response_type)
+
             return self.generate_json(viz_obj, response_type)
+
         except SupersetException as ex:
             return json_error_response(utils.error_msg_from_exception(ex), 400)
 
@@ -2519,7 +2534,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 limit -= 1
             df = query.database.get_df(sql, query.schema)[:limit]
 
-        csv_data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        csv_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
         quoted_csv_name = parse.quote(query.name)
         response = CsvResponse(
             csv_data, headers=generate_download_headers("csv", quoted_csv_name)

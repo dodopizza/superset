@@ -83,8 +83,6 @@ werkzeug==2.3.6
     #   flask-http-middleware
 wheel==0.37.0
     # via pip-tools
-zipp==3.16.0
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
