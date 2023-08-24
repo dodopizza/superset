@@ -297,9 +297,10 @@ class ChartRestApi(BaseSupersetModelRestApi):
             return self.response_422(message=ex.normalized_messages())
         except ChartCreateFailedError as ex:
             logger.error(
-                "Error creating model %s: %s",
+                "Error creating model %s: %s: %s",
                 self.__class__.__name__,
                 str(ex),
+                str(request.url),
                 exc_info=True,
             )
             return self.response_422(message=str(ex))
@@ -372,9 +373,10 @@ class ChartRestApi(BaseSupersetModelRestApi):
             response = self.response_422(message=ex.normalized_messages())
         except ChartUpdateFailedError as ex:
             logger.error(
-                "Error updating model %s: %s",
+                "Error updating model %s: %s: s%",
                 self.__class__.__name__,
                 str(ex),
+                str(request.url),
                 exc_info=True,
             )
             response = self.response_422(message=str(ex))
@@ -430,9 +432,10 @@ class ChartRestApi(BaseSupersetModelRestApi):
             return self.response_403()
         except ChartDeleteFailedError as ex:
             logger.error(
-                "Error deleting model %s: %s",
+                "Error deleting model %s: %s: %s",
                 self.__class__.__name__,
                 str(ex),
+                str(request.url),
                 exc_info=True,
             )
             return self.response_422(message=str(ex))

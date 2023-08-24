@@ -15,8 +15,9 @@
 # specific language governing permissions and limitations
 # under the License.
 import json
+import logging
 
-from flask import g
+from flask import g, request
 from flask_appbuilder import expose, has_access
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import lazy_gettext as _
@@ -33,6 +34,8 @@ from superset.views.base import (
 )
 from superset.views.chart.mixin import SliceMixin
 from superset.views.utils import bootstrap_user_data
+
+logger = logging.getLogger(__name__)
 
 
 class SliceModelView(
@@ -65,6 +68,7 @@ class SliceModelView(
             "common": common_bootstrap_payload(),
             "user": bootstrap_user_data(g.user),
         }
+        logger.info(f"adding new chart, url: {request.url}, user: {g.user}")
         return self.render_template(
             "superset/add_slice.html", bootstrap_data=json.dumps(payload)
         )
@@ -72,6 +76,7 @@ class SliceModelView(
     @expose("/list/")
     @has_access
     def list(self) -> FlaskResponse:
+        logger.info(f"getting list of charts, url: {request.url}, user: {g.user}")
         return super().render_app_template()
 
 
