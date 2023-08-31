@@ -116,6 +116,8 @@ def run_migrations_online() -> None:
     try:
         with context.begin_transaction():
             context.run_migrations()
+    except Exception as e:
+        logger.error(e)
     finally:
         connection.close()
 
