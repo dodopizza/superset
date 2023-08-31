@@ -29,6 +29,8 @@ if TYPE_CHECKING:
 
 
 def delete_tz_from_df(d: dict) -> pd.DataFrame:
+    logger = logging.getLogger(__name__)
+    logger.error(d)
     coltypes = d.get('coltypes')
     if isinstance(d.get('data'), pd.DataFrame):
         data = d.get('data')
@@ -38,6 +40,7 @@ def delete_tz_from_df(d: dict) -> pd.DataFrame:
         data = d.get('data') or d.get('df')
     df = pd.DataFrame(data)
     colnames = [colname for colname in df.columns]
+    logger.error(colnames)
     # for k, key in enumerate(df.keys()):
     #     df.rename(columns={key: colnames[k]}, inplace=True)
     if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
