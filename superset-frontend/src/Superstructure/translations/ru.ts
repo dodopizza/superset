@@ -2734,7 +2734,7 @@ const ru = {
       'These filters apply to the values available in the dropdowns': [''],
       'Time-series Table': ['Таблица временных рядов'],
       'Filters out of scope (%d)': ['Неприменяемые фильтры (%d)'],
-      'Apply filters': ['Применить фильтры'],
+      'Apply filters': ['Применить'],
       'Clear all': ['Очистить'],
       'last day': ['Последние сутки'],
       'last week': ['Последние 7 дней'],
