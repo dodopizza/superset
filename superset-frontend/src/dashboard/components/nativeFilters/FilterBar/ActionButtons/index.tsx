@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, { useMemo } from 'react';
 import {
   css,
@@ -26,7 +9,6 @@ import {
 } from '@superset-ui/core';
 import Button from 'src/components/Button';
 import { isNullish } from 'src/utils/common';
-import { OPEN_FILTER_BAR_WIDTH } from 'src/dashboard/constants';
 import { rgba } from 'emotion-rgba';
 import { getFilterBarTestId } from '../index';
 
@@ -41,21 +23,13 @@ interface ActionButtonsProps {
 const ActionButtonsContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px 16px 0 16px;
 
-    ${process.env.type === undefined
-      ? 'position: fixed;'
-      : 'position: absolute;'}
-
-    z-index: 100;
-
-    // filter bar width minus 1px for border
-    width: ${OPEN_FILTER_BAR_WIDTH - 1}px;
-    bottom: ${process.env.type === undefined ? 0 : '-20px'};
-
-    padding: ${theme.gridUnit * 4}px;
-    padding-top: ${theme.gridUnit * 6}px;
+    position: relative;
 
     background: linear-gradient(
       ${rgba(theme.colors.grayscale.light5, 0)},
@@ -66,10 +40,11 @@ const ActionButtonsContainer = styled.div`
 
     & > button {
       pointer-events: auto;
-    }
+      margin: 0;
 
-    & > .filter-apply-button {
-      margin-bottom: ${theme.gridUnit * 3}px;
+      &:first-child {
+        padding: 0;
+      }
     }
 
     && > .filter-clear-all-button {
@@ -108,16 +83,6 @@ export const ActionButtons = ({
   return (
     <ActionButtonsContainer>
       <Button
-        disabled={isApplyDisabled}
-        buttonStyle="primary"
-        htmlType="submit"
-        className="filter-apply-button"
-        onClick={onApply}
-        {...getFilterBarTestId('apply-button')}
-      >
-        {t('Apply filters')}
-      </Button>
-      <Button
         disabled={!isClearAllEnabled}
         buttonStyle="link"
         buttonSize="small"
@@ -126,6 +91,16 @@ export const ActionButtons = ({
         {...getFilterBarTestId('clear-button')}
       >
         {t('Clear all')}
+      </Button>
+      <Button
+        disabled={isApplyDisabled}
+        buttonStyle="primary"
+        htmlType="submit"
+        className="filter-apply-button"
+        onClick={onApply}
+        {...getFilterBarTestId('apply-button')}
+      >
+        {t('Apply filters')}
       </Button>
     </ActionButtonsContainer>
   );
