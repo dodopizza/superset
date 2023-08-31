@@ -30,7 +30,6 @@ if TYPE_CHECKING:
 
 def delete_tz_from_df(d: dict) -> pd.DataFrame:
     coltypes = d.get('coltypes')
-    colnames = d.get('colnames')
     if isinstance(d.get('data'), pd.DataFrame):
         data = d.get('data')
     elif isinstance(d.get('df'), pd.DataFrame):
@@ -38,8 +37,9 @@ def delete_tz_from_df(d: dict) -> pd.DataFrame:
     else:
         data = d.get('data') or d.get('df')
     df = pd.DataFrame(data)
-    for k, key in enumerate(df.keys()):
-        df.rename(columns={key: colnames[k]}, inplace=True)
+    colnames = [colname for colname in df.columns]
+    # for k, key in enumerate(df.keys()):
+    #     df.rename(columns={key: colnames[k]}, inplace=True)
     if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
         for k, type_col in enumerate(coltypes):
             if type_col == GenericDataType.TEMPORAL:
