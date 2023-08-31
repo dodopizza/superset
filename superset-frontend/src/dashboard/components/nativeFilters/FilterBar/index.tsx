@@ -484,15 +484,6 @@ const FilterBar: React.FC<FiltersBarProps> = ({
               )}
             </div>
           )}
-          {/* {isInitialized && (
-            <ActionButtons
-              onApply={handleApply}
-              onClearAll={handleClearAll}
-              dataMaskSelected={dataMaskSelected}
-              dataMaskApplied={dataMaskApplied}
-              isApplyDisabled={isApplyDisabled}
-            />
-          )} */}
         </Bar>
       </BarWrapper>
     </FilterBarScrollContext.Provider>
