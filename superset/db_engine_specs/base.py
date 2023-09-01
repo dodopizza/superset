@@ -531,6 +531,8 @@ class BaseEngineSpec:  # pylint: disable=too-many-public-methods
         grain_addon_expressions = current_app.config["TIME_GRAIN_ADDON_EXPRESSIONS"]
         time_grain_expressions.update(grain_addon_expressions.get(cls.engine, {}))
         denylist: List[str] = current_app.config["TIME_GRAIN_DENYLIST"]
+        logger.error(denylist)
+        logger.error(time_grain_expressions)
         for key in denylist:
             try:
                 time_grain_expressions.pop(key)
