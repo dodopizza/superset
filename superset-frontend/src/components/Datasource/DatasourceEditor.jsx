@@ -253,11 +253,11 @@ function ColumnCollectionTable({
               }
             />
             <Field
-              fieldKey="description_2nd_language"
+              fieldKey="description_2nd_lang"
               label={t('Description 2nd Language')}
               control={
                 <TextControl
-                  controlId="description_2nd_language"
+                  controlId="description_2nd_lang"
                   placeholder={t('Description 2nd Language')}
                 />
               }
