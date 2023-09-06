@@ -1193,8 +1193,18 @@ class DatasourceEditor extends React.PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
-        tableColumns={['metric_name', 'verbose_name', 'verbose_name_2nd_lang', 'expression']}
-        sortColumns={['metric_name', 'verbose_name', 'verbose_name_2nd_lang', 'expression']}
+        tableColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_2nd_lang',
+          'expression',
+        ]}
+        sortColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_2nd_lang',
+          'expression',
+        ]}
         columnLabels={{
           metric_name: t('Metric'),
           verbose_name: t('Label'),
