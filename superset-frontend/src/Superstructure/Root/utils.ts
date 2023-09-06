@@ -220,7 +220,7 @@ const sortDashboards = (
 ): RouteFromDashboard[] => {
   const sortDashboards = (array: RouteFromDashboard[], sortArray: any[]) =>
     [...array].sort(
-      (a, b) => sortArray.indexOf(a) - sortArray.indexOf(b.idOrSlug),
+      (a, b) => sortArray.indexOf(a.idOrSlug) - sortArray.indexOf(b.idOrSlug),
     );
 
   return sortDashboards(dashboards, sortingIds);
