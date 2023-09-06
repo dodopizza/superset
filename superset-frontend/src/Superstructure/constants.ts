@@ -3,6 +3,7 @@ const API_V1 = '/api/v1';
 const SUPERSET_ENDPOINT = '/superset';
 const PLUGIN_SELECTOR = 'single-spa-application:supersetDashboardPlugin';
 const ALERT_PREFIX = '[ALERT]';
+const SORTING_PREFIX = '[SORT]';
 
 const DODOPIZZA_THEME = {
   colors: {
@@ -364,4 +365,5 @@ export {
   DODOPIZZA_ANALYTICS_URL,
   KNOWN_CERTIFICATAION_DETAILS,
   ALERT_PREFIX,
+  SORTING_PREFIX,
 };

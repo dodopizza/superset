@@ -33,6 +33,7 @@ import {
   getSingleAnnotationData,
   dirtyHackDodoIs,
   defineNavigation,
+  sortDashboards,
   validCertifiedBy,
   validCertificationDetails,
 } from './utils';
@@ -54,6 +55,7 @@ import {
   STYLES_DRINKIT,
   STYLES_DONER42,
   ALERT_PREFIX,
+  SORTING_PREFIX,
 } from '../constants';
 
 setupClient();
@@ -137,6 +139,44 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     if (annotationsResponse.loaded && annotationsResponse.data) {
       const filteredAnnotationLayers = annotationsResponse.data.filter(
         (layer: AnnotationLayer) => layer.name.includes(ALERT_PREFIX),
+      );
+
+      const foundAnnotationLayer = filteredAnnotationLayers[0] || null;
+
+      if (foundAnnotationLayer) {
+        const idsResponse = await getSingleAnnotationLayerIdsData(
+          foundAnnotationLayer.id,
+        );
+
+        if (
+          idsResponse &&
+          idsResponse.loaded &&
+          idsResponse.data?.ids &&
+          idsResponse.data?.ids.length
+        ) {
+          const dataWithIds = {
+            layerId: idsResponse.data.layerId,
+            ids: idsResponse.data.ids,
+          };
+
+          return dataWithIds;
+        }
+
+        return null;
+      }
+
+      return null;
+    }
+
+    return null;
+  };
+
+  const handleAnnotationLayersRequestSorting = async () => {
+    const annotationsResponse = await getAnnotationLayersData();
+
+    if (annotationsResponse.loaded && annotationsResponse.data) {
+      const filteredAnnotationLayers = annotationsResponse.data.filter(
+        (layer: AnnotationLayer) => layer.name.includes(SORTING_PREFIX),
       );
 
       const foundAnnotationLayer = filteredAnnotationLayers[0] || null;
@@ -348,6 +388,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
         if (csrf && csrf.data && csrf.data.result) {
           const dashboards = await handleDashboardsRequest(params.business);
+
           const annotationIds = await handleAnnotationLayersRequest();
           if (annotationIds) {
             const annotations = await handleAnnotationsRequest(annotationIds);
@@ -362,8 +403,41 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
           }
 
           if (dashboards && dashboards.data && dashboards.data.length) {
+            let SORTING_IDS = [] as any[];
+
+            const sortingAnnotationIds =
+              await handleAnnotationLayersRequestSorting();
+
+            if (sortingAnnotationIds) {
+              const annotations = await handleAnnotationsRequest(
+                sortingAnnotationIds,
+              );
+
+              if (annotations && annotations.length) {
+                const filteredSortingAnnotations = annotations.filter(
+                  annotation =>
+                    annotation &&
+                    annotation?.data?.result.short_descr.includes(
+                      SORTING_PREFIX,
+                    ),
+                );
+                const jsonObjectString = !filteredSortingAnnotations.length
+                  ? '{}'
+                  : filteredSortingAnnotations[0]?.data?.result.json_metadata;
+
+                if (jsonObjectString) {
+                  SORTING_IDS = JSON.parse(jsonObjectString)?.order || [];
+                }
+              }
+            }
+
+            console.log('SORTING_IDS', SORTING_IDS);
+
             const navConfigFull = getNavigationConfig(
-              defineNavigation(dashboards.data),
+              sortDashboards(
+                defineNavigation(dashboards.data),
+                SORTING_IDS || [],
+              ),
             );
 
             if (navConfigFull && navConfigFull.navigation.routes.length) {
@@ -393,10 +467,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
     initializeLoginAndMenu();
   }, [params]);
-
-  useEffect(() => {
-    console.log('annotationsObjects', annotationsObjects);
-  }, [annotationsObjects]);
 
   logConfigs(FULL_CONFIG, incomingParams, params);
 

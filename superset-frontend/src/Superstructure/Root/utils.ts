@@ -214,6 +214,18 @@ const defineNavigation = (
     };
   });
 
+const sortDashboards = (
+  dashboards: RouteFromDashboard[],
+  sortingIds: any[],
+): RouteFromDashboard[] => {
+  const sortDashboards = (array: RouteFromDashboard[], sortArray: any[]) =>
+    [...array].sort(
+      (a, b) => sortArray.indexOf(a) - sortArray.indexOf(b.idOrSlug),
+    );
+
+  return sortDashboards(dashboards, sortingIds);
+};
+
 const cleanUpString = (str: string) => str.toLocaleLowerCase().trim();
 
 const prepareBusinessId = (str: string) =>
@@ -245,6 +257,7 @@ export {
   getSingleAnnotationData,
   dirtyHackDodoIs,
   defineNavigation,
+  sortDashboards,
   validCertifiedBy,
   validCertificationDetails,
 };
