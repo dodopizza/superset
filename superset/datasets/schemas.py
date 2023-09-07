@@ -67,11 +67,13 @@ class DatasetMetricsPutSchema(Schema):
     id = fields.Integer()
     expression = fields.String(required=True)
     description = fields.String(allow_none=True)
+    description_2nd_lang = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
     metric_name = fields.String(required=True, validate=Length(1, 255))
     metric_type = fields.String(allow_none=True, validate=Length(1, 32))
     d3format = fields.String(allow_none=True, validate=Length(1, 128))
     verbose_name = fields.String(allow_none=True, Length=(1, 1024))
+    verbose_name_2nd_lang = fields.String(allow_none=True, Length=(1, 1024))
     warning_text = fields.String(allow_none=True)
     uuid = fields.UUID(allow_none=True)
 
