@@ -15,6 +15,7 @@ import { chartPropShape } from 'src/dashboard/util/propShapes';
 import AlteredSliceTag from 'src/components/AlteredSliceTag';
 import Button from 'src/components/Button';
 import Icons from 'src/components/Icons';
+import Select from 'src/components/Select/Select';
 import PropertiesModal from 'src/explore/components/PropertiesModal';
 import { sliceUpdated } from 'src/explore/actions/exploreActions';
 import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
@@ -25,6 +26,7 @@ import {
   DashboardsWrapper,
   FundProjectIcon,
   ChartUsageContainer,
+  ChartLanguageContainer,
   StyledUl,
   StyledLi,
 } from './styles';
@@ -107,6 +109,28 @@ const ChartUsageWrapper = ({ dashboardsData }) => (
       </DashboardsWrapper>
     </BaseTooltip>
   </ChartUsageContainer>
+);
+
+const onLangChange = value => {
+  console.log('Value', value);
+};
+
+const SYSTEM_LANGUAGES = [
+  { value: 'en', label: 'English' },
+  { value: 'ru', label: 'Русский' },
+];
+
+const ChartLanguageWrapper = () => (
+  <ChartLanguageContainer>
+    <Select
+      ariaLabel="Chart Language"
+      placeholder="Chart Language"
+      name="chart_lang"
+      value="en"
+      options={SYSTEM_LANGUAGES}
+      onChange={onLangChange}
+    />
+  </ChartLanguageContainer>
 );
 
 export const ExploreChartHeader = ({
@@ -254,6 +278,7 @@ export const ExploreChartHeader = ({
                 dashboardsData={parseDashboardsData(dashboardsData)}
               />
             )}
+            <ChartLanguageWrapper />
           </TitlePanelAdditionalItemsWrapper>
         }
         rightPanelAdditionalItems={
