@@ -887,7 +887,8 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
 
         return not (
             self._is_user_defined_permission(pvm) or self._is_admin_only(pvm)
-        ) or self._is_accessible_to_all(pvm)
+        ) or self._is_accessible_to_all(pvm) or (
+            pvm.permission.name, pvm.view_menu.name) in self.SQLLAB_PERMISSION_VIEWS
 
     def _is_gamma_pvm(self, pvm: PermissionView) -> bool:
         """
