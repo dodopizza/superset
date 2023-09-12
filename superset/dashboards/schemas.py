@@ -19,11 +19,14 @@ import re
 from typing import Any, Dict, Union
 
 from marshmallow import fields, post_load, Schema
-from marshmallow.validate import Length, ValidationError
+from marshmallow.validate import Length, ValidationError, OneOf
 
+from superset import app
 from superset.exceptions import SupersetException
 from superset.utils import core as utils
 
+config = app.config
+current_langs = [key for key in config['LANGUAGES'].keys()]
 get_delete_ids_schema = {"type": "array", "items": {"type": "integer"}}
 get_export_ids_schema = {"type": "array", "items": {"type": "integer"}}
 get_fav_star_ids_schema = {"type": "array", "items": {"type": "integer"}}
@@ -170,7 +173,8 @@ class DashboardGetResponseSchema(Schema):
     changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     extra_lang_dashboard_title = fields.String(description=dashboard_title_description)
-    extra_lang = fields.String(description=extra_lang_dashboard_description)
+    extra_lang = fields.String(description=extra_lang_dashboard_description,
+                               allow_none=True, validate=OneOf(current_langs))
 
 
 class DatabaseSchema(Schema):
@@ -288,6 +292,9 @@ class DashboardPutSchema(BaseDashboardSchema):
     )
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     external_url = fields.String(allow_none=True)
+    extra_lang_dashboard_title = fields.String(description=dashboard_title_description)
+    extra_lang = fields.String(description=extra_lang_dashboard_description,
+                               validate=OneOf(current_langs), allow_none=True)
 
 
 class ChartFavStarResponseResult(Schema):

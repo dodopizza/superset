@@ -22,7 +22,7 @@ from typing import Any, Dict, Optional, TYPE_CHECKING
 
 from flask_babel import gettext as _
 from marshmallow import EXCLUDE, fields, post_load, Schema, validate
-from marshmallow.validate import Length, Range
+from marshmallow.validate import Length, Range, OneOf
 from marshmallow_enum import EnumField
 
 from superset import app
@@ -42,6 +42,8 @@ if TYPE_CHECKING:
     from superset.common.query_context_factory import QueryContextFactory
 
 config = app.config
+
+current_langs = [key for key in config['LANGUAGES'].keys()]
 
 #
 # RISON/JSON schemas for query parameters
@@ -72,6 +74,8 @@ get_fav_star_ids_schema = {"type": "array", "items": {"type": "integer"}}
 # Column schema descriptions
 #
 slice_name_description = "The name of the chart."
+extra_slice_name_description = "The extra name of the chart."
+extra_lang_description = "A second language of chart"
 description_description = "A description of the chart propose."
 viz_type_description = "The type of chart visualization used."
 owners_description = (
@@ -175,6 +179,10 @@ class ChartPostSchema(Schema):
     slice_name = fields.String(
         description=slice_name_description, required=True, validate=Length(1, 250)
     )
+    extra_lang = fields.String(description=extra_lang_description, allow_none=True,
+                               validate=OneOf(choices=current_langs))
+    extra_lang_chart_title = fields.String(description=extra_slice_name_description,
+                                           allow_none=True, validate=Length(1, 250))
     description = fields.String(description=description_description, allow_none=True)
     viz_type = fields.String(
         description=viz_type_description,
@@ -222,6 +230,10 @@ class ChartPutSchema(Schema):
     slice_name = fields.String(
         description=slice_name_description, allow_none=True, validate=Length(0, 250)
     )
+    extra_lang = fields.String(description=extra_lang_description, allow_none=True,
+                               validate=OneOf(choices=current_langs))
+    extra_lang_chart_title = fields.String(description=extra_slice_name_description,
+                                           allow_none=True, validate=Length(1, 250))
     description = fields.String(description=description_description, allow_none=True)
     viz_type = fields.String(
         description=viz_type_description,
