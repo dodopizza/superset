@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import rison from 'rison';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -250,12 +233,32 @@ function ColumnCollectionTable({
               }
             />
             <Field
+              fieldKey="verbose_name_2nd_lang"
+              label={t('Label 2nd Language')}
+              control={
+                <TextControl
+                  controlId="verbose_name_2nd_lang"
+                  placeholder={t('Label 2nd Language')}
+                />
+              }
+            />
+            <Field
               fieldKey="description"
               label={t('Description')}
               control={
                 <TextControl
                   controlId="description"
                   placeholder={t('Description')}
+                />
+              }
+            />
+            <Field
+              fieldKey="description_2nd_lang"
+              label={t('Description 2nd Language')}
+              control={
+                <TextControl
+                  controlId="description_2nd_lang"
+                  placeholder={t('Description 2nd Language')}
                 />
               }
             />
@@ -1190,11 +1193,22 @@ class DatasourceEditor extends React.PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
-        tableColumns={['metric_name', 'verbose_name', 'expression']}
-        sortColumns={['metric_name', 'verbose_name', 'expression']}
+        tableColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_2nd_lang',
+          'expression',
+        ]}
+        sortColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_2nd_lang',
+          'expression',
+        ]}
         columnLabels={{
           metric_name: t('Metric'),
           verbose_name: t('Label'),
+          verbose_name_2nd_lang: t('Label 2nd Language'),
           expression: t('SQL expression'),
         }}
         expandFieldset={
@@ -1207,6 +1221,16 @@ class DatasourceEditor extends React.PureComponent {
                   <TextControl
                     controlId="description"
                     placeholder={t('Description')}
+                  />
+                }
+              />
+              <Field
+                fieldKey="description_2nd_lang"
+                label={t('Description 2nd Language')}
+                control={
+                  <TextControl
+                    controlId="description_2nd_lang"
+                    placeholder={t('Description 2nd Language')}
                   />
                 }
               />
@@ -1262,6 +1286,7 @@ class DatasourceEditor extends React.PureComponent {
         itemGenerator={() => ({
           metric_name: '<new metric>',
           verbose_name: '',
+          verbose_name_2nd_lang: '',
           expression: '',
         })}
         itemRenderers={{
@@ -1282,6 +1307,9 @@ class DatasourceEditor extends React.PureComponent {
             </FlexRowContainer>
           ),
           verbose_name: (v, onChange) => (
+            <TextControl canEdit value={v} onChange={onChange} />
+          ),
+          verbose_name_2nd_lang: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           expression: (v, onChange) => (

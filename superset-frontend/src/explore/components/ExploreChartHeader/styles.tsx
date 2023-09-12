@@ -17,7 +17,7 @@ const ChartUsageContainer = styled.div`
   align-items: center;
   ${({ theme }) => `
     margin-left: ${theme.gridUnit * 2}px;
-    padding: ${theme.gridUnit}px ${theme.gridUnit * 2}px;
+    padding: ${theme.gridUnit * 2 - 2}px ${theme.gridUnit * 2}px;
     background-color: ${theme.colors.grayscale.light3};
     font-size: 12px;
     border-radius: ${theme.borderRadius}px;
@@ -92,10 +92,26 @@ const FundProjectIcon = () => (
   </span>
 );
 
+const ChartLanguageContainer = styled.div`
+  height: 100%;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  ${({ theme }) => `
+    margin-left: ${theme.gridUnit * 2}px;
+    padding: ${theme.gridUnit}px ${theme.gridUnit * 2}px;
+    font-size: 12px;
+    border-radius: ${theme.borderRadius}px;
+  `}
+  min-width: 104px;
+  line-height: 1;
+`;
+
 export {
   TitlePanelAdditionalItemsWrapper,
   DashboardsWrapper,
   ChartUsageContainer,
+  ChartLanguageContainer,
   BaseTooltip,
   FundProjectIcon,
   StyledUl,
