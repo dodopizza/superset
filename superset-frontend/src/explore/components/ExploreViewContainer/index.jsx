@@ -533,6 +533,8 @@ function ExploreViewContainer(props) {
     return renderChartContainer();
   }
 
+  console.log('chart propsXXX', props)
+
   return (
     <ExploreContainer>
       <ConnectedExploreChartHeader
@@ -675,6 +677,7 @@ function ExploreViewContainer(props) {
             canStopQuery={props.can_add || props.can_overwrite}
             errorMessage={errorMessage}
             chartIsStale={chartIsStale}
+            primaryLanguage='ru'
           />
         </Resizable>
         <div
@@ -742,6 +745,7 @@ function mapStateToProps(state) {
     user: explore.user,
     exploreState: explore,
     reports,
+    primaryLanguage: 'ru'
   };
 }
 

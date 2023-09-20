@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, { useState, ReactNode, useLayoutEffect } from 'react';
 import {
   css,
@@ -48,6 +31,7 @@ export interface MetricOptionProps {
   url?: string;
   labelRef?: React.RefObject<any>;
   shouldShowTooltip?: boolean;
+  primaryLanguage: string;
 }
 
 export function MetricOption({
@@ -58,8 +42,25 @@ export function MetricOption({
   showType = false,
   shouldShowTooltip = true,
   url = '',
+  primaryLanguage,
 }: MetricOptionProps) {
-  const verbose = metric.verbose_name || metric.metric_name || metric.label;
+  let verbose = null;
+  let verboseTemp = null;
+
+  if (primaryLanguage) {
+    // @ts-ignore
+    verboseTemp = metric.verbose_name_2nd_lang;
+  }
+
+  if (!verboseTemp) {
+    verbose = metric.verbose_name || metric.metric_name || metric.label;
+  } else {
+    verbose = verboseTemp;
+  }
+
+  console.log('verboseXX', verbose);
+  console.log('metricXX', metric);
+
   const link = url ? (
     <a href={url} target={openInNewWindow ? '_blank' : ''} rel="noreferrer">
       {verbose}

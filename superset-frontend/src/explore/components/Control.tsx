@@ -47,6 +47,7 @@ export type ControlProps = {
   default?: JsonValue;
   isVisible?: boolean;
   resetOnHide?: boolean;
+  primaryLanguage: string;
 };
 
 /**
@@ -68,6 +69,8 @@ export default function Control(props: ControlProps) {
     isVisible,
     resetOnHide = true,
   } = props;
+
+  console.log('ControlXX props', props);
 
   const [hovered, setHovered] = useState(false);
   const wasVisible = usePrevious(isVisible);
