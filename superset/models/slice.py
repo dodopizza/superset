@@ -99,6 +99,7 @@ class Slice(  # pylint: disable=too-many-public-methods
     )
     extra_lang = Column(Text, nullable=True)
     extra_lang_chart_title = Column(Text, nullable=True)
+    primary_lang = Column(Text, nullable=True)
     owners = relationship(security_manager.user_model, secondary=slice_user)
     table = relationship(
         "SqlaTable",

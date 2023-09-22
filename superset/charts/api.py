@@ -132,6 +132,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "is_managed_externally",
         "extra_lang",
         "extra_lang_chart_title",
+        "primary_lang"
     ]
     show_select_columns = show_columns + ["table.id"]
     list_columns = [
