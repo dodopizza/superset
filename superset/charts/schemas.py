@@ -185,7 +185,7 @@ class ChartPostSchema(Schema):
     extra_lang_chart_title = fields.String(description=extra_slice_name_description,
                                            allow_none=True, validate=Length(1, 250))
     primary_lang = fields.String(description=primary_lang_description,
-                                 allow_none=True, validate=Length(1, 250))
+                                 allow_none=True, validate=OneOf(choices=current_langs))
     description = fields.String(description=description_description, allow_none=True)
     viz_type = fields.String(
         description=viz_type_description,
@@ -238,7 +238,7 @@ class ChartPutSchema(Schema):
     extra_lang_chart_title = fields.String(description=extra_slice_name_description,
                                            allow_none=True, validate=Length(1, 250))
     primary_lang = fields.String(description=primary_lang_description,
-                                 allow_none=True, validate=Length(1, 250))
+                                 allow_none=True, validate=OneOf(choices=current_langs))
     description = fields.String(description=description_description, allow_none=True)
     viz_type = fields.String(
         description=viz_type_description,
