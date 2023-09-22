@@ -14,8 +14,10 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import logging
 from typing import Any
 
+from flask import current_app, g, request
 from flask_babel import lazy_gettext as _
 from sqlalchemy import and_, or_
 from sqlalchemy.orm.query import Query
@@ -26,6 +28,8 @@ from superset.connectors.sqla.models import SqlaTable
 from superset.models.slice import Slice
 from superset.views.base import BaseFilter
 from superset.views.base_api import BaseFavoriteFilter
+
+logger = logging.getLogger(__name__)
 
 
 class ChartAllTextFilter(BaseFilter):  # pylint: disable=too-few-public-methods
@@ -54,6 +58,22 @@ class ChartFavoriteFilter(BaseFavoriteFilter):  # pylint: disable=too-few-public
     arg_name = "chart_is_favorite"
     class_name = "slice"
     model = Slice
+
+
+class ChartDashboardFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+    """
+    Custom filter for the GET list that filters charts used in dashboards
+    """
+
+    name = _("Used in")
+    arg_name = "used_in"
+
+    def apply(self, query: Query, value: Any) -> Query:
+        if value:
+            return query.filter(and_(Slice.dashboards.dashboard_title.in_(value)))
+        if not value:
+            return query.filter(and_(Slice.dashboards.dashboard_title.innot_(value)))
+        return query
 
 
 class ChartCertifiedFilter(BaseFilter):  # pylint: disable=too-few-public-methods

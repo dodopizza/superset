@@ -15,6 +15,9 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Any
+import logging
+
+from flask import request
 
 from sqlalchemy import or_
 from sqlalchemy.orm.query import Query
@@ -22,9 +25,12 @@ from sqlalchemy.orm.query import Query
 from superset import security_manager
 from superset.views.base import BaseFilter
 
+logger = logging.getLogger(__name__)
+
 
 class SliceFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     def apply(self, query: Query, value: Any) -> Query:
+        logger.error("wwwwwwwwwwwww", request.url)
         if security_manager.can_access_all_datasources():
             return query
         perms = security_manager.user_view_menu_names("datasource_access")

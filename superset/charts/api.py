@@ -51,7 +51,7 @@ from superset.charts.filters import (
     ChartAllTextFilter,
     ChartCertifiedFilter,
     ChartFavoriteFilter,
-    ChartFilter,
+    ChartFilter, ChartDashboardFilter,
 )
 from superset.charts.schemas import (
     CHART_SCHEMAS,
@@ -203,12 +203,14 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "owners",
         "slice_name",
         "viz_type",
+        "dashboards.dashboard_title",
     ]
     base_order = ("changed_on", "desc")
     base_filters = [["id", ChartFilter, lambda: []]]
     search_filters = {
         "id": [ChartFavoriteFilter, ChartCertifiedFilter],
         "slice_name": [ChartAllTextFilter],
+        "dashboards": [ChartDashboardFilter]
     }
 
     # Will just affect _info endpoint
@@ -508,7 +510,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
-        f".cache_screenshot",
+                                             f".cache_screenshot",
         log_to_statsd=False,
     )
     def cache_screenshot(self, pk: int, **kwargs: Any) -> WerkzeugResponse:
@@ -780,7 +782,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
-        f".favorite_status",
+                                             f".favorite_status",
         log_to_statsd=False,
     )
     def favorite_status(self, **kwargs: Any) -> Response:
