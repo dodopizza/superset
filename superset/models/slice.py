@@ -43,6 +43,7 @@ from superset import ConnectorRegistry, db, is_feature_enabled, security_manager
 from superset.legacy import update_time_range
 from superset.models.helpers import AuditMixinNullable, ImportExportMixin
 from superset.models.tags import ChartUpdater
+from superset.models.dashboard import Dashboard
 from superset.tasks.thumbnails import cache_chart_thumbnail
 from superset.utils import core as utils
 from superset.utils.hashing import md5_sha_from_str
@@ -125,6 +126,13 @@ class Slice(  # pylint: disable=too-many-public-methods
 
     def __repr__(self) -> str:
         return self.slice_name or str(self.id)
+
+    @property
+    def dashboard_titles(self):
+        dashboars = db.session.query(Dashboard).all()
+        for dashboard in dashboars:
+            if
+        return dashboard_title
 
     @property
     def cls_model(self) -> Type["BaseDatasource"]:

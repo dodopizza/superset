@@ -70,9 +70,7 @@ class ChartDashboardFilter(BaseFilter):  # pylint: disable=too-few-public-method
 
     def apply(self, query: Query, value: Any) -> Query:
         if value:
-            return query.filter(and_(Slice.dashboards.dashboard_title.in_(value)))
-        if not value:
-            return query.filter(and_(Slice.dashboards.dashboard_title.innot_(value)))
+            return query.filter(and_(Slice.dashboards.dashboard_title.ilike(value)))
         return query
 
 

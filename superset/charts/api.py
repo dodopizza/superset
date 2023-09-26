@@ -203,14 +203,14 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "owners",
         "slice_name",
         "viz_type",
-        "dashboards.dashboard_title",
+        "dashboard_title",
     ]
     base_order = ("changed_on", "desc")
     base_filters = [["id", ChartFilter, lambda: []]]
     search_filters = {
         "id": [ChartFavoriteFilter, ChartCertifiedFilter],
         "slice_name": [ChartAllTextFilter],
-        "dashboards": [ChartDashboardFilter]
+        "dashboard_title": [ChartDashboardFilter]
     }
 
     # Will just affect _info endpoint
