@@ -170,8 +170,11 @@ function DashboardList(props: DashboardListProps) {
       endpoint: `/api/v1/dashboard/${edits.id}`,
     }).then(
       ({ json = {} }) => {
+        console.log('RT DODO: переводы handleDashboardEdit');
         setDashboards(
           dashboards.map(dashboard => {
+            console.log('RT DODO: переводы dashboard', dashboard);
+
             if (dashboard.id === json?.result?.id) {
               const {
                 changed_by_name,

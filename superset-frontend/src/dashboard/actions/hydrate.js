@@ -145,10 +145,13 @@ export const hydrateDashboard =
         formData: applyDefaultFormData(form_data),
       };
 
+      console.log('RT DODO: переводы slice', slice);
+
       slices[key] = {
         slice_id: key,
         slice_url: slice.slice_url,
         slice_name: slice.slice_name,
+        slice_name_second_lang: slice.slice_name_second_lang,
         form_data: slice.form_data,
         viz_type: slice.form_data.viz_type,
         datasource: slice.form_data.datasource,

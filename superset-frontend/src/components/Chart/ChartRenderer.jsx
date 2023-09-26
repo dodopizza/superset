@@ -192,7 +192,83 @@ class ChartRenderer extends React.Component {
       latestQueryFormData,
       queriesResponse,
       postTransformProps,
+      dashboardLanguage,
     } = this.props;
+
+    console.log('RT DODO: переводы chartRenderer', this.props, 'dashboardLanguage', dashboardLanguage);
+    const parsedDashboardLanguage =
+      dashboardLanguage === 'ru' ? 'secondary' : 'primary';
+
+    let alteredVerboseMap = {};
+
+    const metricsArray = datasource.metrics;
+    const columnsArray = datasource.columns;
+
+    for (const property in datasource.verbose_map) {
+      let finalName = datasource.verbose_map[property];
+
+      const foundMetric = metricsArray.filter(
+        metric => metric.metric_name === property,
+      );
+
+      const foundColumn = columnsArray.filter(
+        column => column.column_name === property,
+      );
+
+      if (foundMetric.length) {
+        const { verbose_name, verbose_name_2nd_lang } = foundMetric[0];
+        finalName =
+          parsedDashboardLanguage === 'primary'
+            ? verbose_name
+            : verbose_name_2nd_lang || verbose_name;
+      } else if (foundColumn.length) {
+        const { verbose_name, verbose_name_2nd_lang } = foundColumn[0];
+        finalName =
+          parsedDashboardLanguage === 'primary'
+            ? verbose_name
+            : verbose_name_2nd_lang || verbose_name;
+      }
+
+      alteredVerboseMap = {
+        ...alteredVerboseMap,
+        [property]: finalName,
+      };
+    }
+
+    console.log('RT DODO: переводы alteredVerboseMap', alteredVerboseMap);
+
+    const alteredDatasource = {
+      ...datasource,
+      verbose_map: alteredVerboseMap,
+      columns: datasource.columns.map(column => {
+        return {
+          ...column,
+          verbose_name:
+            parsedDashboardLanguage === 'primary'
+              ? column.verbose_name
+              : column.verbose_name_2nd_lang || column.verbose_name,
+          description:
+            parsedDashboardLanguage === 'primary'
+              ? column.description
+              : column.description_2nd_lang || column.description,
+        };
+      }),
+      metrics: datasource.metrics.map(metric => {
+        return {
+          ...metric,
+          verbose_name:
+            parsedDashboardLanguage === 'primary'
+              ? metric.verbose_name
+              : metric.verbose_name_2nd_lang || metric.verbose_name,
+          description:
+            parsedDashboardLanguage === 'primary'
+              ? metric.description
+              : metric.description_2nd_lang || metric.description,
+        };
+      }),
+    };
+
+    console.log('RT DODO: переводы alteredDatasource', alteredDatasource);
 
     const currentFormData =
       chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
@@ -280,7 +356,7 @@ class ChartRenderer extends React.Component {
         width={width}
         height={height}
         annotationData={annotationData}
-        datasource={datasource}
+        datasource={alteredDatasource}
         initialValues={initialValues}
         formData={currentFormData}
         ownState={ownState}

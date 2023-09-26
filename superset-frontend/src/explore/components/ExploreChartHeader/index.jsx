@@ -111,7 +111,7 @@ const ChartUsageWrapper = ({ dashboardsData }) => (
   </ChartUsageContainer>
 );
 
-const onLangChange = value => {
+const onLangChangeChart = value => {
   console.log('Value', value);
 };
 
@@ -120,18 +120,23 @@ const SYSTEM_LANGUAGES = [
   { value: 'ru', label: 'Русский' },
 ];
 
-const ChartLanguageWrapper = () => (
-  <ChartLanguageContainer>
+console.log('onLangChangeChart переводы', SYSTEM_LANGUAGES)
+
+const ChartLanguageWrapper = ({ langChartData }) => {
+  console.log('langChartDataXZXZX переводы', langChartData)
+  return (
+    <ChartLanguageContainer>
     <Select
       ariaLabel="Chart Language"
       placeholder="Chart Language"
       name="chart_lang"
       value="en"
       options={SYSTEM_LANGUAGES}
-      onChange={onLangChange}
+      onChange={onLangChangeChart}
     />
   </ChartLanguageContainer>
-);
+  )
+}
 
 export const ExploreChartHeader = ({
   dashboardId,
@@ -150,15 +155,31 @@ export const ExploreChartHeader = ({
   saveDisabled,
 }) => {
   const { latestQueryFormData, sliceFormData } = chart;
+  console.log('chartXXX', chart);
   const [isPropertiesModalOpen, setIsPropertiesModalOpen] = useState(false);
   const [dashboardsData, setDashboardsData] = useState(null);
+  const [langChartData, setLangChartDataData] = useState(null);
+  const [alteredSlice, setSliceData] = useState(slice);
+  const [alteredSliceName, setSliceName] = useState(sliceName);
+
+  console.log('sliceXXX переводы', slice);
+  console.log('alteredSliceXXX переводы', alteredSlice);
 
   const fetchChartDashboardData = async () => {
     await SupersetClient.get({
-      endpoint: `/api/v1/chart/${slice.slice_id}`,
+      endpoint: `/api/v1/chart/${alteredSlice.slice_id}`,
     })
       .then(res => {
         const response = res?.json?.result;
+
+        if (response) {
+          setSliceData({
+            ...alteredSlice,
+            extraLang: response.extra_lang,
+            extraLangChartTitle: response.extra_lang_chart_title
+          })
+        }
+
         if (response && response.dashboards && response.dashboards.length) {
           const { dashboards } = response;
           const dashboard =
@@ -196,10 +217,20 @@ export const ExploreChartHeader = ({
 
   const fetchChartDashboardsData = async () => {
     await SupersetClient.get({
-      endpoint: `/api/v1/chart/${slice.slice_id}`,
+      endpoint: `/api/v1/chart/${alteredSlice.slice_id}`,
     })
       .then(res => {
         const response = res?.json?.result;
+
+        if (response) {
+          setSliceData({
+            ...alteredSlice,
+            extraLang: response.extra_lang,
+            extraLangChartTitle: response.extra_lang_chart_title
+          })
+          setSliceName()
+        }
+
         if (response && response.dashboards && response.dashboards.length) {
           const { dashboards } = response;
           if (dashboards && dashboards.length) setDashboardsData(dashboards);
@@ -209,6 +240,7 @@ export const ExploreChartHeader = ({
   };
 
   useEffect(() => {
+    console.log('dashboardIdXZX переводы', dashboardId)
     if (dashboardId) {
       fetchChartDashboardData();
     } else {
@@ -228,34 +260,34 @@ export const ExploreChartHeader = ({
     useExploreAdditionalActionsMenu(
       latestQueryFormData,
       canDownload,
-      slice,
+      alteredSlice,
       actions.redirectSQLLab,
       openPropertiesModal,
       ownState,
     );
 
-  const oldSliceName = slice?.slice_name;
+  const oldSliceName = alteredSlice?.slice_name;
   return (
     <>
       <PageHeaderWithActions
         editableTitleProps={{
           title: sliceName,
           canEdit:
-            !slice ||
+            !alteredSlice ||
             canOverwrite ||
-            (slice?.owners || []).includes(user?.userId),
+            (alteredSlice?.owners || []).includes(user?.userId),
           onSave: actions.updateChartTitle,
           placeholder: t('Add the name of the chart'),
           label: t('Chart title'),
         }}
-        showTitlePanelItems={!!slice}
+        showTitlePanelItems={!!alteredSlice}
         certificatiedBadgeProps={{
-          certifiedBy: slice?.certified_by,
-          details: slice?.certification_details,
+          certifiedBy: alteredSlice?.certified_by,
+          details: alteredSlice?.certification_details,
         }}
         showFaveStar={!!user?.userId}
         faveStarProps={{
-          itemId: slice?.slice_id,
+          itemId: alteredSlice?.slice_id,
           fetchFaveStar: actions.fetchFaveStar,
           saveFaveStar: actions.saveFaveStar,
           isStarred,
@@ -278,7 +310,11 @@ export const ExploreChartHeader = ({
                 dashboardsData={parseDashboardsData(dashboardsData)}
               />
             )}
-            <ChartLanguageWrapper />
+            {langChartData && (
+              <ChartLanguageWrapper
+                langChartData={langChartData}
+              />
+            )}
           </TitlePanelAdditionalItemsWrapper>
         }
         rightPanelAdditionalItems={
@@ -315,7 +351,7 @@ export const ExploreChartHeader = ({
           show={isPropertiesModalOpen}
           onHide={closePropertiesModal}
           onSave={sliceUpdated}
-          slice={slice}
+          slice={alteredSlice}
         />
       )}
     </>

@@ -71,6 +71,7 @@ function mapStateToProps(
 ) {
   const dashboardLayout = undoableLayout.present;
   const { id, parentId } = ownProps;
+  console.log('RT DODO: переводы DashboardComponent dashboardInfo', dashboardInfo)
   const component = dashboardLayout[id];
   const props = {
     component,
@@ -79,6 +80,7 @@ function mapStateToProps(
     editMode: dashboardState.editMode,
     filters: getActiveFilters(),
     dashboardId: dashboardInfo.id,
+    dashboardLanguage: dashboardInfo.extra_lang,
     fullSizeChartId: dashboardState.fullSizeChartId,
   };
 
@@ -120,6 +122,7 @@ function mapDispatchToProps(dispatch) {
 
 class DashboardComponent extends React.PureComponent {
   render() {
+    console.log('DashboardComponent переводы', this.props)
     const { component } = this.props;
     const Component = component ? componentLookup[component.type] : null;
     return Component ? <Component {...this.props} /> : null;

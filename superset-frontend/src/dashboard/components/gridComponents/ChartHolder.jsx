@@ -270,7 +270,10 @@ class ChartHolder extends React.Component {
       dashboardId,
       fullSizeChartId,
       getComponentById = () => undefined,
+      dashboardLanguage,
     } = this.props;
+
+    console.log('RT DODO: переводы ChartHolder props', this.props, 'dashboardLanguage', dashboardLanguage, 'component', component, 'component.meta.sliceNameSecondLang', component.meta.sliceNameSecondLang)
 
     const { chartId } = component.meta;
     const isFullSize = fullSizeChartId === chartId;
@@ -358,6 +361,7 @@ class ChartHolder extends React.Component {
                 componentId={component.id}
                 id={component.meta.chartId}
                 dashboardId={dashboardId}
+                dashboardLanguage={dashboardLanguage}
                 width={chartWidth}
                 height={chartHeight}
                 sliceName={
@@ -365,6 +369,7 @@ class ChartHolder extends React.Component {
                   component.meta.sliceName ||
                   ''
                 }
+                sliceNameSecondLang={component.meta.sliceNameSecondLang || ''}
                 updateSliceName={this.handleUpdateSliceName}
                 isComponentVisible={isComponentVisible}
                 handleToggleFullSize={this.handleToggleFullSize}

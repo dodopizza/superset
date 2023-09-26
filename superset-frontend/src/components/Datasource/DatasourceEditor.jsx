@@ -234,11 +234,11 @@ function ColumnCollectionTable({
             />
             <Field
               fieldKey="verbose_name_2nd_lang"
-              label={t('Label 2nd Language')}
+              label={t('Label 2nd Lang')}
               control={
                 <TextControl
                   controlId="verbose_name_2nd_lang"
-                  placeholder={t('Label 2nd Language')}
+                  placeholder={t('Label 2nd Lang')}
                 />
               }
             />
@@ -1208,7 +1208,7 @@ class DatasourceEditor extends React.PureComponent {
         columnLabels={{
           metric_name: t('Metric'),
           verbose_name: t('Label'),
-          verbose_name_2nd_lang: t('Label 2nd Language'),
+          verbose_name_2nd_lang: t('Label 2nd Lang'),
           expression: t('SQL expression'),
         }}
         expandFieldset={

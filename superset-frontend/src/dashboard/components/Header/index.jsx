@@ -471,6 +471,8 @@ class Header extends React.PureComponent {
         ?.SUPERSET_DASHBOARD_PERIODICAL_REFRESH_WARNING_MESSAGE;
 
     const handleOnPropertiesChange = updates => {
+      console.log('RT DODO: переводы handleOnPropertiesChange', updates, 
+      'updates.extra_lang', updates.extra_lang);
       const { dashboardInfoChanged, dashboardTitleChanged } = this.props;
       dashboardInfoChanged({
         slug: updates.slug,
@@ -479,18 +481,12 @@ class Header extends React.PureComponent {
         certification_details: updates.certificationDetails,
         owners: updates.owners,
         roles: updates.roles,
+        extra_lang: updates.extra_lang
       });
       setColorSchemeAndUnsavedChanges(updates.colorScheme);
       dashboardTitleChanged(updates.title);
     };
 
-    const SYSTEM_LANGUAGES = [
-      { value: 'en', label: 'English' },
-      { value: 'ru', label: 'Русский' },
-    ];
-    const onLangChange = value => {
-      console.log('Value', value);
-    };
     return (
       <div
         css={headerContainerStyle}
@@ -535,16 +531,6 @@ class Header extends React.PureComponent {
                 >
                   {editMode && (
                     <div css={actionButtonsStyle}>
-                      <div className="dashboard-languages-container">
-                        <Select
-                          ariaLabel="Dashboard Language"
-                          placeholder="Dashboard Language"
-                          name="dashboard_lang"
-                          value="en"
-                          options={SYSTEM_LANGUAGES}
-                          onChange={onLangChange}
-                        />
-                      </div>
                       <div className="undoRedo">
                         <Tooltip
                           id="dashboard-undo-tooltip"

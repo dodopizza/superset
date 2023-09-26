@@ -583,6 +583,7 @@ export const useChartEditModal = (
     setSliceCurrentlyEditing({
       slice_id: chart.id,
       slice_name: chart.slice_name,
+      slice_name_second_lang: chart.slice_name_second_lang,
       description: chart.description,
       cache_timeout: chart.cache_timeout,
       certified_by: chart.certified_by,

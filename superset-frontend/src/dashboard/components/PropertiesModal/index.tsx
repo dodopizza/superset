@@ -33,6 +33,26 @@ const StyledJsonEditor = styled(JsonEditor)`
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
 
+const ChartLanguageContainer = styled.div`
+  height: 100%;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  ${({ theme }) => `
+    margin-left: 0;
+    padding: 0;
+    font-size: 12px;
+    border-radius: ${theme.borderRadius}px;
+  `}
+  min-width: 104px;
+  line-height: 1;
+`;
+
+const SYSTEM_LANGUAGES = [
+  { value: 'en', label: 'Primary' },
+  { value: 'ru', label: 'Secondary' },
+];
+
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
@@ -60,6 +80,8 @@ type DashboardInfo = {
   certifiedBy: string;
   certificationDetails: string;
   isManagedExternally: boolean;
+  extra_lang: string;
+  extra_lang_dashboard_title: string;
 };
 
 const PropertiesModal = ({
@@ -73,6 +95,10 @@ const PropertiesModal = ({
   onSubmit = () => {},
   show = false,
 }: PropertiesModalProps) => {
+  console.log(
+    'TODO: переводы currentDashboardInfo propsXX',
+    currentDashboardInfo,
+  );
   const [form] = AntdForm.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -82,6 +108,11 @@ const PropertiesModal = ({
   const [owners, setOwners] = useState<Owners>([]);
   const [roles, setRoles] = useState<Roles>([]);
   const saveLabel = onlyApply ? t('Apply') : t('Save');
+  const [extra_langState, setExtraLangState] = useState(
+    currentDashboardInfo?.extra_lang || null,
+  );
+
+  console.log('TODO: переводы dashboardInfo propsXX', dashboardInfo);
 
   const handleErrorResponse = async (response: Response) => {
     const { error, statusText, message } = await getClientErrorObject(response);
@@ -137,7 +168,10 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
+        extra_lang,
+        extra_lang_dashboard_title,
       } = dashboardData;
+      console.log('TODO: переводы dashboardData', dashboardData);
       const dashboardInfo = {
         id,
         title: dashboard_title,
@@ -145,12 +179,16 @@ const PropertiesModal = ({
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
+        extra_lang: extra_lang || '',
+        extra_lang_dashboard_title: extra_lang_dashboard_title || '',
       };
+      console.log('dashboardInfo', dashboardInfo);
 
       form.setFieldsValue(dashboardInfo);
       setDashboardInfo(dashboardInfo);
       setOwners(owners);
       setRoles(roles);
+      setExtraLangState(dashboardData.extra_lang);
       setColorScheme(metadata.color_scheme);
 
       // temporary fix to remove positions from dashboards' metadata
@@ -176,6 +214,7 @@ const PropertiesModal = ({
       endpoint: `/api/v1/dashboard/${dashboardId}`,
     }).then(response => {
       const dashboard = response.json.result;
+      console.log('TODO: переводы fetchDashboardDetailsXX', dashboard);
       const jsonMetadataObj = dashboard.json_metadata?.length
         ? JSON.parse(dashboard.json_metadata)
         : {};
@@ -272,6 +311,9 @@ const PropertiesModal = ({
   const onFinish = () => {
     const { title, slug, certifiedBy, certificationDetails } =
       form.getFieldsValue();
+    console.log('TODO: переводы onFinish extra_langStateXXX', extra_langState);
+    console.log('TODO:переводы ', form.getFieldsValue());
+
     let currentColorScheme = colorScheme;
     let colorNamespace = '';
     let currentJsonMetadata = jsonMetadata;
@@ -315,19 +357,24 @@ const PropertiesModal = ({
       colorNamespace,
       certifiedBy,
       certificationDetails,
+      extra_lang: extra_langState,
       ...moreOnSubmitProps,
     };
+    console.log('TODO: переводы onSubmitProps', onSubmitProps);
     if (onlyApply) {
+      console.log('TODO: переводы onlyApply', onSubmitProps);
       addSuccessToast(t('Dashboard properties updated'));
       onSubmit(onSubmitProps);
       onHide();
     } else {
+      console.log('TODO: переводы .put extra_langState', extra_langState);
       SupersetClient.put({
         endpoint: `/api/v1/dashboard/${dashboardId}`,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
           slug: slug || null,
+          extra_lang: extra_langState || '',
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
           certified_by: certifiedBy || null,
@@ -342,6 +389,34 @@ const PropertiesModal = ({
       }, handleErrorResponse);
     }
   };
+
+  const onLangExtraChange = (value: string) => {
+    console.log('TODO: переводы onLangExtraChange, Value', value);
+    setExtraLangState(value);
+  };
+
+  const DashboardLanguageWrapper = ({
+    langValue,
+    fieldName,
+    title,
+    changeFunc,
+  }: {
+    langValue: string;
+    fieldName: string;
+    title: string;
+    changeFunc: any;
+  }) => (
+    <ChartLanguageContainer>
+      <Select
+        ariaLabel={title}
+        placeholder={title}
+        name={fieldName}
+        value={langValue || SYSTEM_LANGUAGES[0].value}
+        options={SYSTEM_LANGUAGES}
+        onChange={changeFunc}
+      />
+    </ChartLanguageContainer>
+  );
 
   const getRowsWithoutRoles = () => {
     const jsonMetadataObj = getJsonMetadata();
@@ -551,6 +626,22 @@ const PropertiesModal = ({
             </StyledFormItem>
             <p className="help-block">
               {t('A readable URL for your dashboard')}
+            </p>
+          </Col>
+          <Col xs={24} md={12}>
+            <StyledFormItem label={t('Dashboard Language')} name="extra_lang">
+              <DashboardLanguageWrapper
+                langValue={extra_langState || SYSTEM_LANGUAGES[0].value}
+                fieldName="extra_lang"
+                title="Dashboard Language"
+                changeFunc={onLangExtraChange}
+              />
+            </StyledFormItem>
+            <p className="help-block">
+              {t('A language of the charts in the dashboards')}
+            </p>
+            <p className="help-block">
+              {t('Usually primary = English, Secondary = Russian')}
             </p>
           </Col>
         </Row>

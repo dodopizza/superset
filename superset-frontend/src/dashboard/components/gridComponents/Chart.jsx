@@ -344,6 +344,7 @@ export default class Chart extends React.Component {
       sharedLabelColors,
       updateSliceName,
       sliceName,
+      sliceNameSecondLang,
       toggleExpandSlice,
       timeout,
       supersetCanExplore,
@@ -360,7 +361,10 @@ export default class Chart extends React.Component {
       filterboxMigrationState,
       postTransformProps,
       datasetsStatus,
+      dashboardLanguage,
     } = this.props;
+
+    console.log('RT DODO: переводы Chart props', this.props, 'sliceName, sliceNameSecondLang', sliceName, sliceNameSecondLang, 'dashboardLanguage', dashboardLanguage)
 
     const { width } = this.state;
     // this prevents throwing in the case that a gridComponent
@@ -415,6 +419,7 @@ export default class Chart extends React.Component {
           exportFullCSV={this.exportFullCSV}
           updateSliceName={updateSliceName}
           sliceName={sliceName}
+          sliceNameSecondLang={sliceNameSecondLang}
           supersetCanExplore={supersetCanExplore}
           supersetCanShare={supersetCanShare}
           supersetCanCSV={supersetCanCSV}
@@ -430,6 +435,7 @@ export default class Chart extends React.Component {
           formData={formData}
           width={width}
           height={this.getHeaderHeight()}
+          dashboardLanguage={dashboardLanguage}
         />
 
         {/*
@@ -490,6 +496,7 @@ export default class Chart extends React.Component {
             filterboxMigrationState={filterboxMigrationState}
             postTransformProps={postTransformProps}
             datasetsStatus={datasetsStatus}
+            dashboardLanguage={dashboardLanguage}
           />
         </div>
       </SliceContainer>

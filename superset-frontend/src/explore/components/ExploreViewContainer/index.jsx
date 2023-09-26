@@ -220,6 +220,7 @@ const updateHistory = debounce(
 );
 
 function ExploreViewContainer(props) {
+  console.log('RT DODO: переводы ExploreViewContainer props', props, 'slice_name_second_lang', props.slice.slice_name_second_lang, 'primaryLanguage', props.primaryLanguage)
   const dynamicPluginContext = usePluginContext();
   const dynamicPlugin = dynamicPluginContext.dynamicPlugins[props.vizType];
   const isDynamicPluginLoading = dynamicPlugin && dynamicPlugin.mounting;
@@ -311,6 +312,7 @@ function ExploreViewContainer(props) {
                 action: 'overwrite',
                 slice_id: props.slice.slice_id,
                 slice_name: props.slice.slice_name,
+                slice_name_second_lang: props.slice.slice_name_second_lang,
                 add_to_dash: 'noSave',
                 goto_dash: false,
               })
@@ -677,7 +679,7 @@ function ExploreViewContainer(props) {
             canStopQuery={props.can_add || props.can_overwrite}
             errorMessage={errorMessage}
             chartIsStale={chartIsStale}
-            primaryLanguage='ru'
+            primaryLanguage={props.primaryLanguage}
           />
         </Resizable>
         <div
@@ -707,10 +709,14 @@ function mapStateToProps(state) {
   const chartKey = Object.keys(charts)[0];
   const chart = charts[chartKey];
 
+  console.log('RT DODO: переводы chartXZXZ', chart)
+
   let dashboardId = Number(explore.form_data?.dashboardId);
   if (Number.isNaN(dashboardId)) {
     dashboardId = undefined;
   }
+
+  console.log('RT DODO: переводы RETURNING primaryLanguage ru2')
 
   return {
     isDatasourceMetaLoading: explore.isDatasourceMetaLoading,
@@ -745,7 +751,7 @@ function mapStateToProps(state) {
     user: explore.user,
     exploreState: explore,
     reports,
-    primaryLanguage: 'ru'
+    primaryLanguage: 'ru2'
   };
 }
 
