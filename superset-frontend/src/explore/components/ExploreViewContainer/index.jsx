@@ -220,7 +220,7 @@ const updateHistory = debounce(
 );
 
 function ExploreViewContainer(props) {
-  console.log('RT DODO: переводы ExploreViewContainer props', props, 'slice_name_second_lang', props.slice.slice_name_second_lang, 'primaryLanguage', props.primaryLanguage)
+  console.log('RT DODO: переводы ExploreViewContainer props', props, 'slice_name_second_lang', props.slice, 'primaryLanguage', props.primaryLanguage)
   const dynamicPluginContext = usePluginContext();
   const dynamicPlugin = dynamicPluginContext.dynamicPlugins[props.vizType];
   const isDynamicPluginLoading = dynamicPlugin && dynamicPlugin.mounting;
