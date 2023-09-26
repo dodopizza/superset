@@ -98,7 +98,7 @@ class Slice(  # pylint: disable=too-many-public-methods
         security_manager.user_model, foreign_keys=[last_saved_by_fk]
     )
     extra_lang = Column(Text, nullable=True)
-    extra_lang_chart_title = Column(Text, nullable=True)
+    slice_name_second_lang = Column(Text, nullable=True)
     primary_lang = Column(Text, nullable=True)
     owners = relationship(security_manager.user_model, secondary=slice_user)
     table = relationship(
