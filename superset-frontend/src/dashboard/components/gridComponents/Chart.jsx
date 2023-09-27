@@ -364,8 +364,6 @@ export default class Chart extends React.Component {
       dashboardLanguage,
     } = this.props;
 
-    console.log('RT DODO: переводы Chart props', this.props, 'sliceName, sliceNameSecondLang', sliceName, sliceNameSecondLang, 'dashboardLanguage', dashboardLanguage)
-
     const { width } = this.state;
     // this prevents throwing in the case that a gridComponent
     // references a chart that is not associated with the dashboard

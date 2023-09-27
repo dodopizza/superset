@@ -126,20 +126,14 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     }
   }, [sliceName, width, height, handleClickTitle]);
 
-  const parsedDashboardLanguage =
-    dashboardLanguage === 'ru' ? 'secondary' : 'primary';
-
   const finalName =
-    parsedDashboardLanguage === 'primary'
+    dashboardLanguage === 'primary'
       ? sliceName
       : sliceNameSecondLang || sliceName;
 
-  console.log(
-    'RT DODO: переводы parsedDashboardLanguage',
-    parsedDashboardLanguage,
-    'finalName',
-    finalName,
-  );
+  console.log('dashboardLanguage XXX', dashboardLanguage);
+  console.log('finalName', finalName);
+
   return (
     <div className="chart-header" data-test="slice-header" ref={innerRef}>
       <div className="header-title" ref={headerRef}>

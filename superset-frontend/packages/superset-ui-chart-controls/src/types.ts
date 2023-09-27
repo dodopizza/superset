@@ -301,7 +301,6 @@ export type CustomControlItem = {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: BaseControlConfig<any, any, any>;
-  primaryLanguage: string;
 };
 
 // use ReactElement instead of ReactNode because `string`, `number`, etc. may

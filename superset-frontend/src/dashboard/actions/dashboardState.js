@@ -1,21 +1,5 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+// dashboard_title_second_lang, selected_lang
 /* eslint camelcase: 0 */
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import {
@@ -216,6 +200,8 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details,
       css,
       dashboard_title,
+      dashboard_title_second_lang,
+      selected_lang,
       owners,
       roles,
       slug,
@@ -230,7 +216,10 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details:
         certified_by && certification_details ? certification_details : '',
       css: css || '',
+      selected_lang,
       dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
+      dashboard_title_second_lang:
+        dashboard_title_second_lang || t('[ untitled dashboard 2nd lang ]'),
       owners: ensureIsArray(owners).map(o => (hasId(o) ? o.id : o)),
       roles: !isFeatureEnabled(FeatureFlag.DASHBOARD_RBAC)
         ? undefined
@@ -349,6 +338,8 @@ export function saveDashboardRequest(data, id, saveType) {
         certification_details: cleanedData.certification_details,
         css: cleanedData.css,
         dashboard_title: cleanedData.dashboard_title,
+        dashboard_title_second_lang: cleanedData.dashboard_title_second_lang,
+        selected_lang: cleanedData.selected_lang,
         slug: cleanedData.slug,
         owners: cleanedData.owners,
         roles: cleanedData.roles,

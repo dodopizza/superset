@@ -1,4 +1,5 @@
 // DODO was here
+// selected_lang: selected_lang, dashboard_title_second_lang
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from 'src/components/Input';
@@ -49,8 +50,8 @@ const ChartLanguageContainer = styled.div`
 `;
 
 const SYSTEM_LANGUAGES = [
-  { value: 'en', label: 'Primary' },
-  { value: 'ru', label: 'Secondary' },
+  { value: 'primary', label: 'Primary' },
+  { value: 'secondary', label: 'Secondary' },
 ];
 
 type PropertiesModalProps = {
@@ -80,8 +81,8 @@ type DashboardInfo = {
   certifiedBy: string;
   certificationDetails: string;
   isManagedExternally: boolean;
-  extra_lang: string;
-  extra_lang_dashboard_title: string;
+  selected_lang: string;
+  dashboard_title_second_lang: string;
 };
 
 const PropertiesModal = ({
@@ -108,8 +109,8 @@ const PropertiesModal = ({
   const [owners, setOwners] = useState<Owners>([]);
   const [roles, setRoles] = useState<Roles>([]);
   const saveLabel = onlyApply ? t('Apply') : t('Save');
-  const [extra_langState, setExtraLangState] = useState(
-    currentDashboardInfo?.extra_lang || null,
+  const [selected_langState, setSecondLangState] = useState(
+    currentDashboardInfo?.selected_lang || null,
   );
 
   console.log('TODO: переводы dashboardInfo propsXX', dashboardInfo);
@@ -168,10 +169,10 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
-        extra_lang,
-        extra_lang_dashboard_title,
+        selected_lang,
+        dashboard_title_second_lang,
       } = dashboardData;
-      console.log('TODO: переводы dashboardData', dashboardData);
+
       const dashboardInfo = {
         id,
         title: dashboard_title,
@@ -179,8 +180,8 @@ const PropertiesModal = ({
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
-        extra_lang: extra_lang || '',
-        extra_lang_dashboard_title: extra_lang_dashboard_title || '',
+        selected_lang: selected_lang || '',
+        dashboard_title_second_lang: dashboard_title_second_lang || '',
       };
       console.log('dashboardInfo', dashboardInfo);
 
@@ -188,7 +189,7 @@ const PropertiesModal = ({
       setDashboardInfo(dashboardInfo);
       setOwners(owners);
       setRoles(roles);
-      setExtraLangState(dashboardData.extra_lang);
+      setSecondLangState(dashboardData.selected_lang);
       setColorScheme(metadata.color_scheme);
 
       // temporary fix to remove positions from dashboards' metadata
@@ -311,8 +312,6 @@ const PropertiesModal = ({
   const onFinish = () => {
     const { title, slug, certifiedBy, certificationDetails } =
       form.getFieldsValue();
-    console.log('TODO: переводы onFinish extra_langStateXXX', extra_langState);
-    console.log('TODO:переводы ', form.getFieldsValue());
 
     let currentColorScheme = colorScheme;
     let colorNamespace = '';
@@ -357,7 +356,7 @@ const PropertiesModal = ({
       colorNamespace,
       certifiedBy,
       certificationDetails,
-      extra_lang: extra_langState,
+      selected_lang: selected_langState,
       ...moreOnSubmitProps,
     };
     console.log('TODO: переводы onSubmitProps', onSubmitProps);
@@ -367,14 +366,14 @@ const PropertiesModal = ({
       onSubmit(onSubmitProps);
       onHide();
     } else {
-      console.log('TODO: переводы .put extra_langState', extra_langState);
+      console.log('TODO: переводы .put selected_langState', selected_langState);
       SupersetClient.put({
         endpoint: `/api/v1/dashboard/${dashboardId}`,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
           slug: slug || null,
-          extra_lang: extra_langState || '',
+          selected_lang: selected_langState || '',
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
           certified_by: certifiedBy || null,
@@ -392,7 +391,7 @@ const PropertiesModal = ({
 
   const onLangExtraChange = (value: string) => {
     console.log('TODO: переводы onLangExtraChange, Value', value);
-    setExtraLangState(value);
+    setSecondLangState(value);
   };
 
   const DashboardLanguageWrapper = ({
@@ -629,10 +628,13 @@ const PropertiesModal = ({
             </p>
           </Col>
           <Col xs={24} md={12}>
-            <StyledFormItem label={t('Dashboard Language')} name="extra_lang">
+            <StyledFormItem
+              label={t('Dashboard Language')}
+              name="selected_lang"
+            >
               <DashboardLanguageWrapper
-                langValue={extra_langState || SYSTEM_LANGUAGES[0].value}
-                fieldName="extra_lang"
+                langValue={selected_langState || SYSTEM_LANGUAGES[0].value}
+                fieldName="selected_lang"
                 title="Dashboard Language"
                 changeFunc={onLangExtraChange}
               />

@@ -140,8 +140,6 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
   onSave() {
     const { adhocMetric, savedMetric } = this.state;
 
-    console.log(this.state, 'this.state')
-
     const metric = savedMetric?.metric_name ? savedMetric : adhocMetric;
     const oldMetric = this.props.savedMetric?.metric_name
       ? this.props.savedMetric

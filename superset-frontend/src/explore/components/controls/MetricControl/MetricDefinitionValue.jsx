@@ -18,7 +18,6 @@ const propTypes = {
   savedMetricsOptions: PropTypes.arrayOf(savedMetricType),
   multi: PropTypes.bool,
   datasource: PropTypes.object,
-  primaryLanguage: PropTypes.string,
 };
 
 export default function MetricDefinitionValue({

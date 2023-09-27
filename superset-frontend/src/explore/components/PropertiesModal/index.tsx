@@ -44,7 +44,7 @@ function PropertiesModal({
   // values of form inputs
   const [name, setName] = useState(slice.slice_name || '');
   const [slice_name_second_lang, setSliceNameSecondLang] = useState(
-    slice.extraLangChartTitle || '',
+    slice.slice_name_second_lang || '',
   );
   const [selectedOwners, setSelectedOwners] = useState<SelectValue | null>(
     null,
@@ -224,7 +224,7 @@ function PropertiesModal({
             slice.certified_by && slice.certification_details
               ? slice.certification_details
               : '',
-          slice_name_second_lang: slice.extraLangChartTitle || '',
+          slice_name_second_lang: slice.slice_name_second_lang || '',
         }}
       >
         <Row gutter={16}>

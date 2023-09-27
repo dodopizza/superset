@@ -1,4 +1,6 @@
 // DODO was here
+// slice_name_second_lang
+
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,7 +17,6 @@ import { chartPropShape } from 'src/dashboard/util/propShapes';
 import AlteredSliceTag from 'src/components/AlteredSliceTag';
 import Button from 'src/components/Button';
 import Icons from 'src/components/Icons';
-import Select from 'src/components/Select/Select';
 import PropertiesModal from 'src/explore/components/PropertiesModal';
 import { sliceUpdated } from 'src/explore/actions/exploreActions';
 import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
@@ -26,7 +27,6 @@ import {
   DashboardsWrapper,
   FundProjectIcon,
   ChartUsageContainer,
-  ChartLanguageContainer,
   StyledUl,
   StyledLi,
 } from './styles';
@@ -39,6 +39,7 @@ const propTypes = {
   isStarred: PropTypes.bool.isRequired,
   slice: PropTypes.object,
   sliceName: PropTypes.string,
+  sliceNameSecondLang: PropTypes.string,
   table_name: PropTypes.string,
   formData: PropTypes.object,
   ownState: PropTypes.object,
@@ -111,33 +112,6 @@ const ChartUsageWrapper = ({ dashboardsData }) => (
   </ChartUsageContainer>
 );
 
-const onLangChangeChart = value => {
-  console.log('Value', value);
-};
-
-const SYSTEM_LANGUAGES = [
-  { value: 'en', label: 'English' },
-  { value: 'ru', label: 'Русский' },
-];
-
-console.log('onLangChangeChart переводы', SYSTEM_LANGUAGES)
-
-const ChartLanguageWrapper = ({ langChartData }) => {
-  console.log('langChartDataXZXZX переводы', langChartData)
-  return (
-    <ChartLanguageContainer>
-    <Select
-      ariaLabel="Chart Language"
-      placeholder="Chart Language"
-      name="chart_lang"
-      value="en"
-      options={SYSTEM_LANGUAGES}
-      onChange={onLangChangeChart}
-    />
-  </ChartLanguageContainer>
-  )
-}
-
 export const ExploreChartHeader = ({
   dashboardId,
   slice,
@@ -155,15 +129,9 @@ export const ExploreChartHeader = ({
   saveDisabled,
 }) => {
   const { latestQueryFormData, sliceFormData } = chart;
-  console.log('chartXXX', chart);
   const [isPropertiesModalOpen, setIsPropertiesModalOpen] = useState(false);
   const [dashboardsData, setDashboardsData] = useState(null);
-  const [langChartData, setLangChartDataData] = useState(null);
   const [alteredSlice, setSliceData] = useState(slice);
-  const [alteredSliceName, setSliceName] = useState(sliceName);
-
-  console.log('sliceXXX переводы', slice);
-  console.log('alteredSliceXXX переводы', alteredSlice);
 
   const fetchChartDashboardData = async () => {
     await SupersetClient.get({
@@ -175,9 +143,7 @@ export const ExploreChartHeader = ({
         if (response) {
           setSliceData({
             ...alteredSlice,
-            extraLang: response.extra_lang,
-            extraLangChartTitle: response.extra_lang_chart_title
-          })
+          });
         }
 
         if (response && response.dashboards && response.dashboards.length) {
@@ -225,10 +191,7 @@ export const ExploreChartHeader = ({
         if (response) {
           setSliceData({
             ...alteredSlice,
-            extraLang: response.extra_lang,
-            extraLangChartTitle: response.extra_lang_chart_title
-          })
-          setSliceName()
+          });
         }
 
         if (response && response.dashboards && response.dashboards.length) {
@@ -240,7 +203,6 @@ export const ExploreChartHeader = ({
   };
 
   useEffect(() => {
-    console.log('dashboardIdXZX переводы', dashboardId)
     if (dashboardId) {
       fetchChartDashboardData();
     } else {
@@ -308,11 +270,6 @@ export const ExploreChartHeader = ({
             {dashboardsData && dashboardsData.length && (
               <ChartUsageWrapper
                 dashboardsData={parseDashboardsData(dashboardsData)}
-              />
-            )}
-            {langChartData && (
-              <ChartLanguageWrapper
-                langChartData={langChartData}
               />
             )}
           </TitlePanelAdditionalItemsWrapper>

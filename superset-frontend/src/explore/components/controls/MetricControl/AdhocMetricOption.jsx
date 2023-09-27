@@ -22,7 +22,6 @@ const propTypes = {
   index: PropTypes.number,
   type: PropTypes.string,
   multi: PropTypes.bool,
-  primaryLanguage: PropTypes.string,
 };
 
 class AdhocMetricOption extends React.PureComponent {

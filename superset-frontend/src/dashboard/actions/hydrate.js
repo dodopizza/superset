@@ -261,6 +261,8 @@ export const hydrateDashboard =
       const layoutId = chartIdToLayoutId[key];
       if (layoutId && layout[layoutId]) {
         layout[layoutId].meta.sliceName = slice.slice_name;
+        layout[layoutId].meta.sliceNameSecondLang =
+          slice.slice_name_second_lang;
       }
     });
     buildActiveFilters({

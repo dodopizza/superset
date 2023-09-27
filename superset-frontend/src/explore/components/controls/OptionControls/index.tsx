@@ -182,14 +182,12 @@ export const OptionControlLabel = ({
   isExtra?: boolean;
   tooltipTitle: string;
   multi?: boolean;
-  primaryLanguage: string;
+  primaryLanguage?: string;
 }) => {
   const theme = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const hasMetricName = savedMetric?.metric_name;
-  console.log('OptionControlLabel', props);
-  console.log('primaryLanguageXX HERE', primaryLanguage);
 
   const [, drop] = useDrop({
     accept: type,
@@ -268,12 +266,12 @@ export const OptionControlLabel = ({
         labelRef.current.scrollWidth > labelRef.current.clientWidth);
 
     if (savedMetric && hasMetricName) {
-      console.log('savedMetricXXX', savedMetric)
       return (
         <StyledMetricOption
           metric={savedMetric}
           labelRef={labelRef}
           shouldShowTooltip={!isDragging}
+          // @ts-ignore
           primaryLanguage={primaryLanguage}
         />
       );

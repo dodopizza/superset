@@ -61,7 +61,6 @@ export type ControlPanelsContainerProps = {
   onStop: () => void;
   canStopQuery: boolean;
   chartIsStale: boolean;
-  primaryLanguage: string;
 };
 
 export type ExpandedControlPanelSectionConfig = Omit<
@@ -185,7 +184,6 @@ function getState(
   const customizeSections: ControlPanelSectionConfig[] = [];
 
   getSectionsToRender(vizType, datasourceType).forEach(section => {
-    console.log('sectionXX', section);
     // if at least one control in the section is not `renderTrigger`
     // or asks to be displayed at the Data tab
     if (
@@ -224,20 +222,12 @@ function getState(
 }
 
 export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
-  console.log('ControlPanelsContainerXX', props);
-
   const pluginContext = useContext(PluginContext);
 
   const prevState = usePrevious(props.exploreState);
   const prevDatasource = usePrevious(props.exploreState.datasource);
 
   const [showDatasourceAlert, setShowDatasourceAlert] = useState(false);
-  const [chartPrimaryLanguage, setChartPrimaryLanguage] = useState('');
-
-  const { primaryLanguage } = props;
-
-  if (!chartPrimaryLanguage && primaryLanguage)
-    setChartPrimaryLanguage(primaryLanguage);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -309,14 +299,9 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
     );
   };
 
-  const renderControl = (
-    { name, config }: CustomControlItem,
-    primaryLanguage: string,
-  ) => {
+  const renderControl = ({ name, config }: CustomControlItem) => {
     const { controls, chart, exploreState } = props;
     const { visibility } = config;
-
-    console.log('controlsXXX', controls);
 
     // If the control item is not an object, we have to look up the control data from
     // the centralized controls file.
@@ -324,8 +309,7 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
     const controlData = {
       ...config,
       ...controls[name],
-      primaryLanguage,
-      ...(shouldRecalculateControlState({ name, config, primaryLanguage })
+      ...(shouldRecalculateControlState({ name, config })
         ? config?.mapStateToProps?.(exploreState, controls[name], chart)
         : // for other controls, `mapStateToProps` is already run in
           // controlUtils/getControlState.ts
@@ -340,10 +324,6 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
       ? visibility.call(config, props, controlData)
       : undefined;
 
-    console.log('restPropsXX', restProps);
-    console.log('controlDataXX', controlData);
-    console.log('chartPrimaryLanguageXX', primaryLanguage);
-
     return (
       <Control
         key={`control-${name}`}
@@ -351,7 +331,6 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
         validationErrors={validationErrors}
         actions={props.actions}
         isVisible={isVisible}
-        primaryLanguage={primaryLanguage}
         {...restProps}
       />
     );
@@ -427,7 +406,6 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
         {section.controlSetRows.map((controlSets, i) => {
           const renderedControls = controlSets
             .map(controlItem => {
-              console.log('controlItemXX', controlItem)
               if (!controlItem) {
                 // When the item is invalid
                 return null;
@@ -441,7 +419,7 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
                 controlItem.config &&
                 controlItem.name !== 'datasource'
               ) {
-                return renderControl({ ...controlItem }, chartPrimaryLanguage)
+                return renderControl({ ...controlItem });
               }
               return null;
             })
@@ -454,7 +432,6 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
             <ControlRow
               key={`controlsetrow-${i}`}
               controls={renderedControls}
-              primaryLanguage={chartPrimaryLanguage}
             />
           );
         })}

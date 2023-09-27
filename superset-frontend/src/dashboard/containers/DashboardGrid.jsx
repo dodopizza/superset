@@ -1,4 +1,5 @@
 // DODO was here
+// dashboardLanguage
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,7 +17,7 @@ function mapStateToProps({ dashboardState, dashboardInfo }) {
     editMode: dashboardState.editMode,
     canEdit: dashboardInfo.dash_edit_perm,
     dashboardId: dashboardInfo.id,
-    dashboardLanguage: dashboardInfo.extra_lang,
+    dashboardLanguage: dashboardInfo.selected_lang,
   };
 }
 

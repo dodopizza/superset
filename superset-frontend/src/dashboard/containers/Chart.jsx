@@ -82,11 +82,7 @@ function mapStateToProps(
   });
 
   formData.dashboardId = dashboardInfo.id;
-  console.log(
-    'RT DODO: переводы dashboardInfo.extra_lang',
-    dashboardInfo.extra_lang,
-    dashboardInfo,
-  );
+
   return {
     chart,
     datasource,
@@ -108,7 +104,7 @@ function mapStateToProps(
     setControlValue,
     filterboxMigrationState: dashboardState.filterboxMigrationState,
     datasetsStatus,
-    dashboardLanguage: dashboardInfo.extra_lang,
+    dashboardLanguage: dashboardInfo.selected_lang,
   };
 }
 

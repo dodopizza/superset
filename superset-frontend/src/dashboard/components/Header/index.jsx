@@ -1,6 +1,7 @@
 // DODO was here
-
+// dashboard_title_second_lang, selected_lang
 /* eslint-env browser */
+/* eslint-disable camelcase */
 import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,7 +15,6 @@ import {
 } from 'src/logger/LogUtils';
 import Icons from 'src/components/Icons';
 import Button from 'src/components/Button';
-import Select from 'src/components/Select/Select';
 import { AntdButton } from 'src/components/';
 import { Tooltip } from 'src/components/Tooltip';
 import { safeStringify } from 'src/utils/safeStringify';
@@ -348,6 +348,7 @@ class Header extends React.PureComponent {
       colorNamespace,
       customCss,
       dashboardInfo,
+      dashboardInfo: { dashboard_title_second_lang, selected_lang },
       refreshFrequency: currentRefreshFrequency,
       shouldPersistRefreshFrequency,
       lastModifiedTime,
@@ -373,6 +374,10 @@ class Header extends React.PureComponent {
       certification_details: dashboardInfo.certification_details,
       css: customCss,
       dashboard_title: dashboardTitle,
+      // @ts-ignore
+      dashboard_title_second_lang,
+      // @ts-ignore
+      selected_lang,
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -471,8 +476,6 @@ class Header extends React.PureComponent {
         ?.SUPERSET_DASHBOARD_PERIODICAL_REFRESH_WARNING_MESSAGE;
 
     const handleOnPropertiesChange = updates => {
-      console.log('RT DODO: переводы handleOnPropertiesChange', updates, 
-      'updates.extra_lang', updates.extra_lang);
       const { dashboardInfoChanged, dashboardTitleChanged } = this.props;
       dashboardInfoChanged({
         slug: updates.slug,
@@ -481,7 +484,8 @@ class Header extends React.PureComponent {
         certification_details: updates.certificationDetails,
         owners: updates.owners,
         roles: updates.roles,
-        extra_lang: updates.extra_lang
+        selected_lang: updates.selected_lang,
+        dashboard_title_second_lang: updates.dashboard_title_second_lang,
       });
       setColorSchemeAndUnsavedChanges(updates.colorScheme);
       dashboardTitleChanged(updates.title);

@@ -22,17 +22,7 @@ const NUM_COLUMNS = 12;
 
 type Control = React.ReactElement | null;
 
-export default function ControlRow({
-  controls,
-  primaryLanguage,
-}: {
-  controls: Control[];
-  primaryLanguage: string;
-}) {
-
-  console.log('primaryLanguageXXXX', primaryLanguage);
-  console.log('controlsXXXX', controls);
-
+export default function ControlRow({ controls }: { controls: Control[] }) {
   const isHiddenControl = useCallback(
     (control: Control) =>
       control?.props.type === 'HiddenControl' ||

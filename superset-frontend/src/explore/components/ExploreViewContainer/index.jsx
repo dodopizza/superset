@@ -220,7 +220,6 @@ const updateHistory = debounce(
 );
 
 function ExploreViewContainer(props) {
-  console.log('RT DODO: переводы ExploreViewContainer props', props, 'slice_name_second_lang', props.slice, 'primaryLanguage', props.primaryLanguage)
   const dynamicPluginContext = usePluginContext();
   const dynamicPlugin = dynamicPluginContext.dynamicPlugins[props.vizType];
   const isDynamicPluginLoading = dynamicPlugin && dynamicPlugin.mounting;
@@ -312,7 +311,6 @@ function ExploreViewContainer(props) {
                 action: 'overwrite',
                 slice_id: props.slice.slice_id,
                 slice_name: props.slice.slice_name,
-                slice_name_second_lang: props.slice.slice_name_second_lang,
                 add_to_dash: 'noSave',
                 goto_dash: false,
               })
@@ -535,8 +533,6 @@ function ExploreViewContainer(props) {
     return renderChartContainer();
   }
 
-  console.log('chart propsXXX', props)
-
   return (
     <ExploreContainer>
       <ConnectedExploreChartHeader
@@ -547,6 +543,7 @@ function ExploreViewContainer(props) {
         isStarred={props.isStarred}
         slice={props.slice}
         sliceName={props.sliceName}
+        sliceNameSecondLang={props.sliceNameSecondLang}
         table_name={props.table_name}
         formData={props.form_data}
         chart={props.chart}
@@ -587,6 +584,7 @@ function ExploreViewContainer(props) {
             actions={props.actions}
             form_data={props.form_data}
             sliceName={props.sliceName}
+            sliceNameSecondLang={props.sliceNameSecondLang}
             dashboardId={props.dashboardId}
           />
         )}
@@ -709,14 +707,14 @@ function mapStateToProps(state) {
   const chartKey = Object.keys(charts)[0];
   const chart = charts[chartKey];
 
-  console.log('RT DODO: переводы chartXZXZ', chart)
+  console.log('RT DODO: переводы chartXZXZ', chart);
 
   let dashboardId = Number(explore.form_data?.dashboardId);
   if (Number.isNaN(dashboardId)) {
     dashboardId = undefined;
   }
 
-  console.log('RT DODO: переводы RETURNING primaryLanguage ru2')
+  console.log('RT DODO TODO: primaryLanguage ru2', explore);
 
   return {
     isDatasourceMetaLoading: explore.isDatasourceMetaLoading,
@@ -737,6 +735,7 @@ function mapStateToProps(state) {
     isStarred: explore.isStarred,
     slice: explore.slice,
     sliceName: explore.sliceName,
+    sliceNameSecondLang: explore.sliceNameSecondLang,
     triggerRender: explore.triggerRender,
     form_data,
     table_name: form_data.datasource_name,
@@ -751,7 +750,7 @@ function mapStateToProps(state) {
     user: explore.user,
     exploreState: explore,
     reports,
-    primaryLanguage: 'ru2'
+    primaryLanguage: 'ru2',
   };
 }
 

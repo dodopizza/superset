@@ -250,10 +250,8 @@ class Chart extends React.PureComponent {
       queriesResponse = [],
       isDeactivatedViz = false,
       width,
-      dashboardLanguage,
+      // dashboardLanguage,
     } = this.props;
-
-    console.log('RT DODO: переводы slice-container', this.props, 'dashboardLanguage:', dashboardLanguage)
 
     const isLoading = chartStatus === 'loading';
     this.renderContainerStartTime = Logger.getTimestamp();

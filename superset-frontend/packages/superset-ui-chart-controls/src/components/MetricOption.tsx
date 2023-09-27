@@ -31,7 +31,6 @@ export interface MetricOptionProps {
   url?: string;
   labelRef?: React.RefObject<any>;
   shouldShowTooltip?: boolean;
-  primaryLanguage: string;
 }
 
 export function MetricOption({
@@ -42,6 +41,7 @@ export function MetricOption({
   showType = false,
   shouldShowTooltip = true,
   url = '',
+  // @ts-ignore
   primaryLanguage,
 }: MetricOptionProps) {
   let verbose = null;
