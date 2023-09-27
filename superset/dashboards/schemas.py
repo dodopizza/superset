@@ -77,14 +77,14 @@ openapi_spec_methods_override = {
     "get_list": {
         "get": {
             "description": "Get a list of dashboards, use Rison or JSON query "
-            "parameters for filtering, sorting, pagination and "
-            " for selecting specific columns and metadata.",
+                           "parameters for filtering, sorting, pagination and "
+                           " for selecting specific columns and metadata.",
         }
     },
     "info": {
         "get": {
             "description": "Several metadata information about dashboard API "
-            "endpoints.",
+                           "endpoints.",
         }
     },
     "related": {
@@ -172,9 +172,9 @@ class DashboardGetResponseSchema(Schema):
     roles = fields.List(fields.Nested(RolesSchema))
     changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
-    extra_lang_dashboard_title = fields.String(description=dashboard_title_description)
-    extra_lang = fields.String(description=extra_lang_dashboard_description,
-                               allow_none=True, validate=OneOf(current_langs))
+    dashboard_title_second_lang = fields.String(description=dashboard_title_description)
+    selected_lang = fields.String(description=extra_lang_dashboard_description,
+                                  allow_none=True, validate=OneOf(current_langs))
 
 
 class DatabaseSchema(Schema):
@@ -292,9 +292,9 @@ class DashboardPutSchema(BaseDashboardSchema):
     )
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     external_url = fields.String(allow_none=True)
-    extra_lang_dashboard_title = fields.String(description=dashboard_title_description)
-    extra_lang = fields.String(description=extra_lang_dashboard_description,
-                               validate=OneOf(current_langs), allow_none=True)
+    dashboard_title_second_lang = fields.String(description=dashboard_title_description)
+    selected_lang = fields.String(description=extra_lang_dashboard_description,
+                                  validate=OneOf(current_langs), allow_none=True)
 
 
 class ChartFavStarResponseResult(Schema):

@@ -148,8 +148,8 @@ class Dashboard(Model, AuditMixinNullable, ImportExportMixin):
     slices: List[Slice] = relationship(
         Slice, secondary=dashboard_slices, backref="dashboards"
     )
-    extra_lang = Column(Text, nullable=True)
-    extra_lang_dashboard_title = Column(Text, nullable=True)
+    selected_lang = Column(Text, nullable=True)
+    dashboard_title_second_lang = Column(Text, nullable=True)
     owners = relationship(security_manager.user_model, secondary=dashboard_user)
     published = Column(Boolean, default=False)
     is_managed_externally = Column(Boolean, nullable=False, default=False)
