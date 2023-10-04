@@ -68,6 +68,7 @@ export default function Control(props: ControlProps) {
     isVisible,
     resetOnHide = true,
   } = props;
+
   const [hovered, setHovered] = useState(false);
   const wasVisible = usePrevious(isVisible);
   const onChange = useCallback(
