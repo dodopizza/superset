@@ -1,5 +1,5 @@
 // DODO was here
-// dashboardLanguage
+// maybe
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -64,7 +64,6 @@ function mapStateToProps(
     editMode: dashboardState.editMode,
     filters: getActiveFilters(),
     dashboardId: dashboardInfo.id,
-    dashboardLanguage: dashboardInfo.selected_lang,
     fullSizeChartId: dashboardState.fullSizeChartId,
   };
 

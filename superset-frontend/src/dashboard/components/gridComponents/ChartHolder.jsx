@@ -1,4 +1,5 @@
 // DODO was here
+// maybe
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -270,7 +271,6 @@ class ChartHolder extends React.Component {
       dashboardId,
       fullSizeChartId,
       getComponentById = () => undefined,
-      dashboardLanguage,
     } = this.props;
 
     const { chartId } = component.meta;
@@ -359,7 +359,6 @@ class ChartHolder extends React.Component {
                 componentId={component.id}
                 id={component.meta.chartId}
                 dashboardId={dashboardId}
-                dashboardLanguage={dashboardLanguage}
                 width={chartWidth}
                 height={chartHeight}
                 sliceName={

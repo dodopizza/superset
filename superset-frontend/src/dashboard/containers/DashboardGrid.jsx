@@ -1,5 +1,5 @@
 // DODO was here
-// dashboardLanguage
+// maybe
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -12,12 +12,10 @@ import {
 import { setDirectPathToChild, setEditMode } from '../actions/dashboardState';
 
 function mapStateToProps({ dashboardState, dashboardInfo }) {
-  console.log('RT DODO: переводы dashboardInfoXXX', dashboardInfo);
   return {
     editMode: dashboardState.editMode,
     canEdit: dashboardInfo.dash_edit_perm,
     dashboardId: dashboardInfo.id,
-    dashboardLanguage: dashboardInfo.selected_lang,
   };
 }
 
