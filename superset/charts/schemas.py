@@ -74,10 +74,9 @@ get_fav_star_ids_schema = {"type": "array", "items": {"type": "integer"}}
 # Column schema descriptions
 #
 slice_name_description = "The name of the chart."
-slice_name_second_lang_description = "The second name of the chart."
+slice_name_RU_description = "The second name of the chart."
 extra_slice_name_description = "The extra name of the chart."
 primary_lang_description = "A primary language"
-extra_lang_description = "A second language of chart"
 description_description = "A description of the chart propose."
 viz_type_description = "The type of chart visualization used."
 owners_description = (
@@ -161,7 +160,7 @@ class ChartEntityResponseSchema(Schema):
 
     slice_id = fields.Integer()
     slice_name = fields.String(description=slice_name_description)
-    slice_name_second_lang = fields.String(description=slice_name_second_lang_description)
+    slice_name_RU = fields.String(description=slice_name_RU_description)
     cache_timeout = fields.Integer(description=cache_timeout_description)
     changed_on = fields.String(description=changed_on_description)
     description = fields.String(description=description_description)
@@ -182,9 +181,7 @@ class ChartPostSchema(Schema):
     slice_name = fields.String(
         description=slice_name_description, required=True, validate=Length(1, 250)
     )
-    extra_lang = fields.String(description=extra_lang_description, allow_none=True,
-                               validate=OneOf(choices=current_langs))
-    slice_name_second_lang = fields.String(description=extra_slice_name_description,
+    slice_name_RU = fields.String(description=extra_slice_name_description,
                                            allow_none=True, validate=Length(1, 250))
     primary_lang = fields.String(description=primary_lang_description,
                                  allow_none=True, validate=OneOf(choices=current_langs))
@@ -235,9 +232,7 @@ class ChartPutSchema(Schema):
     slice_name = fields.String(
         description=slice_name_description, allow_none=True, validate=Length(0, 250)
     )
-    extra_lang = fields.String(description=extra_lang_description, allow_none=True,
-                               validate=OneOf(choices=current_langs))
-    slice_name_second_lang = fields.String(description=extra_slice_name_description,
+    slice_name_RU = fields.String(description=extra_slice_name_description,
                                            allow_none=True, validate=Length(1, 250))
     primary_lang = fields.String(description=primary_lang_description,
                                  allow_none=True, validate=OneOf(choices=current_langs))

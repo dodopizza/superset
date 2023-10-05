@@ -241,8 +241,8 @@ class TableColumn(Model, BaseColumn, CertificationMixin):
     expression = Column(MediumText())
     python_date_format = Column(String(255))
     extra = Column(Text)
-    verbose_name_2nd_lang = Column(Text, nullable=True)
-    description_2nd_lang = Column(Text, nullable=True)
+    verbose_name_RU = Column(Text, nullable=True)
+    description_RU = Column(Text, nullable=True)
 
     export_fields = [
         "table_id",
@@ -258,8 +258,8 @@ class TableColumn(Model, BaseColumn, CertificationMixin):
         "description",
         "python_date_format",
         "extra",
-        "verbose_name_2nd_lang",
-        "description_2nd_lang"
+        "verbose_name_RU",
+        "description_RU"
     ]
 
     update_from_object_fields = [s for s in export_fields if s not in ("table_id",)]
@@ -524,8 +524,8 @@ class SqlMetric(Model, BaseMetric, CertificationMixin):
     )
     expression = Column(MediumText(), nullable=False)
     extra = Column(Text)
-    verbose_name_2nd_lang = Column(Text, nullable=True)
-    description_2nd_lang = Column(Text, nullable=True)
+    verbose_name_RU = Column(Text, nullable=True)
+    description_RU = Column(Text, nullable=True)
 
     export_fields = [
         "metric_name",
@@ -537,8 +537,8 @@ class SqlMetric(Model, BaseMetric, CertificationMixin):
         "d3format",
         "extra",
         "warning_text",
-        "description_2nd_lang",
-        "verbose_name_2nd_lang",
+        "description_RU",
+        "verbose_name_RU",
     ]
     update_from_object_fields = list(s for s in export_fields if s != "table_id")
     export_parent = "table"

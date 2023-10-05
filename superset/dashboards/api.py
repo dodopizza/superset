@@ -180,8 +180,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "roles.id",
         "roles.name",
         "is_managed_externally",
-        "dashboard_title_second_lang",
-        "selected_lang"
+        "dashboard_title_RU",
     ]
     list_select_columns = list_columns + ["changed_on", "created_on", "changed_by_fk"]
     order_columns = [

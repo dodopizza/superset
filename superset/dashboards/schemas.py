@@ -32,7 +32,6 @@ thumbnail_query_schema = {
     "properties": {"force": {"type": "boolean"}},
 }
 
-extra_lang_dashboard_description = "Extra langauge dashboard."
 dashboard_title_description = "A title for the dashboard."
 extra_dashboard_title_description = "Extra a title for the dashboard."
 slug_description = "Unique identifying part for the web address of the dashboard."
@@ -169,9 +168,7 @@ class DashboardGetResponseSchema(Schema):
     roles = fields.List(fields.Nested(RolesSchema))
     changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
-    dashboard_title_second_lang = fields.String(description=dashboard_title_description)
-    selected_lang = fields.String(description=extra_lang_dashboard_description,
-                                  allow_none=True, validate=OneOf(["primary", "secondary"]))
+    dashboard_title_RU = fields.String(description=dashboard_title_description)
 
 
 class DatabaseSchema(Schema):
@@ -289,9 +286,7 @@ class DashboardPutSchema(BaseDashboardSchema):
     )
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     external_url = fields.String(allow_none=True)
-    dashboard_title_second_lang = fields.String(description=dashboard_title_description)
-    selected_lang = fields.String(description=extra_lang_dashboard_description,
-                                  validate=OneOf(["primary", "secondary"]), allow_none=True)
+    dashboard_title_RU = fields.String(description=dashboard_title_description)
 
 
 class ChartFavStarResponseResult(Schema):
