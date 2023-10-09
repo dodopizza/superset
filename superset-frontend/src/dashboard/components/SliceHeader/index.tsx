@@ -21,7 +21,7 @@ type SliceHeaderProps = SliceHeaderControlsProps & {
   annotationQuery?: object;
   annotationError?: object;
   sliceName?: string;
-  sliceNameSecondLang?: string;
+  sliceNameRU?: string;
   filters: object;
   handleToggleFullSize: () => void;
   formData: object;
@@ -56,7 +56,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   isCached = [],
   isExpanded = false,
   sliceName = '',
-  sliceNameSecondLang = '',
+  sliceNameRU = '',
   supersetCanExplore = false,
   supersetCanShare = false,
   supersetCanCSV = false,
@@ -81,8 +81,8 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     dashboardLanguage,
     'sliceName',
     sliceName,
-    'sliceNameSecondLang',
-    sliceNameSecondLang,
+    'sliceNameRU',
+    sliceNameRU,
   );
   const dispatch = useDispatch();
   const uiConfig = useUiConfig();
@@ -127,12 +127,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   }, [sliceName, width, height, handleClickTitle]);
 
   const finalName =
-    dashboardLanguage === 'primary'
-      ? sliceName
-      : sliceNameSecondLang || sliceName;
-
-  console.log('dashboardLanguage XXX', dashboardLanguage);
-  console.log('finalName', finalName);
+    dashboardLanguage === 'ru' ? sliceNameRU || sliceName : sliceName;
 
   return (
     <div className="chart-header" data-test="slice-header" ref={innerRef}>

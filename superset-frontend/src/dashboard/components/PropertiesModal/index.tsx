@@ -1,5 +1,5 @@
 // DODO was here
-// selected_lang: selected_lang, dashboard_title_second_lang
+// selected_lang: selected_lang, dashboard_title_RU
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from 'src/components/Input';
@@ -82,7 +82,7 @@ type DashboardInfo = {
   certificationDetails: string;
   isManagedExternally: boolean;
   selected_lang: string;
-  dashboard_title_second_lang: string;
+  dashboard_title_RU: string;
 };
 
 const PropertiesModal = ({
@@ -170,7 +170,7 @@ const PropertiesModal = ({
         metadata,
         is_managed_externally,
         selected_lang,
-        dashboard_title_second_lang,
+        dashboard_title_RU,
       } = dashboardData;
 
       const dashboardInfo = {
@@ -181,7 +181,7 @@ const PropertiesModal = ({
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
         selected_lang: selected_lang || '',
-        dashboard_title_second_lang: dashboard_title_second_lang || '',
+        dashboard_title_RU: dashboard_title_RU || '',
       };
       console.log('dashboardInfo', dashboardInfo);
 

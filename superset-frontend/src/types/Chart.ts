@@ -1,5 +1,5 @@
 // DODO was here
-// slice_name_second_lang
+// slice_name_RU
 
 /**
  * The Chart model as returned from the API
@@ -13,7 +13,7 @@ export interface Chart {
   url: string;
   viz_type: string;
   slice_name: string;
-  slice_name_second_lang?: string;
+  slice_name_RU?: string;
   creator: string;
   changed_on: string;
   changed_on_delta_humanized?: string;
@@ -35,7 +35,7 @@ export type Slice = {
   id?: number;
   slice_id: number;
   slice_name: string;
-  slice_name_second_lang?: string;
+  slice_name_RU?: string;
   description: string | null;
   cache_timeout: number | null;
   certified_by?: string;

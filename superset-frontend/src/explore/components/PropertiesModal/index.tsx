@@ -1,5 +1,5 @@
 // DODO was here
-// Set slice_name_second_lang
+// Set slice_name_RU
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import Modal from 'src/components/Modal';
 import { Input, TextArea } from 'src/components/Input';
@@ -39,13 +39,12 @@ function PropertiesModal({
   show,
   addSuccessToast,
 }: PropertiesModalProps) {
+  console.log('sliceXXX need slice_name_RU', slice);
   const [submitting, setSubmitting] = useState(false);
   const [form] = AntdForm.useForm();
   // values of form inputs
   const [name, setName] = useState(slice.slice_name || '');
-  const [slice_name_second_lang, setSliceNameSecondLang] = useState(
-    slice.slice_name_second_lang || '',
-  );
+  const [slice_name_RU, setSliceNameRU] = useState(slice.slice_name_RU || '');
   const [selectedOwners, setSelectedOwners] = useState<SelectValue | null>(
     null,
   );
@@ -128,7 +127,7 @@ function PropertiesModal({
       certified_by: certifiedBy || null,
       certification_details:
         certifiedBy && certificationDetails ? certificationDetails : null,
-      slice_name_second_lang,
+      slice_name_RU,
     };
     if (selectedOwners) {
       payload.owners = (
@@ -224,15 +223,15 @@ function PropertiesModal({
             slice.certified_by && slice.certification_details
               ? slice.certification_details
               : '',
-          slice_name_second_lang: slice.slice_name_second_lang || '',
+          slice_name_RU: slice.slice_name_RU || '',
         }}
       >
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <h3>{t('Basic information')}</h3>
-            <FormItem label={t('Name')} required>
+            <FormItem label={t('Chart Name (EN)')} required>
               <Input
-                aria-label={t('Name')}
+                aria-label={t('Chart Name (EN)')}
                 name="name"
                 data-test="properties-modal-name-input"
                 type="text"
@@ -242,15 +241,15 @@ function PropertiesModal({
                 }
               />
             </FormItem>
-            <FormItem label={t('Second Language Name')}>
+            <FormItem label={t('Chart Name (RU)')}>
               <Input
-                aria-label={t('Second Language Name')}
-                name="slice_name_second_lang"
+                aria-label={t('Chart Name (RU)')}
+                name="slice_name_RU"
                 data-test="properties-modal-name-input"
                 type="text"
-                value={slice_name_second_lang}
+                value={slice_name_RU}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setSliceNameSecondLang(event.target.value ?? '')
+                  setSliceNameRU(event.target.value ?? '')
                 }
               />
             </FormItem>

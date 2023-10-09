@@ -224,41 +224,41 @@ function ColumnCollectionTable({
             )}
             <Field
               fieldKey="verbose_name"
-              label={t('Label')}
+              label={t('Label (EN)')}
               control={
                 <TextControl
                   controlId="verbose_name"
-                  placeholder={t('Label')}
+                  placeholder={t('Label (EN)')}
                 />
               }
             />
             <Field
-              fieldKey="verbose_name_2nd_lang"
-              label={t('Label 2nd Lang')}
+              fieldKey="verbose_name_RU"
+              label={t('Label (RU)')}
               control={
                 <TextControl
-                  controlId="verbose_name_2nd_lang"
-                  placeholder={t('Label 2nd Lang')}
+                  controlId="verbose_name_RU"
+                  placeholder={t('Label (RU)')}
                 />
               }
             />
             <Field
               fieldKey="description"
-              label={t('Description')}
+              label={t('Description (EN)')}
               control={
                 <TextControl
                   controlId="description"
-                  placeholder={t('Description')}
+                  placeholder={t('Description (EN)')}
                 />
               }
             />
             <Field
-              fieldKey="description_2nd_lang"
-              label={t('Description 2nd Language')}
+              fieldKey="description_RU"
+              label={t('Description (RU)')}
               control={
                 <TextControl
-                  controlId="description_2nd_lang"
-                  placeholder={t('Description 2nd Language')}
+                  controlId="description_RU"
+                  placeholder={t('Description (RU)')}
                 />
               }
             />
@@ -852,7 +852,7 @@ class DatasourceEditor extends React.PureComponent {
       >
         <Field
           fieldKey="description"
-          label={t('Description')}
+          label={t('Description (EN)')}
           control={
             <TextAreaControl language="markdown" offerEditInModal={false} />
           }
@@ -1196,19 +1196,19 @@ class DatasourceEditor extends React.PureComponent {
         tableColumns={[
           'metric_name',
           'verbose_name',
-          'verbose_name_2nd_lang',
+          'verbose_name_RU',
           'expression',
         ]}
         sortColumns={[
           'metric_name',
           'verbose_name',
-          'verbose_name_2nd_lang',
+          'verbose_name_RU',
           'expression',
         ]}
         columnLabels={{
           metric_name: t('Metric'),
-          verbose_name: t('Label'),
-          verbose_name_2nd_lang: t('Label 2nd Lang'),
+          verbose_name: t('Label (EN)'),
+          verbose_name_RU: t('Label (RU)'),
           expression: t('SQL expression'),
         }}
         expandFieldset={
@@ -1216,21 +1216,21 @@ class DatasourceEditor extends React.PureComponent {
             <Fieldset compact>
               <Field
                 fieldKey="description"
-                label={t('Description')}
+                label={t('Description (EN)')}
                 control={
                   <TextControl
                     controlId="description"
-                    placeholder={t('Description')}
+                    placeholder={t('Description (EN)')}
                   />
                 }
               />
               <Field
-                fieldKey="description_2nd_lang"
-                label={t('Description 2nd Language')}
+                fieldKey="description_RU"
+                label={t('Description (RU)')}
                 control={
                   <TextControl
-                    controlId="description_2nd_lang"
-                    placeholder={t('Description 2nd Language')}
+                    controlId="description_RU"
+                    placeholder={t('Description (RU)')}
                   />
                 }
               />
@@ -1286,7 +1286,7 @@ class DatasourceEditor extends React.PureComponent {
         itemGenerator={() => ({
           metric_name: '<new metric>',
           verbose_name: '',
-          verbose_name_2nd_lang: '',
+          verbose_name_RU: '',
           expression: '',
         })}
         itemRenderers={{
@@ -1309,7 +1309,7 @@ class DatasourceEditor extends React.PureComponent {
           verbose_name: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
-          verbose_name_2nd_lang: (v, onChange) => (
+          verbose_name_RU: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           expression: (v, onChange) => (

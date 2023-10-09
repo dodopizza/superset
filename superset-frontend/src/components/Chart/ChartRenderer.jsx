@@ -213,17 +213,17 @@ class ChartRenderer extends React.Component {
       );
 
       if (foundMetric.length) {
-        const { verbose_name, verbose_name_2nd_lang } = foundMetric[0];
+        const { verbose_name, verbose_name_RU } = foundMetric[0];
         finalName =
-          dashboardLanguage === 'primary'
-            ? verbose_name
-            : verbose_name_2nd_lang || verbose_name;
+          dashboardLanguage === 'ru'
+            ? verbose_name_RU || verbose_name
+            : verbose_name;
       } else if (foundColumn.length) {
-        const { verbose_name, verbose_name_2nd_lang } = foundColumn[0];
+        const { verbose_name, verbose_name_RU } = foundColumn[0];
         finalName =
-          dashboardLanguage === 'primary'
-            ? verbose_name
-            : verbose_name_2nd_lang || verbose_name;
+          dashboardLanguage === 'ru'
+            ? verbose_name_RU || verbose_name
+            : verbose_name;
       }
 
       alteredVerboseMap = {
@@ -240,24 +240,24 @@ class ChartRenderer extends React.Component {
       columns: datasource.columns.map(column => ({
         ...column,
         verbose_name:
-          dashboardLanguage === 'primary'
-            ? column.verbose_name
-            : column.verbose_name_2nd_lang || column.verbose_name,
+          dashboardLanguage === 'ru'
+            ? column.verbose_name_RU || column.verbose_name
+            : column.verbose_name,
         description:
-          dashboardLanguage === 'primary'
-            ? column.description
-            : column.description_2nd_lang || column.description,
+          dashboardLanguage === 'ru'
+            ? column.description_RU || column.description
+            : column.description,
       })),
       metrics: datasource.metrics.map(metric => ({
         ...metric,
         verbose_name:
-          dashboardLanguage === 'primary'
-            ? metric.verbose_name
-            : metric.verbose_name_2nd_lang || metric.verbose_name,
+          dashboardLanguage === 'ru'
+            ? metric.verbose_name_RU || metric.verbose_name
+            : metric.verbose_name,
         description:
-          dashboardLanguage === 'primary'
-            ? metric.description
-            : metric.description_2nd_lang || metric.description,
+          dashboardLanguage === 'ru'
+            ? metric.description_RU || metric.description
+            : metric.description,
       })),
     };
 

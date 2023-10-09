@@ -145,13 +145,13 @@ export const hydrateDashboard =
         formData: applyDefaultFormData(form_data),
       };
 
-      console.log('RT DODO: переводы slice', slice);
+      console.log('RT DODO: переводы slice need slice_name_RU', slice);
 
       slices[key] = {
         slice_id: key,
         slice_url: slice.slice_url,
         slice_name: slice.slice_name,
-        slice_name_second_lang: slice.slice_name_second_lang,
+        slice_name_RU: slice.slice_name_RU,
         form_data: slice.form_data,
         viz_type: slice.form_data.viz_type,
         datasource: slice.form_data.datasource,
@@ -261,8 +261,7 @@ export const hydrateDashboard =
       const layoutId = chartIdToLayoutId[key];
       if (layoutId && layout[layoutId]) {
         layout[layoutId].meta.sliceName = slice.slice_name;
-        layout[layoutId].meta.sliceNameSecondLang =
-          slice.slice_name_second_lang;
+        layout[layoutId].meta.sliceNameRU = slice.slice_name_RU;
       }
     });
     buildActiveFilters({

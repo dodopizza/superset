@@ -543,7 +543,7 @@ function ExploreViewContainer(props) {
         isStarred={props.isStarred}
         slice={props.slice}
         sliceName={props.sliceName}
-        sliceNameSecondLang={props.sliceNameSecondLang}
+        sliceNameRU={props.sliceNameRU}
         table_name={props.table_name}
         formData={props.form_data}
         chart={props.chart}
@@ -584,7 +584,7 @@ function ExploreViewContainer(props) {
             actions={props.actions}
             form_data={props.form_data}
             sliceName={props.sliceName}
-            sliceNameSecondLang={props.sliceNameSecondLang}
+            sliceNameRU={props.sliceNameRU}
             dashboardId={props.dashboardId}
           />
         )}
@@ -735,7 +735,7 @@ function mapStateToProps(state) {
     isStarred: explore.isStarred,
     slice: explore.slice,
     sliceName: explore.sliceName,
-    sliceNameSecondLang: explore.sliceNameSecondLang,
+    sliceNameRU: explore.sliceNameRU,
     triggerRender: explore.triggerRender,
     form_data,
     table_name: form_data.datasource_name,
@@ -750,7 +750,7 @@ function mapStateToProps(state) {
     user: explore.user,
     exploreState: explore,
     reports,
-    primaryLanguage: 'ru2',
+    // primaryLanguage: 'ru2',
   };
 }
 

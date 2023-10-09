@@ -1,5 +1,5 @@
 // DODO was here
-// slice_name_second_lang
+// slice_name_RU
 
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -39,7 +39,7 @@ const propTypes = {
   isStarred: PropTypes.bool.isRequired,
   slice: PropTypes.object,
   sliceName: PropTypes.string,
-  sliceNameSecondLang: PropTypes.string,
+  sliceNameRU: PropTypes.string,
   table_name: PropTypes.string,
   formData: PropTypes.object,
   ownState: PropTypes.object,
@@ -143,6 +143,7 @@ export const ExploreChartHeader = ({
         if (response) {
           setSliceData({
             ...alteredSlice,
+            slice_name_RU: response.slice_name_RU,
           });
         }
 
@@ -191,6 +192,7 @@ export const ExploreChartHeader = ({
         if (response) {
           setSliceData({
             ...alteredSlice,
+            slice_name_RU: response.slice_name_RU,
           });
         }
 

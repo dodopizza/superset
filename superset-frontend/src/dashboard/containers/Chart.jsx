@@ -67,10 +67,8 @@ function mapStateToProps(
   });
 
   formData.dashboardId = dashboardInfo.id;
-  const userLocale = bootstrapData.common.locale || 'en';
   // ENRTYPOINT DASHBOARD LANGUAGE
-  const alteredDashboardLanguage =
-    userLocale === 'en' ? 'primary' : 'secondary';
+  const alteredDashboardLanguage = bootstrapData.common.locale || 'en';
 
   return {
     chart,
@@ -93,7 +91,6 @@ function mapStateToProps(
     setControlValue,
     filterboxMigrationState: dashboardState.filterboxMigrationState,
     datasetsStatus,
-    // dashboardLanguage: dashboardInfo.selected_lang,
     dashboardLanguage: alteredDashboardLanguage,
   };
 }

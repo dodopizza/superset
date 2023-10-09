@@ -366,7 +366,7 @@ class ChartHolder extends React.Component {
                   component.meta.sliceName ||
                   ''
                 }
-                sliceNameSecondLang={component.meta.sliceNameSecondLang || ''}
+                sliceNameRU={component.meta.sliceNameRU || ''}
                 updateSliceName={this.handleUpdateSliceName}
                 isComponentVisible={isComponentVisible}
                 handleToggleFullSize={this.handleToggleFullSize}

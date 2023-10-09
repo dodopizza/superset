@@ -250,7 +250,6 @@ class Chart extends React.PureComponent {
       queriesResponse = [],
       isDeactivatedViz = false,
       width,
-      // dashboardLanguage,
     } = this.props;
 
     const isLoading = chartStatus === 'loading';

@@ -44,6 +44,7 @@ const propTypes = {
   datasource: PropTypes.object,
   slice: slicePropShape.isRequired,
   sliceName: PropTypes.string.isRequired,
+  sliceNameRU: PropTypes.string,
   timeout: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
   filterboxMigrationState: FILTER_BOX_MIGRATION_STATES,
@@ -344,7 +345,7 @@ export default class Chart extends React.Component {
       sharedLabelColors,
       updateSliceName,
       sliceName,
-      sliceNameSecondLang,
+      sliceNameRU,
       toggleExpandSlice,
       timeout,
       supersetCanExplore,
@@ -417,7 +418,7 @@ export default class Chart extends React.Component {
           exportFullCSV={this.exportFullCSV}
           updateSliceName={updateSliceName}
           sliceName={sliceName}
-          sliceNameSecondLang={sliceNameSecondLang}
+          sliceNameRU={sliceNameRU}
           supersetCanExplore={supersetCanExplore}
           supersetCanShare={supersetCanShare}
           supersetCanCSV={supersetCanCSV}

@@ -54,6 +54,7 @@ const propTypes = {
   isStarred: PropTypes.bool.isRequired,
   slice: PropTypes.object,
   sliceName: PropTypes.string,
+  sliceNameRU: PropTypes.string,
   table_name: PropTypes.string,
   vizType: PropTypes.string.isRequired,
   form_data: PropTypes.object,
