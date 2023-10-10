@@ -67,8 +67,44 @@ function mapStateToProps(
   });
 
   formData.dashboardId = dashboardInfo.id;
+
+  let alteredDashboardLanguage = 'en';
+
+  // TODO: duplicated logic from the store
+  const getUserLocaleForPlugin = () => {
+    function getPageLanguage() {
+      if (!document) {
+        return null;
+      }
+      const select = document.querySelector('#changeLanguage select');
+      const selectedLanguage = select ? select.value : null;
+      return selectedLanguage;
+    }
+    const getLocaleForSuperset = () => {
+      const dodoisLanguage = getPageLanguage();
+      console.log('dodoisLanguage containers/Chart', dodoisLanguage);
+      if (dodoisLanguage) {
+        if (dodoisLanguage === 'ru-RU') return 'ru';
+        return 'en';
+      }
+      return 'en';
+    };
+
+    return getLocaleForSuperset();
+  };
+
+  console.log('containers/Chart [ process.env.type => ', process.env.type, ']');
+
   // ENRTYPOINT DASHBOARD LANGUAGE
-  const alteredDashboardLanguage = bootstrapData.common.locale || 'en';
+  if (process.env.type === undefined) {
+    alteredDashboardLanguage =
+      (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+      'en';
+  } else {
+    alteredDashboardLanguage = getUserLocaleForPlugin();
+  }
+
+  console.log('alteredDashboardLanguage', alteredDashboardLanguage);
 
   return {
     chart,

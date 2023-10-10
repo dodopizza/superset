@@ -1,5 +1,5 @@
 // DODO was here
-// selected_lang: selected_lang, dashboard_title_RU
+// TODO: dashboard_title_RU
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from 'src/components/Input';
@@ -34,26 +34,6 @@ const StyledJsonEditor = styled(JsonEditor)`
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
 
-const ChartLanguageContainer = styled.div`
-  height: 100%;
-  width: 200px;
-  display: flex;
-  align-items: center;
-  ${({ theme }) => `
-    margin-left: 0;
-    padding: 0;
-    font-size: 12px;
-    border-radius: ${theme.borderRadius}px;
-  `}
-  min-width: 104px;
-  line-height: 1;
-`;
-
-const SYSTEM_LANGUAGES = [
-  { value: 'primary', label: 'Primary' },
-  { value: 'secondary', label: 'Secondary' },
-];
-
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
@@ -81,7 +61,6 @@ type DashboardInfo = {
   certifiedBy: string;
   certificationDetails: string;
   isManagedExternally: boolean;
-  selected_lang: string;
   dashboard_title_RU: string;
 };
 
@@ -96,10 +75,6 @@ const PropertiesModal = ({
   onSubmit = () => {},
   show = false,
 }: PropertiesModalProps) => {
-  console.log(
-    'TODO: переводы currentDashboardInfo propsXX',
-    currentDashboardInfo,
-  );
   const [form] = AntdForm.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -109,9 +84,6 @@ const PropertiesModal = ({
   const [owners, setOwners] = useState<Owners>([]);
   const [roles, setRoles] = useState<Roles>([]);
   const saveLabel = onlyApply ? t('Apply') : t('Save');
-  const [selected_langState, setSecondLangState] = useState(
-    currentDashboardInfo?.selected_lang || null,
-  );
 
   console.log('TODO: переводы dashboardInfo propsXX', dashboardInfo);
 
@@ -169,7 +141,6 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
-        selected_lang,
         dashboard_title_RU,
       } = dashboardData;
 
@@ -180,7 +151,7 @@ const PropertiesModal = ({
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
-        selected_lang: selected_lang || '',
+        // TODO
         dashboard_title_RU: dashboard_title_RU || '',
       };
       console.log('dashboardInfo', dashboardInfo);
@@ -189,7 +160,6 @@ const PropertiesModal = ({
       setDashboardInfo(dashboardInfo);
       setOwners(owners);
       setRoles(roles);
-      setSecondLangState(dashboardData.selected_lang);
       setColorScheme(metadata.color_scheme);
 
       // temporary fix to remove positions from dashboards' metadata
@@ -356,7 +326,6 @@ const PropertiesModal = ({
       colorNamespace,
       certifiedBy,
       certificationDetails,
-      selected_lang: selected_langState,
       ...moreOnSubmitProps,
     };
     console.log('TODO: переводы onSubmitProps', onSubmitProps);
@@ -366,14 +335,12 @@ const PropertiesModal = ({
       onSubmit(onSubmitProps);
       onHide();
     } else {
-      console.log('TODO: переводы .put selected_langState', selected_langState);
       SupersetClient.put({
         endpoint: `/api/v1/dashboard/${dashboardId}`,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
           slug: slug || null,
-          selected_lang: selected_langState || '',
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
           certified_by: certifiedBy || null,
@@ -388,34 +355,6 @@ const PropertiesModal = ({
       }, handleErrorResponse);
     }
   };
-
-  const onLangExtraChange = (value: string) => {
-    console.log('TODO: переводы onLangExtraChange, Value', value);
-    setSecondLangState(value);
-  };
-
-  const DashboardLanguageWrapper = ({
-    langValue,
-    fieldName,
-    title,
-    changeFunc,
-  }: {
-    langValue: string;
-    fieldName: string;
-    title: string;
-    changeFunc: any;
-  }) => (
-    <ChartLanguageContainer>
-      <Select
-        ariaLabel={title}
-        placeholder={title}
-        name={fieldName}
-        value={langValue || SYSTEM_LANGUAGES[0].value}
-        options={SYSTEM_LANGUAGES}
-        onChange={changeFunc}
-      />
-    </ChartLanguageContainer>
-  );
 
   const getRowsWithoutRoles = () => {
     const jsonMetadataObj = getJsonMetadata();
@@ -628,22 +567,20 @@ const PropertiesModal = ({
             </p>
           </Col>
           <Col xs={24} md={12}>
-            <StyledFormItem
-              label={t('Dashboard Language')}
-              name="selected_lang"
-            >
-              <DashboardLanguageWrapper
-                langValue={selected_langState || SYSTEM_LANGUAGES[0].value}
-                fieldName="selected_lang"
-                title="Dashboard Language"
-                changeFunc={onLangExtraChange}
-              />
-            </StyledFormItem>
             <p className="help-block">
-              {t('A language of the charts in the dashboards')}
+              A language of the charts in the dashboards is defined by Superset
+              language
             </p>
             <p className="help-block">
-              {t('Usually primary = English, Secondary = Russian')}
+              Primary language is English, Secondary language is Russian
+            </p>
+          </Col>
+          <Col xs={24} md={12}>
+            <p className="help-block">
+              Язык чартов в дашборде определяется глобальным языком Superset
+            </p>
+            <p className="help-block">
+              Основной язык — Английский, второстепенный язык — Русский
             </p>
           </Col>
         </Row>
