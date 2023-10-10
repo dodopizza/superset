@@ -604,6 +604,8 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
     filterable = Column(Boolean, default=True)
     description = Column(MediumText())
     is_dttm = None
+    verbose_name_RU = Column(Text, nullable=True)
+    description_RU = Column(Text, nullable=True)
 
     # [optional] Set this to support import/export functionality
     export_fields: List[Any] = []
@@ -669,7 +671,9 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
             "id",
             "column_name",
             "verbose_name",
+            "verbose_name_RU",
             "description",
+            "description_RU",
             "expression",
             "filterable",
             "groupby",
@@ -692,6 +696,8 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
     description = Column(MediumText())
     d3format = Column(String(128))
     warning_text = Column(Text)
+    verbose_name_RU = Column(String(1024), nullable=True)
+    description_RU = Column(MediumText(), nullable=True)
 
     """
     The interface should also declare a datasource relationship pointing
@@ -706,6 +712,10 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
         backref=backref('metrics', cascade='all, delete-orphan'),
         enable_typechecks=False)
     """
+
+    @property
+    def current_table(self):
+        return self.__tablename__
 
     @property
     def perm(self) -> Optional[str]:
@@ -725,5 +735,7 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
             "expression",
             "warning_text",
             "d3format",
+            "verbose_name_RU",
+            "description_RU"
         )
         return {s: getattr(self, s) for s in attrs}

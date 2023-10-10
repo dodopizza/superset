@@ -111,6 +111,7 @@ const legacyChartDataRequest = async (
     'legacyChartDataRequest [ process.env.type => ',
     process.env.type,
     ']',
+    formData,
   );
   if (process.env.type === undefined) {
     const endpointType = getLegacyEndpointType({ resultFormat, resultType });
@@ -233,6 +234,7 @@ const v1ChartDataRequest = async (
     'v1ChartDataRequest [ process.env.type => ',
     process.env.type,
     ']',
+    formData,
   );
   if (process.env.type === undefined) {
     const payload = buildV1ChartDataPayload({

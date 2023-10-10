@@ -543,6 +543,7 @@ function ExploreViewContainer(props) {
         isStarred={props.isStarred}
         slice={props.slice}
         sliceName={props.sliceName}
+        sliceNameRU={props.sliceNameRU}
         table_name={props.table_name}
         formData={props.form_data}
         chart={props.chart}
@@ -583,6 +584,7 @@ function ExploreViewContainer(props) {
             actions={props.actions}
             form_data={props.form_data}
             sliceName={props.sliceName}
+            sliceNameRU={props.sliceNameRU}
             dashboardId={props.dashboardId}
           />
         )}
@@ -675,6 +677,7 @@ function ExploreViewContainer(props) {
             canStopQuery={props.can_add || props.can_overwrite}
             errorMessage={errorMessage}
             chartIsStale={chartIsStale}
+            primaryLanguage={props.primaryLanguage}
           />
         </Resizable>
         <div
@@ -704,10 +707,14 @@ function mapStateToProps(state) {
   const chartKey = Object.keys(charts)[0];
   const chart = charts[chartKey];
 
+  console.log('RT DODO: переводы chartXZXZ', chart);
+
   let dashboardId = Number(explore.form_data?.dashboardId);
   if (Number.isNaN(dashboardId)) {
     dashboardId = undefined;
   }
+
+  console.log('RT DODO TODO: primaryLanguage ru2', explore);
 
   return {
     isDatasourceMetaLoading: explore.isDatasourceMetaLoading,
@@ -728,6 +735,7 @@ function mapStateToProps(state) {
     isStarred: explore.isStarred,
     slice: explore.slice,
     sliceName: explore.sliceName,
+    sliceNameRU: explore.sliceNameRU,
     triggerRender: explore.triggerRender,
     form_data,
     table_name: form_data.datasource_name,
@@ -742,6 +750,7 @@ function mapStateToProps(state) {
     user: explore.user,
     exploreState: explore,
     reports,
+    // primaryLanguage: 'ru2',
   };
 }
 

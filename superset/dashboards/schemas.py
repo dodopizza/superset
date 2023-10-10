@@ -19,7 +19,7 @@ import re
 from typing import Any, Dict, Union
 
 from marshmallow import fields, post_load, Schema
-from marshmallow.validate import Length, ValidationError
+from marshmallow.validate import Length, ValidationError, OneOf
 
 from superset.exceptions import SupersetException
 from superset.utils import core as utils
@@ -33,6 +33,7 @@ thumbnail_query_schema = {
 }
 
 dashboard_title_description = "A title for the dashboard."
+extra_dashboard_title_description = "Extra a title for the dashboard."
 slug_description = "Unique identifying part for the web address of the dashboard."
 owners_description = (
     "Owner are users ids allowed to delete or change this dashboard. "
@@ -72,14 +73,14 @@ openapi_spec_methods_override = {
     "get_list": {
         "get": {
             "description": "Get a list of dashboards, use Rison or JSON query "
-            "parameters for filtering, sorting, pagination and "
-            " for selecting specific columns and metadata.",
+                           "parameters for filtering, sorting, pagination and "
+                           " for selecting specific columns and metadata.",
         }
     },
     "info": {
         "get": {
             "description": "Several metadata information about dashboard API "
-            "endpoints.",
+                           "endpoints.",
         }
     },
     "related": {
@@ -167,6 +168,7 @@ class DashboardGetResponseSchema(Schema):
     roles = fields.List(fields.Nested(RolesSchema))
     changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
+    dashboard_title_RU = fields.String(description=dashboard_title_description)
 
 
 class DatabaseSchema(Schema):
@@ -284,6 +286,7 @@ class DashboardPutSchema(BaseDashboardSchema):
     )
     is_managed_externally = fields.Boolean(allow_none=True, default=False)
     external_url = fields.String(allow_none=True)
+    dashboard_title_RU = fields.String(description=dashboard_title_description)
 
 
 class ChartFavStarResponseResult(Schema):

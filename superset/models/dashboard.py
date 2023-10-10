@@ -148,6 +148,7 @@ class Dashboard(Model, AuditMixinNullable, ImportExportMixin):
     slices: List[Slice] = relationship(
         Slice, secondary=dashboard_slices, backref="dashboards"
     )
+    dashboard_title_RU = Column(Text, nullable=True)
     owners = relationship(security_manager.user_model, secondary=dashboard_user)
     published = Column(Boolean, default=False)
     is_managed_externally = Column(Boolean, nullable=False, default=False)

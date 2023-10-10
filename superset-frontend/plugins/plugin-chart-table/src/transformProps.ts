@@ -207,6 +207,8 @@ const transformProps = (
     hooks: { onAddFilter: onChangeFilter, setDataMask = () => {} },
   } = chartProps;
 
+  console.log('RT DODO: переводы transformProps', chartProps);
+
   const {
     align_pn: alignPositiveNegative = true,
     color_pn: colorPositiveNegative = true,
@@ -225,6 +227,9 @@ const transformProps = (
   const timeGrain = extractTimegrain(formData);
 
   const [metrics, percentMetrics, columns] = processColumns(chartProps);
+
+  console.log('RT DODO: переводы metricsXXZZZ', metrics);
+  console.log('RT DODO: переводы columnsXXZZZ', columns);
 
   let baseQuery;
   let countQuery;

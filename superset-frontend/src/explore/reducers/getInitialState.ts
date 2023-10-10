@@ -56,6 +56,8 @@ export default function getInitialState(
   const { slice } = bootstrapData;
   const sliceName = slice ? slice.slice_name : null;
 
+  console.log('getInitialState', slice);
+
   const exploreState = {
     // note this will add `form_data` to state,
     // which will be manipulatable by future reducers.

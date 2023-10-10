@@ -1,21 +1,5 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+// Set slice_name_RU
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import Modal from 'src/components/Modal';
 import { Input, TextArea } from 'src/components/Input';
@@ -55,13 +39,17 @@ function PropertiesModal({
   show,
   addSuccessToast,
 }: PropertiesModalProps) {
+  console.log('sliceXXX need slice_name_RU', slice);
   const [submitting, setSubmitting] = useState(false);
   const [form] = AntdForm.useForm();
   // values of form inputs
   const [name, setName] = useState(slice.slice_name || '');
+  const [slice_name_RU, setSliceNameRU] = useState(slice.slice_name_RU || '');
   const [selectedOwners, setSelectedOwners] = useState<SelectValue | null>(
     null,
   );
+
+  console.log('RT DODO: переводы slice', slice);
 
   function showError({ error, statusText, message }: any) {
     let errorText = error || statusText || t('An error has occurred');
@@ -139,6 +127,7 @@ function PropertiesModal({
       certified_by: certifiedBy || null,
       certification_details:
         certifiedBy && certificationDetails ? certificationDetails : null,
+      slice_name_RU,
     };
     if (selectedOwners) {
       payload.owners = (
@@ -234,20 +223,33 @@ function PropertiesModal({
             slice.certified_by && slice.certification_details
               ? slice.certification_details
               : '',
+          slice_name_RU: slice.slice_name_RU || '',
         }}
       >
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <h3>{t('Basic information')}</h3>
-            <FormItem label={t('Name')} required>
+            <FormItem label={t('Chart Name (EN)')} required>
               <Input
-                aria-label={t('Name')}
+                aria-label={t('Chart Name (EN)')}
                 name="name"
                 data-test="properties-modal-name-input"
                 type="text"
                 value={name}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   setName(event.target.value ?? '')
+                }
+              />
+            </FormItem>
+            <FormItem label={t('Chart Name (RU)')}>
+              <Input
+                aria-label={t('Chart Name (RU)')}
+                name="slice_name_RU"
+                data-test="properties-modal-name-input"
+                type="text"
+                value={slice_name_RU}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setSliceNameRU(event.target.value ?? '')
                 }
               />
             </FormItem>

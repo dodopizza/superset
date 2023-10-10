@@ -1,5 +1,6 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
 // DODO was here
 import { snakeCase, isEqual } from 'lodash';
 import PropTypes from 'prop-types';
@@ -192,7 +193,75 @@ class ChartRenderer extends React.Component {
       latestQueryFormData,
       queriesResponse,
       postTransformProps,
+      dashboardLanguage,
     } = this.props;
+
+    let alteredVerboseMap = {};
+
+    const metricsArray = datasource.metrics;
+    const columnsArray = datasource.columns;
+
+    for (const property in datasource.verbose_map) {
+      let finalName = datasource.verbose_map[property];
+
+      const foundMetric = metricsArray.filter(
+        metric => metric.metric_name === property,
+      );
+
+      const foundColumn = columnsArray.filter(
+        column => column.column_name === property,
+      );
+
+      if (foundMetric.length) {
+        const { verbose_name, verbose_name_RU } = foundMetric[0];
+        finalName =
+          dashboardLanguage === 'ru'
+            ? verbose_name_RU || verbose_name
+            : verbose_name;
+      } else if (foundColumn.length) {
+        const { verbose_name, verbose_name_RU } = foundColumn[0];
+        finalName =
+          dashboardLanguage === 'ru'
+            ? verbose_name_RU || verbose_name
+            : verbose_name;
+      }
+
+      alteredVerboseMap = {
+        ...alteredVerboseMap,
+        [property]: finalName,
+      };
+    }
+
+    console.log('RT DODO: переводы alteredVerboseMap', alteredVerboseMap);
+
+    const alteredDatasource = {
+      ...datasource,
+      verbose_map: alteredVerboseMap,
+      columns: datasource.columns.map(column => ({
+        ...column,
+        verbose_name:
+          dashboardLanguage === 'ru'
+            ? column.verbose_name_RU || column.verbose_name
+            : column.verbose_name,
+        description:
+          dashboardLanguage === 'ru'
+            ? column.description_RU || column.description
+            : column.description,
+      })),
+      metrics: datasource.metrics.map(metric => ({
+        ...metric,
+        verbose_name:
+          dashboardLanguage === 'ru'
+            ? metric.verbose_name_RU || metric.verbose_name
+            : metric.verbose_name,
+        description:
+          dashboardLanguage === 'ru'
+            ? metric.description_RU || metric.description
+            : metric.description,
+      })),
+    };
+
+    console.log('RT DODO: переводы alteredDatasource', alteredDatasource);
 
     const currentFormData =
       chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
@@ -280,7 +349,7 @@ class ChartRenderer extends React.Component {
         width={width}
         height={height}
         annotationData={annotationData}
-        datasource={datasource}
+        datasource={alteredDatasource}
         initialValues={initialValues}
         formData={currentFormData}
         ownState={ownState}

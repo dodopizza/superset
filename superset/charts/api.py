@@ -130,6 +130,8 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "viz_type",
         "query_context",
         "is_managed_externally",
+        "slice_name_RU",
+        "primary_lang"
     ]
     show_select_columns = show_columns + ["table.id"]
     list_columns = [

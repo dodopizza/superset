@@ -21,11 +21,13 @@ type SliceHeaderProps = SliceHeaderControlsProps & {
   annotationQuery?: object;
   annotationError?: object;
   sliceName?: string;
+  sliceNameRU?: string;
   filters: object;
   handleToggleFullSize: () => void;
   formData: object;
   width: number;
   height: number;
+  dashboardLanguage: string;
 };
 
 const annotationsLoading = t('Annotation layers are still loading.');
@@ -54,6 +56,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   isCached = [],
   isExpanded = false,
   sliceName = '',
+  sliceNameRU = '',
   supersetCanExplore = false,
   supersetCanShare = false,
   supersetCanCSV = false,
@@ -70,7 +73,17 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   formData,
   width,
   height,
+  dashboardLanguage,
 }) => {
+  console.log(
+    'RT DODO: переводы SliceHeader',
+    'dashboardLanguage',
+    dashboardLanguage,
+    'sliceName',
+    sliceName,
+    'sliceNameRU',
+    sliceNameRU,
+  );
   const dispatch = useDispatch();
   const uiConfig = useUiConfig();
   const [headerTooltip, setHeaderTooltip] = useState<string | null>(null);
@@ -113,13 +126,16 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     }
   }, [sliceName, width, height, handleClickTitle]);
 
+  const finalName =
+    dashboardLanguage === 'ru' ? sliceNameRU || sliceName : sliceName;
+
   return (
     <div className="chart-header" data-test="slice-header" ref={innerRef}>
       <div className="header-title" ref={headerRef}>
         <Tooltip title={headerTooltip}>
           <EditableTitle
             title={
-              sliceName ||
+              finalName ||
               (editMode
                 ? '---' // this makes an empty title clickable
                 : '')

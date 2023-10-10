@@ -123,7 +123,7 @@ def _try_json_readsha(filepath: str, length: int) -> Optional[str]:
 #
 # If True, we will skip the call to load the logger config found in alembic.init
 #
-ALEMBIC_SKIP_LOG_CONFIG = False
+ALEMBIC_SKIP_LOG_CONFIG = True
 
 # Depending on the context in which this config is loaded, the
 # version_info.json file may or may not be available, as it is

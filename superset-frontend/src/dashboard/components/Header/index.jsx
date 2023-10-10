@@ -1,22 +1,7 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+// TODO: dashboard_title_RU
 /* eslint-env browser */
+/* eslint-disable camelcase */
 import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -124,7 +109,23 @@ const actionButtonsStyle = theme => css`
   }
 
   .undoRedo {
+    min-width: 46px;
     margin-right: ${theme.gridUnit * 2}px;
+    margin-left: ${theme.gridUnit * 2}px;
+  }
+  .dashboard-languages-container {
+    height: 100%;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    ${({ theme }) => `
+      margin-left: ${theme.gridUnit * 2}px;
+      padding: ${theme.gridUnit}px ${theme.gridUnit * 2}px;
+      font-size: 12px;
+      border-radius: ${theme.borderRadius}px;
+    `}
+    min-width: 104px;
+    line-height: 1;
   }
 `;
 
@@ -347,6 +348,7 @@ class Header extends React.PureComponent {
       colorNamespace,
       customCss,
       dashboardInfo,
+      dashboardInfo: { dashboard_title_RU },
       refreshFrequency: currentRefreshFrequency,
       shouldPersistRefreshFrequency,
       lastModifiedTime,
@@ -372,6 +374,8 @@ class Header extends React.PureComponent {
       certification_details: dashboardInfo.certification_details,
       css: customCss,
       dashboard_title: dashboardTitle,
+      // @ts-ignore
+      dashboard_title_RU,
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -478,6 +482,7 @@ class Header extends React.PureComponent {
         certification_details: updates.certificationDetails,
         owners: updates.owners,
         roles: updates.roles,
+        dashboard_title_RU: updates.dashboard_title_RU,
       });
       setColorSchemeAndUnsavedChanges(updates.colorScheme);
       dashboardTitleChanged(updates.title);

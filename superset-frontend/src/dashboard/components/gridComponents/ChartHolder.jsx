@@ -1,4 +1,5 @@
 // DODO was here
+// maybe
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -365,6 +366,7 @@ class ChartHolder extends React.Component {
                   component.meta.sliceName ||
                   ''
                 }
+                sliceNameRU={component.meta.sliceNameRU || ''}
                 updateSliceName={this.handleUpdateSliceName}
                 isComponentVisible={isComponentVisible}
                 handleToggleFullSize={this.handleToggleFullSize}

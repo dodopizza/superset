@@ -44,6 +44,7 @@ const propTypes = {
   datasource: PropTypes.object,
   slice: slicePropShape.isRequired,
   sliceName: PropTypes.string.isRequired,
+  sliceNameRU: PropTypes.string,
   timeout: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
   filterboxMigrationState: FILTER_BOX_MIGRATION_STATES,
@@ -344,6 +345,7 @@ export default class Chart extends React.Component {
       sharedLabelColors,
       updateSliceName,
       sliceName,
+      sliceNameRU,
       toggleExpandSlice,
       timeout,
       supersetCanExplore,
@@ -360,6 +362,7 @@ export default class Chart extends React.Component {
       filterboxMigrationState,
       postTransformProps,
       datasetsStatus,
+      dashboardLanguage,
     } = this.props;
 
     const { width } = this.state;
@@ -415,6 +418,7 @@ export default class Chart extends React.Component {
           exportFullCSV={this.exportFullCSV}
           updateSliceName={updateSliceName}
           sliceName={sliceName}
+          sliceNameRU={sliceNameRU}
           supersetCanExplore={supersetCanExplore}
           supersetCanShare={supersetCanShare}
           supersetCanCSV={supersetCanCSV}
@@ -430,6 +434,7 @@ export default class Chart extends React.Component {
           formData={formData}
           width={width}
           height={this.getHeaderHeight()}
+          dashboardLanguage={dashboardLanguage}
         />
 
         {/*
@@ -490,6 +495,7 @@ export default class Chart extends React.Component {
             filterboxMigrationState={filterboxMigrationState}
             postTransformProps={postTransformProps}
             datasetsStatus={datasetsStatus}
+            dashboardLanguage={dashboardLanguage}
           />
         </div>
       </SliceContainer>

@@ -17,7 +17,7 @@ const ChartUsageContainer = styled.div`
   align-items: center;
   ${({ theme }) => `
     margin-left: ${theme.gridUnit * 2}px;
-    padding: ${theme.gridUnit}px ${theme.gridUnit * 2}px;
+    padding: ${theme.gridUnit * 2 - 2}px ${theme.gridUnit * 2}px;
     background-color: ${theme.colors.grayscale.light3};
     font-size: 12px;
     border-radius: ${theme.borderRadius}px;

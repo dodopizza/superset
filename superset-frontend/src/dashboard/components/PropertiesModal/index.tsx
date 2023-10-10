@@ -1,4 +1,5 @@
 // DODO was here
+// TODO: dashboard_title_RU
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from 'src/components/Input';
@@ -60,6 +61,7 @@ type DashboardInfo = {
   certifiedBy: string;
   certificationDetails: string;
   isManagedExternally: boolean;
+  dashboard_title_RU: string;
 };
 
 const PropertiesModal = ({
@@ -82,6 +84,8 @@ const PropertiesModal = ({
   const [owners, setOwners] = useState<Owners>([]);
   const [roles, setRoles] = useState<Roles>([]);
   const saveLabel = onlyApply ? t('Apply') : t('Save');
+
+  console.log('TODO: переводы dashboardInfo propsXX', dashboardInfo);
 
   const handleErrorResponse = async (response: Response) => {
     const { error, statusText, message } = await getClientErrorObject(response);
@@ -137,7 +141,9 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
+        dashboard_title_RU,
       } = dashboardData;
+
       const dashboardInfo = {
         id,
         title: dashboard_title,
@@ -145,7 +151,10 @@ const PropertiesModal = ({
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
+        // TODO
+        dashboard_title_RU: dashboard_title_RU || '',
       };
+      console.log('dashboardInfo', dashboardInfo);
 
       form.setFieldsValue(dashboardInfo);
       setDashboardInfo(dashboardInfo);
@@ -176,6 +185,7 @@ const PropertiesModal = ({
       endpoint: `/api/v1/dashboard/${dashboardId}`,
     }).then(response => {
       const dashboard = response.json.result;
+      console.log('TODO: переводы fetchDashboardDetailsXX', dashboard);
       const jsonMetadataObj = dashboard.json_metadata?.length
         ? JSON.parse(dashboard.json_metadata)
         : {};
@@ -272,6 +282,7 @@ const PropertiesModal = ({
   const onFinish = () => {
     const { title, slug, certifiedBy, certificationDetails } =
       form.getFieldsValue();
+
     let currentColorScheme = colorScheme;
     let colorNamespace = '';
     let currentJsonMetadata = jsonMetadata;
@@ -317,7 +328,9 @@ const PropertiesModal = ({
       certificationDetails,
       ...moreOnSubmitProps,
     };
+    console.log('TODO: переводы onSubmitProps', onSubmitProps);
     if (onlyApply) {
+      console.log('TODO: переводы onlyApply', onSubmitProps);
       addSuccessToast(t('Dashboard properties updated'));
       onSubmit(onSubmitProps);
       onHide();
@@ -551,6 +564,23 @@ const PropertiesModal = ({
             </StyledFormItem>
             <p className="help-block">
               {t('A readable URL for your dashboard')}
+            </p>
+          </Col>
+          <Col xs={24} md={12}>
+            <p className="help-block">
+              A language of the charts in the dashboards is defined by Superset
+              language
+            </p>
+            <p className="help-block">
+              Primary language is English, Secondary language is Russian
+            </p>
+          </Col>
+          <Col xs={24} md={12}>
+            <p className="help-block">
+              Язык чартов в дашборде определяется глобальным языком Superset
+            </p>
+            <p className="help-block">
+              Основной язык — Английский, второстепенный язык — Русский
             </p>
           </Col>
         </Row>

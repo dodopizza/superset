@@ -1,4 +1,6 @@
 // DODO was here
+// slice_name_RU
+
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -37,6 +39,7 @@ const propTypes = {
   isStarred: PropTypes.bool.isRequired,
   slice: PropTypes.object,
   sliceName: PropTypes.string,
+  sliceNameRU: PropTypes.string,
   table_name: PropTypes.string,
   formData: PropTypes.object,
   ownState: PropTypes.object,
@@ -128,13 +131,22 @@ export const ExploreChartHeader = ({
   const { latestQueryFormData, sliceFormData } = chart;
   const [isPropertiesModalOpen, setIsPropertiesModalOpen] = useState(false);
   const [dashboardsData, setDashboardsData] = useState(null);
+  const [alteredSlice, setSliceData] = useState(slice);
 
   const fetchChartDashboardData = async () => {
     await SupersetClient.get({
-      endpoint: `/api/v1/chart/${slice.slice_id}`,
+      endpoint: `/api/v1/chart/${alteredSlice.slice_id}`,
     })
       .then(res => {
         const response = res?.json?.result;
+
+        if (response) {
+          setSliceData({
+            ...alteredSlice,
+            slice_name_RU: response.slice_name_RU,
+          });
+        }
+
         if (response && response.dashboards && response.dashboards.length) {
           const { dashboards } = response;
           const dashboard =
@@ -172,10 +184,18 @@ export const ExploreChartHeader = ({
 
   const fetchChartDashboardsData = async () => {
     await SupersetClient.get({
-      endpoint: `/api/v1/chart/${slice.slice_id}`,
+      endpoint: `/api/v1/chart/${alteredSlice.slice_id}`,
     })
       .then(res => {
         const response = res?.json?.result;
+
+        if (response) {
+          setSliceData({
+            ...alteredSlice,
+            slice_name_RU: response.slice_name_RU,
+          });
+        }
+
         if (response && response.dashboards && response.dashboards.length) {
           const { dashboards } = response;
           if (dashboards && dashboards.length) setDashboardsData(dashboards);
@@ -204,34 +224,34 @@ export const ExploreChartHeader = ({
     useExploreAdditionalActionsMenu(
       latestQueryFormData,
       canDownload,
-      slice,
+      alteredSlice,
       actions.redirectSQLLab,
       openPropertiesModal,
       ownState,
     );
 
-  const oldSliceName = slice?.slice_name;
+  const oldSliceName = alteredSlice?.slice_name;
   return (
     <>
       <PageHeaderWithActions
         editableTitleProps={{
           title: sliceName,
           canEdit:
-            !slice ||
+            !alteredSlice ||
             canOverwrite ||
-            (slice?.owners || []).includes(user?.userId),
+            (alteredSlice?.owners || []).includes(user?.userId),
           onSave: actions.updateChartTitle,
           placeholder: t('Add the name of the chart'),
           label: t('Chart title'),
         }}
-        showTitlePanelItems={!!slice}
+        showTitlePanelItems={!!alteredSlice}
         certificatiedBadgeProps={{
-          certifiedBy: slice?.certified_by,
-          details: slice?.certification_details,
+          certifiedBy: alteredSlice?.certified_by,
+          details: alteredSlice?.certification_details,
         }}
         showFaveStar={!!user?.userId}
         faveStarProps={{
-          itemId: slice?.slice_id,
+          itemId: alteredSlice?.slice_id,
           fetchFaveStar: actions.fetchFaveStar,
           saveFaveStar: actions.saveFaveStar,
           isStarred,
@@ -290,7 +310,7 @@ export const ExploreChartHeader = ({
           show={isPropertiesModalOpen}
           onHide={closePropertiesModal}
           onSave={sliceUpdated}
-          slice={slice}
+          slice={alteredSlice}
         />
       )}
     </>

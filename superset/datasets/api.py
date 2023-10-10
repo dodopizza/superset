@@ -162,6 +162,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.type",
         "columns.uuid",
         "columns.verbose_name",
+        "columns.verbose_name_RU",
+        "columns.description_RU",
         "metrics",
         "datasource_type",
         "url",

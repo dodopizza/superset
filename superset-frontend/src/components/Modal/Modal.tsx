@@ -70,7 +70,7 @@ export const StyledModal = styled(BaseModal)<StyledModalProps>`
   ${({ theme, responsive, maxWidth }) =>
     responsive &&
     css`
-      max-width: ${maxWidth ?? '900px'};
+      max-width: ${maxWidth ?? '1200px'};
       padding-left: ${theme.gridUnit * 3}px;
       padding-right: ${theme.gridUnit * 3}px;
       padding-bottom: 0;

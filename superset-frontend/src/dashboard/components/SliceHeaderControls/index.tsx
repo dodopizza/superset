@@ -75,6 +75,7 @@ export interface SliceHeaderControlsProps {
     description: string;
     viz_type: string;
     slice_name: string;
+    slice_name_RU?: string;
     slice_id: number;
     slice_description: string;
     form_data?: { emit_filter?: boolean };
