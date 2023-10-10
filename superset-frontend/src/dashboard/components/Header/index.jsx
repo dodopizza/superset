@@ -1,5 +1,5 @@
 // DODO was here
-// dashboard_title_RU, selected_lang
+// TODO: dashboard_title_RU
 /* eslint-env browser */
 /* eslint-disable camelcase */
 import moment from 'moment';
@@ -348,7 +348,7 @@ class Header extends React.PureComponent {
       colorNamespace,
       customCss,
       dashboardInfo,
-      dashboardInfo: { dashboard_title_RU, selected_lang },
+      dashboardInfo: { dashboard_title_RU },
       refreshFrequency: currentRefreshFrequency,
       shouldPersistRefreshFrequency,
       lastModifiedTime,
@@ -376,8 +376,6 @@ class Header extends React.PureComponent {
       dashboard_title: dashboardTitle,
       // @ts-ignore
       dashboard_title_RU,
-      // @ts-ignore
-      selected_lang,
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -484,7 +482,6 @@ class Header extends React.PureComponent {
         certification_details: updates.certificationDetails,
         owners: updates.owners,
         roles: updates.roles,
-        selected_lang: updates.selected_lang,
         dashboard_title_RU: updates.dashboard_title_RU,
       });
       setColorSchemeAndUnsavedChanges(updates.colorScheme);

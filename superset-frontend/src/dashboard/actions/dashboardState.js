@@ -1,5 +1,5 @@
 // DODO was here
-// dashboard_title_RU, selected_lang
+// TODO: dashboard_title_RU
 /* eslint camelcase: 0 */
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import {
@@ -201,7 +201,6 @@ export function saveDashboardRequest(data, id, saveType) {
       css,
       dashboard_title,
       dashboard_title_RU,
-      selected_lang,
       owners,
       roles,
       slug,
@@ -216,7 +215,6 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details:
         certified_by && certification_details ? certification_details : '',
       css: css || '',
-      selected_lang,
       dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
       dashboard_title_RU:
         dashboard_title_RU || t('[ untitled dashboard 2nd lang ]'),
@@ -339,7 +337,6 @@ export function saveDashboardRequest(data, id, saveType) {
         css: cleanedData.css,
         dashboard_title: cleanedData.dashboard_title,
         dashboard_title_RU: cleanedData.dashboard_title_RU,
-        selected_lang: cleanedData.selected_lang,
         slug: cleanedData.slug,
         owners: cleanedData.owners,
         roles: cleanedData.roles,
