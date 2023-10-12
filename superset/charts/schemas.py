@@ -328,6 +328,11 @@ class ChartDataAdhocMetricSchema(Schema):
                     "hasCustomLabel is true, in which case label must be defined.",
         example="Weighted observations",
     )
+    labelRU = fields.String(
+        description="RU Label for the metric. Is automatically generated unless "
+                    "hasCustomLabel is true, in which case label must be defined.",
+        example="Weighted observations",
+    )
     hasCustomLabel = fields.Boolean(
         description="When false, the label will be automatically generated based on "
                     "the aggregate expression. When true, a custom label has to be "
