@@ -41,6 +41,7 @@ import {
   CREATE_TOP_LEVEL_TABS,
   DELETE_TOP_LEVEL_TABS,
   DASHBOARD_TITLE_CHANGED,
+  DASHBOARD_TITLE_RU_CHANGED,
 } from '../actions/dashboardLayout';
 
 import { HYDRATE_DASHBOARD } from '../actions/hydrate';
@@ -292,6 +293,21 @@ const actionHandlers = {
         meta: {
           ...state[DASHBOARD_HEADER_ID].meta,
           text: action.text,
+        },
+      },
+    };
+  },
+
+  [DASHBOARD_TITLE_RU_CHANGED](state, action) {
+    console.log('stateZXZXZXX', state);
+    console.log('actionZXZXZX', action);
+    return {
+      ...state,
+      [DASHBOARD_HEADER_ID]: {
+        ...state[DASHBOARD_HEADER_ID],
+        meta: {
+          ...state[DASHBOARD_HEADER_ID].meta,
+          textRU: action.text,
         },
       },
     };

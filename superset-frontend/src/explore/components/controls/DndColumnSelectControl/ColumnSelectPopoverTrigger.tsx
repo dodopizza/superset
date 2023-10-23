@@ -1,31 +1,16 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { AdhocColumn, t } from '@superset-ui/core';
+import { AdhocColumn, t, styled } from '@superset-ui/core';
 import {
   ColumnMeta,
   isAdhocColumn,
   isColumnMeta,
 } from '@superset-ui/chart-controls';
 import { ExplorePopoverContent } from 'src/explore/components/ExploreContentPopover';
+import EditableTitle from 'src/components/EditableTitle';
 import ColumnSelectPopover from './ColumnSelectPopover';
-import { DndColumnSelectPopoverTitle } from './DndColumnSelectPopoverTitle';
+// import { DndColumnSelectPopoverTitle } from './DndColumnSelectPopoverTitle';
 import ControlPopover from '../ControlPopover/ControlPopover';
 
 interface ColumnSelectPopoverTriggerProps {
@@ -41,6 +26,7 @@ interface ColumnSelectPopoverTriggerProps {
 }
 
 const defaultPopoverLabel = t('My column');
+const defaultPopoverLabelRU = t('Моя колонка');
 const editableTitleTab = 'sqlExpression';
 
 const ColumnSelectPopoverTrigger = ({
@@ -53,20 +39,30 @@ const ColumnSelectPopoverTrigger = ({
   ...props
 }: ColumnSelectPopoverTriggerProps) => {
   const [popoverLabel, setPopoverLabel] = useState(defaultPopoverLabel);
+  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
   const [hasCustomLabel, setHasCustomLabel] = useState(false);
 
+  console.log('isTitleEditDisabled', isTitleEditDisabled);
+  console.log('hasCustomLabel', hasCustomLabel);
+
   let initialPopoverLabel = defaultPopoverLabel;
+  let initialPopoverLabelRU = defaultPopoverLabelRU;
+
   if (editedColumn && isColumnMeta(editedColumn)) {
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
+    initialPopoverLabelRU =
+      editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
+    initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
   }
 
   useEffect(() => {
     setPopoverLabel(initialPopoverLabel);
-  }, [initialPopoverLabel, popoverVisible]);
+    setPopoverLabelRU(initialPopoverLabelRU);
+  }, [initialPopoverLabel, initialPopoverLabelRU, popoverVisible]);
 
   const togglePopover = useCallback((visible: boolean) => {
     setPopoverVisible(visible);
@@ -100,9 +96,14 @@ const ColumnSelectPopoverTrigger = ({
           editedColumn={editedColumn}
           columns={columns}
           onClose={handleClosePopover}
-          onChange={onColumnEdit}
+          onChange={(e: any) => {
+            console.log('eXXXX', e);
+            return onColumnEdit(e);
+          }}
           label={popoverLabel}
+          labelRU={popoverLabelRU}
           setLabel={setPopoverLabel}
+          setLabelRU={setPopoverLabelRU}
           getCurrentTab={getCurrentTab}
           isTemporal={isTemporal}
         />
@@ -116,25 +117,41 @@ const ColumnSelectPopoverTrigger = ({
       isTemporal,
       onColumnEdit,
       popoverLabel,
+      popoverLabelRU,
     ],
   );
 
-  const onLabelChange = useCallback((e: any) => {
-    setPopoverLabel(e.target.value);
+  const TitleWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 8px;
+
+    span {
+      margin-left: 12px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  `;
+  const TitleLabel = styled.span`
+    display: inline-block;
+    padding: 0;
+  `;
+
+  const onLabelChange = useCallback((value: string) => {
+    console.log('onLabelChange', value);
+    setPopoverLabel(value);
     setHasCustomLabel(true);
   }, []);
 
-  const popoverTitle = useMemo(
-    () => (
-      <DndColumnSelectPopoverTitle
-        title={popoverLabel}
-        onChange={onLabelChange}
-        isEditDisabled={isTitleEditDisabled}
-        hasCustomLabel={hasCustomLabel}
-      />
-    ),
-    [hasCustomLabel, isTitleEditDisabled, onLabelChange, popoverLabel],
-  );
+  const onLabelRUChange = useCallback((value: string) => {
+    console.log('onLabelRUChange', value);
+    setPopoverLabelRU(value);
+    setHasCustomLabel(true);
+  }, []);
 
   return (
     <ControlPopover
@@ -143,7 +160,34 @@ const ColumnSelectPopoverTrigger = ({
       defaultVisible={visible}
       visible={visible}
       onVisibleChange={handleTogglePopover}
-      title={popoverTitle}
+      title={() => (
+        <>
+          <TitleWrapper>
+            <TitleLabel>EN:</TitleLabel>
+            <EditableTitle
+              title={popoverLabel}
+              canEdit
+              emptyText=""
+              onSaveTitle={(value: any) => {
+                onLabelChange(value);
+              }}
+              showTooltip={false}
+            />
+          </TitleWrapper>
+          <TitleWrapper>
+            <TitleLabel>RU:</TitleLabel>
+            <EditableTitle
+              title={popoverLabelRU}
+              canEdit
+              emptyText=""
+              onSaveTitle={(value: any) => {
+                onLabelRUChange(value);
+              }}
+              showTooltip={false}
+            />
+          </TitleWrapper>
+        </>
+      )}
       destroyTooltipOnHide
     >
       {children}

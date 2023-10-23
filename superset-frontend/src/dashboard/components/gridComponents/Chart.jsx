@@ -32,6 +32,7 @@ const propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   updateSliceName: PropTypes.func.isRequired,
+  updateSliceNameRU: PropTypes.func.isRequired,
   isComponentVisible: PropTypes.bool,
   handleToggleFullSize: PropTypes.func.isRequired,
   setControlValue: PropTypes.func,
@@ -344,6 +345,7 @@ export default class Chart extends React.Component {
       labelColors,
       sharedLabelColors,
       updateSliceName,
+      updateSliceNameRU,
       sliceName,
       sliceNameRU,
       toggleExpandSlice,
@@ -417,6 +419,7 @@ export default class Chart extends React.Component {
           exportXLSX={this.exportXLSX}
           exportFullCSV={this.exportFullCSV}
           updateSliceName={updateSliceName}
+          updateSliceNameRU={updateSliceNameRU}
           sliceName={sliceName}
           sliceNameRU={sliceNameRU}
           supersetCanExplore={supersetCanExplore}

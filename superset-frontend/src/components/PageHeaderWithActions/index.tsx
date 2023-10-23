@@ -109,10 +109,15 @@ export const PageHeaderWithActions = ({
   menuDropdownProps,
 }: PageHeaderWithActionsProps) => {
   const theme = useTheme();
+  const alteredEditableTitleProps = {
+    ...editableTitleProps,
+    canEdit: false,
+  };
+
   return (
     <div css={headerStyles} className="header-with-actions">
       <div className="title-panel">
-        <DynamicEditableTitle {...editableTitleProps} />
+        <DynamicEditableTitle {...alteredEditableTitleProps} />
         {showTitlePanelItems && (
           <div css={buttonsStyles}>
             {certificatiedBadgeProps?.certifiedBy && (

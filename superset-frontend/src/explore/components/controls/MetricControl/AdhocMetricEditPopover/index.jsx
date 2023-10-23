@@ -128,6 +128,7 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
           this.state.savedMetric?.verbose_name ||
           this.state.savedMetric?.metric_name,
         adhocMetricLabel: this.state.adhocMetric?.getDefaultLabel(),
+        adhocMetricLabelRU: this.state.adhocMetric?.getDefaultLabelRU(),
       });
     }
   }

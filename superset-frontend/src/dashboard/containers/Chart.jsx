@@ -42,31 +42,14 @@ function mapStateToProps(
 ) {
   const { id, extraControls, setControlValue } = ownProps;
   const chart = chartQueries[id] || EMPTY_OBJECT;
-  const datasource =
-    (chart && chart.form_data && datasources[chart.form_data.datasource]) ||
-    PLACEHOLDER_DATASOURCE;
-  const { colorScheme, colorNamespace, datasetsStatus } = dashboardState;
-  const labelColors = dashboardInfo?.metadata?.label_colors || {};
-  const sharedLabelColors = dashboardInfo?.metadata?.shared_label_colors || {};
-  // note: this method caches filters if possible to prevent render cascades
-  const formData = getFormDataWithExtraFilters({
-    layout: dashboardLayout.present,
-    chart,
-    // eslint-disable-next-line camelcase
-    chartConfiguration: dashboardInfo.metadata?.chart_configuration,
-    charts: chartQueries,
-    filters: getAppliedFilterValues(id),
-    colorScheme,
-    colorNamespace,
-    sliceId: id,
-    nativeFilters,
-    dataMask,
-    extraControls,
-    labelColors,
-    sharedLabelColors,
-  });
-
-  formData.dashboardId = dashboardInfo.id;
+  const {
+    form_data: {
+      metrics: chartMetrics = null,
+      groupbyColumns: chartColumns = null,
+    } = {
+      metrics: [],
+    },
+  } = chart;
 
   let alteredDashboardLanguage = 'en';
 
@@ -104,10 +87,166 @@ function mapStateToProps(
     alteredDashboardLanguage = getUserLocaleForPlugin();
   }
 
-  console.log('alteredDashboardLanguage', alteredDashboardLanguage);
+  const datasource =
+    (chart && chart.form_data && datasources[chart.form_data.datasource]) ||
+    PLACEHOLDER_DATASOURCE;
+  const { colorScheme, colorNamespace, datasetsStatus } = dashboardState;
+  const labelColors = dashboardInfo?.metadata?.label_colors || {};
+  const sharedLabelColors = dashboardInfo?.metadata?.shared_label_colors || {};
+
+  console.log('chartZXZXZX', chart);
+  console.log('chartMetricsZXZXZX', chartMetrics);
+  console.log('chartColumnsZXZXZX', chartColumns);
+
+  const neededLabelArrayFromMetrics =
+    chartMetrics && chartMetrics.length
+      ? chartMetrics.map(m => {
+          if (typeof m === 'string') {
+            return m;
+          }
+          return {
+            ...m,
+            label: m.label,
+            labelRU: m.labelRU,
+            hasCustomLabel: m.hasCustomLabel,
+          };
+        })
+      : [];
+
+  const neededLabelArrayFromColumns =
+    chartColumns && chartColumns.length
+      ? chartColumns.map(c => {
+          if (typeof c === 'string') {
+            return c;
+          }
+          return {
+            ...c,
+            label: c.label,
+            labelRU: c.labelRU,
+          };
+        })
+      : [];
+
+  const getCorrectLabelsArray = (
+    dashboardLanguage,
+    columns,
+    labelsArrayMetrics,
+    labelsArrayColumns,
+  ) => {
+    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+    const alteredColumns = columns
+      .map(c => {
+        if (typeof c === 'string') return c;
+
+        const foundItems = allLabels.filter(
+          lab =>
+            typeof label !== 'string' &&
+            (lab.label === c || lab.label === c.label),
+        );
+
+        if (foundItems && foundItems.length) {
+          return foundItems
+            .map(item => {
+              const { label, labelRU } = item;
+              return dashboardLanguage === 'ru' ? labelRU || label : label;
+            })
+            .flat();
+        }
+
+        return c;
+      })
+      .flat();
+
+    return alteredColumns;
+  };
+
+  const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
+    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+    const alteredData = data
+      .map(d => {
+        // if (typeof lab === 'string') return d;
+
+        const foundItems = allLabels.filter(
+          lab => typeof lab !== 'string' && d[lab.label] !== undefined,
+        );
+
+        if (foundItems && foundItems.length) {
+          let tempCollection = {};
+
+          foundItems.forEach(item => {
+            const { label, labelRU } = item;
+            const obj = {
+              [label]: d[label],
+              [labelRU || label]: d[label],
+            };
+            tempCollection = {
+              ...tempCollection,
+              ...obj,
+            };
+          });
+          return {
+            ...d,
+            ...tempCollection,
+          };
+        }
+        return d;
+      })
+      .flat();
+
+    return alteredData;
+  };
+
+  const alteredChart = {
+    ...chart,
+    queriesResponse: chart.queriesResponse
+      ? chart.queriesResponse.map(qResp => ({
+          ...qResp,
+          colnames: getCorrectLabelsArray(
+            alteredDashboardLanguage,
+            qResp.colnames || [],
+            neededLabelArrayFromMetrics,
+            neededLabelArrayFromColumns,
+          ),
+          data:
+            qResp.data && qResp.data.length
+              ? getCorrectData(
+                  qResp.data || [],
+                  neededLabelArrayFromMetrics,
+                  neededLabelArrayFromColumns,
+                )
+              : [],
+        }))
+      : null,
+  };
+
+  if (alteredChart && alteredChart.chartStatus === 'success') {
+    console.log('DODO: alteredChart', alteredChart);
+    console.log('neededLabelArrayFromMetricsZZZZ', neededLabelArrayFromMetrics);
+    console.log('neededLabelArrayFromColumnsZZZZ', neededLabelArrayFromColumns);
+    console.log('_____');
+  }
+  // note: this method caches filters if possible to prevent render cascades
+  const formData = getFormDataWithExtraFilters({
+    layout: dashboardLayout.present,
+    chart: alteredChart,
+    // eslint-disable-next-line camelcase
+    chartConfiguration: dashboardInfo.metadata?.chart_configuration,
+    charts: chartQueries,
+    filters: getAppliedFilterValues(id),
+    colorScheme,
+    colorNamespace,
+    sliceId: id,
+    nativeFilters,
+    dataMask,
+    extraControls,
+    labelColors,
+    sharedLabelColors,
+  });
+
+  formData.dashboardId = dashboardInfo.id;
 
   return {
-    chart,
+    chart: alteredChart,
     datasource,
     labelColors,
     sharedLabelColors,

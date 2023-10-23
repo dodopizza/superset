@@ -72,7 +72,10 @@ export default function Control(props: ControlProps) {
   const [hovered, setHovered] = useState(false);
   const wasVisible = usePrevious(isVisible);
   const onChange = useCallback(
-    (value: any, errors: any[]) => setControlValue(name, value, errors),
+    (value: any, errors: any[]) => {
+      console.log('valueQWER', value);
+      return setControlValue(name, value, errors);
+    },
     [name, setControlValue],
   );
 
