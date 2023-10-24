@@ -201,6 +201,10 @@ class ChartRenderer extends React.Component {
     const metricsArray = datasource.metrics;
     const columnsArray = datasource.columns;
 
+    console.groupCollapsed('Altered Verbose Map');
+    console.log('metricsArray', metricsArray);
+    console.log('columnsArray', columnsArray);
+
     for (const property in datasource.verbose_map) {
       let finalNameFromDataset = datasource.verbose_map[property];
 
@@ -226,7 +230,11 @@ class ChartRenderer extends React.Component {
             : verbose_name;
       }
 
+      console.log('foundMetric', foundMetric);
+      console.log('foundColumn', foundColumn);
+      console.log('property', property);
       console.log('finalNameFromDataset', finalNameFromDataset);
+      console.log('____');
 
       alteredVerboseMap = {
         ...alteredVerboseMap,
@@ -234,12 +242,13 @@ class ChartRenderer extends React.Component {
       };
     }
 
+    console.log('alteredVerboseMap', alteredVerboseMap);
+    console.groupEnd();
+
     const getFinalNameForMetric = (metric, dashboardLanguage) =>
       dashboardLanguage === 'ru'
         ? metric.verbose_name_RU || metric.verbose_name
         : metric.verbose_name;
-
-    console.log('RT DODO: переводы alteredVerboseMap', alteredVerboseMap);
 
     const alteredDatasource = {
       ...datasource,
@@ -265,10 +274,8 @@ class ChartRenderer extends React.Component {
       })),
     };
 
-    console.log('RT DODO: переводы alteredDatasource', alteredDatasource);
     const currentFormData =
       chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
-    console.log('currentFormData', currentFormData);
 
     const alteredFormData = {
       ...currentFormData,
@@ -298,8 +305,18 @@ class ChartRenderer extends React.Component {
           : [],
     };
 
-    console.log('RT DODO: переводы alteredFormData', alteredFormData);
-    console.log('RT DODO: переводы queriesResponse', queriesResponse);
+    console.groupCollapsed('ALL ALTERED');
+    console.log('datasource', datasource);
+    console.log('alteredDatasource', alteredDatasource);
+    console.log('+_+_+_+');
+    console.log('currentFormData', currentFormData);
+    console.log('alteredFormData', alteredFormData);
+    console.log('+_+_+_+');
+    console.log('queriesResponse', queriesResponse);
+    console.log('datasource.verbose_map', datasource.verbose_map);
+    console.log('alteredVerboseMap', alteredVerboseMap);
+    console.log('+_+_+_+');
+    console.groupEnd();
 
     const vizType = alteredFormData.viz_type || this.props.vizType;
 

@@ -79,17 +79,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   height,
   dashboardLanguage,
 }) => {
-  console.log(
-    'RT DODO: переводы SliceHeader',
-    'dashboardLanguage',
-    dashboardLanguage,
-    'sliceName',
-    sliceName,
-    'sliceNameRU',
-    sliceNameRU,
-  );
-
-  console.log('sliceXXZXZX', slice);
   const dispatch = useDispatch();
   const uiConfig = useUiConfig();
   const [headerTooltip, setHeaderTooltip] = useState<string | null>(null);

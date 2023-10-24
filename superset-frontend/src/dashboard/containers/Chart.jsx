@@ -94,10 +94,6 @@ function mapStateToProps(
   const labelColors = dashboardInfo?.metadata?.label_colors || {};
   const sharedLabelColors = dashboardInfo?.metadata?.shared_label_colors || {};
 
-  console.log('chartZXZXZX', chart);
-  console.log('chartMetricsZXZXZX', chartMetrics);
-  console.log('chartColumnsZXZXZX', chartColumns);
-
   const neededLabelArrayFromMetrics =
     chartMetrics && chartMetrics.length
       ? chartMetrics.map(m => {
@@ -126,6 +122,14 @@ function mapStateToProps(
           };
         })
       : [];
+
+  console.groupCollapsed('Chart labels');
+  console.log('chart', chart);
+  console.log('chartMetrics', chartMetrics);
+  console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
+  console.log('chartColumns', chartColumns);
+  console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
+  console.groupEnd();
 
   const getCorrectLabelsArray = (
     dashboardLanguage,
@@ -160,15 +164,32 @@ function mapStateToProps(
     return alteredColumns;
   };
 
-  const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
-    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
-    const alteredData = data
-      .map(d => {
-        // if (typeof lab === 'string') return d;
+  const detectDataType = arr => {
+    let isSimple = true;
 
+    if (arr && arr.length) {
+      arr.forEach(v => {
+        if ('key' in v && 'values' in v) isSimple = false;
+      });
+    }
+
+    return isSimple;
+  };
+
+  const handleSimpleArray = (data, allLabels) => {
+    console.groupCollapsed('handleSimpleArray');
+    console.log('data', data);
+    console.log('allLabels', allLabels);
+    console.groupEnd();
+
+    return data
+      .map(d => {
         const foundItems = allLabels.filter(
           lab => typeof lab !== 'string' && d[lab.label] !== undefined,
         );
+
+        console.groupCollapsed('handleSimpleArray foundItems');
+        console.log('foundItems', foundItems);
 
         if (foundItems && foundItems.length) {
           let tempCollection = {};
@@ -184,14 +205,69 @@ function mapStateToProps(
               ...obj,
             };
           });
-          return {
+          const returningObj = {
             ...d,
             ...tempCollection,
           };
+          console.log('initial', d);
+          console.log('returningObj', returningObj);
+          console.groupEnd();
+
+          return returningObj;
         }
+        console.log('returning data, no alternation', d);
+        console.groupEnd();
         return d;
       })
       .flat();
+  };
+
+  const handleNotSimpleArray = (data, allLabels) => {
+    console.groupCollapsed('handleNotSimpleArray');
+    console.log('data', data);
+    console.log('allLabels', allLabels);
+    console.groupEnd();
+    return data
+      .map(d => {
+        const { key } = d;
+
+        const foundItems = allLabels.filter(
+          lab => typeof lab !== 'string' && key === lab.label,
+        );
+        console.groupCollapsed('handleNotSimpleArray foundItems');
+        console.log('foundItems', foundItems);
+
+        if (foundItems && foundItems.length) {
+          const { label, labelRU } = foundItems[0];
+          const returningObj = {
+            ...d,
+            key: labelRU || label,
+          };
+          console.log('initial', d);
+          console.log('returningObj', returningObj);
+          console.groupEnd();
+          return returningObj;
+        }
+
+        console.log('returning data, no alternation', d);
+        console.groupEnd();
+        return {
+          ...d,
+        };
+      })
+      .flat();
+  };
+
+  const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
+    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+    const arrIsSimple = detectDataType(data);
+    let alteredData = [];
+
+    if (arrIsSimple) {
+      alteredData = handleSimpleArray(data, allLabels);
+    } else {
+      alteredData = handleNotSimpleArray(data, allLabels);
+    }
 
     return alteredData;
   };
@@ -220,10 +296,10 @@ function mapStateToProps(
   };
 
   if (alteredChart && alteredChart.chartStatus === 'success') {
-    console.log('DODO: alteredChart', alteredChart);
-    console.log('neededLabelArrayFromMetricsZZZZ', neededLabelArrayFromMetrics);
-    console.log('neededLabelArrayFromColumnsZZZZ', neededLabelArrayFromColumns);
-    console.log('_____');
+    console.groupCollapsed('Altered Chart');
+    console.log('chart', chart);
+    console.log('alteredChart', alteredChart);
+    console.groupEnd();
   }
   // note: this method caches filters if possible to prevent render cascades
   const formData = getFormDataWithExtraFilters({
