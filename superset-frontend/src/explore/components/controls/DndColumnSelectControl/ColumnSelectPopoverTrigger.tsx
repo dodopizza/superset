@@ -42,24 +42,38 @@ const ColumnSelectPopoverTrigger = ({
   const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
-  const [hasCustomLabel, setHasCustomLabel] = useState(false);
+  const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false);
 
   console.log('isTitleEditDisabled', isTitleEditDisabled);
-  console.log('hasCustomLabel', hasCustomLabel);
 
   let initialPopoverLabel = defaultPopoverLabel;
   let initialPopoverLabelRU = defaultPopoverLabelRU;
 
   if (editedColumn && isColumnMeta(editedColumn)) {
+    console.log('isColumnMeta which column', editedColumn);
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
     initialPopoverLabelRU =
       editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
+    console.log('isAdhocColumn which column', editedColumn);
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
     initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
   }
 
   useEffect(() => {
+    if (editedColumn && isColumnMeta(editedColumn)) {
+      console.log('isColumnMeta which column', editedColumn);
+      setCanHaveCustomLabel(false);
+    } else if (editedColumn && isAdhocColumn(editedColumn)) {
+      console.log('isAdhocColumn which column', editedColumn);
+      setCanHaveCustomLabel(true);
+    }
+  }, [editedColumn]);
+
+  useEffect(() => {
+    console.log('initialPopoverLabel', initialPopoverLabel);
+    console.log('initialPopoverLabelRU', initialPopoverLabelRU);
+    console.log('----');
     setPopoverLabel(initialPopoverLabel);
     setPopoverLabelRU(initialPopoverLabelRU);
   }, [initialPopoverLabel, initialPopoverLabelRU, popoverVisible]);
@@ -144,13 +158,11 @@ const ColumnSelectPopoverTrigger = ({
   const onLabelChange = useCallback((value: string) => {
     console.log('onLabelChange', value);
     setPopoverLabel(value);
-    setHasCustomLabel(true);
   }, []);
 
   const onLabelRUChange = useCallback((value: string) => {
     console.log('onLabelRUChange', value);
     setPopoverLabelRU(value);
-    setHasCustomLabel(true);
   }, []);
 
   return (
@@ -162,30 +174,50 @@ const ColumnSelectPopoverTrigger = ({
       onVisibleChange={handleTogglePopover}
       title={() => (
         <>
-          <TitleWrapper>
-            <TitleLabel>EN:</TitleLabel>
-            <EditableTitle
-              title={popoverLabel}
-              canEdit
-              emptyText=""
-              onSaveTitle={(value: any) => {
-                onLabelChange(value);
-              }}
-              showTooltip={false}
-            />
-          </TitleWrapper>
-          <TitleWrapper>
-            <TitleLabel>RU:</TitleLabel>
-            <EditableTitle
-              title={popoverLabelRU}
-              canEdit
-              emptyText=""
-              onSaveTitle={(value: any) => {
-                onLabelRUChange(value);
-              }}
-              showTooltip={false}
-            />
-          </TitleWrapper>
+          {canHaveCustomLabel && (
+            <>
+              <TitleWrapper>
+                <TitleLabel id="edit-column-label-en">EN:</TitleLabel>
+                <EditableTitle
+                  title={popoverLabel}
+                  canEdit
+                  emptyText=""
+                  onSaveTitle={(value: any) => {
+                    onLabelChange(value);
+                  }}
+                  showTooltip={false}
+                />
+              </TitleWrapper>
+              <TitleWrapper>
+                <TitleLabel id="edit-column-label-ru">RU:</TitleLabel>
+                <EditableTitle
+                  title={popoverLabelRU}
+                  canEdit
+                  emptyText=""
+                  onSaveTitle={(value: any) => {
+                    onLabelRUChange(value);
+                  }}
+                  showTooltip={false}
+                />
+              </TitleWrapper>
+            </>
+          )}
+          {!canHaveCustomLabel && (
+            <>
+              <TitleWrapper>
+                <TitleLabel id="cannot-edit-column-label-en">
+                  EN <small>(dataset)</small>:
+                </TitleLabel>
+                <TitleLabel>{popoverLabel}</TitleLabel>
+              </TitleWrapper>
+              <TitleWrapper>
+                <TitleLabel id="cannot-edit-column-label-en">
+                  RU <small>(датасет)</small>:
+                </TitleLabel>
+                <TitleLabel>{popoverLabelRU}</TitleLabel>
+              </TitleWrapper>
+            </>
+          )}
         </>
       )}
       destroyTooltipOnHide
