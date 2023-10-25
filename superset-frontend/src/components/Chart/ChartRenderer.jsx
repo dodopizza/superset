@@ -223,11 +223,11 @@ class ChartRenderer extends React.Component {
             ? verbose_name_RU || verbose_name
             : verbose_name;
       } else if (foundColumn.length) {
-        const { verbose_name, verbose_name_RU } = foundColumn[0];
+        const { verbose_name, verbose_name_RU, column_name } = foundColumn[0];
         finalNameFromDataset =
           dashboardLanguage === 'ru'
-            ? verbose_name_RU || verbose_name
-            : verbose_name;
+            ? verbose_name_RU || verbose_name || column_name
+            : verbose_name || column_name;
       }
 
       console.log('foundMetric', foundMetric);

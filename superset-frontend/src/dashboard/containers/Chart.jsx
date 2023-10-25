@@ -137,11 +137,16 @@ function mapStateToProps(
     labelsArrayMetrics,
     labelsArrayColumns,
   ) => {
+    console.groupCollapsed('Get Correct Labels');
+    console.log('dashboardLanguage', dashboardLanguage);
+    console.log('labelsArrayMetrics', labelsArrayMetrics);
+    console.log('labelsArrayColumns', labelsArrayColumns);
+
     const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+    console.log('allLabels', allLabels);
+
     const alteredColumns = columns
       .map(c => {
-        if (typeof c === 'string') return c;
-
         const foundItems = allLabels.filter(
           lab =>
             typeof label !== 'string' &&
@@ -161,6 +166,10 @@ function mapStateToProps(
       })
       .flat();
 
+    console.log('columns', columns);
+    console.log('alteredColumns', alteredColumns);
+    console.groupEnd();
+
     return alteredColumns;
   };
 
@@ -176,14 +185,11 @@ function mapStateToProps(
     return isSimple;
   };
 
-  const handleSimpleArray = (data, allLabels) => {
-    console.groupCollapsed('handleSimpleArray');
-    console.log('data', data);
-    console.log('allLabels', allLabels);
-    console.groupEnd();
-
-    return data
+  const handleSimpleArray = (data, allLabels, language) =>
+    data
       .map(d => {
+        if (language === 'en') return d;
+
         const foundItems = allLabels.filter(
           lab => typeof lab !== 'string' && d[lab.label] !== undefined,
         );
@@ -193,22 +199,36 @@ function mapStateToProps(
 
         if (foundItems && foundItems.length) {
           let tempCollection = {};
+          const tempLabels = [];
 
           foundItems.forEach(item => {
             const { label, labelRU } = item;
+            const finalLabel = language === 'ru' ? labelRU || label : label;
+
             const obj = {
-              [label]: d[label],
-              [labelRU || label]: d[label],
+              // [label]: d[label],
+              [finalLabel]: d[label],
             };
+
+            if (item && item.hasCustomLabel) {
+              tempLabels.push(label);
+            }
+
             tempCollection = {
               ...tempCollection,
               ...obj,
             };
           });
+
           const returningObj = {
             ...d,
             ...tempCollection,
           };
+
+          tempLabels.forEach(l => {
+            delete returningObj[l];
+          });
+          console.log('tempLabels', tempLabels);
           console.log('initial', d);
           console.log('returningObj', returningObj);
           console.groupEnd();
@@ -220,15 +240,12 @@ function mapStateToProps(
         return d;
       })
       .flat();
-  };
 
-  const handleNotSimpleArray = (data, allLabels) => {
-    console.groupCollapsed('handleNotSimpleArray');
-    console.log('data', data);
-    console.log('allLabels', allLabels);
-    console.groupEnd();
-    return data
+  const handleNotSimpleArray = (data, allLabels, language) =>
+    data
       .map(d => {
+        if (language === 'en') return d;
+
         const { key } = d;
 
         const foundItems = allLabels.filter(
@@ -239,9 +256,11 @@ function mapStateToProps(
 
         if (foundItems && foundItems.length) {
           const { label, labelRU } = foundItems[0];
+          const finalLabel = language === 'ru' ? labelRU || label : label;
+
           const returningObj = {
             ...d,
-            key: labelRU || label,
+            key: finalLabel,
           };
           console.log('initial', d);
           console.log('returningObj', returningObj);
@@ -256,47 +275,66 @@ function mapStateToProps(
         };
       })
       .flat();
-  };
 
   const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
     const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
     const arrIsSimple = detectDataType(data);
     let alteredData = [];
 
+    console.groupCollapsed('Handeling data');
+    console.log('arrIsSimple', arrIsSimple);
+    console.log('data', data);
+    console.log('allLabels', allLabels);
+    console.log('alteredDashboardLanguage', alteredDashboardLanguage);
+
     if (arrIsSimple) {
-      alteredData = handleSimpleArray(data, allLabels);
+      alteredData = handleSimpleArray(
+        data,
+        allLabels,
+        alteredDashboardLanguage,
+      );
     } else {
-      alteredData = handleNotSimpleArray(data, allLabels);
+      alteredData = handleNotSimpleArray(
+        data,
+        allLabels,
+        alteredDashboardLanguage,
+      );
     }
+    console.log('alteredData', alteredData);
+    console.groupEnd();
 
     return alteredData;
   };
 
+  const alteredQueriesResponse = chart.queriesResponse
+    ? chart.queriesResponse.map(qResp => ({
+        ...qResp,
+        colnames: getCorrectLabelsArray(
+          alteredDashboardLanguage,
+          qResp.colnames || [],
+          neededLabelArrayFromMetrics,
+          neededLabelArrayFromColumns,
+        ),
+        data:
+          qResp.data && qResp.data.length
+            ? getCorrectData(
+                qResp.data || [],
+                neededLabelArrayFromMetrics,
+                neededLabelArrayFromColumns,
+              )
+            : [],
+      }))
+    : null;
+
   const alteredChart = {
     ...chart,
-    queriesResponse: chart.queriesResponse
-      ? chart.queriesResponse.map(qResp => ({
-          ...qResp,
-          colnames: getCorrectLabelsArray(
-            alteredDashboardLanguage,
-            qResp.colnames || [],
-            neededLabelArrayFromMetrics,
-            neededLabelArrayFromColumns,
-          ),
-          data:
-            qResp.data && qResp.data.length
-              ? getCorrectData(
-                  qResp.data || [],
-                  neededLabelArrayFromMetrics,
-                  neededLabelArrayFromColumns,
-                )
-              : [],
-        }))
-      : null,
+    queriesResponse: alteredQueriesResponse,
   };
 
   if (alteredChart && alteredChart.chartStatus === 'success') {
     console.groupCollapsed('Altered Chart');
+    console.log('queriesResponse', chart.queriesResponse);
+    console.log('alteredQueriesResponse', alteredQueriesResponse);
     console.log('chart', chart);
     console.log('alteredChart', alteredChart);
     console.groupEnd();
