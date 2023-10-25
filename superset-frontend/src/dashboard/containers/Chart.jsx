@@ -53,6 +53,16 @@ function mapStateToProps(
 
   let alteredDashboardLanguage = 'en';
 
+  const currentSlice = sliceEntities
+    ? sliceEntities.slices
+      ? sliceEntities.slices[id]
+      : null
+    : null;
+
+  const currentSliceName = currentSlice
+    ? `EN: ${currentSlice.slice_name} | RU: ${currentSlice.slice_name_RU}`
+    : null;
+
   // TODO: duplicated logic from the store
   const getUserLocaleForPlugin = () => {
     function getPageLanguage() {
@@ -123,13 +133,14 @@ function mapStateToProps(
         })
       : [];
 
-  console.groupCollapsed('Chart labels');
+  console.groupCollapsed('Chart labels', '[', currentSliceName, ']');
   console.log('chart', chart);
   console.log('chartMetrics', chartMetrics);
   console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
   console.log('chartColumns', chartColumns);
   console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
   console.groupEnd();
+  console.log('');
 
   const getCorrectLabelsArray = (
     dashboardLanguage,
@@ -137,7 +148,7 @@ function mapStateToProps(
     labelsArrayMetrics,
     labelsArrayColumns,
   ) => {
-    console.groupCollapsed('Get Correct Labels');
+    console.groupCollapsed('Get Correct Labels', '[', currentSliceName, ']');
     console.log('dashboardLanguage', dashboardLanguage);
     console.log('labelsArrayMetrics', labelsArrayMetrics);
     console.log('labelsArrayColumns', labelsArrayColumns);
@@ -145,17 +156,25 @@ function mapStateToProps(
     const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
     console.log('allLabels', allLabels);
 
+    if (dashboardLanguage === 'en') return columns;
+
     const alteredColumns = columns
       .map(c => {
         const foundItems = allLabels.filter(
-          lab =>
-            typeof label !== 'string' &&
-            (lab.label === c || lab.label === c.label),
+          lab => lab.label && (lab.label === c || lab.label === c.label),
         );
+
+        console.log('');
+        console.log('foundItems', foundItems);
+        console.log('column', c);
+        console.log('');
 
         if (foundItems && foundItems.length) {
           return foundItems
             .map(item => {
+              if (typeof item === 'string') {
+                return item;
+              }
               const { label, labelRU } = item;
               return dashboardLanguage === 'ru' ? labelRU || label : label;
             })
@@ -169,6 +188,7 @@ function mapStateToProps(
     console.log('columns', columns);
     console.log('alteredColumns', alteredColumns);
     console.groupEnd();
+    console.log('');
 
     return alteredColumns;
   };
@@ -194,7 +214,10 @@ function mapStateToProps(
           lab => typeof lab !== 'string' && d[lab.label] !== undefined,
         );
 
-        console.groupCollapsed('handleSimpleArray foundItems');
+        console.groupCollapsed(
+          'handleSimpleArray foundItems',
+          currentSliceName,
+        );
         console.log('foundItems', foundItems);
 
         if (foundItems && foundItems.length) {
@@ -232,11 +255,13 @@ function mapStateToProps(
           console.log('initial', d);
           console.log('returningObj', returningObj);
           console.groupEnd();
+          console.log('');
 
           return returningObj;
         }
         console.log('returning data, no alternation', d);
         console.groupEnd();
+        console.log('');
         return d;
       })
       .flat();
@@ -251,7 +276,10 @@ function mapStateToProps(
         const foundItems = allLabels.filter(
           lab => typeof lab !== 'string' && key === lab.label,
         );
-        console.groupCollapsed('handleNotSimpleArray foundItems');
+        console.groupCollapsed(
+          'handleNotSimpleArray foundItems',
+          currentSliceName,
+        );
         console.log('foundItems', foundItems);
 
         if (foundItems && foundItems.length) {
@@ -265,11 +293,14 @@ function mapStateToProps(
           console.log('initial', d);
           console.log('returningObj', returningObj);
           console.groupEnd();
+          console.log('');
           return returningObj;
         }
 
         console.log('returning data, no alternation', d);
         console.groupEnd();
+        console.log('');
+
         return {
           ...d,
         };
@@ -281,7 +312,7 @@ function mapStateToProps(
     const arrIsSimple = detectDataType(data);
     let alteredData = [];
 
-    console.groupCollapsed('Handeling data');
+    console.groupCollapsed('Handeling data', '[', currentSliceName, ']');
     console.log('arrIsSimple', arrIsSimple);
     console.log('data', data);
     console.log('allLabels', allLabels);
@@ -302,6 +333,7 @@ function mapStateToProps(
     }
     console.log('alteredData', alteredData);
     console.groupEnd();
+    console.log('');
 
     return alteredData;
   };
@@ -332,12 +364,13 @@ function mapStateToProps(
   };
 
   if (alteredChart && alteredChart.chartStatus === 'success') {
-    console.groupCollapsed('Altered Chart');
+    console.groupCollapsed('Altered Chart', '[', currentSliceName, ']');
     console.log('queriesResponse', chart.queriesResponse);
     console.log('alteredQueriesResponse', alteredQueriesResponse);
     console.log('chart', chart);
     console.log('alteredChart', alteredChart);
     console.groupEnd();
+    console.log('');
   }
   // note: this method caches filters if possible to prevent render cascades
   const formData = getFormDataWithExtraFilters({

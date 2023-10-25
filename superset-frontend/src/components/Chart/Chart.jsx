@@ -250,6 +250,7 @@ class Chart extends React.PureComponent {
       queriesResponse = [],
       isDeactivatedViz = false,
       width,
+      chartName = 'unknown chart name',
     } = this.props;
 
     const isLoading = chartStatus === 'loading';
@@ -311,6 +312,7 @@ class Chart extends React.PureComponent {
               {...this.props}
               source={this.props.dashboardId ? 'dashboard' : 'explore'}
               data-test={this.props.vizType}
+              chartName={chartName}
             />
           </div>
           {isLoading && !isDeactivatedViz && <Loading />}

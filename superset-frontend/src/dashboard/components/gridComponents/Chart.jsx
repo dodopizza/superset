@@ -394,6 +394,9 @@ export default class Chart extends React.Component {
           filterId: id,
         })
       : {};
+
+    const currentSliceName = `EN: ${sliceName} | RU: ${sliceNameRU}`;
+
     return (
       <SliceContainer
         className="chart-slice"
@@ -480,6 +483,7 @@ export default class Chart extends React.Component {
             annotationData={chart.annotationData}
             chartAlert={chart.chartAlert}
             chartId={id}
+            chartName={currentSliceName}
             chartStatus={chartStatus}
             datasource={datasource}
             dashboardId={dashboardId}

@@ -194,14 +194,17 @@ class ChartRenderer extends React.Component {
       queriesResponse,
       postTransformProps,
       dashboardLanguage,
+      chartName,
     } = this.props;
+
+    console.log('this.propssasas', this.props);
 
     let alteredVerboseMap = {};
 
     const metricsArray = datasource.metrics;
     const columnsArray = datasource.columns;
 
-    console.groupCollapsed('Altered Verbose Map');
+    console.groupCollapsed('Altered Verbose Map', chartName);
     console.log('metricsArray', metricsArray);
     console.log('columnsArray', columnsArray);
 
@@ -244,6 +247,7 @@ class ChartRenderer extends React.Component {
 
     console.log('alteredVerboseMap', alteredVerboseMap);
     console.groupEnd();
+    console.log('');
 
     const getFinalNameForMetric = (metric, dashboardLanguage) =>
       dashboardLanguage === 'ru'
@@ -305,18 +309,19 @@ class ChartRenderer extends React.Component {
           : [],
     };
 
-    console.groupCollapsed('ALL ALTERED');
+    console.groupCollapsed('ALL ALTERED', chartName);
     console.log('datasource', datasource);
     console.log('alteredDatasource', alteredDatasource);
     console.log('+_+_+_+');
     console.log('currentFormData', currentFormData);
     console.log('alteredFormData', alteredFormData);
     console.log('+_+_+_+');
-    console.log('queriesResponse', queriesResponse);
+    console.log('Queries Response', queriesResponse);
     console.log('datasource.verbose_map', datasource.verbose_map);
     console.log('alteredVerboseMap', alteredVerboseMap);
     console.log('+_+_+_+');
     console.groupEnd();
+    console.log('');
 
     const vizType = alteredFormData.viz_type || this.props.vizType;
 
