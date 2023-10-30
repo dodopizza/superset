@@ -101,7 +101,7 @@ export const Styles = styled.div`
     }
 
     table.pvtTable tbody tr td {
-      color: ${theme.colors.primary.dark2};
+      color: ${theme.colors.text.help || '#000'};
       padding: ${theme.gridUnit}px;
       background-color: ${theme.colors.grayscale.light5};
       border-top: 1px solid ${theme.colors.grayscale.light2};

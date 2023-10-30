@@ -88,6 +88,8 @@ export const theme = merge(
   bootstrapData?.common?.theme_overrides ?? {},
 );
 
+console.log('GLOBAL THEME', theme);
+
 const getMe = makeApi<void, User>({
   method: 'GET',
   endpoint: '/api/v1/me/',
