@@ -193,6 +193,46 @@ const getHtmlTemplate = htmlWebpackPlugin => `<!DOCTYPE html>
       <div class="container">
         <div class="footer__inner">
           <div class="footer__copyright">©&nbsp;2023 Dodo Pizza</div>
+          <div class="footer__select-lang">
+
+
+<style>
+	.selectLanguage {
+		width: 150px;
+		display: inline-block;
+		vertical-align: middle;		
+	}
+
+	.selectLanguage_lang {
+		height: 34px;
+		width: 100%;
+		max-width: 150px;
+		padding: 5px;
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+		border-radius: 2px;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		font-size: 14px;
+		color: #000;
+		-webkit-box-shadow: inset 0 4px 4px -4px #dadada;
+		-moz-box-shadow: inset 0 4px 4px -4px #dadada;
+		box-shadow: inset 0 4px 4px -4px #dadada;
+	}
+</style>
+
+<div class="selectLanguage">
+	<form id="changeLanguage" method="POST" action="/Infrastructure/Home/ChangeCulture">
+
+		<select class="selectLanguage_lang" name="lang" onchange="$.blockUI(); document.getElementById('changeLanguage').submit();">
+        <option selected="" value="ru-RU">русский (Россия)</option>
+        <option value="en-GB">English (United Kingdom)</option>
+    </select>
+
+    <input id="Role" name="Role" type="hidden" value="">
+
+  </form>
+</div></div>
         </div>
       </div>
     </footer>

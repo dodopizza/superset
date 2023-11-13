@@ -456,6 +456,49 @@ class Header extends React.PureComponent {
       filterboxMigrationState,
     } = this.props;
 
+    let alteredDashboardLanguage = 'en';
+    let alteredDashboardTitle = dashboardTitle;
+
+    // TODO: duplicated logic from the store
+    const getUserLocaleForPlugin = () => {
+      function getPageLanguage() {
+        if (!document) {
+          return null;
+        }
+        const select = document.querySelector('#changeLanguage select');
+        const selectedLanguage = select ? select.value : null;
+        return selectedLanguage;
+      }
+      const getLocaleForSuperset = () => {
+        const dodoisLanguage = getPageLanguage();
+        if (dodoisLanguage) {
+          if (dodoisLanguage === 'ru-RU') return 'ru';
+          return 'en';
+        }
+        return 'en';
+      };
+
+      return getLocaleForSuperset();
+    };
+
+    console.log(
+      'containers/Chart [ process.env.type => ',
+      process.env.type,
+      ']',
+    );
+
+    if (process.env.type === undefined) {
+      console.log('no need for getUserLocaleForPlugin');
+    } else {
+      alteredDashboardLanguage = getUserLocaleForPlugin();
+      alteredDashboardTitle =
+        alteredDashboardLanguage === 'ru'
+          ? dashboardInfo
+            ? dashboardInfo.dashboard_title_RU || dashboardTitle
+            : dashboardTitle
+          : dashboardTitle;
+    }
+
     const userCanEdit =
       dashboardInfo.dash_edit_perm &&
       filterboxMigrationState !== FILTER_BOX_MIGRATION_STATES.REVIEWING &&
@@ -496,7 +539,7 @@ class Header extends React.PureComponent {
       >
         <PageHeaderWithActions
           editableTitleProps={{
-            title: dashboardTitle,
+            title: alteredDashboardTitle,
             canEdit: userCanEdit && editMode,
             onSave: this.handleChangeText,
             placeholder: t('Add the name of the dashboard'),

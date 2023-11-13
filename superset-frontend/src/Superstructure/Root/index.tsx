@@ -61,6 +61,28 @@ import {
 setupClient();
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
+  function getPageLanguage(): string | null {
+    if (!document) {
+      return null;
+    }
+    const select: HTMLSelectElement | null = document.querySelector(
+      '#changeLanguage select',
+    );
+    const selectedLanguage = select ? select.value : null;
+    return selectedLanguage;
+  }
+
+  const getLocaleForSuperset = () => {
+    const dodoisLanguage = getPageLanguage();
+    if (dodoisLanguage) {
+      if (dodoisLanguage === 'ru-RU') return 'ru';
+      return 'en';
+    }
+    return 'en';
+  };
+
+  const userLanguage = getLocaleForSuperset();
+
   const [isLoaded, setLoaded] = useState(false);
   const [isError, setError] = useState(false);
   const [errorObject, setErrorObject] = useState({
@@ -292,7 +314,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       data: validatedDashboards,
     };
 
-    console.group('Dashboards:');
+    console.groupCollapsed('Dashboards:');
     console.log('Before validation', dashboardsResponse.data);
     console.log('After validation', alteredDashboardResponse);
     console.groupEnd();
@@ -498,6 +520,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                 routesConfig={FULL_CONFIG.navigation.routes}
                 baseRoute={FULL_CONFIG.basename}
                 stylesConfig={stylesConfig}
+                language={userLanguage}
               />
               <DashboardComponentWrapper
                 withNavigation={FULL_CONFIG.navigation.showNavigationMenu}

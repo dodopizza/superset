@@ -22,7 +22,8 @@ const populateWithMainMenu = (
 ): RouteConfig[] => {
   const mainRoute = {
     idOrSlug: null,
-    name: 'Главная',
+    name: 'Main Page',
+    nameRU: 'Главная',
     location: '/',
     hidden: false,
     isMainRoute: true,

@@ -202,6 +202,7 @@ const defineNavigation = (
       certification_details = '',
       certified_by = '',
       dashboard_title = '',
+      dashboard_title_RU = '',
       id,
     } = dashboard;
 
@@ -209,6 +210,7 @@ const defineNavigation = (
       hidden: !certified_by,
       idOrSlug: id,
       name: dashboard_title,
+      nameRU: dashboard_title_RU || dashboard_title,
       location: certification_details,
       isMainRoute: false,
     };
