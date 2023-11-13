@@ -130,6 +130,7 @@ export type LayoutItem = {
     placeholder?: string;
     sliceName?: string;
     sliceNameOverride?: string;
+    sliceNameOverrideRU?: string;
     text?: string;
     uuid: string;
     width: number;

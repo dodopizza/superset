@@ -182,6 +182,7 @@ class ChartHolder extends React.Component {
     this.handleChangeFocus = this.handleChangeFocus.bind(this);
     this.handleDeleteComponent = this.handleDeleteComponent.bind(this);
     this.handleUpdateSliceName = this.handleUpdateSliceName.bind(this);
+    this.handleUpdateSliceNameRU = this.handleUpdateSliceNameRU.bind(this);
     this.handleToggleFullSize = this.handleToggleFullSize.bind(this);
     this.handleExtraControl = this.handleExtraControl.bind(this);
     this.handlePostTransformProps = this.handlePostTransformProps.bind(this);
@@ -227,6 +228,19 @@ class ChartHolder extends React.Component {
         meta: {
           ...component.meta,
           sliceNameOverride: nextName,
+        },
+      },
+    });
+  }
+
+  handleUpdateSliceNameRU(nextName) {
+    const { component, updateComponents } = this.props;
+    updateComponents({
+      [component.id]: {
+        ...component,
+        meta: {
+          ...component.meta,
+          sliceNameOverrideRU: nextName,
         },
       },
     });
@@ -366,8 +380,14 @@ class ChartHolder extends React.Component {
                   component.meta.sliceName ||
                   ''
                 }
-                sliceNameRU={component.meta.sliceNameRU || ''}
+                sliceNameRU={
+                  component.meta.sliceNameOverrideRU ||
+                  component.meta.sliceNameRU ||
+                  component.meta.sliceName ||
+                  ''
+                }
                 updateSliceName={this.handleUpdateSliceName}
+                updateSliceNameRU={this.handleUpdateSliceNameRU}
                 isComponentVisible={isComponentVisible}
                 handleToggleFullSize={this.handleToggleFullSize}
                 isFullSize={isFullSize}

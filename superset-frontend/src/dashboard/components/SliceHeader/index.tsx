@@ -1,4 +1,6 @@
 // DODO was here
+// onClickTitle
+
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { styled, t } from '@superset-ui/core';
 import { useUiConfig } from 'src/components/UiConfigContext';
@@ -17,6 +19,7 @@ import { clearDataMask } from 'src/dataMask/actions';
 type SliceHeaderProps = SliceHeaderControlsProps & {
   innerRef?: string;
   updateSliceName?: (arg0: string) => void;
+  updateSliceNameRU?: (arg0: string) => void;
   editMode?: boolean;
   annotationQuery?: object;
   annotationError?: object;
@@ -43,6 +46,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   innerRef = null,
   forceRefresh = () => ({}),
   updateSliceName = () => ({}),
+  updateSliceNameRU = () => ({}),
   toggleExpandSlice = () => ({}),
   logExploreChart = () => ({}),
   onExploreChart,
@@ -55,8 +59,8 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   updatedDttm = null,
   isCached = [],
   isExpanded = false,
-  sliceName = '',
-  sliceNameRU = '',
+  sliceName = '---',
+  sliceNameRU = '---',
   supersetCanExplore = false,
   supersetCanShare = false,
   supersetCanCSV = false,
@@ -75,15 +79,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   height,
   dashboardLanguage,
 }) => {
-  console.log(
-    'RT DODO: переводы SliceHeader',
-    'dashboardLanguage',
-    dashboardLanguage,
-    'sliceName',
-    sliceName,
-    'sliceNameRU',
-    sliceNameRU,
-  );
   const dispatch = useDispatch();
   const uiConfig = useUiConfig();
   const [headerTooltip, setHeaderTooltip] = useState<string | null>(null);
@@ -126,30 +121,120 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     }
   }, [sliceName, width, height, handleClickTitle]);
 
-  const finalName =
-    dashboardLanguage === 'ru' ? sliceNameRU || sliceName : sliceName;
+  // const sliceFinalTitle =
+  //   dashboardLanguage === 'ru' ? sliceNameRU || sliceName : sliceName;
+  const TitleWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 8px;
+
+    span {
+      margin-left: 12px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  `;
+  const TitleLabel = styled.span`
+    display: inline-block;
+    padding: 0;
+  `;
 
   return (
     <div className="chart-header" data-test="slice-header" ref={innerRef}>
       <div className="header-title" ref={headerRef}>
-        <Tooltip title={headerTooltip}>
-          <EditableTitle
-            title={
-              finalName ||
-              (editMode
-                ? '---' // this makes an empty title clickable
-                : '')
-            }
-            canEdit={editMode}
-            emptyText=""
-            onSaveTitle={updateSliceName}
-            showTooltip={false}
-            // DODO-changed
-            onClickTitle={
-              process.env.type === undefined ? handleClickTitle : () => {}
-            }
-          />
-        </Tooltip>
+        {editMode && (
+          <>
+            <TitleWrapper>
+              <TitleLabel>EN:</TitleLabel>
+              <Tooltip title={headerTooltip}>
+                <EditableTitle
+                  title={
+                    sliceName ||
+                    (editMode
+                      ? '---' // this makes an empty title clickable
+                      : '')
+                  }
+                  canEdit={editMode}
+                  emptyText=""
+                  onSaveTitle={updateSliceName}
+                  showTooltip={false}
+                  // DODO-changed
+                  onClickTitle={
+                    process.env.type === undefined ? handleClickTitle : () => {}
+                  }
+                />
+              </Tooltip>
+            </TitleWrapper>
+            <TitleWrapper>
+              <TitleLabel>RU:</TitleLabel>
+              <Tooltip title={headerTooltip}>
+                <EditableTitle
+                  title={
+                    sliceNameRU ||
+                    (editMode
+                      ? '---' // this makes an empty title clickable
+                      : '')
+                  }
+                  canEdit={editMode}
+                  emptyText=""
+                  onSaveTitle={updateSliceNameRU}
+                  showTooltip={false}
+                  // DODO-changed
+                  onClickTitle={
+                    process.env.type === undefined ? handleClickTitle : () => {}
+                  }
+                />
+              </Tooltip>
+            </TitleWrapper>
+          </>
+        )}
+
+        {!editMode && dashboardLanguage !== 'ru' && (
+          <Tooltip title={headerTooltip}>
+            <EditableTitle
+              title={
+                sliceName ||
+                (editMode
+                  ? '---' // this makes an empty title clickable
+                  : '')
+              }
+              canEdit={editMode}
+              emptyText=""
+              onSaveTitle={updateSliceName}
+              showTooltip={false}
+              // DODO-changed
+              onClickTitle={
+                process.env.type === undefined ? handleClickTitle : () => {}
+              }
+            />
+          </Tooltip>
+        )}
+
+        {!editMode && dashboardLanguage === 'ru' && (
+          <Tooltip title={headerTooltip}>
+            <EditableTitle
+              title={
+                sliceNameRU ||
+                (editMode
+                  ? 'RU ---' // this makes an empty title clickable
+                  : '')
+              }
+              canEdit={editMode}
+              emptyText=""
+              onSaveTitle={updateSliceNameRU}
+              showTooltip={false}
+              // DODO-changed
+              onClickTitle={
+                process.env.type === undefined ? handleClickTitle : () => {}
+              }
+            />
+          </Tooltip>
+        )}
+
         {!!Object.values(annotationQuery).length && (
           <Tooltip
             id="annotations-loading-tooltip"

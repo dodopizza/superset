@@ -32,6 +32,7 @@ const propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   updateSliceName: PropTypes.func.isRequired,
+  updateSliceNameRU: PropTypes.func.isRequired,
   isComponentVisible: PropTypes.bool,
   handleToggleFullSize: PropTypes.func.isRequired,
   setControlValue: PropTypes.func,
@@ -344,6 +345,7 @@ export default class Chart extends React.Component {
       labelColors,
       sharedLabelColors,
       updateSliceName,
+      updateSliceNameRU,
       sliceName,
       sliceNameRU,
       toggleExpandSlice,
@@ -392,6 +394,9 @@ export default class Chart extends React.Component {
           filterId: id,
         })
       : {};
+
+    const currentSliceName = `EN: ${sliceName} | RU: ${sliceNameRU}`;
+
     return (
       <SliceContainer
         className="chart-slice"
@@ -417,6 +422,7 @@ export default class Chart extends React.Component {
           exportXLSX={this.exportXLSX}
           exportFullCSV={this.exportFullCSV}
           updateSliceName={updateSliceName}
+          updateSliceNameRU={updateSliceNameRU}
           sliceName={sliceName}
           sliceNameRU={sliceNameRU}
           supersetCanExplore={supersetCanExplore}
@@ -477,6 +483,7 @@ export default class Chart extends React.Component {
             annotationData={chart.annotationData}
             chartAlert={chart.chartAlert}
             chartId={id}
+            chartName={currentSliceName}
             chartStatus={chartStatus}
             datasource={datasource}
             dashboardId={dashboardId}

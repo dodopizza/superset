@@ -91,11 +91,20 @@ export function updateDashboardTitle(text) {
 }
 
 export const DASHBOARD_TITLE_CHANGED = 'DASHBOARD_TITLE_CHANGED';
+export const DASHBOARD_TITLE_RU_CHANGED = 'DASHBOARD_TITLE_RU_CHANGED';
 
 // call this one when it's not an undo-able action
 export function dashboardTitleChanged(text) {
   return {
     type: DASHBOARD_TITLE_CHANGED,
+    text,
+  };
+}
+
+// call this one when it's not an undo-able action
+export function dashboardTitleRUChanged(text) {
+  return {
+    type: DASHBOARD_TITLE_RU_CHANGED,
     text,
   };
 }

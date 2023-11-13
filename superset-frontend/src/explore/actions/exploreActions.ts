@@ -104,6 +104,7 @@ export function setControlValue(
   value: any,
   validationErrors?: any[],
 ) {
+  console.log('setControlValueQQQ', value);
   return { type: SET_FIELD_VALUE, controlName, value, validationErrors };
 }
 

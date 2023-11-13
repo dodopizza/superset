@@ -275,6 +275,7 @@ export const hydrateDashboard =
       type: DASHBOARD_HEADER_TYPE,
       meta: {
         text: dashboardData.dashboard_title,
+        textRU: dashboardData.dashboard_title_RU,
       },
     };
 

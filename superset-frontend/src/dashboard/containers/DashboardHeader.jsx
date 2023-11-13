@@ -47,6 +47,7 @@ import {
   redoLayoutAction,
   updateDashboardTitle,
   dashboardTitleChanged,
+  dashboardTitleRUChanged,
 } from 'src/dashboard/actions/dashboardLayout';
 import {
   addSuccessToast,
@@ -128,6 +129,7 @@ function mapDispatchToProps(dispatch) {
       onRefresh,
       dashboardInfoChanged,
       dashboardTitleChanged,
+      dashboardTitleRUChanged,
       updateDataMask,
       fetchUISpecificReport,
     },

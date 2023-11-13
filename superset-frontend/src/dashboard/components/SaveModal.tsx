@@ -109,6 +109,8 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
     });
   }
 
+  // TODO: DODO dashboardTitle
+
   handleNameChange(name: string) {
     this.setState({
       newDashName: name,
@@ -121,6 +123,7 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
     const {
       dashboardTitle,
       dashboardInfo,
+      dashboardInfo: { dashboard_title_RU },
       layout: positions,
       customCss,
       dashboardId,
@@ -140,6 +143,8 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
       css: customCss,
       dashboard_title:
         saveType === SAVE_TYPE_NEWDASHBOARD ? newDashName : dashboardTitle,
+      dashboard_title_RU:
+        saveType === SAVE_TYPE_NEWDASHBOARD ? newDashName : dashboard_title_RU,
       duplicate_slices: this.state.duplicateSlices,
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,

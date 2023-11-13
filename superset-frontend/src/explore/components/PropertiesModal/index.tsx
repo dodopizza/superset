@@ -241,7 +241,7 @@ function PropertiesModal({
                 }
               />
             </FormItem>
-            <FormItem label={t('Chart Name (RU)')}>
+            <FormItem label={t('Chart Name (RU)')} required>
               <Input
                 aria-label={t('Chart Name (RU)')}
                 name="slice_name_RU"

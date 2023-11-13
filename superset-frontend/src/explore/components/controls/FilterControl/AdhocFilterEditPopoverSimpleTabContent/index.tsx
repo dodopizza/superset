@@ -84,6 +84,7 @@ export interface SQLExpressionType {
   expressionType: keyof typeof EXPRESSION_TYPES;
   sqlExpression: string;
   label: string;
+  labelRU: string;
 }
 
 export interface MetricColumnType {

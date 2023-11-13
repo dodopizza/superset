@@ -37,6 +37,7 @@ const StyledJsonEditor = styled(JsonEditor)`
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
+  dashboardTitleRU?: string;
   dashboardInfo?: Record<string, any>;
   show?: boolean;
   onHide?: () => void;
@@ -57,11 +58,11 @@ type Owners = {
 type DashboardInfo = {
   id: number;
   title: string;
+  titleRU: string;
   slug: string;
   certifiedBy: string;
   certificationDetails: string;
   isManagedExternally: boolean;
-  dashboard_title_RU: string;
 };
 
 const PropertiesModal = ({
@@ -70,11 +71,13 @@ const PropertiesModal = ({
   dashboardId,
   dashboardInfo: currentDashboardInfo,
   dashboardTitle,
+  dashboardTitleRU,
   onHide = () => {},
   onlyApply = false,
   onSubmit = () => {},
   show = false,
 }: PropertiesModalProps) => {
+  console.log('dashboardTitleRUXX', dashboardTitleRU);
   const [form] = AntdForm.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -134,6 +137,7 @@ const PropertiesModal = ({
       const {
         id,
         dashboard_title,
+        dashboard_title_RU,
         slug,
         certified_by,
         certification_details,
@@ -141,18 +145,16 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
-        dashboard_title_RU,
       } = dashboardData;
 
       const dashboardInfo = {
         id,
         title: dashboard_title,
+        titleRU: dashboard_title_RU,
         slug: slug || '',
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
         isManagedExternally: is_managed_externally || false,
-        // TODO
-        dashboard_title_RU: dashboard_title_RU || '',
       };
       console.log('dashboardInfo', dashboardInfo);
 
@@ -280,7 +282,7 @@ const PropertiesModal = ({
   };
 
   const onFinish = () => {
-    const { title, slug, certifiedBy, certificationDetails } =
+    const { title, titleRU, slug, certifiedBy, certificationDetails } =
       form.getFieldsValue();
 
     let currentColorScheme = colorScheme;
@@ -319,6 +321,7 @@ const PropertiesModal = ({
     const onSubmitProps = {
       id: dashboardId,
       title,
+      titleRU,
       slug,
       jsonMetadata: currentJsonMetadata,
       owners,
@@ -340,6 +343,7 @@ const PropertiesModal = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
+          dashboard_title_RU: titleRU,
           slug: slug || null,
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
@@ -493,6 +497,20 @@ const PropertiesModal = ({
     }
   }, [dashboardInfo, dashboardTitle, form]);
 
+  useEffect(() => {
+    // the title can be changed inline in the dashboard, this catches it
+    if (
+      dashboardTitleRU &&
+      dashboardInfo &&
+      dashboardInfo.titleRU !== dashboardTitleRU
+    ) {
+      form.setFieldsValue({
+        ...dashboardInfo,
+        titleRU: dashboardTitleRU,
+      });
+    }
+  }, [dashboardInfo, dashboardTitleRU, form]);
+
   return (
     <Modal
       show={show}
@@ -550,9 +568,16 @@ const PropertiesModal = ({
         </Row>
         <Row gutter={16}>
           <Col xs={24} md={12}>
-            <FormItem label={t('Title')} name="title">
+            <FormItem label={t('Title EN')} name="title">
               <Input
                 data-test="dashboard-title-input"
+                type="text"
+                disabled={isLoading}
+              />
+            </FormItem>
+            <FormItem label={t('Title RU')} name="titleRU">
+              <Input
+                data-test="dashboard-title-ru-input"
                 type="text"
                 disabled={isLoading}
               />
