@@ -341,6 +341,8 @@ export const ControlPanelsContainer = (props: ControlPanelsContainerProps) => {
       ? visibility.call(config, props, controlData)
       : undefined;
 
+    console.log('restPropsQQWQWQW', restProps);
+
     return (
       <Control
         key={`control-${name}`}

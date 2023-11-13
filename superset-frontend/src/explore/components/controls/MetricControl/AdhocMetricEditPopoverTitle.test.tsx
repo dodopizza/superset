@@ -41,6 +41,7 @@ const setup = (props: Partial<AdhocMetricEditPopoverTitleProps> = {}) => {
     <AdhocMetricEditPopoverTitle
       title={titleProps}
       onChange={onChange}
+      onChangeRU={onChange}
       {...props}
     />,
   );

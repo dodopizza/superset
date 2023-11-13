@@ -438,6 +438,7 @@
         ""
       ],
       "Tables": ["Таблицы"],
+      "Rows": ["Таблицы"],
       "Roles": ["Роли"],
       "Clause": ["Условие"],
       "Creator": ["Автор"],
@@ -2577,7 +2578,6 @@
       "Duration: %s": ["Продолжительность: %s"],
       "Tab name": ["Имя Таблицы"],
       "TABLES": ["ТАБЛИЦЫ"],
-      "Rows": ["Игнорировать"],
       "Open query in SQL Lab": ["Открыть в SQL редакторе"],
       "An error occurred while fetching database values: %s": [
         "Произошла ошибка при получении значений базы данных: %s"

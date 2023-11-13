@@ -53,7 +53,8 @@ export function DndColumnSelect(props: DndColumnSelectProps) {
     isTemporal,
   } = props;
   const [newColumnPopoverVisible, setNewColumnPopoverVisible] = useState(false);
-
+  console.log('valueQWQW', value);
+  console.log('---');
   const optionSelector = useMemo(
     () => new OptionSelector(options, multi, value),
     [multi, options, value],
@@ -136,6 +137,7 @@ export function DndColumnSelect(props: DndColumnSelectProps) {
             key={idx}
             columns={popoverOptions}
             onColumnEdit={newColumn => {
+              console.log('newColumnQQQ', newColumn);
               if (isColumnMeta(newColumn)) {
                 optionSelector.replace(idx, newColumn.column_name);
               } else {
@@ -183,6 +185,7 @@ export function DndColumnSelect(props: DndColumnSelectProps) {
 
   const addNewColumnWithPopover = useCallback(
     (newColumn: ColumnMeta | AdhocColumn) => {
+      console.log('addNewColumnWithPopover', newColumn);
       if (isColumnMeta(newColumn)) {
         optionSelector.add(newColumn.column_name);
       } else {
