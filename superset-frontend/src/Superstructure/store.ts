@@ -21,7 +21,6 @@ function getPageLanguage(): string | null {
 
 const getLocaleForSuperset = () => {
   const dodoisLanguage = getPageLanguage();
-  console.log('dodoisLanguage in store', dodoisLanguage);
   if (dodoisLanguage) {
     if (dodoisLanguage === 'ru-RU') return 'ru';
     return 'en';
@@ -33,7 +32,7 @@ const getLocaleForSuperset = () => {
 // Because the roles are empty -> export in CSV is not shown
 const locale = getLocaleForSuperset();
 
-console.log('getLocaleForSuperset', locale);
+console.log('User Language: IN STORE', locale);
 
 const bootstrap = {
   user: { roles: USER_ROLES },

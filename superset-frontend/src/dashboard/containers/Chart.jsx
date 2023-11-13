@@ -75,7 +75,6 @@ function mapStateToProps(
     }
     const getLocaleForSuperset = () => {
       const dodoisLanguage = getPageLanguage();
-      console.log('dodoisLanguage containers/Chart', dodoisLanguage);
       if (dodoisLanguage) {
         if (dodoisLanguage === 'ru-RU') return 'ru';
         return 'en';

@@ -12,6 +12,7 @@ const LeftNavigation = (props: {
   routesConfig: RoutesConfig;
   baseRoute: string;
   stylesConfig: StylesConfig;
+  language: string;
 }) => {
   const allAvailableRoutes = props.routesConfig.filter(route => !route.hidden);
   const { businessId } = props.stylesConfig;
@@ -30,7 +31,9 @@ const LeftNavigation = (props: {
                 activeClassName={`active-link active-link-${businessId}`}
                 to={link}
               >
-                {route.name}
+                {props.language === 'ru'
+                  ? route.nameRU || route.name
+                  : route.name}
               </StyledLink>
             </ListItem>
           );
