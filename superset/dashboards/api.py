@@ -382,11 +382,31 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         """
         logger.info(f"getting datasets for dashboard,"
                     f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
+        language = request.args.get('language')
         try:
             datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
             result = [
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
+            if language == "ru":
+                for dataset in result:
+                    verbose_map = dataset.get("verbose_map")
+                    columns = dataset.get("columns")
+                    if columns:
+                        for column in columns:
+                            if type(column) == dict and column.get("verbose_name_RU"):
+                                column["verbose_name"] = column.get("verbose_name_RU")
+                                if verbose_map.get(column.get("column_name")):
+                                    verbose_map[column.get("column_name")] = column.get("verbose_name_RU")
+                    metrics = dataset.get("metrics")
+                    if metrics:
+                        for metric in metrics:
+                            if type(metric) == dict and metric.get("verbose_name_RU"):
+                                metric["verbose_name"] = metric.get("verbose_name_RU")
+                                if verbose_map.get(metric.get("metric_name")):
+                                    verbose_map[metric.get("metric_name")] = metric.get("verbose_name_RU")
+
+            logger.warning(result)
             logger.info(f"got datasets for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
             return self.response(200, result=result)
