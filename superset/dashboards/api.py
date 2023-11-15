@@ -413,7 +413,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.get_charts",
         log_to_statsd=False,
     )
-    def get_charts(self, id_or_slug: str) -> Response:
+    def get_charts(self, id_or_slug: str, **kwargs: Any) -> Response:
         """Gets the chart definitions for a given dashboard
         ---
         get:
@@ -457,6 +457,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                 for chart in result:
                     form_data = chart.get("form_data")
                     form_data.pop("label_colors", None)
+            if kwargs.get("language") == "ru":
+                for chart in result:
+                    metrics = chart.get("form_data").get("metrics")
+                    for metric in metrics:
+                        metric["label"] = metric.get("labelRU")
 
             logger.info(f"got chart for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
