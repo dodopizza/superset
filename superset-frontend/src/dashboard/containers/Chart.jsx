@@ -42,14 +42,14 @@ function mapStateToProps(
 ) {
   const { id, extraControls, setControlValue } = ownProps;
   const chart = chartQueries[id] || EMPTY_OBJECT;
-  const {
-    form_data: {
-      metrics: chartMetrics = null,
-      groupbyColumns: chartColumns = null,
-    } = {
-      metrics: [],
-    },
-  } = chart;
+  // const {
+  //   form_data: {
+  //     metrics: chartMetrics = null,
+  //     groupbyColumns: chartColumns = null,
+  //   } = {
+  //     metrics: [],
+  //   },
+  // } = chart;
 
   let alteredDashboardLanguage = 'en';
 

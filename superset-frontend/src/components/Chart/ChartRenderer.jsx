@@ -193,7 +193,6 @@ class ChartRenderer extends React.Component {
       latestQueryFormData,
       queriesResponse,
       postTransformProps,
-      dashboardLanguage,
       chartName,
     } = this.props;
 
