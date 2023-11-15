@@ -197,8 +197,6 @@ class ChartRenderer extends React.Component {
       chartName,
     } = this.props;
 
-    console.log('this.propssasas', this.props);
-
     let alteredVerboseMap = {};
 
     const metricsArray = datasource.metrics;
