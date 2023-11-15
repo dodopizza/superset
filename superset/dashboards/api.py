@@ -462,7 +462,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                 for chart in result:
                     metrics = chart.get("form_data").get("metrics")
                     for metric in metrics:
-                        metric["label"] = metric.get("labelRU")
+                        if metric_ru := metric.get("labelRU"):
+                            metric["label"] = metric_ru
+                        column = metric.get("column")
+                        if column_ru := column.get("verbose_name_RU"):
+                            column["verbose_name"] = column_ru
 
             logger.info(f"got chart for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
