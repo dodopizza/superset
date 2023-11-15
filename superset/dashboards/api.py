@@ -396,7 +396,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_404()
 
     @expose("/<id_or_slug>/charts", methods=["GET"])
-    @protect()
+    # @protect()
     @etag_cache(
         get_last_modified=lambda _self, id_or_slug: DashboardDAO.get_dashboard_and_slices_changed_on(  # pylint: disable=line-too-long,useless-suppression
             id_or_slug
@@ -413,7 +413,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.get_charts",
         log_to_statsd=False,
     )
-    def get_charts(self, id_or_slug: str, **kwargs: Any) -> Response:
+    def get_charts(self, id_or_slug: str) -> Response:
         """Gets the chart definitions for a given dashboard
         ---
         get:
@@ -447,6 +447,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         """
         logger.info(f"getting chart for dashboard,"
                     f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
+        language = request.args.get('language')
         try:
             charts = DashboardDAO.get_charts_for_dashboard(id_or_slug)
             result = [self.chart_entity_response_schema.dump(chart) for chart in charts]
@@ -457,7 +458,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                 for chart in result:
                     form_data = chart.get("form_data")
                     form_data.pop("label_colors", None)
-            if kwargs.get("language") == "ru":
+            if language == "ru":
                 for chart in result:
                     metrics = chart.get("form_data").get("metrics")
                     for metric in metrics:
