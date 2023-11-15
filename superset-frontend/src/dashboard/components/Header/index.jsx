@@ -504,8 +504,6 @@ class Header extends React.PureComponent {
       dashboardTitleRUChanged(updates.titleRU);
     };
 
-    console.log('DODO: перводы dashboardInfo 2', dashboardInfo);
-
     let alteredDashboardLanguage = 'en';
 
     // TODO: duplicated logic from the store
@@ -540,8 +538,6 @@ class Header extends React.PureComponent {
     } else {
       alteredDashboardLanguage = getUserLocaleForPlugin();
     }
-
-    console.log('DODO: переводы dashboardLanguage', alteredDashboardLanguage);
 
     return (
       <>
