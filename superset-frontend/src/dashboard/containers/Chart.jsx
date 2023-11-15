@@ -130,14 +130,14 @@ function mapStateToProps(
   //       })
   //     : [];
 
-  console.groupCollapsed('Chart labels', '[', currentSliceName, ']');
-  console.log('chart', chart);
-  console.log('chartMetrics', chartMetrics);
-  // console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
-  console.log('chartColumns', chartColumns);
-  // console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
-  console.groupEnd();
-  console.log('');
+  // console.groupCollapsed('Chart labels', '[', currentSliceName, ']');
+  // console.log('chart', chart);
+  // console.log('chartMetrics', chartMetrics);
+  // // console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
+  // console.log('chartColumns', chartColumns);
+  // // console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
+  // console.groupEnd();
+  // console.log('');
 
   // const getCorrectLabelsArray = (
   //   dashboardLanguage,
@@ -361,15 +361,15 @@ function mapStateToProps(
   //   queriesResponse: alteredQueriesResponse,
   // };
 
-  // if (alteredChart && alteredChart.chartStatus === 'success') {
-  //   console.groupCollapsed('Altered Chart', '[', currentSliceName, ']');
-  //   console.log('queriesResponse', chart.queriesResponse);
-  //   console.log('alteredQueriesResponse', alteredQueriesResponse);
-  //   console.log('chart', chart);
-  //   console.log('alteredChart', alteredChart);
-  //   console.groupEnd();
-  //   console.log('');
-  // }
+  if (chart && chart.chartStatus === 'success') {
+    console.groupCollapsed('Altered Chart', '[', currentSliceName, ']');
+    console.log('queriesResponse', chart.queriesResponse);
+    console.log('alteredQueriesResponse' /* alteredQueriesResponse */);
+    console.log('chart', chart);
+    console.log('alteredChart' /* alteredChart */);
+    console.groupEnd();
+    console.log('');
+  }
   // note: this method caches filters if possible to prevent render cascades
   const formData = getFormDataWithExtraFilters({
     layout: dashboardLayout.present,

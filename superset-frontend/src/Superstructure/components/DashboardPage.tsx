@@ -119,7 +119,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     result: datasets,
     error: datasetsApiError,
     status,
-  } = useDashboardDatasets(idOrSlug);
+  } = useDashboardDatasets(idOrSlug, finalDashboardLanguage);
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;
