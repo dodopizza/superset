@@ -188,7 +188,6 @@ export default function EchartsTimeseries({
   const [isVisibleNow, setIsVisible] = useState(false);
 
   useEffect(() => {
-    console.log('Time-series echartOptions', echartOptions);
     setEchartsOptions(echartOptions);
     const current = getCurrentLabelState(
       echartOptions.series as Array<{
@@ -197,7 +196,6 @@ export default function EchartsTimeseries({
     );
 
     const currentValue = current.length > 0 ? current[0] : false;
-    console.log('Current Show/Hide value', current, currentValue);
     setIsVisible(!currentValue);
   }, [echartOptions]);
 

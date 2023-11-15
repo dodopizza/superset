@@ -101,7 +101,6 @@ export default function EchartsMixedTimeseries({
   const [isVisibleNow, setIsVisible] = useState(false);
 
   useEffect(() => {
-    console.log('Mixed time-series echartOptions', echartOptions);
     setEchartsOptions(echartOptions);
     const current = getCurrentLabelState(
       echartOptions.series as Array<{
@@ -110,7 +109,6 @@ export default function EchartsMixedTimeseries({
     );
 
     const currentValue = current.length > 0 ? current[0] : false;
-    console.log('Current Show/Hide value', current, currentValue);
     setIsVisible(!currentValue);
   }, [echartOptions]);
 

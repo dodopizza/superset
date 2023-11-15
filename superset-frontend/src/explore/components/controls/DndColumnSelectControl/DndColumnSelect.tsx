@@ -53,8 +53,6 @@ export function DndColumnSelect(props: DndColumnSelectProps) {
     isTemporal,
   } = props;
   const [newColumnPopoverVisible, setNewColumnPopoverVisible] = useState(false);
-  console.log('valueQWQW', value);
-  console.log('---');
   const optionSelector = useMemo(
     () => new OptionSelector(options, multi, value),
     [multi, options, value],

@@ -7,6 +7,7 @@ export interface AdhocColumn {
   hasCustomLabel?: boolean;
   label?: string;
   labelRU?: string;
+  labelEN?: string;
   optionName?: string;
   sqlExpression: string;
   expressionType: 'SQL';

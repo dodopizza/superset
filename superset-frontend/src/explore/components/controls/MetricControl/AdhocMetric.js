@@ -64,6 +64,9 @@ export default class AdhocMetric {
     this.label = this.hasCustomLabel
       ? adhocMetric.label
       : this.getDefaultLabel();
+    this.labelEN = this.hasCustomLabel
+      ? adhocMetric.labelEN
+      : this.getDefaultLabel();
     this.labelRU = this.hasCustomLabel
       ? adhocMetric.labelRU
       : this.getDefaultLabelRU();

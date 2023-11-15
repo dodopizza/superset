@@ -40,6 +40,7 @@ const ColumnSelectPopoverTrigger = ({
 }: ColumnSelectPopoverTriggerProps) => {
   const [popoverLabel, setPopoverLabel] = useState(defaultPopoverLabel);
   const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel);
+  const [popoverLabelEN, setPopoverLabelEN] = useState(defaultPopoverLabel);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
   const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false);
@@ -47,6 +48,7 @@ const ColumnSelectPopoverTrigger = ({
   console.log('isTitleEditDisabled', isTitleEditDisabled);
 
   let initialPopoverLabel = defaultPopoverLabel;
+  let initialPopoverLabelEN = defaultPopoverLabel;
   let initialPopoverLabelRU = defaultPopoverLabelRU;
 
   if (editedColumn && isColumnMeta(editedColumn)) {
@@ -58,6 +60,7 @@ const ColumnSelectPopoverTrigger = ({
     console.log('isAdhocColumn which column', editedColumn);
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
     initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
+    initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel;
   }
 
   useEffect(() => {
@@ -72,11 +75,18 @@ const ColumnSelectPopoverTrigger = ({
 
   useEffect(() => {
     console.log('initialPopoverLabel', initialPopoverLabel);
+    console.log('initialPopoverLabelEN', initialPopoverLabelEN);
     console.log('initialPopoverLabelRU', initialPopoverLabelRU);
     console.log('----');
     setPopoverLabel(initialPopoverLabel);
+    setPopoverLabelEN(initialPopoverLabelEN);
     setPopoverLabelRU(initialPopoverLabelRU);
-  }, [initialPopoverLabel, initialPopoverLabelRU, popoverVisible]);
+  }, [
+    initialPopoverLabel,
+    initialPopoverLabelEN,
+    initialPopoverLabelRU,
+    popoverVisible,
+  ]);
 
   const togglePopover = useCallback((visible: boolean) => {
     setPopoverVisible(visible);
@@ -116,7 +126,9 @@ const ColumnSelectPopoverTrigger = ({
           }}
           label={popoverLabel}
           labelRU={popoverLabelRU}
+          labelEN={popoverLabelEN}
           setLabel={setPopoverLabel}
+          setLabelEN={setPopoverLabelEN}
           setLabelRU={setPopoverLabelRU}
           getCurrentTab={getCurrentTab}
           isTemporal={isTemporal}
@@ -131,6 +143,7 @@ const ColumnSelectPopoverTrigger = ({
       isTemporal,
       onColumnEdit,
       popoverLabel,
+      popoverLabelEN,
       popoverLabelRU,
     ],
   );

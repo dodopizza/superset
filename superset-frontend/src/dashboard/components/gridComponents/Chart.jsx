@@ -262,6 +262,8 @@ export default class Chart extends React.Component {
       const nextTabId = lastTabId
         ? String(Number.parseInt(lastTabId, 10) + 1)
         : undefined;
+      console.log('this.props.formData', this.props.formData);
+
       const key = await postFormData(
         this.props.datasource.id,
         this.props.datasource.type,

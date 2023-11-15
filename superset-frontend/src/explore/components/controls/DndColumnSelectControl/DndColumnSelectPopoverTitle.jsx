@@ -62,7 +62,7 @@ export const DndColumnSelectPopoverTitle = ({
     [onBlur, onChange],
   );
 
-  const defaultLabel = t('My column');
+  const defaultLabel = t('My column (default label)');
 
   if (isEditDisabled) {
     return <span>{title || defaultLabel}</span>;
