@@ -461,12 +461,13 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             if language == "ru":
                 for chart in result:
                     metrics = chart.get("form_data").get("metrics")
-                    for metric in metrics:
-                        if metric_ru := metric.get("labelRU"):
-                            metric["label"] = metric_ru
-                        column = metric.get("column")
-                        if column_ru := column.get("verbose_name_RU"):
-                            column["verbose_name"] = column_ru
+                    if metrics:
+                        for metric in metrics:
+                            if type(metric) == dict and metric.get("labelRU"):
+                                metric["label"] = metric.get("labelRU")
+                                column = metric.get("column")
+                                if type(column) == dict and column.get("verbose_name_RU"):
+                                    column["verbose_name"] = column.get("verbose_name_RU")
 
             logger.info(f"got chart for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
