@@ -42,10 +42,8 @@ def upgrade():
     op.add_column('sql_metrics', sa.Column('verbose_name_EN', sa.Text(), nullable=True))
     op.add_column('sql_metrics', sa.Column('description_EN', sa.Text(), nullable=True))
 
-    op.add_column('table_columns',
-                  sa.Column('verbose_name_EN', sa.Text(), nullable=True))
-    op.add_column('table_columns',
-                  sa.Column('description_EN', sa.Text(), nullable=True))
+    op.add_column('table_columns', sa.Column('verbose_name_EN', sa.Text(), nullable=True))
+    op.add_column('table_columns', sa.Column('description_EN', sa.Text(), nullable=True))
     # ### end Alembic commands ###
 
 
