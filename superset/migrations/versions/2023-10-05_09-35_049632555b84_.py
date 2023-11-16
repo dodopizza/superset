@@ -58,9 +58,9 @@ def downgrade():
     op.drop_column('slices', 'slice_name_RU')
     op.drop_column('dashboards', 'dashboard_title_RU')
 
-    # op.drop_column('table_columns', 'description_EN')
-    # op.drop_column('table_columns', 'verbose_name_EN')
-    #
-    # op.drop_column('sql_metrics', 'description_EN')
-    # op.drop_column('sql_metrics', 'verbose_name_EN')
+    op.drop_column('table_columns', 'description_EN')
+    op.drop_column('table_columns', 'verbose_name_EN')
+
+    op.drop_column('sql_metrics', 'description_EN')
+    op.drop_column('sql_metrics', 'verbose_name_EN')
     # ### end Alembic commands ###
