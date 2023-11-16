@@ -40,6 +40,7 @@ const setup = (props: Partial<AdhocMetricEditPopoverTitleProps> = {}) => {
   const { container } = render(
     <AdhocMetricEditPopoverTitle
       title={titleProps}
+      // @ts-ignore
       onChange={onChange}
       onChangeRU={onChange}
       {...props}

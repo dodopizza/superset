@@ -667,21 +667,24 @@ class DatasourceEditor extends React.PureComponent {
   onDatasourcePropChange(attr, value) {
     if (value === undefined) return; // if value is undefined do not update state
     const datasource = { ...this.state.datasource, [attr]: value };
-    
+
     const alteredDatasource = {
       ...datasource,
       metrics: datasource.metrics.map(v => ({
         ...v,
-        verbose_name_EN: v.verbose_name || null
-      }))
-    }
+        verbose_name_EN: v.verbose_name || null,
+      })),
+    };
 
     this.setState(
       prevState => ({
         datasource: { ...prevState.datasource, [attr]: value },
       }),
       attr === 'table_name'
-        ? this.onDatasourceChange(alteredDatasource, this.tableChangeAndSyncMetadata)
+        ? this.onDatasourceChange(
+            alteredDatasource,
+            this.tableChangeAndSyncMetadata,
+          )
         : this.onDatasourceChange(alteredDatasource, this.validateAndChange),
     );
   }
