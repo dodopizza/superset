@@ -606,8 +606,8 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
     is_dttm = None
     verbose_name_RU = Column(Text, nullable=True)
     description_RU = Column(Text, nullable=True)
-    # verbose_name_EN = Column(Text, nullable=True, default=verbose_name)
-    # description_EN = Column(Text, nullable=True, default=description)
+    verbose_name_EN = Column(Text, nullable=True, default=verbose_name)
+    description_EN = Column(Text, nullable=True, default=description)
 
     # [optional] Set this to support import/export functionality
     export_fields: List[Any] = []
@@ -674,10 +674,10 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
             "column_name",
             "verbose_name",
             "verbose_name_RU",
-            # "verbose_name_EN",
+            "verbose_name_EN",
             "description",
             "description_RU",
-            # "description_EN",
+            "description_EN",
             "expression",
             "filterable",
             "groupby",
@@ -701,9 +701,9 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
     d3format = Column(String(128))
     warning_text = Column(Text)
     verbose_name_RU = Column(String(1024), nullable=True)
-    # verbose_name_EN = Column(String(1024), nullable=True, default=verbose_name)
+    verbose_name_EN = Column(String(1024), nullable=True, default=verbose_name)
     description_RU = Column(MediumText(), nullable=True)
-    # description_EN = Column(MediumText(), nullable=True, default=description)
+    description_EN = Column(MediumText(), nullable=True, default=description)
 
     """
     The interface should also declare a datasource relationship pointing
@@ -743,7 +743,7 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
             "d3format",
             "verbose_name_RU",
             "description_RU",
-            # "verbose_name_EN",
-            # "description_EN"
+            "verbose_name_EN",
+            "description_EN"
         )
         return {s: getattr(self, s) for s in attrs}
