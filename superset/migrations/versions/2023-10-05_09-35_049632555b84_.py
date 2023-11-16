@@ -48,4 +48,5 @@ def downgrade():
     op.drop_column('sql_metrics', 'description_RU')
     op.drop_column('sql_metrics', 'verbose_name_RU')
     op.drop_column('slices', 'slice_name_RU')
+    op.drop_column('dashboards', 'dashboard_title_RU')
     # ### end Alembic commands ###
