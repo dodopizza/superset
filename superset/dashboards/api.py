@@ -432,6 +432,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_403()
         except DashboardNotFoundError:
             return self.response_404()
+        except Exception as e:
+            return self.response_500(str(e))
 
     @expose("/<id_or_slug>/charts", methods=["GET"])
     # @protect()
