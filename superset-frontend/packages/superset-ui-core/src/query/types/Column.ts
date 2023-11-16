@@ -30,6 +30,8 @@ export interface Column {
   is_dttm?: boolean;
   filterable?: boolean;
   verbose_name?: string | null;
+  verbose_name_RU?: string | null;
+  verbose_name_EN?: string | null;
   description?: string | null;
   expression?: string | null;
   database_expression?: string | null;

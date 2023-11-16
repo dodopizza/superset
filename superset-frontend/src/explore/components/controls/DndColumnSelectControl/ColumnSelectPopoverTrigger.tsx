@@ -39,8 +39,8 @@ const ColumnSelectPopoverTrigger = ({
   ...props
 }: ColumnSelectPopoverTriggerProps) => {
   const [popoverLabel, setPopoverLabel] = useState(defaultPopoverLabel);
-  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel);
   const [popoverLabelEN, setPopoverLabelEN] = useState(defaultPopoverLabel);
+  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabelRU);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
   const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false);
@@ -54,13 +54,15 @@ const ColumnSelectPopoverTrigger = ({
   if (editedColumn && isColumnMeta(editedColumn)) {
     console.log('isColumnMeta which column', editedColumn);
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
+    initialPopoverLabelEN =
+      editedColumn.verbose_name_EN || editedColumn.column_name;
     initialPopoverLabelRU =
       editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
     console.log('isAdhocColumn which column', editedColumn);
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
-    initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
     initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel;
+    initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
   }
 
   useEffect(() => {
@@ -121,14 +123,20 @@ const ColumnSelectPopoverTrigger = ({
           columns={columns}
           onClose={handleClosePopover}
           onChange={(e: any) => {
-            console.log('eXXXX', e);
+            console.log('ColumnSelectPopover edit', e);
             return onColumnEdit(e);
           }}
           label={popoverLabel}
-          labelRU={popoverLabelRU}
           labelEN={popoverLabelEN}
-          setLabel={setPopoverLabel}
-          setLabelEN={setPopoverLabelEN}
+          labelRU={popoverLabelRU}
+          setLabel={(v: any) => {
+            setPopoverLabel(v);
+            setPopoverLabelEN(v);
+          }}
+          setLabelEN={(v: any) => {
+            setPopoverLabel(v);
+            setPopoverLabelEN(v);
+          }}
           setLabelRU={setPopoverLabelRU}
           getCurrentTab={getCurrentTab}
           isTemporal={isTemporal}

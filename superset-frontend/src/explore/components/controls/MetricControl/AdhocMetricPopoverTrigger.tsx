@@ -194,7 +194,7 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
       this.setState({
         title: {
           label: currentLabel,
-          labelEN: currentLabelRU,
+          labelEN: currentLabel,
           labelRU: currentLabelRU,
           hasCustomLabel: false,
         },

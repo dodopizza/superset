@@ -139,17 +139,8 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
     if (isEditDisabled) {
       return (
         <div>
-          <span style={{ marginRight: '4px' }}>Main:</span>
           <span data-test="AdhocMetricTitle">
-            {title?.label || defaultLabel}
-          </span>
-          <span style={{ marginRight: '4px', marginLeft: '12px' }}>EN:</span>
-          <span data-test="AdhocMetricTitleEN">
-            {title?.labelEN || defaultLabel}
-          </span>
-          <span style={{ marginRight: '4px', marginLeft: '12px' }}>RU:</span>
-          <span data-test="AdhocMetricTitleRU">
-            {title?.labelRU || defaultLabelRU}
+            {title?.label || title?.labelEN || title?.labelRU || defaultLabel}
           </span>
         </div>
       );

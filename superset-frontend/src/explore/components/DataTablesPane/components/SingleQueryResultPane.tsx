@@ -19,10 +19,8 @@ export const SingleQueryResultPane = ({
 }: SingleQueryResultPaneProp) => {
   const [filterText, setFilterText] = useState('');
 
+  // DODO changed
   const fixedColnames = colnames.map(name => (name === '' ? 'empty__' : name));
-
-  console.log('colnamesXXX', colnames);
-  console.log('fixedColnames', fixedColnames);
 
   // this is to preserve the order of the columns, even if there are integer values,
   // while also only grabbing the first column's keys

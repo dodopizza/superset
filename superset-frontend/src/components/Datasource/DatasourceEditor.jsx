@@ -224,21 +224,36 @@ function ColumnCollectionTable({
             )}
             <Field
               fieldKey="verbose_name"
-              label={t('Label (EN)')}
+              label={t('Label (ENG)')}
               control={
                 <TextControl
                   controlId="verbose_name"
-                  placeholder={t('Label (EN)')}
+                  placeholder={t('Label (ENG)')}
                 />
               }
             />
+            {/* <Field
+              fieldKey="verbose_name_EN"
+              label={t('LABEL (ENGL)')}
+              control={
+                <TextControl
+                  disabled
+                  controlId="verbose_name_EN"
+                  placeholder={t('LABEL (ENGL)')}
+                  value={() => {
+                    console.log('this loook', this);
+                    return 'none';
+                  }}
+                />
+              }
+            /> */}
             <Field
               fieldKey="verbose_name_RU"
-              label={t('Label (RU)')}
+              label={t('LABEL (RUS)')}
               control={
                 <TextControl
                   controlId="verbose_name_RU"
-                  placeholder={t('Label (RU)')}
+                  placeholder={t('LABEL (RUS)')}
                 />
               }
             />
@@ -652,13 +667,22 @@ class DatasourceEditor extends React.PureComponent {
   onDatasourcePropChange(attr, value) {
     if (value === undefined) return; // if value is undefined do not update state
     const datasource = { ...this.state.datasource, [attr]: value };
+    
+    const alteredDatasource = {
+      ...datasource,
+      metrics: datasource.metrics.map(v => ({
+        ...v,
+        verbose_name_EN: v.verbose_name || null
+      }))
+    }
+
     this.setState(
       prevState => ({
         datasource: { ...prevState.datasource, [attr]: value },
       }),
       attr === 'table_name'
-        ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
-        : this.onDatasourceChange(datasource, this.validateAndChange),
+        ? this.onDatasourceChange(alteredDatasource, this.tableChangeAndSyncMetadata)
+        : this.onDatasourceChange(alteredDatasource, this.validateAndChange),
     );
   }
 
@@ -668,7 +692,29 @@ class DatasourceEditor extends React.PureComponent {
 
   setColumns(obj) {
     // update calculatedColumns or databaseColumns
-    this.setState(obj, this.validateAndChange);
+    let alteredObj = {
+      ...obj,
+    };
+    if (alteredObj && alteredObj.databaseColumns) {
+      alteredObj = {
+        ...alteredObj,
+        databaseColumns: alteredObj.databaseColumns.map(c => ({
+          ...c,
+          verbose_name_EN: c.verbose_name || null,
+        })),
+      };
+    }
+    if (alteredObj && alteredObj.calculatedColumns) {
+      alteredObj = {
+        ...alteredObj,
+        calculatedColumns: alteredObj.calculatedColumns.map(c => ({
+          ...c,
+          verbose_name_EN: c.verbose_name || null,
+        })),
+      };
+    }
+
+    this.setState(alteredObj, this.validateAndChange);
   }
 
   validateAndChange() {
@@ -1196,19 +1242,22 @@ class DatasourceEditor extends React.PureComponent {
         tableColumns={[
           'metric_name',
           'verbose_name',
+          // 'verbose_name_EN',
           'verbose_name_RU',
           'expression',
         ]}
         sortColumns={[
           'metric_name',
           'verbose_name',
+          // 'verbose_name_EN',
           'verbose_name_RU',
           'expression',
         ]}
         columnLabels={{
           metric_name: t('Metric'),
-          verbose_name: t('Label (EN)'),
-          verbose_name_RU: t('Label (RU)'),
+          verbose_name: t('Label ENG'),
+          // verbose_name_EN: '|',
+          verbose_name_RU: t('Label RUS'),
           expression: t('SQL expression'),
         }}
         expandFieldset={
@@ -1286,6 +1335,7 @@ class DatasourceEditor extends React.PureComponent {
         itemGenerator={() => ({
           metric_name: '<new metric>',
           verbose_name: '',
+          // verbose_name_EN: '',
           verbose_name_RU: '',
           expression: '',
         })}
@@ -1309,6 +1359,12 @@ class DatasourceEditor extends React.PureComponent {
           verbose_name: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
+          // verbose_name_EN: (v, onChange, _, record) => {
+          //   console.log(this.state.datasource.metrics, 'here look');
+          //   console.log(record, 'record');
+          //   console.log('---');
+          //   return <TextControl disabled value={record.verbose_name || ''} />;
+          // },
           verbose_name_RU: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
