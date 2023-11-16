@@ -38,6 +38,14 @@ def upgrade():
     op.add_column('sql_metrics', sa.Column('description_RU', sa.Text(), nullable=True))
     op.add_column('table_columns', sa.Column('verbose_name_RU', sa.Text(), nullable=True))
     op.add_column('table_columns', sa.Column('description_RU', sa.Text(), nullable=True))
+
+    op.add_column('sql_metrics', sa.Column('verbose_name_EN', sa.Text(), nullable=True))
+    op.add_column('sql_metrics', sa.Column('description_EN', sa.Text(), nullable=True))
+
+    op.add_column('table_columns',
+                  sa.Column('verbose_name_EN', sa.Text(), nullable=True))
+    op.add_column('table_columns',
+                  sa.Column('description_EN', sa.Text(), nullable=True))
     # ### end Alembic commands ###
 
 
@@ -49,4 +57,10 @@ def downgrade():
     op.drop_column('sql_metrics', 'verbose_name_RU')
     op.drop_column('slices', 'slice_name_RU')
     op.drop_column('dashboards', 'dashboard_title_RU')
+
+    op.drop_column('table_columns', 'description_EN')
+    op.drop_column('table_columns', 'verbose_name_EN')
+
+    op.drop_column('sql_metrics', 'description_EN')
+    op.drop_column('sql_metrics', 'verbose_name_EN')
     # ### end Alembic commands ###
