@@ -403,7 +403,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                         for column in columns:
                             if type(column) == dict and column.get("verbose_name_RU"):
                                 logger.warning(
-                                    "убедились что колонка это словарь, и что есть verbose_name_RU")
+                                    "убедились что колонка это словарь, и что есть "
+                                    "verbose_name_RU")
                                 column["verbose_name"] = column.get("verbose_name_RU")
                                 if type(verbose_map) == dict and \
                                     verbose_map.get(column.get("column_name")):
@@ -419,7 +420,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                                     verbose_map.get(metric.get("metric_name")):
                                     verbose_map[metric.get("metric_name")] = metric.get(
                                         "verbose_name_RU")
-            logger.warning("параметр оказался en, lan", language)
+            logger.warning("параметр оказался en, lan=", language)
             logger.info(f"got datasets for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
             return self.response(200, result=result)
