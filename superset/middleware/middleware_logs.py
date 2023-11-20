@@ -11,5 +11,9 @@ class LogRoutersMiddleware(BaseHTTPMiddleware):
     def dispatch(self, request, call_next):
         logger.info(f"urls: {request.url},"
                     f" endpoint: {request.endpoint},"
-                    f" path: {request.path}")
+                    f" path: {request.path},"
+                    f" args: {request.args},"
+                    f" method: {request.method},"
+                    f" request: {str(request.__dict__)}"
+                    )
         return call_next(request)
