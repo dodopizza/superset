@@ -389,86 +389,86 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
         language = request.args.get('language')
         logger.debug("получили язык из параметров")
-        try:
-            datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
-            result = [
-                self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
-            ]
-            # logger.warning("result", result)
-            if language == "ru":
-                logger.debug("проверили что параметр 'ru'")
-                for dataset in result:
-                    logger.debug("итерируемся по датасетам")
-                    verbose_map = dataset.get("verbose_map")
-                    logger.debug("получили verbose_map")
-                    columns = dataset.get("columns")
-                    logger.debug("получили columns")
-                    if columns:
-                        logger.debug("проверили что есть columns")
-                        for column in columns:
-                            if type(column) == dict and column.get("verbose_name_RU"):
-                                logger.debug(
-                                    "убедились что колонка это словарь, и что есть "
+        # try:
+        datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
+        result = [
+            self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
+        ]
+        # logger.warning("result", result)
+        if language == "ru":
+            logger.debug("проверили что параметр 'ru'")
+            for dataset in result:
+                logger.debug("итерируемся по датасетам")
+                verbose_map = dataset.get("verbose_map")
+                logger.debug("получили verbose_map")
+                columns = dataset.get("columns")
+                logger.debug("получили columns")
+                if columns:
+                    logger.debug("проверили что есть columns")
+                    for column in columns:
+                        if type(column) == dict and column.get("verbose_name_RU"):
+                            logger.debug(
+                                "убедились что колонка это словарь, и что есть "
+                                "verbose_name_RU")
+                            column["verbose_name"] = column.get("verbose_name_RU")
+                            if type(verbose_map) == dict and \
+                                verbose_map.get(column.get("column_name")):
+                                verbose_map[column.get("column_name")] = column.get(
                                     "verbose_name_RU")
-                                column["verbose_name"] = column.get("verbose_name_RU")
-                                if type(verbose_map) == dict and \
-                                    verbose_map.get(column.get("column_name")):
-                                    verbose_map[column.get("column_name")] = column.get(
-                                        "verbose_name_RU")
-                    metrics = dataset.get("metrics")
-                    logger.debug("получили metrics")
-                    if metrics:
-                        for metric in metrics:
-                            if type(metric) == dict and metric.get("verbose_name_RU"):
-                                metric["verbose_name"] = metric.get("verbose_name_RU")
-                                if type(verbose_map) == dict and \
-                                    verbose_map.get(metric.get("metric_name")):
-                                    verbose_map[metric.get("metric_name")] = metric.get(
-                                        "verbose_name_RU")
+                metrics = dataset.get("metrics")
+                logger.debug("получили metrics")
+                if metrics:
+                    for metric in metrics:
+                        if type(metric) == dict and metric.get("verbose_name_RU"):
+                            metric["verbose_name"] = metric.get("verbose_name_RU")
+                            if type(verbose_map) == dict and \
+                                verbose_map.get(metric.get("metric_name")):
+                                verbose_map[metric.get("metric_name")] = metric.get(
+                                    "verbose_name_RU")
 
-            if language == "" or language == "en":
-                logger.debug("проверили что параметр en")
-                for dataset in result:
-                    logger.debug("итерируемся по датасетам")
-                    verbose_map = dataset.get("verbose_map")
-                    logger.debug("получили verbose_map", verbose_map)
-                    columns = dataset.get("columns")
-                    logger.debug("получили columns")
-                    if columns:
-                        logger.debug("проверили что есть columns")
-                        for column in columns:
-                            if type(column) == dict and column.get("verbose_name_RU"):
-                                logger.debug(
-                                    "убедились что колонка это словарь, и что есть")
-                                # column["verbose_name"] = column.get("verbose_name_RU")
-                                if type(verbose_map) == dict and \
-                                    verbose_map.get(column.get("column_name")):
-                                    logger.debug("verbose_map= ")
-                                    # verbose_map[column.get("column_name")] = column.get(
-                                    #     "verbose_name_RU")
-                    metrics = dataset.get("metrics")
-                    logger.debug("получили metrics")
-                    if metrics:
-                        for metric in metrics:
-                            if type(metric) == dict and metric.get("verbose_name_RU"):
-                                # metric["verbose_name"] = metric.get("verbose_name_RU")
-                                logger.debug("metric=")
-                                if type(verbose_map) == dict and \
-                                    verbose_map.get(metric.get("metric_name")):
-                                    # verbose_map[metric.get("metric_name")] = metric.get(
-                                    #     "verbose_name_RU")
-                                    logger.debug("verbose_map=")
-            logger.info(f"got datasets for dashboard,"
-                        f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
-            # logger.warning("the last result", result)
-            return self.response(200, result=result)
-        except DashboardAccessDeniedError:
-            return self.response_403()
-        except DashboardNotFoundError:
-            return self.response_404()
-        except Exception as e:
-            logger.error("поймали 500", e)
-            return self.response_500(str(e))
+        if language == "" or language == "en":
+            logger.debug("проверили что параметр en")
+            for dataset in result:
+                logger.debug("итерируемся по датасетам")
+                verbose_map = dataset.get("verbose_map")
+                logger.debug("получили verbose_map", verbose_map)
+                columns = dataset.get("columns")
+                logger.debug("получили columns")
+                if columns:
+                    logger.debug("проверили что есть columns")
+                    for column in columns:
+                        if type(column) == dict and column.get("verbose_name_RU"):
+                            logger.debug(
+                                "убедились что колонка это словарь, и что есть")
+                            # column["verbose_name"] = column.get("verbose_name_RU")
+                            if type(verbose_map) == dict and \
+                                verbose_map.get(column.get("column_name")):
+                                logger.debug("verbose_map= ")
+                                # verbose_map[column.get("column_name")] = column.get(
+                                #     "verbose_name_RU")
+                metrics = dataset.get("metrics")
+                logger.debug("получили metrics")
+                if metrics:
+                    for metric in metrics:
+                        if type(metric) == dict and metric.get("verbose_name_RU"):
+                            # metric["verbose_name"] = metric.get("verbose_name_RU")
+                            logger.debug("metric=")
+                            if type(verbose_map) == dict and \
+                                verbose_map.get(metric.get("metric_name")):
+                                # verbose_map[metric.get("metric_name")] = metric.get(
+                                #     "verbose_name_RU")
+                                logger.debug("verbose_map=")
+        logger.info(f"got datasets for dashboard,"
+                    f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
+        # logger.warning("the last result", result)
+        return self.response(200, result=result)
+        # except DashboardAccessDeniedError:
+        #     return self.response_403()
+        # except DashboardNotFoundError:
+        #     return self.response_404()
+        # except Exception as e:
+        #     logger.error("поймали 500", e)
+        #     return self.response_500(str(e))
 
     @expose("/<id_or_slug>/charts", methods=["GET"])
     # @protect()
