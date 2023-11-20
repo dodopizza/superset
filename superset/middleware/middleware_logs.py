@@ -14,6 +14,5 @@ class LogRoutersMiddleware(BaseHTTPMiddleware):
                     f" path: {request.path},"
                     f" args: {request.args},"
                     f" method: {request.method},"
-                    f" request: {str(request.__dict__)}"
                     )
         return call_next(request)

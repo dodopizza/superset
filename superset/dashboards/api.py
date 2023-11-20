@@ -388,26 +388,26 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         logger.info(f"getting datasets for dashboard,"
                     f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
         language = request.args.get('language')
-        logger.warning("получили язык из параметров lan=", language)
+        logger.debug("получили язык из параметров")
         try:
             datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
             result = [
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
-            logger.warning("result", result)
+            # logger.warning("result", result)
             if language == "ru":
-                logger.warning("проверили что параметр 'ru'")
+                logger.debug("проверили что параметр 'ru'")
                 for dataset in result:
-                    logger.warning("итерируемся по датасетам")
+                    logger.debug("итерируемся по датасетам")
                     verbose_map = dataset.get("verbose_map")
-                    logger.warning("получили verbose_map", verbose_map)
+                    logger.debug("получили verbose_map")
                     columns = dataset.get("columns")
-                    logger.warning("получили columns", columns)
+                    logger.debug("получили columns")
                     if columns:
-                        logger.warning("проверили что есть columns")
+                        logger.debug("проверили что есть columns")
                         for column in columns:
                             if type(column) == dict and column.get("verbose_name_RU"):
-                                logger.warning(
+                                logger.debug(
                                     "убедились что колонка это словарь, и что есть "
                                     "verbose_name_RU")
                                 column["verbose_name"] = column.get("verbose_name_RU")
@@ -416,7 +416,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                                     verbose_map[column.get("column_name")] = column.get(
                                         "verbose_name_RU")
                     metrics = dataset.get("metrics")
-                    logger.warning("получили metrics", metrics)
+                    logger.debug("получили metrics")
                     if metrics:
                         for metric in metrics:
                             if type(metric) == dict and metric.get("verbose_name_RU"):
@@ -427,42 +427,40 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                                         "verbose_name_RU")
 
             if language == "" or language == "en":
-                logger.warning("проверили что параметр lan= ", language)
+                logger.debug("проверили что параметр en")
                 for dataset in result:
-                    logger.warning("итерируемся по датасетам")
+                    logger.debug("итерируемся по датасетам")
                     verbose_map = dataset.get("verbose_map")
-                    logger.warning("получили verbose_map", verbose_map)
+                    logger.debug("получили verbose_map", verbose_map)
                     columns = dataset.get("columns")
-                    logger.warning("получили columns", columns)
+                    logger.debug("получили columns")
                     if columns:
-                        logger.warning("проверили что есть columns")
+                        logger.debug("проверили что есть columns")
                         for column in columns:
                             if type(column) == dict and column.get("verbose_name_RU"):
-                                logger.warning(
-                                    "убедились что колонка это словарь, и что есть"
-                                    " column=", column)
+                                logger.debug(
+                                    "убедились что колонка это словарь, и что есть")
                                 # column["verbose_name"] = column.get("verbose_name_RU")
                                 if type(verbose_map) == dict and \
                                     verbose_map.get(column.get("column_name")):
-                                    logger.warning("verbose_map= ", verbose_map)
+                                    logger.debug("verbose_map= ")
                                     # verbose_map[column.get("column_name")] = column.get(
                                     #     "verbose_name_RU")
                     metrics = dataset.get("metrics")
-                    logger.warning("получили metrics", metrics)
+                    logger.debug("получили metrics")
                     if metrics:
                         for metric in metrics:
                             if type(metric) == dict and metric.get("verbose_name_RU"):
                                 # metric["verbose_name"] = metric.get("verbose_name_RU")
-                                logger.warning("metric=", metric)
+                                logger.debug("metric=")
                                 if type(verbose_map) == dict and \
                                     verbose_map.get(metric.get("metric_name")):
                                     # verbose_map[metric.get("metric_name")] = metric.get(
                                     #     "verbose_name_RU")
-                                    logger.warning("verbose_map=", verbose_map)
-            logger.warning("параметр оказался en, lan=", language)
+                                    logger.debug("verbose_map=")
             logger.info(f"got datasets for dashboard,"
                         f" id:{id_or_slug}, url:{request.url}, user:{g.user}")
-            logger.warning("the last result", result)
+            # logger.warning("the last result", result)
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
             return self.response_403()
