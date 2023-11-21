@@ -45,6 +45,8 @@ import {
 } from 'src/dashboard/components/nativeFilters/FilterBar/keyValue';
 import { filterCardPopoverStyle } from 'src/dashboard/styles';
 
+import { bootstrapData } from 'src/preamble';
+
 export const MigrationContext = React.createContext(
   FILTER_BOX_MIGRATION_STATES.NOOP,
 );
@@ -66,6 +68,29 @@ type PageProps = {
   idOrSlug: string;
 };
 
+// TODO: duplicated logic from the store
+const getUserLocaleForPlugin = () => {
+  function getPageLanguage() {
+    if (!document) {
+      return null;
+    }
+    const select = document.querySelector('#changeLanguage select');
+    // @ts-ignore
+    const selectedLanguage = select ? select.value : null;
+    return selectedLanguage;
+  }
+  const getLocaleForSuperset = () => {
+    const dodoisLanguage = getPageLanguage();
+    if (dodoisLanguage) {
+      if (dodoisLanguage === 'ru-RU') return 'ru';
+      return 'en';
+    }
+    return 'en';
+  };
+
+  return getLocaleForSuperset();
+};
+
 export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -74,15 +99,27 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   );
   const { addDangerToast } = useToasts();
 
+  let finalDashboardLanguage = 'en';
+
+  if (process.env.type === undefined) {
+    finalDashboardLanguage =
+      (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+      'en';
+  } else {
+    finalDashboardLanguage = getUserLocaleForPlugin();
+  }
+
   const { result: dashboard, error: dashboardApiError } =
     useDashboard(idOrSlug);
-  const { result: charts, error: chartsApiError } =
-    useDashboardCharts(idOrSlug);
+  const { result: charts, error: chartsApiError } = useDashboardCharts(
+    idOrSlug,
+    finalDashboardLanguage,
+  );
   const {
     result: datasets,
     error: datasetsApiError,
     status,
-  } = useDashboardDatasets(idOrSlug);
+  } = useDashboardDatasets(idOrSlug, finalDashboardLanguage);
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;

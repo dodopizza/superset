@@ -39,44 +39,50 @@ const ColumnSelectPopoverTrigger = ({
   ...props
 }: ColumnSelectPopoverTriggerProps) => {
   const [popoverLabel, setPopoverLabel] = useState(defaultPopoverLabel);
-  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel);
+  const [popoverLabelEN, setPopoverLabelEN] = useState(defaultPopoverLabel);
+  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabelRU);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
   const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false);
 
-  console.log('isTitleEditDisabled', isTitleEditDisabled);
-
   let initialPopoverLabel = defaultPopoverLabel;
+  let initialPopoverLabelEN = defaultPopoverLabel;
   let initialPopoverLabelRU = defaultPopoverLabelRU;
 
   if (editedColumn && isColumnMeta(editedColumn)) {
-    console.log('isColumnMeta which column', editedColumn);
+    console.log('column is meta', editedColumn);
+    console.log('is title edit disabled', isTitleEditDisabled);
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
+    initialPopoverLabelEN =
+      editedColumn.verbose_name_EN || editedColumn.column_name;
     initialPopoverLabelRU =
       editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
-    console.log('isAdhocColumn which column', editedColumn);
+    console.log('column is adhoc', editedColumn);
+    console.log('is title edit disabled', isTitleEditDisabled);
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
+    initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel;
     initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
   }
 
   useEffect(() => {
     if (editedColumn && isColumnMeta(editedColumn)) {
-      console.log('isColumnMeta which column', editedColumn);
       setCanHaveCustomLabel(false);
     } else if (editedColumn && isAdhocColumn(editedColumn)) {
-      console.log('isAdhocColumn which column', editedColumn);
       setCanHaveCustomLabel(true);
     }
   }, [editedColumn]);
 
   useEffect(() => {
-    console.log('initialPopoverLabel', initialPopoverLabel);
-    console.log('initialPopoverLabelRU', initialPopoverLabelRU);
-    console.log('----');
     setPopoverLabel(initialPopoverLabel);
+    setPopoverLabelEN(initialPopoverLabelEN);
     setPopoverLabelRU(initialPopoverLabelRU);
-  }, [initialPopoverLabel, initialPopoverLabelRU, popoverVisible]);
+  }, [
+    initialPopoverLabel,
+    initialPopoverLabelEN,
+    initialPopoverLabelRU,
+    popoverVisible,
+  ]);
 
   const togglePopover = useCallback((visible: boolean) => {
     setPopoverVisible(visible);
@@ -111,12 +117,20 @@ const ColumnSelectPopoverTrigger = ({
           columns={columns}
           onClose={handleClosePopover}
           onChange={(e: any) => {
-            console.log('eXXXX', e);
+            console.log('ColumnSelectPopover edit', e);
             return onColumnEdit(e);
           }}
           label={popoverLabel}
+          labelEN={popoverLabelEN}
           labelRU={popoverLabelRU}
-          setLabel={setPopoverLabel}
+          setLabel={(v: any) => {
+            setPopoverLabel(v);
+            setPopoverLabelEN(v);
+          }}
+          setLabelEN={(v: any) => {
+            setPopoverLabel(v);
+            setPopoverLabelEN(v);
+          }}
           setLabelRU={setPopoverLabelRU}
           getCurrentTab={getCurrentTab}
           isTemporal={isTemporal}
@@ -131,6 +145,7 @@ const ColumnSelectPopoverTrigger = ({
       isTemporal,
       onColumnEdit,
       popoverLabel,
+      popoverLabelEN,
       popoverLabelRU,
     ],
   );

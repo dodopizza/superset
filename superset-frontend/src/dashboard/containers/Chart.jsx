@@ -42,14 +42,14 @@ function mapStateToProps(
 ) {
   const { id, extraControls, setControlValue } = ownProps;
   const chart = chartQueries[id] || EMPTY_OBJECT;
-  const {
-    form_data: {
-      metrics: chartMetrics = null,
-      groupbyColumns: chartColumns = null,
-    } = {
-      metrics: [],
-    },
-  } = chart;
+  // const {
+  //   form_data: {
+  //     metrics: chartMetrics = null,
+  //     groupbyColumns: chartColumns = null,
+  //   } = {
+  //     metrics: [],
+  //   },
+  // } = chart;
 
   let alteredDashboardLanguage = 'en';
 
@@ -85,8 +85,6 @@ function mapStateToProps(
     return getLocaleForSuperset();
   };
 
-  console.log('containers/Chart [ process.env.type => ', process.env.type, ']');
-
   // ENRTYPOINT DASHBOARD LANGUAGE
   if (process.env.type === undefined) {
     alteredDashboardLanguage =
@@ -103,278 +101,280 @@ function mapStateToProps(
   const labelColors = dashboardInfo?.metadata?.label_colors || {};
   const sharedLabelColors = dashboardInfo?.metadata?.shared_label_colors || {};
 
-  const neededLabelArrayFromMetrics =
-    chartMetrics && chartMetrics.length
-      ? chartMetrics.map(m => {
-          if (typeof m === 'string') {
-            return m;
-          }
-          return {
-            ...m,
-            label: m.label,
-            labelRU: m.labelRU,
-            hasCustomLabel: m.hasCustomLabel,
-          };
-        })
-      : [];
+  // const neededLabelArrayFromMetrics =
+  //   chartMetrics && chartMetrics.length
+  //     ? chartMetrics.map(m => {
+  //         if (typeof m === 'string') {
+  //           return m;
+  //         }
+  //         return {
+  //           ...m,
+  //           label: m.label,
+  //           labelRU: m.labelRU,
+  //           hasCustomLabel: m.hasCustomLabel,
+  //         };
+  //       })
+  //     : [];
 
-  const neededLabelArrayFromColumns =
-    chartColumns && chartColumns.length
-      ? chartColumns.map(c => {
-          if (typeof c === 'string') {
-            return c;
-          }
-          return {
-            ...c,
-            label: c.label,
-            labelRU: c.labelRU,
-          };
-        })
-      : [];
+  // const neededLabelArrayFromColumns =
+  //   chartColumns && chartColumns.length
+  //     ? chartColumns.map(c => {
+  //         if (typeof c === 'string') {
+  //           return c;
+  //         }
+  //         return {
+  //           ...c,
+  //           label: c.label,
+  //           labelRU: c.labelRU,
+  //         };
+  //       })
+  //     : [];
 
-  console.groupCollapsed('Chart labels', '[', currentSliceName, ']');
-  console.log('chart', chart);
-  console.log('chartMetrics', chartMetrics);
-  console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
-  console.log('chartColumns', chartColumns);
-  console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
-  console.groupEnd();
-  console.log('');
+  // console.groupCollapsed('Chart labels', '[', currentSliceName, ']');
+  // console.log('chart', chart);
+  // console.log('chartMetrics', chartMetrics);
+  // // console.log('neededLabelArrayFromMetrics', neededLabelArrayFromMetrics);
+  // console.log('chartColumns', chartColumns);
+  // // console.log('neededLabelArrayFromColumns', neededLabelArrayFromColumns);
+  // console.groupEnd();
+  // console.log('');
 
-  const getCorrectLabelsArray = (
-    dashboardLanguage,
-    columns,
-    labelsArrayMetrics,
-    labelsArrayColumns,
-  ) => {
-    console.groupCollapsed('Get Correct Labels', '[', currentSliceName, ']');
-    console.log('dashboardLanguage', dashboardLanguage);
-    console.log('labelsArrayMetrics', labelsArrayMetrics);
-    console.log('labelsArrayColumns', labelsArrayColumns);
+  // const getCorrectLabelsArray = (
+  //   dashboardLanguage,
+  //   columns,
+  //   labelsArrayMetrics,
+  //   labelsArrayColumns,
+  // ) => {
+  //   console.groupCollapsed('Get Correct Labels', '[', currentSliceName, ']');
+  //   console.log('dashboardLanguage', dashboardLanguage);
+  //   console.log('labelsArrayMetrics', labelsArrayMetrics);
+  //   console.log('labelsArrayColumns', labelsArrayColumns);
 
-    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
-    console.log('allLabels', allLabels);
+  //   const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+  //   console.log('allLabels', allLabels);
 
-    if (dashboardLanguage === 'en') return columns;
+  //   if (dashboardLanguage === 'en') return columns;
 
-    const alteredColumns = columns
-      .map(c => {
-        const foundItems = allLabels.filter(
-          lab => lab.label && (lab.label === c || lab.label === c.label),
-        );
+  //   const alteredColumns = columns
+  //     .map(c => {
+  //       const foundItems = allLabels.filter(
+  //         lab => lab.label && (lab.label === c || lab.label === c.label),
+  //       );
 
-        console.log('');
-        console.log('foundItems', foundItems);
-        console.log('column', c);
-        console.log('');
+  //       console.log('');
+  //       console.log('foundItems', foundItems);
+  //       console.log('column', c);
+  //       console.log('');
 
-        if (foundItems && foundItems.length) {
-          return foundItems
-            .map(item => {
-              if (typeof item === 'string') {
-                return item;
-              }
-              const { label, labelRU } = item;
-              return dashboardLanguage === 'ru' ? labelRU || label : label;
-            })
-            .flat();
-        }
+  //       if (foundItems && foundItems.length) {
+  //         return foundItems
+  //           .map(item => {
+  //             if (typeof item === 'string') {
+  //               return item;
+  //             }
+  //             const { label, labelRU } = item;
+  //             return dashboardLanguage === 'ru' ? labelRU || label : label;
+  //           })
+  //           .flat();
+  //       }
 
-        return c;
-      })
-      .flat();
+  //       return c;
+  //     })
+  //     .flat();
 
-    console.log('columns', columns);
-    console.log('alteredColumns', alteredColumns);
-    console.groupEnd();
-    console.log('');
+  //   console.log('columns', columns);
+  //   console.log('alteredColumns', alteredColumns);
+  //   console.groupEnd();
+  //   console.log('');
 
-    return alteredColumns;
-  };
+  //   return alteredColumns;
+  // };
 
-  const detectDataType = arr => {
-    let isSimple = true;
+  // const detectDataType = arr => {
+  //   let isSimple = true;
 
-    if (arr && arr.length) {
-      arr.forEach(v => {
-        if ('key' in v && 'values' in v) isSimple = false;
-      });
-    }
+  //   if (arr && arr.length) {
+  //     arr.forEach(v => {
+  //       if ('key' in v && 'values' in v) isSimple = false;
+  //     });
+  //   }
 
-    return isSimple;
-  };
+  //   return isSimple;
+  // };
 
-  const handleSimpleArray = (data, allLabels, language) =>
-    data
-      .map(d => {
-        if (language === 'en') return d;
+  // const handleSimpleArray = (data, allLabels, language) =>
+  //   data
+  //     .map(d => {
+  //       if (language === 'en') return d;
 
-        const foundItems = allLabels.filter(
-          lab => typeof lab !== 'string' && d[lab.label] !== undefined,
-        );
+  //       const foundItems = allLabels.filter(
+  //         lab => typeof lab !== 'string' && d[lab.label] !== undefined,
+  //       );
 
-        console.groupCollapsed(
-          'handleSimpleArray foundItems',
-          currentSliceName,
-        );
-        console.log('foundItems', foundItems);
+  //       console.groupCollapsed(
+  //         'handleSimpleArray foundItems',
+  //         currentSliceName,
+  //       );
+  //       console.log('foundItems', foundItems);
 
-        if (foundItems && foundItems.length) {
-          let tempCollection = {};
-          const tempLabels = [];
+  //       if (foundItems && foundItems.length) {
+  //         let tempCollection = {};
+  //         const tempLabels = [];
 
-          foundItems.forEach(item => {
-            const { label, labelRU } = item;
-            const finalLabel = language === 'ru' ? labelRU || label : label;
+  //         foundItems.forEach(item => {
+  //           const { label, labelRU } = item;
+  //           const finalLabel = language === 'ru' ? labelRU || label : label;
 
-            const obj = {
-              // [label]: d[label],
-              [finalLabel]: d[label],
-            };
+  //           const obj = {
+  //             // [label]: d[label],
+  //             [finalLabel]: d[label],
+  //           };
 
-            if (item && item.hasCustomLabel) {
-              tempLabels.push(label);
-            }
+  //           if (item && item.hasCustomLabel) {
+  //             tempLabels.push(label);
+  //           }
 
-            tempCollection = {
-              ...tempCollection,
-              ...obj,
-            };
-          });
+  //           tempCollection = {
+  //             ...tempCollection,
+  //             ...obj,
+  //           };
+  //         });
 
-          const returningObj = {
-            ...d,
-            ...tempCollection,
-          };
+  //         const returningObj = {
+  //           ...d,
+  //           ...tempCollection,
+  //         };
 
-          tempLabels.forEach(l => {
-            delete returningObj[l];
-          });
-          console.log('tempLabels', tempLabels);
-          console.log('initial', d);
-          console.log('returningObj', returningObj);
-          console.groupEnd();
-          console.log('');
+  //         tempLabels.forEach(l => {
+  //           delete returningObj[l];
+  //         });
+  //         console.log('tempLabels', tempLabels);
+  //         console.log('initial', d);
+  //         console.log('returningObj', returningObj);
+  //         console.groupEnd();
+  //         console.log('');
 
-          return returningObj;
-        }
-        console.log('returning data, no alternation', d);
-        console.groupEnd();
-        console.log('');
-        return d;
-      })
-      .flat();
+  //         return returningObj;
+  //       }
+  //       console.log('returning data, no alternation', d);
+  //       console.groupEnd();
+  //       console.log('');
+  //       return d;
+  //     })
+  //     .flat();
 
-  const handleNotSimpleArray = (data, allLabels, language) =>
-    data
-      .map(d => {
-        if (language === 'en') return d;
+  // const handleNotSimpleArray = (data, allLabels, language) =>
+  //   data
+  //     .map(d => {
+  //       if (language === 'en') return d;
 
-        const { key } = d;
+  //       const { key } = d;
 
-        const foundItems = allLabels.filter(
-          lab => typeof lab !== 'string' && key === lab.label,
-        );
-        console.groupCollapsed(
-          'handleNotSimpleArray foundItems',
-          currentSliceName,
-        );
-        console.log('foundItems', foundItems);
+  //       const foundItems = allLabels.filter(
+  //         lab => typeof lab !== 'string' && key === lab.label,
+  //       );
+  //       console.groupCollapsed(
+  //         'handleNotSimpleArray foundItems',
+  //         currentSliceName,
+  //       );
+  //       console.log('foundItems', foundItems);
 
-        if (foundItems && foundItems.length) {
-          const { label, labelRU } = foundItems[0];
-          const finalLabel = language === 'ru' ? labelRU || label : label;
+  //       if (foundItems && foundItems.length) {
+  //         const { label, labelRU } = foundItems[0];
+  //         const finalLabel = language === 'ru' ? labelRU || label : label;
 
-          const returningObj = {
-            ...d,
-            key: finalLabel,
-          };
-          console.log('initial', d);
-          console.log('returningObj', returningObj);
-          console.groupEnd();
-          console.log('');
-          return returningObj;
-        }
+  //         const returningObj = {
+  //           ...d,
+  //           key: finalLabel,
+  //         };
+  //         console.log('initial', d);
+  //         console.log('returningObj', returningObj);
+  //         console.groupEnd();
+  //         console.log('');
+  //         return returningObj;
+  //       }
 
-        console.log('returning data, no alternation', d);
-        console.groupEnd();
-        console.log('');
+  //       console.log('returning data, no alternation', d);
+  //       console.groupEnd();
+  //       console.log('');
 
-        return {
-          ...d,
-        };
-      })
-      .flat();
+  //       return {
+  //         ...d,
+  //       };
+  //     })
+  //     .flat();
 
-  const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
-    const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
-    const arrIsSimple = detectDataType(data);
-    let alteredData = [];
+  // const getCorrectData = (data, labelsArrayMetrics, labelsArrayColumns) => {
+  //   const allLabels = [...labelsArrayMetrics, ...labelsArrayColumns];
+  //   const arrIsSimple = detectDataType(data);
+  //   let alteredData = [];
 
-    console.groupCollapsed('Handeling data', '[', currentSliceName, ']');
-    console.log('arrIsSimple', arrIsSimple);
-    console.log('data', data);
-    console.log('allLabels', allLabels);
-    console.log('alteredDashboardLanguage', alteredDashboardLanguage);
+  //   console.groupCollapsed('Handeling data', '[', currentSliceName, ']');
+  //   console.log('arrIsSimple', arrIsSimple);
+  //   console.log('data', data);
+  //   console.log('allLabels', allLabels);
+  //   console.log('alteredDashboardLanguage', alteredDashboardLanguage);
 
-    if (arrIsSimple) {
-      alteredData = handleSimpleArray(
-        data,
-        allLabels,
-        alteredDashboardLanguage,
-      );
-    } else {
-      alteredData = handleNotSimpleArray(
-        data,
-        allLabels,
-        alteredDashboardLanguage,
-      );
-    }
-    console.log('alteredData', alteredData);
-    console.groupEnd();
-    console.log('');
+  //   if (arrIsSimple) {
+  //     alteredData = handleSimpleArray(
+  //       data,
+  //       allLabels,
+  //       alteredDashboardLanguage,
+  //     );
+  //   } else {
+  //     alteredData = handleNotSimpleArray(
+  //       data,
+  //       allLabels,
+  //       alteredDashboardLanguage,
+  //     );
+  //   }
+  //   console.log('alteredData', alteredData);
+  //   console.groupEnd();
+  //   console.log('');
 
-    return alteredData;
-  };
+  //   return data;
+  //   // return alteredData;
+  // };
 
-  const alteredQueriesResponse = chart.queriesResponse
-    ? chart.queriesResponse.map(qResp => ({
-        ...qResp,
-        colnames: getCorrectLabelsArray(
-          alteredDashboardLanguage,
-          qResp.colnames || [],
-          neededLabelArrayFromMetrics,
-          neededLabelArrayFromColumns,
-        ),
-        data:
-          qResp.data && qResp.data.length
-            ? getCorrectData(
-                qResp.data || [],
-                neededLabelArrayFromMetrics,
-                neededLabelArrayFromColumns,
-              )
-            : [],
-      }))
-    : null;
+  // const alteredQueriesResponse = chart.queriesResponse
+  //   ? chart.queriesResponse.map(qResp => ({
+  //       ...qResp,
+  //       colnames: getCorrectLabelsArray(
+  //         alteredDashboardLanguage,
+  //         qResp.colnames || [],
+  //         neededLabelArrayFromMetrics,
+  //         neededLabelArrayFromColumns,
+  //       ),
+  //       data:
+  //         qResp.data && qResp.data.length
+  //           ? getCorrectData(
+  //               qResp.data || [],
+  //               neededLabelArrayFromMetrics,
+  //               neededLabelArrayFromColumns,
+  //             )
+  //           : [],
+  //     }))
+  //   : null;
 
-  const alteredChart = {
-    ...chart,
-    queriesResponse: alteredQueriesResponse,
-  };
+  // const alteredChart = {
+  //   ...chart,
+  //   queriesResponse: alteredQueriesResponse,
+  // };
 
-  if (alteredChart && alteredChart.chartStatus === 'success') {
+  if (chart && chart.chartStatus === 'success') {
     console.groupCollapsed('Altered Chart', '[', currentSliceName, ']');
     console.log('queriesResponse', chart.queriesResponse);
-    console.log('alteredQueriesResponse', alteredQueriesResponse);
+    console.log('alteredQueriesResponse' /* alteredQueriesResponse */);
     console.log('chart', chart);
-    console.log('alteredChart', alteredChart);
+    console.log('alteredChart' /* alteredChart */);
     console.groupEnd();
     console.log('');
   }
   // note: this method caches filters if possible to prevent render cascades
   const formData = getFormDataWithExtraFilters({
     layout: dashboardLayout.present,
-    chart: alteredChart,
+    chart,
+    // chart: alteredChart,
     // eslint-disable-next-line camelcase
     chartConfiguration: dashboardInfo.metadata?.chart_configuration,
     charts: chartQueries,
@@ -392,7 +392,8 @@ function mapStateToProps(
   formData.dashboardId = dashboardInfo.id;
 
   return {
-    chart: alteredChart,
+    chart,
+    // chart: alteredChart,
     datasource,
     labelColors,
     sharedLabelColors,

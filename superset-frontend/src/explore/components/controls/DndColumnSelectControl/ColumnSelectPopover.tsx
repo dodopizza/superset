@@ -61,10 +61,12 @@ interface ColumnSelectPopoverProps {
   onChange: (column: ColumnMeta | AdhocColumn) => void;
   onClose: () => void;
   setLabel: (title: string) => void;
+  setLabelEN: (title: string) => void;
   setLabelRU: (title: string) => void;
   getCurrentTab: (tab: string) => void;
   label: string;
   labelRU: string;
+  labelEN: string;
   isTemporal?: boolean;
 }
 
@@ -90,14 +92,22 @@ const ColumnSelectPopover = ({
   onClose,
   setLabel,
   setLabelRU,
+  setLabelEN,
   getCurrentTab,
   label,
   labelRU,
+  labelEN,
   isTemporal,
 }: ColumnSelectPopoverProps) => {
-  console.log('ColumnSelectPopover', label, labelRU, '<=');
+  console.groupCollapsed('Column Select Popover');
+  console.log('label', label);
+  console.log('labelEN', labelEN);
+  console.log('labelRU', labelRU);
+  console.groupEnd();
+
   const [initialLabel] = useState(label);
   const [initialLabelRU] = useState(labelRU);
+  const [initialLabelEN] = useState(labelEN);
   const [initialAdhocColumn, initialCalculatedColumn, initialSimpleColumn] =
     getInitialColumnValues(editedColumn);
 
@@ -131,48 +141,79 @@ const ColumnSelectPopover = ({
 
   const onSqlExpressionChange = useCallback(
     sqlExpression => {
-      setAdhocColumn({ label, labelRU, sqlExpression } as AdhocColumn);
+      setAdhocColumn({ label, labelRU, labelEN, sqlExpression } as AdhocColumn);
       setSelectedSimpleColumn(undefined);
       setSelectedCalculatedColumn(undefined);
     },
-    [label, labelRU],
+    [label, labelRU, labelEN],
   );
 
   const onCalculatedColumnChange = useCallback(
     selectedColumnName => {
-      console.warn(
-        'onCalculatedColumnChange changedQWQWQW',
-        selectedColumnName,
-      );
       const selectedColumn = calculatedColumns.find(
         col => col.column_name === selectedColumnName,
       );
-      setSelectedCalculatedColumn(selectedColumn);
+      const alteredSelectedColumn = selectedColumn
+        ? {
+            ...selectedColumn,
+            verbose_name_EN: selectedColumn?.verbose_name,
+          }
+        : undefined;
+
+      setSelectedCalculatedColumn(alteredSelectedColumn);
       setSelectedSimpleColumn(undefined);
       setAdhocColumn(undefined);
       setLabel(
-        selectedColumn?.verbose_name || selectedColumn?.column_name || '',
+        alteredSelectedColumn?.verbose_name ||
+          alteredSelectedColumn?.column_name ||
+          '',
+      );
+      setLabelEN(
+        alteredSelectedColumn?.verbose_name ||
+          alteredSelectedColumn?.column_name ||
+          '',
+      );
+      setLabelRU(
+        alteredSelectedColumn?.verbose_name_RU ||
+          alteredSelectedColumn?.column_name ||
+          '',
       );
     },
-    // TODO: setLabelRU
-    [calculatedColumns, setLabel, setLabelRU],
+    [calculatedColumns, setLabel, setLabelEN, setLabelRU],
   );
 
   const onSimpleColumnChange = useCallback(
     selectedColumnName => {
-      console.warn('onSimpleColumnChange changedQWQWQW', selectedColumnName);
       const selectedColumn = simpleColumns.find(
         col => col.column_name === selectedColumnName,
       );
+      const alteredSelectedColumn = selectedColumn
+        ? {
+            ...selectedColumn,
+            verbose_name_EN: selectedColumn?.verbose_name,
+          }
+        : undefined;
+
       setSelectedCalculatedColumn(undefined);
       setSelectedSimpleColumn(selectedColumn);
       setAdhocColumn(undefined);
       setLabel(
-        selectedColumn?.verbose_name || selectedColumn?.column_name || '',
+        alteredSelectedColumn?.verbose_name ||
+          alteredSelectedColumn?.column_name ||
+          '',
+      );
+      setLabelEN(
+        alteredSelectedColumn?.verbose_name ||
+          alteredSelectedColumn?.column_name ||
+          '',
+      );
+      setLabelRU(
+        alteredSelectedColumn?.verbose_name_RU ||
+          alteredSelectedColumn?.column_name ||
+          '',
       );
     },
-    // TODO: setLabelRU
-    [setLabel, setLabelRU, simpleColumns],
+    [setLabel, setLabelEN, setLabelRU, simpleColumns],
   );
 
   const defaultActiveTabKey = initialAdhocColumn
@@ -186,7 +227,6 @@ const ColumnSelectPopover = ({
   }, [defaultActiveTabKey, getCurrentTab]);
 
   const onSave = useCallback(() => {
-    console.log('adhocColumnZXZX', adhocColumn);
     if (adhocColumn && adhocColumn.label !== label) {
       adhocColumn.label = label;
     }
@@ -195,10 +235,13 @@ const ColumnSelectPopover = ({
       adhocColumn.labelRU = labelRU;
     }
 
+    if (adhocColumn && adhocColumn.labelEN !== labelEN) {
+      adhocColumn.labelEN = labelEN;
+    }
+
     const selectedColumn =
       adhocColumn || selectedCalculatedColumn || selectedSimpleColumn;
 
-    console.log('selectedColumnXXX', selectedColumn);
     if (!selectedColumn) {
       return;
     }
@@ -208,6 +251,7 @@ const ColumnSelectPopover = ({
     adhocColumn,
     label,
     labelRU,
+    labelEN,
     onChange,
     onClose,
     selectedCalculatedColumn,
@@ -245,6 +289,7 @@ const ColumnSelectPopover = ({
   const hasUnsavedChanges =
     initialLabel !== label ||
     initialLabelRU !== labelRU ||
+    initialLabelEN !== labelEN ||
     selectedCalculatedColumn?.column_name !==
       initialCalculatedColumn?.column_name ||
     selectedSimpleColumn?.column_name !== initialSimpleColumn?.column_name ||

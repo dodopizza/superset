@@ -461,12 +461,6 @@ class Header extends React.PureComponent {
       filterboxMigrationState,
     } = this.props;
 
-    console.log(
-      'containers/Chart [ process.env.type => ',
-      process.env.type,
-      ']',
-    );
-
     const userCanEdit =
       dashboardInfo.dash_edit_perm &&
       filterboxMigrationState !== FILTER_BOX_MIGRATION_STATES.REVIEWING &&
@@ -504,8 +498,6 @@ class Header extends React.PureComponent {
       dashboardTitleRUChanged(updates.titleRU);
     };
 
-    console.log('DODO: перводы dashboardInfo 2', dashboardInfo);
-
     let alteredDashboardLanguage = 'en';
 
     // TODO: duplicated logic from the store
@@ -540,8 +532,6 @@ class Header extends React.PureComponent {
     } else {
       alteredDashboardLanguage = getUserLocaleForPlugin();
     }
-
-    console.log('DODO: переводы dashboardLanguage', alteredDashboardLanguage);
 
     return (
       <>

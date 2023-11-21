@@ -1,5 +1,5 @@
 // DODO was here
-// labelRU
+// labelRU, labelEN
 
 import React, { ReactNode } from 'react';
 import { Datasource, Metric } from '@superset-ui/core';
@@ -29,11 +29,15 @@ export type AdhocMetricPopoverTriggerProps = {
 export type AdhocMetricPopoverTriggerState = {
   adhocMetric: AdhocMetric;
   popoverVisible: boolean;
-  title: { label: string; labelRU: string; hasCustomLabel: boolean };
+  title: {
+    label: string;
+    labelRU: string;
+    labelEN: string;
+    hasCustomLabel: boolean;
+  };
   currentLabel: string;
   currentLabelRU: string;
   labelModified: boolean;
-  // labelRUModified: boolean;
   isTitleEditDisabled: boolean;
 };
 
@@ -44,7 +48,7 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
   constructor(props: AdhocMetricPopoverTriggerProps) {
     super(props);
     this.onPopoverResize = this.onPopoverResize.bind(this);
-    this.onLabelChange = this.onLabelChange.bind(this);
+    this.onLabelENChange = this.onLabelENChange.bind(this);
     this.onLabelRUChange = this.onLabelRUChange.bind(this);
     this.closePopover = this.closePopover.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
@@ -57,6 +61,7 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
       popoverVisible: false,
       title: {
         label: props.adhocMetric.label,
+        labelEN: props.adhocMetric.labelEN,
         labelRU: props.adhocMetric.labelRU,
         hasCustomLabel: props.adhocMetric.hasCustomLabel,
       },
@@ -77,6 +82,7 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
         adhocMetric: nextProps.adhocMetric,
         title: {
           label: nextProps.adhocMetric.label,
+          labelEN: nextProps.adhocMetric.labelEN,
           labelRU: nextProps.adhocMetric.labelRU,
           hasCustomLabel: nextProps.adhocMetric.hasCustomLabel,
         },
@@ -89,20 +95,25 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
     };
   }
 
-  onLabelChange(e: any) {
+  onLabelENChange(e: any) {
     const { verbose_name, metric_name } = this.props.savedMetric;
     const defaultMetricLabel = this.props.adhocMetric?.getDefaultLabel();
     const label = e.target.value;
-    this.setState(state => ({
+
+    const finalLabelEN =
+      label ||
+      this.state.currentLabel ||
+      verbose_name ||
+      metric_name ||
+      defaultMetricLabel;
+    const finalLabelRU = this.state.title.labelRU;
+
+    this.setState(() => ({
       title: {
-        label:
-          label ||
-          state.currentLabel ||
-          verbose_name ||
-          metric_name ||
-          defaultMetricLabel,
         hasCustomLabel: !!label,
-        labelRU: state.title.labelRU,
+        label: finalLabelEN,
+        labelEN: finalLabelEN,
+        labelRU: finalLabelRU,
       },
       labelModified: true,
     }));
@@ -112,18 +123,23 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
     const { verbose_name, metric_name } = this.props.savedMetric;
     const defaultMetricLabel = this.props.adhocMetric?.getDefaultLabelRU();
     const label = e.target.value;
-    this.setState(state => ({
+
+    const finalLabelEN = this.state.title.labelEN;
+    const finalLabelRU =
+      label ||
+      this.state.currentLabelRU ||
+      verbose_name ||
+      metric_name ||
+      defaultMetricLabel;
+
+    this.setState(() => ({
       title: {
-        labelRU:
-          label ||
-          state.currentLabelRU ||
-          verbose_name ||
-          metric_name ||
-          defaultMetricLabel,
         hasCustomLabel: !!label,
-        label: state.title.label,
+        label: finalLabelEN,
+        labelEN: finalLabelEN,
+        labelRU: finalLabelRU,
       },
-      // labelRUModified: true,
+      labelModified: true,
     }));
   }
 
@@ -171,10 +187,12 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
       currentLabelRU,
       labelModified: true,
     });
+
     if (savedMetricLabel || !this.state.title.hasCustomLabel) {
       this.setState({
         title: {
           label: currentLabel,
+          labelEN: currentLabel,
           labelRU: currentLabelRU,
           hasCustomLabel: false,
         },
@@ -210,6 +228,7 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
       ? this.state.title
       : {
           label: verbose_name || metric_name || adhocMetricLabel,
+          labelEN: verbose_name || metric_name || adhocMetricLabel,
           labelRU: verbose_name || metric_name || adhocMetricLabelRU,
           hasCustomLabel,
         };
@@ -244,12 +263,14 @@ class AdhocMetricPopoverTrigger extends React.PureComponent<
     );
 
     const popoverTitle = (
-      <AdhocMetricEditPopoverTitle
-        title={title}
-        onChange={this.onLabelChange}
-        onChangeRU={this.onLabelRUChange}
-        isEditDisabled={this.state.isTitleEditDisabled}
-      />
+      <>
+        <AdhocMetricEditPopoverTitle
+          title={title}
+          onChangeEN={this.onLabelENChange}
+          onChangeRU={this.onLabelRUChange}
+          isEditDisabled={this.state.isTitleEditDisabled}
+        />
+      </>
     );
 
     return (

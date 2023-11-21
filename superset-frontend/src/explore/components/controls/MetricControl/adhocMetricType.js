@@ -1,5 +1,5 @@
 // DODO changed
-// labelRU
+// labelRU, labelEN
 
 import PropTypes from 'prop-types';
 
@@ -19,5 +19,6 @@ export default PropTypes.oneOfType([
     sqlExpression: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     labelRU: PropTypes.string,
+    labelEN: PropTypes.string,
   }),
 ]);

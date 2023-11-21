@@ -230,12 +230,6 @@ const v1ChartDataRequest = async (
   setDataMask,
   ownState,
 ) => {
-  console.log(
-    'v1ChartDataRequest [ process.env.type => ',
-    process.env.type,
-    ']',
-    formData,
-  );
   if (process.env.type === undefined) {
     const payload = buildV1ChartDataPayload({
       formData,
@@ -493,15 +487,10 @@ export function exploreJSON(
     });
 
     dispatch(chartUpdateStarted(controller, formData, key));
-    console.log(
-      'exploreJSON dispatch [ process.env.type => ',
-      process.env.type,
-      ']',
-    );
+
     if (process.env.type === undefined) {
       const chartDataRequestCaught = chartDataRequest
         .then(({ response, json }) => {
-          console.log('response', response, 'json', json);
           if (isFeatureEnabled(FeatureFlag.GLOBAL_ASYNC_QUERIES)) {
             // deal with getChartDataRequest transforming the response data
             const result = 'result' in json ? json.result : json;

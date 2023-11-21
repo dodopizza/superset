@@ -14,6 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import json
 import logging
 from abc import ABC
 
@@ -102,6 +103,14 @@ class ExploreFormDataRestApi(BaseApi, ABC):
         try:
             item = self.add_model_schema.load(request.json)
             tab_id = request.args.get("tab_id")
+            item["form_data"] = json.loads(item.get("form_data"))
+            form_data = item.get("form_data")
+            metrics = form_data.get("metrics")
+            if metrics:
+                for metric in metrics:
+                    if type(metric) == dict and metric.get("labelEN"):
+                        metric["label"] = metric.get("labelEN")
+            item["form_data"] = json.dumps(form_data)
             args = CommandParameters(
                 actor=g.user,
                 datasource_id=item["datasource_id"],

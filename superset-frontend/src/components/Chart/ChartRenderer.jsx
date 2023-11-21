@@ -193,137 +193,135 @@ class ChartRenderer extends React.Component {
       latestQueryFormData,
       queriesResponse,
       postTransformProps,
-      dashboardLanguage,
       chartName,
     } = this.props;
 
-    console.log('this.propssasas', this.props);
+    // let alteredVerboseMap = {};
 
-    let alteredVerboseMap = {};
+    // const metricsArray = datasource.metrics;
+    // const columnsArray = datasource.columns;
 
-    const metricsArray = datasource.metrics;
-    const columnsArray = datasource.columns;
+    // console.groupCollapsed('Altered Verbose Map', chartName);
+    // console.log('metricsArray', metricsArray);
+    // console.log('columnsArray', columnsArray);
 
-    console.groupCollapsed('Altered Verbose Map', chartName);
-    console.log('metricsArray', metricsArray);
-    console.log('columnsArray', columnsArray);
+    // for (const property in datasource.verbose_map) {
+    //   let finalNameFromDataset = datasource.verbose_map[property];
 
-    for (const property in datasource.verbose_map) {
-      let finalNameFromDataset = datasource.verbose_map[property];
+    //   const foundMetric = metricsArray.filter(
+    //     metric => metric.metric_name === property,
+    //   );
 
-      const foundMetric = metricsArray.filter(
-        metric => metric.metric_name === property,
-      );
+    //   const foundColumn = columnsArray.filter(
+    //     column => column.column_name === property,
+    //   );
 
-      const foundColumn = columnsArray.filter(
-        column => column.column_name === property,
-      );
+    //   if (foundMetric.length) {
+    //     const { verbose_name, verbose_name_RU } = foundMetric[0];
+    //     finalNameFromDataset =
+    //       dashboardLanguage === 'ru'
+    //         ? verbose_name_RU || verbose_name
+    //         : verbose_name;
+    //   } else if (foundColumn.length) {
+    //     const { verbose_name, verbose_name_RU, column_name } = foundColumn[0];
+    //     finalNameFromDataset =
+    //       dashboardLanguage === 'ru'
+    //         ? verbose_name_RU || verbose_name || column_name
+    //         : verbose_name || column_name;
+    //   }
 
-      if (foundMetric.length) {
-        const { verbose_name, verbose_name_RU } = foundMetric[0];
-        finalNameFromDataset =
-          dashboardLanguage === 'ru'
-            ? verbose_name_RU || verbose_name
-            : verbose_name;
-      } else if (foundColumn.length) {
-        const { verbose_name, verbose_name_RU, column_name } = foundColumn[0];
-        finalNameFromDataset =
-          dashboardLanguage === 'ru'
-            ? verbose_name_RU || verbose_name || column_name
-            : verbose_name || column_name;
-      }
+    //   console.log('foundMetric', foundMetric);
+    //   console.log('foundColumn', foundColumn);
+    //   console.log('property', property);
+    //   console.log('finalNameFromDataset', finalNameFromDataset);
+    //   console.log('____');
 
-      console.log('foundMetric', foundMetric);
-      console.log('foundColumn', foundColumn);
-      console.log('property', property);
-      console.log('finalNameFromDataset', finalNameFromDataset);
-      console.log('____');
+    //   alteredVerboseMap = {
+    //     ...alteredVerboseMap,
+    //     [property]: finalNameFromDataset,
+    //   };
+    // }
 
-      alteredVerboseMap = {
-        ...alteredVerboseMap,
-        [property]: finalNameFromDataset,
-      };
-    }
+    // console.log('alteredVerboseMap', alteredVerboseMap);
+    // console.groupEnd();
+    // console.log('');
 
-    console.log('alteredVerboseMap', alteredVerboseMap);
-    console.groupEnd();
-    console.log('');
+    // const getFinalNameForMetric = (metric, dashboardLanguage) =>
+    //   dashboardLanguage === 'ru'
+    //     ? metric.verbose_name_RU || metric.verbose_name
+    //     : metric.verbose_name;
 
-    const getFinalNameForMetric = (metric, dashboardLanguage) =>
-      dashboardLanguage === 'ru'
-        ? metric.verbose_name_RU || metric.verbose_name
-        : metric.verbose_name;
-
-    const alteredDatasource = {
-      ...datasource,
-      verbose_map: alteredVerboseMap,
-      columns: datasource.columns.map(column => ({
-        ...column,
-        verbose_name:
-          dashboardLanguage === 'ru'
-            ? column.verbose_name_RU || column.verbose_name
-            : column.verbose_name,
-        description:
-          dashboardLanguage === 'ru'
-            ? column.description_RU || column.description
-            : column.description,
-      })),
-      metrics: datasource.metrics.map(metric => ({
-        ...metric,
-        verbose_name: getFinalNameForMetric(metric, dashboardLanguage),
-        description:
-          dashboardLanguage === 'ru'
-            ? metric.description_RU || metric.description
-            : metric.description,
-      })),
-    };
+    // const alteredDatasource = {
+    //   ...datasource,
+    //   verbose_map: alteredVerboseMap,
+    //   columns: datasource.columns.map(column => ({
+    //     ...column,
+    //     verbose_name:
+    //       dashboardLanguage === 'ru'
+    //         ? column.verbose_name_RU || column.verbose_name
+    //         : column.verbose_name,
+    //     description:
+    //       dashboardLanguage === 'ru'
+    //         ? column.description_RU || column.description
+    //         : column.description,
+    //   })),
+    //   metrics: datasource.metrics.map(metric => ({
+    //     ...metric,
+    //     verbose_name: getFinalNameForMetric(metric, dashboardLanguage),
+    //     description:
+    //       dashboardLanguage === 'ru'
+    //         ? metric.description_RU || metric.description
+    //         : metric.description,
+    //   })),
+    // };
 
     const currentFormData =
       chartIsStale && latestQueryFormData ? latestQueryFormData : formData;
 
-    const alteredFormData = {
-      ...currentFormData,
-      groupbyColumns:
-        currentFormData.groupbyColumns && currentFormData.groupbyColumns.length
-          ? currentFormData.groupbyColumns.map(c => {
-              if (typeof c === 'string') {
-                return c;
-              }
-              return {
-                ...c,
-                label: dashboardLanguage === 'ru' ? c.labelRU : c.label,
-              };
-            })
-          : [],
-      metrics:
-        currentFormData.metrics && currentFormData.metrics.length
-          ? currentFormData.metrics.map(m => {
-              if (typeof m === 'string') {
-                return m;
-              }
-              return {
-                ...m,
-                label: dashboardLanguage === 'ru' ? m.labelRU : m.label,
-              };
-            })
-          : [],
-    };
+    // const alteredFormData = {
+    //   ...currentFormData,
+    //   groupbyColumns:
+    //     currentFormData.groupbyColumns && currentFormData.groupbyColumns.length
+    //       ? currentFormData.groupbyColumns.map(c => {
+    //           if (typeof c === 'string') {
+    //             return c;
+    //           }
+    //           return {
+    //             ...c,
+    //             label: dashboardLanguage === 'ru' ? c.labelRU : c.label,
+    //           };
+    //         })
+    //       : [],
+    //   metrics:
+    //     currentFormData.metrics && currentFormData.metrics.length
+    //       ? currentFormData.metrics.map(m => {
+    //           if (typeof m === 'string') {
+    //             return m;
+    //           }
+    //           return {
+    //             ...m,
+    //             label: dashboardLanguage === 'ru' ? m.labelRU : m.label,
+    //           };
+    //         })
+    //       : [],
+    // };
 
     console.groupCollapsed('ALL ALTERED', chartName);
     console.log('datasource', datasource);
-    console.log('alteredDatasource', alteredDatasource);
+    // console.log('alteredDatasource', alteredDatasource);
     console.log('+_+_+_+');
     console.log('currentFormData', currentFormData);
-    console.log('alteredFormData', alteredFormData);
+    // console.log('alteredFormData', alteredFormData);
     console.log('+_+_+_+');
     console.log('Queries Response', queriesResponse);
     console.log('datasource.verbose_map', datasource.verbose_map);
-    console.log('alteredVerboseMap', alteredVerboseMap);
+    // console.log('alteredVerboseMap', alteredVerboseMap);
     console.log('+_+_+_+');
     console.groupEnd();
     console.log('');
 
-    const vizType = alteredFormData.viz_type || this.props.vizType;
+    const vizType = currentFormData.viz_type || this.props.vizType;
+    // const vizType = alteredFormData.viz_type || this.props.vizType;
 
     const rowCount = Number(queriesResponse[0].rowcount) || 0;
 
@@ -407,9 +405,11 @@ class ChartRenderer extends React.Component {
         width={width}
         height={height}
         annotationData={annotationData}
-        datasource={alteredDatasource}
+        datasource={datasource}
+        // datasource={alteredDatasource}
         initialValues={initialValues}
-        formData={alteredFormData}
+        formData={currentFormData}
+        // formData={alteredFormData}
         ownState={ownState}
         filterState={filterState}
         hooks={this.hooks}

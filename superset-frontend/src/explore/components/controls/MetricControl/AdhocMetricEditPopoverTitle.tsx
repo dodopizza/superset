@@ -55,10 +55,12 @@ export interface AdhocMetricEditPopoverTitleProps {
   title?: {
     label?: string;
     labelRU?: string;
+    labelEN?: string;
     hasCustomLabel?: boolean;
   };
   isEditDisabled?: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  // onChange: ChangeEventHandler<HTMLInputElement>;
+  onChangeEN: ChangeEventHandler<HTMLInputElement>;
   onChangeRU: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -68,32 +70,38 @@ const SYSTEM_LANGUAGES = {
 };
 
 const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
-  ({ title, isEditDisabled, onChange, onChangeRU }) => {
-    console.log('title!!!', title);
-    const [isHovered, setIsHovered] = useState(false);
+  ({ title, isEditDisabled, /* onChange, */ onChangeEN, onChangeRU }) => {
+    const [isHoveredEN, setIsHoveredEN] = useState(false);
+    const [isHoveredRU, setIsHoveredRU] = useState(false);
+
     const [isEditMode, setIsEditMode] = useState(false);
     const [editLang, setEditLang] = useState(SYSTEM_LANGUAGES.en);
 
     const defaultLabel = t('My metric');
     const defaultLabelRU = t('Моя метрика');
 
-    const handleMouseOver = useCallback(() => setIsHovered(true), []);
-    const handleMouseOut = useCallback(() => setIsHovered(false), []);
+    const handleMouseOverEN = useCallback(() => setIsHoveredEN(true), []);
+    const handleMouseOutEN = useCallback(() => setIsHoveredEN(false), []);
+
+    const handleMouseOverRU = useCallback(() => setIsHoveredRU(true), []);
+    const handleMouseOutRU = useCallback(() => setIsHoveredRU(false), []);
+
     const handleClick = useCallback((lang: string) => {
       setEditLang(lang);
       setIsEditMode(true);
     }, []);
-    const handleBlur = useCallback(() => setIsEditMode(false), []);
+
+    const handleBlurEN = useCallback(() => setIsEditMode(false), []);
     const handleBlurRU = useCallback(() => setIsEditMode(false), []);
 
-    const handleKeyPress = useCallback(
+    const handleKeyPressEN = useCallback(
       (ev: KeyboardEvent<HTMLInputElement>) => {
         if (ev.key === 'Enter') {
           ev.preventDefault();
-          handleBlur();
+          handleBlurEN();
         }
       },
-      [handleBlur],
+      [handleBlurEN],
     );
 
     const handleKeyPressRU = useCallback(
@@ -106,15 +114,15 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
       [handleBlurRU],
     );
 
-    const handleInputBlur = useCallback(
+    const handleInputBlurEN = useCallback(
       (e: FocusEvent<HTMLInputElement>) => {
         if (e.target.value === '') {
-          onChange(e);
+          onChangeEN(e);
         }
 
-        handleBlur();
+        handleBlurEN();
       },
-      [onChange, handleBlur],
+      [onChangeEN, handleBlurEN],
     );
 
     const handleInputBlurRU = useCallback(
@@ -132,10 +140,7 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
       return (
         <div>
           <span data-test="AdhocMetricTitle">
-            {title?.label || defaultLabel}
-          </span>
-          <span data-test="AdhocMetricTitleRU">
-            {title?.labelRU || defaultLabelRU}
+            {title?.label || title?.labelEN || title?.labelRU || defaultLabel}
           </span>
         </div>
       );
@@ -146,28 +151,30 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
         <div>
           <TitleLabelOnEdit>{editLang}:</TitleLabelOnEdit>
           {editLang === SYSTEM_LANGUAGES.en && (
-            <StyledInput
-              type="text"
-              placeholder={title?.label}
-              value={title?.hasCustomLabel ? title.label : ''}
-              autoFocus
-              onChange={onChange}
-              onBlur={handleInputBlur}
-              onKeyPress={handleKeyPress}
-              data-test="AdhocMetricEditTitle#input"
-            />
+            <>
+              <StyledInput
+                type="text"
+                placeholder={title?.labelEN}
+                value={title?.hasCustomLabel ? title.labelEN : defaultLabel}
+                onChange={onChangeEN}
+                onBlur={handleInputBlurEN}
+                onKeyPress={handleKeyPressEN}
+                data-test="AdhocMetricEditTitleEN#input"
+              />
+            </>
           )}
           {editLang === SYSTEM_LANGUAGES.ru && (
-            <StyledInput
-              type="text"
-              placeholder={title?.labelRU}
-              value={title?.hasCustomLabel ? title.labelRU : ''}
-              autoFocus
-              onChange={onChangeRU}
-              onBlur={handleInputBlurRU}
-              onKeyPress={handleKeyPressRU}
-              data-test="AdhocMetricEditTitleRU#input"
-            />
+            <>
+              <StyledInput
+                type="text"
+                placeholder={title?.labelRU}
+                value={title?.hasCustomLabel ? title.labelRU : defaultLabelRU}
+                onChange={onChangeRU}
+                onBlur={handleInputBlurRU}
+                onKeyPress={handleKeyPressRU}
+                data-test="AdhocMetricEditTitleRU#input"
+              />
+            </>
           )}
         </div>
       );
@@ -184,18 +191,18 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
             <span
               className="AdhocMetricEditPopoverTitle inline-editable"
               data-test="AdhocMetricEditTitle#trigger"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
+              onMouseOver={handleMouseOverEN}
+              onMouseOut={handleMouseOutEN}
               onClick={() => handleClick(SYSTEM_LANGUAGES.en)}
-              onBlur={handleBlur}
+              onBlur={handleBlurEN}
               role="button"
               tabIndex={0}
             >
-              <TitleLabel>{title?.label || defaultLabel}</TitleLabel>
+              <TitleLabel>{title?.labelEN || defaultLabel}</TitleLabel>
               &nbsp;
               <i
                 className="fa fa-pencil"
-                style={{ color: isHovered ? 'black' : 'grey' }}
+                style={{ color: isHoveredEN ? 'black' : 'grey' }}
               />
             </span>
           </Tooltip>
@@ -209,8 +216,8 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
             <span
               className="AdhocMetricEditPopoverTitle inline-editable"
               data-test="AdhocMetricEditTitle#trigger"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
+              onMouseOver={handleMouseOverRU}
+              onMouseOut={handleMouseOutRU}
               onClick={() => handleClick(SYSTEM_LANGUAGES.ru)}
               onBlur={handleBlurRU}
               role="button"
@@ -220,7 +227,7 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
               &nbsp;
               <i
                 className="fa fa-pencil"
-                style={{ color: isHovered ? 'black' : 'grey' }}
+                style={{ color: isHoveredRU ? 'black' : 'grey' }}
               />
             </span>
           </Tooltip>
