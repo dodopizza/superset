@@ -164,15 +164,17 @@ const AdhocMetricEditPopoverTitle: React.FC<AdhocMetricEditPopoverTitleProps> =
             </>
           )}
           {editLang === SYSTEM_LANGUAGES.ru && (
-            <StyledInput
-              type="text"
-              placeholder={title?.labelRU}
-              value={title?.hasCustomLabel ? title.labelRU : defaultLabelRU}
-              onChange={onChangeRU}
-              onBlur={handleInputBlurRU}
-              onKeyPress={handleKeyPressRU}
-              data-test="AdhocMetricEditTitleRU#input"
-            />
+            <>
+              <StyledInput
+                type="text"
+                placeholder={title?.labelRU}
+                value={title?.hasCustomLabel ? title.labelRU : defaultLabelRU}
+                onChange={onChangeRU}
+                onBlur={handleInputBlurRU}
+                onKeyPress={handleKeyPressRU}
+                data-test="AdhocMetricEditTitleRU#input"
+              />
+            </>
           )}
         </div>
       );

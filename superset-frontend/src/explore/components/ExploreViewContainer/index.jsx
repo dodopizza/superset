@@ -707,14 +707,10 @@ function mapStateToProps(state) {
   const chartKey = Object.keys(charts)[0];
   const chart = charts[chartKey];
 
-  console.log('RT DODO: переводы chartXZXZ', chart);
-
   let dashboardId = Number(explore.form_data?.dashboardId);
   if (Number.isNaN(dashboardId)) {
     dashboardId = undefined;
   }
-
-  console.log('RT DODO TODO: primaryLanguage ru2', explore);
 
   return {
     isDatasourceMetaLoading: explore.isDatasourceMetaLoading,

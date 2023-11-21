@@ -45,21 +45,21 @@ const ColumnSelectPopoverTrigger = ({
   const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
   const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false);
 
-  console.log('isTitleEditDisabled', isTitleEditDisabled);
-
   let initialPopoverLabel = defaultPopoverLabel;
   let initialPopoverLabelEN = defaultPopoverLabel;
   let initialPopoverLabelRU = defaultPopoverLabelRU;
 
   if (editedColumn && isColumnMeta(editedColumn)) {
-    console.log('isColumnMeta which column', editedColumn);
+    console.log('column is meta', editedColumn);
+    console.log('is title edit disabled', isTitleEditDisabled);
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
     initialPopoverLabelEN =
       editedColumn.verbose_name_EN || editedColumn.column_name;
     initialPopoverLabelRU =
       editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
-    console.log('isAdhocColumn which column', editedColumn);
+    console.log('column is adhoc', editedColumn);
+    console.log('is title edit disabled', isTitleEditDisabled);
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
     initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel;
     initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU;
@@ -67,19 +67,13 @@ const ColumnSelectPopoverTrigger = ({
 
   useEffect(() => {
     if (editedColumn && isColumnMeta(editedColumn)) {
-      console.log('isColumnMeta which column', editedColumn);
       setCanHaveCustomLabel(false);
     } else if (editedColumn && isAdhocColumn(editedColumn)) {
-      console.log('isAdhocColumn which column', editedColumn);
       setCanHaveCustomLabel(true);
     }
   }, [editedColumn]);
 
   useEffect(() => {
-    console.log('initialPopoverLabel', initialPopoverLabel);
-    console.log('initialPopoverLabelEN', initialPopoverLabelEN);
-    console.log('initialPopoverLabelRU', initialPopoverLabelRU);
-    console.log('----');
     setPopoverLabel(initialPopoverLabel);
     setPopoverLabelEN(initialPopoverLabelEN);
     setPopoverLabelRU(initialPopoverLabelRU);
