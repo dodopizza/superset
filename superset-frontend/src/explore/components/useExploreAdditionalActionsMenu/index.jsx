@@ -8,6 +8,7 @@ import ModalTrigger from 'src/components/ModalTrigger';
 import Button from 'src/components/Button';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import { exportChart } from 'src/explore/exploreUtils';
+import { bootstrapData } from 'src/preamble';
 import downloadAsImage from 'src/utils/downloadAsImage';
 import { getChartPermalink } from 'src/utils/urlUtils';
 import copyTextToClipboard from 'src/utils/copy';
@@ -37,6 +38,34 @@ const MENU_KEYS = {
 };
 
 const VIZ_TYPES_PIVOTABLE = ['pivot_table', 'pivot_table_v2'];
+
+function getPageLanguage() {
+  if (!document) {
+    return null;
+  }
+  const select = document.querySelector('#changeLanguage select');
+  const selectedLanguage = select ? select.value : null;
+  return selectedLanguage;
+}
+
+const getLocaleForSuperset = () => {
+  const dodoisLanguage = getPageLanguage();
+  if (dodoisLanguage) {
+    if (dodoisLanguage === 'ru-RU') return 'ru';
+    return 'en';
+  }
+  return 'en';
+};
+
+let userLanguage = 'en';
+
+if (process.env.type === undefined) {
+  userLanguage =
+    (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+    'en';
+} else {
+  userLanguage = getLocaleForSuperset();
+}
 
 export const MenuItemWithCheckboxContainer = styled.div`
   ${({ theme }) => css`
@@ -120,6 +149,7 @@ export const useExploreAdditionalActionsMenu = (
             ownState,
             resultType: 'full',
             resultFormat: 'csv',
+            language: userLanguage,
           })
         : null,
     [canDownloadCSV, latestQueryFormData],
@@ -133,6 +163,7 @@ export const useExploreAdditionalActionsMenu = (
             ownState,
             resultType: 'full',
             resultFormat: 'xlsx',
+            language: userLanguage,
           })
         : null,
     [canDownloadCSV, latestQueryFormData],
@@ -145,6 +176,7 @@ export const useExploreAdditionalActionsMenu = (
             formData: latestQueryFormData,
             resultType: 'post_processed',
             resultFormat: 'csv',
+            language: userLanguage,
           })
         : null,
     [canDownloadCSV, latestQueryFormData],
@@ -156,6 +188,7 @@ export const useExploreAdditionalActionsMenu = (
         formData: latestQueryFormData,
         resultType: 'results',
         resultFormat: 'json',
+        language: userLanguage,
       }),
     [latestQueryFormData],
   );

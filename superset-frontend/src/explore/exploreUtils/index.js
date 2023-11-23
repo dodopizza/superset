@@ -188,6 +188,7 @@ export const buildV1ChartDataPayload = ({
   formData,
   force,
   resultFormat,
+  // language,
   resultType,
   setDataMask,
   ownState,
@@ -200,7 +201,8 @@ export const buildV1ChartDataPayload = ({
           ...baseQueryObject,
         },
       ]));
-  return buildQuery(
+
+  const builtQueryFunc = buildQuery(
     {
       ...formData,
       force,
@@ -214,6 +216,11 @@ export const buildV1ChartDataPayload = ({
       },
     },
   );
+
+  return {
+    ...builtQueryFunc,
+    // language, надо убрать комментарий
+  };
 };
 
 export const getLegacyEndpointType = ({ resultType, resultFormat }) =>
@@ -253,6 +260,7 @@ export const exportChartPlugin = ({
   formData,
   resultFormat = 'json',
   resultType = 'full',
+  language = 'en',
   force = false,
   ownState = {},
 }) => {
@@ -275,7 +283,9 @@ export const exportChartPlugin = ({
       url.split(`${window.location.origin}/superset`).filter(x => x)[0] || null;
 
     const updatedUrl =
-      resultFormat === XLSX ? `${fixedUrl}&${XLSX}=true` : fixedUrl;
+      resultFormat === XLSX
+        ? `${fixedUrl}&${XLSX}=true&language=${language}`
+        : `${fixedUrl}&language=${language}`;
 
     console.groupCollapsed('EXPORT CSV/XLSX legacy');
     console.log('url', url);
@@ -295,6 +305,7 @@ export const exportChartPlugin = ({
     resultFormat,
     resultType,
     ownState,
+    language,
   });
 
   console.groupCollapsed('EXPORT CSV');
@@ -313,13 +324,16 @@ export const exportChart = ({
   force = false,
   ownState = {},
   slice = {},
+  language = 'en',
 }) => {
+  console.log('language here', language);
   const exportResultPromise = exportChartPlugin({
     formData,
     resultFormat,
     resultType,
     force,
     ownState,
+    language,
   });
 
   const sliceName = slice?.slice_name || 'viz_type';
