@@ -17,6 +17,7 @@ import { areObjectsEqual } from 'src/reduxUtils';
 import { FILTER_BOX_MIGRATION_STATES } from 'src/explore/constants';
 import { postFormData } from 'src/explore/exploreUtils/formData';
 import { URL_PARAMS } from 'src/constants';
+import { bootstrapData } from 'src/preamble';
 
 import SliceHeader from '../SliceHeader';
 import MissingChart from '../MissingChart';
@@ -104,6 +105,34 @@ const SliceContainer = styled.div`
   flex-direction: column;
   max-height: 100%;
 `;
+
+function getPageLanguage() {
+  if (!document) {
+    return null;
+  }
+  const select = document.querySelector('#changeLanguage select');
+  const selectedLanguage = select ? select.value : null;
+  return selectedLanguage;
+}
+
+const getLocaleForSuperset = () => {
+  const dodoisLanguage = getPageLanguage();
+  if (dodoisLanguage) {
+    if (dodoisLanguage === 'ru-RU') return 'ru';
+    return 'en';
+  }
+  return 'en';
+};
+
+let userLanguage = 'en';
+
+if (process.env.type === undefined) {
+  userLanguage =
+    (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+    'en';
+} else {
+  userLanguage = getLocaleForSuperset();
+}
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -291,6 +320,7 @@ export default class Chart extends React.Component {
         : this.props.formData,
       resultType: 'full',
       resultFormat: 'csv',
+      language: userLanguage,
       force: true,
       ownState: this.props.ownState,
       slice: this.props.slice,
@@ -308,6 +338,7 @@ export default class Chart extends React.Component {
         : this.props.formData,
       resultType: 'full',
       resultFormat: 'xlsx',
+      language: userLanguage,
       force: true,
       ownState: this.props.ownState,
       slice: this.props.slice,
