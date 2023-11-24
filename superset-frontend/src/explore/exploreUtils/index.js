@@ -188,7 +188,7 @@ export const buildV1ChartDataPayload = ({
   formData,
   force,
   resultFormat,
-  // language,
+  language,
   resultType,
   setDataMask,
   ownState,
@@ -219,7 +219,7 @@ export const buildV1ChartDataPayload = ({
 
   return {
     ...builtQueryFunc,
-    // language, надо убрать комментарий
+    language, // надо убрать комментарий
   };
 };
 
