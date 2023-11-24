@@ -224,7 +224,7 @@ class ChartDataRestApi(ChartRestApi):
 
         if json_body is None:
             return self.response_400(message=_("Request is not JSON"))
-
+        # logger.error(json_body)
         try:
             query_context = self._create_query_context_from_form(json_body)
             command = ChartDataCommand(query_context)
@@ -246,6 +246,32 @@ class ChartDataRestApi(ChartRestApi):
         ):
             return self._run_async(json_body, command)
         form_data = json_body.get("form_data")
+        language = json_body.get("language")
+
+        if language == "ru":
+            for column in query_context.datasource.columns:
+                if column.verbose_name_RU:
+                    column.verbose_name_EN = column.verbose_name
+                    column.verbose_name = column.verbose_name_RU
+
+            if query_context.result_format == ChartDataResultFormat.XLSX:
+                bytes_stream = self._get_data_response(command, form_data=form_data,
+                                                       datasource=query_context.datasource
+                                                       )
+
+                for column in query_context.datasource.columns:
+                    column.verbose_name = column.verbose_name_EN
+
+                return send_file(path_or_file=bytes_stream,
+                                 mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                 as_attachment=True,
+                                 download_name="data.xlsx"
+                                 )
+            for column in query_context.datasource.columns:
+                column.verbose_name = column.verbose_name_EN
+            return self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
 
         if query_context.result_format == ChartDataResultFormat.XLSX:
             bytes_stream = self._get_data_response(command, form_data=form_data,
@@ -255,7 +281,7 @@ class ChartDataRestApi(ChartRestApi):
             return send_file(path_or_file=bytes_stream,
                              mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                              as_attachment=True,
-                             attachment_filename="data.xlsx"
+                             download_name="data.xlsx"
                              )
 
         return self._get_data_response(
@@ -458,6 +484,7 @@ class ChartDataRestApi(ChartRestApi):
         self, form_data: Dict[str, Any]
     ) -> QueryContext:
         try:
+            logger.error(form_data)
             return ChartDataQueryContextSchema().load(form_data)
         except KeyError as ex:
             raise ValidationError("Request is incorrect") from ex

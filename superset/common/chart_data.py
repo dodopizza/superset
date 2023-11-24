@@ -39,3 +39,12 @@ class ChartDataResultType(str, Enum):
     SAMPLES = "samples"
     TIMEGRAINS = "timegrains"
     POST_PROCESSED = "post_processed"
+
+
+class ChartDataResultLanguage(str, Enum):
+    """
+    Chart data response language
+    """
+
+    RU = "ru"
+    EN = "en"

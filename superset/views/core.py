@@ -60,7 +60,8 @@ from superset import (
 )
 from superset.charts.commands.exceptions import ChartNotFoundError
 from superset.charts.dao import ChartDAO
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
+    ChartDataResultLanguage
 from superset.common.db_query_status import QueryStatus
 from superset.connectors.base.models import BaseDatasource
 from superset.connectors.connector_registry import ConnectorRegistry
@@ -644,6 +645,8 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 response_type = response_option
                 break
 
+        language = request.args.get("language")
+
         # Verify user has permission to export CSV file
         if (
             response_type == ChartDataResultFormat.CSV
@@ -708,13 +711,35 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 form_data=form_data,
                 force=force,
             )
+            if language == "ru":
+                logger.error(
+                    [column.verbose_name_RU for column in viz_obj.datasource.columns])
+                logger.error(
+                    [metric.verbose_name_RU for metric in viz_obj.datasource.metrics])
+                logger.error(viz_obj.query_obj())
+                # for column in viz_obj.datasource.columns:
+                #     if column.verbose_name_RU:
+                #         column.column_name = column.verbose_name_RU
+                # logger.error([column.verbose_name for column in viz_obj.datasource.columns])
+
+                if response_type == ChartDataResultFormat.XLSX:
+                    bytes_stream = self.generate_json(viz_obj, response_type)
+                    return send_file(path_or_file=bytes_stream,
+                                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                     as_attachment=True,
+                                     download_name="data.xlsx"
+                                     )
+                if response_type == ChartDataResultFormat.CSV:
+                    return self.generate_json(viz_obj, response_type)
+
+                return self.generate_json(viz_obj, response_type)
 
             if response_type == ChartDataResultFormat.XLSX:
                 bytes_stream = self.generate_json(viz_obj, response_type)
                 return send_file(path_or_file=bytes_stream,
                                  mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                  as_attachment=True,
-                                 attachment_filename="data.xlsx"
+                                 download_name="data.xlsx"
                                  )
             if response_type == ChartDataResultFormat.CSV:
                 return self.generate_json(viz_obj, response_type)
