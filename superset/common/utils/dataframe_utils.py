@@ -21,6 +21,7 @@ from typing import List, TYPE_CHECKING, Optional
 
 import numpy as np
 import pandas as pd
+logger = logging.getLogger(__name__)
 
 from superset.utils.core import GenericDataType
 
