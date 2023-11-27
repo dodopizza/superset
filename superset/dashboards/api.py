@@ -423,7 +423,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_404()
 
     @expose("/<id_or_slug>/charts", methods=["GET"])
-    # @protect()
+    @protect()
     @etag_cache(
         get_last_modified=lambda _self,
                                  id_or_slug: DashboardDAO.get_dashboard_and_slices_changed_on(
