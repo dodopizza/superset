@@ -721,6 +721,12 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                     if metric.verbose_name_RU:
                         column_and_metric_names[metric.metric_name] = metric.verbose_name_RU
 
+                metrics_ui = form_data.get("metrics")
+                if metrics_ui:
+                    for metric_ui in metrics_ui:
+                        if isinstance(metric_ui, dict) and metric_ui.get("labelRU"):
+                            metric_ui["label"] = metric_ui.get("labelRU")
+
                 if response_type == ChartDataResultFormat.XLSX:
                     bytes_stream = self.generate_json(viz_obj, response_type, column_and_metric_names)
                     return send_file(path_or_file=bytes_stream,

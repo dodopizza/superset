@@ -687,14 +687,11 @@ class BaseViz:  # pylint: disable=too-many-public-methods
 
     def get_xlsx(self, mt_cl: dict = None) -> BytesIO:
         d = self.get_df_payload()
-        logger.error(d)
         df = delete_tz_from_df(d)
-        logger.error(mt_cl)
         if mt_cl:
             for column_df in df.columns:
                 df.rename(columns={column_df: mt_cl.get(column_df) or column_df},
                           inplace=True)
-        logger.error(df)
         return csv.df_to_escaped_xlsx(df)
 
     def get_data(self, df: pd.DataFrame) -> VizData:  # pylint: disable=no-self-use
