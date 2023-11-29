@@ -20,7 +20,8 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
 from superset import app, db
 from superset.charts.dao import ChartDAO
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
+     ChartDataResultLanguage
 from superset.common.query_context import QueryContext
 from superset.common.query_object_factory import QueryObjectFactory
 from superset.connectors.connector_registry import ConnectorRegistry
@@ -51,6 +52,7 @@ class QueryContextFactory:  # pylint: disable=too-few-public-methods
         form_data: Optional[Dict[str, Any]] = None,
         result_type: Optional[ChartDataResultType] = None,
         result_format: Optional[ChartDataResultFormat] = None,
+        language: Optional[ChartDataResultLanguage] = None,
         force: bool = False,
         custom_cache_timeout: Optional[int] = None,
     ) -> QueryContext:
@@ -61,6 +63,7 @@ class QueryContextFactory:  # pylint: disable=too-few-public-methods
         slice_ = None
         if form_data and form_data.get("slice_id") is not None:
             slice_ = self._get_slice(form_data.get("slice_id"))
+        language = language or ChartDataResultLanguage.EN
         result_type = result_type or ChartDataResultType.FULL
         result_format = result_format or ChartDataResultFormat.JSON
         queries_ = [
@@ -82,6 +85,7 @@ class QueryContextFactory:  # pylint: disable=too-few-public-methods
             form_data=form_data,
             result_type=result_type,
             result_format=result_format,
+            language=language,
             force=force,
             custom_cache_timeout=custom_cache_timeout,
             cache_values=cache_values,
