@@ -495,7 +495,6 @@ class ChartDataRestApi(ChartRestApi):
         self, form_data: Dict[str, Any]
     ) -> QueryContext:
         try:
-            logger.error(form_data)
             return ChartDataQueryContextSchema().load(form_data)
         except KeyError as ex:
             raise ValidationError("Request is incorrect") from ex
