@@ -21,8 +21,7 @@ from typing import Any, ClassVar, Dict, List, Optional, TYPE_CHECKING, Union
 
 import pandas as pd
 
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
-    ChartDataResultLanguage
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
 from superset.common.query_context_processor import (
     CachedTimeOffset,
     QueryContextProcessor,
@@ -55,7 +54,6 @@ class QueryContext:
     result_format: ChartDataResultFormat
     force: bool
     custom_cache_timeout: Optional[int]
-    language: ChartDataResultLanguage
 
     cache_values: Dict[str, Any]
 
@@ -72,7 +70,6 @@ class QueryContext:
         form_data: Optional[Dict[str, Any]],
         result_type: ChartDataResultType,
         result_format: ChartDataResultFormat,
-        language: ChartDataResultLanguage,
         force: bool = False,
         custom_cache_timeout: Optional[int] = None,
         cache_values: Dict[str, Any],

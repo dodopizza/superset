@@ -60,8 +60,7 @@ from superset import (
 )
 from superset.charts.commands.exceptions import ChartNotFoundError
 from superset.charts.dao import ChartDAO
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
-    ChartDataResultLanguage
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
 from superset.common.db_query_status import QueryStatus
 from superset.connectors.base.models import BaseDatasource
 from superset.connectors.connector_registry import ConnectorRegistry

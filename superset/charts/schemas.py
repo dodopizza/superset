@@ -26,8 +26,7 @@ from marshmallow.validate import Length, Range, OneOf
 from marshmallow_enum import EnumField
 
 from superset import app
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
-    ChartDataResultLanguage
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
 from superset.db_engine_specs.base import builtin_time_grains
 from superset.utils import pandas_postprocessing, schema as utils
 from superset.utils.core import (
@@ -1225,7 +1224,6 @@ class ChartDataQueryContextSchema(Schema):
     result_format = EnumField(ChartDataResultFormat, by_value=True)
 
     form_data = fields.Raw(allow_none=True, required=False)
-    language = EnumField(ChartDataResultLanguage, by_value=True)
 
     # pylint: disable=unused-argument
     @post_load
