@@ -84,7 +84,6 @@ class QueryContext:
         self.custom_cache_timeout = custom_cache_timeout
         self.cache_values = cache_values
         self._processor = QueryContextProcessor(self)
-        self.language = language
 
     def get_data(
         self,
