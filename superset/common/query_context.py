@@ -22,7 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional, TYPE_CHECKING, Union
 import pandas as pd
 
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
-     ChartDataResultLanguage
+    ChartDataResultLanguage
 from superset.common.query_context_processor import (
     CachedTimeOffset,
     QueryContextProcessor,

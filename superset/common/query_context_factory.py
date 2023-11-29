@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING
 from superset import app, db
 from superset.charts.dao import ChartDAO
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
-     ChartDataResultLanguage
+    ChartDataResultLanguage
 from superset.common.query_context import QueryContext
 from superset.common.query_object_factory import QueryObjectFactory
 from superset.connectors.connector_registry import ConnectorRegistry
