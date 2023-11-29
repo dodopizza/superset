@@ -115,7 +115,7 @@ const DODOPIZZA_KNOWLEDGEBASE_URL =
   'https://dodopizza.info/support/categories/7647d4b4-5108-4b5e-9054-43f40a2ab287/ru';
 const DODOPIZZA_ANALYTICS_URL = 'https://analytics.dodois.io/dashboard/list/';
 
-const SUPERSET_WEBSERVER_TIMEOUT = 60;
+const SUPERSET_WEBSERVER_TIMEOUT = 120;
 const USER_ROLES = {
   Admin: [
     ['can_delete', 'DashboardEmailScheduleView'],

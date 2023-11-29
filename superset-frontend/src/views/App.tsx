@@ -43,6 +43,9 @@ const user = { ...bootstrapData.user };
 const menu = {
   ...bootstrapData.common.menu_data,
 };
+console.log('------');
+console.log('Bootstrap Data:', bootstrapData);
+console.log('------');
 let lastLocationPathname: string;
 initFeatureFlags(bootstrapData.common.feature_flags);
 
