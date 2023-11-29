@@ -60,7 +60,8 @@ from superset import (
 )
 from superset.charts.commands.exceptions import ChartNotFoundError
 from superset.charts.dao import ChartDAO
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
+from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType, \
+    ChartDataResultLanguage
 from superset.common.db_query_status import QueryStatus
 from superset.connectors.base.models import BaseDatasource
 from superset.connectors.connector_registry import ConnectorRegistry
@@ -488,15 +489,15 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
         return data_payload_response(*viz_obj.payload_json_and_has_error(payload))
 
     def generate_json(
-        self, viz_obj: BaseViz, response_type: Optional[str] = None
+        self, viz_obj: BaseViz, response_type: Optional[str] = None, mt_cl: dict = None
     ) -> Optional[FlaskResponse, BytesIO]:
         if response_type == ChartDataResultFormat.CSV:
             return CsvResponse(
-                viz_obj.get_csv(), headers=generate_download_headers("csv")
+                viz_obj.get_csv(mt_cl), headers=generate_download_headers("csv")
             )
 
         if response_type == ChartDataResultFormat.XLSX:
-            return viz_obj.get_xlsx()
+            return viz_obj.get_xlsx(mt_cl)
 
         if response_type == ChartDataResultType.QUERY:
             return self.get_query_string_response(viz_obj)
@@ -644,6 +645,8 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 response_type = response_option
                 break
 
+        language = request.args.get("language")
+
         # Verify user has permission to export CSV file
         if (
             response_type == ChartDataResultFormat.CSV
@@ -708,13 +711,40 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
                 form_data=form_data,
                 force=force,
             )
+            if language == "ru":
+                column_and_metric_names = dict()
+                for column in viz_obj.datasource.columns:
+                    if column.verbose_name_RU:
+                        column_and_metric_names[column.column_name] = column.verbose_name_RU
+
+                for metric in viz_obj.datasource.metrics:
+                    if metric.verbose_name_RU:
+                        column_and_metric_names[metric.metric_name] = metric.verbose_name_RU
+
+                metrics_ui = form_data.get("metrics")
+                if metrics_ui:
+                    for metric_ui in metrics_ui:
+                        if isinstance(metric_ui, dict) and metric_ui.get("labelRU"):
+                            metric_ui["label"] = metric_ui.get("labelRU")
+
+                if response_type == ChartDataResultFormat.XLSX:
+                    bytes_stream = self.generate_json(viz_obj, response_type, column_and_metric_names)
+                    return send_file(path_or_file=bytes_stream,
+                                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                     as_attachment=True,
+                                     download_name="data.xlsx"
+                                     )
+                if response_type == ChartDataResultFormat.CSV:
+                    return self.generate_json(viz_obj, response_type, column_and_metric_names)
+
+                return self.generate_json(viz_obj, response_type)
 
             if response_type == ChartDataResultFormat.XLSX:
                 bytes_stream = self.generate_json(viz_obj, response_type)
                 return send_file(path_or_file=bytes_stream,
                                  mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                  as_attachment=True,
-                                 attachment_filename="data.xlsx"
+                                 download_name="data.xlsx"
                                  )
             if response_type == ChartDataResultFormat.CSV:
                 return self.generate_json(viz_obj, response_type)

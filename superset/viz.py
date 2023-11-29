@@ -663,11 +663,15 @@ class BaseViz:  # pylint: disable=too-many-public-methods
         }
         return content
 
-    def get_csv(self) -> Optional[str, io.BytesIO]:
+    def get_csv(self, mt_cl: dict = None) -> Optional[str, io.BytesIO]:
         df = self.get_df_payload()["df"]  # leverage caching logic
         list_of_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
         if list_of_data:
             df = pd.DataFrame(list_of_data)
+            if mt_cl:
+                for column_df in df.columns:
+                    df.rename(columns={column_df: mt_cl.get(column_df) or column_df},
+                              inplace=True)
             logger.warning(list_of_data)
             # return query results xlsx format
             # new_df = delete_tz_from_df(list_of_data)
@@ -681,9 +685,13 @@ class BaseViz:  # pylint: disable=too-many-public-methods
             config_csv = config["CSV_EXPORT"]
             return df.to_csv(**config_csv)
 
-    def get_xlsx(self) -> BytesIO:
+    def get_xlsx(self, mt_cl: dict = None) -> BytesIO:
         d = self.get_df_payload()
         df = delete_tz_from_df(d)
+        if mt_cl:
+            for column_df in df.columns:
+                df.rename(columns={column_df: mt_cl.get(column_df) or column_df},
+                          inplace=True)
         return csv.df_to_escaped_xlsx(df)
 
     def get_data(self, df: pd.DataFrame) -> VizData:  # pylint: disable=no-self-use
