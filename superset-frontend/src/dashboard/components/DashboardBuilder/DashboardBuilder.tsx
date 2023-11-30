@@ -52,11 +52,41 @@ import {
   MAIN_HEADER_HEIGHT,
   OPEN_FILTER_BAR_WIDTH,
 } from 'src/dashboard/constants';
+import { bootstrapData } from 'src/preamble';
 import { shouldFocusTabs, getRootLevelTabsComponent } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
 
 type DashboardBuilderProps = {};
+
+function getPageLanguage() {
+  if (!document) {
+    return null;
+  }
+  const select = document.querySelector('#changeLanguage select');
+  // @ts-ignore
+  const selectedLanguage = select ? select.value : null;
+  return selectedLanguage;
+}
+
+const getLocaleForSuperset = () => {
+  const dodoisLanguage = getPageLanguage();
+  if (dodoisLanguage) {
+    if (dodoisLanguage === 'ru-RU') return 'ru';
+    return 'en';
+  }
+  return 'en';
+};
+
+let userLanguage = 'en';
+
+if (process.env.type === undefined) {
+  userLanguage =
+    (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+    'en';
+} else {
+  userLanguage = getLocaleForSuperset();
+}
 
 const StyledDiv = styled.div`
   display: grid;
@@ -358,6 +388,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               renderTabContent={false}
               renderHoverMenu={false}
               onChangeTab={handleChangeTab}
+              userLanguage={userLanguage}
             />
           </WithPopoverMenu>
         )}

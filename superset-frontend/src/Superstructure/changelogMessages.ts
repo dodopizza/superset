@@ -256,6 +256,31 @@ const NEW_FEATURES_AUGUST_2023_RU = {
   ],
 };
 
+const NEW_FEATURES_NOVEMBER_2023_RU = {
+  title: 'Обновления [Ноябрь 2023]',
+  date: '30.11.2023',
+  subTitle: RELEASE_IN_TESTING,
+  extra: IF_QUESTIONS_RU,
+  listTitle: 'Новая функциональность / исправлены проблемы',
+  releases: [
+    {
+      date: `${TESTING_EMOJI} 30.11.2023`,
+      status: RELEASE_IN_TESTING,
+      messages: [
+        'Сделать возможность называть метрики в датасете на двух языках (англ., рус.)',
+        'Сделать возможность называть кастомные метрики на двух языках (англ., рус.)',
+        'Сделать возможность называть дашборд на двух языках (англ., рус.)',
+        'Сделать возможность называть график на двух языках (англ., рус.)',
+        'Сделать возможность называть табы в графике на двух языках (англ., рус.)',
+        'Увеличить лимит при создании / изменении дашбордов',
+        'В выгрузке xlsx/csv выгружать названия колонок исходя из языка интерфейса',
+      ],
+    },
+  ],
+  listTitleExtra: 'Что планируем брать в работу?',
+  messagesExtra: [`${IN_PROGRESS_EMOJI} Переезд на версию Superset 3.0`],
+};
+
 export {
   UPGRADE_2_0_RU,
   NEW_FEATURES_APRIL_2023_RU,
@@ -263,4 +288,5 @@ export {
   NEW_FEATURES_JUNE_2023_RU,
   NEW_FEATURES_JULY_2023_RU,
   NEW_FEATURES_AUGUST_2023_RU,
+  NEW_FEATURES_NOVEMBER_2023_RU,
 };

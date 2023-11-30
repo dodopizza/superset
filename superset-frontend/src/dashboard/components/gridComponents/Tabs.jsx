@@ -303,6 +303,7 @@ export class Tabs extends React.PureComponent {
       isComponentVisible: isCurrentTabVisible,
       editMode,
       nativeFilters,
+      userLanguage = 'en',
     } = this.props;
 
     const { children: tabIds } = tabsComponent;
@@ -365,6 +366,7 @@ export class Tabs extends React.PureComponent {
                       isHighlighted={
                         activeKey !== tabId && tabsToHighlight?.includes(tabId)
                       }
+                      userLanguage={userLanguage}
                     />
                   }
                 >
@@ -384,6 +386,7 @@ export class Tabs extends React.PureComponent {
                       isComponentVisible={
                         selectedTabIndex === tabIndex && isCurrentTabVisible
                       }
+                      userLanguage={userLanguage}
                     />
                   )}
                 </LineEditableTabs.TabPane>
