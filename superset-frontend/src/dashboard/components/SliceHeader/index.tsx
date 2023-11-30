@@ -121,8 +121,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     }
   }, [sliceName, width, height, handleClickTitle]);
 
-  // const sliceFinalTitle =
-  //   dashboardLanguage === 'ru' ? sliceNameRU || sliceName : sliceName;
   const TitleWrapper = styled.div`
     display: flex;
     align-items: flex-start;
