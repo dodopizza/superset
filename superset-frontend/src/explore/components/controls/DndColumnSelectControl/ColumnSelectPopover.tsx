@@ -106,8 +106,8 @@ const ColumnSelectPopover = ({
   console.groupEnd();
 
   const [initialLabel] = useState(label);
-  const [initialLabelRU] = useState(labelRU);
   const [initialLabelEN] = useState(labelEN);
+  const [initialLabelRU] = useState(labelRU);
   const [initialAdhocColumn, initialCalculatedColumn, initialSimpleColumn] =
     getInitialColumnValues(editedColumn);
 
@@ -229,14 +229,11 @@ const ColumnSelectPopover = ({
   const onSave = useCallback(() => {
     if (adhocColumn && adhocColumn.label !== label) {
       adhocColumn.label = label;
+      adhocColumn.labelEN = label;
     }
 
     if (adhocColumn && adhocColumn.labelRU !== labelRU) {
       adhocColumn.labelRU = labelRU;
-    }
-
-    if (adhocColumn && adhocColumn.labelEN !== labelEN) {
-      adhocColumn.labelEN = labelEN;
     }
 
     const selectedColumn =
@@ -251,7 +248,6 @@ const ColumnSelectPopover = ({
     adhocColumn,
     label,
     labelRU,
-    labelEN,
     onChange,
     onClose,
     selectedCalculatedColumn,
