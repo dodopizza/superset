@@ -489,6 +489,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     form_data.pop("label_colors", None)
             if language == "ru":
                 for chart in result:
+                    all_columns = chart.get("form_data").get("all_columns", [])
+                    for column in all_columns:
+                        if isinstance(column, dict) and column.get("labelRU"):
+                            column["label"] = column.get("labelRU")
+
                     metrics = chart.get("form_data").get("metrics")
                     if metrics:
                         for metric in metrics:
