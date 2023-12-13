@@ -114,3 +114,10 @@ def prune_log() -> None:
         logger.warning("A timeout occurred while pruning report schedule logs: %s", ex)
     except CommandException as ex:
         logger.exception("An exception occurred while pruning report schedule logs")
+
+
+@celery_app.tasks(name="check_live_session_auth")
+def check_live_session_auth() -> None:
+    logger.info("check live session auth")
+    import time
+    time.sleep(10)

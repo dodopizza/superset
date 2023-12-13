@@ -960,6 +960,10 @@ class CeleryConfig:  # pylint: disable=too-few-public-methods
             "task": "reports.prune_log",
             "schedule": crontab(minute=0, hour=0),
         },
+        "check_live_session_auth": {
+            "task": "check_live_session_auth",
+            "schedule": crontab(minute=15, hour=0),
+        },
     }
 
 

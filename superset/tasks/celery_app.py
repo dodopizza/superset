@@ -19,10 +19,11 @@
 This is the main entrypoint used by Celery workers. As such,
 it needs to call create_app() in order to initialize things properly
 """
+import time
 from typing import Any
 
 from celery.signals import worker_process_init
-
+import logging
 # Superset framework imports
 from superset import create_app
 from superset.extensions import celery_app, db
@@ -36,6 +37,7 @@ from . import cache, scheduler  # isort:skip
 
 # Export the celery app globally for Celery (as run on the cmd line) to find
 app = celery_app
+logger = logging.getLogger(__name__)
 
 
 @worker_process_init.connect
