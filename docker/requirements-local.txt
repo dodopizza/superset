@@ -1,0 +1,2 @@
+flask-http-middleware==0.4.2
+sqlalchemy-kusto==2.0.1
