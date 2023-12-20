@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
+import httpx
 from datetime import datetime
 
 from celery import Celery
@@ -116,8 +117,6 @@ def prune_log() -> None:
         logger.exception("An exception occurred while pruning report schedule logs")
 
 
-@celery_app.tasks(name="check_live_session_auth")
+@celery_app.task(name="check_live_session_auth")
 def check_live_session_auth() -> None:
     logger.info("check live session auth")
-    import time
-    time.sleep(10)

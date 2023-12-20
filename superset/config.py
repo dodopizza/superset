@@ -962,7 +962,7 @@ class CeleryConfig:  # pylint: disable=too-few-public-methods
         },
         "check_live_session_auth": {
             "task": "check_live_session_auth",
-            "schedule": crontab(minute=15, hour=0),
+            "schedule": crontab(),
         },
     }
 
