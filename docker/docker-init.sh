@@ -43,10 +43,11 @@ if [ "$CYPRESS_CONFIG" == "true" ]; then
     ADMIN_PASSWORD="general"
     export SUPERSET_CONFIG=tests.integration_tests.superset_test_config
     export SUPERSET_TESTENV=true
-    export SUPERSET__SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://superset:superset@db:5432/superset
+    export SUPERSET__SQLALCHEMY_DATABASE_URI=jdbc:mysql://localhost:3306/dbname
 fi
 # Initialize the database
 echo_step "1" "Starting" "Applying DB migrations"
+sleep 60
 superset db upgrade
 echo_step "1" "Complete" "Applying DB migrations"
 

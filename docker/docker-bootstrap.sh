@@ -23,7 +23,7 @@ REQUIREMENTS_LOCAL="/app/docker/requirements-local.txt"
 if [ "$CYPRESS_CONFIG" == "true" ]; then
     export SUPERSET_CONFIG=tests.integration_tests.superset_test_config
     export SUPERSET_TESTENV=true
-    export SUPERSET__SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://superset:superset@db:5432/superset
+    export SUPERSET__SQLALCHEMY_DATABASE_URI=jdbc:mysql://localhost:3306/dbname
 fi
 #
 # Make sure we have dev requirements installed
