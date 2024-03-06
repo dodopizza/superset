@@ -1,4 +1,3 @@
-// DODO was here
 import React, { FC, useRef, useEffect, useState, Suspense } from 'react';
 import {
   CategoricalColorNamespace,
