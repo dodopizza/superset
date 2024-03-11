@@ -51,3 +51,12 @@ class DatasetCertifiedFilter(BaseFilter):  # pylint: disable=too-few-public-meth
                 )
             )
         return query
+
+
+class DatasetSqlFieldSearch(BaseFilter):
+    name = _("sql field search")
+
+    def apply(self, query: Query, value: bool):
+        if value is True:
+            return query.filter(SqlaTable.extra.ilike(value))
+

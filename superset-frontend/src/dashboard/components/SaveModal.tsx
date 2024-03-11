@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-env browser */
 import React from 'react';
 import { Radio } from 'src/components/Radio';
@@ -82,7 +65,8 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
     this.state = {
       saveType: props.saveType,
       newDashName: `${props.dashboardTitle} [copy]`,
-      duplicateSlices: false,
+      // DODO changed
+      duplicateSlices: true,
     };
     this.modal = null;
     this.handleSaveTypeChange = this.handleSaveTypeChange.bind(this);
@@ -145,7 +129,9 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
         saveType === SAVE_TYPE_NEWDASHBOARD ? newDashName : dashboardTitle,
       dashboard_title_RU:
         saveType === SAVE_TYPE_NEWDASHBOARD ? newDashName : dashboard_title_RU,
-      duplicate_slices: this.state.duplicateSlices,
+      // duplicate_slices: this.state.duplicateSlices,
+      // DODO changed
+      duplicate_slices: true,
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -206,10 +192,14 @@ class SaveModal extends React.PureComponent<SaveModalProps, SaveModalState> {
               onFocus={e => this.handleNameChange(e.target.value)}
               onChange={e => this.handleNameChange(e.target.value)}
             />
-            <div className="m-l-25 m-t-5">
+            {/* /DODO changed */}
+            <div
+              className="m-l-25 m-t-5"
+              style={{ opacity: 0.8, marginTop: '24px' }}
+            >
               <Checkbox
-                checked={this.state.duplicateSlices}
-                onChange={() => this.toggleDuplicateSlices()}
+                checked
+                onChange={() => alert('This value cannot be changed')}
               />
               <span className="m-l-5">{t('also copy (duplicate) charts')}</span>
             </div>

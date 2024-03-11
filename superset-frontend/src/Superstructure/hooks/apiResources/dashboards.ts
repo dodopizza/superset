@@ -1,4 +1,3 @@
-// DODO was here
 import { Dashboard, Datasource, EmbeddedDashboard } from 'src/dashboard/types';
 import { Chart } from 'src/types/Chart';
 import {
