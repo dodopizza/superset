@@ -7,4 +7,5 @@ export { default as CategoricalGoogle } from './google';
 export { default as CategoricalLyft } from './lyft';
 export { default as CategoricalPreset } from './preset';
 export { default as CategoricalSuperset } from './superset';
-export { default as CategoricalDodoCustom } from './dodoCustom';
+export { default as Rainbow5 } from './rainbow5';
+export { default as Rainbow7 } from './rainbow6';

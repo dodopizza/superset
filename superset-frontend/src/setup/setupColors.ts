@@ -14,10 +14,11 @@ import {
   CategoricalLyft,
   CategoricalPreset,
   CategoricalSuperset,
-  CategoricalDodoCustom,
   SequentialCommon,
   SequentialD3,
   ColorSchemeRegistry,
+  Rainbow5,
+  Rainbow7,
 } from '@superset-ui/core';
 
 function registerColorSchemes<T extends ColorScheme>(
@@ -55,8 +56,9 @@ export default function setupColors(
       ...CategoricalLyft,
       ...CategoricalPreset,
       ...CategoricalSuperset,
-      ...CategoricalDodoCustom,
       ...extraCategoricalColorSchemes,
+      ...Rainbow5,
+      ...Rainbow7,
     ],
     'supersetColors',
   );

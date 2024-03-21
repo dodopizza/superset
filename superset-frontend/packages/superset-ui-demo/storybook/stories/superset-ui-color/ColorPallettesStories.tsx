@@ -9,9 +9,10 @@ import {
   CategoricalLyft,
   CategoricalPreset,
   CategoricalSuperset,
-  CategoricalDodoCustom,
   SequentialCommon,
   SequentialD3,
+  Rainbow5,
+  Rainbow7,
 } from '@superset-ui/core';
 import RenderPalettes from './RenderPalettes';
 
@@ -21,8 +22,9 @@ export default {
 
 export const categoricalPalettes = () =>
   [
+    { palettes: Rainbow5, storyName: 'Rainbow Light' },
+    { palettes: Rainbow7, storyName: 'Rainbow Dark' },
     { palettes: CategoricalSuperset, storyName: 'Superset' },
-    { palettes: CategoricalDodoCustom, storyName: 'Dodo Custom' },
     { palettes: CategoricalAirbnb, storyName: 'Airbnb' },
     { palettes: CategoricalD3, storyName: 'd3' },
     { palettes: CategoricalEcharts, storyName: 'ECharts' },
