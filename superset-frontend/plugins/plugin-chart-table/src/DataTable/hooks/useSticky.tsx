@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, {
   useRef,
   useMemo,
@@ -31,21 +14,22 @@ import { TableInstance, Hooks } from 'react-table';
 import getScrollBarSize from '../utils/getScrollBarSize';
 import needScrollBar from '../utils/needScrollBar';
 import useMountedMemo from '../utils/useMountedMemo';
+import { StickyWrapDodo } from '../../DodoExtensions/DataTable/hooks/useStickyDodo';
 
-type ReactElementWithChildren<
+export type ReactElementWithChildren<
   T extends keyof JSX.IntrinsicElements,
   C extends ReactNode = ReactNode,
 > = ReactElement<ComponentPropsWithRef<T> & { children: C }, T>;
 
-type Th = ReactElementWithChildren<'th'>;
-type Td = ReactElementWithChildren<'td'>;
-type TrWithTh = ReactElementWithChildren<'tr', Th[]>;
-type TrWithTd = ReactElementWithChildren<'tr', Td[]>;
-type Thead = ReactElementWithChildren<'thead', TrWithTh>;
-type Tbody = ReactElementWithChildren<'tbody', TrWithTd>;
-type Tfoot = ReactElementWithChildren<'tfoot', TrWithTd>;
-type Col = ReactElementWithChildren<'col', null>;
-type ColGroup = ReactElementWithChildren<'colgroup', Col>;
+export type Th = ReactElementWithChildren<'th'>;
+export type Td = ReactElementWithChildren<'td'>;
+export type TrWithTh = ReactElementWithChildren<'tr', Th[]>;
+export type TrWithTd = ReactElementWithChildren<'tr', Td[]>;
+export type Thead = ReactElementWithChildren<'thead', TrWithTh>;
+export type Tbody = ReactElementWithChildren<'tbody', TrWithTd>;
+export type Tfoot = ReactElementWithChildren<'tfoot', TrWithTd>;
+export type Col = ReactElementWithChildren<'col', null>;
+export type ColGroup = ReactElementWithChildren<'colgroup', Col>;
 
 export type Table = ReactElementWithChildren<
   'table',
@@ -95,8 +79,8 @@ export type UseStickyState = {
   sticky: StickyState;
 };
 
-const sum = (a: number, b: number) => a + b;
-const mergeStyleProp = (
+export const sum = (a: number, b: number) => a + b;
+export const mergeStyleProp = (
   node: ReactElement<{ style?: CSSProperties }>,
   style: CSSProperties,
 ) => ({
@@ -105,226 +89,227 @@ const mergeStyleProp = (
     ...style,
   },
 });
-const fixedTableLayout: CSSProperties = { tableLayout: 'fixed' };
+export const fixedTableLayout: CSSProperties = { tableLayout: 'fixed' };
 
 /**
  * An HOC for generating sticky header and fixed-height scrollable area
  */
-function StickyWrap({
-  sticky = {},
-  width: maxWidth,
-  height: maxHeight,
-  children: table,
-  setStickyState,
-}: {
-  width: number;
-  height: number;
-  setStickyState: SetStickyState;
-  children: Table;
-  sticky?: StickyState; // current sticky element sizes
-}) {
-  if (!table || table.type !== 'table') {
-    throw new Error('<StickyWrap> must have only one <table> element as child');
-  }
-  let thead: Thead | undefined;
-  let tbody: Tbody | undefined;
-  let tfoot: Tfoot | undefined;
 
-  React.Children.forEach(table.props.children, node => {
-    if (!node) {
-      return;
-    }
-    if (node.type === 'thead') {
-      thead = node;
-    } else if (node.type === 'tbody') {
-      tbody = node;
-    } else if (node.type === 'tfoot') {
-      tfoot = node;
-    }
-  });
-  if (!thead || !tbody) {
-    throw new Error(
-      '<table> in <StickyWrap> must contain both thead and tbody.',
-    );
-  }
-  const columnCount = useMemo(() => {
-    const headerRows = React.Children.toArray(
-      thead?.props.children,
-    ).pop() as TrWithTh;
-    return headerRows.props.children.length;
-  }, [thead]);
-
-  const theadRef = useRef<HTMLTableSectionElement>(null); // original thead for layout computation
-  const tfootRef = useRef<HTMLTableSectionElement>(null); // original tfoot for layout computation
-  const scrollHeaderRef = useRef<HTMLDivElement>(null); // fixed header
-  const scrollFooterRef = useRef<HTMLDivElement>(null); // fixed footer
-  const scrollBodyRef = useRef<HTMLDivElement>(null); // main body
-
-  const scrollBarSize = getScrollBarSize();
-  const { bodyHeight, columnWidths } = sticky;
-  const needSizer =
-    !columnWidths ||
-    sticky.width !== maxWidth ||
-    sticky.height !== maxHeight ||
-    sticky.setStickyState !== setStickyState;
-
-  // update scrollable area and header column sizes when mounted
-  useLayoutEffect(() => {
-    if (!theadRef.current) {
-      return;
-    }
-    const bodyThead = theadRef.current;
-    const theadHeight = bodyThead.clientHeight;
-    const tfootHeight = tfootRef.current ? tfootRef.current.clientHeight : 0;
-    if (!theadHeight) {
-      return;
-    }
-    const fullTableHeight = (bodyThead.parentNode as HTMLTableElement)
-      .clientHeight;
-    const ths = bodyThead.childNodes[0]
-      .childNodes as NodeListOf<HTMLTableHeaderCellElement>;
-    const widths = Array.from(ths).map(
-      th => th.getBoundingClientRect()?.width || th.clientWidth,
-    );
-    const [hasVerticalScroll, hasHorizontalScroll] = needScrollBar({
-      width: maxWidth,
-      height: maxHeight - theadHeight - tfootHeight,
-      innerHeight: fullTableHeight,
-      innerWidth: widths.reduce(sum),
-      scrollBarSize,
-    });
-    // real container height, include table header, footer and space for
-    // horizontal scroll bar
-    const realHeight = Math.min(
-      maxHeight,
-      hasHorizontalScroll ? fullTableHeight + scrollBarSize : fullTableHeight,
-    );
-    setStickyState({
-      hasVerticalScroll,
-      hasHorizontalScroll,
-      setStickyState,
-      width: maxWidth,
-      height: maxHeight,
-      realHeight,
-      tableHeight: fullTableHeight,
-      bodyHeight: realHeight - theadHeight - tfootHeight,
-      columnWidths: widths,
-    });
-  }, [maxWidth, maxHeight, setStickyState, scrollBarSize]);
-
-  let sizerTable: ReactElement | undefined;
-  let headerTable: ReactElement | undefined;
-  let footerTable: ReactElement | undefined;
-  let bodyTable: ReactElement | undefined;
-  if (needSizer) {
-    const theadWithRef = React.cloneElement(thead, { ref: theadRef });
-    const tfootWithRef = tfoot && React.cloneElement(tfoot, { ref: tfootRef });
-    sizerTable = (
-      <div
-        key="sizer"
-        style={{
-          height: maxHeight,
-          overflow: 'auto',
-          visibility: 'hidden',
-        }}
-      >
-        {React.cloneElement(table, {}, theadWithRef, tbody, tfootWithRef)}
-      </div>
-    );
-  }
-
-  // reuse previously column widths, will be updated by `useLayoutEffect` above
-  const colWidths = columnWidths?.slice(0, columnCount);
-
-  if (colWidths && bodyHeight) {
-    const colgroup = (
-      <colgroup>
-        {colWidths.map((w, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <col key={i} width={w} />
-        ))}
-      </colgroup>
-    );
-
-    headerTable = (
-      <div
-        key="header"
-        ref={scrollHeaderRef}
-        style={{
-          overflow: 'hidden',
-        }}
-      >
-        {React.cloneElement(
-          table,
-          mergeStyleProp(table, fixedTableLayout),
-          colgroup,
-          thead,
-        )}
-        {headerTable}
-      </div>
-    );
-
-    footerTable = tfoot && (
-      <div
-        key="footer"
-        ref={scrollFooterRef}
-        style={{
-          overflow: 'hidden',
-        }}
-      >
-        {React.cloneElement(
-          table,
-          mergeStyleProp(table, fixedTableLayout),
-          colgroup,
-          tfoot,
-        )}
-        {footerTable}
-      </div>
-    );
-
-    const onScroll: UIEventHandler<HTMLDivElement> = e => {
-      if (scrollHeaderRef.current) {
-        scrollHeaderRef.current.scrollLeft = e.currentTarget.scrollLeft;
-      }
-      if (scrollFooterRef.current) {
-        scrollFooterRef.current.scrollLeft = e.currentTarget.scrollLeft;
-      }
-    };
-    bodyTable = (
-      <div
-        key="body"
-        ref={scrollBodyRef}
-        style={{
-          height: bodyHeight,
-          overflow: 'auto',
-        }}
-        onScroll={sticky.hasHorizontalScroll ? onScroll : undefined}
-      >
-        {React.cloneElement(
-          table,
-          mergeStyleProp(table, fixedTableLayout),
-          colgroup,
-          tbody,
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      style={{
-        width: maxWidth,
-        height: sticky.realHeight || maxHeight,
-        overflow: 'hidden',
-      }}
-    >
-      {headerTable}
-      {bodyTable}
-      {footerTable}
-      {sizerTable}
-    </div>
-  );
-}
+// function StickyWrap({
+//   sticky = {},
+//   width: maxWidth,
+//   height: maxHeight,
+//   children: table,
+//   setStickyState,
+// }: {
+//   width: number;
+//   height: number;
+//   setStickyState: SetStickyState;
+//   children: Table;
+//   sticky?: StickyState; // current sticky element sizes
+// }) {
+//   if (!table || table.type !== 'table') {
+//     throw new Error('<StickyWrap> must have only one <table> element as child');
+//   }
+//   let thead: Thead | undefined;
+//   let tbody: Tbody | undefined;
+//   let tfoot: Tfoot | undefined;
+//
+//   React.Children.forEach(table.props.children, node => {
+//     if (!node) {
+//       return;
+//     }
+//     if (node.type === 'thead') {
+//       thead = node;
+//     } else if (node.type === 'tbody') {
+//       tbody = node;
+//     } else if (node.type === 'tfoot') {
+//       tfoot = node;
+//     }
+//   });
+//   if (!thead || !tbody) {
+//     throw new Error(
+//       '<table> in <StickyWrap> must contain both thead and tbody.',
+//     );
+//   }
+//   const columnCount = useMemo(() => {
+//     const headerRows = React.Children.toArray(
+//       thead?.props.children,
+//     ).pop() as TrWithTh;
+//     return headerRows.props.children.length;
+//   }, [thead]);
+//
+//   const theadRef = useRef<HTMLTableSectionElement>(null); // original thead for layout computation
+//   const tfootRef = useRef<HTMLTableSectionElement>(null); // original tfoot for layout computation
+//   const scrollHeaderRef = useRef<HTMLDivElement>(null); // fixed header
+//   const scrollFooterRef = useRef<HTMLDivElement>(null); // fixed footer
+//   const scrollBodyRef = useRef<HTMLDivElement>(null); // main body
+//
+//   const scrollBarSize = getScrollBarSize();
+//   const { bodyHeight, columnWidths } = sticky;
+//   const needSizer =
+//     !columnWidths ||
+//     sticky.width !== maxWidth ||
+//     sticky.height !== maxHeight ||
+//     sticky.setStickyState !== setStickyState;
+//
+//   // update scrollable area and header column sizes when mounted
+//   useLayoutEffect(() => {
+//     if (!theadRef.current) {
+//       return;
+//     }
+//     const bodyThead = theadRef.current;
+//     const theadHeight = bodyThead.clientHeight;
+//     const tfootHeight = tfootRef.current ? tfootRef.current.clientHeight : 0;
+//     if (!theadHeight) {
+//       return;
+//     }
+//     const fullTableHeight = (bodyThead.parentNode as HTMLTableElement)
+//       .clientHeight;
+//     const ths = bodyThead.childNodes[0]
+//       .childNodes as NodeListOf<HTMLTableHeaderCellElement>;
+//     const widths = Array.from(ths).map(
+//       th => th.getBoundingClientRect()?.width || th.clientWidth,
+//     );
+//     const [hasVerticalScroll, hasHorizontalScroll] = needScrollBar({
+//       width: maxWidth,
+//       height: maxHeight - theadHeight - tfootHeight,
+//       innerHeight: fullTableHeight,
+//       innerWidth: widths.reduce(sum),
+//       scrollBarSize,
+//     });
+//     // real container height, include table header, footer and space for
+//     // horizontal scroll bar
+//     const realHeight = Math.min(
+//       maxHeight,
+//       hasHorizontalScroll ? fullTableHeight + scrollBarSize : fullTableHeight,
+//     );
+//     setStickyState({
+//       hasVerticalScroll,
+//       hasHorizontalScroll,
+//       setStickyState,
+//       width: maxWidth,
+//       height: maxHeight,
+//       realHeight,
+//       tableHeight: fullTableHeight,
+//       bodyHeight: realHeight - theadHeight - tfootHeight,
+//       columnWidths: widths,
+//     });
+//   }, [maxWidth, maxHeight, setStickyState, scrollBarSize]);
+//
+//   let sizerTable: ReactElement | undefined;
+//   let headerTable: ReactElement | undefined;
+//   let footerTable: ReactElement | undefined;
+//   let bodyTable: ReactElement | undefined;
+//   if (needSizer) {
+//     const theadWithRef = React.cloneElement(thead, { ref: theadRef });
+//     const tfootWithRef = tfoot && React.cloneElement(tfoot, { ref: tfootRef });
+//     sizerTable = (
+//       <div
+//         key="sizer"
+//         style={{
+//           height: maxHeight,
+//           overflow: 'auto',
+//           visibility: 'hidden',
+//         }}
+//       >
+//         {React.cloneElement(table, {}, theadWithRef, tbody, tfootWithRef)}
+//       </div>
+//     );
+//   }
+//
+//   // reuse previously column widths, will be updated by `useLayoutEffect` above
+//   const colWidths = columnWidths?.slice(0, columnCount);
+//
+//   if (colWidths && bodyHeight) {
+//     const colgroup = (
+//       <colgroup>
+//         {colWidths.map((w, i) => (
+//           // eslint-disable-next-line react/no-array-index-key
+//           <col key={i} width={w} />
+//         ))}
+//       </colgroup>
+//     );
+//
+//     headerTable = (
+//       <div
+//         key="header"
+//         ref={scrollHeaderRef}
+//         style={{
+//           overflow: 'hidden',
+//         }}
+//       >
+//         {React.cloneElement(
+//           table,
+//           mergeStyleProp(table, fixedTableLayout),
+//           colgroup,
+//           thead,
+//         )}
+//         {headerTable}
+//       </div>
+//     );
+//
+//     footerTable = tfoot && (
+//       <div
+//         key="footer"
+//         ref={scrollFooterRef}
+//         style={{
+//           overflow: 'hidden',
+//         }}
+//       >
+//         {React.cloneElement(
+//           table,
+//           mergeStyleProp(table, fixedTableLayout),
+//           colgroup,
+//           tfoot,
+//         )}
+//         {footerTable}
+//       </div>
+//     );
+//
+//     const onScroll: UIEventHandler<HTMLDivElement> = e => {
+//       if (scrollHeaderRef.current) {
+//         scrollHeaderRef.current.scrollLeft = e.currentTarget.scrollLeft;
+//       }
+//       if (scrollFooterRef.current) {
+//         scrollFooterRef.current.scrollLeft = e.currentTarget.scrollLeft;
+//       }
+//     };
+//     bodyTable = (
+//       <div
+//         key="body"
+//         ref={scrollBodyRef}
+//         style={{
+//           height: bodyHeight,
+//           overflow: 'auto',
+//         }}
+//         onScroll={sticky.hasHorizontalScroll ? onScroll : undefined}
+//       >
+//         {React.cloneElement(
+//           table,
+//           mergeStyleProp(table, fixedTableLayout),
+//           colgroup,
+//           tbody,
+//         )}
+//       </div>
+//     );
+//   }
+//
+//   return (
+//     <div
+//       style={{
+//         width: maxWidth,
+//         height: sticky.realHeight || maxHeight,
+//         overflow: 'hidden',
+//       }}
+//     >
+//       {headerTable}
+//       {bodyTable}
+//       {footerTable}
+//       {sizerTable}
+//     </div>
+//   );
+// }
 
 function useInstance<D extends object>(instance: TableInstance<D>) {
   const {
@@ -368,15 +353,16 @@ function useInstance<D extends object>(instance: TableInstance<D>) {
     if (data.length === 0) {
       return table;
     }
+    // DODO changed StickyWrap to StickyWrapDodo
     return (
-      <StickyWrap
+      <StickyWrapDodo
         width={width}
         height={height}
         sticky={sticky}
         setStickyState={setStickyState}
       >
         {table}
-      </StickyWrap>
+      </StickyWrapDodo>
     );
   };
 

@@ -8,16 +8,9 @@ import React, {
   MouseEvent,
   useContext,
 } from 'react';
-import {
-  ColumnInstance,
-  ColumnWithLooseAccessor,
-  DefaultSortTypes,
-  Row,
-} from 'react-table';
+import { ColumnWithLooseAccessor, Row } from 'react-table';
 import { extent as d3Extent, max as d3Max } from 'd3-array';
-import { FaSort } from '@react-icons/all-files/fa/FaSort';
-import { FaSortDown as FaSortDesc } from '@react-icons/all-files/fa/FaSortDown';
-import { FaSortUp as FaSortAsc } from '@react-icons/all-files/fa/FaSortUp';
+
 import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 
 import cx from 'classnames';
@@ -26,118 +19,33 @@ import {
   DataRecordValue,
   DTTM_ALIAS,
   ensureIsArray,
-  GenericDataType,
   getSelectedText,
   getTimeFormatterForGranularity,
   BinaryQueryObjectFilterClause,
   styled,
   css,
   t,
-  tn,
 } from '@superset-ui/core';
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
-import DataTable, {
-  DataTableProps,
-  SearchInputProps,
-  SelectPageSizeRendererProps,
-  SizeOption,
-} from '../DataTable';
+import DataTable, { DataTableProps, SizeOption } from '../DataTable';
 import { PAGE_SIZE_OPTIONS } from '../consts';
 import { formatColumnValue } from '../utils/formatValue';
 import { updateExternalFormData } from '../DataTable/utils/externalAPIs';
 import getScrollBarSize from '../DataTable/utils/getScrollBarSize';
 import Styles from '../Styles';
 import { WidthContext } from './DataTable/hooks/useStickyDodo';
-
-type ValueRange = [number, number];
-
-interface TableSize {
-  width: number;
-  height: number;
-}
-
-/**
- * Return sortType based on data type
- */
-function getSortTypeByDataType(dataType: GenericDataType): DefaultSortTypes {
-  if (dataType === GenericDataType.TEMPORAL) {
-    return 'datetime';
-  }
-  if (dataType === GenericDataType.STRING) {
-    return 'alphanumeric';
-  }
-  return 'basic';
-}
-
-/**
- * Cell background width calculation for horizontal bar chart
- */
-function cellWidth({
-  value,
-  valueRange,
-  alignPositiveNegative,
-}: {
-  value: number;
-  valueRange: ValueRange;
-  alignPositiveNegative: boolean;
-}) {
-  const [minValue, maxValue] = valueRange;
-  if (alignPositiveNegative) {
-    const perc = Math.abs(Math.round((value / maxValue) * 100));
-    return perc;
-  }
-  const posExtent = Math.abs(Math.max(maxValue, 0));
-  const negExtent = Math.abs(Math.min(minValue, 0));
-  const tot = posExtent + negExtent;
-  const perc2 = Math.round((Math.abs(value) / tot) * 100);
-  return perc2;
-}
-
-/**
- * Cell left margin (offset) calculation for horizontal bar chart elements
- * when alignPositiveNegative is not set
- */
-function cellOffset({
-  value,
-  valueRange,
-  alignPositiveNegative,
-}: {
-  value: number;
-  valueRange: ValueRange;
-  alignPositiveNegative: boolean;
-}) {
-  if (alignPositiveNegative) {
-    return 0;
-  }
-  const [minValue, maxValue] = valueRange;
-  const posExtent = Math.abs(Math.max(maxValue, 0));
-  const negExtent = Math.abs(Math.min(minValue, 0));
-  const tot = posExtent + negExtent;
-  return Math.round((Math.min(negExtent + value, negExtent) / tot) * 100);
-}
-
-/**
- * Cell background color calculation for horizontal bar chart
- */
-function cellBackground({
-  value,
-  colorPositiveNegative = false,
-}: {
-  value: number;
-  colorPositiveNegative: boolean;
-}) {
-  const r = colorPositiveNegative && value < 0 ? 150 : 0;
-  return `rgba(${r},0,0,0.2)`;
-}
-
-function SortIcon<D extends object>({ column }: { column: ColumnInstance<D> }) {
-  const { isSorted, isSortedDesc } = column;
-  let sortIcon = <FaSort />;
-  if (isSorted) {
-    sortIcon = isSortedDesc ? <FaSortDesc /> : <FaSortAsc />;
-  }
-  return sortIcon;
-}
+import {
+  getSortTypeByDataType,
+  cellWidth,
+  cellOffset,
+  cellBackground,
+  SortIcon,
+  SearchInput,
+  getNoResultsMessage,
+  SelectPageSize,
+  TableSize,
+  ValueRange,
+} from '../TableChart';
 
 // DODO added
 // DODO start block
@@ -176,56 +84,7 @@ function StickIcon({
 }
 // DODO stop block
 
-function SearchInput({ count, value, onChange }: SearchInputProps) {
-  return (
-    <span className="dt-global-filter">
-      {t('Search')}{' '}
-      <input
-        className="form-control input-sm"
-        placeholder={tn('search.num_records', count)}
-        value={value}
-        onChange={onChange}
-      />
-    </span>
-  );
-}
-
-function SelectPageSize({
-  options,
-  current,
-  onChange,
-}: SelectPageSizeRendererProps) {
-  return (
-    <span className="dt-select-page-size form-inline">
-      {t('page_size.show')}{' '}
-      <select
-        className="form-control input-sm"
-        value={current}
-        onBlur={() => {}}
-        onChange={e => {
-          onChange(Number((e.target as HTMLSelectElement).value));
-        }}
-      >
-        {options.map(option => {
-          const [size, text] = Array.isArray(option)
-            ? option
-            : [option, option];
-          return (
-            <option key={size} value={size}>
-              {text}
-            </option>
-          );
-        })}
-      </select>{' '}
-      {t('page_size.entries')}
-    </span>
-  );
-}
-
-const getNoResultsMessage = (filter: string) =>
-  filter ? t('No matching records found') : t('No records found');
-
-export default function TableChart<D extends DataRecord = DataRecord>(
+export default function TableChartDodo<D extends DataRecord = DataRecord>(
   props: TableChartTransformedProps<D> & {
     sticky?: DataTableProps<D>['sticky'];
   },

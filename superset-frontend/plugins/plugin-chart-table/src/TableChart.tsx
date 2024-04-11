@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, {
   CSSProperties,
   useCallback,
@@ -64,9 +47,9 @@ import { PAGE_SIZE_OPTIONS } from './consts';
 import { updateExternalFormData } from './DataTable/utils/externalAPIs';
 import getScrollBarSize from './DataTable/utils/getScrollBarSize';
 
-type ValueRange = [number, number];
+export type ValueRange = [number, number];
 
-interface TableSize {
+export interface TableSize {
   width: number;
   height: number;
 }
@@ -74,7 +57,9 @@ interface TableSize {
 /**
  * Return sortType based on data type
  */
-function getSortTypeByDataType(dataType: GenericDataType): DefaultSortTypes {
+export function getSortTypeByDataType(
+  dataType: GenericDataType,
+): DefaultSortTypes {
   if (dataType === GenericDataType.TEMPORAL) {
     return 'datetime';
   }
@@ -87,7 +72,7 @@ function getSortTypeByDataType(dataType: GenericDataType): DefaultSortTypes {
 /**
  * Cell background width calculation for horizontal bar chart
  */
-function cellWidth({
+export function cellWidth({
   value,
   valueRange,
   alignPositiveNegative,
@@ -112,7 +97,7 @@ function cellWidth({
  * Cell left margin (offset) calculation for horizontal bar chart elements
  * when alignPositiveNegative is not set
  */
-function cellOffset({
+export function cellOffset({
   value,
   valueRange,
   alignPositiveNegative,
@@ -134,7 +119,7 @@ function cellOffset({
 /**
  * Cell background color calculation for horizontal bar chart
  */
-function cellBackground({
+export function cellBackground({
   value,
   colorPositiveNegative = false,
 }: {
@@ -145,7 +130,11 @@ function cellBackground({
   return `rgba(${r},0,0,0.2)`;
 }
 
-function SortIcon<D extends object>({ column }: { column: ColumnInstance<D> }) {
+export function SortIcon<D extends object>({
+  column,
+}: {
+  column: ColumnInstance<D>;
+}) {
   const { isSorted, isSortedDesc } = column;
   let sortIcon = <FaSort />;
   if (isSorted) {
@@ -154,7 +143,7 @@ function SortIcon<D extends object>({ column }: { column: ColumnInstance<D> }) {
   return sortIcon;
 }
 
-function SearchInput({ count, value, onChange }: SearchInputProps) {
+export function SearchInput({ count, value, onChange }: SearchInputProps) {
   return (
     <span className="dt-global-filter">
       {t('Search')}{' '}
@@ -168,7 +157,7 @@ function SearchInput({ count, value, onChange }: SearchInputProps) {
   );
 }
 
-function SelectPageSize({
+export function SelectPageSize({
   options,
   current,
   onChange,
@@ -200,7 +189,7 @@ function SelectPageSize({
   );
 }
 
-const getNoResultsMessage = (filter: string) =>
+export const getNoResultsMessage = (filter: string) =>
   filter ? t('No matching records found') : t('No records found');
 
 export default function TableChart<D extends DataRecord = DataRecord>(
