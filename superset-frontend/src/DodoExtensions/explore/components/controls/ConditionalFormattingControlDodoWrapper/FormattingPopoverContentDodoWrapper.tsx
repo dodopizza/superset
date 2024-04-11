@@ -12,7 +12,7 @@ import {
   ConditionalFormattingConfig,
   MULTIPLE_VALUE_COMPARATORS,
 } from 'src/explore/components/controls/ConditionalFormattingControl';
-import {FormatingPopoverRenderFormContent} from "./types";
+import { FormatingPopoverRenderFormContent } from './types';
 
 const FullWidthInputNumber = styled(InputNumber)`
   width: 100%;
@@ -168,7 +168,7 @@ export const FormattingPopoverContentDodoWrapper = ({
   config,
   onChange,
   columns = [],
-  renderFormContent
+  renderFormContent,
 }: {
   config?: ConditionalFormattingConfig;
   onChange: (config: ConditionalFormattingConfig) => void;
@@ -234,7 +234,7 @@ export const FormattingPopoverContentDodoWrapper = ({
           requiredMark="optional"
           layout="vertical"
         >
-          { renderFormContent({
+          {renderFormContent({
             rulesRequired,
             columns,
             colorScheme,
@@ -244,7 +244,7 @@ export const FormattingPopoverContentDodoWrapper = ({
             shouldFormItemUpdate,
             renderOperatorFields,
             parseColorValue,
-          }) }
+          })}
         </Form> // DODO addded
       ) : (
         'Loading...'

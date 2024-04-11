@@ -1,9 +1,5 @@
 // DODO was here
-import {
-  hasGenericChartAxes,
-  smartDateFormatter,
-  t,
-} from '@superset-ui/core';
+import { hasGenericChartAxes, smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   ControlSubSectionHeader,
@@ -15,9 +11,7 @@ import {
 } from '@superset-ui/chart-controls';
 import React from 'react';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
-import {
-  BigNumberWithTrendlineControlPanelControlSetRowsDodo
-} from "../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo";
+import { BigNumberWithTrendlineControlPanelControlSetRowsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -155,7 +149,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        ...BigNumberWithTrendlineControlPanelControlSetRowsDodo // DODO added
+        ...BigNumberWithTrendlineControlPanelControlSetRowsDodo, // DODO added
       ],
     },
     {

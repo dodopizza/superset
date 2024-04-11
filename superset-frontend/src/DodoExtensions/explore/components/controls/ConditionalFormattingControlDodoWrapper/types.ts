@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { ConditionalFormattingConfig } from '@superset-ui/chart-controls';
-import { ConditionalFormattingControlProps } from '../../../../../explore/components/controls/ConditionalFormattingControl';
-import {GetFieldValue} from "./FormattingPopoverContentDodoWrapper";
+import { ConditionalFormattingControlProps } from 'src/explore/components/controls/ConditionalFormattingControl';
+import { GetFieldValue } from './FormattingPopoverContentDodoWrapper';
 
 type RenderExistLinParams = {
   index: number;
@@ -29,26 +29,24 @@ type ConditionalFormattingControlWrapperDodoProps =
     renderAddPopover: RenderAddPopover;
   };
 
-type FormatingPopoverRenderFormContent = (
-  params: {
-    rulesRequired: Array<{required: boolean, message: string}>;
-    columns: { label: string; value: string }[];
-    colorScheme: { value: string, label: string }[];
-    colorsValues: { value: string, label: string }[];
-    chosenColor: string;
-    setChosenColor: React.Dispatch<React.SetStateAction<string>>;
-    shouldFormItemUpdate(
-      prevValues: ConditionalFormattingConfig,
-      currentValues: ConditionalFormattingConfig
-    ): boolean;
-    renderOperatorFields({getFieldValue}: GetFieldValue): JSX.Element;
-    parseColorValue(value: string | "custom"): void;
-  }) => React.ReactNode;
+type FormatingPopoverRenderFormContent = (params: {
+  rulesRequired: Array<{ required: boolean; message: string }>;
+  columns: { label: string; value: string }[];
+  colorScheme: { value: string; label: string }[];
+  colorsValues: { value: string; label: string }[];
+  chosenColor: string;
+  setChosenColor: React.Dispatch<React.SetStateAction<string>>;
+  shouldFormItemUpdate(
+    prevValues: ConditionalFormattingConfig,
+    currentValues: ConditionalFormattingConfig,
+  ): boolean;
+  renderOperatorFields({ getFieldValue }: GetFieldValue): JSX.Element;
+  parseColorValue(value: string | 'custom'): void;
+}) => React.ReactNode;
 
 export type {
   ConditionalFormattingControlWrapperDodoProps,
   RenderExistLine,
   RenderAddPopover,
-
-  FormatingPopoverRenderFormContent
+  FormatingPopoverRenderFormContent,
 };

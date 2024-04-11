@@ -1,8 +1,10 @@
-import { BigNumberVizProps } from "../../BigNumber/types";
-import {DataRecordValue} from "@superset-ui/core";
+import { DataRecordValue } from '@superset-ui/core';
+import { BigNumberVizProps } from '../../BigNumber/types';
 
-const bigNumberVizGetColorDodo = (props: BigNumberVizProps, bigNumber?: DataRecordValue )=>{
-
+const bigNumberVizGetColorDodo = (
+  props: BigNumberVizProps,
+  bigNumber?: DataRecordValue,
+) => {
   const { colorThresholdFormatters, percentChange, percentChangeFormatter } =
     props;
   const hasThresholdColorFormatter =
@@ -33,8 +35,9 @@ const bigNumberVizGetColorDodo = (props: BigNumberVizProps, bigNumber?: DataReco
   }
 
   return {
-    numberColor, colorPercentChange
-  }
-}
+    numberColor,
+    colorPercentChange,
+  };
+};
 
-export { bigNumberVizGetColorDodo }
+export { bigNumberVizGetColorDodo };

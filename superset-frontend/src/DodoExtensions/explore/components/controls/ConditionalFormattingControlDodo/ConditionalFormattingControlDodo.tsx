@@ -6,24 +6,24 @@ import {
   COMPARATOR,
   ConditionalFormattingConfig,
   ConditionalFormattingControlProps,
-} from '../../../../../explore/components/controls/ConditionalFormattingControl';
-import ConditionalFormattingControlDodoWrapper from '../ConditionalFormattingControlDodoWrapper/ConditionalFormattingControlDodoWrapper';
-import {
-  RenderAddPopover,
-  RenderExistLine,
-} from '../ConditionalFormattingControlDodoWrapper/types';
+} from 'src/explore/components/controls/ConditionalFormattingControl';
 import {
   AddControlLabel,
   CaretContainer,
   Label,
   OptionControlContainer,
-} from '../../../../../explore/components/controls/OptionControls';
-import Icons from '../../../../../components/Icons';
-import { FormattingPopoverDodo } from './FormattingPopoverDodo';
+} from 'src/explore/components/controls/OptionControls';
 import {
   CloseButton,
   FormatterContainer,
-} from '../../../../../explore/components/controls/ConditionalFormattingControl/ConditionalFormattingControl';
+} from 'src/explore/components/controls/ConditionalFormattingControl/ConditionalFormattingControl';
+import ConditionalFormattingControlDodoWrapper from '../ConditionalFormattingControlDodoWrapper/ConditionalFormattingControlDodoWrapper';
+import {
+  RenderAddPopover,
+  RenderExistLine,
+} from '../ConditionalFormattingControlDodoWrapper/types';
+import Icons from '../../../../../components/Icons';
+import { FormattingPopoverDodo } from './FormattingPopoverDodo';
 
 const createLabel = ({
   operator,

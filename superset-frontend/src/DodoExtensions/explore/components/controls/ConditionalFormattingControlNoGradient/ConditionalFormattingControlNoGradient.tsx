@@ -14,15 +14,15 @@ import {
   OptionControlContainer,
 } from 'src/explore/components/controls/OptionControls';
 import {
+  CloseButton,
+  FormatterContainer,
+} from 'src/explore/components/controls/ConditionalFormattingControl/ConditionalFormattingControl';
+import {
   RenderAddPopover,
   RenderExistLine,
 } from '../ConditionalFormattingControlDodoWrapper/types';
 import { FormattingPopoverNoGradient } from './FormattingPopoverNoGradient';
 import ConditionalFormattingControlDodoWrapper from '../ConditionalFormattingControlDodoWrapper/ConditionalFormattingControlDodoWrapper';
-import {
-  CloseButton,
-  FormatterContainer
-} from 'src/explore/components/controls/ConditionalFormattingControl/ConditionalFormattingControl';
 
 const ConditionalFormattingControlNoGradient = (
   props: ConditionalFormattingControlProps,
@@ -61,27 +61,25 @@ const ConditionalFormattingControlNoGradient = (
     </FormatterContainer>
   );
 
-  const renderAddPopover: RenderAddPopover = ({ columnOptions, onSave }) => {
-    return (
-      <FormattingPopoverNoGradient
-        title={t('Add new formatter')}
-        columns={columnOptions}
-        onChange={onSave}
-        destroyTooltipOnHide
-      >
-        <AddControlLabel>
-          <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
-          {t('Add new color formatter')}
-        </AddControlLabel>
-      </FormattingPopoverNoGradient>
-    );
-  };
+  const renderAddPopover: RenderAddPopover = ({ columnOptions, onSave }) => (
+    <FormattingPopoverNoGradient
+      title={t('Add new formatter')}
+      columns={columnOptions}
+      onChange={onSave}
+      destroyTooltipOnHide
+    >
+      <AddControlLabel>
+        <Icons.PlusSmall iconColor={theme.colors.grayscale.light1} />
+        {t('Add new color formatter')}
+      </AddControlLabel>
+    </FormattingPopoverNoGradient>
+  );
 
   return (
     <ConditionalFormattingControlDodoWrapper
       {...props}
-      renderExistLine={ renderExistLine }
-      renderAddPopover={ renderAddPopover }
+      renderExistLine={renderExistLine}
+      renderAddPopover={renderAddPopover}
     />
   );
 };
