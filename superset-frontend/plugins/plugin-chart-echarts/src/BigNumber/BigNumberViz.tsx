@@ -12,7 +12,10 @@ import {
 import Echart from '../components/Echart';
 import { BigNumberVizProps } from './types';
 import { EventHandlers } from '../types';
-import { bigNumberVizGetColorDodo } from '../DodoExtensions/BigNumber/BigNumberViz';
+import {
+  bigNumberVizGetColorDodo,
+  bigNumberVizGetConditionalMessageInfo,
+} from '../DodoExtensions/BigNumber/BigNumberViz';
 
 const defaultNumberFormatter = getNumberFormatter();
 
@@ -217,6 +220,46 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     return null;
   }
 
+  // DODO add
+  // start fragment
+  renderMessage(maxHeight: number) {
+    const { bigNumber, width } = this.props;
+    let fontSize = 0;
+
+    const { colorConditionalMessage, conditionalMessage } =
+      bigNumberVizGetConditionalMessageInfo(this.props, bigNumber);
+
+    const text = conditionalMessage;
+
+    if (text && colorConditionalMessage) {
+      const container = this.createTemporaryContainer();
+      document.body.append(container);
+      fontSize = computeMaxFontSize({
+        text,
+        maxWidth: width,
+        maxHeight,
+        className: 'subheader-line',
+        container,
+      });
+      container.remove();
+
+      return (
+        <div
+          className="subheader-line"
+          style={{
+            fontSize,
+            height: maxHeight,
+            color: colorConditionalMessage,
+          }}
+        >
+          {text}
+        </div>
+      );
+    }
+    return null;
+  }
+  // stop fragment
+
   renderTrendline(maxHeight: number) {
     const { width, trendLineData, echartOptions, refs } = this.props;
 
@@ -306,6 +349,11 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         {this.renderKicker((kickerFontSize || 0) * height)}
         {this.renderHeader(Math.ceil(headerFontSize * height))}
         {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
+        {
+          this.renderMessage(
+            Math.ceil(subheaderFontSize * height),
+          ) /* DODO add line */
+        }
       </div>
     );
   }

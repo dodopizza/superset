@@ -11,6 +11,7 @@ import {
   ValueFormatter,
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
+import { ColorFormattersWithConditionalMessage } from 'packages/superset-ui-chart-controls/src/DodoExtensions/types';
 import { BaseChartProps, Refs } from '../types';
 
 export interface BigNumberDatum {
@@ -85,6 +86,7 @@ export type BigNumberVizProps = BigNumberVizPropsDodo & {
 type BigNumberVizPropsDodo = {
   percentChange?: number;
   percentChangeFormatter?: ColorFormatters;
+  conditionalMessageColorFormatters?: ColorFormattersWithConditionalMessage;
 };
 
 // DODO added

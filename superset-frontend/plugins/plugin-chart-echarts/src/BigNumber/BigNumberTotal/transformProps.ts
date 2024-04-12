@@ -19,6 +19,7 @@
 import {
   ColorFormatters,
   getColorFormatters,
+  getColorFormattersWithConditionalMessage,
   Metric,
 } from '@superset-ui/chart-controls';
 import {
@@ -53,6 +54,7 @@ export default function transformProps(
     timeFormat,
     yAxisFormat,
     conditionalFormatting,
+    conditionalFormattingMessage, // DODO add line
     currencyFormat,
   } = formData;
   const refs: Refs = {};
@@ -99,6 +101,12 @@ export default function transformProps(
     getColorFormatters(conditionalFormatting, data, false) ??
     defaultColorFormatters;
 
+  // DODO added start
+  const conditionalMessageColorFormatters =
+    getColorFormattersWithConditionalMessage(conditionalFormattingMessage) ??
+    defaultColorFormatters;
+  // DODO stop
+
   return {
     width,
     height,
@@ -110,5 +118,6 @@ export default function transformProps(
     onContextMenu,
     refs,
     colorThresholdFormatters,
+    conditionalMessageColorFormatters, // DODO added line
   };
 }

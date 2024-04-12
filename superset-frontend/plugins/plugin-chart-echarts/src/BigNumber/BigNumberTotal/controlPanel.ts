@@ -74,7 +74,7 @@ export default {
             },
           },
         ],
-        [...BigNumberControlPanelControlSetRowsDodo], // DODO added
+        ...BigNumberControlPanelControlSetRowsDodo, // DODO added
       ],
     },
   ],
