@@ -8,7 +8,7 @@ import { GenericDataType, t } from '@superset-ui/core';
 import React from 'react';
 import { StyledFlag } from '../../common';
 
-const BigNumberControlPanelControlSetRowsDodo = [
+const BigNumberControlPanelControlSetRowsConditionalFormating = [
   [
     {
       name: 'conditional_formatting',
@@ -92,7 +92,7 @@ const BigNumberControlPanelControlSetRowsDodo = [
 ];
 
 // DODO added #32232659
-const BigNumberControlPanelControlChartDescriptionDodo = {
+const BigNumberControlPanelControlChartDescription = {
   label: t('Chart description'),
   expanded: false,
   controlSetRows: [
@@ -144,6 +144,6 @@ const BigNumberControlPanelControlChartDescriptionDodo = {
 };
 
 export {
-  BigNumberControlPanelControlSetRowsDodo,
-  BigNumberControlPanelControlChartDescriptionDodo,
+  BigNumberControlPanelControlSetRowsConditionalFormating,
+  BigNumberControlPanelControlChartDescription,
 };

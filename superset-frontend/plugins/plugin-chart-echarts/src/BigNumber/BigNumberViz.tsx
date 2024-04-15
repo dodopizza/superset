@@ -313,7 +313,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       kickerFontSize,
       headerFontSize,
       subheaderFontSize,
-      conditionalMessageFontSize, // DODO added #32232659
+      // DODO added #32232659 start
+      conditionalMessageFontSize = 0.125,
+      alignment = 'flex-start',
+      // DODO added #32232659 stop
     } = this.props;
     const className = this.getClassName();
 
@@ -345,7 +348,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     }
 
     return (
-      <div className={className} style={{ height }}>
+      <div
+        className={className}
+        style={{ height, alignItems: alignment }} /*  DODO changed #32232659 */
+      >
         {this.renderFallbackWarning()}
         {this.renderKicker((kickerFontSize || 0) * height)}
         {this.renderHeader(Math.ceil(headerFontSize * height))}
@@ -353,7 +359,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         {
           this.renderMessage(
             Math.ceil(conditionalMessageFontSize * height),
-          ) /* DODO add line */
+          ) /* DODO add line #32232659 */
         }
       </div>
     );

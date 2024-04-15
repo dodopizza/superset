@@ -1,7 +1,8 @@
-// DODO added #32232659
+// DODO added
 import { CustomControlItem } from '@superset-ui/chart-controls';
 import { t } from '@superset-ui/core';
 
+// DODO added #32232659
 export const conditionalMessageFontSize: CustomControlItem = {
   name: 'conditional_message_font_size',
   config: {
@@ -31,6 +32,33 @@ export const conditionalMessageFontSize: CustomControlItem = {
       {
         label: t('Huge'),
         value: 0.4,
+      },
+    ],
+  },
+};
+
+// DODO added #32232659
+export const Alignment: CustomControlItem = {
+  name: 'alignment',
+  config: {
+    type: 'SelectControl',
+    label: t('Alignment'),
+    renderTrigger: true,
+    clearable: false,
+    default: 0.125,
+    // Values represent the percentage of space a subheader should take
+    options: [
+      {
+        label: t('left'),
+        value: 'flex-start',
+      },
+      {
+        label: t('center'),
+        value: 'center',
+      },
+      {
+        label: t('right'),
+        value: 'flex-end',
       },
     ],
   },

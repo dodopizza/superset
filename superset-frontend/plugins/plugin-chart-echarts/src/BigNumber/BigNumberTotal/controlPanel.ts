@@ -9,10 +9,13 @@ import {
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
 import {
-  BigNumberControlPanelControlChartDescriptionDodo,
-  BigNumberControlPanelControlSetRowsDodo,
+  BigNumberControlPanelControlChartDescription,
+  BigNumberControlPanelControlSetRowsConditionalFormating,
 } from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo';
-import { conditionalMessageFontSize } from '../../DodoExtensions/BigNumber/sharedControls';
+import {
+  Alignment,
+  conditionalMessageFontSize,
+} from '../../DodoExtensions/BigNumber/sharedControls';
 
 export default {
   controlPanelSections: [
@@ -42,11 +45,12 @@ export default {
         ],
       ],
     },
-    { ...BigNumberControlPanelControlChartDescriptionDodo }, // DODO added #32232659
+    { ...BigNumberControlPanelControlChartDescription }, // DODO added #32232659
     {
       label: t('Chart Options'),
       expanded: true,
       controlSetRows: [
+        [Alignment], // DODO added #32232659
         [headerFontSize],
         [subheaderFontSize],
         [conditionalMessageFontSize], // DODO added #32232659
@@ -80,7 +84,7 @@ export default {
             },
           },
         ],
-        ...BigNumberControlPanelControlSetRowsDodo, // DODO added
+        ...BigNumberControlPanelControlSetRowsConditionalFormating, // DODO added
       ],
     },
   ],

@@ -54,9 +54,12 @@ export default function transformProps(
     timeFormat,
     yAxisFormat,
     conditionalFormatting,
-    conditionalFormattingMessage, // DODO add line
     currencyFormat,
+    // DODO add start #32232659
+    conditionalFormattingMessage,
     conditionalMessageFontSize,
+    alignment,
+    // DODO add stop #32232659
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -122,5 +125,6 @@ export default function transformProps(
     // DODO added #32232659
     conditionalMessageColorFormatters,
     conditionalMessageFontSize,
+    alignment,
   };
 }
