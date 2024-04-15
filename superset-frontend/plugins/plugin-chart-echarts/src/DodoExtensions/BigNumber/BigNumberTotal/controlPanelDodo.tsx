@@ -5,6 +5,8 @@ import {
   Dataset,
 } from '@superset-ui/chart-controls';
 import { GenericDataType, t } from '@superset-ui/core';
+import React from 'react';
+import { StyledFlag } from '../../common';
 
 const BigNumberControlPanelControlSetRowsDodo = [
   [
@@ -89,4 +91,57 @@ const BigNumberControlPanelControlSetRowsDodo = [
   ],
 ];
 
-export { BigNumberControlPanelControlSetRowsDodo };
+// DODO added #32232659
+const BigNumberControlPanelControlChartDescriptionDodo = {
+  label: t('Chart description'),
+  expanded: false,
+  controlSetRows: [
+    [
+      {
+        name: 'chart_description_ru',
+        config: {
+          type: 'TextAreaControlNoModal',
+          label: (
+            <>
+              <StyledFlag
+                style={{ display: 'inline', marginRight: '0.5rem' }}
+                language="ru"
+              />
+              <span>{t('Chart description')}</span>
+            </>
+          ),
+          renderTrigger: true,
+          description: t(
+            'Tooltip text that shows up below this chart on dashboard',
+          ),
+        },
+      },
+    ],
+    [
+      {
+        name: 'chart_description_en',
+        config: {
+          type: 'TextAreaControlNoModal',
+          label: (
+            <>
+              <StyledFlag
+                style={{ display: 'inline', marginRight: '0.5rem' }}
+                language="gb"
+              />
+              <span>{t('Chart description')}</span>
+            </>
+          ),
+          renderTrigger: true,
+          description: t(
+            'Tooltip text that shows up below this chart on dashboard',
+          ),
+        },
+      },
+    ],
+  ],
+};
+
+export {
+  BigNumberControlPanelControlSetRowsDodo,
+  BigNumberControlPanelControlChartDescriptionDodo,
+};

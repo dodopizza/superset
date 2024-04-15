@@ -8,7 +8,10 @@ import {
   sections,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
-import { BigNumberControlPanelControlSetRowsDodo } from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo';
+import {
+  BigNumberControlPanelControlChartDescriptionDodo,
+  BigNumberControlPanelControlSetRowsDodo,
+} from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo';
 
 export default {
   controlPanelSections: [
@@ -38,6 +41,7 @@ export default {
         ],
       ],
     },
+    { ...BigNumberControlPanelControlChartDescriptionDodo }, // DODO added #32232659
     {
       label: t('Chart Options'),
       expanded: true,
