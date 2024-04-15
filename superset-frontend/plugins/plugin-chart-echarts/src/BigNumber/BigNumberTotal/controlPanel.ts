@@ -12,6 +12,7 @@ import {
   BigNumberControlPanelControlChartDescriptionDodo,
   BigNumberControlPanelControlSetRowsDodo,
 } from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo';
+import { conditionalMessageFontSize } from '../../DodoExtensions/BigNumber/sharedControls';
 
 export default {
   controlPanelSections: [
@@ -48,6 +49,7 @@ export default {
       controlSetRows: [
         [headerFontSize],
         [subheaderFontSize],
+        [conditionalMessageFontSize], // DODO added #32232659
         ['y_axis_format'],
         ['currency_format'],
         [

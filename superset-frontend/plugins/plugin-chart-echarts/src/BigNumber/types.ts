@@ -87,6 +87,7 @@ type BigNumberVizPropsDodo = {
   percentChange?: number;
   percentChangeFormatter?: ColorFormatters;
   conditionalMessageColorFormatters?: ColorFormattersWithConditionalMessage;
+  conditionalMessageFontSize: number;
 };
 
 // DODO added

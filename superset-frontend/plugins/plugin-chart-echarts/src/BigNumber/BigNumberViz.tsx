@@ -313,6 +313,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       kickerFontSize,
       headerFontSize,
       subheaderFontSize,
+      conditionalMessageFontSize, // DODO added #32232659
     } = this.props;
     const className = this.getClassName();
 
@@ -351,7 +352,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
         {
           this.renderMessage(
-            Math.ceil(subheaderFontSize * height),
+            Math.ceil(conditionalMessageFontSize * height),
           ) /* DODO add line */
         }
       </div>

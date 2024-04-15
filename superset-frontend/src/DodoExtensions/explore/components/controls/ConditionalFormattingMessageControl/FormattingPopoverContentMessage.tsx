@@ -1,4 +1,5 @@
 // DODO was here
+// DODO added #32232659
 import React from 'react';
 import { styled, t } from '@superset-ui/core';
 import { Input } from 'antd';
@@ -12,6 +13,7 @@ import { FormItem } from '../../../../../components/Form';
 import Select from '../../../../../components/Select/Select';
 import ColorPickerControlDodo from '../ColorPickerControlDodo';
 import Button from '../../../../../components/Button';
+import { StyledFlag } from '../../../../../../plugins/plugin-chart-echarts/src/DodoExtensions/common';
 
 const JustifyEnd = styled.div`
   display: flex;
@@ -49,7 +51,16 @@ const FormattingPopoverContentMessage = (
       <Row>
         <Col span={24}>
           <FormItem
-            label="Message RU"
+            label={
+              <>
+                <StyledFlag
+                  style={{ display: 'inline', marginRight: '0.5rem' }}
+                  language="ru"
+                  pressToTheBottom={false}
+                />
+                <span>{t('Message')}</span>
+              </>
+            }
             name="messageRU"
             rules={[{ required: true, message: 'Message RU is required' }]}
           >
@@ -61,7 +72,16 @@ const FormattingPopoverContentMessage = (
       <Row>
         <Col span={24}>
           <FormItem
-            label="Message EN"
+            label={
+              <>
+                <StyledFlag
+                  style={{ display: 'inline', marginRight: '0.5rem' }}
+                  language="gb"
+                  pressToTheBottom={false}
+                />
+                <span>{t('Message')}</span>
+              </>
+            }
             name="messageEN"
             rules={[{ required: true, message: 'Message EN is required' }]}
           >

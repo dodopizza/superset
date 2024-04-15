@@ -106,6 +106,7 @@ const BigNumberControlPanelControlChartDescriptionDodo = {
               <StyledFlag
                 style={{ display: 'inline', marginRight: '0.5rem' }}
                 language="ru"
+                pressToTheBottom={false}
               />
               <span>{t('Chart description')}</span>
             </>
@@ -127,6 +128,7 @@ const BigNumberControlPanelControlChartDescriptionDodo = {
               <StyledFlag
                 style={{ display: 'inline', marginRight: '0.5rem' }}
                 language="gb"
+                pressToTheBottom={false}
               />
               <span>{t('Chart description')}</span>
             </>
