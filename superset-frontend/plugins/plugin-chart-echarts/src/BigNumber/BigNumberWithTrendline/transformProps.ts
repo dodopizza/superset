@@ -25,6 +25,7 @@ import { getDateFormatter, parseMetricValue } from '../utils';
 import { getDefaultTooltip } from '../../utils/tooltip';
 import { Refs } from '../../types';
 import { BigNumberWithTrendLineTransformPropsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo';
+import { ValueToShowEnum } from '../../DodoExtensions/BigNumber/types';
 
 const defaultNumberFormatter = getNumberFormatter();
 export function renderTooltipFactory(
@@ -78,6 +79,7 @@ export default function transformProps(
     yAxisFormat,
     currencyFormat,
     timeRangeFixed,
+    valueToShow, // DODO added #32232659
   } = formData;
   const granularity = extractTimegrain(rawFormData);
   const {
@@ -113,6 +115,16 @@ export default function transformProps(
       .sort((a, b) => (a[0] !== null && b[0] !== null ? b[0] - a[0] : 0));
 
     bigNumber = sortedData[0][1];
+
+    // DODO added #32232659
+    if (valueToShow === ValueToShowEnum.AVERAGE) {
+      bigNumber =
+        sortedData.reduce((acc, item) => acc + (item.at(1) ?? 0), 0) /
+        sortedData.length;
+    } else if (valueToShow === ValueToShowEnum.LAST) {
+      bigNumber = sortedData[sortedData.length - 1][1];
+    }
+
     timestamp = sortedData[0][0];
 
     if (bigNumber === null) {

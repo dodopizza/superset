@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
 import { BigNumberWithTrendlineControlPanelControlSetRowsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo';
+import { ValueToShow } from '../../DodoExtensions/BigNumber/sharedControls';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -31,6 +32,7 @@ const config: ControlPanelConfig = {
       tabOverride: 'data',
       expanded: true,
       controlSetRows: [
+        [ValueToShow], // DODO added #32232659
         [
           {
             name: 'compare_lag',

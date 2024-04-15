@@ -1,6 +1,7 @@
 // DODO added
 import { CustomControlItem } from '@superset-ui/chart-controls';
 import { t } from '@superset-ui/core';
+import { ValueToShowEnum } from './types';
 
 // DODO added #32232659
 export const conditionalMessageFontSize: CustomControlItem = {
@@ -59,6 +60,33 @@ export const Alignment: CustomControlItem = {
       {
         label: t('right'),
         value: 'flex-end',
+      },
+    ],
+  },
+};
+
+// DODO added #32232659
+export const ValueToShow: CustomControlItem = {
+  name: 'value_to_show',
+  config: {
+    type: 'SelectControl',
+    label: t('Value to show'),
+    renderTrigger: true,
+    clearable: false,
+    default: ValueToShowEnum.LAST,
+    // Values represent the percentage of space a subheader should take
+    options: [
+      {
+        label: t(ValueToShowEnum.LAST),
+        value: ValueToShowEnum.LAST,
+      },
+      {
+        label: t(ValueToShowEnum.AVERAGE),
+        value: ValueToShowEnum.AVERAGE,
+      },
+      {
+        label: t(ValueToShowEnum.FIRST),
+        value: ValueToShowEnum.FIRST,
       },
     ],
   },
