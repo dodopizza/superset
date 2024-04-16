@@ -16,6 +16,7 @@ import {
   bigNumberVizGetColorDodo,
   bigNumberVizGetConditionalMessageInfo,
 } from '../DodoExtensions/BigNumber/BigNumberViz';
+import { AlignmentValue } from '../DodoExtensions/BigNumber/types';
 
 const defaultNumberFormatter = getNumberFormatter();
 
@@ -315,7 +316,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       subheaderFontSize,
       // DODO added #32232659 start
       conditionalMessageFontSize = 0.125,
-      alignment = 'flex-start',
+      alignment = AlignmentValue.LEFT,
       // DODO added #32232659 stop
     } = this.props;
     const className = this.getClassName();
@@ -326,7 +327,13 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
 
       return (
         <div className={className}>
-          <div className="text-container" style={{ height: allTextHeight }}>
+          <div
+            className="text-container"
+            style={{
+              height: allTextHeight,
+              alignItems: alignment,
+            }} /*  DODO changed #32232659 */
+          >
             {this.renderFallbackWarning()}
             {this.renderKicker(
               Math.ceil(

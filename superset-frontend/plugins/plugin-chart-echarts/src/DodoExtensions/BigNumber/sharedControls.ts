@@ -1,7 +1,7 @@
 // DODO added
 import { CustomControlItem } from '@superset-ui/chart-controls';
 import { t } from '@superset-ui/core';
-import { ValueToShowEnum } from './types';
+import { AlignmentName, AlignmentValue, ValueToShowEnum } from './types';
 
 // DODO added #32232659
 export const conditionalMessageFontSize: CustomControlItem = {
@@ -46,20 +46,20 @@ export const Alignment: CustomControlItem = {
     label: t('Alignment'),
     renderTrigger: true,
     clearable: false,
-    default: 0.125,
+    default: AlignmentValue.LEFT,
     // Values represent the percentage of space a subheader should take
     options: [
       {
-        label: t('left'),
-        value: 'flex-start',
+        label: t(AlignmentName.LEFT),
+        value: AlignmentValue.LEFT,
       },
       {
-        label: t('center'),
-        value: 'center',
+        label: t(AlignmentName.CENTER),
+        value: AlignmentValue.CENTER,
       },
       {
-        label: t('right'),
-        value: 'flex-end',
+        label: t(AlignmentName.RIGHT),
+        value: AlignmentValue.RIGHT,
       },
     ],
   },
@@ -73,20 +73,20 @@ export const ValueToShow: CustomControlItem = {
     label: t('Value to show'),
     renderTrigger: true,
     clearable: false,
-    default: ValueToShowEnum.LAST,
+    default: ValueToShowEnum.OLDEST,
     // Values represent the percentage of space a subheader should take
     options: [
       {
-        label: t(ValueToShowEnum.LAST),
-        value: ValueToShowEnum.LAST,
+        label: t(ValueToShowEnum.OLDEST),
+        value: ValueToShowEnum.OLDEST,
       },
       {
         label: t(ValueToShowEnum.AVERAGE),
         value: ValueToShowEnum.AVERAGE,
       },
       {
-        label: t(ValueToShowEnum.FIRST),
-        value: ValueToShowEnum.FIRST,
+        label: t(ValueToShowEnum.LATEST),
+        value: ValueToShowEnum.LATEST,
       },
     ],
   },

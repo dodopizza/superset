@@ -13,6 +13,7 @@ import {
 import { ColorFormatters } from '@superset-ui/chart-controls';
 import { ColorFormattersWithConditionalMessage } from 'packages/superset-ui-chart-controls/src/DodoExtensions/types';
 import { BaseChartProps, Refs } from '../types';
+import { AlignmentValue } from '../DodoExtensions/BigNumber/types';
 
 export interface BigNumberDatum {
   [key: string]: number | null;
@@ -88,7 +89,7 @@ type BigNumberVizPropsDodo = {
   percentChangeFormatter?: ColorFormatters;
   conditionalMessageColorFormatters?: ColorFormattersWithConditionalMessage;
   conditionalMessageFontSize?: number;
-  alignment?: string;
+  alignment?: AlignmentValue;
 };
 
 // DODO added

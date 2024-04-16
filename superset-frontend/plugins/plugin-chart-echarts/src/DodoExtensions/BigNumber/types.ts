@@ -1,7 +1,19 @@
 // DODO was here
 
 export enum ValueToShowEnum {
-  LAST = 'last',
+  OLDEST = 'oldest',
   AVERAGE = 'average',
-  FIRST = 'first',
+  LATEST = 'latest',
+}
+
+export enum AlignmentName {
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right',
+}
+
+export enum AlignmentValue {
+  LEFT = 'flex-start',
+  CENTER = 'center',
+  RIGHT = 'flex-end',
 }

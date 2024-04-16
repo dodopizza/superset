@@ -4,6 +4,8 @@ import {
   ControlState,
   Dataset,
 } from '@superset-ui/chart-controls';
+import React from 'react';
+import { StyledFlag } from '../common';
 
 const controlPanelCommonConditionalFormattingRow = [
   {
@@ -87,7 +89,60 @@ const controlPanelCommonConditionalFormattingMessageRow = [
   },
 ];
 
+// DODO added #32232659
+const controlPanelCommonChartDescription = {
+  label: t('Chart description'),
+  expanded: false,
+  controlSetRows: [
+    [
+      {
+        name: 'chart_description_ru',
+        config: {
+          type: 'TextAreaControlNoModal',
+          label: (
+            <>
+              <StyledFlag
+                style={{ display: 'inline', marginRight: '0.5rem' }}
+                language="ru"
+                pressToTheBottom={false}
+              />
+              <span>{t('Chart description')}</span>
+            </>
+          ),
+          renderTrigger: true,
+          description: t(
+            'Tooltip text that shows up below this chart on dashboard',
+          ),
+        },
+      },
+    ],
+    [
+      {
+        name: 'chart_description_en',
+        config: {
+          type: 'TextAreaControlNoModal',
+          label: (
+            <>
+              <StyledFlag
+                style={{ display: 'inline', marginRight: '0.5rem' }}
+                language="gb"
+                pressToTheBottom={false}
+              />
+              <span>{t('Chart description')}</span>
+            </>
+          ),
+          renderTrigger: true,
+          description: t(
+            'Tooltip text that shows up below this chart on dashboard',
+          ),
+        },
+      },
+    ],
+  ],
+};
+
 export {
   controlPanelCommonConditionalFormattingRow,
   controlPanelCommonConditionalFormattingMessageRow,
+  controlPanelCommonChartDescription,
 };

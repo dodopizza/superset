@@ -13,9 +13,11 @@ import React from 'react';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
 import { bigNumberWithTrendlineControlPanelConditionalFormatting } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo';
 import {
+  Alignment,
   conditionalMessageFontSize,
   ValueToShow,
 } from '../../DodoExtensions/BigNumber/sharedControls';
+import { controlPanelCommonChartDescription } from '../../DodoExtensions/BigNumber/controlPanelCommon';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -117,10 +119,12 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
+    { ...controlPanelCommonChartDescription }, // DODO added #32232659
     {
       label: t('Chart Options'),
       expanded: true,
       controlSetRows: [
+        [Alignment], // DODO added #32232659
         ['color_picker', null],
         [headerFontSize],
         [subheaderFontSize],

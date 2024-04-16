@@ -84,6 +84,7 @@ export default function transformProps(
     valueToShow,
     conditionalFormattingMessage,
     conditionalMessageFontSize,
+    alignment,
     // DODO add stop #32232659
   } = formData;
   const granularity = extractTimegrain(rawFormData);
@@ -120,17 +121,19 @@ export default function transformProps(
       .sort((a, b) => (a[0] !== null && b[0] !== null ? b[0] - a[0] : 0));
 
     bigNumber = sortedData[0][1];
+    timestamp = sortedData[0][0];
 
-    // DODO added #32232659
+    // DODO added start #32232659
     if (valueToShow === ValueToShowEnum.AVERAGE) {
       bigNumber =
         sortedData.reduce((acc, item) => acc + (item.at(1) ?? 0), 0) /
         sortedData.length;
-    } else if (valueToShow === ValueToShowEnum.LAST) {
+      timestamp = null;
+    } else if (valueToShow === ValueToShowEnum.OLDEST) {
       bigNumber = sortedData[sortedData.length - 1][1];
+      timestamp = sortedData[sortedData.length - 1][0];
     }
-
-    timestamp = sortedData[0][0];
+    // DODO added stop #32232659
 
     if (bigNumber === null) {
       bigNumberFallback = sortedData.find(d => d[1] !== null);
@@ -311,6 +314,7 @@ export default function transformProps(
     percentChangeFormatter,
     conditionalMessageColorFormatters,
     conditionalMessageFontSize,
+    alignment,
     // DODO stop fragment
   };
 }
