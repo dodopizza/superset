@@ -11,8 +11,11 @@ import {
 } from '@superset-ui/chart-controls';
 import React from 'react';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
-import { BigNumberWithTrendlineControlPanelControlSetRowsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo';
-import { ValueToShow } from '../../DodoExtensions/BigNumber/sharedControls';
+import { bigNumberWithTrendlineControlPanelConditionalFormatting } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo';
+import {
+  conditionalMessageFontSize,
+  ValueToShow,
+} from '../../DodoExtensions/BigNumber/sharedControls';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -121,6 +124,7 @@ const config: ControlPanelConfig = {
         ['color_picker', null],
         [headerFontSize],
         [subheaderFontSize],
+        [conditionalMessageFontSize], // DODO added #32232659
         ['y_axis_format'],
         ['currency_format'],
         [
@@ -151,9 +155,9 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        ...BigNumberWithTrendlineControlPanelControlSetRowsDodo, // DODO added
       ],
     },
+    { ...bigNumberWithTrendlineControlPanelConditionalFormatting }, // DODO added
     {
       label: t('Advanced Analytics'),
       expanded: false,

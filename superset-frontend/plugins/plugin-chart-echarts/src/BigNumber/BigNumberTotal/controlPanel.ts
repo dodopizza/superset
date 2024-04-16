@@ -10,7 +10,7 @@ import {
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
 import {
   BigNumberControlPanelControlChartDescription,
-  BigNumberControlPanelControlSetRowsConditionalFormating,
+  BigNumberControlPanelConditionalFormatting,
 } from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo';
 import {
   Alignment,
@@ -84,9 +84,9 @@ export default {
             },
           },
         ],
-        ...BigNumberControlPanelControlSetRowsConditionalFormating, // DODO added
       ],
     },
+    { ...BigNumberControlPanelConditionalFormatting }, // DODO added}
   ],
   controlOverrides: {
     y_axis_format: {

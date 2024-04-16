@@ -341,6 +341,11 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
                 subheaderFontSize * (1 - PROPORTION.TRENDLINE) * height,
               ),
             )}
+            {
+              this.renderMessage(
+                Math.ceil(conditionalMessageFontSize * height),
+              ) /* DODO add line #32232659 */
+            }
           </div>
           {this.renderTrendline(chartHeight)}
         </div>

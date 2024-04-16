@@ -15,6 +15,7 @@ import {
 } from '@superset-ui/core';
 import { EChartsCoreOption, graphic } from 'echarts';
 
+import { getColorFormattersWithConditionalMessage } from '@superset-ui/chart-controls';
 import {
   BigNumberDatum,
   BigNumberWithTrendlineChartProps,
@@ -79,7 +80,11 @@ export default function transformProps(
     yAxisFormat,
     currencyFormat,
     timeRangeFixed,
-    valueToShow, // DODO added #32232659
+    // DODO add start #32232659
+    valueToShow,
+    conditionalFormattingMessage,
+    conditionalMessageFontSize,
+    // DODO add stop #32232659
   } = formData;
   const granularity = extractTimegrain(rawFormData);
   const {
@@ -270,6 +275,11 @@ export default function transformProps(
     percentChange,
     formatPercentChange,
   });
+  // DODO added #32232659  start
+  const conditionalMessageColorFormatters =
+    getColorFormattersWithConditionalMessage(conditionalFormattingMessage) ??
+    [];
+  // DODO #32232659  stop
 
   return {
     width,
@@ -299,6 +309,8 @@ export default function transformProps(
     colorThresholdFormatters,
     percentChange: percentChangeNumber,
     percentChangeFormatter,
+    conditionalMessageColorFormatters,
+    conditionalMessageFontSize,
     // DODO stop fragment
   };
 }

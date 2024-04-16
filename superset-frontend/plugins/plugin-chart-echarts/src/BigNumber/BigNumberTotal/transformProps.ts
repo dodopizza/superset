@@ -105,11 +105,11 @@ export default function transformProps(
     getColorFormatters(conditionalFormatting, data, false) ??
     defaultColorFormatters;
 
-  // DODO added start
+  // DODO added #32232659  start
   const conditionalMessageColorFormatters =
     getColorFormattersWithConditionalMessage(conditionalFormattingMessage) ??
     defaultColorFormatters;
-  // DODO stop
+  // DODO #32232659  stop
 
   return {
     width,
