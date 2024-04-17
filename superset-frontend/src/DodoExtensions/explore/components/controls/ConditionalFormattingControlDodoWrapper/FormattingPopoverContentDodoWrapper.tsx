@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { styled, SupersetTheme, t, useTheme } from '@superset-ui/core';
 import { Form, FormItem, FormProps } from 'src/components/Form';
 import Select from 'src/components/Select/Select';
-import { AntdForm, Col, Row } from 'src/components';
+import { Col, Row } from 'src/components';
 import { InputNumber } from 'src/components/Input';
 
 import {
@@ -187,8 +187,6 @@ export const FormattingPopoverContentDodoWrapper = ({
     { value: string; label: string }[]
   >([]);
 
-  const [form] = AntdForm.useForm(); // DODO added
-
   const alteredColorScheme = colorScheme.concat({
     value: 'custom',
     label: 'custom',
@@ -224,7 +222,7 @@ export const FormattingPopoverContentDodoWrapper = ({
     }
     setColorsValues(alteredColorScheme);
     setLoaded(true);
-  }, [alteredColorScheme, colorScheme, config]);
+  }, [config]);
 
   return (
     <>
@@ -235,7 +233,6 @@ export const FormattingPopoverContentDodoWrapper = ({
           initialValues={config}
           requiredMark="optional"
           layout="vertical"
-          form={form} // DODO added
         >
           {renderFormContent({
             rulesRequired,
@@ -243,7 +240,6 @@ export const FormattingPopoverContentDodoWrapper = ({
             colorScheme,
             colorsValues,
             chosenColor,
-            form,
             setChosenColor,
             shouldFormItemUpdate,
             renderOperatorFields,

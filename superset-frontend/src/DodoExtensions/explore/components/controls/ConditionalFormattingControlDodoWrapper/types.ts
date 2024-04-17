@@ -6,7 +6,6 @@ import {
   ConditionalFormattingControlProps,
   FormattingPopoverProps,
 } from 'src/explore/components/controls/ConditionalFormattingControl';
-import { FormInstance } from 'antd/lib/form';
 import { GetFieldValue } from './FormattingPopoverContentDodoWrapper';
 
 type RenderExistLinParams = {
@@ -39,7 +38,6 @@ type FormatingPopoverRenderFormContent = (params: {
   colorScheme: { value: string; label: string }[];
   colorsValues: { value: string; label: string }[];
   chosenColor: string;
-  form: FormInstance<any>;
   setChosenColor: React.Dispatch<React.SetStateAction<string>>;
   shouldFormItemUpdate(
     prevValues: ConditionalFormattingConfig,
