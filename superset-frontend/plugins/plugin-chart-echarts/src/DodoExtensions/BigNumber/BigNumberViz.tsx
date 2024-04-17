@@ -55,7 +55,9 @@ const bigNumberVizGetConditionalMessageInfo = (
     conditionalMessageColorFormatters!.forEach(formatter => {
       if (typeof bigNumber === 'number') {
         colorConditionalMessage = formatter.getColorFromValue(bigNumber);
-        conditionalMessage = formatter.messageEN ?? formatter.messageRU;
+        // conditionalMessage = formatter.messageEN ?? formatter.messageRU;
+        conditionalMessage =
+          formatter.message || formatter.messageEN || formatter.messageRU;
       }
     });
   }

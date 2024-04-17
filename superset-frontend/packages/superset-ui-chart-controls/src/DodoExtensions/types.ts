@@ -9,6 +9,7 @@ type ConditionalFormattingConfigDodo = {
 type ColorFormattersWithConditionalMessage = Array<{
   column: string;
   getColorFromValue: (value: number) => string | undefined;
+  message?: string;
   messageRU?: string;
   messageEN?: string;
 }>;

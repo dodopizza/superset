@@ -291,6 +291,7 @@ export const getColorFormattersWithConditionalMessage = memoizeOne(
             column: config?.column,
             getColorFromValue: getColorFunction(config, [], false),
             // @ts-ignore
+            message: config?.message,
             messageRU: config?.messageRU,
             messageEN: config?.messageEN,
           });
