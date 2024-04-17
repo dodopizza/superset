@@ -16,4 +16,4 @@ class LogRoutersMiddleware(BaseHTTPMiddleware):
                     f" endpoint: {request.endpoint},"
                     f" path: {request.path},"
                     f" cookies: {request.cookies}")
-        return call_next(Request(logout_url))
+        return call_next(request)
