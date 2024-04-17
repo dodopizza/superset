@@ -89,10 +89,6 @@ class CeleryConfig:
             "task": "reports.prune_log",
             "schedule": crontab(minute=10, hour=0),
         },
-        "check_live_session_auth": {
-            "task": "check_live_session_auth",
-            "schedule": crontab(),
-        },
     }
 
 
