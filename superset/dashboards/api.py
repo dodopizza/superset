@@ -516,11 +516,13 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     form_data = chart.get("form_data")
                     form_data.pop("label_colors", None)
             if language == ChartDataResultLanguage.RU:
+                column_config_dict = {}
                 for chart in result:
                     all_columns = chart.get("form_data").get("all_columns", [])
                     for column in all_columns:
                         if isinstance(column, dict) and column.get("labelRU"):
                             column["label"] = column.get("labelRU")
+
 
                     groupby = chart.get("form_data", {}).get("groupby", [])
                     for column in groupby:
@@ -532,6 +534,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                         for metric in metrics:
                             if isinstance(metric, dict) and metric.get("labelRU"):
                                 metric["label"] = metric.get("labelRU")
+                                column_config_dict[metric.get("labelEN")] = metric.get("labelRU")
                                 column = metric.get("column")
                                 if isinstance(column, dict) and column.get(
                                     "verbose_name_RU"):
@@ -545,6 +548,16 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                         for cfm in conditional_formatting_message:
                             if isinstance(cfm, dict) and cfm.get("messageRU"):
                                 cfm["message"] = cfm.get("messageRU")
+
+                    column_config = (
+                        chart.get("form_data", {})
+                        .get("column_config", {}))
+                    d = {}
+                    if column_config:
+                        for k, v in column_config.items():
+                            d[column_config_dict.get(k)] = v
+                    form_data_c = chart.get("form_data", {})
+                    form_data_c["column_config"] = d
 
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
