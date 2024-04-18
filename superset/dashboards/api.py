@@ -523,7 +523,6 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                         if isinstance(column, dict) and column.get("labelRU"):
                             column["label"] = column.get("labelRU")
 
-
                     groupby = chart.get("form_data", {}).get("groupby", [])
                     for column in groupby:
                         if isinstance(column, dict) and column.get("labelRU"):
@@ -565,6 +564,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                         for item in conditional_formatting:
                             column = item["column"]
                             item["column"] = column_config_dict.get(column)
+
+            logger.debug(result)
 
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
