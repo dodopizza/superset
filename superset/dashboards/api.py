@@ -563,7 +563,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                                               .get("conditional_formatting", []))
                     if conditional_formatting:
                         for item in conditional_formatting:
-                            item["column"] = d.get(item.get("column"))
+                            column = item["column"]
+                            item["column"] = column_config_dict.get(column)
 
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
