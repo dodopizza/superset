@@ -559,6 +559,12 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     form_data_c = chart.get("form_data", {})
                     form_data_c["column_config"] = d
 
+                    conditional_formatting = (chart.get("form_data", {})
+                                              .get("conditional_formatting", []))
+                    if conditional_formatting:
+                        for item in conditional_formatting:
+                            item["column"] = d.get(item.get("column"))
+
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
             return self.response_403()
