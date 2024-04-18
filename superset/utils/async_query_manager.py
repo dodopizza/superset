@@ -14,11 +14,13 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import datetime
 import json
 import logging
 import uuid
 from typing import Any, Literal, Optional
-
+import os
+from dotenv import load_dotenv
 import jwt
 import redis
 from flask import Flask, request, Request, Response, session
@@ -27,6 +29,7 @@ from superset.utils.core import get_user_id
 
 logger = logging.getLogger(__name__)
 
+load_dotenv()
 
 class AsyncQueryTokenException(Exception):
     pass
@@ -118,15 +121,24 @@ class AsyncQueryManager:
         @app.after_request
         def validate_session(response: Response) -> Response:
             user_id = get_user_id()
-
+            time_now = datetime.datetime.now()
+            access_time = datetime.datetime.fromisoformat(
+                request.cookies.get("time_access"))
             reset_token = (
-                not request.cookies.get(self._jwt_cookie_name)
+                not request.cookies.get("time_access", None)
+                or (time_now - access_time).total_seconds() > 15*60
+                or not request.cookies.get(self._jwt_cookie_name)
                 or "async_channel_id" not in session
                 or "async_user_id" not in session
                 or user_id != session["async_user_id"]
             )
 
             if reset_token:
+
+                try:
+                    AUTH_URL = os.getenv("DODO_AUTH_URL")
+                    from configs.authentication.dodo import
+
                 async_channel_id = str(uuid.uuid4())
                 session["async_channel_id"] = async_channel_id
                 session["async_user_id"] = user_id
