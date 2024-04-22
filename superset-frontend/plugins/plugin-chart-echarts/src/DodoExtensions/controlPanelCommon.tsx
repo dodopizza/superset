@@ -1,5 +1,5 @@
 import { t } from '@superset-ui/core';
-import { LabelPositionDoDo } from '../types';
+import { LabelPositionDoDo } from './types';
 
 const chartOptionValuePositionDoDo = (controlSuffix: string) => ({
   name: `value_align${controlSuffix}`,

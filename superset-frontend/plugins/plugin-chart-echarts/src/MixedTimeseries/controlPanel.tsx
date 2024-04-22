@@ -17,7 +17,7 @@ import {
 import { DEFAULT_FORM_DATA } from './types';
 import { EchartsTimeseriesSeriesType } from '../Timeseries/types';
 import { legendSection, richTooltipSection } from '../controls';
-import { chartOptionValuePositionDoDo } from '../DodoExtensions/MixedTimeseries/controlPanel';
+import { chartOptionValuePositionDoDo } from '../DodoExtensions/controlPanelCommon';
 
 const {
   area,
