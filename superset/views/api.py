@@ -90,7 +90,7 @@ class Api(BaseSupersetView):
 
     @api
     @handle_api_exception
-    @protect
+    @has_access_api
     @rison(get_time_range_schema)
     @expose("/v1/time_range/", methods=("GET",))
     def time_range(self, **kwargs: Any) -> FlaskResponse:
