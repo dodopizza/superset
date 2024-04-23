@@ -111,13 +111,11 @@ def get_samples(  # pylint: disable=too-many-arguments
 
     try:
         count_star_data = count_star_instance.get_payload()["queries"][0]
-        logger.debug(count_star_data)
 
         if count_star_data.get("status") == QueryStatus.FAILED:
             raise DatasetSamplesFailedError(count_star_data.get("error"))
 
         sample_data = samples_instance.get_payload()["queries"][0]
-        logger.debug(sample_data)
         if sample_data.get("status") == QueryStatus.FAILED:
             QueryCacheManager.delete(count_star_data.get("cache_key"), CacheRegion.DATA)
             raise DatasetSamplesFailedError(sample_data.get("error"))
