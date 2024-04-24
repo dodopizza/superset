@@ -94,6 +94,8 @@ export default function transformProps(chartProps) {
     yAxis2Showminmax,
     yLogScale,
     sliceId,
+    // DODO added #20704667
+    xAxisBounds,
   } = formData;
 
   let {
@@ -192,5 +194,7 @@ export default function transformProps(chartProps) {
     yField: y,
     yIsLogScale: yLogScale,
     sliceId,
+    // DODO added #20704667
+    xAxisBounds,
   };
 }

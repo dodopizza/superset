@@ -37,6 +37,7 @@ import {
   leftMargin,
   yAxisBounds,
 } from '../NVD3Controls';
+import { xAxisBounds } from '../DodoExtensions/NVD3Controls';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -110,6 +111,7 @@ const config: ControlPanelConfig = {
           },
           xAxisShowMinmax,
         ],
+        [xAxisBounds], // DODO added #20704667
       ],
     },
     {

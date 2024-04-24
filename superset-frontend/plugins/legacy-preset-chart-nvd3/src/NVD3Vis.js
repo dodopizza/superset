@@ -72,6 +72,7 @@ import {
   numberOrAutoType,
   stringOrObjectWithLabelType,
 } from './PropTypes';
+import { applyXAxisBounds } from './DodoExtensions/NVD3Vis';
 
 const NO_DATA_RENDER_DATA = [
   { text: 'No data', dy: '-.75em', class: 'header' },
@@ -241,6 +242,8 @@ const propTypes = {
   sizeField: stringOrObjectWithLabelType,
   // time-pivot only
   baseColor: rgbObjectType,
+  // DODO added #20704667
+  xAxisBounds: PropTypes.arrayOf(PropTypes.number),
 };
 
 const NOOP = () => {};
@@ -301,6 +304,8 @@ function nvd3Vis(element, props) {
     yField,
     yIsLogScale,
     sliceId,
+    // DODO added #20704667
+    xAxisBounds,
   } = props;
 
   const isExplore = document.querySelector('#explorer-container') !== null;
@@ -772,6 +777,15 @@ function nvd3Vis(element, props) {
       }
     };
     applyYAxisBounds();
+    // DODO added start #20704667
+    applyXAxisBounds({
+      chart,
+      xAxisBounds,
+      vizType,
+      isVizTypes,
+      data,
+    });
+    // DODO stop #20704667
 
     // Also reapply on each state change to account for enabled/disabled series
     if (chart.dispatch && chart.dispatch.stateChange) {
