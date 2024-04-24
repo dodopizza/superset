@@ -96,6 +96,7 @@ export default function transformProps(chartProps) {
     sliceId,
     // DODO added #20704667
     xAxisBounds,
+    bubbleSizeFormat,
   } = formData;
 
   let {
@@ -196,5 +197,6 @@ export default function transformProps(chartProps) {
     sliceId,
     // DODO added #20704667
     xAxisBounds,
+    bubbleSizeFormat,
   };
 }

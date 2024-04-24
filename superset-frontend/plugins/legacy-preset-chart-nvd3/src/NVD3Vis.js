@@ -244,6 +244,7 @@ const propTypes = {
   baseColor: rgbObjectType,
   // DODO added #20704667
   xAxisBounds: PropTypes.arrayOf(PropTypes.number),
+  bubbleSizeFormat: PropTypes.string,
 };
 
 const NOOP = () => {};
@@ -306,6 +307,7 @@ function nvd3Vis(element, props) {
     sliceId,
     // DODO added #20704667
     xAxisBounds,
+    bubbleSizeFormat,
   } = props;
 
   const isExplore = document.querySelector('#explorer-container') !== null;
@@ -501,7 +503,8 @@ function nvd3Vis(element, props) {
             sizeField,
             xFormatter: getTimeOrNumberFormatter(xAxisFormat),
             yFormatter: getTimeOrNumberFormatter(yAxisFormat),
-            sizeFormatter: formatter,
+            // sizeFormatter: formatter, // DODO commented #20704667
+            sizeFormatter: getTimeOrNumberFormatter(bubbleSizeFormat), // DODO added #20704667
           }),
         );
         chart.pointRange([5, maxBubbleSize ** 2]);

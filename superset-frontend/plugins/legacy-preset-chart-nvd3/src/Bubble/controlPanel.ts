@@ -38,6 +38,7 @@ import {
   yAxisBounds,
 } from '../NVD3Controls';
 import { xAxisBounds } from '../DodoExtensions/NVD3Controls';
+import { bubbleCustomize } from '../DodoExtensions/Bubble/controlPanel';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -125,6 +126,7 @@ const config: ControlPanelConfig = {
         [yAxisBounds],
       ],
     },
+    { ...bubbleCustomize }, // DODO added #20704667
   ],
   controlOverrides: {
     color_scheme: {
