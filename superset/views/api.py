@@ -92,6 +92,7 @@ class Api(BaseSupersetView):
         return self.json_response(form_data)
 
     @api
+    @has_access_api
     @handle_api_exception
     @rison(get_time_range_schema)
     @expose("/v1/time_range/", methods=("GET",))
