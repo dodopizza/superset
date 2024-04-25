@@ -102,6 +102,7 @@ class Api(BaseSupersetView):
 
         logger.debug(f"base_permission = {self.base_permissions}")
         logger.debug(f"method_permission_name = {self.method_permission_name}")
+        logger.debug(f"self.class_permission_name = {self.class_permission_name}")
         try:
             since, until = get_since_until(time_range)
             result = {
