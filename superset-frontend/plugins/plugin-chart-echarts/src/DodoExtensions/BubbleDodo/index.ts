@@ -1,6 +1,7 @@
 import { ChartMetadata, ChartPlugin, t } from '@superset-ui/core';
 import controlPanel from './controlPanel';
 import thumbnail from './images/thumbnail.png';
+import transformProps from './transformProps';
 
 const metadata = new ChartMetadata({
   category: t('Correlation'),
@@ -24,7 +25,7 @@ const metadata = new ChartMetadata({
     t('DODOIS_friendly'),
   ],
   thumbnail,
-  useLegacyApi: true,
+  // useLegacyApi: true,
 });
 
 export default class EChartBubbleChartDodo extends ChartPlugin {
@@ -32,7 +33,7 @@ export default class EChartBubbleChartDodo extends ChartPlugin {
     super({
       loadChart: () => import('./BubbleDodo'),
       metadata,
-      transformProps: () => ({}),
+      transformProps,
       controlPanel,
     });
   }

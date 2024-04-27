@@ -15,7 +15,7 @@ import { EchartsBarChartProps, EchartsBarFormData } from './types';
 /**
  * @deprecated in version 3.0.
  */
-export default class EchartsPieChartPluginDodo extends ChartPlugin<
+export default class EchartsBarChartPluginDodo extends ChartPlugin<
   EchartsBarFormData,
   EchartsBarChartProps
 > {

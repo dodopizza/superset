@@ -48,7 +48,7 @@ import {
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
   EchartsSunburstChartPlugin,
-  EchartsPieChartPluginDodo,
+  EchartsBarChartPluginDodo,
   EChartBubbleChartDodo,
 } from '@superset-ui/plugin-chart-echarts';
 import {
@@ -147,10 +147,10 @@ export default class MainPreset extends Preset {
         // new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         ...experimentalplugins,
         // DODO added
-        new EchartsPieChartPluginDodo().configure({
-          key: 'echarts_bar',
+        new EchartsBarChartPluginDodo().configure({
+          key: 'echarts_bar_dodo',
         }),
-        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble' }),
+        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
       ],
     });
   }

@@ -1,6 +1,6 @@
 // DODO was here
 // created plugins by DODO
-export { default as EchartsPieChartPluginDodo } from './DodoExtensions/BarDodo';
+export { default as EchartsBarChartPluginDodo } from './DodoExtensions/BarDodo';
 export { default as EChartBubbleChartDodo } from './DodoExtensions/BubbleDodo';
 // SUPERSET plugins
 export { default as EchartsBoxPlotChartPlugin } from './BoxPlot';
