@@ -49,6 +49,7 @@ import {
   EchartsTreeChartPlugin,
   EchartsSunburstChartPlugin,
   EchartsPieChartPluginDodo,
+  EChartBubbleChartDodo,
 } from '@superset-ui/plugin-chart-echarts';
 import {
   SelectFilterPlugin,
@@ -149,6 +150,7 @@ export default class MainPreset extends Preset {
         new EchartsPieChartPluginDodo().configure({
           key: 'echarts_bar',
         }),
+        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble' }),
       ],
     });
   }
