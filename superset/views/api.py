@@ -48,6 +48,7 @@ logger = logging.getLogger(__name__)
 
 class Api(BaseSupersetView):
     query_context_factory = None
+    allow_browser_login = True
 
     @event_logger.log_this
     @api
@@ -93,6 +94,7 @@ class Api(BaseSupersetView):
 
     @api
     @has_access_api
+    @protect
     @handle_api_exception
     @rison(get_time_range_schema)
     @expose("/v1/time_range/", methods=("GET",))
