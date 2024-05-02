@@ -17,7 +17,6 @@
 from __future__ import annotations
 
 from typing import Any, TYPE_CHECKING
-import logging
 
 import simplejson as json
 from flask import request
@@ -42,8 +41,6 @@ if TYPE_CHECKING:
     from superset.common.query_context_factory import QueryContextFactory
 
 get_time_range_schema = {"type": "string"}
-
-logger = logging.getLogger(__name__)
 
 
 class Api(BaseSupersetView):
@@ -102,9 +99,6 @@ class Api(BaseSupersetView):
         """Get actually time range from human readable string or datetime expression"""
         time_range = kwargs["rison"]
 
-        logger.debug(f"base_permission = {self.base_permissions}")
-        logger.debug(f"method_permission_name = {self.method_permission_name}")
-        logger.debug(f"self.class_permission_name = {self.class_permission_name}")
         try:
             since, until = get_since_until(time_range)
             result = {
