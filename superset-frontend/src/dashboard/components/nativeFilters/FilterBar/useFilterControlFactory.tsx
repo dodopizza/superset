@@ -35,6 +35,10 @@ export const useFilterControlFactory = (
   onFilterSelectionChange: (filter: Filter, dataMask: DataMask) => void,
 ) => {
   const filters = useFilters();
+
+  console.log(`useFilterControlFactory filters`, filters);
+  console.log(`useFilterControlFactory dataMaskSelected`, dataMaskSelected);
+
   const filterValues = useMemo(() => Object.values(filters), [filters]);
   const filtersWithValues: (Filter | Divider)[] = useMemo(
     () =>
@@ -45,6 +49,8 @@ export const useFilterControlFactory = (
     [filterValues, dataMaskSelected],
   );
 
+  console.log(`useFilterControlFactory filtersWithValues`, filtersWithValues);
+
   const filterControlFactory = useCallback(
     (
       index: number,
@@ -52,6 +58,7 @@ export const useFilterControlFactory = (
       overflow: boolean,
     ) => {
       const filter = filtersWithValues[index];
+      console.log(`useFilterControlFactory filter`, filter);
       if (isFilterDivider(filter)) {
         return (
           <FilterDivider

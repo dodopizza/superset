@@ -126,6 +126,9 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
     ],
     (chartType, overrideTransformProps) => {
       if (chartType) {
+        console.log(
+          `SuperChartCore.createLoadableRenderer chartType:${chartType} overrideTransformProps:${overrideTransformProps}`,
+        );
         const Renderer = createLoadableRenderer({
           loader: {
             Chart: () => getChartComponentRegistry().getAsPromise(chartType),
@@ -154,15 +157,25 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
     const { Chart, transformProps } = loaded;
     const { chartProps, preTransformProps, postTransformProps } = props;
 
+    // debugger;
+    console.log(
+      `SuperChartCore.renderChart ${Chart.displayName} chartProps`,
+      chartProps,
+    );
+
     return (
-      <Chart
-        {...this.processChartProps({
-          chartProps,
-          preTransformProps,
-          transformProps,
-          postTransformProps,
-        })}
-      />
+      <>
+        <span>renderChart start</span>
+        <Chart
+          {...this.processChartProps({
+            chartProps,
+            preTransformProps,
+            transformProps,
+            postTransformProps,
+          })}
+        />
+        <span>renderChart stop</span>
+      </>
     );
   };
 
@@ -197,6 +210,7 @@ export default class SuperChartCore extends React.PureComponent<Props, {}> {
       onRenderFailure,
     } = this.props;
 
+    // debugger;
     // Create LoadableRenderer and start preloading
     // the lazy-loaded Chart components
     const Renderer = this.createLoadableRenderer(this.props);

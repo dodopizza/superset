@@ -80,6 +80,8 @@ const FilterControls: FC<FilterControlsProps> = ({
         : FilterBarOrientation.VERTICAL,
   );
 
+  console.log(`FilterControls dataMaskSelected`, dataMaskSelected);
+
   const { outlinedFilterId, lastUpdated } = useFilterOutlined();
 
   const [overflowedIds, setOverflowedIds] = useState<string[]>([]);
