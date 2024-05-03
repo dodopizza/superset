@@ -211,10 +211,6 @@ const FilterBar: React.FC<FiltersBarProps> = ({
     previousDashboardId,
   ]);
 
-  console.log(`FilterBar/index filters`, filters);
-  console.log(`FilterBar/index dataMaskSelected`, dataMaskSelected);
-  console.log(`FilterBar/index dataMaskApplied`, dataMaskApplied);
-
   const dataMaskAppliedText = JSON.stringify(dataMaskApplied);
 
   useEffect(() => {

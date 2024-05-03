@@ -158,8 +158,6 @@ const VerticalFilterBar: React.FC<VerticalBarProps> = ({
   toggleFiltersBar,
   width,
 }) => {
-  console.log(`VerticalFilterBar dataMaskSelected`, dataMaskSelected);
-
   const [editFilterSetId, setEditFilterSetId] = useState<number | null>(null);
   const filterSets = useFilterSets();
   const filterSetFilterValues = Object.values(filterSets);

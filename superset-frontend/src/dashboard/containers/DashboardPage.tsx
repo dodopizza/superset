@@ -226,9 +226,6 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
             dispatch(getFilterSets(id));
           }
         }
-
-        console.log(`DashboardPage useEffect dataMask`, dataMask);
-
         dispatch(
           hydrateDashboard({
             history,

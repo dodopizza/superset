@@ -42,11 +42,6 @@ export default function transformProps(chartProps: ChartProps) {
   } = hooks;
   const { data } = queriesData[0];
 
-  // debugger;
-
-  console.log(`Time transformProps filterState`, filterState);
-  console.log(`Time transformProps chartProps`, chartProps);
-
   return {
     data,
     filterState,

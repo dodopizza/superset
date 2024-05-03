@@ -179,13 +179,6 @@ class SuperChart extends React.PureComponent<Props, {}> {
       theme,
     });
 
-    console.log(
-      `SuperChart.renderChart chartType:${chartType} chartProps:`,
-      chartProps,
-      `rest:`,
-      rest,
-    );
-
     let chart;
     // Render the no results component if the query data is null or empty
     const noResultQueries =
@@ -206,7 +199,6 @@ class SuperChart extends React.PureComponent<Props, {}> {
         />
       );
     } else {
-      // debugger;
       const chartWithoutWrapper = (
         <SuperChartCore
           ref={this.setRef}

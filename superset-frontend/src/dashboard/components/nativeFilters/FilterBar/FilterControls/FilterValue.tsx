@@ -168,7 +168,6 @@ const FilterValue: React.FC<FilterControlProps> = ({
               const result = 'result' in json ? json.result[0] : json;
 
               if (response.status === 200) {
-                debugger;
                 setState([result]);
                 handleFilterLoadFinish();
               } else if (response.status === 202) {
@@ -212,7 +211,6 @@ const FilterValue: React.FC<FilterControlProps> = ({
               const result = 'result' in json ? json.result[0] : json;
 
               if (response.status === 200) {
-                debugger;
                 setState([result]);
                 handleFilterLoadFinish();
               } else if (response.status === 202) {
@@ -347,38 +345,29 @@ const FilterValue: React.FC<FilterControlProps> = ({
     );
   }
 
-  console.log(
-    `FilterValue filter.dataMask?.filterState)`,
-    filter.dataMask?.filterState,
-  );
-
   return (
     <StyledDiv data-test="form-item-value">
       {isLoading ? (
         <Loading position="inline-centered" />
       ) : (
-        <>
-          <span>100</span>
-          <SuperChart
-            height={HEIGHT}
-            width="100%"
-            showOverflow={showOverflow}
-            formData={formData}
-            displaySettings={displaySettings}
-            parentRef={parentRef}
-            inputRef={inputRef}
-            // For charts that don't have datasource we need workaround for empty placeholder
-            queriesData={hasDataSource ? state : queriesDataPlaceholder}
-            chartType={filterType}
-            behaviors={behaviors}
-            filterState={filterState}
-            ownState={filter.dataMask?.ownState}
-            enableNoResults={metadata?.enableNoResults}
-            isRefreshing={isRefreshing}
-            hooks={hooks}
-          />
-          <span>101</span>
-        </>
+        <SuperChart
+          height={HEIGHT}
+          width="100%"
+          showOverflow={showOverflow}
+          formData={formData}
+          displaySettings={displaySettings}
+          parentRef={parentRef}
+          inputRef={inputRef}
+          // For charts that don't have datasource we need workaround for empty placeholder
+          queriesData={hasDataSource ? state : queriesDataPlaceholder}
+          chartType={filterType}
+          behaviors={behaviors}
+          filterState={filterState}
+          ownState={filter.dataMask?.ownState}
+          enableNoResults={metadata?.enableNoResults}
+          isRefreshing={isRefreshing}
+          hooks={hooks}
+        />
       )}
     </StyledDiv>
   );

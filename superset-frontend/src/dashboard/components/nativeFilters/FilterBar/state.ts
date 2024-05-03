@@ -42,9 +42,6 @@ export const useFilters = () => {
   const nativeFilters = useSelector<RootState, Filters>(
     state => state.nativeFilters.filters,
   );
-  console.log(`useFilters preselectedNativeFilters`, preselectedNativeFilters);
-  console.log(`useFilters nativeFilters`, nativeFilters);
-
   return useMemo(
     () =>
       Object.entries(nativeFilters).reduce(
@@ -65,8 +62,6 @@ export const useNativeFiltersDataMask = () => {
   const dataMask = useSelector<RootState, DataMaskStateWithId>(
     state => state.dataMask,
   );
-
-  console.log(`useNativeFiltersDataMask dataMask`, dataMask);
 
   return useMemo(
     () =>

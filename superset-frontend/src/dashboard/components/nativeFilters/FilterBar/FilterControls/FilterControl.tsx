@@ -265,14 +265,9 @@ const FilterControl = ({
     return FilterCardPlacement.Right;
   }, [orientation, overflow]);
 
-  // debugger;
-
-  console.log(`FilterControl filter`, filter);
-
   return (
     <>
       <InPortal node={portalNode}>
-        <span>1</span>
         <FilterValue
           dataMaskSelected={dataMaskSelected}
           filter={filter}
@@ -285,7 +280,6 @@ const FilterControl = ({
           overflow={overflow}
           validateStatus={validateStatus}
         />
-        <span>2</span>
       </InPortal>
       <FilterControlContainer
         layout={
@@ -305,9 +299,7 @@ const FilterControl = ({
               required={filter?.controlValues?.enableEmptyFilter}
               validateStatus={validateStatus}
             >
-              <span>3</span>
               <OutPortal node={portalNode} />
-              <span>30</span>
             </FormItem>
           </div>
         </FilterCard>

@@ -82,8 +82,6 @@ export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
     handleTimeRangeChange(filterState.value);
   }, [filterState.value]);
 
-  console.log(`filterState:${JSON.stringify(filterState)}`, filterState);
-
   return props.formData?.inView ? (
     <TimeFilterStyles width={width} height={height}>
       <ControlContainer
