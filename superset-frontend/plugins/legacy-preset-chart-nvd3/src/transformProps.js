@@ -116,6 +116,9 @@ export default function transformProps(chartProps) {
       }))
     : rawData;
 
+  console.log(`NVD3 transformProps queriesData`, queriesData);
+  console.log(`NVD3 transformProps rawData`, rawData);
+
   if (vizType === 'pie') {
     numberFormat = numberFormat || grabD3Format(datasource, metric);
   } else if (
