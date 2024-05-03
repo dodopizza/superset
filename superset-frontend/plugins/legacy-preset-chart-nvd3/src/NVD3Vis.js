@@ -248,7 +248,7 @@ const propTypes = {
 };
 
 const NOOP = () => {};
-const formatter = getNumberFormatter();
+// const formatter = getNumberFormatter();
 
 function nvd3Vis(element, props) {
   const {
