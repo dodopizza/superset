@@ -5,7 +5,9 @@ import {
   QueryFormData,
 } from '@superset-ui/core';
 
-type BubbleDodoFormData = QueryFormData & {};
+type BubbleDodoFormData = QueryFormData & {
+  max_bubble_size: string;
+};
 
 export interface BubbleDodoTransformProps extends ChartProps {
   formData: BubbleDodoFormData;

@@ -7,6 +7,7 @@ import {
   D3_FORMAT_DOCS,
   D3_FORMAT_OPTIONS,
   D3_TIME_FORMAT_OPTIONS,
+  formatSelectOptions,
   getStandardizedControls,
   sections,
 } from '@superset-ui/chart-controls';
@@ -182,27 +183,27 @@ const config: ControlPanelConfig = {
         ['x'],
         ['y'],
         ['adhoc_filters'],
-        // ['size'],
-        // [
-        //   {
-        //     name: 'max_bubble_size',
-        //     config: {
-        //       type: 'SelectControl',
-        //       freeForm: true,
-        //       label: t('Max Bubble Size'),
-        //       default: '25',
-        //       choices: formatSelectOptions([
-        //         '5',
-        //         '10',
-        //         '15',
-        //         '25',
-        //         '50',
-        //         '75',
-        //         '100',
-        //       ]),
-        //     },
-        //   },
-        // ],
+        ['size'],
+        [
+          {
+            name: 'max_bubble_size',
+            config: {
+              type: 'SelectControl',
+              freeForm: true,
+              label: t('Max Bubble Size'),
+              default: '25',
+              choices: formatSelectOptions([
+                '5',
+                '10',
+                '15',
+                '25',
+                '50',
+                '75',
+                '100',
+              ]),
+            },
+          },
+        ],
         // ['limit', null],
       ],
     },
