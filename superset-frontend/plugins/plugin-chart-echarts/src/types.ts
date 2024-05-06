@@ -36,6 +36,7 @@ export interface EchartsProps {
   zrEventHandlers?: EventHandlers;
   selectedValues?: Record<number, string>;
   forceClear?: boolean;
+  ecStatTransformRegister?: 'clustering'; // DODO added #32933719
   refs: Refs;
 }
 
