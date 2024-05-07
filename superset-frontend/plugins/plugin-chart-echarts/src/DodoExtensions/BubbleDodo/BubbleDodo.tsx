@@ -26,6 +26,7 @@ export default function BubbleDodo({
   height,
   width,
   data,
+  showLabels,
   // @ts-ignore
   refs,
   ...rest
@@ -34,7 +35,16 @@ export default function BubbleDodo({
     title: {
       text: 'ECharts Getting Started Example',
     },
-    tooltip: {},
+    tooltip: {
+      show: true,
+      // Text of labels.
+      formatter(param: { data: Array<number | string> }) {
+        return `${param.data[3]} <br/> 
+                    x:${param.data[0]} <br/> 
+                    y:${param.data[1]}`;
+      },
+      position: 'top',
+    },
     legend: {
       data: ['one', 'two'],
     },
@@ -43,21 +53,55 @@ export default function BubbleDodo({
     series: [
       {
         name: 'one',
-        // symbolSize: 10,
-        symbolSize(data) {
+        symbolSize(data: Array<number | string>) {
           return data[2];
         },
         data: data.slice(1, 100),
         type: 'scatter',
+        // emphasis: {
+        //   // focus: 'series',
+        //   label: {
+        //     show: true,
+        //     formatter(param) {
+        //       return param.data[3];
+        //     },
+        //     position: 'top',
+        //   },
+        // },
+        label: {
+          show: showLabels,
+          // Text of labels.
+          formatter(param: { data: Array<number | string> }) {
+            return param.data[3];
+          },
+          position: 'top',
+        },
       },
       {
         name: 'two',
-        // symbolSize: 10,
-        symbolSize(data) {
+        symbolSize(data: number) {
           return data[2];
         },
         data: data.slice(101),
         type: 'scatter',
+        // emphasis: {
+        //   // focus: 'series',
+        //   label: {
+        //     show: true,
+        //     formatter(param) {
+        //       return param.data[3];
+        //     },
+        //     position: 'top',
+        //   },
+        // },
+        label: {
+          show: showLabels,
+          // Text of labels.
+          formatter(param: { data: Array<number | string> }) {
+            return param.data[3];
+          },
+          position: 'top',
+        },
       },
     ],
   };

@@ -6,7 +6,8 @@ import {
 } from '@superset-ui/core';
 
 type BubbleDodoFormData = QueryFormData & {
-  max_bubble_size: string;
+  maxBubbleSize: string;
+  showLabels: boolean;
 };
 
 export interface BubbleDodoTransformProps extends ChartProps {
@@ -17,6 +18,7 @@ export interface BubbleDodoTransformProps extends ChartProps {
 export type BubbleDodoComponentProps = {
   height: number;
   width: number;
-  formData: BubbleDodoFormData;
+  // formData: BubbleDodoFormData;
   data: DataRecordValue[][];
+  showLabels: boolean;
 };

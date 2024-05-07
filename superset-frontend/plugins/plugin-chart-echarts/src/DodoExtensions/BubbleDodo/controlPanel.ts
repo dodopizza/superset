@@ -5,7 +5,6 @@ import {
   ControlPanelConfig,
   CustomControlItem,
   D3_FORMAT_DOCS,
-  D3_FORMAT_OPTIONS,
   D3_TIME_FORMAT_OPTIONS,
   formatSelectOptions,
   getStandardizedControls,
@@ -207,55 +206,70 @@ const config: ControlPanelConfig = {
         // ['limit', null],
       ],
     },
-    // {
-    //   label: t('Chart Options'),
-    //   expanded: true,
-    //   tabOverride: 'customize',
-    //   controlSetRows: [['color_scheme'], [showLegend, null]],
-    // },
     {
-      label: t('X Axis'),
+      label: t('Chart Options'),
       expanded: true,
-      tabOverride: 'customize',
+      // tabOverride: 'customize',
       controlSetRows: [
-        [xAxisLabel, leftMargin],
+        // ['color_scheme'],
+        // [showLegend, null],
         [
           {
-            name: xAxisFormat.name,
-            config: {
-              ...xAxisFormat.config,
-              default: 'SMART_NUMBER',
-              choices: D3_FORMAT_OPTIONS,
-            },
-          },
-          xTicksLayout,
-        ],
-        [
-          {
-            name: 'x_log_scale',
+            name: 'show_labels',
             config: {
               type: 'CheckboxControl',
-              label: t('X Log Scale'),
-              default: false,
+              label: t('Show Labels'),
               renderTrigger: true,
-              description: t('Use a log scale for the X-axis'),
+              default: false,
+              description: t('Whether to display the labels.'),
             },
           },
-          xAxisShowMinmax,
         ],
       ],
     },
-    {
-      label: t('Y Axis'),
-      expanded: true,
-      tabOverride: 'customize',
-      controlSetRows: [
-        [yAxisLabel, bottomMargin],
-        ['y_axis_format', null],
-        [yLogScale, yAxisShowMinmax],
-        [yAxisBounds],
-      ],
-    },
+    // {
+    //   label: t('X Axis'),
+    //   expanded: true,
+    //   tabOverride: 'customize',
+    //   controlSetRows: [
+    //     [xAxisLabel, leftMargin],
+    //     [
+    //       {
+    //         name: xAxisFormat.name,
+    //         config: {
+    //           ...xAxisFormat.config,
+    //           default: 'SMART_NUMBER',
+    //           choices: D3_FORMAT_OPTIONS,
+    //         },
+    //       },
+    //       xTicksLayout,
+    //     ],
+    //     [
+    //       {
+    //         name: 'x_log_scale',
+    //         config: {
+    //           type: 'CheckboxControl',
+    //           label: t('X Log Scale'),
+    //           default: false,
+    //           renderTrigger: true,
+    //           description: t('Use a log scale for the X-axis'),
+    //         },
+    //       },
+    //       xAxisShowMinmax,
+    //     ],
+    //   ],
+    // },
+    // {
+    //   label: t('Y Axis'),
+    //   expanded: true,
+    //   tabOverride: 'customize',
+    //   controlSetRows: [
+    //     [yAxisLabel, bottomMargin],
+    //     ['y_axis_format', null],
+    //     [yLogScale, yAxisShowMinmax],
+    //     [yAxisBounds],
+    //   ],
+    // },
   ],
   controlOverrides: {
     color_scheme: {

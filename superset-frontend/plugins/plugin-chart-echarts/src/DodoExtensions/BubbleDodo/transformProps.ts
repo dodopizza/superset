@@ -9,6 +9,9 @@ const getAxisColumnName: (axisInfo: string | { labelEN: string }) => string =
     return axisInfo.labelEN;
   };
 
+const DEFAULT_MAX_BUBBLE_SIZE = '25';
+const DEFAULT_BUBBLE_SIZE = 10;
+
 export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const {
     height,
@@ -18,7 +21,9 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       x: axisXInfo,
       y: axisYInfo,
       size: bubbleSizeInfo,
-      max_bubble_size = '25',
+      maxBubbleSize,
+      series,
+      showLabels,
     },
   } = chartProps;
 
@@ -38,26 +43,31 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     }
   });
   const deltaSize = maxSize - minSize;
-  const sizeCoefficient = Number(max_bubble_size) / deltaSize;
+  const sizeCoefficient =
+    Number(maxBubbleSize || DEFAULT_MAX_BUBBLE_SIZE) / deltaSize;
 
   const data = rawData.map(item => {
     const absoluteSize = Number(item[getAxisColumnName(bubbleSizeInfo)]);
-    const size = absoluteSize ? absoluteSize * sizeCoefficient : 25;
+    const size = absoluteSize
+      ? absoluteSize * sizeCoefficient
+      : DEFAULT_BUBBLE_SIZE;
 
     return [
       item[getAxisColumnName(axisXInfo)],
       item[getAxisColumnName(axisYInfo)],
       size,
+      item[series],
     ];
   });
 
   console.log(`transformProps chartProps`, chartProps);
-  console.log(`transformProps rawData`, rawData);
+  // console.log(`transformProps rawData`, rawData);
   console.log(`transformProps data`, data);
 
   return {
     height,
     width,
     data,
+    showLabels,
   };
 }
