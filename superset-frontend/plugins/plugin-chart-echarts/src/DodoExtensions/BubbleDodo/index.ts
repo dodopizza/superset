@@ -13,13 +13,7 @@ const metadata = new ChartMetadata({
   name: t('EChart Bubble Chart'),
   tags: [
     // t('Multi-Dimensions'),
-    // t('Aesthetic'),
-    // t('Comparison'),
-    // t('Legacy'),
     t('Scatter'),
-    // t('Time'),
-    // t('Trend'),
-    // t('nvd3'),
     t('Popular'),
     t('ECharts'),
     t('DODOIS_friendly'),

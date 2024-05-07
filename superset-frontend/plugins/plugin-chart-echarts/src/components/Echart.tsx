@@ -26,8 +26,7 @@ import React, {
   useCallback,
 } from 'react';
 import { styled } from '@superset-ui/core';
-import { ECharts, init, registerTransform } from 'echarts'; // DODO added registerTransform #32933719
-import ecStat from 'echarts-stat'; // DODO added echarts-stat to package.json  #32933719
+import { ECharts, init } from 'echarts';
 import { EchartsHandler, EchartsProps, EchartsStylesProps } from '../types';
 
 const Styles = styled.div<EchartsStylesProps>`
@@ -43,7 +42,6 @@ function Echart(
     eventHandlers,
     zrEventHandlers,
     selectedValues = {},
-    ecStatTransformRegister, // DODO added start #32933719
     refs,
   }: EchartsProps,
   ref: React.Ref<EchartsHandler>,
@@ -68,12 +66,6 @@ function Echart(
     if (!divRef.current) return;
     if (!chartRef.current) {
       chartRef.current = init(divRef.current);
-      // DODO added start #32933719
-      if (ecStatTransformRegister === 'clustering') {
-        // @ts-ignore
-        registerTransform(ecStat.transform.clustering);
-      }
-      // DODO added stop #32933719
     }
 
     Object.entries(eventHandlers || {}).forEach(([name, handler]) => {

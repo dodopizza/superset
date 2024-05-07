@@ -61,7 +61,8 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   });
 
   console.log(`transformProps chartProps`, chartProps);
-  // console.log(`transformProps rawData`, rawData);
+  console.log(`transformProps formData`, chartProps.formData);
+  console.log(`transformProps rawData`, rawData);
   console.log(`transformProps data`, data);
 
   return {
