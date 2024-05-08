@@ -42,9 +42,6 @@ export function updateColorSchema(
   const colorMap = isString(labelColors)
     ? JSON.parse(labelColors)
     : labelColors;
-  console.log(`dashboardInfo => updateColorSchema metadata`, metadata);
-  console.log(`dashboardInfo => updateColorSchema labelColors`, labelColors);
-  console.log(`dashboardInfo => updateColorSchema colorMap`, colorMap);
   Object.keys(colorMap).forEach(label => {
     categoricalNamespace.setColor(label, colorMap[label]);
   });
@@ -56,16 +53,6 @@ export function dashboardInfoChanged(newInfo: { metadata: any }) {
 
   const categoricalNamespace = CategoricalColorNamespace.getNamespace(
     metadata?.color_namespace,
-  );
-
-  console.log(
-    `dashboardInfo => dashboardInfoChanged metadata?.shared_label_colors`,
-    metadata?.shared_label_colors,
-  );
-
-  console.log(
-    `dashboardInfo => dashboardInfoChanged metadata?.label_colors`,
-    metadata?.label_colors,
   );
 
   categoricalNamespace.resetColors();
