@@ -134,8 +134,13 @@ const DashboardContainer: FC<DashboardContainerProps> = ({ topLevelTabs }) => {
   }, [nativeFilterScopes, dashboardLayout, dispatch]);
 
   const verifyUpdateColorScheme = useCallback(() => {
+    console.log('DashboardContainer verifyUpdateColorScheme enter');
     const currentMetadata = dashboardInfo.metadata;
     if (currentMetadata?.color_scheme) {
+      console.log(
+        'DashboardContainer verifyUpdateColorScheme',
+        currentMetadata?.color_scheme,
+      );
       const metadata = { ...currentMetadata };
       const colorScheme = metadata?.color_scheme;
       const colorSchemeDomain = metadata?.color_scheme_domain || [];

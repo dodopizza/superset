@@ -190,6 +190,11 @@ export default function transformProps(
   }, {});
 
   const colorScale = CategoricalColorNamespace.getScale(colorScheme as string);
+
+  console.log(`transformProps ==================== colorScale`, colorScale);
+  console.log('transformProps colorScheme', colorScheme);
+  console.log(`transformProps formData.colorScheme`, formData.colorScheme);
+
   const rebasedData = rebaseForecastDatum(data, verboseMap);
   let xAxisLabel = getXAxisLabel(chartProps.rawFormData) as string;
   if (
@@ -270,6 +275,8 @@ export default function transformProps(
     const entryName = String(entry.name || '');
     const seriesName = inverted[entryName] || entryName;
     const colorScaleKey = getOriginalSeries(seriesName, array);
+
+    console.log('transformProps colorScaleKey', colorScaleKey);
 
     const transformedSeries = transformSeries(
       entry,

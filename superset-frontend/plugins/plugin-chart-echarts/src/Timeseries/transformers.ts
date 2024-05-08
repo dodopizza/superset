@@ -179,6 +179,7 @@ export function transformSeries(
     isHorizontal = false,
     queryIndex = 0,
     valueAlign, // DODO added #10688314
+    seriesKey,
   } = opts;
   const contexts = seriesContexts[name || ''] || [];
   const hasForecast =
@@ -228,6 +229,15 @@ export function transformSeries(
     color: colorScale(colorScaleKey, sliceId),
     opacity,
   };
+
+  console.log(
+    `!!!! transformSeries colorScaleKey colorScaleKey:|${colorScaleKey}| sliceId:|${sliceId}|`,
+  );
+  const testColor = colorScale(seriesKey || forecastSeries.name, sliceId);
+
+  console.log(`!!!! transformSeries testColor ${testColor}`);
+  console.log(`!!!! transformSeries itemStyle !!!!`, itemStyle);
+
   let emphasis = {};
   let showSymbol = false;
   if (!isConfidenceBand) {

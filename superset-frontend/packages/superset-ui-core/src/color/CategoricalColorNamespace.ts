@@ -40,6 +40,20 @@ export default class CategoricalColorNamespace {
   getScale(schemeId?: string) {
     const id = schemeId ?? getCategoricalSchemeRegistry().getDefaultKey() ?? '';
     const scheme = getCategoricalSchemeRegistry().get(id);
+
+    console.log(`class CategoricalColorNamespace getScale ================`);
+    console.log(`class CategoricalColorNamespace getScale  schemeId`, schemeId);
+    console.log(`class CategoricalColorNamespace getScale  id`, id);
+    console.log(`class CategoricalColorNamespace getScale  scheme`, scheme);
+    console.log(
+      `class CategoricalColorNamespace getScale new CategoricalColorScale`,
+      new CategoricalColorScale(scheme?.colors ?? [], this.forcedItems),
+    );
+    console.log(
+      `!!!!!class CategoricalColorNamespace getScale this.forcedItems!!!!`,
+      this.forcedItems,
+    );
+
     return new CategoricalColorScale(scheme?.colors ?? [], this.forcedItems);
   }
 
@@ -51,6 +65,10 @@ export default class CategoricalColorNamespace {
    * @param {*} forcedColor color
    */
   setColor(value: string, forcedColor: string) {
+    console.log(
+      `class CategoricalColorNamespace=>setColor value=|${value}| forcedColor=|${forcedColor}|`,
+    );
+    // debugger;
     this.forcedItems[stringifyAndTrim(value)] = forcedColor;
 
     return this;
@@ -91,5 +109,8 @@ export function getColor(
   Especially useful when a chart is booting for the first time
 */
 export function getScale(scheme?: string, namespace?: string) {
+  console.log(
+    `function getScale ================ scheme: |${scheme}| namespace: |${namespace}|`,
+  );
   return getNamespace(namespace).getScale(scheme);
 }
