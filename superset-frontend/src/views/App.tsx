@@ -40,6 +40,7 @@ import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
+import { OnBoardingEntryPoint } from '../DodoExtensions/onBoarding'; // DODO added #32839638
 
 setupApp();
 setupPlugins();
@@ -68,6 +69,8 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
+console.log(`App bootstrapData`, bootstrapData);
+
 const App = () => (
   <Router>
     <ScrollToTop />
@@ -89,6 +92,10 @@ const App = () => (
           </Route>
         ))}
       </Switch>
+
+      {/* DODO added #32839638 */}
+      <OnBoardingEntryPoint user={bootstrapData.user} />
+
       <ToastContainer />
     </RootContextProviders>
   </Router>
