@@ -33,7 +33,13 @@ export const StepOnePopup: FC<Props> = ({
   const { Title, Paragraph } = Typography;
 
   return (
-    <Modal show title="Onboarding" hideFooter onHide={onClose} width="1000px">
+    <Modal
+      show
+      title="You are welcome to superset"
+      hideFooter
+      onHide={onClose}
+      width="1000px"
+    >
       <Wrapper>
         <Row gutter={32}>
           <Col span={14}>

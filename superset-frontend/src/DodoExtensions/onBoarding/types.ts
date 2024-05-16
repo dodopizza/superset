@@ -1,3 +1,3 @@
-export type OnBoardingStepOneStorageInfo = {
+export type OnBoardingStorageInfo = {
   theTimeOfTheLastShow?: Date;
 };

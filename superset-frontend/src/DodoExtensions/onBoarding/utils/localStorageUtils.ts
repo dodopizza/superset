@@ -1,13 +1,11 @@
-import { ONBOARDING_STEP_ONE_LOCAL_STORAGE_KEY } from '../consts';
-import { OnBoardingStepOneStorageInfo } from '../types';
+import { ONBOARDING_LOCAL_STORAGE_KEY } from '../consts';
+import { OnBoardingStorageInfo } from '../types';
 
-export const getStepOneStorageInfo: () => OnBoardingStepOneStorageInfo = () => {
-  const fromStorage = localStorage.getItem(
-    ONBOARDING_STEP_ONE_LOCAL_STORAGE_KEY,
-  );
+export const getOnboardingStorageInfo: () => OnBoardingStorageInfo = () => {
+  const fromStorage = localStorage.getItem(ONBOARDING_LOCAL_STORAGE_KEY);
 
   if (fromStorage) {
-    const info: OnBoardingStepOneStorageInfo = JSON.parse(
+    const info: OnBoardingStorageInfo = JSON.parse(
       fromStorage,
       (key: string, value: any) => {
         if (key === 'theTimeOfTheLastShow') {
@@ -25,4 +23,10 @@ export const getStepOneStorageInfo: () => OnBoardingStepOneStorageInfo = () => {
   };
 };
 
-export const setStepOneStorageInfo = () => {};
+export const updateStorageTimeOfTheLastShow = () => {
+  const info: OnBoardingStorageInfo = {
+    theTimeOfTheLastShow: new Date(),
+  };
+
+  localStorage.setItem(ONBOARDING_LOCAL_STORAGE_KEY, JSON.stringify(info));
+};

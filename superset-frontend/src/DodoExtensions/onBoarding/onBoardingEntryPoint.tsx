@@ -1,44 +1,23 @@
-import React, { FC, useCallback, useState } from 'react';
-
+import React, { FC } from 'react';
 import { BootstrapUser } from '../../types/bootstrapTypes';
-import { getStepOneInfo } from './utils/getStepOneInfo';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
-import { StepOnePopupDto } from './components/stepOnePopup/stepOnePopup.dto';
-import { updateFIO } from './utils/onboardingService';
+import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
+import { useOnboarding } from './useOnboarding';
 
 type OnBoardingEntryPointProps = {
   user: BootstrapUser & {
     IsOnboardingFinished: boolean;
+    OnboardingStartedTime: Date;
   };
 };
 
 const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
-  const { showStepOne } = getStepOneInfo(user);
-  const [step, setStep] = useState<number | null>(showStepOne ? 1 : null);
-  const [fioUpdating, setFioUpdating] = useState<boolean>(false);
-
-  const closeOnboarding = useCallback(() => {
-    setStep(null);
-  }, []);
-
-  const toStepTwo = async (stepOneDto: StepOnePopupDto) => {
-    if (
-      user.firstName !== stepOneDto.firstName ||
-      user.lastName !== stepOneDto.lastName
-    ) {
-      await updateFIO(
-        stepOneDto.firstName,
-        stepOneDto.lastName,
-        setFioUpdating,
-      );
-    }
-    setStep(2);
-  };
+  const { step, toStepTwo, closeOnboarding, isUpdating } = useOnboarding(user);
 
   if (step === 1) {
     return (
       <StepOnePopup
-        isUpdating={fioUpdating}
+        isUpdating={isUpdating}
         onClose={closeOnboarding}
         firstName={user.firstName}
         lastName={user.lastName}
@@ -46,6 +25,9 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
         onNextStep={toStepTwo}
       />
     );
+  }
+  if (step === 2) {
+    return <StepTwoPopup onClose={closeOnboarding} />;
   }
 
   return null;
