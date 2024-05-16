@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -62,16 +62,6 @@ import {
 } from '../constants';
 
 setupClient();
-
-const StyledCollapseBtn = styled.button<{
-  isVisible: boolean;
-}>`
-  color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
-  background: none;
-  border: none;
-  position: relative;
-  padding-top: 8px;
-`;
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
   // TODO: DODO: duplicated logic in src/Superstructure/store.ts
@@ -510,9 +500,15 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       </>
     );
   }
-
-  const closeLeftNavigation = useCallback(() => setIsVisible(false), []);
-  const toggleLeftNavigation = useCallback(() => setIsVisible(v => !v), []);
+  const StyledCollapseBtn = styled.button<{
+    isVisible: boolean;
+  }>`
+    color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
+    background: none;
+    border: none;
+    position: relative;
+    padding-top: 8px;
+  `;
 
   return (
     <div>
@@ -531,7 +527,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                 stylesConfig={stylesConfig}
                 language={userLanguage}
                 isVisible={isVisible}
-                onNavigate={closeLeftNavigation}
               />
               <DashboardComponentWrapper
                 withNavigation={
@@ -540,7 +535,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
               >
                 <StyledCollapseBtn
                   type="button"
-                  onClick={toggleLeftNavigation}
+                  onClick={() => setIsVisible(!isVisible)}
                   isVisible={isVisible}
                 >
                   {isVisible && <Icons.Expand />}

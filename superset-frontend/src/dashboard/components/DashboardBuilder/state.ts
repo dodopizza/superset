@@ -70,14 +70,13 @@ export const useNativeFilters = () => {
   useEffect(() => {
     if (
       expandFilters === false ||
-      filterValues.length ===
-        0 /* && nativeFiltersEnabled  DODO commented #33605679 */
+      (filterValues.length === 0 && nativeFiltersEnabled)
     ) {
       toggleDashboardFiltersOpen(false);
     } else {
       toggleDashboardFiltersOpen(true);
     }
-  }, [expandFilters, filterValues.length, toggleDashboardFiltersOpen]);
+  }, [filterValues.length]);
 
   useEffect(() => {
     if (showDashboard) {
