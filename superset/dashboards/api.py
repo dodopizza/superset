@@ -84,6 +84,7 @@ from superset.models.embedded_dashboard import EmbeddedDashboard
 from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.utils.cache import etag_cache
+from superset.utils.pyroscope_utils import dashboard_wrapper
 from superset.utils.screenshots import DashboardScreenshot
 from superset.utils.urls import get_url_path
 from superset.views.base import generate_download_headers
@@ -309,6 +310,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     @with_dashboard
     @event_logger.log_this_with_extra_payload
+    @dashboard_wrapper
     # pylint: disable=arguments-differ
     def get(
         self,

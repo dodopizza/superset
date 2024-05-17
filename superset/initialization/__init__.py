@@ -20,7 +20,13 @@ import logging
 import os
 import sys
 from typing import Any, Callable, TYPE_CHECKING
-
+import pyroscope
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from pyroscope.otel import PyroscopeSpanProcessor
 import wtforms_json
 from deprecation import deprecated
 from flask import Flask, redirect
@@ -108,6 +114,25 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
                     return task_base.__call__(self, *args, **kwargs)
 
         celery_app.Task = AppContextTask
+
+    def configure_pyroscope(self) -> None:
+        provider = TracerProvider()
+        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+        provider.add_span_processor(PyroscopeSpanProcessor())
+
+        # Sets the global default tracer provider
+        trace.set_tracer_provider(provider)
+        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope:4040")
+        basic_auth_username = os.getenv("PYROSCOPE_BASIC_AUTH_USER", "")
+        basic_auth_password = os.getenv("PYROSCOPE_BASIC_AUTH_PASSWORD", "")
+        pyroscope.configure(
+            application_name='Superset',
+            server_address=server_addr,
+            basic_auth_username=basic_auth_username,  # for grafana cloud
+            basic_auth_password=basic_auth_password,  # for grafana cloud
+        )
+        FlaskInstrumentor().instrument_app(self.superset_app)
+
 
     def init_views(self) -> None:
         #
@@ -489,6 +514,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         self.configure_db_encrypt()
         self.setup_db()
         self.configure_celery()
+        self.configure_pyroscope()
         self.enable_profiling()
         self.setup_event_logger()
         self.setup_bundle_manifest()
