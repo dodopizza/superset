@@ -62,7 +62,7 @@ from superset.superset_typing import FlaskResponse
 from superset.tags.core import register_sqla_event_listeners
 from superset.utils.core import is_test, pessimistic_connection_handling
 from superset.utils.log import DBEventLogger, get_event_logger_from_cfg_value
-from superset.utils.pyroscope_utils import dashboard_wrapper
+from superset.utils.pyroscope_utils import PyroscopeMetrics
 
 if TYPE_CHECKING:
     from superset.app import SupersetApp
@@ -545,7 +545,9 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         )
 
     def setup_pyroscope_methods(self) -> None:
-        _pyroscope_methods["dashboard_wrapper"] = dashboard_wrapper
+        _pyroscope_methods["pyroscope_methods"] = self.superset_app.config.get(
+            "PYROSCOPE_METHODS", PyroscopeMetrics()
+        )
 
     def configure_data_sources(self) -> None:
         # Registering sources
