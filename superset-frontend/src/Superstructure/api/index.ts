@@ -136,8 +136,6 @@ export const API_HANDLER = {
       url: FULL_URL,
     };
 
-    console.log(`index.ts API_HANDLER.sendRequest params`, params);
-
     // @ts-ignore
     logger(params, FRONTEND_LOGGER);
 
