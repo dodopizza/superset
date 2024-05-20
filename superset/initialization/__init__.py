@@ -20,7 +20,13 @@ import logging
 import os
 import sys
 from typing import Any, Callable, TYPE_CHECKING
-
+import pyroscope
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from pyroscope.otel import PyroscopeSpanProcessor
 import wtforms_json
 from deprecation import deprecated
 from flask import Flask, redirect
@@ -31,6 +37,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from superset.constants import CHANGE_ME_SECRET_KEY
 from superset.extensions import (
+    _pyroscope_methods,
     _event_logger,
     APP_DIR,
     appbuilder,
@@ -55,6 +62,7 @@ from superset.superset_typing import FlaskResponse
 from superset.tags.core import register_sqla_event_listeners
 from superset.utils.core import is_test, pessimistic_connection_handling
 from superset.utils.log import DBEventLogger, get_event_logger_from_cfg_value
+from superset.utils.pyroscope_utils import PyroscopeMetrics
 
 if TYPE_CHECKING:
     from superset.app import SupersetApp
@@ -108,6 +116,24 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
                     return task_base.__call__(self, *args, **kwargs)
 
         celery_app.Task = AppContextTask
+
+    def configure_pyroscope(self) -> None:
+        provider = TracerProvider()
+        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+        provider.add_span_processor(PyroscopeSpanProcessor())
+        app_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "Superset")
+        # Sets the global default tracer provider
+        trace.set_tracer_provider(provider)
+        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope_app:4040")
+        basic_auth_username = os.getenv("PYROSCOPE_BASIC_AUTH_USER", "")
+        basic_auth_password = os.getenv("PYROSCOPE_BASIC_AUTH_PASSWORD", "")
+        pyroscope.configure(
+            application_name=app_name,
+            server_address=server_addr,
+            basic_auth_username=basic_auth_username,  # for grafana cloud
+            basic_auth_password=basic_auth_password,  # for grafana cloud
+        )
+        FlaskInstrumentor().instrument_app(self.superset_app)
 
     def init_views(self) -> None:
         #
@@ -489,8 +515,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         self.configure_db_encrypt()
         self.setup_db()
         self.configure_celery()
+        self.configure_pyroscope()
         self.enable_profiling()
         self.setup_event_logger()
+        self.setup_pyroscope_methods()
         self.setup_bundle_manifest()
         self.register_blueprints()
         self.configure_wtf()
@@ -514,6 +542,11 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
     def setup_event_logger(self) -> None:
         _event_logger["event_logger"] = get_event_logger_from_cfg_value(
             self.superset_app.config.get("EVENT_LOGGER", DBEventLogger())
+        )
+
+    def setup_pyroscope_methods(self) -> None:
+        _pyroscope_methods["pyroscope_methods"] = self.superset_app.config.get(
+            "PYROSCOPE_METHODS", PyroscopeMetrics()
         )
 
     def configure_data_sources(self) -> None:

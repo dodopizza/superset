@@ -16,6 +16,7 @@
 # under the License.
 from __future__ import annotations
 
+import time
 import functools
 import inspect
 import json
@@ -26,6 +27,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 from typing import Any, Callable, cast, Literal, TYPE_CHECKING
+import pyroscope
 
 from flask import current_app, g, request
 from flask_appbuilder.const import API_URI_RIS_KEY
@@ -273,6 +275,14 @@ class AbstractEventLogger(ABC):
         """Decorator that instrument `update_log_payload` to kwargs"""
         return self._wrapper(f, allow_extra_payload=True)
 
+    def dashboard_wrapper(self, func):
+        def wrapper(*args, **kwargs):
+            with pyroscope.tag_wrapper({"dashboard": kwargs.get("dash").id}):
+                start_time = time.time()
+                func(*args, **kwargs)
+                time.time() - start_time
+        return wrapper
+
 
 def get_event_logger_from_cfg_value(cfg_value: Any) -> AbstractEventLogger:
     """
@@ -319,6 +329,8 @@ def get_event_logger_from_cfg_value(cfg_value: Any) -> AbstractEventLogger:
 
 class DBEventLogger(AbstractEventLogger):
     """Event logger that commits logs to Superset DB"""
+
+
 
     def log(  # pylint: disable=too-many-arguments,too-many-locals
         self,

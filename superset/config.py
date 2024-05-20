@@ -58,6 +58,7 @@ from superset.utils.core import is_test, NO_TIME_RANGE, parse_boolean_string
 from superset.utils.encrypt import SQLAlchemyUtilsAdapter
 from superset.utils.log import DBEventLogger
 from superset.utils.logging_configurator import DefaultLoggingConfigurator
+from superset.utils.pyroscope_utils import PyroscopeMetrics
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +73,8 @@ if TYPE_CHECKING:
 # Realtime stats logger, a StatsD implementation exists
 STATS_LOGGER = DummyStatsLogger()
 EVENT_LOGGER = DBEventLogger()
+
+PYROSCOPE_METHODS = PyroscopeMetrics()
 
 SUPERSET_LOG_VIEW = True
 

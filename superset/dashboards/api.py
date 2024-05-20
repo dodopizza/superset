@@ -78,7 +78,7 @@ from superset.dashboards.schemas import (
     openapi_spec_methods_override,
     thumbnail_query_schema,
 )
-from superset.extensions import event_logger
+from superset.extensions import event_logger, pyroscope_methods
 from superset.models.dashboard import Dashboard
 from superset.models.embedded_dashboard import EmbeddedDashboard
 from superset.tasks.thumbnails import cache_dashboard_thumbnail
@@ -309,6 +309,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     @with_dashboard
     @event_logger.log_this_with_extra_payload
+    @event_logger.dashboard_wrapper
     # pylint: disable=arguments-differ
     def get(
         self,

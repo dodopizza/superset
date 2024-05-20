@@ -66,6 +66,12 @@ services:
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
 
+  pyroscope:
+    image: grafana/pyroscope
+    container_name: pyroscope_app
+    ports:
+      - '4040:4040'
+
   superset-websocket:
     platform: linux/amd64
     container_name: superset_websocket
