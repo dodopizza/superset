@@ -377,7 +377,8 @@ def menu_data(user: User) -> dict[str, Any]:
             "user_profile_url": None
             if user.is_anonymous or is_feature_enabled("MENU_HIDE_USER_INFO")
             else "/superset/profile/",
-            "locale": session.get("locale", "en"),
+            "locale": session.get("locale", "ru"),
+            #"locale": session.get("locale", "en"),
         },
     }
 
@@ -389,6 +390,8 @@ def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
     The function is memoized as the return value only changes when user permissions
     or configuration values change.
     """
+
+    logger.info(f"cached_common_bootstrap_data locale = {locale}")
 
     # should not expose API TOKEN to frontend
     frontend_config = {
