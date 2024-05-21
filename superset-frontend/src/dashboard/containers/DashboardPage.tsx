@@ -207,25 +207,16 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       // the currently stored value when hydrating
       let activeTabs: string[] | undefined;
       if (permalinkKey) {
-        console.log(`standalone permalinkKey`);
         const permalinkValue = await getPermalinkValue(permalinkKey);
         if (permalinkValue) {
           ({ dataMask, activeTabs } = permalinkValue.state);
         }
       } else if (nativeFilterKeyValue) {
-        console.log(`standalone nativeFilterKeyValue`);
         dataMask = await getFilterValue(id, nativeFilterKeyValue);
       }
       if (isOldRison) {
-        console.log(`standalone isOldRison`);
         dataMask = isOldRison;
       }
-
-      console.log(
-        `DashboardPage nativeFilterKeyValue: ${nativeFilterKeyValue}`,
-      );
-      console.log(`standalone container typeof(dataMask):`, typeof dataMask); // object
-      console.log(`standalone DashboardPage dataMask:`, dataMask);
 
       if (readyToRender) {
         if (!isDashboardHydrated.current) {
