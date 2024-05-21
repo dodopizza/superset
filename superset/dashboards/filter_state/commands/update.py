@@ -44,12 +44,8 @@ class UpdateFilterStateCommand(UpdateTemporaryCacheCommand):
             # Generate a new key if tab_id changes or equals 0
             # contextual_key = cache_key(
             #     session.get("_id"), cmd_params.tab_id, resource_id
-            # )
-            contextual_key = cache_key(
-                get_user_id(), cmd_params.tab_id, resource_id
-            )
-            logger.info(f"UpdateFilterStateCommand session = {session.items()}")
-            logger.info(f"UpdateFilterStateCommand contextual_key = {contextual_key}")
+            # ) DODO commented #29567468
+            contextual_key = cache_key(get_user_id(), cmd_params.tab_id, resource_id) # DODO changed #29567468
             key = cache_manager.filter_state_cache.get(contextual_key)
             if not key or not cmd_params.tab_id:
                 key = random_key()
