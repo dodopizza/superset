@@ -34,22 +34,37 @@ class UpdateFilterStateCommand(UpdateTemporaryCacheCommand):
         resource_id = cmd_params.resource_id
         key = cmd_params.key
         value = cast(str, cmd_params.value)  # schema ensures that value is not optional
+        logger.info(f"UpdateFilterStateCommand resource_id = {resource_id} key = {key}  value = {value}")
+
         check_access(resource_id)
+        logger.info(f"UpdateFilterStateCommand after check_access")
+
+        logger.info(f"UpdateFilterStateCommand cache_key(resource_id, key) = {cache_key(resource_id, key)}")
         entry: Entry = cache_manager.filter_state_cache.get(cache_key(resource_id, key))
+        logger.info(f"UpdateFilterStateCommand entry = {entry}")
+
         owner = get_user_id()
+        logger.info(f"UpdateFilterStateCommand owner = {owner}")
         if entry:
             if entry["owner"] != owner:
+                logger.info(f"UpdateFilterStateCommand entityOwner!=owner  entityOwner={entry["owner"]}")
                 raise TemporaryCacheAccessDeniedError()
 
             # Generate a new key if tab_id changes or equals 0
+            # contextual_key = cache_key(
+            #     session.get("_id"), cmd_params.tab_id, resource_id
+            # )
             contextual_key = cache_key(
-                session.get("_id"), cmd_params.tab_id, resource_id
+                get_user_id(), cmd_params.tab_id, resource_id
             )
+            logger.info(f"UpdateFilterStateCommand contextual_key = {contextual_key}")
             key = cache_manager.filter_state_cache.get(contextual_key)
+            logger.info(f"UpdateFilterStateCommand key = {key}")
             if not key or not cmd_params.tab_id:
                 key = random_key()
                 cache_manager.filter_state_cache.set(contextual_key, key)
 
             new_entry: Entry = {"owner": owner, "value": value}
+            logger.info(f"UpdateFilterStateCommand new_entry = {new_entry}")
             cache_manager.filter_state_cache.set(cache_key(resource_id, key), new_entry)
         return key
