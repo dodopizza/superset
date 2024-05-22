@@ -57,7 +57,7 @@ from superset.sqllab.sqllab_execution_context import SqlJsonExecutionContext
 from superset.sqllab.validators import CanAccessQueryValidatorImpl
 from superset.superset_typing import FlaskResponse
 from superset.utils import core as utils
-from superset.views.base import CsvResponse, XlsxResponse, generate_download_headers, json_success
+from superset.views.base import CsvResponse, generate_download_headers, json_success
 from superset.views.base_api import BaseSupersetApi, requires_json, statsd_metrics
 
 config = app.config
@@ -195,69 +195,6 @@ class SqlLabRestApi(BaseSupersetApi):
             "CSV exported: %s", event_rep, extra={"superset_event": event_info}
         )
         return response
-
-    @expose("/exportXLSX/<string:client_id>/")
-    # @protect()
-    @statsd_metrics
-    @event_logger.log_this_with_context(
-        action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
-        f".export_xlsx",
-        log_to_statsd=False,
-    )
-    def export_xlxs(self, client_id: str) -> XlsxResponse:
-        """Exports the SQL query results to a XLSX
-        ---
-        get:
-          summary: >-
-            Exports the SQL query results to a XLSX
-          parameters:
-          - in: path
-            schema:
-              type: integer
-            name: client_id
-            description: The SQL query result identifier
-          responses:
-            200:
-              description: SQL query results
-              content:
-                text/csv:
-                  schema:
-                    type: string
-            400:
-              $ref: '#/components/responses/400'
-            401:
-              $ref: '#/components/responses/401'
-            403:
-              $ref: '#/components/responses/403'
-            404:
-              $ref: '#/components/responses/404'
-            500:
-              $ref: '#/components/responses/500'
-        """
-        result = SqlResultExportCommand(client_id=client_id).run()
-
-        query, data, row_count = result["query"], result["data"], result["count"]
-
-        quoted_xlsx_name = parse.quote(query.name)
-        response = XlsxResponse(
-            data, headers=generate_download_headers("xlsx", quoted_xlsx_name)
-        )
-        event_info = {
-            "event_type": "data_export",
-            "client_id": client_id,
-            "row_count": row_count,
-            "database": query.database.name,
-            "schema": query.schema,
-            "sql": query.sql,
-            "exported_format": "xlsx",
-        }
-        event_rep = repr(event_info)
-        logger.debug(
-            "XLSX exported: %s", event_rep, extra={"superset_event": event_info}
-        )
-        return response
-
-
 
     @expose("/results/")
     @protect()
