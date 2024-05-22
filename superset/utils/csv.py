@@ -71,6 +71,7 @@ def df_to_escaped_csv(df: pd.DataFrame, **kwargs: Any) -> Any:
     # Escape csv headers
     df = df.rename(columns=escape_values)
     if kwargs.get("from_sqllab"):
+        kwargs.pop("from_sqllab")
         return df.to_csv(**kwargs)
     return df.to_dict(orient="records")
 
