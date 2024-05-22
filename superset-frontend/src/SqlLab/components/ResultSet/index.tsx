@@ -70,7 +70,7 @@ enum LIMITING_FACTOR {
 export interface ResultSetProps {
   cache?: boolean;
   csv?: boolean;
-  xlsx?: boolean;
+  xlsx?: boolean; // DODO added #33903072
   database?: Record<string, any>;
   displayLimit: number;
   height: number;
@@ -133,7 +133,7 @@ const LimitMessage = styled.span`
 const ResultSet = ({
   cache = false,
   csv = true,
-  xlsx = true,
+  xlsx = true, // DODO added #33903072
   database = {},
   displayLimit,
   height,
@@ -227,10 +227,12 @@ const ResultSet = ({
   const getExportCsvUrl = (clientId: string) =>
     `/api/v1/sqllab/export/${clientId}/`;
 
+  // DODO start added #33903072
   const getExportXLSXUrl = useMemo(
-    () => `/api/v1/sqllab/export/${query.id}/?result_format=XLSX`,
+    () => `/api/v1/sqllab/export/${query.id}/?result_format=xlsx`,
     [query.id],
   );
+  // DODO stop added #33903072
 
   const renderControls = () => {
     if (search || visualize || csv || xlsx) {
@@ -274,11 +276,13 @@ const ResultSet = ({
                 <i className="fa fa-file-text-o" /> {t('Download to CSV')}
               </Button>
             )}
+            {/* DODO start added #33903072 */}
             {xlsx && (
               <Button buttonSize="small" href={getExportXLSXUrl}>
                 <i className="fa fa-file-text-o" /> {t('Download to XLSX')}
               </Button>
             )}
+            {/* DODO stop added #33903072 */}
 
             <CopyToClipboard
               text={prepareCopyToClipboardTabularData(data, columns)}
