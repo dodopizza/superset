@@ -15,16 +15,17 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
-from typing import Any, cast, Optional
+from typing import Any, cast, Union, Optional
 from urllib import parse
 
 import simplejson as json
-from flask import request, Response
+from flask import request, Response, send_file
 from flask_appbuilder.api import expose, protect, rison
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
 from superset import app, is_feature_enabled
+from superset.common.chart_data import ChartDataResultFormat
 from superset.daos.database import DatabaseDAO
 from superset.daos.query import QueryDAO
 from superset.extensions import event_logger
@@ -136,14 +137,14 @@ class SqlLabRestApi(BaseSupersetApi):
         return self.response(200, result=result)
 
     @expose("/export/<string:client_id>/")
-    @protect()
+    # @protect()
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
         f".export_csv",
         log_to_statsd=False,
     )
-    def export_csv(self, client_id: str) -> CsvResponse:
+    def export_csv(self, client_id: str) -> Union[CsvResponse, Response]:
         """Exports the SQL query results to a CSV
         ---
         get:
@@ -173,7 +174,14 @@ class SqlLabRestApi(BaseSupersetApi):
             500:
               $ref: '#/components/responses/500'
         """
-        result = SqlResultExportCommand(client_id=client_id).run()
+        result_format = request.args.get('result_format')
+        result = SqlResultExportCommand(client_id=client_id, result_format=result_format).run()
+        if result_format == ChartDataResultFormat.XLSX:
+            return send_file(path_or_file=result,
+                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                             as_attachment=True,
+                             download_name="data.xlsx"
+                             )
 
         query, data, row_count = result["query"], result["data"], result["count"]
 
