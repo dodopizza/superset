@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ButtonGroup from 'src/components/ButtonGroup';
 import Alert from 'src/components/Alert';
@@ -70,6 +70,7 @@ enum LIMITING_FACTOR {
 export interface ResultSetProps {
   cache?: boolean;
   csv?: boolean;
+  xlsx?: boolean;
   database?: Record<string, any>;
   displayLimit: number;
   height: number;
@@ -132,6 +133,7 @@ const LimitMessage = styled.span`
 const ResultSet = ({
   cache = false,
   csv = true,
+  xlsx = true,
   database = {},
   displayLimit,
   height,
@@ -225,8 +227,16 @@ const ResultSet = ({
   const getExportCsvUrl = (clientId: string) =>
     `/api/v1/sqllab/export/${clientId}/`;
 
+  const getExportXLSXUrl = useMemo(
+    () => `/api/v1/sqllab/exportXLSX/${query.id}/`,
+    [query.id],
+  );
+
+  // const getExportXLSXUrl = (clientId: string) =>
+  //   `/api/v1/sqllab/exportXLSX/${clientId}/`;
+
   const renderControls = () => {
-    if (search || visualize || csv) {
+    if (search || visualize || csv || xlsx) {
       let { data } = query.results;
       if (cache && query.cached) {
         data = cachedData;
@@ -265,6 +275,11 @@ const ResultSet = ({
             {csv && (
               <Button buttonSize="small" href={getExportCsvUrl(query.id)}>
                 <i className="fa fa-file-text-o" /> {t('Download to CSV')}
+              </Button>
+            )}
+            {xlsx && (
+              <Button buttonSize="small" href={getExportXLSXUrl}>
+                <i className="fa fa-file-text-o" /> {t('Download to XLSX')}
               </Button>
             )}
 
