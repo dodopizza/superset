@@ -115,8 +115,7 @@ const publishDataMask = debounce(
     // this prevents a race condition between updating filters and navigating to Explore
     if (
       window.location.pathname.includes('/superset/dashboard') ||
-      window.location.pathname.includes('/OfficeManager/Analytics/') || // DODO added #29567468
-      window.location.host.includes('localhost:3000') // DODO added #29567468
+      process.env.type !== undefined // DODO added #29567468 - запущен плагин
     ) {
       history.location.pathname = window.location.pathname;
       history.replace({
