@@ -228,12 +228,9 @@ const ResultSet = ({
     `/api/v1/sqllab/export/${clientId}/`;
 
   const getExportXLSXUrl = useMemo(
-    () => `/api/v1/sqllab/exportXLSX/${query.id}/`,
+    () => `/api/v1/sqllab/export/${query.id}/?result_format=XLSX`,
     [query.id],
   );
-
-  // const getExportXLSXUrl = (clientId: string) =>
-  //   `/api/v1/sqllab/exportXLSX/${clientId}/`;
 
   const renderControls = () => {
     if (search || visualize || csv || xlsx) {

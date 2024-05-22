@@ -137,7 +137,7 @@ class SqlLabRestApi(BaseSupersetApi):
         return self.response(200, result=result)
 
     @expose("/export/<string:client_id>/")
-    # @protect()
+    @protect()
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
