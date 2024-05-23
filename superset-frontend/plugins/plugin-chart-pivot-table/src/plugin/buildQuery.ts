@@ -47,9 +47,10 @@ export default function buildQuery(formData: PivotTableQueryFormData) {
       `buildQuery map isPhysicalColumn(col) ${isPhysicalColumn(col)}`,
     );
     console.log(`buildQuery map hasGenericChartAxes`, hasGenericChartAxes);
+    // @ts-ignore
+    const t = formData?.temporal_columns_lookup?.[col];
     console.log(
-      `buildQuery map formData?.temporal_columns_lookup?.[col]`,
-      formData?.temporal_columns_lookup?.[col],
+      `buildQuery map formData?.temporal_columns_lookup?.[col]: ${t}`,
     );
     console.log(
       `buildQuery map formData.granularity_sqla === col`,
