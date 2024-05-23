@@ -353,8 +353,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         ? addSlash(incomingParams.basename)
         : '/',
       frontendLogger: incomingParams.frontendLogger || true,
-      // business: incomingParams.businessId || 'dodopizza',
-      business: 'drinkit',
+      business: incomingParams.businessId || 'dodopizza',
     };
 
     // Superset API works only with port 3000
