@@ -271,10 +271,6 @@ const v1ChartDataRequest = async (
       body: JSON.stringify(payload),
     };
 
-    console.log(`v1ChartDataRequest ======== `);
-    console.log(`v1ChartDataRequest process.env.type: ${process.env.type}`);
-    console.log(`v1ChartDataRequest payload:`, payload);
-
     return SupersetClient.post(querySettings);
   }
   const payload = buildV1ChartDataPayload({
@@ -303,10 +299,6 @@ const v1ChartDataRequest = async (
     qs,
     allowDomainSharding,
   }).toString();
-
-  console.log(`v1ChartDataRequest ======== `);
-  console.log(`v1ChartDataRequest process.env.type: ${process.env.type}`);
-  console.log(`v1ChartDataRequest payload:`, payload);
 
   return API_HANDLER.SupersetClient({ method: 'post', url, body: payload });
 };
