@@ -41,32 +41,16 @@ export default function buildQuery(formData: PivotTableQueryFormData) {
       ...ensureIsArray<QueryFormColumn>(groupbyRows),
     ]),
   ).map(col => {
-    console.log(`buildQuery map ============`);
-    console.log(`buildQuery map col`, col);
-    console.log(
-      `buildQuery map isPhysicalColumn(col) ${isPhysicalColumn(col)}`,
-    );
-    console.log(`buildQuery map hasGenericChartAxes`, hasGenericChartAxes);
-    // @ts-ignore
-    const t = formData?.temporal_columns_lookup?.[col];
-    console.log(
-      `buildQuery map formData?.temporal_columns_lookup?.[col]: ${t}`,
-    );
-    console.log(
-      `buildQuery map formData.granularity_sqla === col`,
-      formData.granularity_sqla === col,
-    );
     if (
       isPhysicalColumn(col) &&
       time_grain_sqla &&
-      hasGenericChartAxes &&
+      (hasGenericChartAxes || process.env.type !== undefined) && // DODO changed #33889226 for plugin
       /* Charts created before `GENERIC_CHART_AXES` is enabled have a different
        * form data, with `granularity_sqla` set instead.
        */
       (formData?.temporal_columns_lookup?.[col] ||
         formData.granularity_sqla === col)
     ) {
-      console.log(`buildQuery map true`);
       return {
         timeGrain: time_grain_sqla,
         columnType: 'BASE_AXIS',
@@ -75,7 +59,6 @@ export default function buildQuery(formData: PivotTableQueryFormData) {
         expressionType: 'SQL',
       } as AdhocColumn;
     }
-    console.log(`buildQuery map false`);
     return col;
   });
 
