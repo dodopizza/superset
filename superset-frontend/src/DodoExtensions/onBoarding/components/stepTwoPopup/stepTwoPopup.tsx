@@ -1,19 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
+import { RadioChangeEvent } from 'antd/lib/radio';
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
+import { RoleInformation } from './roleInformation';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
 `;
 
-enum userType {
-  Franchisee = 0,
-  ManagingCompany = 1,
-  ManagingCompany = 1,
+enum userFromType {
+  Franchisee = 'Franchisee',
+  ManagingCompany = 'Managing Company',
 }
 
 type Props = {
@@ -23,8 +24,22 @@ type Props = {
 };
 
 export const StepTwoPopup: FC<Props> = ({ onClose }) => {
-  const [value, setValue] = React.useState<userType>(userType.Franchisee);
-  const { Title, Paragraph, Text } = Typography;
+  const [userFrom, setUserFrom] = React.useState<userFromType>(
+    userFromType.Franchisee,
+  );
+  const { Title, Paragraph } = Typography;
+
+  const toggleUseFrom = useCallback(
+    ({ target: { value } }: RadioChangeEvent) => setUserFrom(value),
+    [],
+  );
+
+  const userFormOptions = useMemo(
+    () => [userFromType.Franchisee, userFromType.ManagingCompany],
+    [],
+  );
+
+  console.log(`userFrom: ${userFrom}`);
 
   return (
     <Modal
@@ -35,19 +50,20 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
       width="1000px"
     >
       <Wrapper>
-        <Rowыуыышщт gutter={32}>
+        <Row gutter={32}>
           <Col span={14}>
             <Title level={3}>Tell us why you are here</Title>
-            <Paragraph type="secondary">
-              You can read about Superset roles&nbsp;<Text underline>here</Text>
-            </Paragraph>
+            <RoleInformation />
             <Paragraph>
               Are you a franchisee or from a Managing Company?
             </Paragraph>
-            <Radio.Group value={value} onChange={e => setValue(e.target.value)}>
-              <Radio value={userType.Franchisee}>Franchisee</Radio>
-              <Radio value={userType.ManagingCompany}>Managing Company</Radio>
-            </Radio.Group>
+
+            <Radio.Group
+              name="userFrom"
+              value={userFrom}
+              onChange={toggleUseFrom}
+              options={userFormOptions}
+            />
           </Col>
           <Col span={10}>
             <img
@@ -56,7 +72,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               width="100%"
             />
           </Col>
-        </Rowыуыышщт>
+        </Row>
       </Wrapper>
     </Modal>
   );
