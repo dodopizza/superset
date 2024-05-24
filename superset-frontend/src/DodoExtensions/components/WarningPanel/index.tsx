@@ -1,6 +1,13 @@
+// DODO was here
+// DODO added all file
+
 import React from 'react';
-import { WarningMsgParams } from '../../types/global';
-import { InfoIcon, ColumnWrapper, RowWrapper } from '../index';
+import { WarningMsgParams } from '../../../Superstructure/types/global';
+import {
+  InfoIcon,
+  ColumnWrapper,
+  RowWrapper,
+} from '../../../Superstructure/components';
 
 import {
   WarningPanelWrapper,
@@ -67,6 +74,7 @@ const WarningPanel = ({
         </div>
       )}
     </Alert>
+    <button>x</button>
   </WarningPanelWrapper>
 );
 

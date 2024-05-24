@@ -11,11 +11,11 @@ const StyledP = styled.p`
   }
 `;
 const WarningPanelWrapper = styled.div`
-  height: auto;
+  //height: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: space-between;
+  //box-sizing: border-box;
 `;
 
 const Alert = styled.div`
