@@ -68,6 +68,7 @@ import {
   OPEN_FILTER_BAR_WIDTH,
 } from 'src/dashboard/constants';
 import { bootstrapData } from 'src/preamble';
+import { WarningPanel } from 'src/Superstructure/components';
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -622,6 +623,53 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     ],
   );
 
+  // TODO: получить и итерировать annotation messages, как в Superstructure. Стараться переиспользовать весь код
+  // const annotationIds = await handleAnnotationLayersRequest();
+  //   if (annotationIds) {
+  //     const annotations = await handleAnnotationsRequest(annotationIds);
+  //     if (annotations && annotations.length) {
+  //       const filteredAnnotations = annotations.filter(
+  //         annotation =>
+  //           annotation &&
+  //           annotation?.data?.result.short_descr.includes(ALERT_PREFIX),
+  //       );
+  //       setAnnotationsObjects(filteredAnnotations);
+  //     }
+  //   }
+
+  const annotationMessages = [
+    {
+      end_dttm: '2024-05-31T10:35:00',
+      id: 1,
+      start_dttm: '2024-05-23T10:35:00',
+      // eslint-disable-next-line theme-colors/no-literal-colors
+      json_metadata: '{"backgroundColor": "#f4cccc", "textColor": "#000000" }',
+      long_descr:
+        'После обновления платформы, фильтры в Аналитике пока не работают. Работают дашборды по прямой ссылке https://analytics.dodois.io/superset/dashboard/summary_dashboards/',
+      short_descr: '[ALERT]',
+    },
+    {
+      end_dttm: '2024-05-31T10:35:00',
+      id: 2,
+      start_dttm: '2024-05-23T10:35:00',
+      // eslint-disable-next-line theme-colors/no-literal-colors
+      json_metadata: '{"backgroundColor": "#f4cccc", "textColor": "#000000" }',
+      long_descr:
+        'После обновления платформы, фильтры в Аналитике пока не работают. Работают дашборды по прямой ссылке https://analytics.dodois.io/superset/dashboard/summary_dashboards/',
+      short_descr: '[ALERT]',
+    },
+  ];
+
+  const getColorsFromJson = (json_metadata: string) => {
+    if (json_metadata) {
+      const { backgroundColor = '#fff3cd', textColor = '#856404' } =
+        JSON.parse(json_metadata);
+      return { backgroundColor, textColor };
+    }
+    // eslint-disable-next-line theme-colors/no-literal-colors
+    return { backgroundColor: '#fff3cd', textColor: '#856404' };
+  };
+
   const dashboardContentMarginLeft =
     !dashboardFiltersOpen &&
     !editMode &&
@@ -688,6 +736,30 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
         >
           {renderDraggableContent}
         </DragDroppable>
+        {/* TODO: добавить возможность закрыть каждый месседж, хранить в стейте */}
+        {/* TODO: вынести все инлайн стили в styled. компоненты */}
+        {/* TODO: У последнего message margin-bottom: 0 */}
+        {annotationMessages && (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginRight: '32px' }}>
+              {annotationMessages.map(
+                message =>
+                  message &&
+                  message && (
+                    <div
+                      key={message.id + Math.random()}
+                      style={{ marginBottom: '12px' }}
+                    >
+                      <WarningPanel
+                        body={message.long_descr}
+                        colors={getColorsFromJson(message.json_metadata)}
+                      />
+                    </div>
+                  ),
+              )}
+            </div>
+          </div>
+        )}
       </StyledHeader>
       <StyledContent fullSizeChartId={fullSizeChartId}>
         <Global
