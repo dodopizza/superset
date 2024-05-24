@@ -2,12 +2,6 @@
 // DODO added all file
 
 import React from 'react';
-import { WarningMsgParams } from '../../../Superstructure/types/global';
-import {
-  InfoIcon,
-  ColumnWrapper,
-  RowWrapper,
-} from '../../../Superstructure/components';
 
 import {
   WarningPanelWrapper,
@@ -15,7 +9,13 @@ import {
   StyledH4,
   StyledCode,
   StyledP,
+  StyledButton,
 } from './styles';
+import Icon from '../../../components/Icons/Icon';
+import { WarningMsgParams } from '../../global';
+import { RowWrapper } from '../Wrappers/RowWrapper';
+import { ColumnWrapper } from '../Wrappers/ColumnWrapper';
+import { InfoIcon } from '../InfoIcon';
 
 const WarningPanel = ({
   title,
@@ -24,9 +24,10 @@ const WarningPanel = ({
   extra,
   children,
   colors,
+  onCLose,
 }: WarningMsgParams) => (
-  <WarningPanelWrapper>
-    <Alert style={{ backgroundColor: colors?.backgroundColor || '#fff3cd' }}>
+  <WarningPanelWrapper backgroundColor={colors?.backgroundColor || '#fff3cd'}>
+    <Alert>
       <RowWrapper>
         {title && (
           <div>
@@ -43,7 +44,7 @@ const WarningPanel = ({
 
         {subTitle && (
           <ColumnWrapper classes="col-md-11">
-            <StyledP style={{ color: colors?.textColor || '#856404' }}>
+            <StyledP color={colors?.textColor || '#856404'}>
               {subTitle || ''}
             </StyledP>
           </ColumnWrapper>
@@ -74,7 +75,12 @@ const WarningPanel = ({
         </div>
       )}
     </Alert>
-    <button>x</button>
+
+    {onCLose && (
+      <StyledButton buttonStyle="link">
+        <Icon fileName="cancel-x" />
+      </StyledButton>
+    )}
   </WarningPanelWrapper>
 );
 

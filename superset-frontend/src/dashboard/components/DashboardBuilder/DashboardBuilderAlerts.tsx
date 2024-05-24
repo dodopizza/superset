@@ -41,13 +41,14 @@ const useAlertsMessages = () => {
           <Wrapper>
             {annotationMessages.map(message => (
               <WarningPanel
-                // title="title"
-                // subTitle="subTitle"
-                // extra="extra"
+                title="title"
+                subTitle="subtitle"
+                extra="extra"
                 body={message.long_descr}
                 colors={getColorsFromJson(message.json_metadata)}
+                onCLose={() => console.log(`close:`, message)}
               >
-                childern
+                children
               </WarningPanel>
             ))}
           </Wrapper>
