@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
@@ -52,18 +52,26 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
       <Wrapper>
         <Row gutter={32}>
           <Col span={14}>
-            <Title level={3}>Tell us why you are here</Title>
-            <RoleInformation />
-            <Paragraph>
-              Are you a franchisee or from a Managing Company?
-            </Paragraph>
+            <Space direction="vertical" size="small">
+              <Title level={3}>Tell us why you are here</Title>
+              <RoleInformation />
+              <Paragraph>
+                Are you a franchisee or from a Managing Company?
+              </Paragraph>
 
-            <Radio.Group
-              name="userFrom"
-              value={userFrom}
-              onChange={toggleUseFrom}
-              options={userFormOptions}
-            />
+              <Radio.Group
+                name="userFrom"
+                value={userFrom}
+                onChange={toggleUseFrom}
+                options={userFormOptions}
+              />
+              <Paragraph type="secondary">
+                <Typography.Text>
+                  Create of find your team&nbsp;
+                </Typography.Text>
+                (all C-level people please select ‘c_level’)
+              </Paragraph>
+            </Space>
           </Col>
           <Col span={10}>
             <img

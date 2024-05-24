@@ -1,5 +1,5 @@
 import { List, Typography } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 import { styled } from '@superset-ui/core';
 import Popover from '../../../../components/Popover';
 
@@ -7,39 +7,59 @@ const RoleText = styled(Typography.Text)`
   cursor: help;
 `;
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
+const checkData: Array<string> = [
+  'Analyze available dashboards',
+  'Gather insights from charts inside a dashboard',
 ];
+
+const createData: Array<string> = [
+  'Create datasets from sources from Data Platform',
+  'Use SQL Lab for your Ad-hoc queries',
+];
+
+const useData: Array<string> = ['Create dashboards', 'Create charts'];
+
+const inputData: Array<string> = [
+  'Add your own data sources to Superset',
+  'Use SQL Lab for your Ad-hoc queries',
+];
+
+const StyledList = styled(List)`
+  & .ant-list-header {
+    border: none;
+  }
+
+  & .ant-list-item {
+    border: none;
+  }
+`;
+
+const RoleInfo: FC<{ title: string; data: Array<string> }> = ({
+  title,
+  data,
+}) => (
+  <Typography.Paragraph>
+    <StyledList
+      header={
+        <>
+          <Typography.Title level={5}>{title}</Typography.Title>
+          <Typography.Text underline>
+            What can you do with this role:
+          </Typography.Text>
+        </>
+      }
+      dataSource={data}
+      renderItem={(item: string) => <List.Item>{item}</List.Item>}
+    />
+  </Typography.Paragraph>
+);
 
 const content = (
   <>
-    <Typography.Paragraph>
-      <Typography.Title level={4}>Check Data</Typography.Title>
-      <Typography.Text underline>
-        What can you do with this role:
-      </Typography.Text>
-      <Typography.Text>Analyze available dashboards</Typography.Text>
-      <Typography.Text>
-        Gather insights from charts inside a dashboard
-      </Typography.Text>
-      <List
-        header={<div>Header</div>}
-        footer={<div>Footer</div>}
-        bordered
-        dataSource={data}
-        renderItem={item => (
-          <List.Item>
-            <Typography.Text mark>[ITEM]</Typography.Text> {item}
-          </List.Item>
-        )}
-      />
-    </Typography.Paragraph>
-    <p>Content</p>
-    <p>Content</p>
+    <RoleInfo title="Check Data" data={checkData} />
+    <RoleInfo title="Create Data" data={createData} />
+    <RoleInfo title="Use Data" data={useData} />
+    <RoleInfo title="Input Data" data={inputData} />
   </>
 );
 
@@ -48,7 +68,12 @@ const RoleInformation = () => {
   return (
     <Paragraph type="secondary">
       You can read about Superset roles&nbsp;
-      <Popover content={content} title="Superset roles overview">
+      <Popover
+        content={content}
+        title={
+          <Typography.Title level={4}>Superset roles overview</Typography.Title>
+        }
+      >
         <RoleText underline>here</RoleText>
       </Popover>
     </Paragraph>
