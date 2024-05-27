@@ -1,10 +1,10 @@
 // DODO added #34037254
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { styled } from '@superset-ui/core';
 import { SingleAnnotation } from '../../../Superstructure/types/global';
 import { loadAnnotationMessages } from '../../../utils/annotationUtils';
-import { WarningPanel } from '../../../DodoExtensions/components/WarningPanel';
+import { WarningPanel } from '../../../DodoExtensions/components';
 
 /* TODO: добавить возможность закрыть каждый месседж, хранить в стейте */
 
@@ -17,11 +17,27 @@ const Wrapper = styled.div`
 
 const useAlertsMessages = () => {
   const [annotationMessages, setAnnotationMessages] = useState<
-    Array<SingleAnnotation>
+    Array<SingleAnnotation & { closed?: boolean }>
   >([]);
 
   useEffect(() => {
     loadAnnotationMessages().then(result => setAnnotationMessages(result));
+  }, []);
+
+  const openMessages = useMemo(
+    () => annotationMessages.filter(item => !item.closed),
+    [annotationMessages],
+  );
+
+  const setClose = useCallback((id: number) => {
+    setAnnotationMessages(value =>
+      value.map(item => {
+        if (item.id === id) {
+          return { ...item, closed: true };
+        }
+        return item;
+      }),
+    );
   }, []);
 
   const getColorsFromJson = (json_metadata: string) => {
@@ -37,19 +53,15 @@ const useAlertsMessages = () => {
   const alerts = useMemo(
     () => (
       <>
-        {annotationMessages && (
+        {openMessages.length > 0 && (
           <Wrapper>
-            {annotationMessages.map(message => (
+            {openMessages.map(message => (
               <WarningPanel
-                title="title"
-                subTitle="subtitle"
-                extra="extra"
+                key={message.id}
                 body={message.long_descr}
                 colors={getColorsFromJson(message.json_metadata)}
-                onCLose={() => console.log(`close:`, message)}
-              >
-                children
-              </WarningPanel>
+                onClose={() => setClose(message.id)}
+              />
             ))}
           </Wrapper>
         )}

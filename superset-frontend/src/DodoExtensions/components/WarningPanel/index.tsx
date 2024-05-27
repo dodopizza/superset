@@ -24,7 +24,7 @@ const WarningPanel = ({
   extra,
   children,
   colors,
-  onCLose,
+  onClose,
 }: WarningMsgParams) => (
   <WarningPanelWrapper backgroundColor={colors?.backgroundColor || '#fff3cd'}>
     <Alert>
@@ -76,8 +76,8 @@ const WarningPanel = ({
       )}
     </Alert>
 
-    {onCLose && (
-      <StyledButton buttonStyle="link">
+    {onClose && (
+      <StyledButton buttonStyle="link" onClick={onClose}>
         <Icon fileName="cancel-x" />
       </StyledButton>
     )}

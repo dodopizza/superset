@@ -25,5 +25,5 @@ export interface WarningMsgParams {
     backgroundColor: string;
     textColor: string;
   };
-  onCLose?: () => void;
+  onClose?: () => void;
 }
