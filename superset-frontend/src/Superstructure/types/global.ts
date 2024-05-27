@@ -51,7 +51,6 @@ export interface MainComponentProps {
   basename: string;
   stylesConfig: StylesConfig;
   annotationMessages: AnnotationMessages;
-  businessId?: BusinessId;
   startDashboardId?: string | number;
 }
 
