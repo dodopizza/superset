@@ -248,9 +248,9 @@ const v1ChartDataRequest = async (
 
     // DODO added start 33901821
     payload.queries.forEach(query => {
-      const timeFilter = query.filters.find(
-        filter => filter.op === 'TEMPORAL_RANGE',
-      );
+      const timeFilter = query.filters
+        .reverse()
+        .find(filter => filter.op === 'TEMPORAL_RANGE');
       if (query.time_range === undefined && timeFilter) {
         // set time range to enforce jinja work
         query.time_range = timeFilter.val;
