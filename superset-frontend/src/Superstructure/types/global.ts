@@ -49,6 +49,7 @@ export interface MainComponentProps {
   basename: string;
   stylesConfig: StylesConfig;
   annotationMessages: AnnotationMessages;
+  businessId?: 'dodopizza' | 'drinkit' | 'doner42';
 }
 
 export interface InitConfig {

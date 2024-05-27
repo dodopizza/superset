@@ -64,6 +64,8 @@ import {
 setupClient();
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
+  const businessId = incomingParams.businessId || 'dodopizza';
+
   // TODO: DODO: duplicated logic in src/Superstructure/store.ts
   function getPageLanguage(): string | null {
     if (!document) {
@@ -353,7 +355,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         ? addSlash(incomingParams.basename)
         : '/',
       frontendLogger: incomingParams.frontendLogger || true,
-      business: incomingParams.businessId || 'dodopizza',
+      business: businessId,
     };
 
     // Superset API works only with port 3000
@@ -550,6 +552,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                   basename={FULL_CONFIG.basename}
                   stylesConfig={stylesConfig}
                   annotationMessages={annotationsObjects}
+                  businessId={businessId}
                 />
               </DashboardComponentWrapper>
             </Router>
