@@ -54,13 +54,12 @@ import {
   STYLES_DODOPIZZA,
   STYLES_DRINKIT,
   STYLES_DONER42,
-  // ALERT_PREFIX,
   SORTING_PREFIX,
 } from '../constants';
 import {
   handleAnnotationsRequest,
   loadAnnotations,
-} from '../../utils/annotationUtils';
+} from '../../DodoExtensions/utils/annotationUtils';
 
 setupClient();
 

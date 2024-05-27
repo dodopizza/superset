@@ -13,12 +13,10 @@ const StyledP = styled.p`
   }
 `;
 const WarningPanelWrapper = styled.div<{ backgroundColor: string }>`
-  //height: auto;
   display: flex;
   background-color: ${props => props.backgroundColor};
   align-items: flex-start;
   justify-content: space-between;
-  //box-sizing: border-box;
 
   border: 1px solid #ffeeba;
   border-radius: 2px;
@@ -27,9 +25,6 @@ const WarningPanelWrapper = styled.div<{ backgroundColor: string }>`
 const Alert = styled.div`
   line-height: 22px;
   color: #856404;
-  //background-color: #fff3cd;
-  //border: 1px solid #ffeeba;
-  //border-radius: 2px;
   padding: 25px;
   width: 100%;
 `;

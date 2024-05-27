@@ -71,7 +71,7 @@ import { bootstrapData } from 'src/preamble';
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
-import { useAlertsMessages } from './DashboardBuilderAlerts';
+import { useAlertsMessages } from '../../../DodoExtensions/dashboard/components/DashboardBuilder/DashboardBuilderAlerts';
 
 type DashboardBuilderProps = {};
 

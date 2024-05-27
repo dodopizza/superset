@@ -2,9 +2,9 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { styled } from '@superset-ui/core';
-import { SingleAnnotation } from '../../../Superstructure/types/global';
+import { SingleAnnotation } from '../../../../Superstructure/types/global';
 import { loadAnnotationMessages } from '../../../utils/annotationUtils';
-import { WarningPanel } from '../../../DodoExtensions/components';
+import { WarningPanel } from '../../../components';
 
 /* TODO: добавить возможность закрыть каждый месседж, хранить в стейте */
 

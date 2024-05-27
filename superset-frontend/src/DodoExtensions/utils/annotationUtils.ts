@@ -3,12 +3,12 @@ import {
   getAnnotationLayersData,
   getSingleAnnotationData,
   getSingleAnnotationLayerIdsData,
-} from '../Superstructure/Root/utils';
+} from '../../Superstructure/Root/utils';
 import {
   AnnotationLayer,
   InitializedResponse,
   SingleAnnotation,
-} from '../Superstructure/types/global';
+} from '../../Superstructure/types/global';
 
 type AnnotationsRequestDto = Array<
   InitializedResponse<{ result: SingleAnnotation } | null>
