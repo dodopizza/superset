@@ -60,6 +60,7 @@ import {
   ALERT_PREFIX,
   SORTING_PREFIX,
 } from '../constants';
+import { getDefaultDashboard } from '../utils/getDefaultDashboard';
 
 setupClient();
 
@@ -371,7 +372,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     console.log('Checked and altered parameters: ', parameters);
 
     return parameters;
-  }, [incomingParams]);
+  }, [businessId, incomingParams]);
 
   const IS_UNAVAILABLE = serializeValue(process.env.isUnavailable) === 'true';
 
@@ -514,6 +515,11 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
   const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
 
+  const startDashboard = getDefaultDashboard({
+    businessId,
+    routes: FULL_CONFIG.navigation.routes,
+  });
+
   return (
     <div>
       <Version appVersion={APP_VERSION} />
@@ -552,7 +558,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                   basename={FULL_CONFIG.basename}
                   stylesConfig={stylesConfig}
                   annotationMessages={annotationsObjects}
-                  businessId={businessId}
+                  startDashboardId={startDashboard}
                 />
               </DashboardComponentWrapper>
             </Router>

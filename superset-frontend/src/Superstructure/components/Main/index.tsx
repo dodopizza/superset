@@ -3,15 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import DashboardApp from '../App';
 import { MainComponentProps } from '../../types/global';
 
-const DODOPIZA_DEFAULT_DASHBOARD = 209;
-const DRINKIT_DEFAULT_DASHBOARD = 507;
-const DONER_DEFAULT_DASHBOARD = 0; // todo
-
 export default function Main({
   navigation,
   store,
   basename,
-  businessId,
+  startDashboardId = 0,
 }: MainComponentProps) {
   window.featureFlags = {
     ...window.featureFlags,
@@ -22,13 +18,6 @@ export default function Main({
     DASHBOARD_CROSS_FILTERS: true,
     DASHBOARD_NATIVE_FILTERS_SET: false,
   };
-
-  const START_DASHBOARD =
-    businessId === 'dodopizza'
-      ? DODOPIZA_DEFAULT_DASHBOARD
-      : businessId === 'drinkit'
-      ? DRINKIT_DEFAULT_DASHBOARD
-      : DONER_DEFAULT_DASHBOARD;
 
   return navigation ? (
     <>
@@ -44,7 +33,7 @@ export default function Main({
             />
           </Route>
         ))}
-        <Redirect to={`${basename}${START_DASHBOARD}`} />
+        <Redirect to={`${basename}${startDashboardId}`} />
       </Switch>
     </>
   ) : (
