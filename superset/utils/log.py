@@ -238,7 +238,7 @@ class AbstractEventLogger(ABC):
     ) -> Callable[..., Any]:
         @functools.wraps(f)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            self.log_query_start(request.url)
+            self.stats_logger.log_query_start(request.url)
             action_str = (
                 action(*args, **kwargs) if callable(action) else action
             ) or f.__name__
@@ -254,7 +254,7 @@ class AbstractEventLogger(ABC):
                     value = f(*args, add_extra_log_payload=log, **kwargs)
                 else:
                     value = f(*args, **kwargs)
-            self.log_query_end(request.url)
+            self.stats_logger.log_query_end(request.url)
             return value
 
         return wrapper
