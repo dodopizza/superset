@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { Space, Typography } from 'antd';
+import { AutoComplete, Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
@@ -71,6 +71,14 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
                 </Typography.Text>
                 (all C-level people please select ‘c_level’)
               </Paragraph>
+
+              <AutoComplete
+                options={[]}
+                style={{ width: 200 }}
+                onSelect={console.log}
+                onSearch={console.log}
+                placeholder="your team"
+              />
             </Space>
           </Col>
           <Col span={10}>
