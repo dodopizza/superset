@@ -1,8 +1,10 @@
+// DODO added
+
 import { BusinessId, RouteConfig } from '../types/global';
 
-export const DODOPIZA_DEFAULT_DASHBOARD_ID = 209;
+export const DODOPIZZA_DEFAULT_DASHBOARD_ID = 209;
 export const DRINKIT_DEFAULT_DASHBOARD_ID = 507;
-export const DONER_DEFAULT_DASHBOARD_ID = undefined; // todo
+export const DONER_DEFAULT_DASHBOARD_ID = undefined; // TODO
 
 type Params = {
   businessId: BusinessId;
@@ -16,9 +18,9 @@ export const getDefaultDashboard = ({ businessId, routes }: Params) => {
   switch (businessId) {
     case 'dodopizza':
       if (
-        routes.find(item => item.idOrSlug === DODOPIZA_DEFAULT_DASHBOARD_ID)
+        routes.find(item => item.idOrSlug === DODOPIZZA_DEFAULT_DASHBOARD_ID)
       ) {
-        return DODOPIZA_DEFAULT_DASHBOARD_ID;
+        return DODOPIZZA_DEFAULT_DASHBOARD_ID;
       }
       break;
     case 'drinkit':
