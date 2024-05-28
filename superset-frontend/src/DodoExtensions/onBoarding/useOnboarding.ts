@@ -2,10 +2,12 @@ import { useCallback, useState } from 'react';
 import { getInitialOnBoardingStep } from './utils/getInitialOnBoardingStep';
 import { StepOnePopupDto } from './components/stepOnePopup/stepOnePopup.dto';
 import {
+  repoLoadTeamList,
   repoUpdateFIO,
   repoUpdateOnboardingStartedTime,
 } from './utils/onboardingRepository';
 import { updateStorageTimeOfTheLastShow } from './utils/localStorageUtils';
+import { Team } from './types';
 
 export const useOnboarding = (user: {
   IsOnboardingFinished: boolean;
@@ -16,6 +18,9 @@ export const useOnboarding = (user: {
   const [step, setStep] = useState<number | null>(
     getInitialOnBoardingStep(user),
   );
+  const [teamIsLoading, setTeamIsLoading] = useState<boolean>(false);
+  const [teamList, setTeamList] = useState<Array<Team>>([]);
+
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const closeOnboarding = useCallback(() => {
@@ -41,5 +46,29 @@ export const useOnboarding = (user: {
     }
   };
 
-  return { step, isUpdating, closeOnboarding, toStepTwo };
+  let beforeSendToBackendQuery = '';
+  const loadTeamList = async (query: string) => {
+    try {
+      setTeamIsLoading(true);
+      beforeSendToBackendQuery = query;
+      const list = await repoLoadTeamList(query);
+
+      // to handle backend raise condition
+      if (query === beforeSendToBackendQuery) {
+        setTeamList(list);
+      }
+    } finally {
+      setTeamIsLoading(false);
+    }
+  };
+
+  return {
+    step,
+    isUpdating,
+    closeOnboarding,
+    toStepTwo,
+    loadTeamList,
+    teamIsLoading,
+    teamList,
+  };
 };

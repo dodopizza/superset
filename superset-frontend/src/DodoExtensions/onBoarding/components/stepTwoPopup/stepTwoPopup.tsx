@@ -4,9 +4,13 @@ import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { RadioChangeEvent } from 'antd/lib/radio';
+import { debounce } from 'lodash';
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
 import { RoleInformation } from './roleInformation';
+import { Team } from '../../types';
+
+const SEARCH_TEAM_DELAY = 500;
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -18,15 +22,24 @@ enum userFromType {
 }
 
 type Props = {
+  loadTeamList: (query: string) => Promise<void>;
+  teamList: Array<Team>;
+  teamIsLoading: boolean;
   isUpdating?: boolean;
   onClose: () => void;
   onSubmit?: (dto: StepOnePopupDto) => void;
 };
 
-export const StepTwoPopup: FC<Props> = ({ onClose }) => {
+export const StepTwoPopup: FC<Props> = ({
+  onClose,
+  teamList,
+  teamIsLoading,
+  loadTeamList,
+}) => {
   const [userFrom, setUserFrom] = React.useState<userFromType>(
     userFromType.Franchisee,
   );
+
   const { Title, Paragraph } = Typography;
 
   const toggleUseFrom = useCallback(
@@ -39,7 +52,12 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
     [],
   );
 
-  console.log(`userFrom: ${userFrom}`);
+  const debouncedLoadTeamList = useMemo(
+    () => debounce((value: string) => loadTeamList(value), SEARCH_TEAM_DELAY),
+    [loadTeamList],
+  );
+
+  // console.log(`userFrom: ${userFrom}`);
 
   return (
     <Modal
@@ -58,7 +76,6 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               <Paragraph>
                 Are you a franchisee or from a Managing Company?
               </Paragraph>
-
               <Radio.Group
                 name="userFrom"
                 value={userFrom}
@@ -71,12 +88,12 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
                 </Typography.Text>
                 (all C-level people please select ‘c_level’)
               </Paragraph>
-
+              <span>teamIsLoading: {teamIsLoading && 'loading'}</span>
               <AutoComplete
-                options={[]}
-                style={{ width: 200 }}
+                options={teamList}
+                style={{ width: '100%' }}
                 onSelect={console.log}
-                onSearch={console.log}
+                onSearch={debouncedLoadTeamList}
                 placeholder="your team"
               />
             </Space>

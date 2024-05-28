@@ -12,7 +12,15 @@ type OnBoardingEntryPointProps = {
 };
 
 const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
-  const { step, toStepTwo, closeOnboarding, isUpdating } = useOnboarding(user);
+  const {
+    step,
+    toStepTwo,
+    closeOnboarding,
+    isUpdating,
+    teamList,
+    teamIsLoading,
+    loadTeamList,
+  } = useOnboarding(user);
 
   if (step === 1) {
     return (
@@ -27,7 +35,14 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
     );
   }
   if (step === 2) {
-    return <StepTwoPopup onClose={closeOnboarding} />;
+    return (
+      <StepTwoPopup
+        onClose={closeOnboarding}
+        teamList={teamList}
+        loadTeamList={loadTeamList}
+        teamIsLoading={teamIsLoading}
+      />
+    );
   }
 
   return null;

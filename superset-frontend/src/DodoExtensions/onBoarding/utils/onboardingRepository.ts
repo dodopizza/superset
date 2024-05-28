@@ -1,4 +1,5 @@
 import { SupersetClient } from '@superset-ui/core';
+import { Team } from '../types';
 
 export const repoUpdateFIO = async (firstName: string, lastName: string) => {
   try {
@@ -12,7 +13,7 @@ export const repoUpdateFIO = async (firstName: string, lastName: string) => {
       parseMethod: null,
     });
   } catch (e) {
-    console.log(`updateFIO catch error`, e);
+    console.log(`repoUpdateFIO catch error`, e);
   }
 };
 
@@ -23,6 +24,25 @@ export const repoUpdateOnboardingStartedTime = async () => {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
   } catch (e) {
-    console.log(`OnboardingStartedTime catch error`, e);
+    console.log(`repoUpdateOnboardingStartedTime catch error`, e);
+  }
+};
+
+export const repoLoadTeamList = async (query: string): Promise<Array<Team>> => {
+  try {
+    return await new Promise(resolve =>
+      setTimeout(
+        () =>
+          resolve([
+            { label: `team one ${query}`, value: `team one ${query}` },
+            { label: `team two ${query}`, value: `team two ${query}` },
+            { label: `one more ${query}`, value: `one more${query}` },
+          ]),
+        2000,
+      ),
+    );
+  } catch (e) {
+    console.log(`repoLoadTeamList catch error`, e);
+    return [];
   }
 };
