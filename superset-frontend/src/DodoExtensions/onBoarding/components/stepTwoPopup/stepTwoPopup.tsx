@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { AutoComplete, Space, Typography } from 'antd';
+import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
@@ -39,8 +39,8 @@ export const StepTwoPopup: FC<Props> = ({
   const [userFrom, setUserFrom] = React.useState<userFromType>(
     userFromType.Franchisee,
   );
-
-  const { Title, Paragraph } = Typography;
+  const [newTeam, setNewTeam] = React.useState<string | null>(null);
+  const [existingTeam, setExistingTeam] = React.useState<any | null>(null);
 
   const toggleUseFrom = useCallback(
     ({ target: { value } }: RadioChangeEvent) => setUserFrom(value),
@@ -57,7 +57,54 @@ export const StepTwoPopup: FC<Props> = ({
     [loadTeamList],
   );
 
+  const handleTeamChange: (value: string, option: any) => void = useCallback(
+    (value, option) => {
+      if (!!option.value && !!option.label) {
+        setExistingTeam(option);
+        setNewTeam(null);
+      } else {
+        if (value) {
+          setNewTeam(value);
+        } else {
+          setNewTeam(null);
+        }
+        setExistingTeam(null);
+      }
+    },
+    [],
+  );
+
+  const teamName = useMemo(() => {
+    if (existingTeam) {
+      return existingTeam.label;
+    }
+    return newTeam;
+  }, [existingTeam, newTeam]);
+
+  const tagClosable = useMemo(
+    () => !!existingTeam || !!newTeam,
+    [existingTeam, newTeam],
+  );
+
+  const teamDescription = useMemo(() => {
+    if (existingTeam) {
+      return `Since [${existingTeam.label}] is a known tag, you can enter the team automatically.`;
+    }
+    if (newTeam) {
+      return `Since [${newTeam}] is a new tag, Superset admins will have to evaluate this request.`;
+    }
+    return '';
+  }, [existingTeam, newTeam]);
+
+  const removeTeam = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    setNewTeam(null);
+    setExistingTeam(null);
+    e.preventDefault();
+  }, []);
+
   // console.log(`userFrom: ${userFrom}`);
+
+  const { Title, Paragraph } = Typography;
 
   return (
     <Modal
@@ -88,14 +135,37 @@ export const StepTwoPopup: FC<Props> = ({
                 </Typography.Text>
                 (all C-level people please select ‘c_level’)
               </Paragraph>
-              <span>teamIsLoading: {teamIsLoading && 'loading'}</span>
+
               <AutoComplete
+                value={teamName}
                 options={teamList}
                 style={{ width: '100%' }}
-                onSelect={console.log}
                 onSearch={debouncedLoadTeamList}
-                placeholder="your team"
-              />
+                onChange={handleTeamChange}
+              >
+                <Input.Search
+                  // size="large"
+                  placeholder="your team"
+                  loading={teamIsLoading}
+                />
+              </AutoComplete>
+              <Space direction="horizontal" size="small">
+                <Typography.Text>Your team name is</Typography.Text>
+                <TagAnt
+                  color="#ff6900"
+                  closable={tagClosable}
+                  onClose={removeTeam}
+                >
+                  {teamName ?? 'no team'}
+                </TagAnt>
+                {/* <Tag */}
+                {/*  name={teamName ?? 'no team'} */}
+                {/*  editable={tagClosable} */}
+                {/*  index={0} */}
+                {/*  onDelete={tagClosable ? removeTeam : undefined} */}
+                {/* /> */}
+              </Space>
+              <Paragraph type="secondary">{teamDescription}</Paragraph>
             </Space>
           </Col>
           <Col span={10}>

@@ -34,9 +34,9 @@ export const repoLoadTeamList = async (query: string): Promise<Array<Team>> => {
       setTimeout(
         () =>
           resolve([
-            { label: `team one ${query}`, value: `team one ${query}` },
-            { label: `team two ${query}`, value: `team two ${query}` },
-            { label: `one more ${query}`, value: `one more${query}` },
+            { label: `team one label`, value: `team one value` },
+            { label: `team two label`, value: `team two value` },
+            { label: `one more label`, value: `one more value` },
           ]),
         2000,
       ),
