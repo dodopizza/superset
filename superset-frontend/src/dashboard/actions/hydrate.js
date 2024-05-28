@@ -7,10 +7,7 @@ import { getInitialState as getInitialNativeFilterState } from 'src/dashboard/re
 import { applyDefaultFormData } from 'src/explore/store';
 import { buildActiveFilters } from 'src/dashboard/util/activeDashboardFilters';
 import { findPermission } from 'src/utils/findPermission';
-import {
-  canUserEditDashboard,
-  canUserSaveAsDashboard,
-} from 'src/dashboard/util/permissionUtils';
+import { canUserEditDashboard } from 'src/dashboard/util/permissionUtils';
 import {
   getCrossFiltersConfiguration,
   isCrossFiltersEnabled,
@@ -313,6 +310,17 @@ export const hydrateDashboard =
       metadata.cross_filters_enabled,
     );
 
+    console.log(`hydrate dashboard roles`, roles);
+
+    console.log(
+      `hydrate dashboard can_ roles`,
+      new Set(
+        roles.Admin.filter(item => item.at(0).includes('can_')).map(item =>
+          item.at(0),
+        ),
+      ),
+    );
+
     return dispatch({
       type: HYDRATE_DASHBOARD,
       data: {
@@ -324,7 +332,8 @@ export const hydrateDashboard =
           metadata,
           userId: user.userId ? String(user.userId) : null, // legacy, please use state.user instead
           dash_edit_perm: canEdit,
-          dash_save_perm: canUserSaveAsDashboard(dashboard, user),
+          // dash_save_perm: canUserSaveAsDashboard(dashboard, user), // DODO commented #33907853
+          dash_save_perm: findPermission('can_save_dash', 'Superset', roles), // DODO added #33907853
           dash_share_perm: findPermission(
             'can_share_dashboard',
             'Superset',

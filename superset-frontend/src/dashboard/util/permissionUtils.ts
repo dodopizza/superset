@@ -73,14 +73,9 @@ export function userHasPermission(
 export const canUserSaveAsDashboard = (
   dashboard: Dashboard,
   user?: UserWithPermissionsAndRoles | UndefinedUser | null,
-) => {
-  debugger;
-
-  return (
-    isUserWithPermissionsAndRoles(user) &&
-    findPermission('can_write', 'Dashboard', user?.roles) &&
-    (!isFeatureEnabled(FeatureFlag.DASHBOARD_RBAC) ||
-      isUserAdmin(user) ||
-      isUserDashboardOwner(dashboard, user))
-  );
-};
+) =>
+  isUserWithPermissionsAndRoles(user) &&
+  findPermission('can_write', 'Dashboard', user?.roles) &&
+  (!isFeatureEnabled(FeatureFlag.DASHBOARD_RBAC) ||
+    isUserAdmin(user) ||
+    isUserDashboardOwner(dashboard, user));
