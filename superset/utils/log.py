@@ -238,7 +238,6 @@ class AbstractEventLogger(ABC):
     ) -> Callable[..., Any]:
         @functools.wraps(f)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            self.stats_logger.log_query_start(request.url)
             action_str = (
                 action(*args, **kwargs) if callable(action) else action
             ) or f.__name__
@@ -254,7 +253,6 @@ class AbstractEventLogger(ABC):
                     value = f(*args, add_extra_log_payload=log, **kwargs)
                 else:
                     value = f(*args, **kwargs)
-            self.stats_logger.log_query_end(request.url)
             return value
 
         return wrapper
@@ -265,9 +263,10 @@ class AbstractEventLogger(ABC):
 
     def log_this_with_context(self, **kwargs: Any) -> Callable[..., Any]:
         """Decorator that can override kwargs of log_context"""
+        self.stats_logger.log_query_start(request.url)
         def func(f: Callable[..., Any]) -> Callable[..., Any]:
             return self._wrapper(f, **kwargs)
-
+        self.stats_logger.log_query_end(request.url)
         return func
 
     def log_this_with_extra_payload(self, f: Callable[..., Any]) -> Callable[..., Any]:
