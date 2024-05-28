@@ -310,17 +310,6 @@ export const hydrateDashboard =
       metadata.cross_filters_enabled,
     );
 
-    console.log(`hydrate dashboard roles`, roles);
-
-    console.log(
-      `hydrate dashboard can_ roles`,
-      new Set(
-        roles.Admin.filter(item => item.at(0).includes('can_')).map(item =>
-          item.at(0),
-        ),
-      ),
-    );
-
     return dispatch({
       type: HYDRATE_DASHBOARD,
       data: {
