@@ -17,11 +17,15 @@
 from flask import g, Response
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
+from marshmallow import fields, post_load, pre_load, Schema
+import logging
 
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
 from superset.models.user import DodoUser
+
+logger = logging.getLogger(__name__)
 
 user_response_schema = UserResponseSchema()
 
@@ -93,10 +97,10 @@ class CurrentUserRestApi(BaseSupersetApi):
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
 
-    @expose("/language/", methods=("GET",))
+    @expose("/<user_id>/language/", methods=("GET",))
     @safe
-    def language(self) -> Response:
-        try:
-            language = DodoUser.get_language
-        except:
-            return self.response_401()
+    def language(self, user_id: int) -> Response:
+        user = DodoUser.get(user_id)
+        logger.debug(user)
+        return self.response(200, result=user)
+

@@ -14,20 +14,16 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from marshmallow import Schema, fields
-from marshmallow.fields import Boolean, Integer, String
+# pylint: disable=arguments-renamed
+from __future__ import annotations
+
+import logging
+
+from superset.daos.base import BaseDAO
+from superset.models.user import DodoUser
+
+logger = logging.getLogger(__name__)
 
 
-class UserResponseSchema(Schema):
-    id = Integer()
-    username = String()
-    email = String()
-    first_name = String()
-    last_name = String()
-    is_active = Boolean()
-    is_anonymous = Boolean()
-
-
-# class LanguageEntrySchema(Schema):
-#     # native_filter_configuration is for dashboard-native filters
-#     native_filter_configuration = fields.List(fields.Dict(), allow_none=True)
+class DodoUserDAO(BaseDAO[DodoUser]):
+    pass
