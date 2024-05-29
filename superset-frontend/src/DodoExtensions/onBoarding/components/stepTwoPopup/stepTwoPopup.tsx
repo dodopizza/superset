@@ -1,14 +1,17 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
-import { styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { debounce } from 'lodash';
+import Checkbox from 'src/components/Checkbox';
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
 import { RoleInformation } from './roleInformation';
 import { Team } from '../../types';
+import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
+import { useSelectRoles } from './useSelectRoles';
 
 const SEARCH_TEAM_DELAY = 500;
 
@@ -104,6 +107,8 @@ export const StepTwoPopup: FC<Props> = ({
 
   // console.log(`userFrom: ${userFrom}`);
 
+  const { SelectRole } = useSelectRoles();
+
   const { Title, Paragraph } = Typography;
 
   return (
@@ -158,14 +163,37 @@ export const StepTwoPopup: FC<Props> = ({
                 >
                   {teamName ?? 'no team'}
                 </TagAnt>
-                {/* <Tag */}
-                {/*  name={teamName ?? 'no team'} */}
-                {/*  editable={tagClosable} */}
-                {/*  index={0} */}
-                {/*  onDelete={tagClosable ? removeTeam : undefined} */}
-                {/* /> */}
               </Space>
               <Paragraph type="secondary">{teamDescription}</Paragraph>
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Analyze data" */}
+              {/*  description="Analyze available dashboards. Gather insights from charts inside a dashboard" */}
+              {/*  value */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create dashboards and charts" */}
+              {/*  description="Create dashboards. Create charts" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create datasets from data from Data Platform" */}
+              {/*  description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create datasets from data from isolated databases" */}
+              {/*  description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              <SelectRole />
             </Space>
           </Col>
           <Col span={10}>

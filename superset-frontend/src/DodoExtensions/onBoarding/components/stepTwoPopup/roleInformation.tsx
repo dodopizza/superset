@@ -7,7 +7,7 @@ const RoleText = styled(Typography.Text)`
   cursor: help;
 `;
 
-const checkData: Array<string> = [
+const analyseData: Array<string> = [
   'Analyze available dashboards',
   'Gather insights from charts inside a dashboard',
 ];
@@ -56,7 +56,7 @@ const RoleInfo: FC<{ title: string; data: Array<string> }> = ({
 
 const content = (
   <>
-    <RoleInfo title="Check Data" data={checkData} />
+    <RoleInfo title="Analyse Data" data={analyseData} />
     <RoleInfo title="Create Data" data={createData} />
     <RoleInfo title="Use Data" data={useData} />
     <RoleInfo title="Input Data" data={inputData} />
