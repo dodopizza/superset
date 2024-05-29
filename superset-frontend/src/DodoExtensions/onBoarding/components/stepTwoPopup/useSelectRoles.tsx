@@ -1,49 +1,84 @@
-import React, { useState } from 'react';
-import { Typography } from 'antd';
+import React, { FC, memo, useCallback } from 'react';
+import { Space, Typography } from 'antd';
+
+import { styled } from '@superset-ui/core';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
+import { Role } from '../../types';
 
-const useSelectRoles = () => {
-  const [isAnalyzeData, setIsAnalyzeData] = useState(false);
+const StyledSpace = styled(Space)`
+  width: 100%;
+`;
 
-  const Component = () => (
-    <>
-      <Typography.Text>
-        Which use cases are you interested in using Superset for?
-      </Typography.Text>
-      <CheckboxControl
-        hovered
-        label="Analyze data"
-        description="Analyze available dashboards. Gather insights from charts inside a dashboard"
-        value={isAnalyzeData}
-        onChange={setIsAnalyzeData}
-      />
-      <CheckboxControl
-        hovered
-        label="Create dashboards and charts"
-        description="Create dashboards. Create charts"
-        value={false}
-        // onChange={v => this.setState({ showMarkers: v })}
-      />
-      <CheckboxControl
-        hovered
-        label="Create datasets from data from Data Platform"
-        description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries"
-        value={false}
-        // onChange={v => this.setState({ showMarkers: v })}
-      />
-      <CheckboxControl
-        hovered
-        label="Create datasets from data from isolated databases"
-        description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries"
-        value={false}
-        // onChange={v => this.setState({ showMarkers: v })}
-      />
-    </>
-  );
+type Props = {
+  noTeam: boolean;
+  existingTeam: boolean;
+  isFranchisee: boolean;
 
-  return {
-    SelectRole: Component,
-  };
+  roles: Array<Role>;
+  setRoles: (roles: Array<Role>) => void;
 };
 
-export { useSelectRoles };
+export const UseSelectRoles: FC<Props> = memo(
+  ({ noTeam, existingTeam, isFranchisee, roles, setRoles }) => {
+    console.log(`useSelectRoles RENDER === `);
+
+    const updateRoles = useCallback(
+      (value: boolean, role: Role) => {
+        let newRoles: Array<Role> = [];
+        if (value) {
+          newRoles = [...roles, role];
+        } else {
+          newRoles = roles.filter(item => item !== role);
+        }
+
+        setRoles(newRoles);
+      },
+      [roles, setRoles],
+    );
+
+    return (
+      <>
+        <Typography.Title level={5}>
+          Which use cases are you interested in using Superset for?
+        </Typography.Title>
+        <StyledSpace direction="vertical" size="small">
+          <CheckboxControl
+            hovered
+            label="Analyze data"
+            description="Analyze available dashboards. Gather insights from charts inside a dashboard"
+            value={roles.includes(Role.AnalyseData)}
+            onChange={(value: boolean) => updateRoles(value, Role.AnalyseData)}
+            disabled={noTeam || existingTeam}
+          />
+          <CheckboxControl
+            hovered
+            label="Create dashboards and charts"
+            description="Create dashboards. Create charts"
+            value={roles.includes(Role.UseData)}
+            onChange={(value: boolean) => updateRoles(value, Role.UseData)}
+            disabled={noTeam || existingTeam}
+          />
+          <CheckboxControl
+            hovered
+            label="Create datasets from data from Data Platform"
+            description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries"
+            value={roles.includes(Role.CreateData)}
+            onChange={(value: boolean) => updateRoles(value, Role.CreateData)}
+            disabled={noTeam || existingTeam || isFranchisee}
+          />
+          <CheckboxControl
+            hovered
+            label="Create datasets from data from isolated databases"
+            description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries"
+            value={roles.includes(Role.InputData)}
+            onChange={(value: boolean) => updateRoles(value, Role.InputData)}
+            disabled={noTeam || existingTeam || isFranchisee}
+          />
+          <Typography.Text>
+            Based on your selection, your roles are:
+          </Typography.Text>
+        </StyledSpace>
+      </>
+    );
+  },
+);

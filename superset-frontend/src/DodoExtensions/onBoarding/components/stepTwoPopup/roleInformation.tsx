@@ -63,21 +63,20 @@ const content = (
   </>
 );
 
-const RoleInformation = () => {
-  const { Paragraph } = Typography;
-  return (
-    <Paragraph type="secondary">
+const RoleInformation = () => (
+  <span>
+    <Typography.Text type="secondary">
       You can read about Superset roles&nbsp;
-      <Popover
-        content={content}
-        title={
-          <Typography.Title level={4}>Superset roles overview</Typography.Title>
-        }
-      >
-        <RoleText underline>here</RoleText>
-      </Popover>
-    </Paragraph>
-  );
-};
+    </Typography.Text>
+    <Popover
+      content={content}
+      title={
+        <Typography.Title level={4}>Superset roles overview</Typography.Title>
+      }
+    >
+      <RoleText underline>here</RoleText>
+    </Popover>
+  </span>
+);
 
 export { RoleInformation };

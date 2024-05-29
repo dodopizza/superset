@@ -1,22 +1,24 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
-import { styled, t } from '@superset-ui/core';
+import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { debounce } from 'lodash';
-import Checkbox from 'src/components/Checkbox';
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
 import { RoleInformation } from './roleInformation';
-import { Team } from '../../types';
-import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
-import { useSelectRoles } from './useSelectRoles';
+import { Role, Team } from '../../types';
+import { UseSelectRoles, useSelectRoles } from './useSelectRoles';
 
 const SEARCH_TEAM_DELAY = 500;
 
 const Wrapper = styled.div`
   padding: 1.5rem;
+`;
+
+const StyledSpace = styled(Space)`
+  width: 100%;
 `;
 
 enum userFromType {
@@ -39,11 +41,20 @@ export const StepTwoPopup: FC<Props> = ({
   teamIsLoading,
   loadTeamList,
 }) => {
-  const [userFrom, setUserFrom] = React.useState<userFromType>(
+  const [userFrom, setUserFrom] = useState<userFromType>(
     userFromType.Franchisee,
   );
-  const [newTeam, setNewTeam] = React.useState<string | null>(null);
-  const [existingTeam, setExistingTeam] = React.useState<any | null>(null);
+  const [newTeam, setNewTeam] = useState<string | null>(null);
+  const [existingTeam, setExistingTeam] = useState<any | null>(null);
+
+  const [isAnalyzeData, setIsAnalyzeData] = useState(true);
+  const [isCreateDashboards, setIsCreateDashboards] = useState(false);
+  const [isCreateDatasetDataPlatform, setIsCreateDatasetDataPlatform] =
+    useState(true);
+  const [isCreateDatasetIsolatedDB, setIsCreateDatasetIsolatedDB] =
+    useState(false);
+
+  const [roles, setRoles] = useState<Array<Role>>([]);
 
   const toggleUseFrom = useCallback(
     ({ target: { value } }: RadioChangeEvent) => setUserFrom(value),
@@ -81,7 +92,10 @@ export const StepTwoPopup: FC<Props> = ({
     if (existingTeam) {
       return existingTeam.label;
     }
-    return newTeam;
+    if (newTeam) {
+      return newTeam;
+    }
+    return null;
   }, [existingTeam, newTeam]);
 
   const tagClosable = useMemo(
@@ -105,11 +119,13 @@ export const StepTwoPopup: FC<Props> = ({
     e.preventDefault();
   }, []);
 
-  // console.log(`userFrom: ${userFrom}`);
+  console.log(`roles: ${JSON.stringify(roles)}`);
 
-  const { SelectRole } = useSelectRoles();
+  // console.log(
+  //   `isAnalyzeData:${isAnalyzeData} isCreateDashboards:${isCreateDashboards} isCreateDatasetDataPlatform:${isCreateDatasetDataPlatform} isCreateDatasetIsolatedDB:${isCreateDatasetIsolatedDB}`,
+  // );
 
-  const { Title, Paragraph } = Typography;
+  const { Title } = Typography;
 
   return (
     <Modal
@@ -122,24 +138,35 @@ export const StepTwoPopup: FC<Props> = ({
       <Wrapper>
         <Row gutter={32}>
           <Col span={14}>
+            <Title level={3}>Tell us why you are here</Title>
+
+            <RoleInformation />
+
+            <Typography.Title level={5}>
+              Are you a franchisee or from a Managing Company?
+            </Typography.Title>
+
             <Space direction="vertical" size="small">
-              <Title level={3}>Tell us why you are here</Title>
-              <RoleInformation />
-              <Paragraph>
-                Are you a franchisee or from a Managing Company?
-              </Paragraph>
+              {/* <Typography.Text> */}
+              {/*  Are you a franchisee or from a Managing Company? */}
+              {/* </Typography.Text> */}
               <Radio.Group
                 name="userFrom"
                 value={userFrom}
                 onChange={toggleUseFrom}
                 options={userFormOptions}
               />
-              <Paragraph type="secondary">
-                <Typography.Text>
-                  Create of find your team&nbsp;
-                </Typography.Text>
-                (all C-level people please select ‘c_level’)
-              </Paragraph>
+              <span />
+            </Space>
+
+            <Typography.Title level={5}>
+              Create of find your team
+            </Typography.Title>
+
+            <StyledSpace direction="vertical" size="small">
+              <Typography.Text type="secondary">
+                All C-level people please select ‘c_level’
+              </Typography.Text>
 
               <AutoComplete
                 value={teamName}
@@ -148,12 +175,9 @@ export const StepTwoPopup: FC<Props> = ({
                 onSearch={debouncedLoadTeamList}
                 onChange={handleTeamChange}
               >
-                <Input.Search
-                  // size="large"
-                  placeholder="your team"
-                  loading={teamIsLoading}
-                />
+                <Input.Search placeholder="your team" loading={teamIsLoading} />
               </AutoComplete>
+
               <Space direction="horizontal" size="small">
                 <Typography.Text>Your team name is</Typography.Text>
                 <TagAnt
@@ -164,37 +188,21 @@ export const StepTwoPopup: FC<Props> = ({
                   {teamName ?? 'no team'}
                 </TagAnt>
               </Space>
-              <Paragraph type="secondary">{teamDescription}</Paragraph>
-              {/* <CheckboxControl */}
-              {/*  hovered */}
-              {/*  label="Analyze data" */}
-              {/*  description="Analyze available dashboards. Gather insights from charts inside a dashboard" */}
-              {/*  value */}
-              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
-              {/* /> */}
-              {/* <CheckboxControl */}
-              {/*  hovered */}
-              {/*  label="Create dashboards and charts" */}
-              {/*  description="Create dashboards. Create charts" */}
-              {/*  value={false} */}
-              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
-              {/* /> */}
-              {/* <CheckboxControl */}
-              {/*  hovered */}
-              {/*  label="Create datasets from data from Data Platform" */}
-              {/*  description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries" */}
-              {/*  value={false} */}
-              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
-              {/* /> */}
-              {/* <CheckboxControl */}
-              {/*  hovered */}
-              {/*  label="Create datasets from data from isolated databases" */}
-              {/*  description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries" */}
-              {/*  value={false} */}
-              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
-              {/* /> */}
-              <SelectRole />
-            </Space>
+
+              {teamDescription && (
+                <Typography.Text type="secondary">
+                  {teamDescription}
+                </Typography.Text>
+              )}
+            </StyledSpace>
+
+            <UseSelectRoles
+              noTeam={!teamName}
+              existingTeam={!!existingTeam}
+              isFranchisee={userFrom === userFromType.Franchisee}
+              roles={roles}
+              setRoles={setRoles}
+            />
           </Col>
           <Col span={10}>
             <img
