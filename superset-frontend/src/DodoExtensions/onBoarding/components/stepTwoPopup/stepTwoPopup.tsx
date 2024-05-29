@@ -1,12 +1,19 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { Space, Typography } from 'antd';
-import { styled } from '@superset-ui/core';
+import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
+import { styled, t } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { RadioChangeEvent } from 'antd/lib/radio';
+import { debounce } from 'lodash';
+import Checkbox from 'src/components/Checkbox';
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
 import { RoleInformation } from './roleInformation';
+import { Team } from '../../types';
+import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
+import { useSelectRoles } from './useSelectRoles';
+
+const SEARCH_TEAM_DELAY = 500;
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -18,16 +25,25 @@ enum userFromType {
 }
 
 type Props = {
+  loadTeamList: (query: string) => Promise<void>;
+  teamList: Array<Team>;
+  teamIsLoading: boolean;
   isUpdating?: boolean;
   onClose: () => void;
   onSubmit?: (dto: StepOnePopupDto) => void;
 };
 
-export const StepTwoPopup: FC<Props> = ({ onClose }) => {
+export const StepTwoPopup: FC<Props> = ({
+  onClose,
+  teamList,
+  teamIsLoading,
+  loadTeamList,
+}) => {
   const [userFrom, setUserFrom] = React.useState<userFromType>(
     userFromType.Franchisee,
   );
-  const { Title, Paragraph } = Typography;
+  const [newTeam, setNewTeam] = React.useState<string | null>(null);
+  const [existingTeam, setExistingTeam] = React.useState<any | null>(null);
 
   const toggleUseFrom = useCallback(
     ({ target: { value } }: RadioChangeEvent) => setUserFrom(value),
@@ -39,7 +55,61 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
     [],
   );
 
-  console.log(`userFrom: ${userFrom}`);
+  const debouncedLoadTeamList = useMemo(
+    () => debounce((value: string) => loadTeamList(value), SEARCH_TEAM_DELAY),
+    [loadTeamList],
+  );
+
+  const handleTeamChange: (value: string, option: any) => void = useCallback(
+    (value, option) => {
+      if (!!option.value && !!option.label) {
+        setExistingTeam(option);
+        setNewTeam(null);
+      } else {
+        if (value) {
+          setNewTeam(value);
+        } else {
+          setNewTeam(null);
+        }
+        setExistingTeam(null);
+      }
+    },
+    [],
+  );
+
+  const teamName = useMemo(() => {
+    if (existingTeam) {
+      return existingTeam.label;
+    }
+    return newTeam;
+  }, [existingTeam, newTeam]);
+
+  const tagClosable = useMemo(
+    () => !!existingTeam || !!newTeam,
+    [existingTeam, newTeam],
+  );
+
+  const teamDescription = useMemo(() => {
+    if (existingTeam) {
+      return `Since [${existingTeam.label}] is a known tag, you can enter the team automatically.`;
+    }
+    if (newTeam) {
+      return `Since [${newTeam}] is a new tag, Superset admins will have to evaluate this request.`;
+    }
+    return '';
+  }, [existingTeam, newTeam]);
+
+  const removeTeam = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    setNewTeam(null);
+    setExistingTeam(null);
+    e.preventDefault();
+  }, []);
+
+  // console.log(`userFrom: ${userFrom}`);
+
+  const { SelectRole } = useSelectRoles();
+
+  const { Title, Paragraph } = Typography;
 
   return (
     <Modal
@@ -58,7 +128,6 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               <Paragraph>
                 Are you a franchisee or from a Managing Company?
               </Paragraph>
-
               <Radio.Group
                 name="userFrom"
                 value={userFrom}
@@ -71,6 +140,60 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
                 </Typography.Text>
                 (all C-level people please select ‘c_level’)
               </Paragraph>
+
+              <AutoComplete
+                value={teamName}
+                options={teamList}
+                style={{ width: '100%' }}
+                onSearch={debouncedLoadTeamList}
+                onChange={handleTeamChange}
+              >
+                <Input.Search
+                  // size="large"
+                  placeholder="your team"
+                  loading={teamIsLoading}
+                />
+              </AutoComplete>
+              <Space direction="horizontal" size="small">
+                <Typography.Text>Your team name is</Typography.Text>
+                <TagAnt
+                  color="#ff6900"
+                  closable={tagClosable}
+                  onClose={removeTeam}
+                >
+                  {teamName ?? 'no team'}
+                </TagAnt>
+              </Space>
+              <Paragraph type="secondary">{teamDescription}</Paragraph>
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Analyze data" */}
+              {/*  description="Analyze available dashboards. Gather insights from charts inside a dashboard" */}
+              {/*  value */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create dashboards and charts" */}
+              {/*  description="Create dashboards. Create charts" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create datasets from data from Data Platform" */}
+              {/*  description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              {/* <CheckboxControl */}
+              {/*  hovered */}
+              {/*  label="Create datasets from data from isolated databases" */}
+              {/*  description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries" */}
+              {/*  value={false} */}
+              {/*  // onChange={v => this.setState({ showMarkers: v })} */}
+              {/* /> */}
+              <SelectRole />
             </Space>
           </Col>
           <Col span={10}>
