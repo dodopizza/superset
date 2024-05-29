@@ -21,7 +21,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
-from superset.models.onboarding import OnboardingUser
+from superset.models.user import DodoUser
 
 user_response_schema = UserResponseSchema()
 
@@ -97,6 +97,6 @@ class CurrentUserRestApi(BaseSupersetApi):
     @safe
     def language(self) -> Response:
         try:
-            language = OnboardingUser
+            language = DodoUser.get_language
         except:
             return self.response_401()
