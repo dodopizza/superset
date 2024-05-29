@@ -21,6 +21,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
+from superset.models.onboarding import OnboardingUser
 
 user_response_schema = UserResponseSchema()
 
@@ -91,3 +92,11 @@ class CurrentUserRestApi(BaseSupersetApi):
             return self.response_401()
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
+
+    @expose("/language/", methods=("GET",))
+    @safe
+    def language(self) -> Response:
+        try:
+            language = OnboardingUser
+        except:
+            return self.response_401()
