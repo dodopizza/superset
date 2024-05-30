@@ -20,7 +20,7 @@ from __future__ import annotations
 import logging
 
 from superset.daos.base import BaseDAO
-from superset.models.user import DodoUser
+from superset.models.ext_info_user import DodoUser
 
 logger = logging.getLogger(__name__)
 
