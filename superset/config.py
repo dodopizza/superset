@@ -149,7 +149,8 @@ ROW_LIMIT = 50000
 # default row limit when requesting samples from datasource in explore view
 SAMPLES_ROW_LIMIT = 1000
 # default row limit for native filters
-NATIVE_FILTER_DEFAULT_ROW_LIMIT = 1000
+# NATIVE_FILTER_DEFAULT_ROW_LIMIT = 1000 #DODO commented #34232579
+NATIVE_FILTER_DEFAULT_ROW_LIMIT = 2000 #DODO added #34232579
 # max rows retrieved by filter select auto complete
 FILTER_SELECT_ROW_LIMIT = 10000
 # default time filter in explore
