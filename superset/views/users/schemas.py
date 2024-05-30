@@ -15,7 +15,8 @@
 # specific language governing permissions and limitations
 # under the License.
 from marshmallow import Schema
-from marshmallow.fields import Boolean, Integer, String
+from marshmallow.fields import Boolean, Integer, String, DateTime
+from typing import Union
 
 
 class UserResponseSchema(Schema):
@@ -26,3 +27,6 @@ class UserResponseSchema(Schema):
     last_name = String()
     is_active = Boolean()
     is_anonymous = Boolean()
+    language = String(missing=True)
+    # isOnboardingFinished = Union[Boolean(), None]
+    # onboardingStartedTime = Union[DateTime(), None]

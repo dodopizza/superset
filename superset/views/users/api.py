@@ -20,9 +20,12 @@ from flask import g, Response
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
 
+from superset.extensions import db
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
+from superset.models.user_info import UserInfo
+from superset.utils.core import get_user_id
 
 logger = logging.getLogger(__name__)
 user_response_schema = UserResponseSchema()
@@ -95,9 +98,56 @@ class CurrentUserRestApi(BaseSupersetApi):
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
 
-    # @expose("/<user_id>/language/", methods=("GET",))
-    # @safe
-    # def language(self, user_id: int) -> Response:
-    #     user = ExtInfoUser.get(user_id)
-    #     logger.debug(user)
-    #     return self.response(200, result=user)
+    @expose("/language/", methods=("GET",))
+    @safe
+    def get_language(self) -> Response:
+        user = g.user
+        logger.warning(user.__dict__)
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user.id).one_or_none()
+        )
+        if user_info:
+            result = {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "is_active": user.is_active,
+                "is_anonymous": user.is_anonymous,
+                "language": user_info.language
+            }
+
+            result = user_response_schema.dump(result)
+            logger.warning(result)
+            return self.response(200, result=result)
+
+        return self.response_400("bad request")
+
+    @expose("/language/<lang>", methods=("PUT",))
+    @safe
+    def update_language(self, lang: str) -> Response:
+        user = g.user
+        logger.warning(user.__dict__)
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user.id).one_or_none()
+        )
+        user_info.language = lang
+        db.session.commit()
+        if user_info:
+            result = {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "is_active": user.is_active,
+                "is_anonymous": user.is_anonymous,
+                "language": user_info.language
+            }
+
+            result = user_response_schema.dump(result)
+            logger.warning(result)
+            return self.response(200, result=result)
+
+        return self.response_400("bad request")
