@@ -23,7 +23,7 @@ import logging
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
-from superset.models.ext_info_user import DodoUser
+from superset.models.ext_info_user import ExtInfoUser
 
 logger = logging.getLogger(__name__)
 
@@ -97,10 +97,10 @@ class CurrentUserRestApi(BaseSupersetApi):
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
 
-    @expose("/<user_id>/language/", methods=("GET",))
-    @safe
-    def language(self, user_id: int) -> Response:
-        user = DodoUser.get(user_id)
-        logger.debug(user)
-        return self.response(200, result=user)
+    # @expose("/<user_id>/language/", methods=("GET",))
+    # @safe
+    # def language(self, user_id: int) -> Response:
+    #     user = ExtInfoUser.get(user_id)
+    #     logger.debug(user)
+    #     return self.response(200, result=user)
 
