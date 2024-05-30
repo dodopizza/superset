@@ -1,5 +1,5 @@
 import { SupersetClient } from '@superset-ui/core';
-import { Team } from '../types';
+import { Role, Team } from '../types';
 
 export const repoUpdateFIO = async (firstName: string, lastName: string) => {
   try {
@@ -34,9 +34,31 @@ export const repoLoadTeamList = async (query: string): Promise<Array<Team>> => {
       setTimeout(
         () =>
           resolve([
-            { label: `team one label`, value: `team one value` },
-            { label: `team two label`, value: `team two value` },
-            { label: `one more label`, value: `one more value` },
+            {
+              label: `admin`,
+              value: `admin`,
+              roles: [
+                Role.AnalyseData,
+                Role.UseData,
+                Role.InputData,
+                Role.CreateData,
+              ],
+            },
+            {
+              label: `alfa`,
+              value: `alfa`,
+              roles: [Role.AnalyseData, Role.UseData, Role.InputData],
+            },
+            {
+              label: `betta`,
+              value: `betta`,
+              roles: [Role.AnalyseData, Role.UseData],
+            },
+            {
+              label: `gamma`,
+              value: `gamma`,
+              roles: [Role.AnalyseData],
+            },
           ]),
         2000,
       ),
