@@ -23,7 +23,7 @@ import logging
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
-from superset.models.user import DodoUser
+from superset.models.ext_info_user import DodoUser
 
 logger = logging.getLogger(__name__)
 
