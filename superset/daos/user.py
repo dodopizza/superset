@@ -20,10 +20,10 @@ from __future__ import annotations
 import logging
 
 from superset.daos.base import BaseDAO
-from superset.models.ext_info_user import DodoUser
+from superset.models.ext_info_user import ExtInfoUser
 
 logger = logging.getLogger(__name__)
 
 
-class DodoUserDAO(BaseDAO[DodoUser]):
+class DodoUserDAO(BaseDAO[ExtInfoUser]):
     pass
