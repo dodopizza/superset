@@ -7,6 +7,7 @@ import { Role } from '../../types';
 
 const StyledSpace = styled(Space)`
   width: 100%;
+  display: flex;
 `;
 
 type Props = {
@@ -18,7 +19,7 @@ type Props = {
   setRoles: (roles: Array<Role>) => void;
 };
 
-export const UseSelectRoles: FC<Props> = memo(
+export const SelectRoles: FC<Props> = memo(
   ({ noTeam, existingTeam, isFranchisee, roles, setRoles }) => {
     console.log(`useSelectRoles RENDER === `);
 
@@ -76,6 +77,9 @@ export const UseSelectRoles: FC<Props> = memo(
           />
           <Typography.Text>
             Based on your selection, your roles are:
+          </Typography.Text>
+          <Typography.Text strong underline>
+            {roles.join(',')}
           </Typography.Text>
         </StyledSpace>
       </>

@@ -1,24 +1,24 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { RadioChangeEvent } from 'antd/lib/radio';
-import { debounce } from 'lodash';
+
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
 import { RoleInformation } from './roleInformation';
 import { Role, Team } from '../../types';
-import { UseSelectRoles, useSelectRoles } from './useSelectRoles';
-
-const SEARCH_TEAM_DELAY = 500;
+import { SelectRoles } from './selectRoles';
+import { CreateOrFindTeam } from './createOrFindTeam';
+import Button from '../../../../components/Button';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
 `;
 
-const StyledSpace = styled(Space)`
-  width: 100%;
+const StyledButton = styled(Button)`
+  margin-top: 1.5rem;
 `;
 
 enum userFromType {
@@ -47,13 +47,6 @@ export const StepTwoPopup: FC<Props> = ({
   const [newTeam, setNewTeam] = useState<string | null>(null);
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
 
-  const [isAnalyzeData, setIsAnalyzeData] = useState(true);
-  const [isCreateDashboards, setIsCreateDashboards] = useState(false);
-  const [isCreateDatasetDataPlatform, setIsCreateDatasetDataPlatform] =
-    useState(true);
-  const [isCreateDatasetIsolatedDB, setIsCreateDatasetIsolatedDB] =
-    useState(false);
-
   const [roles, setRoles] = useState<Array<Role>>([]);
 
   const toggleUseFrom = useCallback(
@@ -65,65 +58,6 @@ export const StepTwoPopup: FC<Props> = ({
     () => [userFromType.Franchisee, userFromType.ManagingCompany],
     [],
   );
-
-  const debouncedLoadTeamList = useMemo(
-    () => debounce((value: string) => loadTeamList(value), SEARCH_TEAM_DELAY),
-    [loadTeamList],
-  );
-
-  const handleTeamChange: (value: string, option: any) => void = useCallback(
-    (value, option) => {
-      if (!!option.value && !!option.label) {
-        setExistingTeam(option);
-        setNewTeam(null);
-      } else {
-        if (value) {
-          setNewTeam(value);
-        } else {
-          setNewTeam(null);
-        }
-        setExistingTeam(null);
-      }
-    },
-    [],
-  );
-
-  const teamName = useMemo(() => {
-    if (existingTeam) {
-      return existingTeam.label;
-    }
-    if (newTeam) {
-      return newTeam;
-    }
-    return null;
-  }, [existingTeam, newTeam]);
-
-  const tagClosable = useMemo(
-    () => !!existingTeam || !!newTeam,
-    [existingTeam, newTeam],
-  );
-
-  const teamDescription = useMemo(() => {
-    if (existingTeam) {
-      return `Since [${existingTeam.label}] is a known tag, you can enter the team automatically.`;
-    }
-    if (newTeam) {
-      return `Since [${newTeam}] is a new tag, Superset admins will have to evaluate this request.`;
-    }
-    return '';
-  }, [existingTeam, newTeam]);
-
-  const removeTeam = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    setNewTeam(null);
-    setExistingTeam(null);
-    e.preventDefault();
-  }, []);
-
-  console.log(`roles: ${JSON.stringify(roles)}`);
-
-  // console.log(
-  //   `isAnalyzeData:${isAnalyzeData} isCreateDashboards:${isCreateDashboards} isCreateDatasetDataPlatform:${isCreateDatasetDataPlatform} isCreateDatasetIsolatedDB:${isCreateDatasetIsolatedDB}`,
-  // );
 
   const { Title } = Typography;
 
@@ -147,9 +81,6 @@ export const StepTwoPopup: FC<Props> = ({
             </Typography.Title>
 
             <Space direction="vertical" size="small">
-              {/* <Typography.Text> */}
-              {/*  Are you a franchisee or from a Managing Company? */}
-              {/* </Typography.Text> */}
               <Radio.Group
                 name="userFrom"
                 value={userFrom}
@@ -159,50 +90,33 @@ export const StepTwoPopup: FC<Props> = ({
               <span />
             </Space>
 
-            <Typography.Title level={5}>
-              Create of find your team
-            </Typography.Title>
+            <CreateOrFindTeam
+              newTeam={newTeam}
+              existingTeam={existingTeam}
+              teamList={teamList}
+              loadTeamList={loadTeamList}
+              setExistingTeam={setExistingTeam}
+              setNewTeam={setNewTeam}
+              teamIsLoading={teamIsLoading}
+              setRoles={setRoles}
+            />
 
-            <StyledSpace direction="vertical" size="small">
-              <Typography.Text type="secondary">
-                All C-level people please select ‘c_level’
-              </Typography.Text>
-
-              <AutoComplete
-                value={teamName}
-                options={teamList}
-                style={{ width: '100%' }}
-                onSearch={debouncedLoadTeamList}
-                onChange={handleTeamChange}
-              >
-                <Input.Search placeholder="your team" loading={teamIsLoading} />
-              </AutoComplete>
-
-              <Space direction="horizontal" size="small">
-                <Typography.Text>Your team name is</Typography.Text>
-                <TagAnt
-                  color="#ff6900"
-                  closable={tagClosable}
-                  onClose={removeTeam}
-                >
-                  {teamName ?? 'no team'}
-                </TagAnt>
-              </Space>
-
-              {teamDescription && (
-                <Typography.Text type="secondary">
-                  {teamDescription}
-                </Typography.Text>
-              )}
-            </StyledSpace>
-
-            <UseSelectRoles
-              noTeam={!teamName}
+            <SelectRoles
+              noTeam={!existingTeam && !newTeam}
               existingTeam={!!existingTeam}
               isFranchisee={userFrom === userFromType.Franchisee}
               roles={roles}
               setRoles={setRoles}
             />
+
+            <StyledButton
+              type="primary"
+              htmlType="submit"
+              buttonSize="default"
+              disabled={(!existingTeam && !newTeam) || roles.length === 0}
+            >
+              Finish onboarding
+            </StyledButton>
           </Col>
           <Col span={10}>
             <img
