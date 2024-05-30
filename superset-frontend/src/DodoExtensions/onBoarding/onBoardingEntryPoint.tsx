@@ -1,8 +1,11 @@
-import React, { FC } from 'react';
-import { BootstrapUser } from '../../types/bootstrapTypes';
+import React, { FC, useEffect } from 'react';
+import { makeApi } from '@superset-ui/core';
+import { useDispatch } from 'react-redux';
+import { BootstrapUser, User } from '../../types/bootstrapTypes';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
 import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
 import { useOnboarding } from './useOnboarding';
+import { initOnboarding } from './model/actions/initOnboarding';
 
 type OnBoardingEntryPointProps = {
   user: BootstrapUser & {
@@ -12,6 +15,19 @@ type OnBoardingEntryPointProps = {
 };
 
 const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // const getMe = makeApi<void, User>({
+    //   method: 'GET',
+    //   endpoint: '/api/v1/me/',
+    // });
+    // const me = getMe();
+    // console.log(`useEffect me`, me);
+
+    dispatch(initOnboarding());
+  }, [dispatch]);
+
   const {
     step,
     toStepTwo,
@@ -30,6 +46,7 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
         firstName={user.firstName}
         lastName={user.lastName}
         email={user.email ?? ''}
+        roleAndTeam=""
         onNextStep={toStepTwo}
       />
     );

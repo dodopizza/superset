@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { Col, Row } from 'src/components';
 import { Typography } from 'antd';
-import { styled, t } from '@superset-ui/core';
+import { styled } from '@superset-ui/core';
 import Modal from '../../../../components/Modal';
 import { Form, FormItem } from '../../../../components/Form';
 import { StepOnePopupDto } from './stepOnePopup.dto';
 import { Input } from '../../../../components/Input';
-import Button from '../../../../components/Button';
 import Loading from '../../../../components/Loading';
+import { ButtonWithTopMargin } from '../styles';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -18,6 +18,7 @@ type Props = {
   firstName: string;
   lastName: string;
   email: string;
+  roleAndTeam: string;
   onClose: () => void;
   onNextStep: (dto: StepOnePopupDto) => void;
 };
@@ -27,6 +28,7 @@ export const StepOnePopup: FC<Props> = ({
   firstName,
   lastName,
   email,
+  roleAndTeam,
   onNextStep,
   onClose,
 }) => {
@@ -60,15 +62,9 @@ export const StepOnePopup: FC<Props> = ({
                   <FormItem
                     label="First name"
                     name="firstName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your first name!',
-                      },
-                    ]}
                     initialValue={firstName}
                   >
-                    <Input />
+                    <Input disabled />
                   </FormItem>
                 </Col>
 
@@ -76,15 +72,9 @@ export const StepOnePopup: FC<Props> = ({
                   <FormItem
                     label="Last name"
                     name="lastName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your last name!',
-                      },
-                    ]}
                     initialValue={lastName}
                   >
-                    <Input />
+                    <Input disabled />
                   </FormItem>
                 </Col>
               </Row>
@@ -95,11 +85,26 @@ export const StepOnePopup: FC<Props> = ({
                   </FormItem>
                 </Col>
               </Row>
-              <FormItem>
-                <Button type="primary" htmlType="submit">
-                  {t('Next step')}
-                </Button>
-              </FormItem>
+              <Row>
+                <Col span={24}>
+                  <FormItem
+                    label="Role and team"
+                    name="roleAndTeam"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your role and team!',
+                      },
+                    ]}
+                    initialValue={roleAndTeam}
+                  >
+                    <Input />
+                  </FormItem>
+                </Col>
+              </Row>
+              <ButtonWithTopMargin type="primary" htmlType="submit">
+                Next step
+              </ButtonWithTopMargin>
             </Form>
           </Col>
 

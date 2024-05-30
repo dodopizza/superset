@@ -5,7 +5,7 @@ import {
   repoLoadTeamList,
   repoUpdateFIO,
   repoUpdateOnboardingStartedTime,
-} from './utils/onboardingRepository';
+} from './repository/onboardingRepository';
 import { updateStorageTimeOfTheLastShow } from './utils/localStorageUtils';
 import { Team } from './types';
 

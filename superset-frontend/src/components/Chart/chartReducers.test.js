@@ -19,7 +19,7 @@
 import chartReducer, { chart } from 'src/components/Chart/chartReducer';
 import * as actions from 'src/components/Chart/chartAction';
 
-describe('chart reducers', () => {
+describe('chart slice', () => {
   const chartKey = 1;
   let testChart;
   let charts;

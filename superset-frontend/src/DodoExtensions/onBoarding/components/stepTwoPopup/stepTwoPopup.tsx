@@ -11,14 +11,10 @@ import { RoleInformation } from './roleInformation';
 import { Role, Team } from '../../types';
 import { SelectRoles } from './selectRoles';
 import { CreateOrFindTeam } from './createOrFindTeam';
-import Button from '../../../../components/Button';
+import { ButtonWithTopMargin } from '../styles';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
-`;
-
-const StyledButton = styled(Button)`
-  margin-top: 1.5rem;
 `;
 
 enum userFromType {
@@ -109,14 +105,14 @@ export const StepTwoPopup: FC<Props> = ({
               setRoles={setRoles}
             />
 
-            <StyledButton
+            <ButtonWithTopMargin
               type="primary"
               htmlType="submit"
               buttonSize="default"
               disabled={(!existingTeam && !newTeam) || roles.length === 0}
             >
               Finish onboarding
-            </StyledButton>
+            </ButtonWithTopMargin>
           </Col>
           <Col span={10}>
             <img

@@ -136,7 +136,7 @@ export const hydrateExplore =
 
     const exploreState = {
       // note this will add `form_data` to state,
-      // which will be manipulable by future reducers.
+      // which will be manipulable by future slice.
       can_add: findPermission('can_write', 'Chart', user?.roles),
       can_download: findPermission('can_csv', 'Superset', user?.roles),
       can_overwrite: ensureIsArray(slice?.owners).includes(

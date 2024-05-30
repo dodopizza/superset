@@ -1,5 +1,6 @@
-import { SupersetClient } from '@superset-ui/core';
+import { makeApi, SupersetClient } from '@superset-ui/core';
 import { Role, Team } from '../types';
+import { User } from '../../../types/bootstrapTypes';
 
 export const repoUpdateFIO = async (firstName: string, lastName: string) => {
   try {
@@ -67,4 +68,13 @@ export const repoLoadTeamList = async (query: string): Promise<Array<Team>> => {
     console.log(`repoLoadTeamList catch error`, e);
     return [];
   }
+};
+
+export const repoLoadMe = async () => {
+  const getMe = makeApi<void, User>({
+    method: 'GET',
+    endpoint: '/api/v1/me/',
+  });
+  const res = await getMe();
+  console.log('getMe, res', res);
 };

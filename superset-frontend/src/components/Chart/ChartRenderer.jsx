@@ -117,7 +117,7 @@ class ChartRenderer extends React.Component {
 
     // TODO: queriesResponse comes from Redux store but it's being edited by
     // the plugins, hence we need to clone it to avoid state mutation
-    // until we change the reducers to use Redux Toolkit with Immer
+    // until we change the slice to use Redux Toolkit with Immer
     this.mutableQueriesResponse = cloneDeep(this.props.queriesResponse);
   }
 

@@ -49,8 +49,9 @@ import { AnyDatasourcesAction } from 'src/explore/actions/datasourcesActions';
 import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
+import { onboardingReducer } from '../DodoExtensions/onBoarding/model/slice/onboardingSlice';
 
-// Some reducers don't do anything, and redux is just used to reference the initial "state".
+// Some slice don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
 const noopReducer =
   <STATE = unknown>(initialState: STATE) =>
@@ -92,8 +93,8 @@ const getMiddleware: ConfigureStoreOptions['middleware'] =
         }).concat(logger, api.middleware)
       : [thunk, logger, api.middleware];
 
-// TODO: This reducer is a combination of the Dashboard and Explore reducers.
-// The correct way of handling this is to unify the actions and reducers from both
+// TODO: This reducer is a combination of the Dashboard and Explore slice.
+// The correct way of handling this is to unify the actions and slice from both
 // modules in shared files. This involves a big refactor to unify the parameter types
 // and move files around. We should tackle this in a specific PR.
 const CombinedDatasourceReducers = (
@@ -129,6 +130,7 @@ const reducers = {
   reports,
   saveModal,
   explore,
+  onboarding: onboardingReducer,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html
