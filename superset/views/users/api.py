@@ -25,7 +25,7 @@ from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
 from superset.models.user_info import UserInfo
-from superset.utils.core import get_user_id
+from superset.utils.core import get_language
 
 logger = logging.getLogger(__name__)
 user_response_schema = UserResponseSchema()
@@ -102,11 +102,8 @@ class CurrentUserRestApi(BaseSupersetApi):
     @safe
     def get_language(self) -> Response:
         user = g.user
-        logger.warning(user.__dict__)
-        user_info = (
-            db.session.query(UserInfo).filter(UserInfo.user_id == user.id).one_or_none()
-        )
-        if user_info:
+        language = get_language()
+        if language:
             result = {
                 "id": user.id,
                 "username": user.username,
@@ -115,9 +112,8 @@ class CurrentUserRestApi(BaseSupersetApi):
                 "last_name": user.last_name,
                 "is_active": user.is_active,
                 "is_anonymous": user.is_anonymous,
-                "language": user_info.language
+                "language": language
             }
-
             result = user_response_schema.dump(result)
             logger.warning(result)
             return self.response(200, result=result)

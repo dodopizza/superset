@@ -74,7 +74,7 @@ from sqlalchemy.engine.reflection import Inspector
 from sqlalchemy.sql.type_api import Variant
 from sqlalchemy.types import TEXT, TypeDecorator, TypeEngine
 from typing_extensions import TypedDict, TypeGuard
-
+from superset.extensions import db
 from superset.constants import (
     EXTRA_FORM_DATA_APPEND_KEYS,
     EXTRA_FORM_DATA_OVERRIDE_EXTRA_KEYS,
@@ -87,6 +87,7 @@ from superset.exceptions import (
     SupersetException,
     SupersetTimeoutException,
 )
+from superset.models.user_info import UserInfo
 from superset.sql_parse import sanitize_clause
 from superset.superset_typing import (
     AdhocColumn,
@@ -1424,6 +1425,17 @@ def get_username() -> str | None:
 
     try:
         return g.user.username
+    except Exception:  # pylint: disable=broad-except
+        return None
+
+
+def get_language() -> str | None:
+    try:
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        return user_info.language
     except Exception:  # pylint: disable=broad-except
         return None
 
