@@ -55,7 +55,10 @@ export const CreateOrFindTeam: FC<Props> = memo(
           setRoles(option.roles);
         } else {
           if (value) {
-            setNewTeam(value);
+            const reg = /^-?\w*(\.\w*)?$/;
+            if (reg.test(value)) {
+              setNewTeam(value);
+            }
           } else {
             setNewTeam(null);
             setRoles([]);
@@ -71,12 +74,15 @@ export const CreateOrFindTeam: FC<Props> = memo(
       [existingTeam, newTeam],
     );
 
-    const removeTeam = useCallback((e: React.MouseEvent<HTMLElement>) => {
-      setNewTeam(null);
-      setExistingTeam(null);
-      setRoles([]);
-      e.preventDefault();
-    }, []);
+    const removeTeam = useCallback(
+      (e: React.MouseEvent<HTMLElement>) => {
+        setNewTeam(null);
+        setExistingTeam(null);
+        setRoles([]);
+        e.preventDefault();
+      },
+      [setExistingTeam, setNewTeam, setRoles],
+    );
 
     const teamDescription = useMemo(() => {
       if (existingTeam) {
@@ -104,7 +110,13 @@ export const CreateOrFindTeam: FC<Props> = memo(
             onSearch={debouncedLoadTeamList}
             onChange={handleTeamChange}
           >
-            <Input.Search placeholder="your team" loading={teamIsLoading} />
+            <Input.Search
+              placeholder="your team"
+              loading={teamIsLoading}
+              allowClear
+              enterButton
+              size="large"
+            />
           </AutoComplete>
 
           <Space direction="horizontal" size="small">
