@@ -1,19 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BootstrapUser } from '../../types/bootstrapTypes';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
 import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
 import { useOnboarding } from './utils/useOnboarding';
 import { initOnboarding } from './model/actions/initOnboarding';
 
-type OnBoardingEntryPointProps = {
-  user: BootstrapUser & {
-    IsOnboardingFinished: boolean;
-    OnboardingStartedTime: Date;
-  };
-};
-
-const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
+const OnBoardingEntryPoint: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +20,7 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
     teamList,
     teamIsLoading,
     loadTeamList,
-  } = useOnboarding(user);
+  } = useOnboarding();
 
   if (step === 1) {
     return (

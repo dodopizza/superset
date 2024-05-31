@@ -36,8 +36,8 @@ import explore from 'src/explore/reducers/exploreReducer';
 import exploreDatasources from 'src/explore/reducers/datasourcesReducer';
 import { DatasourcesState } from 'src/dashboard/types';
 import {
-  DatasourcesActionPayload,
   DatasourcesAction,
+  DatasourcesActionPayload,
 } from 'src/dashboard/actions/datasources';
 import shortid from 'shortid';
 import {
@@ -93,8 +93,8 @@ const getMiddleware: ConfigureStoreOptions['middleware'] =
         }).concat(logger, api.middleware)
       : [thunk, logger, api.middleware];
 
-// TODO: This reducer is a combination of the Dashboard and Explore slice.
-// The correct way of handling this is to unify the actions and slice from both
+// TODO: This reducer is a combination of the Dashboard and Explore reducers.
+// The correct way of handling this is to unify the actions and reducers from both
 // modules in shared files. This involves a big refactor to unify the parameter types
 // and move files around. We should tackle this in a specific PR.
 const CombinedDatasourceReducers = (

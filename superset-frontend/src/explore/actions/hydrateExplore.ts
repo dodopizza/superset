@@ -36,8 +36,8 @@ import {
   QueryFormColumn,
 } from '@superset-ui/core';
 import {
-  getFormDataFromControls,
   applyMapStateToPropsToControl,
+  getFormDataFromControls,
 } from 'src/explore/controlUtils';
 import { getDatasourceUid } from 'src/utils/getDatasourceUid';
 import { getUrlParam } from 'src/utils/urlUtils';
@@ -136,7 +136,7 @@ export const hydrateExplore =
 
     const exploreState = {
       // note this will add `form_data` to state,
-      // which will be manipulable by future slice.
+      // which will be manipulable by future reducers.
       can_add: findPermission('can_write', 'Chart', user?.roles),
       can_download: findPermission('can_csv', 'Superset', user?.roles),
       can_overwrite: ensureIsArray(slice?.owners).includes(

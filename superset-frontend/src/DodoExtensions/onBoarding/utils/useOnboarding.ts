@@ -7,12 +7,7 @@ import { Team, userFromEnum } from '../types';
 import { repoUpdateOnboardingStartedTimeAndRole } from '../repository/updateOnboardingStartedTimeAndRole.repository';
 import { repoLoadTeamList } from '../repository/loadTeamList.repository';
 
-export const useOnboarding = (user: {
-  IsOnboardingFinished: boolean;
-  OnboardingStartedTime: Date;
-  firstName: string;
-  lastName: string;
-}) => {
+export const useOnboarding = () => {
   const [step, setStep] = useState<number | null>(null);
   const [teamIsLoading, setTeamIsLoading] = useState<boolean>(false);
   const [teamList, setTeamList] = useState<Array<Team>>([]);

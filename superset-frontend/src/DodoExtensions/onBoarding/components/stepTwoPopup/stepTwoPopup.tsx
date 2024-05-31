@@ -26,6 +26,8 @@ type Props = {
   onSubmit?: (dto: StepOnePopupDto) => void;
 };
 
+const userFromOptions = [userFromEnum.Franchisee, userFromEnum.ManagingCompany];
+
 export const StepTwoPopup: FC<Props> = ({
   onClose,
   teamList,
@@ -52,11 +54,6 @@ export const StepTwoPopup: FC<Props> = ({
 
   const loadTeamsByUserFrom = useCallback(
     (query: string) => loadTeamList(userFrom, query),
-    [],
-  );
-
-  const userFormOptions = useMemo(
-    () => [userFromEnum.Franchisee, userFromEnum.ManagingCompany],
     [],
   );
 
@@ -97,7 +94,7 @@ export const StepTwoPopup: FC<Props> = ({
                 name="userFrom"
                 value={userFrom}
                 onChange={toggleUseFrom}
-                options={userFormOptions}
+                options={userFromOptions}
               />
               <span />
             </Space>
