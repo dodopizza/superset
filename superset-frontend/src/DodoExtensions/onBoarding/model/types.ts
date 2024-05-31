@@ -4,6 +4,7 @@ export const ONBOARDING_INIT_ERROR = 'ONBOARDING_INIT_ERROR';
 
 export type OnboardingSuccessPayload = {
   isOnboardingFinished: boolean;
+  onboardingStartedTime: Date | null;
   firstName: string;
   lastName: string;
   email: string;
@@ -29,6 +30,7 @@ export type OnboardingState = {
   isLoading: boolean;
   loadingError: string | null;
 
+  onboardingStartedTime: Date | null;
   isOnboardingFinished: boolean;
 
   firstName: string | null;

@@ -11,6 +11,7 @@ const initialState: OnboardingState = {
   loadingError: null,
 
   isOnboardingFinished: true,
+  onboardingStartedTime: null,
 
   firstName: null,
   lastName: null,

@@ -12,19 +12,28 @@ export const repoUpdateFIO = async (firstName: string, lastName: string) => {
       body: form,
       parseMethod: null,
     });
+    // await SupersetClient.postForm(
+    //   '/userinfoeditview/form',
+    //   { first_name: `${firstName}1`, last_name: `${lastName}1` },
+    //   '_self',
+    // );
   } catch (e) {
     console.log(`repoUpdateFIO catch error`, e);
   }
 };
 
-export const repoUpdateOnboardingStartedTime = async () => {
+export const repoUpdateOnboardingStartedTimeAndRole = async (
+  roleOrTeam: string,
+) => {
   // TODO - waiting backend API ready
   try {
-    console.log(`step one - updating OnboardingStartedTime`);
+    console.log(
+      `step one - updating OnboardingStartedTime and Role & Team:${roleOrTeam}`,
+    );
 
     await new Promise(resolve => setTimeout(resolve, 1000));
   } catch (e) {
-    console.log(`repoUpdateOnboardingStartedTime catch error`, e);
+    console.log(`repoUpdateOnboardingStartedTimeAndRole catch error`, e);
   }
 };
 

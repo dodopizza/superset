@@ -2,5 +2,5 @@ export type StepOnePopupDto = {
   firstName: string;
   lastName: string;
   email: string;
-  roleAndTeam: string;
+  roleOrTeam: string;
 };

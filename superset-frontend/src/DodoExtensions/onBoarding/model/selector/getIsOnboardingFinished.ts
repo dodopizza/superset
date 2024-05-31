@@ -1,5 +1,5 @@
 import { OnboardingState } from '../types';
 
-export const isOnboardingFinishedSelector = (state: {
+export const getIsOnboardingFinished = (state: {
   onboarding: OnboardingState;
 }) => state.onboarding.isOnboardingFinished;

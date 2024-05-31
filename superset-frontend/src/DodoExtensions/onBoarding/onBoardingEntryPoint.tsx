@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { BootstrapUser } from '../../types/bootstrapTypes';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
 import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
-import { useOnboarding } from './useOnboarding';
+import { useOnboarding } from './utils/useOnboarding';
 import { initOnboarding } from './model/actions/initOnboarding';
 
 type OnBoardingEntryPointProps = {
@@ -35,10 +35,6 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
       <StepOnePopup
         isUpdating={isUpdating}
         onClose={closeOnboarding}
-        firstName={user.firstName}
-        lastName={user.lastName}
-        email={user.email ?? ''}
-        roleAndTeam=""
         onNextStep={toStepTwo}
       />
     );

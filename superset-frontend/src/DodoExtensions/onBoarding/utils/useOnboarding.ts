@@ -1,15 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getInitialOnBoardingStep } from './utils/getInitialOnBoardingStep';
-import { StepOnePopupDto } from './components/stepOnePopup/stepOnePopup.dto';
+import { useCallback, useState } from 'react';
+import { useGetOnBoardingStep } from './useGetOnBoardingStep';
+import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
 import {
   repoLoadTeamList,
-  repoUpdateFIO,
-  repoUpdateOnboardingStartedTime,
-} from './repository/onboardingRepository';
-import { updateStorageTimeOfTheLastShow } from './utils/localStorageUtils';
-import { Team } from './types';
-import { isOnboardingFinishedSelector } from './model/selector/isOnboardingFinishedSelector';
+  repoUpdateOnboardingStartedTimeAndRole,
+} from '../repository/onboardingRepository';
+import { updateStorageTimeOfTheLastShow } from './localStorageUtils';
+import { Team } from '../types';
 
 export const useOnboarding = (user: {
   IsOnboardingFinished: boolean;
@@ -22,11 +19,7 @@ export const useOnboarding = (user: {
   const [teamList, setTeamList] = useState<Array<Team>>([]);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const isOnboardingFinished = useSelector(isOnboardingFinishedSelector);
-
-  useEffect(() => {
-    setStep(getInitialOnBoardingStep(isOnboardingFinished, user));
-  }, [isOnboardingFinished]);
+  useGetOnBoardingStep(step, setStep);
 
   const closeOnboarding = useCallback(() => {
     updateStorageTimeOfTheLastShow();
@@ -36,14 +29,9 @@ export const useOnboarding = (user: {
   const toStepTwo = async (stepOneDto: StepOnePopupDto) => {
     try {
       setIsUpdating(true);
-      if (
-        user.firstName !== stepOneDto.firstName ||
-        user.lastName !== stepOneDto.lastName
-      ) {
-        await repoUpdateFIO(stepOneDto.firstName, stepOneDto.lastName);
-      }
 
-      await repoUpdateOnboardingStartedTime();
+      console.log('stepOneDto', stepOneDto);
+      await repoUpdateOnboardingStartedTimeAndRole(stepOneDto.roleOrTeam);
 
       setStep(2);
     } finally {

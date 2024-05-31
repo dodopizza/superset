@@ -3,13 +3,12 @@ import { OnboardingSuccessPayload } from '../model/types';
 
 type OnboardingMeResponseDto = {
   result: {
-    email: string;
-    first_name: string;
     id: number;
-    is_active: boolean;
-    is_anonymous: boolean;
+    first_name: string;
     last_name: string;
-    username: string;
+    email: string;
+    is_onboarding_finished: boolean; // TODO - get real response
+    onboarding_started_time: Date | null; // TODO - get real response
   };
 };
 
@@ -21,7 +20,8 @@ export const repoLoadMe: () => Promise<OnboardingSuccessPayload> = async () => {
   const dto = await getMe();
 
   return {
-    isOnboardingFinished: false, // TODO - get real response
+    isOnboardingFinished: dto.result.is_onboarding_finished ?? false, // TODO - delete default with real response
+    onboardingStartedTime: dto.result.onboarding_started_time ?? null, // TODO - delete default with real response
     firstName: dto.result.first_name,
     lastName: dto.result.last_name,
     email: dto.result.email,
