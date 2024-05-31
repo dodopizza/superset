@@ -45,10 +45,11 @@ from superset.extensions import cache_manager, feature_flag_manager, security_ma
 from superset.legacy import update_time_range
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
+from superset.models.user_info import UserInfo
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
 from superset.superset_typing import FormData
-from superset.utils.core import DatasourceType
+from superset.utils.core import DatasourceType, get_user_id
 from superset.utils.decorators import stats_timing
 from superset.viz import BaseViz
 
@@ -67,6 +68,30 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
             datasource_database["parameters"] = {}
 
     return datasource_data
+
+
+def get_language() -> str:
+    try:
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        return user_info.language
+    except Exception:  # pylint: disable=broad-except
+        return "ru"
+
+
+def update_language(lang: str) -> Union[str, None]:
+    try:
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.language = lang
+        db.session.commit()
+        return lang
+    except Exception:
+        return None
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:
