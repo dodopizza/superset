@@ -2,7 +2,10 @@ import React, { FC, memo, useCallback, useMemo } from 'react';
 import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { debounce } from 'lodash';
-import { Role, Team } from '../../types';
+import { Role, Team, userFromEnum } from '../../types';
+import { getTeamName } from '../../utils/getTeamName';
+import { getTeamTag } from '../../utils/getTeamTag';
+import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from '../../consts';
 
 const StyledSpace = styled(Space)`
   width: 100%;
@@ -19,6 +22,7 @@ type Props = {
   setNewTeam: (value: string | null) => void;
   teamIsLoading: boolean;
   setRoles: (roles: Array<Role>) => void;
+  userFrom: userFromEnum;
 };
 
 export const CreateOrFindTeam: FC<Props> = memo(
@@ -31,6 +35,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
     setExistingTeam,
     teamIsLoading,
     setRoles,
+    userFrom,
   }) => {
     const debouncedLoadTeamList = useMemo(
       () => debounce((value: string) => loadTeamList(value), SEARCH_TEAM_DELAY),
@@ -55,8 +60,9 @@ export const CreateOrFindTeam: FC<Props> = memo(
           setRoles(option.roles);
         } else {
           if (value) {
-            const reg = /^-?\w*(\.\w*)?$/;
-            if (reg.test(value)) {
+            // const reg = /^-?\d*(\.\d*)?$/;
+            const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
+            if (reg.test(value) && value.length <= MAX_NAME_LENGTH) {
               setNewTeam(value);
             }
           } else {
@@ -86,12 +92,25 @@ export const CreateOrFindTeam: FC<Props> = memo(
 
     const teamDescription = useMemo(() => {
       if (existingTeam) {
-        return `Since [${existingTeam.label}] is a known tag, you can enter the team automatically.`;
+        return `Since [${existingTeam.label} (${existingTeam.value}] is a known command, you can enter the team automatically.`;
       }
-      if (newTeam) {
-        return `Since [${newTeam}] is a new tag, Superset admins will have to evaluate this request.`;
+      if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
+        const name = getTeamName(userFrom, newTeam);
+        const tag = getTeamTag(userFrom, newTeam);
+        return `Since [${name} (${tag})] is a new command, Superset admins will have to evaluate this request.`;
       }
       return '';
+    }, [newTeam, existingTeam]);
+
+    const teamOnlyName = useMemo(() => {
+      if (existingTeam) {
+        return `${existingTeam.label}`;
+      }
+      if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
+        const name = getTeamName(userFrom, newTeam);
+        return `${name}`;
+      }
+      return null;
     }, [existingTeam, newTeam]);
 
     return (
@@ -122,7 +141,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           <Space direction="horizontal" size="small">
             <Typography.Text>Your team name is</Typography.Text>
             <TagAnt color="#ff6900" closable={tagClosable} onClose={removeTeam}>
-              {teamName ?? 'no team'}
+              {teamOnlyName ?? 'no team'}
             </TagAnt>
           </Space>
 

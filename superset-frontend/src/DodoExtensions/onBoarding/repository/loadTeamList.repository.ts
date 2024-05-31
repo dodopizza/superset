@@ -10,7 +10,7 @@ export const repoLoadTeamList = async (
         () =>
           resolve([
             {
-              label: `admin`,
+              label: `ADMIN`,
               value: `admin`,
               roles: [
                 Role.AnalyseData,
@@ -20,18 +20,23 @@ export const repoLoadTeamList = async (
               ],
             },
             {
-              label: `alfa`,
+              label: `ALFA`,
               value: `alfa`,
               roles: [Role.AnalyseData, Role.UseData, Role.InputData],
             },
             {
-              label: `betta`,
+              label: `BETTA`,
               value: `betta`,
               roles: [Role.AnalyseData, Role.UseData],
             },
             {
-              label: `gamma`,
+              label: `GAMMA`,
               value: `gamma`,
+              roles: [Role.AnalyseData],
+            },
+            {
+              label: `CODE MONKEYS`,
+              value: `code_monkeys`,
               roles: [Role.AnalyseData],
             },
           ]),

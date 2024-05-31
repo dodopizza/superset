@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 
 import { styled } from '@superset-ui/core';
@@ -36,6 +36,8 @@ export const SelectRoles: FC<Props> = memo(
       },
       [roles, setRoles],
     );
+
+    const roleList = useMemo(() => roles.join(', '), [roles]);
 
     return (
       <>
@@ -79,7 +81,7 @@ export const SelectRoles: FC<Props> = memo(
             Based on your selection, your roles are:
           </Typography.Text>
           <Typography.Text strong underline>
-            {roles.join(',')}
+            {roleList}
           </Typography.Text>
         </StyledSpace>
       </>

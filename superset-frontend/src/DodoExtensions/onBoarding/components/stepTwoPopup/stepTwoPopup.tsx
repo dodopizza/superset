@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
@@ -11,6 +11,7 @@ import { Role, Team, userFromEnum } from '../../types';
 import { SelectRoles } from './selectRoles';
 import { CreateOrFindTeam } from './createOrFindTeam';
 import { ButtonWithTopMargin } from '../styles';
+import { MIN_NAME_LENGTH } from '../../consts';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -59,6 +60,17 @@ export const StepTwoPopup: FC<Props> = ({
     [],
   );
 
+  const noTeam = useMemo(
+    () => !existingTeam && (newTeam ?? '').trim().length < MIN_NAME_LENGTH,
+    [existingTeam, newTeam],
+  );
+
+  useEffect(() => {
+    if (noTeam) {
+      setRoles([]);
+    }
+  }, [noTeam]);
+
   const { Title } = Typography;
 
   return (
@@ -94,15 +106,16 @@ export const StepTwoPopup: FC<Props> = ({
               newTeam={newTeam}
               existingTeam={existingTeam}
               teamList={teamList}
+              teamIsLoading={teamIsLoading}
+              userFrom={userFrom}
+              setRoles={setRoles}
+              setNewTeam={setNewTeam}
               loadTeamList={loadTeamsByUserFrom}
               setExistingTeam={setExistingTeam}
-              setNewTeam={setNewTeam}
-              teamIsLoading={teamIsLoading}
-              setRoles={setRoles}
             />
 
             <SelectRoles
-              noTeam={!existingTeam && !newTeam}
+              noTeam={noTeam}
               existingTeam={!!existingTeam}
               isFranchisee={userFrom === userFromEnum.Franchisee}
               roles={roles}
@@ -113,7 +126,7 @@ export const StepTwoPopup: FC<Props> = ({
               type="primary"
               htmlType="submit"
               buttonSize="default"
-              disabled={(!existingTeam && !newTeam) || roles.length === 0}
+              disabled={noTeam || roles.length === 0}
             >
               Finish onboarding
             </ButtonWithTopMargin>
