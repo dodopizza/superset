@@ -14,3 +14,8 @@ export type Team = {
   value: string;
   roles: Array<Role>;
 };
+
+export enum userFromEnum {
+  Franchisee = 'Franchisee',
+  ManagingCompany = 'Managing Company',
+}

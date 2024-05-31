@@ -7,8 +7,7 @@ import { RadioChangeEvent } from 'antd/lib/radio';
 
 import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
-import { RoleInformation } from './roleInformation';
-import { Role, Team } from '../../types';
+import { Role, Team, userFromEnum } from '../../types';
 import { SelectRoles } from './selectRoles';
 import { CreateOrFindTeam } from './createOrFindTeam';
 import { ButtonWithTopMargin } from '../styles';
@@ -17,13 +16,8 @@ const Wrapper = styled.div`
   padding: 1.5rem;
 `;
 
-enum userFromType {
-  Franchisee = 'Franchisee',
-  ManagingCompany = 'Managing Company',
-}
-
 type Props = {
-  loadTeamList: (query: string) => Promise<void>;
+  loadTeamList: (userFrom: userFromEnum, query: string) => Promise<void>;
   teamList: Array<Team>;
   teamIsLoading: boolean;
   isUpdating?: boolean;
@@ -37,8 +31,8 @@ export const StepTwoPopup: FC<Props> = ({
   teamIsLoading,
   loadTeamList,
 }) => {
-  const [userFrom, setUserFrom] = useState<userFromType>(
-    userFromType.Franchisee,
+  const [userFrom, setUserFrom] = useState<userFromEnum>(
+    userFromEnum.Franchisee,
   );
   const [newTeam, setNewTeam] = useState<string | null>(null);
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
@@ -46,12 +40,22 @@ export const StepTwoPopup: FC<Props> = ({
   const [roles, setRoles] = useState<Array<Role>>([]);
 
   const toggleUseFrom = useCallback(
-    ({ target: { value } }: RadioChangeEvent) => setUserFrom(value),
+    ({ target: { value } }: RadioChangeEvent) => {
+      setUserFrom(value);
+      setExistingTeam(null);
+      setNewTeam(null);
+      setRoles([]);
+    },
+    [],
+  );
+
+  const loadTeamsByUserFrom = useCallback(
+    (query: string) => loadTeamList(userFrom, query),
     [],
   );
 
   const userFormOptions = useMemo(
-    () => [userFromType.Franchisee, userFromType.ManagingCompany],
+    () => [userFromEnum.Franchisee, userFromEnum.ManagingCompany],
     [],
   );
 
@@ -70,7 +74,7 @@ export const StepTwoPopup: FC<Props> = ({
           <Col span={14}>
             <Title level={3}>Tell us why you are here</Title>
 
-            <RoleInformation />
+            {/* <RoleInformation /> */}
 
             <Typography.Title level={5}>
               Are you a franchisee or from a Managing Company?
@@ -90,7 +94,7 @@ export const StepTwoPopup: FC<Props> = ({
               newTeam={newTeam}
               existingTeam={existingTeam}
               teamList={teamList}
-              loadTeamList={loadTeamList}
+              loadTeamList={loadTeamsByUserFrom}
               setExistingTeam={setExistingTeam}
               setNewTeam={setNewTeam}
               teamIsLoading={teamIsLoading}
@@ -100,7 +104,7 @@ export const StepTwoPopup: FC<Props> = ({
             <SelectRoles
               noTeam={!existingTeam && !newTeam}
               existingTeam={!!existingTeam}
-              isFranchisee={userFrom === userFromType.Franchisee}
+              isFranchisee={userFrom === userFromEnum.Franchisee}
               roles={roles}
               setRoles={setRoles}
             />

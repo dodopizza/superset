@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useGetOnBoardingStep } from './useGetOnBoardingStep';
 import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
-import {
-  repoLoadTeamList,
-  repoUpdateOnboardingStartedTimeAndRole,
-} from '../repository/onboardingRepository';
+
 import { updateStorageTimeOfTheLastShow } from './localStorageUtils';
-import { Team } from '../types';
+import { Team, userFromEnum } from '../types';
+import { repoUpdateOnboardingStartedTimeAndRole } from '../repository/updateOnboardingStartedTimeAndRole.repository';
+import { repoLoadTeamList } from '../repository/loadTeamList.repository';
 
 export const useOnboarding = (user: {
   IsOnboardingFinished: boolean;
@@ -40,11 +39,11 @@ export const useOnboarding = (user: {
   };
 
   let beforeSendToBackendQuery = '';
-  const loadTeamList = async (query: string) => {
+  const loadTeamList = async (userFrom: userFromEnum, query: string) => {
     try {
       setTeamIsLoading(true);
       beforeSendToBackendQuery = query;
-      const list = await repoLoadTeamList(query);
+      const list = await repoLoadTeamList(userFrom, query);
 
       // to handle backend raise condition
       if (query === beforeSendToBackendQuery) {

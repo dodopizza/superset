@@ -49,7 +49,6 @@ export const CreateOrFindTeam: FC<Props> = memo(
 
     const handleTeamChange: (value: string, option: any) => void = useCallback(
       (value, option) => {
-        console.log(`handleTeamChange option`, option);
         if (!!option.value && !!option.label) {
           setExistingTeam(option);
           setNewTeam(null);
@@ -59,8 +58,8 @@ export const CreateOrFindTeam: FC<Props> = memo(
             setNewTeam(value);
           } else {
             setNewTeam(null);
+            setRoles([]);
           }
-          setRoles([]);
           setExistingTeam(null);
         }
       },
@@ -75,6 +74,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
     const removeTeam = useCallback((e: React.MouseEvent<HTMLElement>) => {
       setNewTeam(null);
       setExistingTeam(null);
+      setRoles([]);
       e.preventDefault();
     }, []);
 
