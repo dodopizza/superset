@@ -11,17 +11,24 @@ const oneDayPassed = (date?: Date): boolean => {
   return true;
 };
 
-type getStepOneType = (user: {
-  IsOnboardingFinished: boolean;
-  OnboardingStartedTime: Date;
-}) => number | null;
+type getStepOneType = (
+  isOnboardingFinished: boolean,
+  user: {
+    OnboardingStartedTime: Date;
+  },
+) => number | null;
 
-export const getInitialOnBoardingStep: getStepOneType = user => {
+export const getInitialOnBoardingStep: getStepOneType = (
+  isOnboardingFinished,
+  user,
+) => {
   const storageInfo = getOnboardingStorageInfo();
+
+  // const { isOnboardingFinished } = useSelector(isOnboardingFinishedSelector);
 
   let step = null;
 
-  if (!user.IsOnboardingFinished) {
+  if (!isOnboardingFinished) {
     if (user.OnboardingStartedTime) {
       if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
         step = 2;

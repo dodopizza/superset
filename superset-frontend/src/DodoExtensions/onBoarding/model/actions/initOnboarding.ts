@@ -1,44 +1,31 @@
-import { makeApi } from '@superset-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
-import { ONBOARDING_INIT } from '../types';
-import { User } from '../../../../types/bootstrapTypes';
+import {
+  ONBOARDING_INIT_ERROR,
+  ONBOARDING_INIT_LOADING,
+  ONBOARDING_INIT_SUCCESS,
+} from '../types';
+import { repoLoadMe } from '../../repository/loadMe.repository';
 
 export function initOnboarding() {
   return async function (dispatch: Dispatch) {
-    const getMe = makeApi<void, User>({
-      method: 'GET',
-      endpoint: '/api/v1/me/',
-    });
-    const res = await getMe();
-    console.log('getMe, res', res);
+    try {
+      dispatch({
+        type: ONBOARDING_INIT_LOADING,
+      });
 
-    // dispatch();
-    // getMe()
-    //   .then(res => {
-    //     console.log('getMe, res', res);
-    //   })
-    //   .catch(() => {});
+      const data = await repoLoadMe();
 
-    dispatch({
-      type: ONBOARDING_INIT,
-      payload: {
-        isOnboardingFinished: false,
-        fromInitOnboarding: true,
-      },
-    });
-    // return SupersetClient.get({ endpoint: `/kv/${urlId}` })
-    //   .then(({ json }) =>
-    //     dispatch(
-    //       addQueryEditor({
-    //         name: json.name ? json.name : t('Shared query'),
-    //         dbId: json.dbId ? parseInt(json.dbId, 10) : null,
-    //         schema: json.schema ? json.schema : null,
-    //         autorun: json.autorun ? json.autorun : false,
-    //         sql: json.sql ? json.sql : 'SELECT ...',
-    //         templateParams: json.templateParams,
-    //       }),
-    //     ),
-    //   )
-    //   .catch(() => dispatch(addDangerToast(ERR_MSG_CANT_LOAD_QUERY)));
+      dispatch({
+        type: ONBOARDING_INIT_SUCCESS,
+        payload: data,
+      });
+    } catch (e) {
+      dispatch({
+        type: ONBOARDING_INIT_ERROR,
+        payload: {
+          error: e.message,
+        },
+      });
+    }
   };
 }

@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
-import { makeApi } from '@superset-ui/core';
 import { useDispatch } from 'react-redux';
-import { BootstrapUser, User } from '../../types/bootstrapTypes';
+import { BootstrapUser } from '../../types/bootstrapTypes';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
 import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
 import { useOnboarding } from './useOnboarding';
@@ -18,13 +17,6 @@ const OnBoardingEntryPoint: FC<OnBoardingEntryPointProps> = ({ user }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // const getMe = makeApi<void, User>({
-    //   method: 'GET',
-    //   endpoint: '/api/v1/me/',
-    // });
-    // const me = getMe();
-    // console.log(`useEffect me`, me);
-
     dispatch(initOnboarding());
   }, [dispatch]);
 
