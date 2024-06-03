@@ -14,7 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from flask import g, Response
+from flask import g, Response, redirect
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
 
@@ -100,5 +100,5 @@ class CurrentUserRestApi(BaseSupersetApi):
         except NoAuthorizationError:
             return self.response_401()
         update_language(lang)
-        return self.response(200, result=user_response_schema.dump(g.user))
+        return redirect("/superset/welcome/")
 
