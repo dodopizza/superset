@@ -12,7 +12,5 @@ class UserInfo(Model):  # pylint: disable=too-few-public-methods
     __tablename__ = "user_info"
 
     id = Column(Integer, primary_key=True)
-    # isOnboardingFinished = Column(Boolean, default=False)
-    # onboardingStartedTime = Column(DateTime, nullable=True)
     language = Column(String(32), default="ru")
     user_id = Column(Integer, ForeignKey("ab_user.id"))
