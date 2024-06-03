@@ -110,8 +110,6 @@ from superset.views.utils import (
     loads_request_json,
     redirect_with_flash,
     sanitize_datasource_data,
-    get_language,
-    update_language
 )
 from superset.viz import BaseViz
 

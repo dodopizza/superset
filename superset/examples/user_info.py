@@ -1,3 +1,4 @@
+# DODO added #33835937
 from superset import db, security_manager
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -5,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class UserInfo(Base):  # pylint: disable=too-few-public-methods
+class UserInfo(Base):
     """Declarative class to do query in upgrade"""
 
     __tablename__ = "user_info"

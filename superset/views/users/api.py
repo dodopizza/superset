@@ -26,7 +26,7 @@ from superset import app
 user_response_schema = UserResponseSchema()
 
 
-def validate_language(lang) -> bool:
+def validate_language(lang) -> bool:  # DODO changed #33835937
     languages = app.config["LANGUAGES"]
     keys_of_languages = languages.keys()
     return lang in keys_of_languages
