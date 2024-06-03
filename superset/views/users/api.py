@@ -20,7 +20,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
-from superset.views.utils import bootstrap_user_data
+from superset.views.utils import bootstrap_user_data, update_language
 
 user_response_schema = UserResponseSchema()
 
@@ -91,3 +91,14 @@ class CurrentUserRestApi(BaseSupersetApi):
             return self.response_401()
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
+
+    @expose("change/lang/<lang>", ("GET",))
+    def change_lang(self, lang: str):
+        try:
+            if g.user is None or g.user.is_anonymous:
+                return self.response_401()
+        except NoAuthorizationError:
+            return self.response_401()
+        update_language(lang)
+        return self.response(200, result=user_response_schema.dump(g.user))
+

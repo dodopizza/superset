@@ -1052,19 +1052,6 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
             ),
         )
 
-    @expose("/change/lang/en", ("GET",))
-    def update_lang_to_en(self):
-        logger.error("changed_en")
-        update_language("en")
-        return self.json_response("cool", 200)
-
-    @expose("/change/lang/ru", ("GET",))
-    def update_lang_to_en(self):
-        logger.error("changed_ru")
-        update_language("ru")
-        return self.json_response("cool", 200)
-
-
     @has_access
     @event_logger.log_this
     @expose("/profile/")

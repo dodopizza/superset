@@ -343,8 +343,8 @@ def menu_data(user: User) -> dict[str, Any]:
     if callable(brand_text):
         brand_text = brand_text()
     build_number = appbuilder.app.config["BUILD_NUMBER"]
-    if get_language() != get_locale():
-        update_language(get_locale().language)
+    # if get_language() != get_locale():
+    #     update_language(get_locale().language)
 
     return {
         "menu": menu,
