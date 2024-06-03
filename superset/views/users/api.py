@@ -23,9 +23,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
-from superset.views.utils import get_language, update_language
 from superset import app
-from superset.extensions import event_logger
 
 logger = logging.getLogger(__name__)
 user_response_schema = UserResponseSchema()
@@ -103,67 +101,3 @@ class CurrentUserRestApi(BaseSupersetApi):
             return self.response_401()
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
-
-    #  DODO added 33835937
-    @event_logger.log_this_with_context(
-        action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.get_language",
-        log_to_statsd=False,
-    )
-    @expose("/language/", methods=("GET",))
-    @safe
-    def get_language(self) -> Response:
-        try:
-            if g.user is None or g.user.is_anonymous:
-                return self.response_401()
-        except NoAuthorizationError:
-            return self.response_401()
-        user = g.user
-        language = get_language()
-        if language:
-            result = {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "is_active": user.is_active,
-                "is_anonymous": user.is_anonymous,
-                "language": language
-            }
-            result = user_response_schema.dump(result)
-            logger.warning(result)
-            return self.response(200, result=result)
-        return self.response(501, message={"error": "something went wrong"})
-
-    #  DODO added 33835937
-    @event_logger.log_this_with_context(
-        action=lambda self, *args, **kwargs: f"{self.__class__.__name__}.update_language",
-        log_to_statsd=False,
-    )
-    @expose("/language/<lang>", methods=("PUT",))
-    @safe
-    def update_language(self, lang: str) -> Response:
-        try:
-            if g.user is None or g.user.is_anonymous:
-                return self.response_401()
-            if not validate_language(lang):
-                return self.response_400("Language is invalid")
-        except NoAuthorizationError:
-            return self.response_401()
-        user = g.user
-        language = update_language(lang)
-        if language:
-            result = {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "is_active": user.is_active,
-                "is_anonymous": user.is_anonymous,
-                "language": language
-            }
-            result = user_response_schema.dump(result)
-            logger.warning(result)
-            return self.response(200, result=result)
-        return self.response(501, message={"error": "something went wrong"})

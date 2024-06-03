@@ -79,7 +79,7 @@ from superset.translations.utils import get_language_pack
 from superset.utils import core as utils
 from superset.utils.filters import get_dataset_access_filters
 
-from .utils import bootstrap_user_data
+from .utils import bootstrap_user_data, get_language, update_language
 
 FRONTEND_CONF_KEYS = (
     "SUPERSET_WEBSERVER_TIMEOUT",
@@ -343,7 +343,12 @@ def menu_data(user: User) -> dict[str, Any]:
     if callable(brand_text):
         brand_text = brand_text()
     build_number = appbuilder.app.config["BUILD_NUMBER"]
-
+    if get_language() != get_locale():
+        update_language(get_locale().language)
+    logger.error("_"*100)
+    logger.error(get_locale())
+    logger.error(get_language())
+    logger.error(languages)
     return {
         "menu": menu,
         "brand": {
@@ -377,13 +382,13 @@ def menu_data(user: User) -> dict[str, Any]:
             "user_profile_url": None
             if user.is_anonymous or is_feature_enabled("MENU_HIDE_USER_INFO")
             else "/superset/profile/",
-            "locale": session.get("locale", "en"),
+            "locale": get_language(),
         },
     }
 
 
-@cache_manager.cache.memoize(timeout=60)
-def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
+# @cache_manager.cache.memoize(timeout=60)
+def cached_common_bootstrap_data(user: User) -> dict[str, Any]:
     """Common data always sent to the client
 
     The function is memoized as the return value only changes when user permissions
@@ -412,8 +417,6 @@ def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
 
     bootstrap_data = {
         "conf": frontend_config,
-        "locale": locale,
-        "language_pack": get_language_pack(locale),
         "d3_format": conf.get("D3_FORMAT"),
         "currencies": conf.get("CURRENCIES"),
         "feature_flags": get_feature_flags(),
@@ -421,6 +424,8 @@ def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
         "extra_categorical_color_schemes": conf["EXTRA_CATEGORICAL_COLOR_SCHEMES"],
         "theme_overrides": conf["THEME_OVERRIDES"],
         "menu_data": menu_data(user),
+        "locale": get_language(),
+        "language_pack": get_language_pack(get_language()),
     }
     bootstrap_data.update(conf["COMMON_BOOTSTRAP_OVERRIDES_FUNC"](bootstrap_data))
     return bootstrap_data
@@ -428,7 +433,7 @@ def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
 
 def common_bootstrap_payload(user: User) -> dict[str, Any]:
     return {
-        **cached_common_bootstrap_data(user, get_locale()),
+        **cached_common_bootstrap_data(user),
         "flash_messages": get_flashed_messages(with_categories=True),
     }
 
