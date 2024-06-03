@@ -27,6 +27,7 @@ from flask import flash, g, has_request_context, redirect, request
 from flask_appbuilder.security.sqla import models as ab_models
 from flask_appbuilder.security.sqla.models import User
 from flask_babel import _
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 from werkzeug.wrappers.response import Response
 
@@ -81,6 +82,22 @@ def get_language() -> str:
         return "ru"
 
 
+def create_userinfo(lang: str):
+    try:
+        user_id = get_user_id()
+        model = UserInfo()
+        setattr(model, 'language', lang)
+        setattr(model, 'user_id', user_id)
+        try:
+            db.session.add(model)
+            db.session.commit()
+        except SQLAlchemyError as ex:  # pragma: no cover
+            db.session.rollback()
+        return True
+    except Exception:
+        return None
+
+
 def update_language(lang: str) -> Union[str, None]:
     try:
         user_id = get_user_id()
@@ -90,8 +107,8 @@ def update_language(lang: str) -> Union[str, None]:
         user_info.language = lang
         db.session.commit()
         return lang
-    except Exception:
-        return None
+    except KeyError:
+        return create_userinfo(lang)
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:

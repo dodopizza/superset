@@ -21,8 +21,15 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data, update_language
+from superset import app
 
 user_response_schema = UserResponseSchema()
+
+
+def validate_language(lang) -> bool:
+    languages = app.config["LANGUAGES"]
+    keys_of_languages = languages.keys()
+    return lang in keys_of_languages
 
 
 class CurrentUserRestApi(BaseSupersetApi):
@@ -97,6 +104,8 @@ class CurrentUserRestApi(BaseSupersetApi):
         try:
             if g.user is None or g.user.is_anonymous:
                 return self.response_401()
+            if not validate_language(lang):
+                self.response_400("Incorrect language")
         except NoAuthorizationError:
             return self.response_401()
         update_language(lang)
