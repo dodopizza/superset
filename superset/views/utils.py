@@ -78,7 +78,8 @@ def get_language() -> str:
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
         return user_info.language
-    except Exception:  # pylint: disable=broad-except
+    except Exception:
+        logger.warning(f"User id = {user_id} dont have language in database")
         return "ru"
 
 
@@ -91,14 +92,14 @@ def create_userinfo(lang: str):
         try:
             db.session.add(model)
             db.session.commit()
-        except SQLAlchemyError as ex:  # pragma: no cover
+        except SQLAlchemyError as ex:
             db.session.rollback()
         return True
     except Exception:
-        return None
+        raise ErrorLevel.ERROR
 
 
-def update_language(lang: str) -> Union[str, None]:
+def update_language(lang: str):
     try:
         user_id = get_user_id()
         user_info = (
@@ -106,9 +107,8 @@ def update_language(lang: str) -> Union[str, None]:
         )
         user_info.language = lang
         db.session.commit()
-        return lang
-    except KeyError:
-        return create_userinfo(lang)
+    except AttributeError:
+        create_userinfo(lang)
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:
