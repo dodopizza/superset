@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Col, Row } from 'src/components';
 import { Typography } from 'antd';
-import { styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
 import Modal from '../../../../components/Modal';
 import { Form, FormItem } from '../../../../components/Form';
@@ -32,7 +32,8 @@ export const StepOnePopup: FC<Props> = ({
   return (
     <Modal
       show
-      title="You are welcome to superset"
+      title={t('You are welcome to Superset')}
+      // title={t('Add and edit filters')}
       hideFooter
       onHide={onClose}
       width="1000px"

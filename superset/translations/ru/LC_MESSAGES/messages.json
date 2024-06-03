@@ -5943,7 +5943,8 @@
       "Maximum": ["Максимум"],
       "Values dependent on": ["Значения зависят от"],
       "No filter": ["Без фильтра"],
-      "Add and edit filters": ["Создать/изменить фильтры"]
+      "Add and edit filters": ["Создать/изменить фильтры"],
+      "You are welcome to Superset": ["Добро пожаловать в Суперсет"]
     }
   }
 }

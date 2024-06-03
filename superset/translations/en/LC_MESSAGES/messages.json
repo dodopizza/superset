@@ -4733,7 +4733,8 @@
       "Week_ending sunday": [""],
       "Week starting Sunday": [""],
       "Week starting Monday": [""],
-      "Week ending Saturday": [""]
+      "Week ending Saturday": [""],
+      "You are welcome to Superset": [""]
     }
   }
 }
