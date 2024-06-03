@@ -343,8 +343,6 @@ def menu_data(user: User) -> dict[str, Any]:
     if callable(brand_text):
         brand_text = brand_text()
     build_number = appbuilder.app.config["BUILD_NUMBER"]
-    # if get_language() != get_locale():
-    #     update_language(get_locale().language)
 
     return {
         "menu": menu,
@@ -379,13 +377,14 @@ def menu_data(user: User) -> dict[str, Any]:
             "user_profile_url": None
             if user.is_anonymous or is_feature_enabled("MENU_HIDE_USER_INFO")
             else "/superset/profile/",
-            "locale": get_language(),
+            "locale": get_language(),  # DODO changed #33835937
         },
     }
 
 
 # @cache_manager.cache.memoize(timeout=60)
 def cached_common_bootstrap_data(user: User) -> dict[str, Any]:
+    # DODO changed #33835937
     """Common data always sent to the client
 
     The function is memoized as the return value only changes when user permissions
@@ -421,14 +420,14 @@ def cached_common_bootstrap_data(user: User) -> dict[str, Any]:
         "extra_categorical_color_schemes": conf["EXTRA_CATEGORICAL_COLOR_SCHEMES"],
         "theme_overrides": conf["THEME_OVERRIDES"],
         "menu_data": menu_data(user),
-        "locale": get_language(),
-        "language_pack": get_language_pack(get_language()),
+        "locale": get_language(),  # DODO changed #33835937
+        "language_pack": get_language_pack(get_language()),  # DODO changed #33835937
     }
     bootstrap_data.update(conf["COMMON_BOOTSTRAP_OVERRIDES_FUNC"](bootstrap_data))
     return bootstrap_data
 
 
-def common_bootstrap_payload(user: User) -> dict[str, Any]:
+def common_bootstrap_payload(user: User) -> dict[str, Any]:  # DODO changed #33835937
     return {
         **cached_common_bootstrap_data(user),
         "flash_messages": get_flashed_messages(with_categories=True),

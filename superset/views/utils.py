@@ -71,9 +71,9 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
     return datasource_data
 
 
-def get_language() -> str:
+def get_language() -> str:  # DODO changed #33835937
+    user_id = get_user_id()
     try:
-        user_id = get_user_id()
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
@@ -83,7 +83,7 @@ def get_language() -> str:
         return "ru"
 
 
-def create_userinfo(lang: str):
+def create_userinfo(lang: str):   # DODO changed #33835937
     try:
         user_id = get_user_id()
         model = UserInfo()
@@ -99,7 +99,7 @@ def create_userinfo(lang: str):
         raise ErrorLevel.ERROR
 
 
-def update_language(lang: str):
+def update_language(lang: str):  # DODO changed #33835937
     try:
         user_id = get_user_id()
         user_info = (

@@ -99,6 +99,7 @@ class CurrentUserRestApi(BaseSupersetApi):
         user = bootstrap_user_data(g.user, include_perms=True)
         return self.response(200, result=user)
 
+# DODO changed #33835937
     @expose("change/lang/<lang>", ("GET",))
     def change_lang(self, lang: str):
         try:

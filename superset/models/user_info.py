@@ -5,7 +5,7 @@ from superset import db
 from superset.utils.core import get_user_id
 
 
-class UserInfo(Model):  # pylint: disable=too-few-public-methods
+class UserInfo(Model):  # DODO added #33835937
 
     """Extra info about user"""
 
