@@ -345,10 +345,7 @@ def menu_data(user: User) -> dict[str, Any]:
     build_number = appbuilder.app.config["BUILD_NUMBER"]
     if get_language() != get_locale():
         update_language(get_locale().language)
-    logger.error("_"*100)
-    logger.error(get_locale())
-    logger.error(get_language())
-    logger.error(languages)
+
     return {
         "menu": menu,
         "brand": {
