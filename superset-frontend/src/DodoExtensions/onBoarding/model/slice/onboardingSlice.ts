@@ -2,6 +2,8 @@ import {
   ONBOARDING_INIT_ERROR,
   ONBOARDING_INIT_LOADING,
   ONBOARDING_INIT_SUCCESS,
+  ONBOARDING_TEAMS_LOADING,
+  ONBOARDING_TEAMS_SUCCESS,
   OnboardingAction,
   OnboardingState,
 } from '../types';
@@ -16,6 +18,10 @@ const initialState: OnboardingState = {
   firstName: null,
   lastName: null,
   email: null,
+
+  teamsIsLoading: false,
+  teams: [],
+  teamsLoadingError: null,
 };
 
 export const onboardingSlice = (
@@ -36,6 +42,13 @@ export const onboardingSlice = (
         loadingError: action.payload.error,
       };
     }
+    case ONBOARDING_TEAMS_LOADING: {
+      return { ...state, teamsIsLoading: true };
+    }
+    case ONBOARDING_TEAMS_SUCCESS: {
+      return { ...state, teamsIsLoading: false, teams: action.payload };
+    }
+
     default: {
       return state;
     }

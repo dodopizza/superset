@@ -1,7 +1,7 @@
 import { List, Typography } from 'antd';
 import React, { FC } from 'react';
 import { styled } from '@superset-ui/core';
-import Popover from '../../../../components/Popover';
+import Popover from '../../../../../components/Popover';
 
 const RoleText = styled(Typography.Text)`
   cursor: help;

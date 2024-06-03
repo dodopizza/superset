@@ -1,72 +1,41 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC } from 'react';
 import { Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
-import { RadioChangeEvent } from 'antd/lib/radio';
-
-import { StepOnePopupDto } from '../stepOnePopup/stepOnePopup.dto';
 import Modal from '../../../../components/Modal';
-import { Role, Team, userFromEnum } from '../../types';
-import { SelectRoles } from './selectRoles';
-import { CreateOrFindTeam } from './createOrFindTeam';
+import { userFromEnum } from '../../types';
+import { SelectRoles } from './components/selectRoles';
+import { CreateOrFindTeam } from './components/createOrFindTeam';
 import { ButtonWithTopMargin } from '../styles';
-import { MIN_NAME_LENGTH } from '../../consts';
+import { useStepTwoPopup } from './useStepTwoPopup';
+import { StepTwoPopupDto } from './stepTwoPopup.dto';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
 `;
 
 type Props = {
-  loadTeamList: (userFrom: userFromEnum, query: string) => Promise<void>;
-  teamList: Array<Team>;
-  teamIsLoading: boolean;
-  isUpdating?: boolean;
   onClose: () => void;
-  onSubmit?: (dto: StepOnePopupDto) => void;
+  onSubmit: (dto: StepTwoPopupDto) => void;
 };
 
 const userFromOptions = [userFromEnum.Franchisee, userFromEnum.ManagingCompany];
 
-export const StepTwoPopup: FC<Props> = ({
-  onClose,
-  teamList,
-  teamIsLoading,
-  loadTeamList,
-}) => {
-  const [userFrom, setUserFrom] = useState<userFromEnum>(
-    userFromEnum.Franchisee,
-  );
-  const [newTeam, setNewTeam] = useState<string | null>(null);
-  const [existingTeam, setExistingTeam] = useState<any | null>(null);
-
-  const [roles, setRoles] = useState<Array<Role>>([]);
-
-  const toggleUseFrom = useCallback(
-    ({ target: { value } }: RadioChangeEvent) => {
-      setUserFrom(value);
-      setExistingTeam(null);
-      setNewTeam(null);
-      setRoles([]);
-    },
-    [],
-  );
-
-  const loadTeamsByUserFrom = useCallback(
-    (query: string) => loadTeamList(userFrom, query),
-    [],
-  );
-
-  const noTeam = useMemo(
-    () => !existingTeam && (newTeam ?? '').trim().length < MIN_NAME_LENGTH,
-    [existingTeam, newTeam],
-  );
-
-  useEffect(() => {
-    if (noTeam) {
-      setRoles([]);
-    }
-  }, [noTeam]);
+export const StepTwoPopup: FC<Props> = ({ onClose, onSubmit }) => {
+  const {
+    userFrom,
+    toggleUseFrom,
+    newTeam,
+    existingTeam,
+    setRoles,
+    setNewTeam,
+    setExistingTeam,
+    noTeam,
+    roles,
+    formatedTeamName,
+    submit,
+  } = useStepTwoPopup(onSubmit);
 
   const { Title } = Typography;
 
@@ -102,13 +71,11 @@ export const StepTwoPopup: FC<Props> = ({
             <CreateOrFindTeam
               newTeam={newTeam}
               existingTeam={existingTeam}
-              teamList={teamList}
-              teamIsLoading={teamIsLoading}
               userFrom={userFrom}
               setRoles={setRoles}
               setNewTeam={setNewTeam}
-              loadTeamList={loadTeamsByUserFrom}
               setExistingTeam={setExistingTeam}
+              formatedTeamName={formatedTeamName}
             />
 
             <SelectRoles
@@ -124,6 +91,7 @@ export const StepTwoPopup: FC<Props> = ({
               htmlType="submit"
               buttonSize="default"
               disabled={noTeam || roles.length === 0}
+              onClick={submit}
             >
               Finish onboarding
             </ButtonWithTopMargin>

@@ -2,8 +2,8 @@ import React, { FC, memo, useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 
 import { styled } from '@superset-ui/core';
-import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
-import { Role } from '../../types';
+import CheckboxControl from '../../../../../explore/components/controls/CheckboxControl';
+import { Role } from '../../../types';
 
 const StyledSpace = styled(Space)`
   width: 100%;
@@ -21,8 +21,6 @@ type Props = {
 
 export const SelectRoles: FC<Props> = memo(
   ({ noTeam, existingTeam, isFranchisee, roles, setRoles }) => {
-    console.log(`useSelectRoles RENDER === `);
-
     const updateRoles = useCallback(
       (value: boolean, role: Role) => {
         let newRoles: Array<Role> = [];

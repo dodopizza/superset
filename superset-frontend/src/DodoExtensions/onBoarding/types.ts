@@ -19,3 +19,8 @@ export enum userFromEnum {
   Franchisee = 'Franchisee',
   ManagingCompany = 'Managing Company',
 }
+
+export type LoadTeamList = (
+  userFrom: userFromEnum,
+  query: string,
+) => Promise<void>;

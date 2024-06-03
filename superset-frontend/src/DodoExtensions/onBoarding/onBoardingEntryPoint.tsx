@@ -12,15 +12,7 @@ const OnBoardingEntryPoint: FC = () => {
     dispatch(initOnboarding());
   }, [dispatch]);
 
-  const {
-    step,
-    toStepTwo,
-    closeOnboarding,
-    isUpdating,
-    teamList,
-    teamIsLoading,
-    loadTeamList,
-  } = useOnboarding();
+  const { step, toStepTwo, closeOnboarding, isUpdating } = useOnboarding();
 
   if (step === 1) {
     return (
@@ -32,14 +24,7 @@ const OnBoardingEntryPoint: FC = () => {
     );
   }
   if (step === 2) {
-    return (
-      <StepTwoPopup
-        onClose={closeOnboarding}
-        teamList={teamList}
-        loadTeamList={loadTeamList}
-        teamIsLoading={teamIsLoading}
-      />
-    );
+    return <StepTwoPopup onClose={closeOnboarding} onSubmit={console.log} />;
   }
 
   return null;

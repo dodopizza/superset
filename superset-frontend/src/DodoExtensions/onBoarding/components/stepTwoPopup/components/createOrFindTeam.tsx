@@ -2,10 +2,13 @@ import React, { FC, memo, useCallback, useMemo } from 'react';
 import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { debounce } from 'lodash';
-import { Role, Team, userFromEnum } from '../../types';
-import { getTeamName } from '../../utils/getTeamName';
-import { getTeamTag } from '../../utils/getTeamTag';
-import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from '../../consts';
+import { useDispatch, useSelector } from 'react-redux';
+import { Role, userFromEnum } from '../../../types';
+import { getTeamName } from '../../../utils/getTeamName';
+import { getTeamTag } from '../../../utils/getTeamTag';
+import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from '../../../consts';
+import { loadTeams } from '../../../model/actions/loadTeams';
+import { getTeamsData } from '../../../model/selector/getTeamsData';
 
 const StyledSpace = styled(Space)`
   width: 100%;
@@ -16,33 +19,36 @@ const SEARCH_TEAM_DELAY = 500;
 type Props = {
   newTeam: string | null;
   existingTeam: any | null;
-  teamList: Array<Team>;
-  loadTeamList: (query: string) => Promise<void>;
   setExistingTeam: (value: any | null) => void;
   setNewTeam: (value: string | null) => void;
-  teamIsLoading: boolean;
   setRoles: (roles: Array<Role>) => void;
   userFrom: userFromEnum;
+  formatedTeamName: string;
 };
 
 export const CreateOrFindTeam: FC<Props> = memo(
   ({
     newTeam,
     existingTeam,
-    teamList,
-    loadTeamList,
     setNewTeam,
     setExistingTeam,
-    teamIsLoading,
     setRoles,
     userFrom,
+    formatedTeamName,
   }) => {
+    const dispatch = useDispatch();
+    const { teamsIsLoading, teams } = useSelector(getTeamsData);
+
     const debouncedLoadTeamList = useMemo(
-      () => debounce((value: string) => loadTeamList(value), SEARCH_TEAM_DELAY),
-      [loadTeamList],
+      () =>
+        debounce(
+          (value: string) => dispatch(loadTeams(userFrom, value)),
+          SEARCH_TEAM_DELAY,
+        ),
+      [dispatch, userFrom],
     );
 
-    const teamName = useMemo(() => {
+    const teamNameOnAutoComplete = useMemo(() => {
       if (existingTeam) {
         return existingTeam.label;
       }
@@ -72,7 +78,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           setExistingTeam(null);
         }
       },
-      [],
+      [setExistingTeam, setNewTeam, setRoles],
     );
 
     const tagClosable = useMemo(
@@ -97,21 +103,10 @@ export const CreateOrFindTeam: FC<Props> = memo(
       if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
         const name = getTeamName(userFrom, newTeam);
         const tag = getTeamTag(userFrom, newTeam);
-        return `Since [${name} (${tag})] is a new command, Superset admins will have to evaluate this request.`;
+        return `Since [${name} (${tag})] is a new team, Superset admins will have to evaluate this request.`;
       }
       return '';
-    }, [newTeam, existingTeam]);
-
-    const teamOnlyName = useMemo(() => {
-      if (existingTeam) {
-        return `${existingTeam.label}`;
-      }
-      if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
-        const name = getTeamName(userFrom, newTeam);
-        return `${name}`;
-      }
-      return null;
-    }, [existingTeam, newTeam]);
+    }, [existingTeam, newTeam, userFrom]);
 
     return (
       <>
@@ -123,15 +118,15 @@ export const CreateOrFindTeam: FC<Props> = memo(
           </Typography.Text>
 
           <AutoComplete
-            value={teamName}
-            options={teamList}
+            value={teamNameOnAutoComplete}
+            options={teams}
             style={{ width: '100%' }}
             onSearch={debouncedLoadTeamList}
             onChange={handleTeamChange}
           >
             <Input.Search
               placeholder="your team"
-              loading={teamIsLoading}
+              loading={teamsIsLoading}
               allowClear
               enterButton
               size="large"
@@ -141,7 +136,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           <Space direction="horizontal" size="small">
             <Typography.Text>Your team name is</Typography.Text>
             <TagAnt color="#ff6900" closable={tagClosable} onClose={removeTeam}>
-              {teamOnlyName ?? 'no team'}
+              {formatedTeamName}
             </TagAnt>
           </Space>
 
