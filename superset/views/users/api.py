@@ -14,8 +14,6 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-import logging
-
 from flask import g, Response
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
@@ -23,16 +21,8 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
-from superset import app
 
-logger = logging.getLogger(__name__)
 user_response_schema = UserResponseSchema()
-
-
-def validate_language(lang) -> bool:
-    languages = app.config["LANGUAGES"]
-    keys_of_languages = languages.keys()
-    return lang in keys_of_languages
 
 
 class CurrentUserRestApi(BaseSupersetApi):
