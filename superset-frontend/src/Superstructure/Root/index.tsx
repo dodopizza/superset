@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -16,8 +16,6 @@ import {
   FullConfiguration,
   Dashboard,
   AnnotationLayer,
-  SingleAnnotation,
-  InitializedResponse,
 } from '../types/global';
 import { composeAPIConfig } from '../config';
 
@@ -33,7 +31,6 @@ import {
   getDashboardsData,
   getAnnotationLayersData,
   getSingleAnnotationLayerIdsData,
-  getSingleAnnotationData,
   dirtyHackDodoIs,
   defineNavigation,
   sortDashboards,
@@ -47,7 +44,7 @@ import {
   ContentWrapper,
 } from './styles';
 
-import { getNavigationConfig, APP_VERSION } from '../parseEnvFile/index';
+import { getNavigationConfig, APP_VERSION } from '../parseEnvFile';
 import { serializeValue } from '../parseEnvFile/utils';
 import { addSlash, logConfigs } from './helpers';
 
@@ -57,13 +54,19 @@ import {
   STYLES_DODOPIZZA,
   STYLES_DRINKIT,
   STYLES_DONER42,
-  ALERT_PREFIX,
   SORTING_PREFIX,
 } from '../constants';
+import { getDefaultDashboard } from '../utils/getDefaultDashboard';
+import {
+  handleAnnotationsRequest,
+  loadAnnotations,
+} from '../../DodoExtensions/utils/annotationUtils';
 
 setupClient();
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
+  const businessId = incomingParams.businessId || 'dodopizza';
+
   // TODO: DODO: duplicated logic in src/Superstructure/store.ts
   function getPageLanguage(): string | null {
     if (!document) {
@@ -159,43 +162,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     return csrfResponse;
   };
 
-  const handleAnnotationLayersRequest = async () => {
-    const annotationsResponse = await getAnnotationLayersData();
-
-    if (annotationsResponse.loaded && annotationsResponse.data) {
-      const filteredAnnotationLayers = annotationsResponse.data.filter(
-        (layer: AnnotationLayer) => layer.name.includes(ALERT_PREFIX),
-      );
-
-      const foundAnnotationLayer = filteredAnnotationLayers[0] || null;
-
-      if (foundAnnotationLayer) {
-        const idsResponse = await getSingleAnnotationLayerIdsData(
-          foundAnnotationLayer.id,
-        );
-
-        if (
-          idsResponse?.loaded &&
-          idsResponse.data?.ids &&
-          idsResponse.data?.ids.length
-        ) {
-          const dataWithIds = {
-            layerId: idsResponse.data.layerId,
-            ids: idsResponse.data.ids,
-          };
-
-          return dataWithIds;
-        }
-
-        return null;
-      }
-
-      return null;
-    }
-
-    return null;
-  };
-
   const handleAnnotationLayersRequestSorting = async () => {
     const annotationsResponse = await getAnnotationLayersData();
 
@@ -232,22 +198,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
     return null;
   };
-
-  const handleAnnotationsRequest = async ({
-    layerId,
-    ids,
-  }: {
-    layerId: number;
-    ids: number[];
-  }): Promise<InitializedResponse<{ result: SingleAnnotation } | null>[]> =>
-    Promise.all(
-      ids.map(
-        async (
-          id,
-        ): Promise<InitializedResponse<{ result: SingleAnnotation } | null>> =>
-          getSingleAnnotationData(layerId, id),
-      ),
-    );
 
   const handleDashboardsRequest = async (business: string) => {
     const dashboardsResponse = await getDashboardsData();
@@ -353,7 +303,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         ? addSlash(incomingParams.basename)
         : '/',
       frontendLogger: incomingParams.frontendLogger || true,
-      business: incomingParams.businessId || 'dodopizza',
+      business: businessId,
     };
 
     // Superset API works only with port 3000
@@ -369,7 +319,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     console.log('Checked and altered parameters: ', parameters);
 
     return parameters;
-  }, [incomingParams]);
+  }, [businessId, incomingParams]);
 
   const IS_UNAVAILABLE = serializeValue(process.env.isUnavailable) === 'true';
 
@@ -411,16 +361,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         if (csrf?.data?.result) {
           const dashboards = await handleDashboardsRequest(params.business);
 
-          const annotationIds = await handleAnnotationLayersRequest();
-          if (annotationIds) {
-            const annotations = await handleAnnotationsRequest(annotationIds);
-            if (annotations?.length) {
-              const filteredAnnotations = annotations.filter(annotation =>
-                annotation?.data?.result.short_descr.includes(ALERT_PREFIX),
-              );
-              setAnnotationsObjects(filteredAnnotations);
-            }
-          }
+          setAnnotationsObjects(await loadAnnotations());
 
           if (dashboards?.data?.length) {
             let SORTING_IDS = [] as any[];
@@ -510,6 +451,13 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     padding-top: 8px;
   `;
 
+  const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
+
+  const startDashboard = getDefaultDashboard({
+    businessId,
+    routes: FULL_CONFIG.navigation.routes,
+  });
+
   return (
     <div>
       <Version appVersion={APP_VERSION} />
@@ -527,6 +475,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                 stylesConfig={stylesConfig}
                 language={userLanguage}
                 isVisible={isVisible}
+                onNavigate={closeLeftNavigation} // DODO added #33605679
               />
               <DashboardComponentWrapper
                 withNavigation={
@@ -547,6 +496,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                   basename={FULL_CONFIG.basename}
                   stylesConfig={stylesConfig}
                   annotationMessages={annotationsObjects}
+                  startDashboardId={startDashboard}
                 />
               </DashboardComponentWrapper>
             </Router>
