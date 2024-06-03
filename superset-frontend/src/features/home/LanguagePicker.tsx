@@ -58,7 +58,6 @@ const StyledFlag = styled.i`
 
 export default function LanguagePicker(props: LanguagePickerProps) {
   const { locale, languages, ...rest } = props;
-  console.log(`LanguagePicker languages`, languages);
 
   // DODO changed #33835937 start
   const hardcodedRuEnUrl = Object.fromEntries(
@@ -73,8 +72,6 @@ export default function LanguagePicker(props: LanguagePickerProps) {
     }),
   );
   // DODO changed #33835937 stop
-
-  console.log(`LanguagePicker hardcodedRuEnUrl`, hardcodedRuEnUrl);
 
   return (
     <SubMenu
