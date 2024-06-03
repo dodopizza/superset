@@ -29,29 +29,10 @@ down_revision = '4b85906e5b91'
 from alembic import op
 import logging
 import sqlalchemy as sa
-from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from superset import db
 
 Base = declarative_base()
 logger = logging.getLogger("alembic.env")
-
-
-# class UserInfo(Base):  # pylint: disable=too-few-public-methods
-#     """Declarative class to do query in upgrade"""
-#
-#     __tablename__ = "user_info"
-#
-#     id = Column(Integer, primary_key=True)
-#     language = Column(String(32), default="ru")
-#     user_id = Column(Integer, ForeignKey("ab_user.id"))
-#
-#
-# class User(Base):
-#     """Declarative class to do query in upgrade"""
-#
-#     __tablename__ = "ab_user"
-#     id = Column(Integer, primary_key=True)
 
 
 def upgrade():
@@ -63,16 +44,6 @@ def upgrade():
     sa.ForeignKeyConstraint(["user_id"], ["ab_user.id"]),
     sa.PrimaryKeyConstraint('id')
     )
-    # bind = op.get_bind()
-    # session = db.Session(bind=bind)
-    # users = session.query(User.id).all()
-    # users_id = {user_id: UserInfo(
-    #     id=i+1, language="ru", user_id=user_id[0]
-    # ) for i, user_id in enumerate(users)
-    # }
-    # session.add_all(users_id.values())
-    # session.commit()
-    # session.close()
     # ### end Alembic commands ###
 
 
