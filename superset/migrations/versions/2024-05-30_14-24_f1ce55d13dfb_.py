@@ -29,7 +29,7 @@ down_revision = '4b85906e5b91'
 from alembic import op
 import logging
 import sqlalchemy as sa
-from sqlalchemy import Column, Integer, Text, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from superset import db
 
@@ -67,7 +67,7 @@ def upgrade():
     session = db.Session(bind=bind)
     users = session.query(User.id).all()
     users_id = {user_id: UserInfo(
-        id=i, language="ru", user_id=user_id[0]
+        id=i+1, language="ru", user_id=user_id[0]
     ) for i, user_id in enumerate(users)
     }
     session.add_all(users_id.values())

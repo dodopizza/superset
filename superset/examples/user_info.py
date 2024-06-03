@@ -27,7 +27,7 @@ def load_user_info():
         db.session.query(security_manager.user_model)
         .all()
     )
-    users_id = {user.id: UserInfo(id=i, language="ru", user_id=user.id)
+    users_id = {user.id: UserInfo(id=i+1, language="ru", user_id=user.id)
                 for i, user in enumerate(users)
                 }
     db.session.add_all(users_id.values())
