@@ -1,7 +1,11 @@
 import {
+  ONBOARDING_FINISH_ERROR,
+  ONBOARDING_FINISH_SUCCESS,
+  ONBOARDING_FINISH_UPDATING,
   ONBOARDING_INIT_ERROR,
   ONBOARDING_INIT_LOADING,
   ONBOARDING_INIT_SUCCESS,
+  ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
   ONBOARDING_TEAMS_SUCCESS,
   OnboardingAction,
@@ -22,6 +26,10 @@ const initialState: OnboardingState = {
   teamsIsLoading: false,
   teams: [],
   teamsLoadingError: null,
+
+  finishUpdating: false,
+  finishSuccess: false,
+  finishSuccessError: null,
 };
 
 export const onboardingSlice = (
@@ -42,11 +50,33 @@ export const onboardingSlice = (
         loadingError: action.payload.error,
       };
     }
+
     case ONBOARDING_TEAMS_LOADING: {
       return { ...state, teamsIsLoading: true };
     }
     case ONBOARDING_TEAMS_SUCCESS: {
       return { ...state, teamsIsLoading: false, teams: action.payload };
+    }
+    case ONBOARDING_TEAMS_ERROR: {
+      return {
+        ...state,
+        teamsIsLoading: false,
+        teamsLoadingError: action.payload.error,
+      };
+    }
+
+    case ONBOARDING_FINISH_UPDATING: {
+      return { ...state, finishUpdating: true };
+    }
+    case ONBOARDING_FINISH_SUCCESS: {
+      return { ...state, finishUpdating: false, finishSuccess: true };
+    }
+    case ONBOARDING_FINISH_ERROR: {
+      return {
+        ...state,
+        finishUpdating: false,
+        finishSuccessError: action.payload.error,
+      };
     }
 
     default: {

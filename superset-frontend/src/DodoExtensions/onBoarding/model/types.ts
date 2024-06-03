@@ -8,6 +8,10 @@ export const ONBOARDING_TEAMS_LOADING = 'ONBOARDING_TEAMS_LOADING';
 export const ONBOARDING_TEAMS_SUCCESS = 'ONBOARDING_TEAMS_SUCCESS';
 export const ONBOARDING_TEAMS_ERROR = 'ONBOARDING_TEAMS_ERROR';
 
+export const ONBOARDING_FINISH_UPDATING = 'ONBOARDING_FINISH_UPDATING';
+export const ONBOARDING_FINISH_SUCCESS = 'ONBOARDING_FINISH_SUCCESS';
+export const ONBOARDING_FINISH_ERROR = 'ONBOARDING_FINISH_ERROR';
+
 export type OnboardingSuccessPayload = {
   isOnboardingFinished: boolean;
   onboardingStartedTime: Date | null;
@@ -44,13 +48,29 @@ type ActionTeamsError = {
   payload: { error: string };
 };
 
+type ActionFinishUpdating = {
+  type: typeof ONBOARDING_FINISH_UPDATING;
+};
+
+type ActionFinishSuccess = {
+  type: typeof ONBOARDING_FINISH_SUCCESS;
+};
+
+type ActionFinishError = {
+  type: typeof ONBOARDING_FINISH_ERROR;
+  payload: { error: string };
+};
+
 export type OnboardingAction =
   | ActionInitLoading
   | ActionInitSuccess
   | ActionInitError
   | ActionTeamsLoading
   | ActionTeamsSuccess
-  | ActionTeamsError;
+  | ActionTeamsError
+  | ActionFinishUpdating
+  | ActionFinishSuccess
+  | ActionFinishError;
 
 export type OnboardingState = {
   isLoading: boolean;
@@ -66,4 +86,8 @@ export type OnboardingState = {
   teamsIsLoading: boolean;
   teams: Array<Team>;
   teamsLoadingError: string | null;
+
+  finishUpdating: boolean;
+  finishSuccess: boolean;
+  finishSuccessError: string | null;
 };

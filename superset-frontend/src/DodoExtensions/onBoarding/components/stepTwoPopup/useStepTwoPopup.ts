@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RadioChangeEvent } from 'antd/lib/radio';
+import { useDispatch } from 'react-redux';
 import { Role, userFromEnum } from '../../types';
 import { MIN_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { getTeamTag } from '../../utils/getTeamTag';
-import { StepTwoPopupDto } from './stepTwoPopup.dto';
+import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
 
-export const useStepTwoPopup = (onSubmit: (dto: StepTwoPopupDto) => void) => {
+export const useStepTwoPopup = () => {
   const [userFrom, setUserFrom] = useState<userFromEnum>(
     userFromEnum.Franchisee,
   );
@@ -14,6 +15,8 @@ export const useStepTwoPopup = (onSubmit: (dto: StepTwoPopupDto) => void) => {
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
 
   const [roles, setRoles] = useState<Array<Role>>([]);
+
+  const dispatch = useDispatch();
 
   const toggleUseFrom = useCallback(
     ({ target: { value } }: RadioChangeEvent) => {
@@ -59,14 +62,16 @@ export const useStepTwoPopup = (onSubmit: (dto: StepTwoPopupDto) => void) => {
 
   const submit = useCallback(
     () =>
-      onSubmit({
-        userFrom,
-        isNewTeam: !!newTeam,
-        teamName: formatedTeamName,
-        teamTag: formatedTag,
-        roles,
-      }),
-    [formatedTag, formatedTeamName, newTeam, onSubmit, roles, userFrom],
+      dispatch(
+        finishOnBoarding({
+          userFrom,
+          isNewTeam: !!newTeam,
+          teamName: formatedTeamName,
+          teamTag: formatedTag,
+          roles,
+        }),
+      ),
+    [userFrom, newTeam, formatedTeamName, formatedTag, roles],
   );
 
   return {

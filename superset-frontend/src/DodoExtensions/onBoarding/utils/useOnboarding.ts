@@ -1,15 +1,60 @@
-import { useCallback, useState } from 'react';
-import { useGetOnBoardingStep } from './useGetOnBoardingStep';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
 
-import { updateStorageTimeOfTheLastShow } from './localStorageUtils';
+import {
+  getOnboardingStorageInfo,
+  updateStorageTimeOfTheLastShow,
+} from './localStorageUtils';
 import { repoUpdateOnboardingStartedTimeAndRole } from '../repository/updateOnboardingStartedTimeAndRole.repository';
+import { initOnboarding } from '../model/actions/initOnboarding';
+import { getIsOnboardingFinished } from '../model/selector/getIsOnboardingFinished';
+import { getOnboardingStartedTime } from '../model/selector/getOnboardingStartedTime';
+import { getOnboardingFinishSuccess } from '../model/selector/getOnboardingFinishSuccess';
+
+const oneDayPassed = (date?: Date): boolean => {
+  const ONE_DAY_LATER_DISTANCE = 24 * 60 * 60 * 1000;
+
+  if (date) {
+    if (new Date(Number(date) + ONE_DAY_LATER_DISTANCE) >= new Date()) {
+      return false;
+    }
+  }
+  return true;
+};
 
 export const useOnboarding = () => {
   const [step, setStep] = useState<number | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  useGetOnBoardingStep(step, setStep);
+  const dispatch = useDispatch();
+  const isOnboardingFinished = useSelector(getIsOnboardingFinished);
+  const onboardingStartedTime = useSelector(getOnboardingStartedTime);
+  const isFinishSuccess = useSelector(getOnboardingFinishSuccess);
+
+  const storageInfo = getOnboardingStorageInfo();
+
+  useEffect(() => {
+    dispatch(initOnboarding());
+  }, [dispatch]);
+
+  if (isFinishSuccess) {
+    if (step !== null) {
+      setStep(null);
+    }
+  } else if (!isOnboardingFinished) {
+    if (onboardingStartedTime) {
+      if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+        if (step !== 2) {
+          setStep(2);
+        }
+      }
+    } else if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+      if (step === null) {
+        setStep(1);
+      }
+    }
+  }
 
   const closeOnboarding = useCallback(() => {
     updateStorageTimeOfTheLastShow();
@@ -20,7 +65,6 @@ export const useOnboarding = () => {
     try {
       setIsUpdating(true);
 
-      console.log('stepOneDto', stepOneDto);
       await repoUpdateOnboardingStartedTimeAndRole(stepOneDto.roleOrTeam);
 
       setStep(2);

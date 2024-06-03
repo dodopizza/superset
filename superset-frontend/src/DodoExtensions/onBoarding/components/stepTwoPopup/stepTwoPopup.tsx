@@ -3,13 +3,15 @@ import { Space, Typography } from 'antd';
 import { styled } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
+import { useSelector } from 'react-redux';
 import Modal from '../../../../components/Modal';
 import { userFromEnum } from '../../types';
 import { SelectRoles } from './components/selectRoles';
 import { CreateOrFindTeam } from './components/createOrFindTeam';
 import { ButtonWithTopMargin } from '../styles';
 import { useStepTwoPopup } from './useStepTwoPopup';
-import { StepTwoPopupDto } from './stepTwoPopup.dto';
+import { getOnboardingFinishUpdating } from '../../model/selector/getOnboardingFinishUpdating';
+import Loading from '../../../../components/Loading';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -17,12 +19,11 @@ const Wrapper = styled.div`
 
 type Props = {
   onClose: () => void;
-  onSubmit: (dto: StepTwoPopupDto) => void;
 };
 
 const userFromOptions = [userFromEnum.Franchisee, userFromEnum.ManagingCompany];
 
-export const StepTwoPopup: FC<Props> = ({ onClose, onSubmit }) => {
+export const StepTwoPopup: FC<Props> = ({ onClose }) => {
   const {
     userFrom,
     toggleUseFrom,
@@ -35,8 +36,9 @@ export const StepTwoPopup: FC<Props> = ({ onClose, onSubmit }) => {
     roles,
     formatedTeamName,
     submit,
-  } = useStepTwoPopup(onSubmit);
+  } = useStepTwoPopup();
 
+  const isFinishUpdating = useSelector(getOnboardingFinishUpdating);
   const { Title } = Typography;
 
   return (
@@ -92,6 +94,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose, onSubmit }) => {
               buttonSize="default"
               disabled={noTeam || roles.length === 0}
               onClick={submit}
+              loading={isFinishUpdating}
             >
               Finish onboarding
             </ButtonWithTopMargin>
@@ -105,6 +108,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose, onSubmit }) => {
           </Col>
         </Row>
       </Wrapper>
+      {isFinishUpdating && <Loading />}
     </Modal>
   );
 };
