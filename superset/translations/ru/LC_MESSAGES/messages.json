@@ -5957,7 +5957,13 @@
       "Are you a franchisee or from a Managing Company?": ["Вы являетесь франчайзи или работаете в управляющей компании?"],
       "Finish onboarding": ["Завершить онбординг"],
       "Franchisee": ["Франчайзи"],
-      "Managing Company": ["Управляющая компания"]
+      "Managing Company": ["Управляющая компания"],
+      "Create of find your team": ["Создайте или найдите вашу команду"],
+      "All C-level people please select ‘c_level’": ["Выберите ‘c_level’ если ваш уровень C-level"],
+      "your team": ["ваша команда"],
+      "Your team name is": ["Название вашей команды:"],
+      "is a known command, so you can enter the team automatically.": ["существующая команда, вы можете присоединиться к ней автоматически"],
+      "is a new team, so Superset admins will have to evaluate this request.": ["новая команда, администраторы Суперсета обработают вашу заявку"]
     }
   }
 }

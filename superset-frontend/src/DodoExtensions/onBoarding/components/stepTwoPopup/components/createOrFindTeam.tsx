@@ -1,6 +1,6 @@
 import React, { FC, memo, useCallback, useMemo } from 'react';
 import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
-import { styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Role, userFromEnum } from '../../../types';
@@ -66,7 +66,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           setRoles(option.roles);
         } else {
           if (value) {
-            // const reg = /^-?\d*(\.\d*)?$/;
+            // const reg = /^-?\d*(\.\d*)?$/; for numbers
             const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
             if (reg.test(value) && value.length <= MAX_NAME_LENGTH) {
               setNewTeam(value);
@@ -98,23 +98,29 @@ export const CreateOrFindTeam: FC<Props> = memo(
 
     const teamDescription = useMemo(() => {
       if (existingTeam) {
-        return `Since [${existingTeam.label} (${existingTeam.value}] is a known command, you can enter the team automatically.`;
+        return `[${existingTeam.label} (${existingTeam.value}] ${t(
+          'is a known command, so you can enter the team automatically.',
+        )}`;
       }
       if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
         const name = getTeamName(userFrom, newTeam);
         const tag = getTeamTag(userFrom, newTeam);
-        return `Since [${name} (${tag})] is a new team, Superset admins will have to evaluate this request.`;
+        return `[${name} (${tag})] ${t(
+          'is a new team, so Superset admins will have to evaluate this request.',
+        )}`;
       }
       return '';
     }, [existingTeam, newTeam, userFrom]);
 
     return (
       <>
-        <Typography.Title level={5}>Create of find your team</Typography.Title>
+        <Typography.Title level={5}>
+          {t('Create of find your team')}
+        </Typography.Title>
 
         <StyledSpace direction="vertical" size="small">
           <Typography.Text type="secondary">
-            All C-level people please select ‘c_level’
+            {t('All C-level people please select ‘c_level’')}
           </Typography.Text>
 
           <AutoComplete
@@ -125,7 +131,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
             onChange={handleTeamChange}
           >
             <Input.Search
-              placeholder="your team"
+              placeholder={t('your team')}
               loading={teamsIsLoading}
               allowClear
               enterButton
@@ -134,7 +140,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           </AutoComplete>
 
           <Space direction="horizontal" size="small">
-            <Typography.Text>Your team name is</Typography.Text>
+            <Typography.Text>{t('Your team name is')}</Typography.Text>
             <TagAnt color="#ff6900" closable={tagClosable} onClose={removeTeam}>
               {formatedTeamName}
             </TagAnt>

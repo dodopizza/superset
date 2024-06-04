@@ -4747,7 +4747,13 @@
       "Are you a franchisee or from a Managing Company?": [],
       "Finish onboarding": [],
       "Franchisee": [""],
-      "Managing Company": [""]
+      "Managing Company": [""],
+      "Create of find your team": [""],
+      "All C-level people please select ‘c_level’": [""],
+      "your team": [""],
+      "Your team name is": [""],
+      "is a known command, so you can enter the team automatically.": [""],
+      "is a new team, so Superset admins will have to evaluate this request.": [""]
     }
   }
 }
