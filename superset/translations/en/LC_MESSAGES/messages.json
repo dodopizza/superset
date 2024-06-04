@@ -4734,7 +4734,8 @@
       "Week starting Sunday": [""],
       "Week starting Monday": [""],
       "Week ending Saturday": [""],
-      "You are welcome to Superset": [""]
+      "You are welcome to Superset": [""],
+      "Onboarding": [""]
     }
   }
 }

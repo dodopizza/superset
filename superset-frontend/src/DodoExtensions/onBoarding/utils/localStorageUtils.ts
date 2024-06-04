@@ -30,3 +30,7 @@ export const updateStorageTimeOfTheLastShow = () => {
 
   localStorage.setItem(ONBOARDING_LOCAL_STORAGE_KEY, JSON.stringify(info));
 };
+
+export const clearOnboardingStorageInfo = () => {
+  localStorage.removeItem(ONBOARDING_LOCAL_STORAGE_KEY);
+};

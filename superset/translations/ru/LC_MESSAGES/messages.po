@@ -20273,3 +20273,7 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/components/stepOnePopup.tsx:35
 msgid "You are welcome to Superset"
 msgstr "Добро пожаловать в Суперсет"
+
+#: superset-frontend/src/features/home/RightMenu.tsx:473
+msgid "Onboarding"
+msgstr "Онбоардинг"

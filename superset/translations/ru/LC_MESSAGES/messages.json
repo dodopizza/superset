@@ -5944,7 +5944,8 @@
       "Values dependent on": ["Значения зависят от"],
       "No filter": ["Без фильтра"],
       "Add and edit filters": ["Создать/изменить фильтры"],
-      "You are welcome to Superset": ["Добро пожаловать в Суперсет"]
+      "You are welcome to Superset": ["Добро пожаловать в Суперсет"],
+      "Onboarding": ["Онбординг"]
     }
   }
 }

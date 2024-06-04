@@ -1904,6 +1904,7 @@ const en = {
       'Export to .CSV': [''],
       'Export to .XLSX': [''],
       'You are welcome to Superset': [''],
+      Onboarding: [''],
     },
   },
 };

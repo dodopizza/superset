@@ -1,18 +1,18 @@
 // DODO was here
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import rison from 'rison';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useQueryParams, BooleanParam } from 'use-query-params';
+import { BooleanParam, useQueryParams } from 'use-query-params';
 import { isEmpty } from 'lodash';
 
 import {
-  t,
-  styled,
   css,
-  SupersetTheme,
-  SupersetClient,
   getExtensionsRegistry,
+  styled,
+  SupersetClient,
+  SupersetTheme,
+  t,
   useTheme,
 } from '@superset-ui/core';
 import { MainNav as Menu } from 'src/components/Menu';
@@ -22,9 +22,9 @@ import Label from 'src/components/Label';
 import { findPermission } from 'src/utils/findPermission';
 import { isUserAdmin } from 'src/dashboard/util/permissionUtils';
 import {
+  MenuObjectChildProps,
   MenuObjectProps,
   UserWithPermissionsAndRoles,
-  MenuObjectChildProps,
 } from 'src/types/bootstrapTypes';
 import { RootState } from 'src/dashboard/types';
 import DatabaseModal from 'src/features/databases/DatabaseModal';
@@ -38,6 +38,7 @@ import {
   GlobalMenuDataOptions,
   RightMenuProps,
 } from './types';
+import { clearOnboardingStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -456,10 +457,23 @@ const RightMenu = ({
               <Menu.Divider key={`divider_${index}`} />
             ),
           ])}
-
           {!navbarRight.user_is_anonymous && [
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
+              {/*  DODO added start 32839641 */}
+              <Menu.Item key="errer">
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    clearOnboardingStorageInfo();
+                    window.location.reload();
+                  }}
+                >
+                  {t('Onboarding')}
+                </a>
+              </Menu.Item>
+              {/*  DODO added stop 32839641 */}
               {navbarRight.user_profile_url && (
                 <Menu.Item key="profile">
                   <a href={navbarRight.user_profile_url}>{t('Profile')}</a>
