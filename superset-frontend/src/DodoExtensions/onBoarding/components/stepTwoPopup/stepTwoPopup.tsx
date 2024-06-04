@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Space, Typography } from 'antd';
-import { styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,13 @@ type Props = {
   onClose: () => void;
 };
 
-const userFromOptions = [userFromEnum.Franchisee, userFromEnum.ManagingCompany];
+const userFromOptions = [
+  { label: t(userFromEnum.Franchisee), value: userFromEnum.Franchisee },
+  {
+    label: t(userFromEnum.ManagingCompany),
+    value: userFromEnum.ManagingCompany,
+  },
+];
 
 export const StepTwoPopup: FC<Props> = ({ onClose }) => {
   const {
@@ -41,10 +47,12 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
   const isFinishUpdating = useSelector(getOnboardingFinishUpdating);
   const { Title } = Typography;
 
+  console.log(`userFrom`, userFrom);
+
   return (
     <Modal
       show
-      title="You are welcome to superset"
+      title={t('You are welcome to Superset')}
       hideFooter
       onHide={onClose}
       width="1000px"
@@ -52,12 +60,12 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
       <Wrapper>
         <Row gutter={32}>
           <Col span={14}>
-            <Title level={3}>Tell us why you are here</Title>
+            <Title level={3}>{t('Tell us why you are here')}</Title>
 
             {/* <RoleInformation /> */}
 
             <Typography.Title level={5}>
-              Are you a franchisee or from a Managing Company?
+              {t('Are you a franchisee or from a Managing Company?')}
             </Typography.Title>
 
             <Space direction="vertical" size="small">
@@ -96,7 +104,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               onClick={submit}
               loading={isFinishUpdating}
             >
-              Finish onboarding
+              {t('Finish onboarding')}
             </ButtonWithTopMargin>
           </Col>
           <Col span={10}>

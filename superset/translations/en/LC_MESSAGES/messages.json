@@ -4742,7 +4742,12 @@
       "Last name": [],
       "Role or team": [],
       "Please input your role and team!": [],
-      "Next step":[]
+      "Next step":[],
+      "Tell us why you are here":[],
+      "Are you a franchisee or from a Managing Company?": [],
+      "Finish onboarding": [],
+      "Franchisee": [""],
+      "Managing Company": [""]
     }
   }
 }

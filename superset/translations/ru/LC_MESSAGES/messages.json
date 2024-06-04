@@ -5952,7 +5952,12 @@
       "Last name": ["Фамилия"],
       "Role or team": ["Роль или команда"],
       "Please input your role and team!": ["Пожалуйста, укажите вашу роль или команду"],
-      "Next step":["Следующий шаг"]
+      "Next step":["Следующий шаг"],
+      "Tell us why you are here":["Расскажите нам, почему вы здесь"],
+      "Are you a franchisee or from a Managing Company?": ["Вы являетесь франчайзи или работаете в управляющей компании?"],
+      "Finish onboarding": ["Завершить онбординг"],
+      "Franchisee": ["Франчайзи"],
+      "Managing Company": ["Управляющая компания"]
     }
   }
 }
