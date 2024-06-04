@@ -5945,7 +5945,14 @@
       "No filter": ["Без фильтра"],
       "Add and edit filters": ["Создать/изменить фильтры"],
       "You are welcome to Superset": ["Добро пожаловать в Суперсет"],
-      "Onboarding": ["Онбординг"]
+      "Onboarding": ["Онбординг"],
+      "Tell us more about yourself": ["Расскажите нам о себе"],
+      "All the data is from Dodo IS. Please enter your team or role. It helps to proceed your request.": ["Все данные взяты из Dodo IS. Пожалуйста, укажите свою команду или должность. Это поможет выполнить ваш запрос."],
+      "First name": ["Имя"],
+      "Last name": ["Фамилия"],
+      "Role or team": ["Роль или команда"],
+      "Please input your role and team!": ["Пожалуйста, укажите вашу роль или команду"],
+      "Next step":["Следующий шаг"]
     }
   }
 }

@@ -33,7 +33,6 @@ export const StepOnePopup: FC<Props> = ({
     <Modal
       show
       title={t('You are welcome to Superset')}
-      // title={t('Add and edit filters')}
       hideFooter
       onHide={onClose}
       width="1000px"
@@ -41,11 +40,11 @@ export const StepOnePopup: FC<Props> = ({
       <Wrapper>
         <Row gutter={32}>
           <Col span={14}>
-            <Title level={3}>Tell us more about yourself</Title>
+            <Title level={3}>{t('Tell us more about yourself')}</Title>
             <Paragraph type="secondary">
-              All the data is from DodoIS. You cannot change email, however if
-              there are issues with your first name or last name, feel free to
-              change them.
+              {t(
+                'All the data is from Dodo IS. Please enter your team or role. It helps to proceed your request.',
+              )}
             </Paragraph>
             <Form
               name="stepOne"
@@ -56,7 +55,7 @@ export const StepOnePopup: FC<Props> = ({
               <Row gutter={16}>
                 <Col span={12}>
                   <FormItem
-                    label="First name"
+                    label={t('First name')}
                     name="firstName"
                     initialValue={firstName}
                   >
@@ -66,7 +65,7 @@ export const StepOnePopup: FC<Props> = ({
 
                 <Col span={12}>
                   <FormItem
-                    label="Last name"
+                    label={t('Last name')}
                     name="lastName"
                     initialValue={lastName}
                   >
@@ -84,12 +83,12 @@ export const StepOnePopup: FC<Props> = ({
               <Row>
                 <Col span={24}>
                   <FormItem
-                    label="Role or team"
+                    label={t('Role or team')}
                     name="roleOrTeam"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your role and team!',
+                        message: t('Please input your role and team!'),
                       },
                     ]}
                     initialValue=""
@@ -99,7 +98,7 @@ export const StepOnePopup: FC<Props> = ({
                 </Col>
               </Row>
               <ButtonWithTopMargin type="primary" htmlType="submit">
-                Next step
+                {t('Next step')}
               </ButtonWithTopMargin>
             </Form>
           </Col>
