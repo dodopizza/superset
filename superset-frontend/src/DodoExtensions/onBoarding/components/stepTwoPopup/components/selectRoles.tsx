@@ -1,7 +1,7 @@
 import React, { FC, memo, useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 
-import { styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import CheckboxControl from '../../../../../explore/components/controls/CheckboxControl';
 import { Role } from '../../../types';
 
@@ -36,47 +36,57 @@ export const SelectRoles: FC<Props> = memo(
     );
 
     const roleList = useMemo(() => roles.join(', '), [roles]);
+    // const roleList = useMemo(
+    //   () => roles.reduce((acc, item) => `${acc}${t(item)}, `, ''),
+    //   [roles],
+    // );
 
     return (
       <>
         <Typography.Title level={5}>
-          Which use cases are you interested in using Superset for?
+          {t('Which use cases are you interested in using Superset for?')}
         </Typography.Title>
         <StyledSpace direction="vertical" size="small">
           <CheckboxControl
             hovered
-            label="Analyze data"
-            description="Analyze available dashboards. Gather insights from charts inside a dashboard"
+            label={t('Analyze data')}
+            description={t(
+              'Analyze available dashboards. Gather insights from charts inside a dashboard',
+            )}
             value={roles.includes(Role.AnalyseData)}
             onChange={(value: boolean) => updateRoles(value, Role.AnalyseData)}
             disabled={noTeam || existingTeam}
           />
           <CheckboxControl
             hovered
-            label="Create dashboards and charts"
-            description="Create dashboards. Create charts"
+            label={t('Create dashboards and charts')}
+            description={t('Create dashboards. Create charts')}
             value={roles.includes(Role.UseData)}
             onChange={(value: boolean) => updateRoles(value, Role.UseData)}
             disabled={noTeam || existingTeam}
           />
           <CheckboxControl
             hovered
-            label="Create datasets from data from Data Platform"
-            description="Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries"
+            label={t('Create datasets from data from Data Platform')}
+            description={t(
+              'Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries',
+            )}
             value={roles.includes(Role.CreateData)}
             onChange={(value: boolean) => updateRoles(value, Role.CreateData)}
             disabled={noTeam || existingTeam || isFranchisee}
           />
           <CheckboxControl
             hovered
-            label="Create datasets from data from isolated databases"
-            description="Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries"
+            label={t('Create datasets from data from isolated databases')}
+            description={t(
+              'Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries',
+            )}
             value={roles.includes(Role.InputData)}
             onChange={(value: boolean) => updateRoles(value, Role.InputData)}
             disabled={noTeam || existingTeam || isFranchisee}
           />
           <Typography.Text>
-            Based on your selection, your roles are:
+            {t('Based on your selection, your roles are:')}
           </Typography.Text>
           <Typography.Text strong underline>
             {roleList}

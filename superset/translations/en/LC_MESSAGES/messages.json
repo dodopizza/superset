@@ -4753,7 +4753,17 @@
       "your team": [""],
       "Your team name is": [""],
       "is a known command, so you can enter the team automatically.": [""],
-      "is a new team, so Superset admins will have to evaluate this request.": [""]
+      "is a new team, so Superset admins will have to evaluate this request.": [""],
+      "Which use cases are you interested in using Superset for?": [""],
+      "Analyze data": [""],
+      "Analyze available dashboards. Gather insights from charts inside a dashboard": [""],
+      "Create dashboards and charts": [""],
+      "Create dashboards. Create charts": [""],
+      "Create datasets from data from Data Platform": [""],
+      "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": [""],
+      "Create datasets from data from isolated databases": [""],
+      "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [""],
+      "Based on your selection, your roles are:": [""],
     }
   }
 }

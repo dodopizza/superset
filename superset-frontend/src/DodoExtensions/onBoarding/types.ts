@@ -3,10 +3,10 @@ export type OnBoardingStorageInfo = {
 };
 
 export enum Role {
-  AnalyseData = 'Analyse Data',
-  CreateData = 'Create Data',
-  UseData = 'Use Data',
-  InputData = 'Input Data',
+  AnalyseData = 'Analyze data',
+  CreateData = 'Create data',
+  UseData = 'Use data',
+  InputData = 'Input data',
 }
 
 export type Team = {
