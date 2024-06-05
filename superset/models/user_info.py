@@ -13,7 +13,7 @@ class UserInfo(Model):  # DODO added #33835937
 
     id = Column(Integer, primary_key=True)
     isOnboardingFinished = Column(Boolean, default=False)  # DODO added #32839638
-    onboardingStartedTime = Column(DateTime)  # DODO added #32839638
+    onboardingStartedTime = Column(DateTime, nullable=True)  # DODO added #32839638
     language = Column(String(32), default="ru")
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     team = Column(String(32), nullable=True)
