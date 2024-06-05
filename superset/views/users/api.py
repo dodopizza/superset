@@ -112,3 +112,10 @@ class CurrentUserRestApi(BaseSupersetApi):
         update_language(lang)
         return redirect("/superset/welcome/")
 
+    @expose("/onboarding", ("GET",))
+    def onboarding(self):
+
+        user = bootstrap_user_data(g.user, include_perms=True)
+        return self.response(200, result=user)
+
+
