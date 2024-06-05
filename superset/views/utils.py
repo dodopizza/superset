@@ -71,6 +71,22 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
     return datasource_data
 
 
+def get_onboarding() -> dict:
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        logger.error(user_info)
+        return user_info
+    except Exception:
+        logger.warning(f"User id = {user_id} dont have language in database")
+        return {
+            "onboardingStartedTime": "",
+            "isOnboardingFinished": False
+        }
+
+
 def get_language() -> str:  # DODO changed #33835937
     user_id = get_user_id()
     try:

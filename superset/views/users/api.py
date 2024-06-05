@@ -20,7 +20,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
-from superset.views.utils import bootstrap_user_data, update_language
+from superset.views.utils import bootstrap_user_data, update_language, get_onboarding
 from superset import app
 
 user_response_schema = UserResponseSchema()
@@ -114,8 +114,15 @@ class CurrentUserRestApi(BaseSupersetApi):
 
     @expose("/onboarding", ("GET",))
     def onboarding(self):
-
-        user = bootstrap_user_data(g.user, include_perms=True)
-        return self.response(200, result=user)
+        user = g.user
+        result = {
+            'id': user.id,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'isOnboardingFinished': get_onboarding().get("isOnboardingFinished"),
+            'onboardingStartedTime': get_onboarding().get("onboardingStartedTime")
+        }
+        return self.response(200, result=user_response_schema.dump(result))
 
 
