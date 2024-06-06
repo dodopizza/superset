@@ -34,5 +34,5 @@ class UserResponseSchema(Schema):
 
 
 class ValidateOnboardingPutSchema(Schema):
-    isOnboardingFinished = Boolean()
+    onboardingStartedTime = DateTime()
     dodo_role = String()
