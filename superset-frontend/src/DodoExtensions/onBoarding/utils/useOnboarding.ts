@@ -65,7 +65,7 @@ export const useOnboarding = () => {
     try {
       setIsUpdating(true);
 
-      await repoPutMeOnboarding(stepOneDto.roleOrTeam);
+      await repoPutMeOnboarding(stepOneDto.DodoRole);
 
       setStep(2);
     } finally {

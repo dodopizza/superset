@@ -83,12 +83,12 @@ export const StepOnePopup: FC<Props> = ({
               <Row>
                 <Col span={24}>
                   <FormItem
-                    label={t('Role or team')}
-                    name="roleOrTeam"
+                    label={t('Role in Dodo Brands')}
+                    name="DodoRole"
                     rules={[
                       {
                         required: true,
-                        message: t('Please input your role and team!'),
+                        message: t('Please input your role in Dodo Brands!'),
                       },
                     ]}
                     initialValue=""

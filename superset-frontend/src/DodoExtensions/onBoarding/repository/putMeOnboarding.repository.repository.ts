@@ -1,18 +1,17 @@
-export const repoPutMeOnboarding = async (roleOrTeam: string) => {
-  // TODO - waiting backend API ready
+import { SupersetClient } from '@superset-ui/core';
+
+export const repoPutMeOnboarding = async (dodoRole: string) => {
   try {
-    console.log(
-      `step one - updating OnboardingStartedTime and Role & Team:${roleOrTeam}`,
-    );
-
-    // await SupersetClient.put({
-    //   url: '/api/v1/me/onboarding',
-    //   body: JSON.stringify(dto),
-    //   parseMethod: null,
-    // });
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await SupersetClient.put({
+      url: '/api/v1/me/onboarding',
+      body: {
+        dodo_role: dodoRole,
+        onboardingStartedTime: new Date(),
+      },
+      headers: { 'Content-Type': 'application/json' },
+      parseMethod: null,
+    });
   } catch (e) {
-    console.log(`repoUpdateOnboardingStartedTimeAndRole catch error`, e);
+    console.log(`repoPutMeOnboarding catch error`, e);
   }
 };
