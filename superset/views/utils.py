@@ -77,14 +77,48 @@ def get_onboarding() -> dict:
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
-        logger.error(user_info)
-        return user_info
+        logger.error(user_info.__dict__)
+        return user_info.__dict__
     except Exception:
         logger.warning(f"User id = {user_id} dont have language in database")
         return {
             "onboardingStartedTime": "",
             "isOnboardingFinished": False
         }
+
+
+def update_onboarding(team, finished):
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.team = team
+        user_info.isOnboardingFinished = finished
+        db.session.commit()
+        return {
+            "team": team,
+            "isOnboardingFinished": finished
+        }
+    except AttributeError:
+        create_onboarding(team, finished)
+
+
+def create_onboarding(team: str, finished: bool):   # DODO changed #33835937
+    try:
+        user_id = get_user_id()
+        model = UserInfo()
+        setattr(model, 'user_id', user_id)
+        setattr(model, 'team', team)
+        setattr(model, 'isOnboardingFinished', finished)
+        try:
+            db.session.add(model)
+            db.session.commit()
+        except SQLAlchemyError as ex:
+            db.session.rollback()
+        return True
+    except Exception:
+        raise ErrorLevel.ERROR
 
 
 def get_language() -> str:  # DODO changed #33835937
