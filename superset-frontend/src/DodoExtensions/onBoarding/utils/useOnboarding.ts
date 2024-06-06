@@ -6,7 +6,7 @@ import {
   getOnboardingStorageInfo,
   updateStorageTimeOfTheLastShow,
 } from './localStorageUtils';
-import { repoUpdateOnboardingStartedTimeAndRole } from '../repository/updateOnboardingStartedTimeAndRole.repository';
+import { repoPutMeOnboarding } from '../repository/putMeOnboarding.repository.repository';
 import { initOnboarding } from '../model/actions/initOnboarding';
 import { getIsOnboardingFinished } from '../model/selector/getIsOnboardingFinished';
 import { getOnboardingStartedTime } from '../model/selector/getOnboardingStartedTime';
@@ -65,7 +65,7 @@ export const useOnboarding = () => {
     try {
       setIsUpdating(true);
 
-      await repoUpdateOnboardingStartedTimeAndRole(stepOneDto.roleOrTeam);
+      await repoPutMeOnboarding(stepOneDto.roleOrTeam);
 
       setStep(2);
     } finally {
