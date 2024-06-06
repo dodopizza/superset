@@ -4,16 +4,16 @@ import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import rison from 'rison';
 import {
   ensureIsArray,
-  isFeatureEnabled,
   FeatureFlag,
   getSharedLabelColor,
+  isFeatureEnabled,
   SupersetClient,
   t,
 } from '@superset-ui/core';
 import {
   addChart,
-  removeChart,
   refreshChart,
+  removeChart,
 } from 'src/components/Chart/chartAction';
 import { chart as initChart } from 'src/components/Chart/chartReducer';
 import { applyDefaultFormData } from 'src/explore/store';
@@ -27,9 +27,9 @@ import {
   isCrossFiltersEnabled,
 } from 'src/dashboard/util/crossFilters';
 import {
+  addDangerToast,
   addSuccessToast,
   addWarningToast,
-  addDangerToast,
 } from 'src/components/MessageToasts/actions';
 import serializeActiveFilterValues from 'src/dashboard/util/serializeActiveFilterValues';
 import serializeFilterScopes from 'src/dashboard/util/serializeFilterScopes';
@@ -39,7 +39,6 @@ import { logEvent } from 'src/logger/actions';
 import { LOG_ACTIONS_CONFIRM_OVERWRITE_DASHBOARD_METADATA } from 'src/logger/LogUtils';
 import { UPDATE_COMPONENTS_PARENTS_LIST } from './dashboardLayout';
 import {
-  saveChartConfiguration,
   dashboardInfoChanged,
   SAVE_CHART_CONFIG_COMPLETE,
 } from './dashboardInfo';
@@ -287,14 +286,14 @@ export function saveDashboardRequest(data, id, saveType) {
         dispatch(saveDashboardRequestSuccess(lastModifiedTime));
       }
       if (isFeatureEnabled(FeatureFlag.DASHBOARD_CROSS_FILTERS)) {
-        const { chartConfiguration, globalChartConfiguration } =
-          handleChartConfiguration();
-        dispatch(
-          saveChartConfiguration({
-            chartConfiguration,
-            globalChartConfiguration,
-          }),
-        );
+        // const { chartConfiguration, globalChartConfiguration } =
+        //   handleChartConfiguration();
+        // dispatch(
+        //   saveChartConfiguration({
+        //     chartConfiguration,
+        //     globalChartConfiguration,
+        //   }),
+        // );
       }
       dispatch(saveDashboardFinished());
       dispatch(addSuccessToast(t('This dashboard was saved successfully.')));
