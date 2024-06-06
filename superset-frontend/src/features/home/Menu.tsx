@@ -16,12 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useState, useEffect } from 'react';
-import { styled, css, useTheme, SupersetTheme } from '@superset-ui/core';
+import React, { useEffect, useState } from 'react';
+import { css, styled, SupersetTheme, t, useTheme } from '@superset-ui/core';
 import { debounce } from 'lodash';
 import { Global } from '@emotion/react';
 import { getUrlParam } from 'src/utils/urlUtils';
-import { Row, Col, Grid } from 'src/components';
+import { Col, Grid, Row } from 'src/components';
 import { MainNav as DropdownMenu, MenuMode } from 'src/components/Menu';
 import { Tooltip } from 'src/components/Tooltip';
 import { Link } from 'react-router-dom';
@@ -30,9 +30,9 @@ import Icons from 'src/components/Icons';
 import { useUiConfig } from 'src/components/UiConfigContext';
 import { URL_PARAMS } from 'src/constants';
 import {
+  MenuData,
   MenuObjectChildProps,
   MenuObjectProps,
-  MenuData,
 } from 'src/types/bootstrapTypes';
 import RightMenu from './RightMenu';
 
@@ -200,7 +200,8 @@ export function Menu({
       return (
         <DropdownMenu.Item key={label} role="presentation">
           <Link role="button" to={url}>
-            {label}
+            {/* DODO 34519435 add translation */}
+            {t(label)}
           </Link>
         </DropdownMenu.Item>
       );
@@ -208,14 +209,17 @@ export function Menu({
     if (url) {
       return (
         <DropdownMenu.Item key={label}>
-          <a href={url}>{label}</a>
+          <a href={url}>
+            {/* DODO 34519435 add translation */}
+            {t(label)}
+          </a>
         </DropdownMenu.Item>
       );
     }
     return (
       <SubMenu
         key={index}
-        title={label}
+        title={`${t(label)}`} /* DODO 34519435 add translation */
         icon={showMenu === 'inline' ? <></> : <Icons.TriangleDown />}
       >
         {childs?.map((child: MenuObjectChildProps | string, index1: number) => {
@@ -226,9 +230,15 @@ export function Menu({
             return (
               <DropdownMenu.Item key={`${child.label}`}>
                 {child.isFrontendRoute ? (
-                  <Link to={child.url || ''}>{child.label}</Link>
+                  <Link to={child.url || ''}>
+                    {/* DODO 34519435 add translation */}
+                    {t(child.label)}
+                  </Link>
                 ) : (
-                  <a href={child.url}>{child.label}</a>
+                  <a href={child.url}>
+                    {/* DODO 34519435 add translation */}
+                    {t(child.label)}
+                  </a>
                 )}
               </DropdownMenu.Item>
             );
