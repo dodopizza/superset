@@ -14,15 +14,19 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from flask import g, Response, redirect
+import logging
+
+from flask import g, Response, redirect, request
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from superset.views.base_api import BaseSupersetApi
-from superset.views.users.schemas import UserResponseSchema
-from superset.views.utils import bootstrap_user_data, update_language, get_onboarding
+from superset.views.users.schemas import UserResponseSchema, ValidateOnboardingPutSchema
+from superset.views.utils import (bootstrap_user_data, update_language, get_onboarding,
+                                  update_onboarding)
 from superset import app
 
+logger = logging.getLogger(__name__)
 user_response_schema = UserResponseSchema()
 
 
@@ -113,16 +117,51 @@ class CurrentUserRestApi(BaseSupersetApi):
         return redirect("/superset/welcome/")
 
     @expose("/onboarding", ("GET",))
-    def onboarding(self):
-        user = g.user
+    def get_onboarding(self):
+        try:
+            user = g.user
+            if user is None or user.is_anonymous:
+                return self.response_401()
+        except NoAuthorizationError:
+            return self.response_401()
+        user_onboarding = get_onboarding()
         result = {
             'id': user.id,
             'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'isOnboardingFinished': get_onboarding().get("isOnboardingFinished"),
-            'onboardingStartedTime': get_onboarding().get("onboardingStartedTime")
+            'isOnboardingFinished': user_onboarding.get("isOnboardingFinished"),
+            'onboardingStartedTime': user_onboarding.get("onboardingStartedTime")
+        }
+        logger.error(result)
+        return self.response(200, result=user_response_schema.dump(result))
+
+    @expose("onboarding", ("PUT",))
+    def put_onboarding(self):
+        try:
+            user = g.user
+            if user is None or user.is_anonymous:
+                return self.response_401()
+        except NoAuthorizationError:
+            return self.response_401()
+        payload = request.json
+        model = ValidateOnboardingPutSchema().dump(payload)
+        logger.error(model)
+        team = model.get("team")
+        isOnboardingFinished = model.get("isOnboardingFinished")
+        user_onboarding = update_onboarding(team, isOnboardingFinished)
+        result = {
+            'id': user.id,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'team': user_onboarding.get("team"),
+            'onboardingStartedTime': user_onboarding.get("onboardingStartedTime")
         }
         return self.response(200, result=user_response_schema.dump(result))
+
+
+
+
 
 
