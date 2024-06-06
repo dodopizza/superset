@@ -12,12 +12,28 @@ export const ONBOARDING_FINISH_UPDATING = 'ONBOARDING_FINISH_UPDATING';
 export const ONBOARDING_FINISH_SUCCESS = 'ONBOARDING_FINISH_SUCCESS';
 export const ONBOARDING_FINISH_ERROR = 'ONBOARDING_FINISH_ERROR';
 
+export const ONBOARDING_STEP_ONE_FINISH_UPDATING =
+  'ONBOARDING_STEP_ONE_FINISH_UPDATING';
+export const ONBOARDING_STEP_ONE_FINISH_SUCCESS =
+  'ONBOARDING_STEP_ONE_FINISH_SUCCESS';
+export const ONBOARDING_STEP_ONE_FINISH_ERROR =
+  'ONBOARDING_STEP_ONE_FINISH_ERROR';
+
 export type OnboardingSuccessPayload = {
-  isOnboardingFinished: boolean;
-  onboardingStartedTime: Date | null;
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
+  isOnboardingFinished: boolean;
+  onboardingStartedTime: Date | null;
+};
+
+export type OnboardingStepOneSuccessPayload = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  onboardingStartedTime: Date | null;
 };
 
 type ActionInitLoading = {
@@ -61,6 +77,20 @@ type ActionFinishError = {
   payload: { error: string };
 };
 
+type ActionStepOneFinishUpdating = {
+  type: typeof ONBOARDING_STEP_ONE_FINISH_UPDATING;
+};
+
+type ActionStepOneFinishSuccess = {
+  type: typeof ONBOARDING_STEP_ONE_FINISH_SUCCESS;
+  payload: OnboardingStepOneSuccessPayload;
+};
+
+type ActionStepOneFinishError = {
+  type: typeof ONBOARDING_STEP_ONE_FINISH_ERROR;
+  payload: { error: string };
+};
+
 export type OnboardingAction =
   | ActionInitLoading
   | ActionInitSuccess
@@ -70,7 +100,10 @@ export type OnboardingAction =
   | ActionTeamsError
   | ActionFinishUpdating
   | ActionFinishSuccess
-  | ActionFinishError;
+  | ActionFinishError
+  | ActionStepOneFinishUpdating
+  | ActionStepOneFinishSuccess
+  | ActionStepOneFinishError;
 
 export type OnboardingState = {
   isLoading: boolean;
@@ -79,9 +112,13 @@ export type OnboardingState = {
   onboardingStartedTime: Date | null;
   isOnboardingFinished: boolean;
 
+  id: string | null;
   firstName: string | null;
   lastName: string | null;
   email: string | null;
+
+  stepOneUpdating: boolean;
+  stepOneError: string | null;
 
   teamsIsLoading: boolean;
   teams: Array<Team>;

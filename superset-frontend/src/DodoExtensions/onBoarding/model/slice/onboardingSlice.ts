@@ -5,6 +5,9 @@ import {
   ONBOARDING_INIT_ERROR,
   ONBOARDING_INIT_LOADING,
   ONBOARDING_INIT_SUCCESS,
+  ONBOARDING_STEP_ONE_FINISH_ERROR,
+  ONBOARDING_STEP_ONE_FINISH_SUCCESS,
+  ONBOARDING_STEP_ONE_FINISH_UPDATING,
   ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
   ONBOARDING_TEAMS_SUCCESS,
@@ -19,9 +22,13 @@ const initialState: OnboardingState = {
   isOnboardingFinished: true,
   onboardingStartedTime: null,
 
+  id: null,
   firstName: null,
   lastName: null,
   email: null,
+
+  stepOneUpdating: false,
+  stepOneError: null,
 
   teamsIsLoading: false,
   teams: [],
@@ -48,6 +55,20 @@ export const onboardingSlice = (
         ...state,
         isLoading: false,
         loadingError: action.payload.error,
+      };
+    }
+
+    case ONBOARDING_STEP_ONE_FINISH_UPDATING: {
+      return { ...state, stepOneUpdating: true };
+    }
+    case ONBOARDING_STEP_ONE_FINISH_SUCCESS: {
+      return { ...state, stepOneUpdating: false, ...action.payload };
+    }
+    case ONBOARDING_STEP_ONE_FINISH_ERROR: {
+      return {
+        ...state,
+        stepOneUpdating: false,
+        stepOneError: action.payload.error,
       };
     }
 

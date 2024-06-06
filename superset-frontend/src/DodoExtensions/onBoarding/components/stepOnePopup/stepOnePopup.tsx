@@ -10,23 +10,20 @@ import { Input } from '../../../../components/Input';
 import Loading from '../../../../components/Loading';
 import { ButtonWithTopMargin } from '../styles';
 import { getOnboardingStartedTime } from '../../model/selector/getStepOneData';
+import { getOnboardingStepOneUpdating } from '../../model/selector/getOnboardingStepOneUpdating';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
 `;
 
 type Props = {
-  isUpdating: boolean;
   onClose: () => void;
   onNextStep: (dto: StepOnePopupDto) => void;
 };
 
-export const StepOnePopup: FC<Props> = ({
-  isUpdating,
-  onNextStep,
-  onClose,
-}) => {
+export const StepOnePopup: FC<Props> = ({ onNextStep, onClose }) => {
   const { firstName, lastName, email } = useSelector(getOnboardingStartedTime);
+  const isUpdating = useSelector(getOnboardingStepOneUpdating);
   const { Title, Paragraph } = Typography;
 
   return (

@@ -4,20 +4,14 @@ import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
 import { useOnboarding } from './utils/useOnboarding';
 
 const OnBoardingEntryPoint: FC = () => {
-  const { step, toStepTwo, closeOnboarding, isUpdating } = useOnboarding();
+  const { step, toStepTwo, closeOnboarding } = useOnboarding();
 
   if (process.env.type !== undefined) {
     return null;
   }
 
   if (step === 1) {
-    return (
-      <StepOnePopup
-        isUpdating={isUpdating}
-        onClose={closeOnboarding}
-        onNextStep={toStepTwo}
-      />
-    );
+    return <StepOnePopup onClose={closeOnboarding} onNextStep={toStepTwo} />;
   }
   if (step === 2) {
     return <StepTwoPopup onClose={closeOnboarding} />;

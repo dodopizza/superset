@@ -4,7 +4,7 @@ export type MeOnboardingResponseDto = {
     first_name: string;
     last_name: string;
     email: string;
-    isOnboardingFinished: boolean | null;
+    isOnboardingFinished?: boolean | null;
     onboardingStartedTime: Date | null;
   };
 };

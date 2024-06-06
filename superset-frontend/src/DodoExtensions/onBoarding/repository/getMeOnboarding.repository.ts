@@ -11,8 +11,12 @@ export const repoGetMeOnboarding: () => Promise<OnboardingSuccessPayload> =
     const dto = await getMe();
 
     return {
+      id: dto.result.id,
       isOnboardingFinished: dto.result.isOnboardingFinished ?? false,
-      onboardingStartedTime: dto.result.onboardingStartedTime ?? null,
+      onboardingStartedTime:
+        dto.result.onboardingStartedTime instanceof Date
+          ? dto.result.onboardingStartedTime
+          : null,
       firstName: dto.result.first_name,
       lastName: dto.result.last_name,
       email: dto.result.email,
