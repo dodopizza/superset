@@ -133,7 +133,6 @@ class CurrentUserRestApi(BaseSupersetApi):
             'isOnboardingFinished': user_onboarding.get("isOnboardingFinished"),
             'onboardingStartedTime': user_onboarding.get("onboardingStartedTime")
         }
-        logger.error(result)
         return self.response(200, result=user_response_schema.dump(result))
 
     @expose("onboarding", ("PUT",))
@@ -146,7 +145,6 @@ class CurrentUserRestApi(BaseSupersetApi):
             return self.response_401()
         payload = request.json
         model = ValidateOnboardingPutSchema().dump(payload)
-        logger.error(model)
         team = model.get("team")
         isOnboardingFinished = model.get("isOnboardingFinished")
         user_onboarding = update_onboarding(team, isOnboardingFinished)
