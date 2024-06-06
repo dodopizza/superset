@@ -14,6 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import datetime
 import logging
 from collections import defaultdict
 from functools import wraps
@@ -86,31 +87,31 @@ def get_onboarding() -> dict:
         }
 
 
-def update_onboarding(dodo_role, finished):
+def update_onboarding(dodo_role, started_time):
     user_id = get_user_id()
     try:
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
         user_info.dodo_role = dodo_role
-        user_info.isOnboardingFinished = finished
+        user_info.onboardingStartedTime = started_time
         logger.error(user_info.__dict__)
         db.session.commit()
         return {
             "dodo_role": dodo_role,
-            "isOnboardingFinished": finished
+            "onboardingStartedTime": started_time
         }
     except AttributeError:
-        create_onboarding(dodo_role, finished)
+        create_onboarding(dodo_role, started_time)
 
 
-def create_onboarding(dodo_role: str, finished: bool):   # DODO changed #33835937
+def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO changed #33835937
     try:
         user_id = get_user_id()
         model = UserInfo()
         setattr(model, 'user_id', user_id)
         setattr(model, 'dodo_role', dodo_role)
-        setattr(model, 'isOnboardingFinished', finished)
+        setattr(model, 'onboardingStartedTime', started_time)
         try:
             db.session.add(model)
             db.session.commit()

@@ -151,8 +151,8 @@ class CurrentUserRestApi(BaseSupersetApi):
             return self.response_400(message=error.messages)
 
         dodo_role = item.get("dodo_role")
-        is_onboarding_finished = item.get("isOnboardingFinished")
-        update_user_onboarding = update_onboarding(dodo_role, is_onboarding_finished)
+        onboardingStartedTime = item.get("onboardingStartedTime")
+        update_user_onboarding = update_onboarding(dodo_role, onboardingStartedTime)
         result = {
             'id': user.id,
             'email': user.email,
