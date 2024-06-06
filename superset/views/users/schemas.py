@@ -35,4 +35,4 @@ class UserResponseSchema(Schema):
 
 class ValidateOnboardingPutSchema(Schema):
     isOnboardingFinished = Boolean()
-    team = String()
+    dodo_role = String()

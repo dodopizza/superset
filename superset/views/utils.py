@@ -77,39 +77,39 @@ def get_onboarding() -> dict:
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
-        logger.error(user_info.__dict__)
         return user_info.__dict__
     except Exception:
-        logger.warning(f"User id = {user_id} dont have language in database")
+        logger.warning(f"User id = {user_id} dont have onboarding info in database")
         return {
             "onboardingStartedTime": "",
             "isOnboardingFinished": False
         }
 
 
-def update_onboarding(team, finished):
+def update_onboarding(dodo_role, finished):
     user_id = get_user_id()
     try:
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
-        user_info.team = team
+        user_info.dodo_role = dodo_role
         user_info.isOnboardingFinished = finished
+        logger.error(user_info.__dict__)
         db.session.commit()
         return {
-            "team": team,
+            "dodo_role": dodo_role,
             "isOnboardingFinished": finished
         }
     except AttributeError:
-        create_onboarding(team, finished)
+        create_onboarding(dodo_role, finished)
 
 
-def create_onboarding(team: str, finished: bool):   # DODO changed #33835937
+def create_onboarding(dodo_role: str, finished: bool):   # DODO changed #33835937
     try:
         user_id = get_user_id()
         model = UserInfo()
         setattr(model, 'user_id', user_id)
-        setattr(model, 'team', team)
+        setattr(model, 'dodo_role', dodo_role)
         setattr(model, 'isOnboardingFinished', finished)
         try:
             db.session.add(model)

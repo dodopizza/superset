@@ -16,6 +16,8 @@
 # under the License.
 import logging
 
+from marshmallow import ValidationError
+
 from flask import g, Response, redirect, request
 from flask_appbuilder.api import expose, safe
 from flask_jwt_extended.exceptions import NoAuthorizationError
@@ -139,22 +141,25 @@ class CurrentUserRestApi(BaseSupersetApi):
     def put_onboarding(self):
         try:
             user = g.user
+            item = ValidateOnboardingPutSchema().load(request.json)
             if user is None or user.is_anonymous:
                 return self.response_401()
         except NoAuthorizationError:
             return self.response_401()
-        payload = request.json
-        model = ValidateOnboardingPutSchema().dump(payload)
-        team = model.get("team")
-        isOnboardingFinished = model.get("isOnboardingFinished")
-        user_onboarding = update_onboarding(team, isOnboardingFinished)
+        except ValidationError as error:
+            logger.warning("validate data failed to add new dashboard")
+            return self.response_400(message=error.messages)
+
+        dodo_role = item.get("dodo_role")
+        is_onboarding_finished = item.get("isOnboardingFinished")
+        update_user_onboarding = update_onboarding(dodo_role, is_onboarding_finished)
         result = {
             'id': user.id,
             'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'team': user_onboarding.get("team"),
-            'onboardingStartedTime': user_onboarding.get("onboardingStartedTime")
+            'dodo_role': update_user_onboarding.get("dodo_role"),
+            'onboardingStartedTime': update_user_onboarding.get("onboardingStartedTime")
         }
         return self.response(200, result=user_response_schema.dump(result))
 
