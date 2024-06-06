@@ -5946,6 +5946,9 @@
       "Add and edit filters": ["Создать/изменить фильтры"],
       "List Users": ["Список пользователей"],
       "List Roles": ["Список ролей"],
+      "Teams": ["Команды"],
+      "Requests": ["Заявки"]
+      "List Roles": ["Список ролей"],
       "You are welcome to Superset": ["Добро пожаловать в Суперсет"],
       "Onboarding": ["Онбординг"],
       "Tell us more about yourself": ["Расскажите нам о себе"],
