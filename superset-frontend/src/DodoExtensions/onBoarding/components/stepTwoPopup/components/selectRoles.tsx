@@ -36,10 +36,6 @@ export const SelectRoles: FC<Props> = memo(
     );
 
     const roleList = useMemo(() => roles.join(', '), [roles]);
-    // const roleList = useMemo(
-    //   () => roles.reduce((acc, item) => `${acc}${t(item)}, `, ''),
-    //   [roles],
-    // );
 
     return (
       <>

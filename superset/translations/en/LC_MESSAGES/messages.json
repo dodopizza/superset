@@ -4767,7 +4767,9 @@
       "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": [""],
       "Create datasets from data from isolated databases": [""],
       "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [""],
-      "Based on your selection, your roles are:": [""]
+      "Based on your selection, your roles are:": [""],
+      "Minimum 3 characters": [""],
+      "Maximum 30 characters": [""]
     }
   }
 }

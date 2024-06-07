@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Col, Row } from 'src/components';
 import { Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
@@ -25,6 +25,16 @@ export const StepOnePopup: FC<Props> = ({ onNextStep, onClose }) => {
   const { firstName, lastName, email } = useSelector(getOnboardingStartedTime);
   const isUpdating = useSelector(getOnboardingStepOneUpdating);
   const { Title, Paragraph } = Typography;
+
+  const handleRoleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const regExp = /[a-zA-Zа-яА-Я0-9 ._-]/;
+      if (!regExp.test(event.key)) {
+        event.preventDefault();
+      }
+    },
+    [],
+  );
 
   return (
     <Modal
@@ -87,10 +97,19 @@ export const StepOnePopup: FC<Props> = ({ onNextStep, onClose }) => {
                         required: true,
                         message: t('Please input your role in Dodo Brands!'),
                       },
+                      {
+                        min: 3,
+                        message: t('Minimum 3 characters'),
+                        // validateTrigger: 'onBlur',
+                      },
+                      {
+                        max: 30,
+                        message: t('Maximum 30 characters'),
+                      },
                     ]}
                     initialValue=""
                   >
-                    <Input />
+                    <Input onKeyPress={handleRoleKeyPress} />
                   </FormItem>
                 </Col>
               </Row>

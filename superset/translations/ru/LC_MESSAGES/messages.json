@@ -5977,7 +5977,10 @@
       "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": ["Создание датасетов из источников, находящихся в Data Platform. Использование SQL Lab для произвольных запросов"],
       "Create datasets from data from isolated databases": ["Создание датасетов на основе данных в изолированных базах"],
       "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": ["Добавление в Суперсет своих источников данных. Использование SQL Lab для произвольных запросов"],
-      "Based on your selection, your roles are:": ["Вы выбрали следующие роли"]
+      "Based on your selection, your roles are:": ["Вы выбрали следующие роли"],
+      "Minimum 3 characters": ["Минимум 3 символа"],
+      "Maximum 30 characters": ["Максимум 30 символов"]
+
     }
   }
 }
