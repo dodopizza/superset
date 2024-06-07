@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Role, userFromEnum } from '../../../types';
 import { getTeamName } from '../../../utils/getTeamName';
 import { getTeamTag } from '../../../utils/getTeamTag';
-import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from '../../../consts';
+import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 import { loadTeams } from '../../../model/actions/loadTeams';
 import { getTeamsData } from '../../../model/selector/getTeamsData';
 
@@ -68,7 +68,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           if (value) {
             // const reg = /^-?\d*(\.\d*)?$/; for numbers
             const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
-            if (reg.test(value) && value.length <= MAX_NAME_LENGTH) {
+            if (reg.test(value) && value.length <= MAX_TEAM_NAME_LENGTH) {
               setNewTeam(value);
             }
           } else {
@@ -102,7 +102,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
           'is a known command, so you can enter the team automatically.',
         )}`;
       }
-      if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
+      if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
         const name = getTeamName(userFrom, newTeam);
         const tag = getTeamTag(userFrom, newTeam);
         return `[${name} (${tag})] ${t(

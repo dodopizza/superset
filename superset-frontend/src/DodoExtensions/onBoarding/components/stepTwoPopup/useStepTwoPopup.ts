@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { useDispatch } from 'react-redux';
 import { Role, userFromEnum } from '../../types';
-import { MIN_NAME_LENGTH } from '../../consts';
+import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { getTeamTag } from '../../utils/getTeamTag';
 import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
@@ -29,7 +29,7 @@ export const useStepTwoPopup = () => {
   );
 
   const noTeam = useMemo(
-    () => !existingTeam && (newTeam ?? '').trim().length < MIN_NAME_LENGTH,
+    () => !existingTeam && (newTeam ?? '').trim().length < MIN_TEAM_NAME_LENGTH,
     [existingTeam, newTeam],
   );
 
@@ -43,7 +43,7 @@ export const useStepTwoPopup = () => {
     if (existingTeam) {
       return `${existingTeam.label}`;
     }
-    if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
+    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
       const name = getTeamName(userFrom, newTeam);
       return `${name}`;
     }
@@ -54,7 +54,7 @@ export const useStepTwoPopup = () => {
     if (existingTeam) {
       return existingTeam.value;
     }
-    if ((newTeam ?? '').trim().length >= MIN_NAME_LENGTH) {
+    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
       return getTeamTag(userFrom, newTeam);
     }
     return 'no tag';

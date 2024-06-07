@@ -100,7 +100,6 @@ export const StepOnePopup: FC<Props> = ({ onNextStep, onClose }) => {
                       {
                         min: 3,
                         message: t('Minimum 3 characters'),
-                        // validateTrigger: 'onBlur',
                       },
                       {
                         max: 30,
