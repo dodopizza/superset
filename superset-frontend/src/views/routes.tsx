@@ -21,6 +21,7 @@ import React, { lazy } from 'react';
 
 // not lazy loaded since this is the home page.
 import Home from 'src/pages/Home';
+import { REQUEST_PAGE_URL } from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
   () =>
@@ -118,6 +119,14 @@ const RowLevelSecurityList = lazy(
       /* webpackChunkName: "RowLevelSecurityList" */ 'src/pages/RowLevelSecurityList'
     ),
 );
+// DODO added start 32839654
+const RequestList = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "ChartList" */ 'src/DodoExtensions/onBoarding/pages/RequestList'
+    ),
+);
+// DODO added stop 32839654
 
 type Routes = {
   path: string;
@@ -217,6 +226,12 @@ export const routes: Routes = [
     path: '/rowlevelsecurity/list',
     Component: RowLevelSecurityList,
   },
+  // DODO added start 32839654
+  {
+    path: REQUEST_PAGE_URL,
+    Component: RequestList,
+  },
+  // DODO added stop 32839654
 ];
 
 if (isFeatureEnabled(FeatureFlag.TAGGING_SYSTEM)) {
@@ -239,6 +254,8 @@ const frontEndRoutes = routes
     }),
     {},
   );
+
+console.log(`frontEndRoutes`, frontEndRoutes);
 
 export function isFrontendRoute(path?: string) {
   if (path) {

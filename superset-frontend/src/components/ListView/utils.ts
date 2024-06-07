@@ -28,9 +28,9 @@ import {
 
 import {
   NumberParam,
+  QueryParamConfig,
   StringParam,
   useQueryParams,
-  QueryParamConfig,
 } from 'use-query-params';
 
 import rison from 'rison';
@@ -301,6 +301,7 @@ export function useListViewState({
   useEffect(() => {
     // From internalFilters, produce a simplified obj
     const filterObj = {};
+    debugger;
 
     internalFilters.forEach(filter => {
       if (

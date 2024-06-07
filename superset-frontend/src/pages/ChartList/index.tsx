@@ -18,15 +18,15 @@
  */
 import {
   ensureIsArray,
-  isFeatureEnabled,
   FeatureFlag,
   getChartMetadataRegistry,
+  isFeatureEnabled,
   JsonResponse,
   styled,
   SupersetClient,
   t,
 } from '@superset-ui/core';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import rison from 'rison';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
@@ -806,6 +806,9 @@ function ChartList(props: ChartListProps) {
       });
     }
   }
+
+  console.log(`chart table columns`, columns);
+  console.log(`chart table charts`, charts);
 
   return (
     <>
