@@ -30,7 +30,7 @@ class UserResponseSchema(Schema):
     is_anonymous = Boolean()
     isOnboardingFinished = Boolean(missing=True)
     onboardingStartedTime = Boolean(missing=True)
-    team = String(missing=True)
+    dodo_role = String(missing=True)
 
 
 class ValidateOnboardingPutSchema(Schema):

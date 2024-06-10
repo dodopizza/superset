@@ -82,7 +82,7 @@ def get_onboarding() -> dict:
     except Exception:
         logger.warning(f"User id = {user_id} dont have onboarding info in database")
         return {
-            "onboardingStartedTime": "",
+            "onboardingStartedTime": None,
             "isOnboardingFinished": False
         }
 
