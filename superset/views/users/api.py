@@ -137,7 +137,7 @@ class CurrentUserRestApi(BaseSupersetApi):
         }
         return self.response(200, result=user_response_schema.dump(result))
 
-    @expose("onboarding", ("PUT",))
+    @expose("/onboarding", ("PUT",))
     def put_onboarding(self):
         try:
             user = g.user
