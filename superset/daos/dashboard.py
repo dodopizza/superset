@@ -320,9 +320,10 @@ class DashboardDAO(BaseDAO[Dashboard]):
     ) -> Dashboard:
         user = g.user
         roles, _ = get_permissions(user)
+        logger.error(roles)
         if (is_feature_enabled("DASHBOARD_RBAC") and not security_manager.is_owner(
             original_dash
-        )) or roles.get("Gamma") or roles.get("Alpha"):
+        )) or not (roles.get("Gamma") or roles.get("Alpha")):
             raise DashboardForbiddenError()
 
         dash = Dashboard()
