@@ -2,7 +2,6 @@ import React, { FC, useCallback } from 'react';
 import { FeatureFlag, isFeatureEnabled } from '@superset-ui/core';
 import ListView, {
   CardSortSelectOption,
-  FetchDataConfig,
   Filters,
   SortColumn,
 } from '../../../../components/ListView';
@@ -34,7 +33,7 @@ const RequestList: FC<Props> = ({
   addDangerToast,
   addSuccessToast,
 }) => {
-  const { loading, count, collection } = useRequestList();
+  const { loading, count, collection, fetchData } = useRequestList();
 
   const sortTypes: CardSortSelectOption[] | undefined = [] ?? [
     {
@@ -51,14 +50,14 @@ const RequestList: FC<Props> = ({
     },
   ];
 
-  const fetchData: ({
-    pageIndex,
-    pageSize,
-    sortBy,
-    filters: filterValues,
-  }: FetchDataConfig) => Promise<void> = async () => {
-    console.log(`fetchData`);
-  };
+  // const fetchData: ({
+  //   pageIndex,
+  //   pageSize,
+  //   sortBy,
+  //   filters: filterValues,
+  // }: FetchDataConfig) => Promise<void> = async () => {
+  //   console.log(`fetchData`);
+  // };
 
   const filters: Filters = [];
   const initialSort: SortColumn[] = [];

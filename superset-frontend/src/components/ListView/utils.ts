@@ -301,7 +301,6 @@ export function useListViewState({
   useEffect(() => {
     // From internalFilters, produce a simplified obj
     const filterObj = {};
-    debugger;
 
     internalFilters.forEach(filter => {
       if (

@@ -807,8 +807,8 @@ function ChartList(props: ChartListProps) {
     }
   }
 
-  console.log(`chart table columns`, columns);
-  console.log(`chart table charts`, charts);
+  // console.log(`chart table columns`, columns);
+  // console.log(`chart table charts`, charts);
 
   return (
     <>
