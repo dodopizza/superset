@@ -68,6 +68,18 @@ export const useRequestList = () => {
         });
       }
 
+      const sort = sortBy.at(0);
+      if (sort) {
+        charts = charts.sort((a, b) => {
+          const v1 = a[sort.id];
+          const v2 = b[sort.id];
+          if (sort.desc) {
+            return v1 >= v2 ? 1 : -1;
+          }
+          return v2 > v1 ? 1 : -1;
+        });
+      }
+
       const filterExps = filterValues.map(({ id, operator: opr, value }) => ({
         col: id,
         opr,
@@ -83,7 +95,8 @@ export const useRequestList = () => {
             const rowValue = row[flt.col];
             switch (flt.opr) {
               case FilterOperator.chartAllText: {
-                return rowValue.includes(flt.value);
+                // @ts-ignore
+                return `${rowValue}`.includes(flt.value);
               }
               case FilterOperator.requestIsClosed: {
                 return rowValue === flt.value;

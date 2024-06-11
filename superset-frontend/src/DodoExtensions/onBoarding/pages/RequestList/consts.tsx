@@ -5,7 +5,11 @@ import CheckboxControl from '../../../../explore/components/controls/CheckboxCon
 import { StyledActions } from './styled';
 import ConfirmStatusChange from '../../../../components/ConfirmStatusChange';
 import { Tooltip } from '../../../../components/Tooltip';
-import { FilterOperator, Filters } from '../../../../components/ListView';
+import {
+  CardSortSelectOption,
+  FilterOperator,
+  Filters,
+} from '../../../../components/ListView';
 
 // ------------
 // xs, xl, xxl
@@ -14,10 +18,10 @@ export const columns = [
   {
     id: 'id',
     Cell: (props: any) => <span>{props.value}</span>,
-    Header: t('№'),
+    Header: 'id',
     accessor: 'id',
     size: 'xs',
-    disableSortBy: true,
+    // disableSortBy: true,
     hidden: false,
   },
   {
@@ -132,6 +136,13 @@ export const columns = [
 
 export const filters: Filters = [
   {
+    id: 'id',
+    Header: 'id',
+    key: 'search',
+    input: 'search',
+    operator: FilterOperator.chartAllText,
+  },
+  {
     id: 'firstName',
     Header: t('First name'),
     key: 'search',
@@ -153,13 +164,6 @@ export const filters: Filters = [
     operator: FilterOperator.chartAllText,
   },
   {
-    id: 'team',
-    Header: t('team'),
-    key: 'search',
-    input: 'search',
-    operator: FilterOperator.chartAllText,
-  },
-  {
     id: 'isClosed',
     Header: t('Closed'),
     key: 'isClosed',
@@ -173,3 +177,26 @@ export const filters: Filters = [
     ],
   },
 ];
+
+export const sortTypes: CardSortSelectOption[] | undefined = [
+  {
+    desc: false,
+    id: 'id',
+    label: 'id',
+    value: 'alphabetical',
+  },
+  {
+    desc: true,
+    id: 'requestDate',
+    label: t('Recently created'),
+    value: 'recently_modified',
+  },
+  {
+    desc: false,
+    id: 'requestDate',
+    label: t('Least recently created'),
+    value: 'least_recently_modified',
+  },
+];
+
+export const initialSort = [{ id: 'id', desc: false }];
