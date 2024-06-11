@@ -47,7 +47,7 @@ team_users = Table(
 )
 
 
-class Team(Model):  # DODO added #33835937
+class Team(Model):
 
     """Dodo teams for Superset"""
 
