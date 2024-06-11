@@ -1,9 +1,12 @@
 import { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { RequestListType } from './types';
 import {
   FetchDataConfig,
   FilterOperator,
 } from '../../../../components/ListView';
+import { getUserInfo } from '../../model/selector/getUserInfo';
 
 const currentNumber = Number(new Date());
 
@@ -35,6 +38,13 @@ export const useRequestList = () => {
     collection: [],
     loading: false,
   });
+
+  const user = useSelector(getUserInfo);
+  const history = useHistory();
+
+  if (!user.roles.Admin) {
+    history.push('/superset/welcome/');
+  }
 
   function updateState(update: Partial<State>) {
     setState(currentState => ({ ...currentState, ...update }));

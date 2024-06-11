@@ -68,7 +68,9 @@ export const columns = [
   },
   {
     Cell: (props: any) => (
-      <CheckboxControl hovered value={!!props.value} disabled />
+      <div style={{ textAlign: 'center' }}>
+        <CheckboxControl hovered value={!!props.value} disabled />
+      </div>
     ),
     Header: t('Closed'),
     accessor: 'isClosed',
