@@ -54,10 +54,17 @@ class Team(Model):
     __tablename__ = "teams"
 
     id = Column(Integer, primary_key=True)
-    userFrom = Column(Boolean, default=False)
-    tag = Column(DateTime, nullable=True)
+    isExternal = Column(Boolean)
+    tag = relationship(
+        "Tag",
+        overlaps="objects,tag,tags,tags",
+        secondary="tagged_object",
+        primaryjoin="and_(Team.id == TaggedObject.object_id)",
+        secondaryjoin="and_(TaggedObject.tag_id == Tag.id, "
+                      "TaggedObject.object_type == 'team')",
+    )
     roles = relationship(security_manager.role_model, secondary=TeamRoles)
     participants: list[User] = relationship(
-        User, secondary=team_users, backref="dashboards"
+        User, secondary=team_users, backref="teams"
     )
 
