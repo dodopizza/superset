@@ -5,6 +5,7 @@ import CheckboxControl from '../../../../explore/components/controls/CheckboxCon
 import { StyledActions } from './styled';
 import ConfirmStatusChange from '../../../../components/ConfirmStatusChange';
 import { Tooltip } from '../../../../components/Tooltip';
+import { FilterOperator, Filters } from '../../../../components/ListView';
 
 // ------------
 // xs, xl, xxl
@@ -126,5 +127,49 @@ export const columns = [
     id: 'actions',
     disableSortBy: true,
     hidden: false,
+  },
+];
+
+export const filters: Filters = [
+  {
+    id: 'firstName',
+    Header: t('First name'),
+    key: 'search',
+    input: 'search',
+    operator: FilterOperator.chartAllText,
+  },
+  {
+    id: 'lastName',
+    Header: t('Last name'),
+    key: 'search',
+    input: 'search',
+    operator: FilterOperator.chartAllText,
+  },
+  {
+    id: 'email',
+    Header: t('email'),
+    key: 'search',
+    input: 'search',
+    operator: FilterOperator.chartAllText,
+  },
+  {
+    id: 'team',
+    Header: t('team'),
+    key: 'search',
+    input: 'search',
+    operator: FilterOperator.chartAllText,
+  },
+  {
+    id: 'isClosed',
+    Header: t('Closed'),
+    key: 'isClosed',
+    // urlDisplay: 'favorite',
+    input: 'select',
+    operator: FilterOperator.requestIsClosed,
+    unfilteredLabel: t('Any'),
+    selects: [
+      { label: t('Yes'), value: true },
+      { label: t('No'), value: false },
+    ],
   },
 ];

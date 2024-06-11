@@ -1,6 +1,9 @@
 import { useCallback, useState } from 'react';
 import { RequestListType } from './types';
-import { FetchDataConfig } from '../../../../components/ListView';
+import {
+  FetchDataConfig,
+  FilterOperator,
+} from '../../../../components/ListView';
 
 const currentNumber = Number(new Date());
 
@@ -48,7 +51,7 @@ export const useRequestList = () => {
         loading: true,
       });
 
-      const charts: Array<RequestListType> = [];
+      let charts: Array<RequestListType> = [];
 
       const start = pageIndex * pageSize;
       for (let i = start; i < start + pageSize; i += 1) {
@@ -61,8 +64,36 @@ export const useRequestList = () => {
           requestedRoles: [],
           team: `team-${i}`,
           requestDate: new Date(currentNumber - i * 60 * 60 * 1000),
-          isClosed: true,
+          isClosed: i % 2 === 0,
         });
+      }
+
+      const filterExps = filterValues.map(({ id, operator: opr, value }) => ({
+        col: id,
+        opr,
+        value:
+          value && typeof value === 'object' && 'value' in value
+            ? value.value
+            : value,
+      }));
+
+      if (filterExps.length > 0) {
+        charts = charts.filter(row =>
+          filterExps.every(flt => {
+            const rowValue = row[flt.col];
+            switch (flt.opr) {
+              case FilterOperator.chartAllText: {
+                return rowValue.includes(flt.value);
+              }
+              case FilterOperator.requestIsClosed: {
+                return rowValue === flt.value;
+              }
+              default: {
+                return false;
+              }
+            }
+          }),
+        );
       }
 
       updateState({

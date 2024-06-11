@@ -2,7 +2,6 @@ import React, { FC, useCallback } from 'react';
 import { FeatureFlag, isFeatureEnabled } from '@superset-ui/core';
 import ListView, {
   CardSortSelectOption,
-  Filters,
   SortColumn,
 } from '../../../../components/ListView';
 import Chart from '../../../../types/Chart';
@@ -11,7 +10,7 @@ import { dangerouslyGetItemDoNotUse } from '../../../../utils/localStorageHelper
 import { FavoriteStatus } from '../../../../views/CRUD/types';
 import { useRequestList } from './useRequestList';
 import type { RequestListType } from './types';
-import { columns } from './consts';
+import { columns, filters } from './consts';
 
 const PAGE_SIZE = 25;
 
@@ -50,16 +49,6 @@ const RequestList: FC<Props> = ({
     },
   ];
 
-  // const fetchData: ({
-  //   pageIndex,
-  //   pageSize,
-  //   sortBy,
-  //   filters: filterValues,
-  // }: FetchDataConfig) => Promise<void> = async () => {
-  //   console.log(`fetchData`);
-  // };
-
-  const filters: Filters = [];
   const initialSort: SortColumn[] = [];
 
   const userSettings = dangerouslyGetItemDoNotUse(userId?.toString(), null) as {
@@ -115,8 +104,8 @@ const RequestList: FC<Props> = ({
         columns={columns} // +
         count={count} // +
         data={collection} // +
-        fetchData={fetchData}
-        filters={filters}
+        fetchData={fetchData} // +
+        filters={filters} // +
         initialSort={initialSort}
         loading={loading}
         pageSize={PAGE_SIZE}
