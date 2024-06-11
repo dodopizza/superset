@@ -66,7 +66,7 @@ class ObjectTypes(enum.Enum):
     chart = 2
     dashboard = 3
     dataset = 4
-    team = 5  # DODO added #32839641
+    # team = 5  # DODO added #32839641
 
 
 class Tag(Model, AuditMixinNullable):
@@ -96,7 +96,7 @@ class TaggedObject(Model, AuditMixinNullable):
         ForeignKey("dashboards.id"),
         ForeignKey("slices.id"),
         ForeignKey("saved_query.id"),
-        ForeignKey("teams.id"),  # DODO added #32839641
+        # ForeignKey("teams.id"),  # DODO added #32839641
     )
     object_type = Column(Enum(ObjectTypes))
 
@@ -119,7 +119,7 @@ def get_object_type(class_name: str) -> ObjectTypes:
         "dashboard": ObjectTypes.dashboard,
         "query": ObjectTypes.query,
         "dataset": ObjectTypes.dataset,
-        "team": ObjectTypes.team  # DODO added #32839641
+        # "team": ObjectTypes.team  # DODO added #32839641
     }
     try:
         return mapping[class_name.lower()]
