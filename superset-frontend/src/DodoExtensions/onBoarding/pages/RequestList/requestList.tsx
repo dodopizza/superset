@@ -6,7 +6,7 @@ import type { RequestListType } from './types';
 import { columns, filters, initialSort } from './consts';
 import SubMenu from '../../../../features/home/SubMenu';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 const RequestList: FC = () => {
   const { loading, count, collection, fetchData } = useRequestList();

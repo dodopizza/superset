@@ -131,7 +131,7 @@ const reducers = {
   saveModal,
   explore,
   // DODO added
-  onboardingRequestSlice,
+  onboardingRequest: onboardingRequestSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html

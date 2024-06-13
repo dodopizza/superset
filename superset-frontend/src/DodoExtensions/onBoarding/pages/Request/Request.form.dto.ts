@@ -1,6 +1,7 @@
 export type RequestFormDto = {
   firstName: string;
   lastName: string;
+  email: string;
   dodoRole: string;
   currentRoles: Array<string>;
   requestedRoles: Array<string>;

@@ -10,6 +10,7 @@ export const repoLoadRequest = async (
           resolve({
             firstName: 'first name',
             lastName: 'last name',
+            email: 'email',
             team: 'team name',
             requestDate: new Date(),
             updateDate: new Date(),
