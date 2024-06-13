@@ -30,49 +30,49 @@ from superset.commands.exceptions import (
 )
 
 
-class DashboardSlugExistsValidationError(ValidationError):
+class OnboardingSlugExistsValidationError(ValidationError):
     """
-    Marshmallow validation error for dashboard slug already exists
+    Marshmallow validation error for Onboarding slug already exists
     """
 
     def __init__(self) -> None:
         super().__init__([_("Must be unique")], field_name="slug")
 
 
-class DashboardInvalidError(CommandInvalidError):
-    message = _("Dashboard parameters are invalid.")
+class OnboardingInvalidError(CommandInvalidError):
+    message = _("Onboarding parameters are invalid.")
 
 
-class DashboardNotFoundError(ObjectNotFoundError):
+class OnboardingNotFoundError(ObjectNotFoundError):
     def __init__(
-        self, dashboard_id: Optional[str] = None, exception: Optional[Exception] = None
+        self, Onboarding_id: Optional[str] = None, exception: Optional[Exception] = None
     ) -> None:
-        super().__init__("Dashboard", dashboard_id, exception)
+        super().__init__("Onboarding", Onboarding_id, exception)
 
 
-class DashboardCreateFailedError(CreateFailedError):
-    message = _("Dashboards could not be created.")
+class OnboardingCreateFailedError(CreateFailedError):
+    message = _("Onboardings could not be created.")
 
 
-class DashboardUpdateFailedError(UpdateFailedError):
-    message = _("Dashboard could not be updated.")
+class OnboardingUpdateFailedError(UpdateFailedError):
+    message = _("Onboarding could not be updated.")
 
 
-class DashboardDeleteFailedError(DeleteFailedError):
-    message = _("Dashboard could not be deleted.")
+class OnboardingDeleteFailedError(DeleteFailedError):
+    message = _("Onboarding could not be deleted.")
 
 
-class DashboardDeleteFailedReportsExistError(DashboardDeleteFailedError):
+class OnboardingDeleteFailedReportsExistError(OnboardingDeleteFailedError):
     message = _("There are associated alerts or reports")
 
 
-class DashboardForbiddenError(ForbiddenError):
-    message = _("Changing this Dashboard is forbidden")
+class OnboardingForbiddenError(ForbiddenError):
+    message = _("Changing this Onboarding is forbidden")
 
 
-class DashboardImportError(ImportFailedError):
-    message = _("Import dashboard failed for an unknown reason")
+class OnboardingImportError(ImportFailedError):
+    message = _("Import Onboarding failed for an unknown reason")
 
 
-class DashboardAccessDeniedError(ForbiddenError):
-    message = _("You don't have access to this dashboard.")
+class OnboardingAccessDeniedError(ForbiddenError):
+    message = _("You don't have access to this Onboarding.")

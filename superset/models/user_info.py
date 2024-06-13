@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean, DateTime
 from flask_appbuilder import Model
 
-from superset import db
+from superset import db, security_manager
 from superset.utils.core import get_user_id
 
 
@@ -17,3 +17,13 @@ class UserInfo(Model):  # DODO added #33835937
     language = Column(String(32), default="ru")
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     dodo_role = Column(String(32), nullable=True)
+
+    def raise_for_access(self) -> None:
+        """
+        Raise an exception if the user cannot access the resource.
+
+        :raises SupersetSecurityException: If the user cannot access the resource
+        """
+
+        security_manager.raise_for_access(user_info=self)
+

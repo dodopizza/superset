@@ -13,7 +13,6 @@ from marshmallow import ValidationError
 from superset import is_feature_enabled
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.onboarding.commands.create import CreateDashboardCommand
-from superset.onboarding.commands.delete import DeleteDashboardCommand
 from superset.onboarding.commands.exceptions import (
     DashboardAccessDeniedError,
     DashboardCreateFailedError,
@@ -23,6 +22,7 @@ from superset.onboarding.commands.exceptions import (
     DashboardNotFoundError,
     DashboardUpdateFailedError,
 )
+from superset.daos.onboarding import OnboardingDAO
 from superset.onboarding.commands.update import UpdateDashboardCommand
 from superset.onboarding.schemas import (
     OnboardingPostSchema,
@@ -136,6 +136,12 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        try:
+            user_info = OnboardingDAO.get_by_user_id(id_or_slug)
+        except DashboardAccessDeniedError:
+            return self.response_403()
+        except DashboardNotFoundError:
+            return self.response_404()
         result = self.onboarding_get_response_schema.dump(user_info)
         return self.response(200, result=result)
 
