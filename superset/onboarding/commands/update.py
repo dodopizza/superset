@@ -24,85 +24,42 @@ from marshmallow import ValidationError
 from superset import security_manager
 from superset.commands.base import BaseCommand, UpdateMixin
 from superset.commands.utils import populate_roles
-from superset.daos.dashboard import DashboardDAO
+from superset.daos.onboarding import OnboardingDAO
 from superset.daos.exceptions import DAOUpdateFailedError
-from superset.dashboards.commands.exceptions import (
-    DashboardForbiddenError,
-    DashboardInvalidError,
-    DashboardNotFoundError,
-    DashboardSlugExistsValidationError,
-    DashboardUpdateFailedError,
+from superset.onboarding.commands.exceptions import (
+    OnboardingForbiddenError,
+    OnboardingInvalidError,
+    OnboardingNotFoundError,
+    OnboardingSlugExistsValidationError,
+    OnboardingUpdateFailedError,
 )
 from superset.exceptions import SupersetSecurityException
 from superset.extensions import db
-from superset.models.dashboard import Dashboard
+from superset.models.user_info import UserInfo
 
 logger = logging.getLogger(__name__)
 
 
-class UpdateDashboardCommand(UpdateMixin, BaseCommand):
+class UpdateOnboardingCommand(UpdateMixin, BaseCommand):
     def __init__(self, model_id: int, data: dict[str, Any]):
         self._model_id = model_id
         self._properties = data.copy()
-        self._model: Optional[Dashboard] = None
+        self._model: Optional[UserInfo] = None
 
     def run(self) -> Model:
         self.validate()
         assert self._model
 
         try:
-            dashboard = DashboardDAO.update(self._model, self._properties, commit=False)
-            if self._properties.get("json_metadata"):
-                dashboard = DashboardDAO.set_dash_metadata(
-                    dashboard,
-                    data=json.loads(self._properties.get("json_metadata", "{}")),
-                    commit=False,
-                )
-            dashboard = DashboardDAO.update_charts_owners(dashboard, commit=False)
-            db.session.commit()
+            user_info = OnboardingDAO.update(self._model, self._properties, commit=True)
         except DAOUpdateFailedError as ex:
             logger.exception(ex.exception)
-            raise DashboardUpdateFailedError() from ex
-        return dashboard
+            raise OnboardingUpdateFailedError() from ex
+        return user_info
 
     def validate(self) -> None:
-        exceptions: list[ValidationError] = []
-        owners_ids: Optional[list[int]] = self._properties.get("owners")
-        roles_ids: Optional[list[int]] = self._properties.get("roles")
-        slug: Optional[str] = self._properties.get("slug")
-
         # Validate/populate model exists
-        self._model = DashboardDAO.find_by_id(self._model_id)
+        self._model = OnboardingDAO.find_by_id(self._model_id)
         if not self._model:
-            raise DashboardNotFoundError()
-        # Check ownership
-        try:
-            security_manager.raise_for_ownership(self._model)
-        except SupersetSecurityException as ex:
-            raise DashboardForbiddenError() from ex
+            raise OnboardingNotFoundError()
 
-        # Validate slug uniqueness
-        if not DashboardDAO.validate_update_slug_uniqueness(self._model_id, slug):
-            exceptions.append(DashboardSlugExistsValidationError())
-
-        # Validate/Populate owner
-        if owners_ids is None:
-            owners_ids = [owner.id for owner in self._model.owners]
-        try:
-            owners = self.populate_owners(owners_ids)
-            self._properties["owners"] = owners
-        except ValidationError as ex:
-            exceptions.append(ex)
-        if exceptions:
-            raise DashboardInvalidError(exceptions=exceptions)
-
-        # Validate/Populate role
-        if roles_ids is None:
-            roles_ids = [role.id for role in self._model.roles]
-        try:
-            roles = populate_roles(roles_ids)
-            self._properties["roles"] = roles
-        except ValidationError as ex:
-            exceptions.append(ex)
-        if exceptions:
-            raise DashboardInvalidError(exceptions=exceptions)

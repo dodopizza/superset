@@ -94,101 +94,13 @@ class RolesSchema(Schema):
 
 class OnboardingGetResponseSchema(Schema):
     id = fields.Int()
-    slug = fields.String()
-    url = fields.String()
-    dashboard_title = fields.String(
-        metadata={"description": dashboard_title_description}
-    )
-    thumbnail_url = fields.String()
-    published = fields.Boolean()
-    css = fields.String(metadata={"description": css_description})
-    json_metadata = fields.String(metadata={"description": json_metadata_description})
-    position_json = fields.String(metadata={"description": position_json_description})
-    certified_by = fields.String(metadata={"description": certified_by_description})
-    certification_details = fields.String(
-        metadata={"description": certification_details_description}
-    )
-    changed_by_name = fields.String()
-    changed_by = fields.Nested(UserSchema(exclude=(["username"])))
-    changed_on = fields.DateTime()
-    charts = fields.List(fields.String(metadata={"description": charts_description}))
-    owners = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
-    roles = fields.List(fields.Nested(RolesSchema))
-    tags = fields.Nested(TagSchema, many=True)
-    changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
-    is_managed_externally = fields.Boolean(allow_none=True, dump_default=False)
-    dashboard_title_RU = fields.String(description=dashboard_title_description)
-
-
-class OnboardingPostSchema(Schema):
-    dashboard_title = fields.String(
-        metadata={"description": dashboard_title_description},
-        allow_none=True,
-        validate=Length(0, 500),
-    )
-    slug = fields.String(
-        metadata={"description": slug_description},
-        allow_none=True,
-        validate=[Length(1, 255)],
-    )
-    owners = fields.List(fields.Integer(metadata={"description": owners_description}))
-    roles = fields.List(fields.Integer(metadata={"description": roles_description}))
-    position_json = fields.String(
-        metadata={"description": position_json_description}, validate=validate_json
-    )
-    css = fields.String(metadata={"description": css_description})
-    json_metadata = fields.String(
-        metadata={"description": json_metadata_description},
-        validate=validate_json_metadata,
-    )
-    published = fields.Boolean(metadata={"description": published_description})
-    certified_by = fields.String(
-        metadata={"description": certified_by_description}, allow_none=True
-    )
-    certification_details = fields.String(
-        metadata={"description": certification_details_description}, allow_none=True
-    )
-    is_managed_externally = fields.Boolean(allow_none=True, dump_default=False)
-    external_url = fields.String(allow_none=True)
+    first_name = fields.String()
+    last_name = fields.String()
+    email = fields.String()
+    isOnboardingFinished = fields.Boolean()
+    onboardingStartedTime = fields.DateTime(missing=True)
 
 
 class OnboardingPutSchema(Schema):
-    dashboard_title = fields.String(
-        metadata={"description": dashboard_title_description},
-        allow_none=True,
-        validate=Length(0, 500),
-    )
-    slug = fields.String(
-        metadata={"description": slug_description},
-        allow_none=True,
-        validate=Length(0, 255),
-    )
-    owners = fields.List(
-        fields.Integer(metadata={"description": owners_description}, allow_none=True)
-    )
-    roles = fields.List(
-        fields.Integer(metadata={"description": roles_description}, allow_none=True)
-    )
-    position_json = fields.String(
-        metadata={"description": position_json_description},
-        allow_none=True,
-        validate=validate_json,
-    )
-    css = fields.String(metadata={"description": css_description}, allow_none=True)
-    json_metadata = fields.String(
-        metadata={"description": json_metadata_description},
-        allow_none=True,
-        validate=validate_json_metadata,
-    )
-    published = fields.Boolean(
-        metadata={"description": published_description}, allow_none=True
-    )
-    certified_by = fields.String(
-        metadata={"description": certified_by_description}, allow_none=True
-    )
-    certification_details = fields.String(
-        metadata={"description": certification_details_description}, allow_none=True
-    )
-    is_managed_externally = fields.Boolean(allow_none=True, dump_default=False)
-    external_url = fields.String(allow_none=True)
-    dashboard_title_RU = fields.String(description=dashboard_title_description)
+    onboardingStartedTime = fields.DateTime(missing=True)
+    dodo_role = fields.String()

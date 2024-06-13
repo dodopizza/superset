@@ -18,23 +18,19 @@ logger = logging.getLogger(__name__)
 
 
 class OnboardingDAO(BaseDAO[UserInfo]):
-    base_filter = DashboardAccessFilter
+    # base_filter = DashboardAccessFilter
 
     @classmethod
     def get_by_user_id(cls, user_id: int) -> UserInfo:
-        query = (
-            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
-        )
-        user_info = query.one_or_none()
-        if not user_info:
-            raise OnboardingNotFoundError()
-
-            # make sure we still have basic access check from security manager
         try:
-            user_info.raise_for_access()
-        except SupersetSecurityException as ex:
-            raise OnboardingAccessDeniedError() from ex
-
+            query = (
+                db.session.query(UserInfo).filter(UserInfo.user_id == user_id)
+            )
+            user_info = query.one_or_none()
+            if not user_info:
+                raise OnboardingNotFoundError()
+        except AttributeError as e:
+            raise OnboardingNotFoundError()
         return user_info
 
 

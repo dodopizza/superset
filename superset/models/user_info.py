@@ -18,12 +18,3 @@ class UserInfo(Model):  # DODO added #33835937
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     dodo_role = Column(String(32), nullable=True)
 
-    def raise_for_access(self) -> None:
-        """
-        Raise an exception if the user cannot access the resource.
-
-        :raises SupersetSecurityException: If the user cannot access the resource
-        """
-
-        security_manager.raise_for_access(user_info=self)
-
