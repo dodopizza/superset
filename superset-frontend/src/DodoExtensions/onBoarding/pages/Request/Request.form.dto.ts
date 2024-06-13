@@ -3,8 +3,8 @@ export type RequestFormDto = {
   lastName: string;
   email: string;
   dodoRole: string;
-  currentRoles: Array<string>;
-  requestedRoles: Array<string>;
+  currentRoles: string;
+  requestedRoles: string;
   team: string;
   requestDate: Date;
   isClosed: boolean;
