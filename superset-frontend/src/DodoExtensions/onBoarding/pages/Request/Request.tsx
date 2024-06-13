@@ -101,8 +101,8 @@ export const Request: FC = () => {
           <Divider orientation="left">Information search</Divider>
 
           <Row gutter={12}>
-            <Col span={12}>wqwq</Col>
-            <Col span={12}>
+            <Col span={10}>wqwq</Col>
+            <Col span={14}>
               <RoleInformation />
             </Col>
           </Row>
