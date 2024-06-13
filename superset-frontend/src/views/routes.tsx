@@ -21,7 +21,7 @@ import React, { lazy } from 'react';
 
 // not lazy loaded since this is the home page.
 import Home from 'src/pages/Home';
-import { REQUEST_PAGE_URL } from '../DodoExtensions/onBoarding/consts';
+import { REQUEST_PAGE_LIST_URL } from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
   () =>
@@ -228,7 +228,7 @@ export const routes: Routes = [
   },
   // DODO added start 32839654
   {
-    path: REQUEST_PAGE_URL,
+    path: REQUEST_PAGE_LIST_URL,
     Component: RequestList,
   },
   // DODO added stop 32839654

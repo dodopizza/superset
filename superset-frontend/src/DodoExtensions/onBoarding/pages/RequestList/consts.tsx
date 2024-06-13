@@ -1,6 +1,7 @@
 import React from 'react';
 import { t } from '@superset-ui/core';
 import Icons from 'src/components/Icons';
+import { Link } from 'react-router-dom';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import { StyledActions } from './styled';
 import ConfirmStatusChange from '../../../../components/ConfirmStatusChange';
@@ -10,6 +11,7 @@ import {
   FilterOperator,
   Filters,
 } from '../../../../components/ListView';
+import { REQUEST_PAGE_URL } from '../../consts';
 
 // ------------
 // xs, xl, xxl
@@ -117,14 +119,16 @@ export const columns = [
             title={t('Edit')}
             placement="bottom"
           >
-            <span
-              role="button"
-              tabIndex={0}
-              className="action-button"
-              onClick={openEditModal}
-            >
-              <Icons.EditAlt data-test="edit-alt" />
-            </span>
+            <Link to={REQUEST_PAGE_URL.replace(':id', original.id)}>
+              <span
+                role="button"
+                tabIndex={0}
+                className="action-button"
+                onClick={openEditModal}
+              >
+                <Icons.EditAlt data-test="edit-alt" />
+              </span>
+            </Link>
           </Tooltip>
         </StyledActions>
       );
