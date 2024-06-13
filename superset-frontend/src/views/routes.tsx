@@ -21,7 +21,10 @@ import React, { lazy } from 'react';
 
 // not lazy loaded since this is the home page.
 import Home from 'src/pages/Home';
-import { REQUEST_PAGE_LIST_URL } from '../DodoExtensions/onBoarding/consts';
+import {
+  REQUEST_PAGE_LIST_URL,
+  REQUEST_PAGE_URL,
+} from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
   () =>
@@ -124,6 +127,13 @@ const RequestList = lazy(
   () =>
     import(
       /* webpackChunkName: "ChartList" */ 'src/DodoExtensions/onBoarding/pages/RequestList'
+    ),
+);
+
+const Request = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "ChartList" */ 'src/DodoExtensions/onBoarding/pages/Request'
     ),
 );
 // DODO added stop 32839654
@@ -231,6 +241,10 @@ export const routes: Routes = [
     path: REQUEST_PAGE_LIST_URL,
     Component: RequestList,
   },
+  {
+    path: REQUEST_PAGE_URL,
+    Component: Request,
+  },
   // DODO added stop 32839654
 ];
 
@@ -254,8 +268,6 @@ const frontEndRoutes = routes
     }),
     {},
   );
-
-console.log(`frontEndRoutes`, frontEndRoutes);
 
 export function isFrontendRoute(path?: string) {
   if (path) {

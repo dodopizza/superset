@@ -36,8 +36,8 @@ import explore from 'src/explore/reducers/exploreReducer';
 import exploreDatasources from 'src/explore/reducers/datasourcesReducer';
 import { DatasourcesState } from 'src/dashboard/types';
 import {
-  DatasourcesActionPayload,
   DatasourcesAction,
+  DatasourcesActionPayload,
 } from 'src/dashboard/actions/datasources';
 import shortid from 'shortid';
 import {
@@ -49,6 +49,7 @@ import { AnyDatasourcesAction } from 'src/explore/actions/datasourcesActions';
 import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
+import { onboardingRequestSlice } from '../DodoExtensions/onBoarding';
 
 // Some reducers don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
@@ -129,6 +130,8 @@ const reducers = {
   reports,
   saveModal,
   explore,
+  // DODO added
+  onboardingRequestSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html
