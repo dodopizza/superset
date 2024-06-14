@@ -1,12 +1,6 @@
-import { Team } from '../types';
-
 export const ONBOARDING_INIT_LOADING = 'ONBOARDING_INIT_LOADING';
 export const ONBOARDING_INIT_SUCCESS = 'ONBOARDING_INIT_SUCCESS';
 export const ONBOARDING_INIT_ERROR = 'ONBOARDING_INIT_ERROR';
-
-export const ONBOARDING_TEAMS_LOADING = 'ONBOARDING_TEAMS_LOADING';
-export const ONBOARDING_TEAMS_SUCCESS = 'ONBOARDING_TEAMS_SUCCESS';
-export const ONBOARDING_TEAMS_ERROR = 'ONBOARDING_TEAMS_ERROR';
 
 export const ONBOARDING_FINISH_UPDATING = 'ONBOARDING_FINISH_UPDATING';
 export const ONBOARDING_FINISH_SUCCESS = 'ONBOARDING_FINISH_SUCCESS';
@@ -50,20 +44,6 @@ type ActionInitSuccess = {
   payload: OnboardingSuccessPayload;
 };
 
-type ActionTeamsLoading = {
-  type: typeof ONBOARDING_TEAMS_LOADING;
-};
-
-type ActionTeamsSuccess = {
-  type: typeof ONBOARDING_TEAMS_SUCCESS;
-  payload: Team[];
-};
-
-type ActionTeamsError = {
-  type: typeof ONBOARDING_TEAMS_ERROR;
-  payload: { error: string };
-};
-
 type ActionFinishUpdating = {
   type: typeof ONBOARDING_FINISH_UPDATING;
 };
@@ -95,9 +75,6 @@ export type OnboardingAction =
   | ActionInitLoading
   | ActionInitSuccess
   | ActionInitError
-  | ActionTeamsLoading
-  | ActionTeamsSuccess
-  | ActionTeamsError
   | ActionFinishUpdating
   | ActionFinishSuccess
   | ActionFinishError
@@ -119,10 +96,6 @@ export type OnboardingState = {
 
   stepOneUpdating: boolean;
   stepOneError: string | null;
-
-  teamsIsLoading: boolean;
-  teams: Array<Team>;
-  teamsLoadingError: string | null;
 
   finishUpdating: boolean;
   finishSuccess: boolean;

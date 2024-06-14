@@ -1,13 +1,15 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { userFromEnum } from '../../types';
+
+import { repoLoadTeamList } from '../../repository/loadTeamList.repository';
 import {
   ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
   ONBOARDING_TEAMS_SUCCESS,
-} from '../types';
-import { repoLoadTeamList } from '../../repository/loadTeamList.repository';
+} from '../types/team.types';
 
 let beforeSendToBackendQuery = '';
+
 export function loadTeams(userFrom: userFromEnum, query: string) {
   return async function (dispatch: Dispatch) {
     try {

@@ -8,9 +8,6 @@ import {
   ONBOARDING_STEP_ONE_FINISH_ERROR,
   ONBOARDING_STEP_ONE_FINISH_SUCCESS,
   ONBOARDING_STEP_ONE_FINISH_UPDATING,
-  ONBOARDING_TEAMS_ERROR,
-  ONBOARDING_TEAMS_LOADING,
-  ONBOARDING_TEAMS_SUCCESS,
   OnboardingAction,
   OnboardingState,
 } from '../types';
@@ -29,10 +26,6 @@ const initialState: OnboardingState = {
 
   stepOneUpdating: false,
   stepOneError: null,
-
-  teamsIsLoading: false,
-  teams: [],
-  teamsLoadingError: null,
 
   finishUpdating: false,
   finishSuccess: false,
@@ -69,20 +62,6 @@ export const onboardingSlice = (
         ...state,
         stepOneUpdating: false,
         stepOneError: action.payload.error,
-      };
-    }
-
-    case ONBOARDING_TEAMS_LOADING: {
-      return { ...state, teamsIsLoading: true };
-    }
-    case ONBOARDING_TEAMS_SUCCESS: {
-      return { ...state, teamsIsLoading: false, teams: action.payload };
-    }
-    case ONBOARDING_TEAMS_ERROR: {
-      return {
-        ...state,
-        teamsIsLoading: false,
-        teamsLoadingError: action.payload.error,
       };
     }
 
