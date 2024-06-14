@@ -4,7 +4,7 @@ import {
   ONBOARDING_REQUEST_LOADING,
   ONBOARDING_REQUEST_SUCCESS,
 } from '../types/request.types';
-import { repoLoadRequest } from '../../repository/loadRequest.repository';
+import { loadRequestRepository } from '../../repository/loadRequest.repository';
 
 export function loadRequest(id: string) {
   return async function (dispatch: Dispatch) {
@@ -13,7 +13,7 @@ export function loadRequest(id: string) {
         type: ONBOARDING_REQUEST_LOADING,
       });
 
-      const data = await repoLoadRequest(id);
+      const data = await loadRequestRepository(id);
 
       dispatch({
         type: ONBOARDING_REQUEST_SUCCESS,

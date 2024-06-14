@@ -1,6 +1,6 @@
 import { ActionRequestSuccessPayload } from '../model/types/request.types';
 
-export const repoLoadRequest = async (
+export const loadRequestRepository = async (
   id: string,
 ): Promise<ActionRequestSuccessPayload | null> => {
   try {
@@ -11,11 +11,11 @@ export const repoLoadRequest = async (
             firstName: 'first name',
             lastName: 'last name',
             email: 'email',
-            team: 'team name',
+            team: 'CVMM',
             requestDate: new Date(),
             updateDate: new Date(),
-            requestedRoles: 'Gamma, Betta',
-            currentRoles: 'Alfa, Admin',
+            requestedRoles: 'Analyse Data, Input Data',
+            currentRoles: 'Gamma, Public dashboards',
             isClosed: false,
             dodoRole: 'dodo role',
           }),

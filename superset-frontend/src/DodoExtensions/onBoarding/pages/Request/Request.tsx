@@ -10,6 +10,8 @@ import Button from '../../../../components/Button';
 import { useRequest } from './useRequest';
 import Loading from '../../../../components/Loading';
 import { RoleInformation } from './components/roleInformation';
+import { RequestFindTeam } from './components/requestFindTeam';
+import { userFromEnum } from '../../types';
 
 const Wrapper = styled.div`
   padding: 0 2rem 2rem 2rem;
@@ -18,7 +20,14 @@ const Wrapper = styled.div`
 export const Request: FC = () => {
   const [form] = useForm();
 
-  const { isLoading, requestData } = useRequest();
+  const {
+    isLoading,
+    requestData,
+    newTeam,
+    setNewTeam,
+    existingTeam,
+    setExistingTeam,
+  } = useRequest();
 
   const { Title } = Typography;
 
@@ -100,8 +109,17 @@ export const Request: FC = () => {
 
           <Divider orientation="left">Information search</Divider>
 
-          <Row gutter={12}>
-            <Col span={10}>wqwq</Col>
+          <Row gutter={48}>
+            <Col span={10}>
+              <Typography.Title level={5}>Поиск команд:</Typography.Title>
+              <RequestFindTeam
+                userFrom={userFromEnum.Franchisee}
+                newTeam={newTeam}
+                setNewTeam={setNewTeam}
+                existingTeam={existingTeam}
+                setExistingTeam={setExistingTeam}
+              />
+            </Col>
             <Col span={14}>
               <RoleInformation />
             </Col>
