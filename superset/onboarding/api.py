@@ -53,9 +53,6 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
     edit_model_schema = OnboardingPutSchema()
     onboarding_get_response_schema = OnboardingGetResponseSchema()
 
-    openapi_spec_tag = "Dashboards"
-    """ Override the name set for this collection of endpoints """
-
     @expose("/", methods=("GET",))
     @protect()
     @safe
