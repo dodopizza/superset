@@ -30,49 +30,49 @@ from superset.commands.exceptions import (
 )
 
 
-class OnboardingSlugExistsValidationError(ValidationError):
+class TeamSlugExistsValidationError(ValidationError):
     """
-    Marshmallow validation error for Onboarding slug already exists
+    Marshmallow validation error for Team slug already exists
     """
 
     def __init__(self) -> None:
         super().__init__([_("Must be unique")], field_name="slug")
 
 
-class OnboardingInvalidError(CommandInvalidError):
-    message = _("Onboarding parameters are invalid.")
+class TeamInvalidError(CommandInvalidError):
+    message = _("Team parameters are invalid.")
 
 
-class OnboardingNotFoundError(ObjectNotFoundError):
+class TeamNotFoundError(ObjectNotFoundError):
     def __init__(
-        self, Onboarding_id: Optional[str] = None, exception: Optional[Exception] = None
+        self, Team_id: Optional[str] = None, exception: Optional[Exception] = None
     ) -> None:
-        super().__init__("Onboarding", Onboarding_id, exception)
+        super().__init__("Team", Team_id, exception)
 
 
-class OnboardingCreateFailedError(CreateFailedError):
-    message = _("Onboardings could not be created.")
+class TeamCreateFailedError(CreateFailedError):
+    message = _("Teams could not be created.")
 
 
-class OnboardingUpdateFailedError(UpdateFailedError):
-    message = _("Onboarding could not be updated.")
+class TeamUpdateFailedError(UpdateFailedError):
+    message = _("Team could not be updated.")
 
 
-class OnboardingDeleteFailedError(DeleteFailedError):
-    message = _("Onboarding could not be deleted.")
+class TeamDeleteFailedError(DeleteFailedError):
+    message = _("Team could not be deleted.")
 
 
-class OnboardingDeleteFailedReportsExistError(OnboardingDeleteFailedError):
+class TeamDeleteFailedReportsExistError(TeamDeleteFailedError):
     message = _("There are associated alerts or reports")
 
 
-class OnboardingForbiddenError(ForbiddenError):
-    message = _("Changing this Onboarding is forbidden")
+class TeamForbiddenError(ForbiddenError):
+    message = _("Changing this Team is forbidden")
 
 
-class OnboardingImportError(ImportFailedError):
-    message = _("Import Onboarding failed for an unknown reason")
+class TeamImportError(ImportFailedError):
+    message = _("Import Team failed for an unknown reason")
 
 
-class OnboardingAccessDeniedError(ForbiddenError):
-    message = _("You don't have access to this Onboarding.")
+class TeamAccessDeniedError(ForbiddenError):
+    message = _("You don't have access to this Team.")

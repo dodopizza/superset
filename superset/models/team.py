@@ -4,7 +4,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     Boolean,
-    DateTime,
+    String,
     Table,
     UniqueConstraint,
 )
@@ -54,7 +54,8 @@ class Team(Model):
     __tablename__ = "teams"
 
     id = Column(Integer, primary_key=True)
-    isExternal = Column(Boolean)
+    name = Column(String,  nullable=False)
+    isExternal = Column(Boolean, nullable=False)
     tag = relationship(
         "Tag",
         overlaps="objects,tag,tags,tags",

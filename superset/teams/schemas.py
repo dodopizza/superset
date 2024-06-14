@@ -86,21 +86,28 @@ class RolesSchema(Schema):
     name = fields.String()
 
 
-# class TagSchema(Schema):
-#     id = fields.Int()
-#     name = fields.String()
-#     type = fields.Enum(TagTypes, by_value=True)
-
-
-class OnboardingGetResponseSchema(Schema):
+class TagSchema(Schema):
     id = fields.Int()
-    first_name = fields.String()
-    last_name = fields.String()
-    email = fields.String()
-    isOnboardingFinished = fields.Boolean()
-    onboardingStartedTime = fields.DateTime(missing=True)
+    name = fields.String()
+    type = fields.Enum(TagTypes, by_value=True)
 
 
-class OnboardingPutSchema(Schema):
+class TeamGetResponseSchema(Schema):
+    id = fields.Int()
+    name = fields.String()
+    isExternal = fields.Boolean()
+    tag = fields.Nested(TagSchema)
+    roles = fields.List(fields.Nested(RolesSchema))
+    participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+
+
+class TeamPostSchema(Schema):
+    name = fields.String()
+    roles = fields.List(fields.Nested(RolesSchema))
+    tag = fields.String()
+    isExternal = fields.Boolean()
+
+
+class TeamPutSchema(Schema):
     onboardingStartedTime = fields.DateTime(missing=True)
     dodo_role = fields.String()
