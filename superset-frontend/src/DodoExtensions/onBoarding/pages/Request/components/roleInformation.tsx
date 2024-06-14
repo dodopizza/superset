@@ -60,18 +60,16 @@ export const RoleInformation = () => (
       </Col>
     </Row>
     <Row gutter={12}>
-      <Col span={12}>
+      <Col span={6}>
         <RoleInfo title="Analyse Data" data={analyseData} />
       </Col>
-      <Col span={12}>
+      <Col span={6}>
         <RoleInfo title="Use Data" data={useData} />
       </Col>
-    </Row>
-    <Row gutter={12}>
-      <Col span={12}>
+      <Col span={6}>
         <RoleInfo title="Create Data" data={createData} />
       </Col>
-      <Col span={12}>
+      <Col span={6}>
         <RoleInfo title="Input Data" data={inputData} />
       </Col>
     </Row>

@@ -1,6 +1,6 @@
 import { userFromEnum } from '../types';
 
-export const getTeamName = (userFrom: userFromEnum, value: string | null) => {
+export const getTeamName = (value: string | null, userFrom?: userFromEnum) => {
   const v = value?.toUpperCase() ?? '';
 
   if (userFrom === userFromEnum.Franchisee) {

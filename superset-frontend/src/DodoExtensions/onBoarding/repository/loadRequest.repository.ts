@@ -1,4 +1,5 @@
 import { ActionRequestSuccessPayload } from '../model/types/request.types';
+import { userFromEnum } from '../types';
 
 export const loadRequestRepository = async (
   id: string,
@@ -8,16 +9,17 @@ export const loadRequestRepository = async (
       setTimeout(
         () =>
           resolve({
-            firstName: 'first name',
-            lastName: 'last name',
-            email: 'email',
-            team: 'CVMM',
-            requestDate: new Date(),
-            updateDate: new Date(),
-            requestedRoles: 'Analyse Data, Input Data',
+            userFrom: userFromEnum.Franchisee,
+            firstName: 'Артем',
+            lastName: 'Казаков',
+            email: 'art.kazakov@dodobrands.io',
+            dodoRole: 'Data Platform',
             currentRoles: 'Gamma, Public dashboards',
+            requestedRoles: 'Analyse Data, Input Data',
+            team: 'CVM | cvm',
+            requestDate: new Date(),
             isClosed: false,
-            dodoRole: 'dodo role',
+            updateDate: new Date(),
           }),
         2000,
       ),

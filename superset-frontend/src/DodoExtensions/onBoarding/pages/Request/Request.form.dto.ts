@@ -1,4 +1,7 @@
+import { userFromEnum } from '../../types';
+
 export type RequestFormDto = {
+  userFrom: userFromEnum;
   firstName: string;
   lastName: string;
   email: string;

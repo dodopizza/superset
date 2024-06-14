@@ -36,7 +36,7 @@ export const RequestFindTeam: FC<Props> = memo(
         onChange={handleTeamChange}
       >
         <Input.Search
-          placeholder={t('your team')}
+          placeholder={t('enter team')}
           loading={teamsIsLoading}
           allowClear
           enterButton

@@ -1,24 +1,34 @@
-import React, { FC } from 'react';
-import { useForm } from 'antd/es/form/Form';
+import React, { FC, useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { t } from '@superset-ui/core';
-import { Col, Row } from 'src/components';
-import { Divider, Typography } from 'antd';
-import { Form, FormItem } from '../../../../components/Form';
-import { Input } from '../../../../components/Input';
+import { t, useTheme } from '@superset-ui/core';
+import { Col, Descriptions, Divider, Row, Space, Tag, Typography } from 'antd';
 import Button from '../../../../components/Button';
 import { useRequest } from './useRequest';
 import Loading from '../../../../components/Loading';
-import { RoleInformation } from './components/roleInformation';
 import { RequestFindTeam } from './components/requestFindTeam';
 import { userFromEnum } from '../../types';
+import { MIN_TEAM_NAME_LENGTH } from '../../consts';
+import { getTeamName } from '../../utils/getTeamName';
 
 const Wrapper = styled.div`
-  padding: 0 2rem 2rem 2rem;
+  padding: 2rem;
+`;
+
+const StyledSpace = styled(Space)`
+  width: 100%;
+`;
+
+const List = styled.ul`
+  margin: 0;
+  padding-left: 1rem;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
 `;
 
 export const Request: FC = () => {
-  const [form] = useForm();
+  const theme = useTheme();
 
   const {
     isLoading,
@@ -29,106 +39,198 @@ export const Request: FC = () => {
     setExistingTeam,
   } = useRequest();
 
-  const { Title } = Typography;
+  const tagClosable = useMemo(
+    () => !!existingTeam || !!newTeam,
+    [existingTeam, newTeam],
+  );
 
-  const onFinish = console.log;
+  const removeTeam = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      setNewTeam(null);
+      setExistingTeam(null);
+      e.preventDefault();
+    },
+    [setExistingTeam, setNewTeam],
+  );
+
+  const newTeamOK = useMemo(
+    () => newTeam && newTeam?.length >= MIN_TEAM_NAME_LENGTH,
+    [newTeam],
+  );
+
+  const teamOK = useMemo(
+    () => (newTeam && newTeam?.length >= MIN_TEAM_NAME_LENGTH) || existingTeam,
+    [existingTeam, newTeam],
+  );
+
+  const formatedTeamName = useMemo(() => {
+    if (existingTeam) {
+      return `${existingTeam.label}`;
+    }
+    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
+      const name = getTeamName(newTeam, requestData?.userFrom);
+      return `${name}`;
+    }
+    return 'no team';
+  }, [existingTeam, newTeam, requestData?.userFrom]);
 
   return (
     <Wrapper>
       {isLoading ? (
         <Loading />
       ) : (
-        <Form
-          form={form}
-          name="request-form"
-          onFinish={onFinish}
-          initialValues={requestData}
-          layout="vertical"
-        >
-          <Title level={3}>{t('Onboarding request')}</Title>
-          <Row gutter={12}>
-            <Col span={12}>
-              <FormItem name="firstName" label={t('First Name')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem name="lastName" label={t('Last Name')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={12}>
-            <Col span={12}>
-              <FormItem name="email" label={t('email')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem name="dodoRole" label={t('Role in Dodo Brands')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={12}>
-            <Col span={12}>
-              <FormItem name="currentRoles" label={t('Current roles')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem name="requestedRoles" label={t('Requested roles')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={12}>
-            <Col span={12}>
-              <FormItem name="team" label={t('Team')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem name="isClosed" label={t('Closed')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-          </Row>
-          <Row gutter={12}>
-            <Col span={12}>
-              <FormItem name="requestDate" label={t('Request date')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-            <Col span={12}>
-              <FormItem name="updateDate" label={t('Update date')}>
-                <Input readOnly />
-              </FormItem>
-            </Col>
-          </Row>
+        <>
+          <Descriptions
+            title="Onboarding request"
+            size="small"
+            bordered
+            column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+            contentStyle={{ backgroundColor: theme.colors.grayscale.light5 }}
+          >
+            <Descriptions.Item label={t('User from')}>
+              {requestData?.userFrom}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('First Name')}>
+              {requestData?.firstName}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Last Name')}>
+              {requestData?.lastName}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('email')}>
+              {requestData?.email}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Role in Dodo Brands')}>
+              {requestData?.dodoRole}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Current roles')}>
+              {requestData?.currentRoles}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Requested roles')}>
+              {requestData?.requestedRoles}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Team')}>
+              {requestData?.team}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Closed')}>
+              {requestData?.isClosed}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Request date')}>
+              {requestData?.requestDate.toLocaleDateString()}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Update date')}>
+              {requestData?.updateDate.toLocaleDateString()}
+            </Descriptions.Item>
+          </Descriptions>
 
-          <Divider orientation="left">Information search</Divider>
+          <Divider />
 
-          <Row gutter={48}>
-            <Col span={10}>
-              <Typography.Title level={5}>Поиск команд:</Typography.Title>
-              <RequestFindTeam
-                userFrom={userFromEnum.Franchisee}
-                newTeam={newTeam}
-                setNewTeam={setNewTeam}
-                existingTeam={existingTeam}
-                setExistingTeam={setExistingTeam}
-              />
+          <Descriptions
+            title="Кому давать какие команды и роли?"
+            size="small"
+            bordered
+            column={{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }}
+            contentStyle={{ backgroundColor: theme.colors.grayscale.light5 }}
+          >
+            <Descriptions.Item label={t('If this is C-level')}>
+              {t('give: c_level')}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Если это френчайзи')}>
+              {t('даем: fr_{фамилия}_{имя}')}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Если это сотрудник УК')}>
+              {t('даем: по названию команды')}
+            </Descriptions.Item>
+          </Descriptions>
+
+          <Divider orientation="left">Team search</Divider>
+
+          <Row gutter={24}>
+            <Col span={8}>
+              <StyledSpace direction="vertical" size="middle">
+                <RequestFindTeam
+                  userFrom={userFromEnum.Franchisee}
+                  newTeam={newTeam}
+                  setNewTeam={setNewTeam}
+                  existingTeam={existingTeam}
+                  setExistingTeam={setExistingTeam}
+                />
+                {teamOK && (
+                  <>
+                    <Typography.Paragraph>
+                      <Space direction="horizontal" size="small">
+                        <Typography.Text>
+                          {t(newTeam ? 'New team' : 'Existing team')}
+                        </Typography.Text>
+                        <Tag
+                          color="#ff6900"
+                          closable={tagClosable}
+                          onClose={removeTeam}
+                        >
+                          {formatedTeamName}
+                        </Tag>
+                      </Space>
+                    </Typography.Paragraph>
+                  </>
+                )}
+
+                {newTeamOK && (
+                  <StyledButton
+                    type="primary"
+                    htmlType="button"
+                    disabled={!newTeamOK}
+                  >
+                    {t('Create team')}
+                  </StyledButton>
+                )}
+
+                {existingTeam && (
+                  <StyledButton type="primary" htmlType="button">
+                    {t('Check information and update user')}
+                  </StyledButton>
+                )}
+              </StyledSpace>
             </Col>
-            <Col span={14}>
-              <RoleInformation />
+            <Col span={16}>
+              <Descriptions
+                size="small"
+                bordered
+                column={{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }}
+                contentStyle={{
+                  backgroundColor: theme.colors.grayscale.light5,
+                }}
+              >
+                <Descriptions.Item label={t('Analyse Data')}>
+                  <List>
+                    <li>{t('Analyze available dashboards')}</li>
+                    <li>
+                      {t('Gather insights from charts inside a dashboard')}
+                    </li>
+                  </List>
+                </Descriptions.Item>
+                <Descriptions.Item label={t('Use Data')}>
+                  <List>
+                    <li>{t('Create dashboards')}</li>
+                    <li>{t('Create charts')}</li>
+                  </List>
+                </Descriptions.Item>
+                <Descriptions.Item label={t('Create Data')}>
+                  <List>
+                    <li>
+                      {t('Create datasets from sources from Data Platform')}
+                    </li>
+                    <li>{t('Use SQL Lab for your Ad-hoc queries')}</li>
+                  </List>
+                </Descriptions.Item>
+                <Descriptions.Item label={t('Input Data')}>
+                  <List>
+                    <li>{t('Add your own data sources to Superset')}</li>
+                    <li>{t("Use SQL Lab for your Ad-hoc queries'")}</li>
+                  </List>
+                </Descriptions.Item>
+              </Descriptions>
             </Col>
           </Row>
-
-          <Button type="primary" htmlType="submit">
-            {t('Save')}
-          </Button>
-        </Form>
+        </>
       )}
     </Wrapper>
   );
