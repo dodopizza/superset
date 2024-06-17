@@ -8,6 +8,7 @@ import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { getTeamTag } from '../../utils/getTeamTag';
+import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -16,6 +17,9 @@ export const useRequest = () => {
   const [isCreateTeam, setIsCreateTeam] = useState<boolean>(false);
   const [isConfirmCreateTeam, setIsConfirmCreateTeam] =
     useState<boolean>(false);
+
+  const [confirmCreateTeamData, setConfirmCreateTeamData] =
+    useState<ConfirmCreateTeamModalDto | null>(null);
 
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
@@ -77,11 +81,17 @@ export const useRequest = () => {
 
   const openConfirmCreateTeam = useCallback((data: CreateTeamModalDto) => {
     setIsCreateTeam(false);
+    setConfirmCreateTeamData({
+      teamName: data.teamName,
+      teamTag: data.teamTag,
+      roles: data.roles,
+    });
     setIsConfirmCreateTeam(true);
   }, []);
 
   const createTeam = useCallback(() => {
     setIsConfirmCreateTeam(false);
+    console.log(`create team:${JSON.stringify(confirmCreateTeamData)}`);
   }, []);
 
   const closeConfirmCreateTeam = useCallback(
@@ -109,5 +119,6 @@ export const useRequest = () => {
     isConfirmCreateTeam,
     createTeam,
     closeConfirmCreateTeam,
+    confirmCreateTeamData,
   };
 };

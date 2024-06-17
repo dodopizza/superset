@@ -3,15 +3,24 @@ import React, { FC } from 'react';
 import { Descriptions, Typography } from 'antd';
 import Button from '../../../../../components/Button';
 import Modal from '../../../../../components/Modal';
+import { Role } from '../../../types';
+
+export type ConfirmCreateTeamModalDto = {
+  teamName: string;
+  teamTag: string;
+  roles: Array<Role>;
+};
 
 type ConfirmCreateTeamModalProps = {
   onCloseModal: () => void;
   onSubmit: () => void;
+  data: ConfirmCreateTeamModalDto | null;
 };
 
 export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
   onCloseModal,
   onSubmit,
+  data,
 }) => {
   const theme = useTheme();
 
@@ -32,12 +41,14 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
           }}
         >
           <Descriptions.Item label={t('Team')}>
-            название команды
+            {data?.teamName}
           </Descriptions.Item>
           <Descriptions.Item label={t('Team tag')}>
-            tag команды
+            {data?.teamTag}
           </Descriptions.Item>
-          <Descriptions.Item label={t('Roles')}>roles</Descriptions.Item>
+          <Descriptions.Item label={t('Roles')}>
+            {data?.roles.join(', ')}
+          </Descriptions.Item>
         </Descriptions>
       </Typography.Paragraph>
       <Typography.Paragraph>

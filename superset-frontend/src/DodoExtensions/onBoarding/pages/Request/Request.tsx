@@ -48,6 +48,7 @@ export const Request: FC = () => {
     isConfirmCreateTeam,
     closeConfirmCreateTeam,
     createTeam,
+    confirmCreateTeamData,
   } = useRequest();
 
   return (
@@ -142,6 +143,7 @@ export const Request: FC = () => {
             <ConfirmCreateTeamModal
               onCloseModal={closeConfirmCreateTeam}
               onSubmit={createTeam}
+              data={confirmCreateTeamData}
             />
           )}
         </>
