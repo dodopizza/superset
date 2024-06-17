@@ -1,0 +1,51 @@
+import { t, useTheme } from '@superset-ui/core';
+import React, { FC } from 'react';
+import { Descriptions, Typography } from 'antd';
+import Button from '../../../../../components/Button';
+import Modal from '../../../../../components/Modal';
+
+type ConfirmCreateTeamModalProps = {
+  onCloseModal: () => void;
+  onSubmit: () => void;
+};
+
+export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
+  onCloseModal,
+  onSubmit,
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Modal
+      title="Create new team"
+      show
+      onHide={onCloseModal}
+      footer={<Button onClick={onSubmit}>{t('Create team')}</Button>}
+    >
+      <Typography.Paragraph>
+        <Descriptions
+          size="small"
+          bordered
+          column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+          contentStyle={{
+            backgroundColor: theme.colors.grayscale.light5,
+          }}
+        >
+          <Descriptions.Item label={t('Team')}>
+            название команды
+          </Descriptions.Item>
+          <Descriptions.Item label={t('Team tag')}>
+            tag команды
+          </Descriptions.Item>
+          <Descriptions.Item label={t('Roles')}>roles</Descriptions.Item>
+        </Descriptions>
+      </Typography.Paragraph>
+      <Typography.Paragraph>
+        {t('New team will be created')}
+      </Typography.Paragraph>
+      <Typography.Paragraph>
+        {t('User update is on the next step')}
+      </Typography.Paragraph>
+    </Modal>
+  );
+};

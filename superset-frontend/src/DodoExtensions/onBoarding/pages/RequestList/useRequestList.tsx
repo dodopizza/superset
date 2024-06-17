@@ -10,22 +10,6 @@ import { getUserInfo } from '../../model/selector/getUserInfo';
 
 const currentNumber = Number(new Date());
 
-// const charts: Array<RequestListType> = [];
-//
-// for (let i = 1; i <= 50; i += 1) {
-//   charts.push({
-//     id: i,
-//     firstName: `firstName ${i}`,
-//     lastName: `last Name ${i}`,
-//     email: `email@example.com ${i}`,
-//     currentRoles: ['Admin'],
-//     requestedRoles: [],
-//     team: `team-${i}`,
-//     requestDate: new Date(currentNumber - i * 60 * 60 * 1000),
-//     isClosed: true,
-//   });
-// }
-
 type State = {
   loading: boolean;
   collection: RequestListType[];
