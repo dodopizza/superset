@@ -5,10 +5,11 @@ import { Col, Descriptions, Divider, Row, Space, Tag, Typography } from 'antd';
 import Button from '../../../../components/Button';
 import { useRequest } from './useRequest';
 import Loading from '../../../../components/Loading';
-import { RequestFindTeam } from './components/requestFindTeam';
+
 import { userFromEnum } from '../../types';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
+import { RequestFindTeam } from '../../components/requestFindTeam';
 
 const Wrapper = styled.div`
   padding: 2rem;

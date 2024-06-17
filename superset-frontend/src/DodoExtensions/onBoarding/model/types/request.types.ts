@@ -1,4 +1,4 @@
-import { RequestFormDto } from '../../pages/Request/Request.form.dto';
+import { userFromEnum } from '../../types';
 
 export const ONBOARDING_REQUEST_LOADING = 'ONBOARDING_REQUEST_LOADING';
 export const ONBOARDING_REQUEST_SUCCESS = 'ONBOARDING_REQUEST_SUCCESS';
@@ -13,7 +13,19 @@ type ActionRequestError = {
   payload: { error: string };
 };
 
-type ActionRequestSuccessPayload = RequestFormDto;
+type ActionRequestSuccessPayload = {
+  userFrom: userFromEnum;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dodoRole: string;
+  currentRoles: string;
+  requestedRoles: string;
+  team: string;
+  requestDate: Date;
+  isClosed: boolean;
+  updateDate: Date;
+};
 
 type ActionRequestSuccess = {
   type: typeof ONBOARDING_REQUEST_SUCCESS;

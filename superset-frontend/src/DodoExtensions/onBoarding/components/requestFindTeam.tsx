@@ -2,9 +2,9 @@ import React, { FC, memo } from 'react';
 import { AutoComplete, Input } from 'antd';
 import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
-import { userFromEnum } from '../../../types';
-import { getTeamsData } from '../../../model/selector/getTeamsData';
-import { useTeam } from '../../../hooks/useTeam';
+import { userFromEnum } from '../types';
+import { getTeamsData } from '../model/selector/getTeamsData';
+import { useTeam } from '../hooks/useTeam';
 
 type Props = {
   newTeam: string | null;
