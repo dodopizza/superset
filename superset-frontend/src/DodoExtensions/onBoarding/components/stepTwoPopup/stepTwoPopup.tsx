@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Space, Typography } from 'antd';
+import React, { FC, useCallback, useMemo } from 'react';
+import { Space, Tag as TagAnt, Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
@@ -7,14 +7,21 @@ import { useSelector } from 'react-redux';
 import Modal from '../../../../components/Modal';
 import { userFromEnum } from '../../types';
 import { SelectRoles } from './components/selectRoles';
-import { CreateOrFindTeam } from './components/createOrFindTeam';
 import { ButtonWithTopMargin } from '../styles';
 import { useStepTwoPopup } from './useStepTwoPopup';
 import { getOnboardingFinishUpdating } from '../../model/selector/getOnboardingFinishUpdating';
 import Loading from '../../../../components/Loading';
+import { RequestFindTeam } from '../RequestFindTeam/requestFindTeam';
+import { MIN_TEAM_NAME_LENGTH } from '../../consts';
+import { getTeamName } from '../../utils/getTeamName';
+import { getTeamTag } from '../../utils/getTeamTag';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
+`;
+
+const StyledSpace = styled(Space)`
+  width: 100%;
 `;
 
 type Props = {
@@ -47,7 +54,36 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
   const isFinishUpdating = useSelector(getOnboardingFinishUpdating);
   const { Title } = Typography;
 
-  console.log(`userFrom`, userFrom);
+  const tagClosable = useMemo(
+    () => !!existingTeam || !!newTeam,
+    [existingTeam, newTeam],
+  );
+
+  const removeTeam = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      setNewTeam(null);
+      setExistingTeam(null);
+      setRoles([]);
+      e.preventDefault();
+    },
+    [setExistingTeam, setNewTeam, setRoles],
+  );
+
+  const teamDescription = useMemo(() => {
+    if (existingTeam) {
+      return `[${existingTeam.label} (${existingTeam.value}] ${t(
+        'is a known command, so you can enter the team automatically.',
+      )}`;
+    }
+    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
+      const name = getTeamName(userFrom, newTeam);
+      const tag = getTeamTag(userFrom, newTeam);
+      return `[${name} (${tag})] ${t(
+        'is a new team, so Superset admins will have to evaluate this request.',
+      )}`;
+    }
+    return '';
+  }, [existingTeam, newTeam, userFrom]);
 
   return (
     <Modal
@@ -78,15 +114,53 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               <span />
             </Space>
 
-            <CreateOrFindTeam
-              newTeam={newTeam}
-              existingTeam={existingTeam}
-              userFrom={userFrom}
-              setRoles={setRoles}
-              setNewTeam={setNewTeam}
-              setExistingTeam={setExistingTeam}
-              formatedTeamName={formatedTeamName}
-            />
+            {/* <CreateOrFindTeam */}
+            {/*  newTeam={newTeam} */}
+            {/*  existingTeam={existingTeam} */}
+            {/*  userFrom={userFrom} */}
+            {/*  setRoles={setRoles} */}
+            {/*  setNewTeam={setNewTeam} */}
+            {/*  setExistingTeam={setExistingTeam} */}
+            {/*  formatedTeamName={formatedTeamName} */}
+            {/* /> */}
+
+            <>
+              <Typography.Title level={5}>
+                {t('Create of find your team')}
+              </Typography.Title>
+
+              <StyledSpace direction="vertical" size="small">
+                <Typography.Text type="secondary">
+                  {t('All C-level people please select ‘c_level’')}
+                </Typography.Text>
+
+                <RequestFindTeam
+                  newTeam={newTeam}
+                  existingTeam={existingTeam}
+                  userFrom={userFrom}
+                  setExistingTeam={setExistingTeam}
+                  setNewTeam={setNewTeam}
+                  setRoles={setRoles}
+                />
+
+                <Space direction="horizontal" size="small">
+                  <Typography.Text>{t('Your team name is')}</Typography.Text>
+                  <TagAnt
+                    color="#ff6900"
+                    closable={tagClosable}
+                    onClose={removeTeam}
+                  >
+                    {formatedTeamName}
+                  </TagAnt>
+                </Space>
+
+                {teamDescription && (
+                  <Typography.Text type="secondary">
+                    {teamDescription}
+                  </Typography.Text>
+                )}
+              </StyledSpace>
+            </>
 
             <SelectRoles
               noTeam={noTeam}
