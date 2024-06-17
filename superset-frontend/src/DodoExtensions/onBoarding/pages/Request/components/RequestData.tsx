@@ -11,8 +11,8 @@ type Props = {
     lastName: string;
     email: string;
     dodoRole: string;
-    currentRoles: string;
-    requestedRoles: string;
+    currentRoles: Array<string>;
+    requestedRoles: Array<string>;
     team: string;
     requestDate: Date;
     isClosed: boolean;
@@ -46,10 +46,10 @@ export const RequestData: FC<Props> = ({ data }) => {
         {data?.dodoRole}
       </Descriptions.Item>
       <Descriptions.Item label={t('Current roles')}>
-        {data?.currentRoles}
+        {data?.currentRoles.join(', ')}
       </Descriptions.Item>
       <Descriptions.Item label={t('Requested roles')}>
-        {data?.requestedRoles}
+        {data?.requestedRoles.join(', ')}
       </Descriptions.Item>
       <Descriptions.Item label={t('Team')}>{data?.team}</Descriptions.Item>
       <Descriptions.Item label={t('Closed')}>

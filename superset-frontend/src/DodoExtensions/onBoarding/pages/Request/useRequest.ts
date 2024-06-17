@@ -9,6 +9,7 @@ import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { getTeamTag } from '../../utils/getTeamTag';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
+import { UpdateUserDto } from './components/UpdateUser';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -17,9 +18,13 @@ export const useRequest = () => {
   const [isCreateTeam, setIsCreateTeam] = useState<boolean>(false);
   const [isConfirmCreateTeam, setIsConfirmCreateTeam] =
     useState<boolean>(false);
+  const [isUpdateUser, setIsUpdateUser] = useState<boolean>(false);
 
   const [confirmCreateTeamData, setConfirmCreateTeamData] =
     useState<ConfirmCreateTeamModalDto | null>(null);
+  const [updateUserData, setUpdateUserData] = useState<UpdateUserDto | null>(
+    null,
+  );
 
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
@@ -92,12 +97,30 @@ export const useRequest = () => {
   const createTeam = useCallback(() => {
     setIsConfirmCreateTeam(false);
     console.log(`create team:${JSON.stringify(confirmCreateTeamData)}`);
+    setIsUpdateUser(true);
   }, []);
 
   const closeConfirmCreateTeam = useCallback(
     () => setIsConfirmCreateTeam(false),
     [],
   );
+
+  const showUpdateUser = useCallback(() => {
+    setUpdateUserData({
+      userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
+      teamName: requestData?.team,
+      currentRoles: requestData?.currentRoles,
+      requestedRoles: requestData?.requestedRoles,
+      dodoRole: requestData?.dodoRole,
+    });
+    setIsUpdateUser(true);
+  }, [requestData]);
+  const closeUpdateUser = useCallback(() => setIsUpdateUser(false), []);
+
+  const updateUser = useCallback(() => {
+    console.log('update user:', updateUserData);
+    setIsUpdateUser(false);
+  }, [updateUserData]);
 
   return {
     isLoading,
@@ -120,5 +143,10 @@ export const useRequest = () => {
     createTeam,
     closeConfirmCreateTeam,
     confirmCreateTeamData,
+    showUpdateUser,
+    isUpdateUser,
+    closeUpdateUser,
+    updateUserData,
+    updateUser,
   };
 };

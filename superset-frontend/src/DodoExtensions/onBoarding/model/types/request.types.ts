@@ -19,8 +19,8 @@ type ActionRequestSuccessPayload = {
   lastName: string;
   email: string;
   dodoRole: string;
-  currentRoles: string;
-  requestedRoles: string;
+  currentRoles: Array<string>;
+  requestedRoles: Array<string>;
   team: string;
   requestDate: Date;
   isClosed: boolean;

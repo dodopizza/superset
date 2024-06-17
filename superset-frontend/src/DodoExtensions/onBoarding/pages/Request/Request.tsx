@@ -12,6 +12,7 @@ import { RequestData } from './components/RequestData';
 import { CreateTeamModal } from './components/CreateTeamModal';
 import { RoleDescription } from './components/RoleDescription';
 import { ConfirmCreateTeamModal } from './components/ConfirmCreateTeamModal';
+import { UpdateUser } from './components/UpdateUser';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -49,6 +50,11 @@ export const Request: FC = () => {
     closeConfirmCreateTeam,
     createTeam,
     confirmCreateTeamData,
+    showUpdateUser,
+    isUpdateUser,
+    closeUpdateUser,
+    updateUserData,
+    updateUser,
   } = useRequest();
 
   return (
@@ -122,7 +128,11 @@ export const Request: FC = () => {
                 )}
 
                 {existingTeam && (
-                  <StyledButton type="primary" htmlType="button">
+                  <StyledButton
+                    type="primary"
+                    htmlType="button"
+                    onClick={showUpdateUser}
+                  >
                     {t('Check information and update user')}
                   </StyledButton>
                 )}
@@ -144,6 +154,13 @@ export const Request: FC = () => {
               onCloseModal={closeConfirmCreateTeam}
               onSubmit={createTeam}
               data={confirmCreateTeamData}
+            />
+          )}
+          {isUpdateUser && (
+            <UpdateUser
+              onCloseModal={closeUpdateUser}
+              data={updateUserData}
+              onSubmit={updateUser}
             />
           )}
         </>
