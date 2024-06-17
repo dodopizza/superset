@@ -96,9 +96,17 @@ export const useRequest = () => {
 
   const createTeam = useCallback(() => {
     setIsConfirmCreateTeam(false);
-    console.log(`create team:${JSON.stringify(confirmCreateTeamData)}`);
+
+    setUpdateUserData({
+      userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
+      teamName: confirmCreateTeamData?.teamName,
+      currentRoles: requestData?.currentRoles,
+      requestedRoles: confirmCreateTeamData?.roles,
+      dodoRole: requestData?.dodoRole,
+    });
+
     setIsUpdateUser(true);
-  }, []);
+  }, [confirmCreateTeamData, requestData]);
 
   const closeConfirmCreateTeam = useCallback(
     () => setIsConfirmCreateTeam(false),
