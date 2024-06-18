@@ -123,6 +123,7 @@ export const useRequest = () => {
     });
     setIsUpdateUser(true);
   }, [requestData]);
+
   const closeUpdateUser = useCallback(() => setIsUpdateUser(false), []);
 
   const updateUser = useCallback(() => {
