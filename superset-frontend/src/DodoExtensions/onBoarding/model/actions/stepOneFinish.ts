@@ -3,7 +3,7 @@ import {
   ONBOARDING_STEP_ONE_FINISH_ERROR,
   ONBOARDING_STEP_ONE_FINISH_SUCCESS,
   ONBOARDING_STEP_ONE_FINISH_UPDATING,
-} from '../types';
+} from '../types/start.types';
 import { repoPutMeOnboarding } from '../../repository/putMeOnboarding.repository.repository';
 
 export function stepOneFinish(dodoRole: string) {

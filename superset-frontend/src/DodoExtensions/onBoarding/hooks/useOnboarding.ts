@@ -5,7 +5,7 @@ import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
 import {
   getOnboardingStorageInfo,
   updateStorageTimeOfTheLastShow,
-} from './localStorageUtils';
+} from '../utils/localStorageUtils';
 import { initOnboarding } from '../model/actions/initOnboarding';
 import { getIsOnboardingFinished } from '../model/selector/getIsOnboardingFinished';
 import { getOnboardingStartedTime } from '../model/selector/getOnboardingStartedTime';
@@ -62,7 +62,7 @@ export const useOnboarding = () => {
 
   const toStepTwo = async (stepOneDto: StepOnePopupDto) => {
     dispatch(stepOneFinish(stepOneDto.DodoRole));
-    setStep(2);
+    // setStep(2);
   };
 
   return {

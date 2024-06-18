@@ -3,7 +3,7 @@ import {
   ONBOARDING_INIT_ERROR,
   ONBOARDING_INIT_LOADING,
   ONBOARDING_INIT_SUCCESS,
-} from '../types';
+} from '../types/start.types';
 import { repoGetMeOnboarding } from '../../repository/getMeOnboarding.repository';
 
 export function initOnboarding() {
