@@ -13,6 +13,7 @@ from superset.onboarding.commands.exceptions import (
 from superset.exceptions import SupersetSecurityException
 from superset.extensions import db
 from superset.models.user_info import UserInfo
+from superset.views.utils import create_userinfo
 
 logger = logging.getLogger(__name__)
 
@@ -22,15 +23,18 @@ class OnboardingDAO(BaseDAO[UserInfo]):
 
     @classmethod
     def get_by_user_id(cls, user_id: int) -> UserInfo:
+        global user_info
         try:
             query = (
                 db.session.query(UserInfo).filter(UserInfo.user_id == user_id)
             )
             user_info = query.one_or_none()
             if not user_info:
-                raise OnboardingNotFoundError()
+                create_userinfo("ru")
+                cls.get_by_user_id(user_id)
         except AttributeError as e:
-            raise OnboardingNotFoundError()
+            create_userinfo("ru")
+            cls.get_by_user_id(user_id)
         return user_info
 
 
