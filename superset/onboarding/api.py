@@ -100,6 +100,7 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
         result = self.onboarding_get_response_schema.dump(user_info)
         result = {
             **result,
+            "email": g.user.email,
             "last_name": g.user.last_name,
             "first_name": g.user.first_name
         }

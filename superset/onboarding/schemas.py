@@ -102,5 +102,5 @@ class OnboardingGetResponseSchema(Schema):
 
 
 class OnboardingPutSchema(Schema):
-    onboardingStartedTime = fields.DateTime(missing=True)
+    onboardingStartedTime = fields.DateTime()
     dodo_role = fields.String()
