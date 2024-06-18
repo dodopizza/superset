@@ -92,15 +92,26 @@ class TagSchema(Schema):
     type = fields.Enum(TagTypes, by_value=True)
 
 
-class TeamGetResponseSchema(Schema):
+class StatementGetResponseSchema(Schema):
     id = fields.Int()
-    name = fields.String()
-    isExternal = fields.Boolean()
-    tag = fields.Nested(TagSchema)
-    roles = fields.List(fields.Nested(RolesSchema))
-    participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+    user_id = fields.Int()
+    finished = fields.Boolean()
+    team_id = fields.Int()
+    created_datetime = fields.DateTime()
+    last_changed_datetime = fields.DateTime()
 
 
-class TeamGetSchema(Schema):
+class StatementGetSchema(Schema):
     isExternal = fields.Boolean()
     query = fields.String()
+
+
+class StatementPutSchema(Schema):
+    pass
+
+
+class StatementPostSchema(Schema):
+    isNewTeam = fields.Boolean()
+    team_name = fields.String()
+    team_tag = fields.String()
+    isExternal = fields.Boolean()
