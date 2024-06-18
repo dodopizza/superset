@@ -51,12 +51,11 @@ class TeamRestApi(BaseSupersetModelRestApi):
         "participants.id"
     ]
 
-
     get_model_schema = TeamGetSchema()
     team_get_response_schema = TeamGetResponseSchema()
 
     @expose("/", methods=("GET",))
-    @protect()
+    # @protect()
     @safe
     @statsd_metrics
     def get(
