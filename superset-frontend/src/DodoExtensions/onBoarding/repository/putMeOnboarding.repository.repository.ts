@@ -8,10 +8,10 @@ type ResponseDto = {
   };
 };
 
-export const repoPutMeOnboarding: (
+export const putMeOnboardingRepository: (
   dodoRole: string,
 ) => Promise<OnboardingStepOneSuccessPayload> = async (dodoRole: string) => {
-  const respose = await SupersetClient.put({
+  const response = await SupersetClient.put({
     url: '/api/v1/onboarding/',
     body: JSON.stringify({
       dodo_role: dodoRole,
@@ -21,7 +21,7 @@ export const repoPutMeOnboarding: (
     parseMethod: null,
   });
 
-  const dto: ResponseDto = await respose.json();
+  const dto: ResponseDto = await response.json();
 
   return {
     onboardingStartedTime: dto.result.onboardingStartedTime,

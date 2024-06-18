@@ -1,7 +1,7 @@
 import { makeApi } from '@superset-ui/core';
 import { OnboardingSuccessPayload } from '../model/types/start.types';
 
-type MeOnboardingResponseDto = {
+type ResponseDto = {
   result: {
     id: number;
     first_name: string;
@@ -12,9 +12,9 @@ type MeOnboardingResponseDto = {
   };
 };
 
-export const repoGetMeOnboarding: () => Promise<OnboardingSuccessPayload> =
+export const getMeOnboardingRepository: () => Promise<OnboardingSuccessPayload> =
   async () => {
-    const getMe = makeApi<void, MeOnboardingResponseDto>({
+    const getMe = makeApi<void, ResponseDto>({
       method: 'GET',
       endpoint: '/api/v1/onboarding/',
     });

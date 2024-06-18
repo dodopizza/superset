@@ -4,7 +4,7 @@ import {
   ONBOARDING_STEP_ONE_FINISH_SUCCESS,
   ONBOARDING_STEP_ONE_FINISH_UPDATING,
 } from '../types/start.types';
-import { repoPutMeOnboarding } from '../../repository/putMeOnboarding.repository.repository';
+import { putMeOnboardingRepository } from '../../repository/putMeOnboarding.repository.repository';
 
 export function stepOneFinish(dodoRole: string) {
   return async function (dispatch: Dispatch) {
@@ -13,7 +13,7 @@ export function stepOneFinish(dodoRole: string) {
         type: ONBOARDING_STEP_ONE_FINISH_UPDATING,
       });
 
-      const data = await repoPutMeOnboarding(dodoRole);
+      const data = await putMeOnboardingRepository(dodoRole);
 
       dispatch({
         type: ONBOARDING_STEP_ONE_FINISH_SUCCESS,
