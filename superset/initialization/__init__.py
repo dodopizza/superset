@@ -139,6 +139,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.databases.api import DatabaseRestApi
         from superset.datasets.api import DatasetRestApi
         from superset.onboarding.api import OnboardingRestApi
+        from superset.teams.api import TeamRestApi
         from superset.statement.api import StatementRestApi
         from superset.datasets.columns.api import DatasetColumnsRestApi
         from superset.datasets.metrics.api import DatasetMetricRestApi
@@ -230,6 +231,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_api(TagRestApi)
         appbuilder.add_api(SqlLabRestApi)
         appbuilder.add_api(OnboardingRestApi)
+        appbuilder.add_api(TeamRestApi)
         appbuilder.add_api(StatementRestApi)
         #
         # Setup regular views
