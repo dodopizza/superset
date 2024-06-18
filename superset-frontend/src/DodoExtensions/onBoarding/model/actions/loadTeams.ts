@@ -29,12 +29,20 @@ export function loadTeams(userFrom: userFromEnum, query: string) {
         });
       }
     } catch (e) {
-      dispatch({
-        type: ONBOARDING_TEAMS_ERROR,
-        payload: {
-          error: e.message,
-        },
-      });
+      if (e.status === 404) {
+        // No team found
+        dispatch({
+          type: ONBOARDING_TEAMS_SUCCESS,
+          payload: [],
+        });
+      } else {
+        dispatch({
+          type: ONBOARDING_TEAMS_ERROR,
+          payload: {
+            error: e.message,
+          },
+        });
+      }
     }
   };
 }
