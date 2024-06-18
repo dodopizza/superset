@@ -55,6 +55,7 @@ class TagTypes(enum.Enum):
     type = 2
     owner = 3
     favorited_by = 4
+    team = 5
 
 
 class ObjectTypes(enum.Enum):
@@ -96,7 +97,7 @@ class TaggedObject(Model, AuditMixinNullable):
         ForeignKey("dashboards.id"),
         ForeignKey("slices.id"),
         ForeignKey("saved_query.id"),
-        # ForeignKey("teams.id"),  # DODO added #32839641
+        ForeignKey("teams.id"),  # DODO added #32839641
     )
     object_type = Column(Enum(ObjectTypes))
 

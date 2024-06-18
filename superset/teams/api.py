@@ -44,12 +44,13 @@ class TeamRestApi(BaseSupersetModelRestApi):
     list_columns = [
         "id",
         "isExternal",
-        "tag.team",
+        # "tag.team",
         "roles",
         "participants.first_name",
         "participants.last_name",
         "participants.id"
     ]
+
 
     get_model_schema = TeamGetSchema()
     team_get_response_schema = TeamGetResponseSchema()
