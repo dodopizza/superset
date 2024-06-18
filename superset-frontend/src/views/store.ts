@@ -50,7 +50,7 @@ import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
 import {
-  onboardingSlice,
+  onboardingStartSlice,
   onboardingTeamSlice,
 } from '../DodoExtensions/onBoarding';
 
@@ -134,7 +134,7 @@ const reducers = {
   saveModal,
   explore,
   // DODO added
-  onboarding: onboardingSlice,
+  onboardingStart: onboardingStartSlice,
   onboardingTeam: onboardingTeamSlice,
 };
 

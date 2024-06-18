@@ -184,7 +184,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
           <Col span={10}>
             <img
               src="/static/assets/images/onBoardingStepTwo.png"
-              alt="onBoardingStepOne"
+              alt="onBoardingStepTwo"
               width="100%"
             />
           </Col>

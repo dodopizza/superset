@@ -1,5 +1,5 @@
-import { OnboardingState } from '../types';
+import { OnboardingStartState } from '../types/start.types';
 
 export const getOnboardingFinishUpdating = (state: {
-  onboarding: OnboardingState;
-}) => state.onboarding.finishUpdating;
+  onboardingStart: OnboardingStartState;
+}) => state.onboardingStart.finishUpdating;

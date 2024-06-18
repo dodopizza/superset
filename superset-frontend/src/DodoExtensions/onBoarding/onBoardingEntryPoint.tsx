@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StepOnePopup } from './components/stepOnePopup/stepOnePopup';
 import { StepTwoPopup } from './components/stepTwoPopup/stepTwoPopup';
-import { useOnboarding } from './utils/useOnboarding';
+import { useOnboarding } from './hooks/useOnboarding';
 
 const OnBoardingEntryPoint: FC = () => {
   const { step, toStepTwo, closeOnboarding } = useOnboarding();

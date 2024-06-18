@@ -19,15 +19,11 @@ export type OnboardingSuccessPayload = {
   lastName: string;
   email: string;
   isOnboardingFinished: boolean;
-  onboardingStartedTime: Date | null;
+  onboardingStartedTime: string | null;
 };
 
 export type OnboardingStepOneSuccessPayload = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  onboardingStartedTime: Date | null;
+  onboardingStartedTime: string | null;
 };
 
 type ActionInitLoading = {
@@ -82,11 +78,11 @@ export type OnboardingAction =
   | ActionStepOneFinishSuccess
   | ActionStepOneFinishError;
 
-export type OnboardingState = {
+export type OnboardingStartState = {
   isLoading: boolean;
   loadingError: string | null;
 
-  onboardingStartedTime: Date | null;
+  onboardingStartedTime: string | null;
   isOnboardingFinished: boolean;
 
   id: string | null;

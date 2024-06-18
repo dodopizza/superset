@@ -9,10 +9,10 @@ import {
   ONBOARDING_STEP_ONE_FINISH_SUCCESS,
   ONBOARDING_STEP_ONE_FINISH_UPDATING,
   OnboardingAction,
-  OnboardingState,
-} from '../types';
+  OnboardingStartState,
+} from '../types/start.types';
 
-const initialState: OnboardingState = {
+const initialState: OnboardingStartState = {
   isLoading: false,
   loadingError: null,
 
@@ -32,8 +32,8 @@ const initialState: OnboardingState = {
   finishSuccessError: null,
 };
 
-export const onboardingSlice = (
-  state: OnboardingState = initialState,
+export const onboardingStartSlice = (
+  state: OnboardingStartState = initialState,
   action: OnboardingAction,
 ) => {
   switch (action.type) {

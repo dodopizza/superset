@@ -1,50 +1,23 @@
-import { Role, Team, userFromEnum } from '../types';
+import { SupersetClient } from '@superset-ui/core';
+import { Team, userFromEnum } from '../types';
 
-export const repoLoadTeamList = async (
+type ResponseDto = {};
+
+export const loadTeamListRepository = async (
   userFrom: userFromEnum,
   query: string,
 ): Promise<Array<Team>> => {
-  try {
-    return await new Promise(resolve =>
-      setTimeout(
-        () =>
-          resolve([
-            {
-              label: `ADMIN`,
-              value: `admin`,
-              roles: [
-                Role.AnalyseData,
-                Role.UseData,
-                Role.InputData,
-                Role.CreateData,
-              ],
-            },
-            {
-              label: `ALFA`,
-              value: `alfa`,
-              roles: [Role.AnalyseData, Role.UseData, Role.InputData],
-            },
-            {
-              label: `BETTA`,
-              value: `betta`,
-              roles: [Role.AnalyseData, Role.UseData],
-            },
-            {
-              label: `GAMMA`,
-              value: `gamma`,
-              roles: [Role.AnalyseData],
-            },
-            {
-              label: `CODE MONKEYS`,
-              value: `code_monkeys`,
-              roles: [Role.AnalyseData],
-            },
-          ]),
-        2000,
-      ),
-    );
-  } catch (e) {
-    console.log(`repoLoadTeamList catch error`, e);
-    return [];
-  }
+  const url = `/api/v1/team/?isExternal=${
+    userFrom === userFromEnum.Franchisee
+  }&query=${query}`;
+
+  const response = await SupersetClient.get({
+    url,
+    headers: { 'Content-Type': 'application/json' },
+    parseMethod: null,
+  });
+
+  const dto: ResponseDto = await response.json();
+
+  return [];
 };

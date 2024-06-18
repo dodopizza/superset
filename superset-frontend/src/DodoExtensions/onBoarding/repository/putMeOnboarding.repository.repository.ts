@@ -1,12 +1,18 @@
 import { SupersetClient } from '@superset-ui/core';
-import { OnboardingStepOneSuccessPayload } from '../model/types';
-import { MeOnboardingResponseDto } from './meOnboarding.response.dto';
+import { OnboardingStepOneSuccessPayload } from '../model/types/start.types';
 
-export const repoPutMeOnboarding: (
+type ResponseDto = {
+  result: {
+    dodo_role: string;
+    onboardingStartedTime: string;
+  };
+};
+
+export const putMeOnboardingRepository: (
   dodoRole: string,
 ) => Promise<OnboardingStepOneSuccessPayload> = async (dodoRole: string) => {
-  const respose = await SupersetClient.put({
-    url: '/api/v1/me/onboarding',
+  const response = await SupersetClient.put({
+    url: '/api/v1/onboarding/',
     body: JSON.stringify({
       dodo_role: dodoRole,
       onboardingStartedTime: new Date(),
@@ -15,16 +21,9 @@ export const repoPutMeOnboarding: (
     parseMethod: null,
   });
 
-  const dto: MeOnboardingResponseDto = await respose.json();
+  const dto: ResponseDto = await response.json();
 
   return {
-    id: dto.result.id,
-    onboardingStartedTime:
-      dto.result.onboardingStartedTime instanceof Date
-        ? dto.result.onboardingStartedTime
-        : null,
-    firstName: dto.result.first_name,
-    lastName: dto.result.last_name,
-    email: dto.result.email,
+    onboardingStartedTime: dto.result.onboardingStartedTime,
   };
 };

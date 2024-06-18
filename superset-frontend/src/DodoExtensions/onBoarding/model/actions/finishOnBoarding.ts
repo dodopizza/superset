@@ -4,7 +4,7 @@ import {
   ONBOARDING_FINISH_ERROR,
   ONBOARDING_FINISH_SUCCESS,
   ONBOARDING_FINISH_UPDATING,
-} from '../types';
+} from '../types/start.types';
 import { repoFinishOnboarding } from '../../repository/finishOnboarding';
 
 export function finishOnBoarding(dto: StepTwoPopupDto) {
