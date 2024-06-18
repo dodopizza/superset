@@ -92,9 +92,8 @@ class TeamRestApi(BaseSupersetModelRestApi):
               $ref: '#/components/responses/404'
         """
         try:
-            item = self.get_model_schema.load(request.json)
-            is_external = item.get("isExternal")
-            subname = item.get("query")
+            is_external = bool(int(request.args.get("isExternal")))
+            subname = request.args.get("query")
             teams = TeamDAO.get_by_name_and_external(subname, is_external)
         except TeamAccessDeniedError:
             return self.response_403()
