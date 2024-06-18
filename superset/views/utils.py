@@ -72,6 +72,25 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
     return datasource_data
 
 
+def finish_onboarding():
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id)
+        )
+        setattr(user_info, 'isOnboardingFinished', True)
+        db.session.merge(user_info)
+        db.session.commit()
+        return {
+            "isOnboardingFinished": True,
+        }
+    except Exception:
+        db.session.rollback()
+        return {
+            "isOnboardingFinished": False,
+        }
+
+
 def get_onboarding() -> dict:
     user_id = get_user_id()
     try:

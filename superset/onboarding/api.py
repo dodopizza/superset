@@ -163,7 +163,6 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
             user_id = g.user.id
             id_model = OnboardingDAO.get_by_user_id(user_id).id
             changed_model = UpdateOnboardingCommand(id_model, item).run()
-            logger.error(changed_model)
             response = self.response(200, result=item)
         except OnboardingNotFoundError:
             response = self.response_404()

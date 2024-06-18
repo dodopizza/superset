@@ -23,13 +23,15 @@ from superset.statement.commands.create import CreateStatementCommand
 from superset.statement.schemas import (
     StatementGetResponseSchema,
     StatementGetSchema,
-    StatementPutSchema
+    StatementPutSchema,
+    StatementPostSchema
 )
 from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
     statsd_metrics,
 )
+from superset.views.utils import finish_onboarding
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +58,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     get_model_schema = StatementGetSchema()
     edit_model_schema = StatementPutSchema()
     team_get_response_schema = StatementGetResponseSchema()
+    add_model_schema = StatementPostSchema()
 
     @expose("/<pk>", methods=("GET",))
     @protect()
@@ -150,7 +153,8 @@ class StatementRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             new_model = CreateStatementCommand(item).run()
-            return self.response(201, id=new_model.id, result=item)
+            finished_onboarding = finish_onboarding()
+            return self.response(201, result=finished_onboarding)
         except StatementInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
         except StatementCreateFailedError as ex:

@@ -115,3 +115,4 @@ class StatementPostSchema(Schema):
     team_name = fields.String()
     team_tag = fields.String()
     isExternal = fields.Boolean()
+    roles = fields.List()

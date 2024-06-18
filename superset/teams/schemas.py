@@ -93,12 +93,15 @@ class TagSchema(Schema):
 
 
 class TeamGetResponseSchema(Schema):
-    id = fields.Int()
-    name = fields.String()
-    isExternal = fields.Boolean()
-    tag = fields.Nested(TagSchema)
-    roles = fields.List(fields.Nested(RolesSchema))
-    participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+    class TeamSchema(Schema):
+        id = fields.Int()
+        name = fields.String()
+        isExternal = fields.Boolean()
+        tag = fields.Nested(TagSchema)
+        roles = fields.List(fields.Nested(RolesSchema))
+        participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+
+    result = fields.List(fields.Nested(TeamSchema))
 
 
 class TeamGetSchema(Schema):

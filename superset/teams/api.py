@@ -95,10 +95,10 @@ class TeamRestApi(BaseSupersetModelRestApi):
             item = self.get_model_schema.load(request.json)
             is_external = item.get("isExternal")
             subname = item.get("query")
-            team = TeamDAO.get_by_name_and_external(subname, is_external)
+            teams = TeamDAO.get_by_name_and_external(subname, is_external)
         except TeamAccessDeniedError:
             return self.response_403()
         except TeamNotFoundError:
             return self.response_404()
-        result = self.team_get_response_schema.dump(team)
+        result = self.team_get_response_schema.dump(teams)
         return self.response(200, result=result)
