@@ -47,7 +47,7 @@ export const useStepTwoPopup = () => {
       return `${existingTeam.label}`;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      const name = getTeamName(userFrom, newTeam);
+      const name = getTeamName(newTeam, userFrom);
       return `${name}`;
     }
     return 'no team';
@@ -100,7 +100,7 @@ export const useStepTwoPopup = () => {
       )}`;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      const name = getTeamName(userFrom, newTeam);
+      const name = getTeamName(newTeam, userFrom);
       const slug = getTeamSlug(userFrom, newTeam);
       return `[${name} (${slug})] ${t(
         'is a new team, so Superset admins will have to evaluate this request.',

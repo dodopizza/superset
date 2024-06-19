@@ -1,3 +1,4 @@
+export const ONBOARDING_LOCAL_STORAGE_KEY = 'onboarding';
 export const REQUEST_PAGE_LIST_URL = `/onboarding/request/list`;
 export const REQUEST_PAGE_URL = `/onboarding/request/:id/`;
 
