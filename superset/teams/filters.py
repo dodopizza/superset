@@ -19,7 +19,6 @@ class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
         if not value:
             return query
         ilike_value = f"%{value}%"
-        logger.error(ilike_value)
         return query.filter(
             Team.name.ilike(ilike_value)
         )
@@ -34,6 +33,5 @@ class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
             if not value:
                 return query
         is_external = bool(int(value))
-        logger.error(is_external)
         return query.filter(
                 Team.isExternal.is_(is_external))

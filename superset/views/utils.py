@@ -76,7 +76,7 @@ def finish_onboarding():
     user_id = get_user_id()
     try:
         user_info = (
-            db.session.query(UserInfo).filter(UserInfo.user_id == user_id)
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
         setattr(user_info, 'isOnboardingFinished', True)
         db.session.merge(user_info)
