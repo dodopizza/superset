@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { useDispatch } from 'react-redux';
+import { t } from '@superset-ui/core';
 import { Role, userFromEnum } from '../../types';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
-import { getTeamTag } from '../../utils/getTeamTag';
+import { getTeamSlug } from '../../utils/getTeamSlug';
 import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
+import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
 
 export const useStepTwoPopup = () => {
   const [userFrom, setUserFrom] = useState<userFromEnum>(
@@ -24,6 +26,7 @@ export const useStepTwoPopup = () => {
       setExistingTeam(null);
       setNewTeam(null);
       setRoles([]);
+      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     },
     [],
   );
@@ -50,14 +53,14 @@ export const useStepTwoPopup = () => {
     return 'no team';
   }, [existingTeam, newTeam, userFrom]);
 
-  const formatedTag = useMemo(() => {
+  const formatedSlug = useMemo(() => {
     if (existingTeam) {
       return existingTeam.value;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      return getTeamTag(userFrom, newTeam);
+      return getTeamSlug(userFrom, newTeam);
     }
-    return 'no tag';
+    return 'no slug';
   }, [existingTeam, newTeam, userFrom]);
 
   const submit = useCallback(
@@ -67,12 +70,44 @@ export const useStepTwoPopup = () => {
           userFrom,
           isNewTeam: !!newTeam,
           teamName: formatedTeamName,
-          teamTag: formatedTag,
+          teamSlug: formatedSlug,
           roles,
         }),
       ),
-    [userFrom, newTeam, formatedTeamName, formatedTag, roles],
+    [dispatch, userFrom, newTeam, formatedTeamName, formatedSlug, roles],
   );
+
+  const removeTeam = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      setNewTeam(null);
+      setExistingTeam(null);
+      setRoles([]);
+      e.preventDefault();
+      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+    },
+    [setExistingTeam, setNewTeam, setRoles],
+  );
+
+  const tagClosable = useMemo(
+    () => !!existingTeam || !!newTeam,
+    [existingTeam, newTeam],
+  );
+
+  const teamDescription = useMemo(() => {
+    if (existingTeam) {
+      return `[${existingTeam.label} (${existingTeam.value}] ${t(
+        'is a known command, so you can enter the team automatically.',
+      )}`;
+    }
+    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
+      const name = getTeamName(userFrom, newTeam);
+      const slug = getTeamSlug(userFrom, newTeam);
+      return `[${name} (${slug})] ${t(
+        'is a new team, so Superset admins will have to evaluate this request.',
+      )}`;
+    }
+    return '';
+  }, [existingTeam, newTeam, userFrom]);
 
   return {
     userFrom,
@@ -86,5 +121,8 @@ export const useStepTwoPopup = () => {
     roles,
     formatedTeamName,
     submit,
+    removeTeam,
+    tagClosable,
+    teamDescription,
   };
 };

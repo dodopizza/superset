@@ -4,7 +4,7 @@ import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
 import { Role, userFromEnum } from '../../types';
 import { getTeamsData } from '../../model/selector/getTeamsData';
-import { useTeam } from '../../hooks/useTeam';
+import { useTeam } from './useTeam';
 
 type Props = {
   newTeam: string | null;

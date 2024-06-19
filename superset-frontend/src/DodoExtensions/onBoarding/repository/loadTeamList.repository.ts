@@ -11,7 +11,8 @@ type ResponseDtoRecord = {
   id: number;
   isExternal: boolean;
   name: string;
-  roles: Array<{ id: number; name: string }>;
+  slug: string;
+  roles: Array<{ name: string }>;
 };
 
 type ResponseDto = {
@@ -19,7 +20,7 @@ type ResponseDto = {
 };
 
 const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => {
-  const getRole = ({ name }: { id: number; name: string }): Role => {
+  const getRole = ({ name }: { name: string }): Role => {
     switch (name) {
       case Role.AnalyseData: {
         return Role.AnalyseData;
@@ -39,7 +40,7 @@ const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => {
   };
 
   return {
-    value: `${dtoRecord.id}`,
+    value: dtoRecord.slug,
     label: dtoRecord.name,
     roles: dtoRecord.roles.map(role => getRole(role)),
   };

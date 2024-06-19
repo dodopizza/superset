@@ -12,7 +12,7 @@ type ResponseDto = {
   };
 };
 
-export const getMeOnboardingRepository: () => Promise<OnboardingSuccessPayload> =
+export const getOnboardingRepository: () => Promise<OnboardingSuccessPayload> =
   async () => {
     const getMe = makeApi<void, ResponseDto>({
       method: 'GET',

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC } from 'react';
 import { Space, Tag as TagAnt, Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
 import { Col, Row } from 'src/components';
@@ -12,9 +12,6 @@ import { useStepTwoPopup } from './useStepTwoPopup';
 import { getOnboardingFinishUpdating } from '../../model/selector/getOnboardingFinishUpdating';
 import Loading from '../../../../components/Loading';
 import { RequestFindTeam } from '../RequestFindTeam/requestFindTeam';
-import { MIN_TEAM_NAME_LENGTH } from '../../consts';
-import { getTeamName } from '../../utils/getTeamName';
-import { getTeamTag } from '../../utils/getTeamTag';
 
 const Wrapper = styled.div`
   padding: 1.5rem;
@@ -49,41 +46,13 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
     roles,
     formatedTeamName,
     submit,
+    removeTeam,
+    tagClosable,
+    teamDescription,
   } = useStepTwoPopup();
 
   const isFinishUpdating = useSelector(getOnboardingFinishUpdating);
   const { Title } = Typography;
-
-  const tagClosable = useMemo(
-    () => !!existingTeam || !!newTeam,
-    [existingTeam, newTeam],
-  );
-
-  const removeTeam = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      setNewTeam(null);
-      setExistingTeam(null);
-      setRoles([]);
-      e.preventDefault();
-    },
-    [setExistingTeam, setNewTeam, setRoles],
-  );
-
-  const teamDescription = useMemo(() => {
-    if (existingTeam) {
-      return `[${existingTeam.label} (${existingTeam.value}] ${t(
-        'is a known command, so you can enter the team automatically.',
-      )}`;
-    }
-    if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      const name = getTeamName(userFrom, newTeam);
-      const tag = getTeamTag(userFrom, newTeam);
-      return `[${name} (${tag})] ${t(
-        'is a new team, so Superset admins will have to evaluate this request.',
-      )}`;
-    }
-    return '';
-  }, [existingTeam, newTeam, userFrom]);
 
   return (
     <Modal
@@ -98,8 +67,6 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
           <Col span={14}>
             <Title level={3}>{t('Tell us why you are here')}</Title>
 
-            {/* <RoleInformation /> */}
-
             <Typography.Title level={5}>
               {t('Are you a franchisee or from a Managing Company?')}
             </Typography.Title>
@@ -113,16 +80,6 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
               />
               <span />
             </Space>
-
-            {/* <CreateOrFindTeam */}
-            {/*  newTeam={newTeam} */}
-            {/*  existingTeam={existingTeam} */}
-            {/*  userFrom={userFrom} */}
-            {/*  setRoles={setRoles} */}
-            {/*  setNewTeam={setNewTeam} */}
-            {/*  setExistingTeam={setExistingTeam} */}
-            {/*  formatedTeamName={formatedTeamName} */}
-            {/* /> */}
 
             <>
               <Typography.Title level={5}>

@@ -8,7 +8,7 @@ type ResponseDto = {
   };
 };
 
-export const putMeOnboardingRepository: (
+export const putOnboardingRepository: (
   dodoRole: string,
 ) => Promise<OnboardingStepOneSuccessPayload> = async (dodoRole: string) => {
   const response = await SupersetClient.put({

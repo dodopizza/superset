@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 import { debounce } from 'lodash';
-import { loadTeams } from '../model/actions/loadTeams';
-import { Role, userFromEnum } from '../types';
-import { MAX_TEAM_NAME_LENGTH, SEARCH_TEAM_DELAY } from '../consts';
+import { loadTeams } from '../../model/actions/loadTeams';
+import { Role, userFromEnum } from '../../types';
+import { MAX_TEAM_NAME_LENGTH, SEARCH_TEAM_DELAY } from '../../consts';
 
 export const useTeam = ({
   userFrom,
@@ -43,7 +43,7 @@ export const useTeam = ({
           // const reg = /^-?\d*(\.\d*)?$/; for numbers
           const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
           if (reg.test(value) && value.length <= MAX_TEAM_NAME_LENGTH) {
-            setNewTeam(value);
+            setNewTeam(value.toUpperCase());
           }
         } else {
           setNewTeam(null);

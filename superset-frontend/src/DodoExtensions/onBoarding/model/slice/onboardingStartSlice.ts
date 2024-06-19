@@ -28,7 +28,6 @@ const initialState: OnboardingStartState = {
   stepOneError: null,
 
   finishUpdating: false,
-  finishSuccess: false,
   finishSuccessError: null,
 };
 
@@ -69,7 +68,11 @@ export const onboardingStartSlice = (
       return { ...state, finishUpdating: true };
     }
     case ONBOARDING_FINISH_SUCCESS: {
-      return { ...state, finishUpdating: false, finishSuccess: true };
+      return {
+        ...state,
+        finishUpdating: false,
+        ...action.payload,
+      };
     }
     case ONBOARDING_FINISH_ERROR: {
       return {
