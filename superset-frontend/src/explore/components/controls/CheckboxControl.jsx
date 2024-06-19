@@ -34,9 +34,9 @@ const defaultProps = {
 };
 
 const CheckBoxControlWrapper = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, disabled }) => css`
     .ControlHeader label {
-      color: ${theme.colors.grayscale.dark1};
+      color: ${disabled ? '#8c8c8c' : theme.colors.grayscale.dark1};
     }
     span[role='checkbox'] {
       padding-right: ${theme.gridUnit * 2}px;
@@ -46,7 +46,9 @@ const CheckBoxControlWrapper = styled.div`
 
 export default class CheckboxControl extends React.Component {
   onChange() {
-    this.props.onChange(!this.props.value);
+    if (!this.props.disabled) {
+      this.props.onChange(!this.props.value);
+    }
   }
 
   renderCheckbox() {
@@ -54,6 +56,7 @@ export default class CheckboxControl extends React.Component {
       <Checkbox
         onChange={this.onChange.bind(this)}
         checked={!!this.props.value}
+        disabled={this.props.disabled}
       />
     );
   }
@@ -61,7 +64,7 @@ export default class CheckboxControl extends React.Component {
   render() {
     if (this.props.label) {
       return (
-        <CheckBoxControlWrapper>
+        <CheckBoxControlWrapper disabled={this.props.disabled}>
           <ControlHeader
             {...this.props}
             leftNode={this.renderCheckbox()}

@@ -19229,3 +19229,11 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:29
 msgid "24 hours"
 msgstr ""
+
+#: superset-frontend/src/DodoExtensions/onBoarding/components/stepOnePopup.tsx:35
+msgid "You are welcome to Superset"
+msgstr ""
+
+#: superset-frontend/src/features/home/RightMenu.tsx:473
+msgid "Onboarding"
+msgstr ""

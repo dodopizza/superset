@@ -2859,6 +2859,8 @@ const ru = {
       'View as table': ['Открыть как таблицу'],
       'Export to .CSV': ['Скачать .CSV файл'],
       'Export to .XLSX': ['Скачать .XLSX файл'],
+      'You are welcome to Superset': ['Добро пожаловать в Суперсет'],
+      Onboarding: ['Онбординг'],
     },
   },
 };
