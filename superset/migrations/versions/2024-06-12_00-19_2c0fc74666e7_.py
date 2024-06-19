@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('isExternal', sa.Boolean(), nullable=False),
+    sa.Column('slug', sa.String(), unique=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('team_roles',

@@ -51,8 +51,12 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "user_id",
         "finished",
         "team",
+        "isNewTeam",
+        "team_tag",
+        "isExternal",
         "created_datetime",
-        "last_changed_datetime",
+        "request_roles",
+        "last_changed_datetime"
     ]
 
     get_model_schema = StatementGetSchema()

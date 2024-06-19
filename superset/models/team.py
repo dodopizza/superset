@@ -61,9 +61,7 @@ class Team(Model):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     isExternal = Column(Boolean, nullable=False)
-    # tag = relationship(
-    #     Tag, secondary=team_tag, backref="teams"
-    # )
+    slug = Column(String, unique=True)
     roles = relationship(security_manager.role_model, secondary=TeamRoles)
     participants: list[User] = relationship(
         User, secondary=team_users, backref="teams"

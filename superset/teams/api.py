@@ -51,7 +51,7 @@ class TeamRestApi(BaseSupersetModelRestApi):
         "id",
         "name",
         "isExternal",
-        # "tag.team",
+        "slug",
         "roles.id",
         "roles.name",
         "participants.first_name",

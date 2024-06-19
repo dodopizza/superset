@@ -39,7 +39,7 @@ def upgrade():
     sa.Column('team', sa.String(), nullable=False),
     sa.Column('isNewTeam', sa.Boolean(), nullable=False),
     sa.Column('isExternal', sa.Boolean(), nullable=False),
-    sa.Column('team_tag', sa.String(), nullable=False),
+    sa.Column('team_slug', sa.String(), nullable=False),
     sa.Column('created_datetime', sa.DateTime(), nullable=True),
     sa.Column('last_changed_datetime', sa.DateTime(), nullable=True),
     sa.Column("request_roles", sa.Text(), nullable=False),

@@ -29,7 +29,7 @@ class Statement(Model):
     finished = Column(Boolean, default=False)
     team = Column(String, nullable=False)
     isNewTeam = Column(Boolean, default=False)
-    team_tag = Column(String, nullable=False)
+    team_slug = Column(String, nullable=False)
     isExternal = Column(Boolean, nullable=False)
     created_datetime = Column(DateTime, default=datetime.utcnow())
     request_roles = Column(utils.MediumText())
