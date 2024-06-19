@@ -22,6 +22,7 @@ from superset.teams.schemas import (
     TeamGetResponseSchema,
     TeamGetSchema
 )
+from superset.teams.filters import TeamNameFilter, TeamExternalFilter
 from superset.models.team import Team
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
@@ -41,11 +42,18 @@ class TeamRestApi(BaseSupersetModelRestApi):
     class_permission_name = "Team"
     method_permission_name = MODEL_API_RW_METHOD_PERMISSION_MAP
 
+    search_filters = {
+        "name": [TeamNameFilter],
+        "isExternal": [TeamExternalFilter],
+    }
+
     list_columns = [
         "id",
+        "name",
         "isExternal",
         # "tag.team",
-        "roles",
+        "roles.id",
+        "roles.name",
         "participants.first_name",
         "participants.last_name",
         "participants.id"
@@ -54,50 +62,50 @@ class TeamRestApi(BaseSupersetModelRestApi):
     get_model_schema = TeamGetSchema()
     team_get_response_schema = TeamGetResponseSchema()
 
-    @expose("/", methods=("GET",))
-    # @protect()
-    @safe
-    @statsd_metrics
-    def get(
-        self
-    ) -> Response:
-        """Gets Teams
-        ---
-        get:
-          description: >-
-            Get a teams
-          parameters:
-          - in: path
-            schema:
-              type: string
-            name: id_or_slug
-            description: Either the id of the dashboard, or its slug
-          responses:
-            200:
-              description: Dashboard
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/DashboardGetResponseSchema'
-            400:
-              $ref: '#/components/responses/400'
-            401:
-              $ref: '#/components/responses/401'
-            403:
-              $ref: '#/components/responses/403'
-            404:
-              $ref: '#/components/responses/404'
-        """
-        try:
-            is_external = bool(int(request.args.get("isExternal")))
-            subname = request.args.get("query")
-            teams = TeamDAO.get_by_name_and_external(subname, is_external)
-        except TeamAccessDeniedError:
-            return self.response_403()
-        except TeamNotFoundError:
-            return self.response_404()
-        result = self.team_get_response_schema.dump(teams)
-        return self.response(200, result=result)
+    # @expose("/", methods=("GET",))
+    # # @protect()
+    # @safe
+    # @statsd_metrics
+    # def get(
+    #     self
+    # ) -> Response:
+    #     """Gets Teams
+    #     ---
+    #     get:
+    #       description: >-
+    #         Get a teams
+    #       parameters:
+    #       - in: path
+    #         schema:
+    #           type: string
+    #         name: id_or_slug
+    #         description: Either the id of the dashboard, or its slug
+    #       responses:
+    #         200:
+    #           description: Dashboard
+    #           content:
+    #             application/json:
+    #               schema:
+    #                 type: object
+    #                 properties:
+    #                   result:
+    #                     $ref: '#/components/schemas/DashboardGetResponseSchema'
+    #         400:
+    #           $ref: '#/components/responses/400'
+    #         401:
+    #           $ref: '#/components/responses/401'
+    #         403:
+    #           $ref: '#/components/responses/403'
+    #         404:
+    #           $ref: '#/components/responses/404'
+    #     """
+    #     try:
+    #         is_external = bool(int(request.args.get("isExternal")))
+    #         subname = request.args.get("query")
+    #         teams = TeamDAO.get_by_name_and_external(subname, is_external)
+    #     except TeamAccessDeniedError:
+    #         return self.response_403()
+    #     except TeamNotFoundError:
+    #         return self.response_404()
+    #     result = self.team_get_response_schema.dump(teams)
+    #     return self.response(200, result=result)

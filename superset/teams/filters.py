@@ -1,0 +1,38 @@
+# DODO was here
+from typing import Any
+from flask_babel import lazy_gettext as _
+from sqlalchemy import and_
+from sqlalchemy.orm.query import Query
+import logging
+
+from superset.models.team import Team
+from superset.views.base import BaseFilter
+
+logger = logging.getLogger(__name__)
+
+
+class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+    name = _("Name")
+    arg_name = "ct_name"
+
+    def apply(self, query: Query, value: Any) -> Query:
+        logger.error(value)
+        if not value:
+            return query
+        ilike_value = f"%{value}%"
+        return query.filter(
+                Team.name.ilike(ilike_value)
+                )
+
+
+class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+    name = _("External")
+    arg_name = "eq_external"
+
+    def apply(self, query: Query, value: Any) -> Query:
+        logger.error(value)
+        if not value:
+            return query
+        is_external = bool(int(value))
+        return query.filter(
+                Team.isExternal.is_(is_external))
