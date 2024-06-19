@@ -16,13 +16,13 @@ class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     arg_name = "ct_name"
 
     def apply(self, query: Query, value: Any) -> Query:
-        logger.error(value)
         if not value:
             return query
         ilike_value = f"%{value}%"
+        logger.error(ilike_value)
         return query.filter(
-                Team.name.ilike(ilike_value)
-                )
+            Team.name.ilike(ilike_value)
+        )
 
 
 class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
@@ -30,9 +30,10 @@ class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     arg_name = "eq_external"
 
     def apply(self, query: Query, value: Any) -> Query:
-        logger.error(value)
-        if not value:
-            return query
+        if not value == 0:
+            if not value:
+                return query
         is_external = bool(int(value))
+        logger.error(is_external)
         return query.filter(
                 Team.isExternal.is_(is_external))
