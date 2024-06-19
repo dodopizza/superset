@@ -50,7 +50,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "id",
         "user_id",
         "finished",
-        "team_id",
+        "team",
         "created_datetime",
         "last_changed_datetime",
     ]
@@ -152,6 +152,9 @@ class StatementRestApi(BaseSupersetModelRestApi):
             logger.warning("validate data failed to add new statement")
             return self.response_400(message=error.messages)
         try:
+            user_id = g.user.id
+            item["user_id"] = user_id
+            item["finished"] = False
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()
             return self.response(201, result=finished_onboarding)

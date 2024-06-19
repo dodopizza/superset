@@ -112,7 +112,7 @@ class StatementPutSchema(Schema):
 
 class StatementPostSchema(Schema):
     isNewTeam = fields.Boolean()
-    team_name = fields.String()
+    team = fields.String()
     team_tag = fields.String()
     isExternal = fields.Boolean()
-    roles = fields.List(fields.String)
+    request_roles = fields.List(fields.String)

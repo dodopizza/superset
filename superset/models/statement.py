@@ -14,30 +14,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 from flask_appbuilder import Model
 from flask_appbuilder.security.sqla.models import User
-
+from superset.utils import core as utils
 from superset import security_manager
-
-
-# metadata = Model.metadata  # pylint: disable=no-member
-#
-#
-# TeamRoles = Table(
-#     "team_roles",
-#     metadata,
-#     Column("id", Integer, primary_key=True),
-#     Column(
-#         "team_id",
-#         Integer,
-#         ForeignKey("teams.id", ondelete="CASCADE"),
-#         nullable=False,
-#     ),
-#     Column(
-#         "role_id",
-#         Integer,
-#         ForeignKey("ab_role.id", ondelete="CASCADE"),
-#         nullable=False,
-#     ),
-# )
 
 
 class Statement(Model):
@@ -49,6 +27,10 @@ class Statement(Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     finished = Column(Boolean, default=False)
-    team_id = Column(Integer, ForeignKey("teams.id"))
-    created_datetime = Column(DateTime)
+    team = Column(String, nullable=False)
+    isNewTeam = Column(Boolean, default=False)
+    team_tag = Column(String, nullable=False)
+    isExternal = Column(Boolean, nullable=False)
+    created_datetime = Column(DateTime, default=datetime.utcnow())
+    request_roles = Column(utils.MediumText())
     last_changed_datetime = Column(DateTime, default=datetime.utcnow())
