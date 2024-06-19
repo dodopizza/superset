@@ -43,7 +43,7 @@ export const useTeam = ({
           // const reg = /^-?\d*(\.\d*)?$/; for numbers
           const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
           if (reg.test(value) && value.length <= MAX_TEAM_NAME_LENGTH) {
-            setNewTeam(value);
+            setNewTeam(value.toUpperCase());
           }
         } else {
           setNewTeam(null);

@@ -9,7 +9,6 @@ import {
 import { initOnboarding } from '../model/actions/initOnboarding';
 import { getIsOnboardingFinished } from '../model/selector/getIsOnboardingFinished';
 import { getOnboardingStartedTime } from '../model/selector/getOnboardingStartedTime';
-import { getOnboardingFinishSuccess } from '../model/selector/getOnboardingFinishSuccess';
 import { stepOneFinish } from '../model/actions/stepOneFinish';
 
 const oneDayPassed = (date?: Date): boolean => {
@@ -29,7 +28,6 @@ export const useOnboarding = () => {
   const dispatch = useDispatch();
   const isOnboardingFinished = useSelector(getIsOnboardingFinished);
   const onboardingStartedTime = useSelector(getOnboardingStartedTime);
-  const isFinishSuccess = useSelector(getOnboardingFinishSuccess);
 
   const storageInfo = getOnboardingStorageInfo();
 
@@ -37,21 +35,19 @@ export const useOnboarding = () => {
     dispatch(initOnboarding());
   }, [dispatch]);
 
-  if (isFinishSuccess) {
+  if (isOnboardingFinished) {
     if (step !== null) {
       setStep(null);
     }
-  } else if (!isOnboardingFinished) {
-    if (onboardingStartedTime) {
-      if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
-        if (step !== 2) {
-          setStep(2);
-        }
+  } else if (onboardingStartedTime) {
+    if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+      if (step !== 2) {
+        setStep(2);
       }
-    } else if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
-      if (step === null) {
-        setStep(1);
-      }
+    }
+  } else if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+    if (step === null) {
+      setStep(1);
     }
   }
 
@@ -62,7 +58,6 @@ export const useOnboarding = () => {
 
   const toStepTwo = async (stepOneDto: StepOnePopupDto) => {
     dispatch(stepOneFinish(stepOneDto.DodoRole));
-    // setStep(2);
   };
 
   return {

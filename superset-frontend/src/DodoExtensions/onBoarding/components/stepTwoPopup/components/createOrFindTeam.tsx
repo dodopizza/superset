@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Role, userFromEnum } from '../../../types';
 import { getTeamName } from '../../../utils/getTeamName';
-import { getTeamTag } from '../../../utils/getTeamTag';
+import { getTeamSlug } from '../../../utils/getTeamSlug';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 import { loadTeams } from '../../../model/actions/loadTeams';
 import { getTeamsData } from '../../../model/selector/getTeamsData';
@@ -104,7 +104,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
       }
       if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
         const name = getTeamName(userFrom, newTeam);
-        const tag = getTeamTag(userFrom, newTeam);
+        const tag = getTeamSlug(userFrom, newTeam);
         return `[${name} (${tag})] ${t(
           'is a new team, so Superset admins will have to evaluate this request.',
         )}`;

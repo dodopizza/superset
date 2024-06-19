@@ -4,6 +4,6 @@ export type StepTwoPopupDto = {
   userFrom: userFromEnum;
   isNewTeam: boolean;
   teamName: string;
-  teamTag: string;
+  teamSlug: string;
   roles: Array<Role>;
 };

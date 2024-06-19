@@ -5,7 +5,7 @@ import {
   ONBOARDING_FINISH_SUCCESS,
   ONBOARDING_FINISH_UPDATING,
 } from '../types/start.types';
-import { repoFinishOnboarding } from '../../repository/finishOnboarding';
+import { postStatementRepository } from '../../repository/postStatment';
 
 export function finishOnBoarding(dto: StepTwoPopupDto) {
   return async function (dispatch: Dispatch) {
@@ -14,10 +14,11 @@ export function finishOnBoarding(dto: StepTwoPopupDto) {
         type: ONBOARDING_FINISH_UPDATING,
       });
 
-      await repoFinishOnboarding(dto);
+      const data = await postStatementRepository(dto);
 
       dispatch({
         type: ONBOARDING_FINISH_SUCCESS,
+        payload: data,
       });
     } catch (e) {
       dispatch({

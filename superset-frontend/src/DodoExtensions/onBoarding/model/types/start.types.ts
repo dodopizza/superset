@@ -22,6 +22,10 @@ export type OnboardingSuccessPayload = {
   onboardingStartedTime: string | null;
 };
 
+export type OnboardingFinishSuccessPayload = {
+  isOnboardingFinished: boolean;
+};
+
 export type OnboardingStepOneSuccessPayload = {
   onboardingStartedTime: string | null;
 };
@@ -46,6 +50,7 @@ type ActionFinishUpdating = {
 
 type ActionFinishSuccess = {
   type: typeof ONBOARDING_FINISH_SUCCESS;
+  payload: OnboardingFinishSuccessPayload;
 };
 
 type ActionFinishError = {
@@ -94,6 +99,5 @@ export type OnboardingStartState = {
   stepOneError: string | null;
 
   finishUpdating: boolean;
-  finishSuccess: boolean;
   finishSuccessError: string | null;
 };
