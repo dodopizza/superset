@@ -7,6 +7,7 @@ export enum Role {
   CreateData = 'Create data',
   UseData = 'Use data',
   InputData = 'Input data',
+  Unknown = 'Unknown',
 }
 
 export type Team = {
