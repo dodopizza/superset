@@ -52,7 +52,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "finished",
         "team",
         "isNewTeam",
-        "team_tag",
+        "team_slug",
         "isExternal",
         "created_datetime",
         "request_roles",
