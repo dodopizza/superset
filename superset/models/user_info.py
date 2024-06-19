@@ -1,11 +1,10 @@
+# DODO added #33835937
+
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean, DateTime
 from flask_appbuilder import Model
 
-from superset import db, security_manager
-from superset.utils.core import get_user_id
 
-
-class UserInfo(Model):  # DODO added #33835937
+class UserInfo(Model):
 
     """Extra info about user"""
 

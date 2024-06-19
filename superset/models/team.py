@@ -13,9 +13,9 @@ from flask_appbuilder import Model
 from flask_appbuilder.security.sqla.models import User
 
 from superset import security_manager
-# from superset.tags.models import Tag
 
-metadata = Model.metadata  # pylint: disable=no-member
+
+metadata = Model.metadata
 
 TeamRoles = Table(
     "team_roles",
@@ -35,13 +35,6 @@ TeamRoles = Table(
     ),
 )
 
-# team_tag = Table(
-#     "team_tags",
-#     metadata,
-#     Column("id", Integer, primary_key=True),
-#     Column("team_id", Integer, ForeignKey("teams.id", ondelete="CASCADE")),
-#     Column("tag_id", Integer, ForeignKey("tag.id", ondelete="CASCADE"))
-# )
 
 team_users = Table(
     "team_users",

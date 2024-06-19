@@ -8,14 +8,11 @@ from sqlalchemy import (
     Boolean,
     String,
     DateTime,
-    Table,
-    UniqueConstraint,
+
 )
-from sqlalchemy.orm import relationship
+
 from flask_appbuilder import Model
-from flask_appbuilder.security.sqla.models import User
 from superset.utils import core as utils
-from superset import security_manager
 
 
 class Statement(Model):

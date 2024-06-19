@@ -1,7 +1,7 @@
-# DODO was here
+# DODO added #32839638
+
 from typing import Any
 from flask_babel import lazy_gettext as _
-from sqlalchemy import and_
 from sqlalchemy.orm.query import Query
 import logging
 
@@ -11,7 +11,7 @@ from superset.views.base import BaseFilter
 logger = logging.getLogger(__name__)
 
 
-class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+class TeamNameFilter(BaseFilter):
     name = _("Name")
     arg_name = "ct_name"
 
@@ -24,7 +24,7 @@ class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
         )
 
 
-class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+class TeamExternalFilter(BaseFilter):
     name = _("External")
     arg_name = "eq_external"
 
