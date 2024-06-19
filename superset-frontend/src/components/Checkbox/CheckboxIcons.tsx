@@ -21,6 +21,7 @@ import { useTheme } from '@superset-ui/core';
 
 export const CheckboxChecked: FC<{ disabled?: boolean }> = ({ disabled }) => {
   const theme = useTheme();
+
   return (
     <svg
       width="18"

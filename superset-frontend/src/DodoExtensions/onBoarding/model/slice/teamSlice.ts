@@ -1,4 +1,5 @@
 import {
+  ONBOARDING_TEAMS_CLEAR,
   ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
   ONBOARDING_TEAMS_SUCCESS,
@@ -28,6 +29,12 @@ export const onboardingTeamSlice = (
         ...state,
         teamsIsLoading: false,
         teamsLoadingError: action.payload.error,
+      };
+    }
+    case ONBOARDING_TEAMS_CLEAR: {
+      return {
+        ...state,
+        teams: [],
       };
     }
 

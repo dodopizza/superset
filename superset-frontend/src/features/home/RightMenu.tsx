@@ -38,6 +38,7 @@ import {
   GlobalMenuDataOptions,
   RightMenuProps,
 } from './types';
+import { clearOnboardingStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -456,10 +457,23 @@ const RightMenu = ({
               <Menu.Divider key={`divider_${index}`} />
             ),
           ])}
-
           {!navbarRight.user_is_anonymous && [
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
+              {/*  DODO added start 32839641 */}
+              <Menu.Item key="errer">
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    clearOnboardingStorageInfo();
+                    window.location.reload();
+                  }}
+                >
+                  {t('Onboarding')}
+                </a>
+              </Menu.Item>
+              {/*  DODO added stop 32839641 */}
               {navbarRight.user_profile_url && (
                 <Menu.Item key="profile">
                   <a href={navbarRight.user_profile_url}>{t('Profile')}</a>

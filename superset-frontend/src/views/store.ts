@@ -49,10 +49,14 @@ import { AnyDatasourcesAction } from 'src/explore/actions/datasourcesActions';
 import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
+import {
+  onboardingStartSlice,
+  onboardingTeamSlice,
+} from '../DodoExtensions/onBoarding';
 import { onboardingRequestSlice } from '../DodoExtensions/onBoarding';
-import { onboardingTeamSlice } from '../DodoExtensions/onBoarding/model/slice/teamSlice';
 
-// Some reducers don't do anything, and redux is just used to reference the initial "state".
+
+// Some slice don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
 const noopReducer =
   <STATE = unknown>(initialState: STATE) =>
@@ -132,8 +136,9 @@ const reducers = {
   saveModal,
   explore,
   // DODO added
-  onboardingRequest: onboardingRequestSlice,
+  onboardingStart: onboardingStartSlice,
   onboardingTeam: onboardingTeamSlice,
+  onboardingRequest: onboardingRequestSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html

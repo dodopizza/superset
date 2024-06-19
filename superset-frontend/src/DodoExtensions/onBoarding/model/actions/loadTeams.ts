@@ -1,11 +1,12 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { userFromEnum } from '../../types';
+
+import { loadTeamListRepository } from '../../repository/loadTeamList.repository';
 import {
   ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
   ONBOARDING_TEAMS_SUCCESS,
 } from '../types/team.types';
-import { loadTeamListRepository } from '../../repository/loadTeamList.repository';
 
 let beforeSendToBackendQuery = '';
 
@@ -17,6 +18,7 @@ export function loadTeams(userFrom: userFromEnum, query: string) {
       });
 
       beforeSendToBackendQuery = query;
+
       const data = await loadTeamListRepository(userFrom, query);
 
       // to handle backend raise condition
@@ -27,12 +29,20 @@ export function loadTeams(userFrom: userFromEnum, query: string) {
         });
       }
     } catch (e) {
-      dispatch({
-        type: ONBOARDING_TEAMS_ERROR,
-        payload: {
-          error: e.message,
-        },
-      });
+      if (e.status === 404) {
+        // No team found
+        dispatch({
+          type: ONBOARDING_TEAMS_SUCCESS,
+          payload: [],
+        });
+      } else {
+        dispatch({
+          type: ONBOARDING_TEAMS_ERROR,
+          payload: {
+            error: e.message,
+          },
+        });
+      }
     }
   };
 }
