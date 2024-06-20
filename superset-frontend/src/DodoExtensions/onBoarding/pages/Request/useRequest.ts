@@ -7,9 +7,9 @@ import { getRequestData } from '../../model/selector/getRequestData';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
-import { getTeamTag } from '../../utils/getTeamTag';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
+import { getTeamSlug } from '../../utils/getTeamSlug';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -78,7 +78,7 @@ export const useRequest = () => {
       userFrom: requestData?.userFrom,
       name: newTeam,
       teamName: getTeamName(newTeam, requestData?.userFrom),
-      teamTag: getTeamTag(newTeam, requestData?.userFrom),
+      teamTag: getTeamSlug(newTeam, requestData?.userFrom),
       roles: [],
     }),
     [newTeam, requestData?.userFrom],

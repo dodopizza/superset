@@ -104,7 +104,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
       }
       if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
         const name = getTeamName(newTeam, userFrom);
-        const tag = getTeamSlug(userFrom, newTeam);
+        const tag = getTeamSlug(newTeam, userFrom);
         return `[${name} (${tag})] ${t(
           'is a new team, so Superset admins will have to evaluate this request.',
         )}`;

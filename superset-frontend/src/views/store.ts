@@ -50,11 +50,11 @@ import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
 import {
+  onboardingRequestListSlice,
+  onboardingRequestSlice,
   onboardingStartSlice,
   onboardingTeamSlice,
 } from '../DodoExtensions/onBoarding';
-import { onboardingRequestSlice } from '../DodoExtensions/onBoarding';
-
 
 // Some slice don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
@@ -138,6 +138,7 @@ const reducers = {
   // DODO added
   onboardingStart: onboardingStartSlice,
   onboardingTeam: onboardingTeamSlice,
+  onboardingRequestList: onboardingRequestListSlice,
   onboardingRequest: onboardingRequestSlice,
 };
 

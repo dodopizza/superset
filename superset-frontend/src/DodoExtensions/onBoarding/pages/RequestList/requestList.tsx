@@ -1,24 +1,28 @@
 import React, { FC } from 'react';
 import { t } from '@superset-ui/core';
+import { useSelector } from 'react-redux';
 import ListView from '../../../../components/ListView';
 import { useRequestList } from './useRequestList';
 import type { RequestListType } from './types';
 import { columns, filters, initialSort } from './consts';
 import SubMenu from '../../../../features/home/SubMenu';
+import { getRequestListData } from '../../model/selector/getRequestListData';
 
 const PAGE_SIZE = 10;
 
 const RequestList: FC = () => {
   const { loading, count, collection, fetchData } = useRequestList();
 
+  const data = useSelector(getRequestListData);
+
   return (
     <div>
       <SubMenu name={t('Заявки')} buttons={[]} />
       <ListView<RequestListType>
-        className="chart-list-view"
+        className="request-list-view"
         columns={columns}
-        count={count}
-        data={collection}
+        count={data?.count ?? 0}
+        data={data?.rows ?? []}
         fetchData={fetchData}
         filters={filters}
         initialSort={initialSort}

@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { userFromEnum } from '../../types';
 
-import { loadTeamListRepository } from '../../repository/loadTeamList.repository';
+import { getTeamListRepository } from '../../repository/getTeamList.repository';
 import {
   ONBOARDING_TEAMS_ERROR,
   ONBOARDING_TEAMS_LOADING,
@@ -19,7 +19,7 @@ export function loadTeams(userFrom: userFromEnum, query: string) {
 
       beforeSendToBackendQuery = query;
 
-      const data = await loadTeamListRepository(userFrom, query);
+      const data = await getTeamListRepository(userFrom, query);
 
       // to handle backend raise condition
       if (query === beforeSendToBackendQuery) {

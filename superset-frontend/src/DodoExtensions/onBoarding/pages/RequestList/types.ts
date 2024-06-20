@@ -3,8 +3,7 @@ export type RequestListType = {
   firstName: string;
   lastName: string;
   email: string;
-  currentRoles: Array<string>;
-  requestedRoles: Array<string>;
+  requestedRoles: string;
   team: string;
   requestDate: Date;
   isClosed: boolean;

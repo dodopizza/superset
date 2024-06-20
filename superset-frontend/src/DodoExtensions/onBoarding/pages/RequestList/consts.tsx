@@ -2,9 +2,9 @@ import React from 'react';
 import { t } from '@superset-ui/core';
 import Icons from 'src/components/Icons';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import { StyledActions } from './styled';
-import ConfirmStatusChange from '../../../../components/ConfirmStatusChange';
 import { Tooltip } from '../../../../components/Tooltip';
 import {
   CardSortSelectOption,
@@ -14,7 +14,7 @@ import {
 import { REQUEST_PAGE_URL } from '../../consts';
 
 // ------------
-// xs, xl, xxl
+// size: xs, xl, xxl
 // ------------
 export const columns = [
   {
@@ -30,40 +30,41 @@ export const columns = [
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('First name'),
     accessor: 'firstName',
-    size: 'xs',
   },
   {
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Last name'),
     accessor: 'lastName',
-    size: 'xs',
   },
   {
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Email'),
     accessor: 'email',
-    size: 'xs',
   },
   {
-    Cell: (props: any) => <span>{props.value.join(', ')}</span>,
-    Header: t('Current roles'),
-    accessor: 'currentRoles',
-    size: 'xl',
-  },
-  {
-    Cell: (props: any) => <span>{props.value.join(', ')}</span>,
+    Cell: (props: any) => (
+      <Tooltip
+        id="requested-roles-tooltip"
+        title={props.value}
+        placement="bottom"
+      >
+        <span>{props.value}</span>
+      </Tooltip>
+    ),
     Header: t('Requested roles'),
     accessor: 'requestedRoles',
-    size: 'xl',
   },
   {
-    Cell: (props: any) => <span>{props.value}</span>,
+    Cell: (props: any) => (
+      <Tooltip id="team-tooltip" title={props.value} placement="bottom">
+        <span>{props.value}</span>
+      </Tooltip>
+    ),
     Header: t('Team'),
     accessor: 'team',
-    size: 'xs',
   },
   {
-    Cell: (props: any) => <span>{props.value.toLocaleString()}</span>,
+    Cell: (props: any) => <span>{moment.utc(props.value).fromNow()}</span>,
     Header: t('Request date'),
     accessor: 'requestDate',
     size: 'xs',
@@ -80,40 +81,10 @@ export const columns = [
   },
   {
     Cell: ({ row: { original } }: any) => {
-      const handleDelete = () => {};
       const openEditModal = () => {};
 
       return (
         <StyledActions className="actions">
-          <ConfirmStatusChange
-            title={t('Please confirm')}
-            description={
-              <>
-                {t('Are you sure you want to delete request #')}
-                <b>{original.id}</b>?
-              </>
-            }
-            onConfirm={handleDelete}
-          >
-            {confirmDelete => (
-              <Tooltip
-                id="delete-action-tooltip"
-                title={t('Delete')}
-                placement="bottom"
-              >
-                <span
-                  data-test="trash"
-                  role="button"
-                  tabIndex={0}
-                  className="action-button"
-                  onClick={confirmDelete}
-                >
-                  <Icons.Trash />
-                </span>
-              </Tooltip>
-            )}
-          </ConfirmStatusChange>
-
           <Tooltip
             id="edit-action-tooltip"
             title={t('Edit')}

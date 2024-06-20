@@ -46,7 +46,7 @@ const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => {
   };
 };
 
-export const loadTeamListRepository = async (
+export const getTeamListRepository = async (
   userFrom: userFromEnum,
   query: string,
 ): Promise<Array<Team>> => {

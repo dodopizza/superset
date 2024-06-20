@@ -8,9 +8,9 @@ import { Form, FormItem } from '../../../../../components/Form';
 import { Input } from '../../../../../components/Input';
 import Button from '../../../../../components/Button';
 import { getTeamName } from '../../../utils/getTeamName';
-import { getTeamTag } from '../../../utils/getTeamTag';
 import { Select } from '../../../../../components';
 import { SelectProps } from '../../../../../components/Select/types';
+import { getTeamSlug } from '../../../utils/getTeamSlug';
 
 export type CreateTeamModalDto = {
   userFrom?: userFromEnum;
@@ -56,7 +56,7 @@ export const CreateTeamModal: FC<Props> = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       form.setFieldsValue({
         teamName: getTeamName(event.target.value, data.userFrom),
-        teamTag: getTeamTag(event.target.value, data.userFrom),
+        teamTag: getTeamSlug(event.target.value, data.userFrom),
       });
     },
     [data.userFrom, form],
