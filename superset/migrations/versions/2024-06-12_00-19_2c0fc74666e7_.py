@@ -41,14 +41,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('team_id', 'user_id')
     )
-    # op.create_table('team_tag',
-    # sa.Column('id', sa.Integer(), nullable=False),
-    # sa.Column('team_id', sa.Integer(), nullable=True),
-    # sa.Column('tag_id', sa.Integer(), nullable=True),
-    # sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ondelete='CASCADE'),
-    # sa.ForeignKeyConstraint(['tag_id'], ['tag.id'], ondelete='CASCADE'),
-    # sa.PrimaryKeyConstraint('id')
-    # )
     # ### end Alembic commands ###
 
 
