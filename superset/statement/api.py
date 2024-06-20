@@ -47,7 +47,10 @@ class StatementRestApi(BaseSupersetModelRestApi):
 
     list_columns = [
         "id",
-        "user_id",
+        "user.id",
+        "user.first_name",
+        "user.last_name",
+        "user.email",
         "finished",
         "team",
         "isNewTeam",
@@ -156,8 +159,9 @@ class StatementRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             user_id = g.user.id
-            item["user_id"] = user_id
+            item["user"] = [user_id]
             item["finished"] = False
+            logger.error(item)
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()
             return self.response(201, result=finished_onboarding)
