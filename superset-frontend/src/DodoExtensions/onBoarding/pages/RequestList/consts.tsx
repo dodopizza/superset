@@ -6,11 +6,7 @@ import moment from 'moment';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import { StyledActions } from './styled';
 import { Tooltip } from '../../../../components/Tooltip';
-import {
-  CardSortSelectOption,
-  FilterOperator,
-  Filters,
-} from '../../../../components/ListView';
+import { FilterOperator, Filters } from '../../../../components/ListView';
 import { REQUEST_PAGE_URL } from '../../consts';
 
 // ------------
@@ -27,16 +23,19 @@ export const columns = [
     hidden: false,
   },
   {
+    id: 'user.first_name',
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('First name'),
     accessor: 'firstName',
   },
   {
+    id: 'user.last_name',
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Last name'),
     accessor: 'lastName',
   },
   {
+    id: 'user.email',
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Email'),
     accessor: 'email',
@@ -71,6 +70,7 @@ export const columns = [
     size: 'xs',
   },
   {
+    id: 'finished',
     Cell: (props: any) => (
       <div style={{ textAlign: 'center' }}>
         <CheckboxControl hovered value={!!props.value} disabled />
@@ -121,28 +121,28 @@ export const filters: Filters = [
     operator: FilterOperator.equals,
   },
   {
-    id: 'firstName',
+    id: 'user.first_name',
     Header: t('First name'),
     key: 'firstName',
     input: 'search',
     operator: FilterOperator.contains,
   },
   {
-    id: 'lastName',
+    id: 'user.last_name',
     Header: t('Last name'),
     key: 'lastName',
     input: 'search',
     operator: FilterOperator.contains,
   },
   {
-    id: 'email',
+    id: 'user.email',
     Header: t('email'),
     key: 'email',
     input: 'search',
     operator: FilterOperator.contains,
   },
   {
-    id: 'isClosed',
+    id: 'finished',
     Header: t('Closed'),
     key: 'isClosed',
     // urlDisplay: 'favorite',
@@ -153,27 +153,6 @@ export const filters: Filters = [
       { label: t('Yes'), value: true },
       { label: t('No'), value: false },
     ],
-  },
-];
-
-export const sortTypes: CardSortSelectOption[] | undefined = [
-  {
-    desc: false,
-    id: 'id',
-    label: 'id',
-    value: 'alphabetical',
-  },
-  {
-    desc: true,
-    id: 'requestDate',
-    label: t('Recently created'),
-    value: 'recently_modified',
-  },
-  {
-    desc: false,
-    id: 'requestDate',
-    label: t('Least recently created'),
-    value: 'least_recently_modified',
   },
 ];
 
