@@ -55,6 +55,7 @@ export const columns = [
     disableSortBy: true,
   },
   {
+    id: 'team',
     Cell: (props: any) => (
       <Tooltip id="team-tooltip" title={props.value} placement="bottom">
         <span>{props.value}</span>
@@ -64,6 +65,7 @@ export const columns = [
     accessor: 'team',
   },
   {
+    id: 'created_datetime',
     Cell: (props: any) => <span>{moment.utc(props.value).fromNow()}</span>,
     Header: t('Request date'),
     accessor: 'requestDate',
