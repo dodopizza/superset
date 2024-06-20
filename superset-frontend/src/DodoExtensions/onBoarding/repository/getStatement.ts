@@ -1,51 +1,71 @@
 import { SupersetClient } from '@superset-ui/core';
+import rison from 'rison';
 import { ActionRequestListSuccessPayload } from '../model/types/requestList.types';
 import { parseRoles } from './utils/parseRoles';
+import { FetchDataConfig } from '../../../components/ListView';
 
 type ResponseDto = {
   count: number;
   result: Array<{
     id: number;
-    // need first name
-    // need last name
-    // need email
-    // need current roles
     request_roles: string;
     team: string;
     team_slug: string;
     created_datetime: string;
     finished: boolean;
-
-    // not need isExternal: boolean;
-    // not need isNewTeam: boolean;
-    // not need last_changed_datetime: string;
-    // not need user_id: number;
+    user: Array<{
+      id: number;
+      email: string;
+      first_name: string;
+      last_name: string;
+    }>;
   }>;
 };
 
-export const getStatementRepository =
-  async (): Promise<ActionRequestListSuccessPayload> => {
-    const url = `/api/v1/statement/`;
+export const getStatementRepository = async ({
+  pageIndex,
+  pageSize,
+  sortBy,
+  filters: filterValues,
+}: FetchDataConfig): Promise<ActionRequestListSuccessPayload> => {
+  const filterExps = filterValues.map(({ id, operator: opr, value }) => ({
+    col: id,
+    opr,
+    value:
+      value && typeof value === 'object' && 'value' in value
+        ? value.value
+        : value,
+  }));
 
-    const response = await SupersetClient.get({
-      url,
-      headers: { 'Content-Type': 'application/json' },
-      parseMethod: null,
-    });
+  const queryParams = rison.encode_uri({
+    order_column: sortBy[0].id,
+    order_direction: sortBy[0].desc ? 'desc' : 'asc',
+    page: pageIndex,
+    page_size: pageSize,
+    ...(filterExps.length ? { filters: filterExps } : {}),
+  });
 
-    const dto: ResponseDto = await response.json();
+  const url = `/api/v1/statement/?q=${queryParams}`;
 
-    return {
-      count: dto.count,
-      rows: dto.result.map(item => ({
-        id: item.id,
-        firstName: 'mock first name',
-        lastName: 'mock last name',
-        email: 'mock email',
-        team: `${item.team} (${item.team_slug})`,
-        requestedRoles: parseRoles(item.request_roles).join(', '),
-        isClosed: item.finished,
-        requestDate: new Date(item.created_datetime),
-      })),
-    };
+  const response = await SupersetClient.get({
+    url,
+    headers: { 'Content-Type': 'application/json' },
+    parseMethod: null,
+  });
+
+  const dto: ResponseDto = await response.json();
+
+  return {
+    count: dto.count,
+    rows: dto.result.map(item => ({
+      id: item.id,
+      firstName: item.user.at(0)?.first_name ?? '',
+      lastName: item.user.at(0)?.last_name ?? '',
+      email: item.user.at(0)?.email ?? '',
+      team: `${item.team} (${item.team_slug})`,
+      requestedRoles: parseRoles(item.request_roles).join(', '),
+      isClosed: item.finished,
+      requestDate: new Date(item.created_datetime),
+    })),
   };
+};

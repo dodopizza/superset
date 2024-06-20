@@ -7,13 +7,15 @@ import type { RequestListType } from './types';
 import { columns, filters, initialSort } from './consts';
 import SubMenu from '../../../../features/home/SubMenu';
 import { getRequestListData } from '../../model/selector/getRequestListData';
+import { getRequestListLoading } from '../../model/selector/getRequestListLoading';
 
 const PAGE_SIZE = 10;
 
 const RequestList: FC = () => {
-  const { loading, count, collection, fetchData } = useRequestList();
+  const { fetchData } = useRequestList();
 
   const data = useSelector(getRequestListData);
+  const loading = useSelector(getRequestListLoading);
 
   return (
     <div>

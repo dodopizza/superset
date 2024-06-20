@@ -53,6 +53,7 @@ export const columns = [
     ),
     Header: t('Requested roles'),
     accessor: 'requestedRoles',
+    disableSortBy: true,
   },
   {
     Cell: (props: any) => (
@@ -117,28 +118,28 @@ export const filters: Filters = [
     Header: 'id',
     key: 'id',
     input: 'search',
-    operator: FilterOperator.chartAllText,
+    operator: FilterOperator.equals,
   },
   {
     id: 'firstName',
     Header: t('First name'),
     key: 'firstName',
     input: 'search',
-    operator: FilterOperator.chartAllText,
+    operator: FilterOperator.contains,
   },
   {
     id: 'lastName',
     Header: t('Last name'),
     key: 'lastName',
     input: 'search',
-    operator: FilterOperator.chartAllText,
+    operator: FilterOperator.contains,
   },
   {
     id: 'email',
     Header: t('email'),
     key: 'email',
     input: 'search',
-    operator: FilterOperator.chartAllText,
+    operator: FilterOperator.contains,
   },
   {
     id: 'isClosed',
@@ -146,7 +147,7 @@ export const filters: Filters = [
     key: 'isClosed',
     // urlDisplay: 'favorite',
     input: 'select',
-    operator: FilterOperator.requestIsClosed,
+    operator: FilterOperator.equals,
     unfilteredLabel: t('Any'),
     selects: [
       { label: t('Yes'), value: true },
