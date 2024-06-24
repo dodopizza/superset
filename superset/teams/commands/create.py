@@ -35,7 +35,6 @@ class CreateTeamCommand(CreateMixin, BaseCommand):
 
     def validate(self) -> None:
         exceptions: list[ValidationError] = []
-        participants_ids: Optional[list[int]] = self._properties.get("participants")
         role_names: Optional[list[int]] = self._properties.get("roles")
         slug: str = self._properties.get("slug", "")
 
@@ -44,10 +43,7 @@ class CreateTeamCommand(CreateMixin, BaseCommand):
             exceptions.append(TeamSlugExistsValidationError())
 
         try:
-            participants = self.populate_participants(participants_ids)
-            self._properties["participants"] = participants
             roles = get_ids_roles_by_name(role_names)
-            logger.error(roles)
             self._properties["roles"] = roles
         except ValidationError as ex:
             exceptions.append(ex)
