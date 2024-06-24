@@ -11,16 +11,22 @@ class CustomDodoRoles(enum.Enum):
     Input_Data = "Input data"
 
 
+class RolesSchema(Schema):
+    id = fields.Int()
+    name = fields.String()
+
+
 class UserSchema(Schema):
     id = fields.Int()
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    roles = fields.List(fields.Nested(RolesSchema))
 
 
 class StatementGetResponseSchema(Schema):
     id = fields.Int()
-    owners = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+    user = fields.List(fields.Nested(UserSchema()))
     finished = fields.Boolean()
     team = fields.String()
     isNewTeam = fields.Boolean()

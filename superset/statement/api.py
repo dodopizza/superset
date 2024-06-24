@@ -7,6 +7,7 @@ from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
+from superset import security_manager
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.statement.commands.exceptions import (
     StatementAccessDeniedError,
@@ -44,7 +45,7 @@ from superset.views.filters import (
     FilterRelatedOwners,
     BaseFilterRelatedUsersFirstName
 )
-from superset.views.utils import finish_onboarding
+from superset.views.utils import finish_onboarding, get_dodo_role
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
 
     order_columns = [
         "id",
+        "team",
         "user",
         "created_datetime",
         "finished",
@@ -105,7 +107,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     allowed_rel_fields = {"user"}
     get_model_schema = StatementGetSchema()
     edit_model_schema = StatementPutSchema()
-    team_get_response_schema = StatementGetResponseSchema()
+    statement_get_response_schema = StatementGetResponseSchema()
     add_model_schema = StatementPostSchema()
 
     @expose("/<pk>", methods=("GET",))
@@ -148,11 +150,14 @@ class StatementRestApi(BaseSupersetModelRestApi):
         """
         try:
             statement = StatementDAO.get_by_id(pk)
+            user = statement.user[0]
+            dodo_role = get_dodo_role(user.id)
         except StatementAccessDeniedError:
             return self.response_403()
         except StatementNotFoundError:
             return self.response_404()
-        result = self.team_get_response_schema.dump(statement)
+        result = self.statement_get_response_schema.dump(statement)
+        result["dodo_role"] = dodo_role
         return self.response(200, result=result)
 
     @expose("/", methods=("POST",))
@@ -203,9 +208,6 @@ class StatementRestApi(BaseSupersetModelRestApi):
             user_id = g.user.id
             item["user"] = [user_id]
             item["finished"] = False
-            #  ['Analyze data'], 'team_slug': 'fr_dfgdfg', 'isExternal': True,
-            #  'isNewTeam': True, 'team': 'FRANCHISEE DFGDFG', 'user': [1],
-            #  'finished': False}
             logger.error(item)
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()
