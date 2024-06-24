@@ -21,6 +21,7 @@ class UserSchema(Schema):
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    email = fields.String()
     roles = fields.List(fields.Nested(RolesSchema))
 
 
@@ -43,7 +44,8 @@ class StatementGetSchema(Schema):
 
 
 class StatementPutSchema(Schema):
-    pass
+    id = fields.Int()
+    team_slug = fields.String()
 
 
 class StatementPostSchema(Schema):
