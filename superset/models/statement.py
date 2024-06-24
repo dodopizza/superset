@@ -8,7 +8,8 @@ from sqlalchemy import (
     Boolean,
     String,
     DateTime,
-    Table
+    Table,
+    UniqueConstraint
 
 )
 
@@ -22,8 +23,8 @@ statement_user = Table(
     "statement_user",
     Model.metadata,
     Column("id", Integer, primary_key=True),
-    Column("statements_id", ForeignKey("statements.id")),
-    Column("user_id", ForeignKey("ab_user.id")),
+    Column("statement_id", ForeignKey("statements.id")),
+    Column("user_id", ForeignKey("ab_user.id"))
 )
 
 

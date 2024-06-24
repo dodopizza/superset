@@ -44,8 +44,10 @@ class StatementGetSchema(Schema):
 
 
 class StatementPutSchema(Schema):
-    id = fields.Int()
     team_slug = fields.String()
+    is_approved = fields.Boolean()
+    request_roles = fields.List(fields.String(validate=CustomDodoRoles))
+    last_changed_datetime = fields.DateTime()
 
 
 class StatementPostSchema(Schema):

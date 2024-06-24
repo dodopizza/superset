@@ -26,6 +26,7 @@ from superset.statement.schemas import (
     StatementPutSchema,
     StatementPostSchema
 )
+from superset.teams.commands.update import UpdateTeamCommand
 from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
@@ -45,7 +46,8 @@ from superset.views.filters import (
     FilterRelatedOwners,
     BaseFilterRelatedUsersFirstName
 )
-from superset.views.utils import finish_onboarding, get_dodo_role
+from superset.views.utils import (finish_onboarding, get_dodo_role, find_team_by_slug,
+                                  update_user_roles)
 
 logger = logging.getLogger(__name__)
 
@@ -208,7 +210,6 @@ class StatementRestApi(BaseSupersetModelRestApi):
             user_id = g.user.id
             item["user"] = [user_id]
             item["finished"] = False
-            logger.error(item)
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()
             return self.response(201, result=finished_onboarding)
@@ -278,10 +279,30 @@ class StatementRestApi(BaseSupersetModelRestApi):
         except ValidationError as error:
             return self.response_400(message=error.messages)
         try:
-            changed_model = UpdateStatementCommand(pk, item).run()
+            change_fields_for_statement = {
+                "finished": True,
+                "last_changed_datetime": item.get("last_changed_datetime")
+            }
+            changed_statement = UpdateStatementCommand(
+                pk,
+                change_fields_for_statement).run()
+            if item.get("is_approved"):
+                team_slug = changed_statement.team_slug
+                team_model = find_team_by_slug(team_slug)
+                team_id = team_model.id
+                user = changed_statement.user
+                participants = {
+                    "participants": user
+                }
+                changed_team = UpdateTeamCommand(team_id, participants).run()
+                # roles = changed_statement.request_roles
+                # logger.error(user)
+                # logger.error(roles)
+                # logger.error(type(roles[0]))
+                # changed_user = update_user_roles(user, roles)
             response = self.response(
                 200,
-                id=changed_model.id,
+                id=changed_statement.id,
                 result=item,
             )
         except StatementNotFoundError:
