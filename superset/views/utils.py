@@ -48,6 +48,7 @@ from superset.legacy import update_time_range
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
 from superset.models.user_info import UserInfo
+from superset.models.team import Team
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
 from superset.superset_typing import FormData
@@ -191,6 +192,31 @@ def update_language(lang: str):  # DODO changed #33835937
         db.session.commit()
     except AttributeError:
         create_userinfo(lang)
+
+
+def update_user_roles(user_model: int, roles: list[security_manager.role_model]):  # DODO changed #33835937
+    properties = {
+        "roles": roles
+    }
+    for key, value in properties.items():
+        setattr(user_model, key, value)
+    try:
+        db.session.merge(user_model)
+        db.session.commit()
+    except SQLAlchemyError as ex:  # pragma: no cover
+        db.session.rollback()
+        raise ex
+    return user_model
+
+
+def find_team_by_slug(team_slug: str):
+    try:
+        team = (
+            db.session.query(Team).filter(Team.slug == team_slug).one_or_none()
+        )
+        return team
+    except Exception:
+        raise ErrorLevel.ERROR
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:

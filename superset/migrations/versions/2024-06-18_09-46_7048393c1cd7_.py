@@ -30,9 +30,9 @@ def upgrade():
     )
     op.create_table('statement_user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('statements_id', sa.Integer(), nullable=True),
+    sa.Column('statement_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['statements_id'], ['statements.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['statement_id'], ['statements.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['user_id'], ['ab_user.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
