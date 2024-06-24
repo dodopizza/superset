@@ -34,3 +34,10 @@ class TeamDAO(BaseDAO[Team]):
         except AttributeError as e:
             raise TeamNotFoundError()
         return teams
+
+    @staticmethod
+    def validate_slug_uniqueness(slug: str) -> bool:
+        if not slug:
+            return True
+        team_query = db.session.query(Team).filter(Team.slug == slug)
+        return not db.session.query(team_query.exists()).scalar()

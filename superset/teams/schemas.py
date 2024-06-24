@@ -1,8 +1,16 @@
 # DODO added #32839638
 
+import enum
 from marshmallow import fields, Schema
 
 from superset.tags.models import TagTypes
+
+
+class CustomDodoRoles(enum.Enum):
+    Use_data = "Use data"
+    Analyze_Data = "Analyze data"
+    Create_Data = "Create data"
+    Input_Data = "Input data"
 
 
 class UserSchema(Schema):
@@ -38,3 +46,11 @@ class TeamGetResponseSchema(Schema):
 class TeamGetSchema(Schema):
     isExternal = fields.Boolean()
     query = fields.String()
+
+
+class TeamPostSchema(Schema):
+    isExternal = fields.Boolean()
+    name = fields.String()
+    slug = fields.String()
+    roles = fields.List(fields.String(validate=CustomDodoRoles))
+    participants = fields.List(fields.Integer())

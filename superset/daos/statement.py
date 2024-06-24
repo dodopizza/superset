@@ -24,9 +24,10 @@ class StatementDAO(BaseDAO[Statement]):
     def get_by_id(cls, pk: int) -> Statement:
         try:
             query = (
-                db.session.query(Statement).filter(id=pk)
+                db.session.query(Statement).filter(Statement.id == pk)
             )
-            statement = query.all()
+            statement = query.one_or_none()
+            logger.error(statement)
             if not statement:
                 raise StatementNotFoundError()
         except AttributeError as e:

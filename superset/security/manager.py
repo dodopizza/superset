@@ -793,6 +793,10 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         self.set_role("Alpha", self._is_alpha_pvm)
         self.set_role("Gamma", self._is_gamma_pvm)
         self.set_role("sql_lab", self._is_sql_lab_pvm)
+        self.set_role("Use data", self._is_alpha_pvm)
+        self.set_role("Analyze data", self._is_alpha_pvm)
+        self.set_role("Create data", self._is_alpha_pvm)
+        self.set_role("Input data", self._is_alpha_pvm)
 
         # Configure public role
         if current_app.config["PUBLIC_ROLE_LIKE"]:
@@ -832,6 +836,13 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         Find a List of models by a list of ids, if defined applies `base_filter`
         """
         query = self.get_session.query(Role).filter(Role.id.in_(role_ids))
+        return query.all()
+
+    def find_roles_by_name(self, role_names: list[str]) -> list[Role]:
+        """
+        Find a List of models by a list of names, if defined applies `base_filter`
+        """
+        query = self.get_session.query(Role).filter(Role.name.in_(role_names))
         return query.all()
 
     def copy_role(

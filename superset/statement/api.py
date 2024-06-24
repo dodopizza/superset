@@ -71,7 +71,8 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "team_slug",
         "isExternal",
         "created_datetime",
-        "request_roles",
+        "request_roles.name",
+        "request_roles.id",
         "last_changed_datetime"
     ]
 
@@ -83,6 +84,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     )
 
     order_columns = [
+        "id",
         "user",
         "created_datetime",
         "finished",
@@ -201,6 +203,9 @@ class StatementRestApi(BaseSupersetModelRestApi):
             user_id = g.user.id
             item["user"] = [user_id]
             item["finished"] = False
+            #  ['Analyze data'], 'team_slug': 'fr_dfgdfg', 'isExternal': True,
+            #  'isNewTeam': True, 'team': 'FRANCHISEE DFGDFG', 'user': [1],
+            #  'finished': False}
             logger.error(item)
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()

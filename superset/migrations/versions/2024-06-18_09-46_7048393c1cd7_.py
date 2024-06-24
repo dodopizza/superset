@@ -26,7 +26,6 @@ def upgrade():
     sa.Column('team_slug', sa.String(), nullable=False),
     sa.Column('created_datetime', sa.DateTime(), nullable=True),
     sa.Column('last_changed_datetime', sa.DateTime(), nullable=True),
-    sa.Column("request_roles", sa.Text(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('statement_user',
@@ -35,6 +34,14 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['statements_id'], ['statements.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['user_id'], ['ab_user.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('statement_roles',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('statement_id', sa.Integer(), nullable=False),
+    sa.Column('role_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['role_id'], ['ab_role.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['statement_id'], ['statements.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

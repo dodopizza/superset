@@ -27,6 +27,25 @@ statement_user = Table(
 )
 
 
+StatementRoles = Table(
+    "statement_roles",
+    Model.metadata,
+    Column("id", Integer, primary_key=True),
+    Column(
+        "statement_id",
+        Integer,
+        ForeignKey("statements.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    Column(
+        "role_id",
+        Integer,
+        ForeignKey("ab_role.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+)
+
+
 class Statement(Model):
 
     """Dodo teams for Superset"""
@@ -43,5 +62,5 @@ class Statement(Model):
     team_slug = Column(String, nullable=False)
     isExternal = Column(Boolean, nullable=False)
     created_datetime = Column(DateTime, default=datetime.utcnow())
-    request_roles = Column(utils.MediumText())
+    request_roles = relationship(security_manager.role_model, secondary=StatementRoles)
     last_changed_datetime = Column(DateTime, default=datetime.utcnow())
