@@ -54,6 +54,7 @@ export const useRequest = () => {
   const toast = useToasts();
 
   useEffect(() => {
+    // Первоначальная загрузка данных
     dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     dispatch(loadRequest(id));
   }, [dispatch, id]);
@@ -170,7 +171,7 @@ export const useRequest = () => {
     setIsConfirmCreateTeam(true);
   }, []);
 
-  const createTeamInHook = useCallback(
+  const createTeamHandle = useCallback(
     (value: ConfirmCreateTeamModalDto) => {
       dispatch(
         createTeam({
@@ -208,12 +209,13 @@ export const useRequest = () => {
     if (updateUserData?.teamSlug && updateUserData.requestedRoles) {
       dispatch(
         closeRequest({
+          id,
           slug: updateUserData.teamSlug,
           roles: updateUserData.requestedRoles,
         }),
       );
     }
-  }, [updateUserData]);
+  }, [updateUserData, id]);
 
   return {
     isLoading,
@@ -233,7 +235,7 @@ export const useRequest = () => {
     createTeamData,
     openConfirmCreateTeam,
     isConfirmCreateTeam,
-    createTeamInHook,
+    createTeamInHook: createTeamHandle,
     closeConfirmCreateTeam,
     confirmCreateTeamData,
     showUpdateUser,

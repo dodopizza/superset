@@ -2,6 +2,7 @@ import { SupersetClient } from '@superset-ui/core';
 import { Role } from '../types';
 
 type Params = {
+  id: string;
   slug: string;
   roles: Array<Role>;
 };
@@ -9,11 +10,11 @@ type Params = {
 export const putStatementRepository: (params: Params) => Promise<void> =
   async params => {
     const response = await SupersetClient.put({
-      url: '/api/v1/onboarding/',
+      url: `/api/v1/statement/${params.id}`,
       body: JSON.stringify({
         team_slug: params.slug,
         is_approved: true,
-        requested_roles: params.roles,
+        request_roles: params.roles,
         last_changed_datetime: new Date(),
       }),
       headers: { 'Content-Type': 'application/json' },

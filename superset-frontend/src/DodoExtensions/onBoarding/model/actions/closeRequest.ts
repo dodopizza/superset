@@ -8,6 +8,7 @@ import {
 import { putStatementRepository } from '../../repository/putStatement.repository';
 
 type Params = {
+  id: string;
   slug: string;
   roles: Array<Role>;
 };
