@@ -2,11 +2,11 @@ import { Descriptions } from 'antd';
 import { t, useTheme } from '@superset-ui/core';
 import React, { FC } from 'react';
 import CheckboxControl from '../../../../../explore/components/controls/CheckboxControl';
-import { userFromEnum } from '../../../types';
+import { UserFromEnum } from '../../../types';
 
 type Props = {
   data?: {
-    userFrom: userFromEnum;
+    userFrom: UserFromEnum;
     firstName: string;
     lastName: string;
     email: string;

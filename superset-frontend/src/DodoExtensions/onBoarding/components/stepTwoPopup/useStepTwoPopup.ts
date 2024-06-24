@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { useDispatch } from 'react-redux';
 import { t } from '@superset-ui/core';
-import { Role, userFromEnum } from '../../types';
+import { Role, UserFromEnum } from '../../types';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { getTeamSlug } from '../../utils/getTeamSlug';
@@ -10,8 +10,8 @@ import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
 import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
 
 export const useStepTwoPopup = () => {
-  const [userFrom, setUserFrom] = useState<userFromEnum>(
-    userFromEnum.Franchisee,
+  const [userFrom, setUserFrom] = useState<UserFromEnum>(
+    UserFromEnum.Franchisee,
   );
   const [newTeam, setNewTeam] = useState<string | null>(null);
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
@@ -28,7 +28,7 @@ export const useStepTwoPopup = () => {
       setRoles([]);
       dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     },
-    [],
+    [dispatch],
   );
 
   const noTeam = useMemo(

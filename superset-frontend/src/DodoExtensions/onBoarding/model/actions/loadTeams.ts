@@ -1,5 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import { userFromEnum } from '../../types';
+import { UserFromEnum } from '../../types';
 
 import { getTeamListRepository } from '../../repository/getTeamList.repository';
 import {
@@ -10,7 +10,7 @@ import {
 
 let beforeSendToBackendQuery = '';
 
-export function loadTeams(userFrom: userFromEnum, query: string) {
+export function loadTeams(userFrom: UserFromEnum, query: string) {
   return async function (dispatch: Dispatch) {
     try {
       dispatch({

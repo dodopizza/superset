@@ -3,18 +3,19 @@ import React, { FC } from 'react';
 import { Descriptions, Typography } from 'antd';
 import Button from '../../../../../components/Button';
 import Modal from '../../../../../components/Modal';
-import { Role } from '../../../types';
+import { Role, UserFromEnum } from '../../../types';
 
 export type ConfirmCreateTeamModalDto = {
+  userFrom: UserFromEnum;
   teamName: string;
-  teamTag: string;
+  teamSlug: string;
   roles: Array<Role>;
 };
 
 type ConfirmCreateTeamModalProps = {
   onCloseModal: () => void;
-  onSubmit: () => void;
-  data: ConfirmCreateTeamModalDto | null;
+  onSubmit: (value: ConfirmCreateTeamModalDto) => void;
+  data: ConfirmCreateTeamModalDto;
 };
 
 export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
@@ -29,7 +30,9 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
       title="Create new team"
       show
       onHide={onCloseModal}
-      footer={<Button onClick={onSubmit}>{t('Create team')}</Button>}
+      footer={
+        <Button onClick={() => onSubmit(data)}>{t('Create team')}</Button>
+      }
     >
       <Typography.Paragraph>
         <Descriptions
@@ -43,8 +46,8 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
           <Descriptions.Item label={t('Team')}>
             {data?.teamName}
           </Descriptions.Item>
-          <Descriptions.Item label={t('Team tag')}>
-            {data?.teamTag}
+          <Descriptions.Item label={t('Team slug')}>
+            {data?.teamSlug}
           </Descriptions.Item>
           <Descriptions.Item label={t('Roles')}>
             {data?.roles.join(', ')}

@@ -5,7 +5,7 @@ import {
   ONBOARDING_FINISH_SUCCESS,
   ONBOARDING_FINISH_UPDATING,
 } from '../types/start.types';
-import { postStatementRepository } from '../../repository/postStatment';
+import { postStatementRepository } from '../../repository/postStatment.repository';
 
 export function finishOnBoarding(dto: StepTwoPopupDto) {
   return async function (dispatch: Dispatch) {

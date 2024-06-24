@@ -3,7 +3,7 @@ import React, { ChangeEvent, FC, useCallback } from 'react';
 import { Typography } from 'antd';
 import { t } from '@superset-ui/core';
 import Modal from '../../../../../components/Modal';
-import { Role, userFromEnum } from '../../../types';
+import { Role, UserFromEnum } from '../../../types';
 import { Form, FormItem } from '../../../../../components/Form';
 import { Input } from '../../../../../components/Input';
 import Button from '../../../../../components/Button';
@@ -13,10 +13,10 @@ import { SelectProps } from '../../../../../components/Select/types';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
 
 export type CreateTeamModalDto = {
-  userFrom?: userFromEnum;
+  userFrom: UserFromEnum;
   name: string | null;
   teamName: string;
-  teamTag: string;
+  teamSlug: string;
   roles: Array<Role>;
 };
 
@@ -98,8 +98,8 @@ export const CreateTeamModal: FC<Props> = ({
           <Input disabled />
         </FormItem>
         <FormItem
-          name="teamTag"
-          label={t('Team Tag')}
+          name="teamSlug"
+          label={t('Team slug')}
           rules={[{ required: true }]}
         >
           <Input disabled />
@@ -115,6 +115,7 @@ export const CreateTeamModal: FC<Props> = ({
             maxTagCount={10}
           />
         </FormItem>
+        <FormItem name="userFrom" />
       </Form>
     </Modal>
   );

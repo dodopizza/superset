@@ -1,6 +1,6 @@
 import { SupersetClient } from '@superset-ui/core';
 import { ActionRequestSuccessPayload } from '../model/types/request.types';
-import { userFromEnum } from '../types';
+import { UserFromEnum } from '../types';
 
 type ResponseDto = {
   result: {
@@ -43,8 +43,8 @@ export const getStatementRepository = async (
 
   return {
     userFrom: dto.result.isExternal
-      ? userFromEnum.Franchisee
-      : userFromEnum.ManagingCompany,
+      ? UserFromEnum.Franchisee
+      : UserFromEnum.ManagingCompany,
     firstName: dto.result.user.at(0)?.first_name ?? '',
     lastName: dto.result.user.at(0)?.last_name ?? '',
     email: dto.result.user.at(0)?.email ?? '',

@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 import { AutoComplete, Input } from 'antd';
 import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
-import { Role, userFromEnum } from '../../types';
+import { Role, UserFromEnum } from '../../types';
 import { getTeamsData } from '../../model/selector/getTeamsData';
 import { useTeam } from './useTeam';
 
@@ -11,7 +11,7 @@ type Props = {
   existingTeam: any | null;
   setExistingTeam: (value: any | null) => void;
   setNewTeam: (value: string | null) => void;
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   setRoles?: (value: Array<Role>) => void;
 };
 

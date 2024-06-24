@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 import { debounce } from 'lodash';
 import { loadTeams } from '../model/actions/loadTeams';
-import { Role, userFromEnum } from '../types';
+import { Role, UserFromEnum } from '../types';
 import { MAX_TEAM_NAME_LENGTH, SEARCH_TEAM_DELAY } from '../consts';
 
 export const useTeam = ({
@@ -13,7 +13,7 @@ export const useTeam = ({
   setExistingTeam,
   setRoles,
 }: {
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   newTeam: string | null;
   existingTeam: any | null;
   setNewTeam: (value: string | null) => void;

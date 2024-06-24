@@ -3,7 +3,7 @@ import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { Role, userFromEnum } from '../../../types';
+import { Role, UserFromEnum } from '../../../types';
 import { getTeamName } from '../../../utils/getTeamName';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
@@ -22,7 +22,7 @@ type Props = {
   setExistingTeam: (value: any | null) => void;
   setNewTeam: (value: string | null) => void;
   setRoles: (roles: Array<Role>) => void;
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   formatedTeamName: string;
 };
 

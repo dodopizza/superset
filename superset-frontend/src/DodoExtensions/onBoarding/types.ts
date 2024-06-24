@@ -16,12 +16,13 @@ export type Team = {
   roles: Array<Role>;
 };
 
-export enum userFromEnum {
+export enum UserFromEnum {
   Franchisee = 'Franchisee',
   ManagingCompany = 'Managing Company',
+  Unknown = 'Unknown',
 }
 
 export type LoadTeamList = (
-  userFrom: userFromEnum,
+  userFrom: UserFromEnum,
   query: string,
 ) => Promise<void>;
