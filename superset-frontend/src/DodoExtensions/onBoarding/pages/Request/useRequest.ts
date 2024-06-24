@@ -10,6 +10,7 @@ import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
 import { getTeamSlug } from '../../utils/getTeamSlug';
+import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -32,6 +33,7 @@ export const useRequest = () => {
   const requestData = useSelector(getRequestData);
 
   useEffect(() => {
+    dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     dispatch(loadRequest(id));
   }, [dispatch, id]);
 
@@ -78,7 +80,7 @@ export const useRequest = () => {
       userFrom: requestData?.userFrom,
       name: newTeam,
       teamName: getTeamName(newTeam, requestData?.userFrom),
-      teamTag: getTeamSlug(newTeam, requestData?.userFrom),
+      teamSlug: getTeamSlug(newTeam, requestData?.userFrom),
       roles: [],
     }),
     [newTeam, requestData?.userFrom],
@@ -88,7 +90,7 @@ export const useRequest = () => {
     setIsCreateTeam(false);
     setConfirmCreateTeamData({
       teamName: data.teamName,
-      teamTag: data.teamTag,
+      teamSlug: data.teamSlug,
       roles: data.roles,
     });
     setIsConfirmCreateTeam(true);

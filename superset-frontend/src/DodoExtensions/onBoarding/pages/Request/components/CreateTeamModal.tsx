@@ -16,7 +16,7 @@ export type CreateTeamModalDto = {
   userFrom?: userFromEnum;
   name: string | null;
   teamName: string;
-  teamTag: string;
+  teamSlug: string;
   roles: Array<Role>;
 };
 
@@ -98,8 +98,8 @@ export const CreateTeamModal: FC<Props> = ({
           <Input disabled />
         </FormItem>
         <FormItem
-          name="teamTag"
-          label={t('Team Tag')}
+          name="teamSlug"
+          label={t('Team slug')}
           rules={[{ required: true }]}
         >
           <Input disabled />

@@ -7,7 +7,7 @@ import { Role } from '../../../types';
 
 export type ConfirmCreateTeamModalDto = {
   teamName: string;
-  teamTag: string;
+  teamSlug: string;
   roles: Array<Role>;
 };
 
@@ -43,8 +43,8 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
           <Descriptions.Item label={t('Team')}>
             {data?.teamName}
           </Descriptions.Item>
-          <Descriptions.Item label={t('Team tag')}>
-            {data?.teamTag}
+          <Descriptions.Item label={t('Team slug')}>
+            {data?.teamSlug}
           </Descriptions.Item>
           <Descriptions.Item label={t('Roles')}>
             {data?.roles.join(', ')}

@@ -28,7 +28,7 @@ export const useStepTwoPopup = () => {
       setRoles([]);
       dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     },
-    [],
+    [dispatch],
   );
 
   const noTeam = useMemo(
