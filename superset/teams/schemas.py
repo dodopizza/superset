@@ -53,4 +53,3 @@ class TeamPostSchema(Schema):
     name = fields.String()
     slug = fields.String()
     roles = fields.List(fields.String(validate=CustomDodoRoles))
-    participants = fields.List(fields.Integer())
