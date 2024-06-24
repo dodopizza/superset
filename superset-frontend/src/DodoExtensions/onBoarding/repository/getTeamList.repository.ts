@@ -1,6 +1,6 @@
 import { SupersetClient } from '@superset-ui/core';
 import rison from 'rison';
-import { Role, Team, userFromEnum } from '../types';
+import { Role, Team, UserFromEnum } from '../types';
 
 enum Operation {
   contains = 'ct_name',
@@ -47,7 +47,7 @@ const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => {
 };
 
 export const getTeamListRepository = async (
-  userFrom: userFromEnum,
+  userFrom: UserFromEnum,
   query: string,
 ): Promise<Array<Team>> => {
   const filterExps = [
@@ -55,7 +55,7 @@ export const getTeamListRepository = async (
     {
       col: 'isExternal',
       opr: Operation.equals,
-      value: userFrom === userFromEnum.Franchisee ? 1 : 0,
+      value: userFrom === UserFromEnum.Franchisee ? 1 : 0,
     },
   ];
 

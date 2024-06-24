@@ -11,6 +11,8 @@ import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
 import { getTeamSlug } from '../../utils/getTeamSlug';
 import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
+import { createTeam } from '../../model/actions/createTeam';
+import { UserFromEnum } from '../../types';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -77,7 +79,7 @@ export const useRequest = () => {
 
   const createTeamData: CreateTeamModalDto = useMemo(
     () => ({
-      userFrom: requestData?.userFrom,
+      userFrom: requestData?.userFrom ?? UserFromEnum.Unknown,
       name: newTeam,
       teamName: getTeamName(newTeam, requestData?.userFrom),
       teamSlug: getTeamSlug(newTeam, requestData?.userFrom),
@@ -87,28 +89,43 @@ export const useRequest = () => {
   );
 
   const openConfirmCreateTeam = useCallback((data: CreateTeamModalDto) => {
+    debugger;
     setIsCreateTeam(false);
     setConfirmCreateTeamData({
       teamName: data.teamName,
       teamSlug: data.teamSlug,
       roles: data.roles,
+      userFrom: data.userFrom,
     });
     setIsConfirmCreateTeam(true);
   }, []);
 
-  const createTeam = useCallback(() => {
-    setIsConfirmCreateTeam(false);
+  const createTeamInHook = useCallback(
+    (value: ConfirmCreateTeamModalDto) => {
+      debugger;
+      dispatch(
+        createTeam({
+          name: value.teamName,
+          roles: value.roles,
+          slug: value.teamSlug,
+          userFrom: value.userFrom,
+        }),
+      );
 
-    setUpdateUserData({
-      userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
-      teamName: confirmCreateTeamData?.teamName,
-      currentRoles: requestData?.currentRoles,
-      requestedRoles: confirmCreateTeamData?.roles,
-      dodoRole: requestData?.dodoRole,
-    });
+      setIsConfirmCreateTeam(false);
 
-    setIsUpdateUser(true);
-  }, [confirmCreateTeamData, requestData]);
+      setUpdateUserData({
+        userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
+        teamName: confirmCreateTeamData?.teamName,
+        currentRoles: requestData?.currentRoles,
+        requestedRoles: confirmCreateTeamData?.roles,
+        dodoRole: requestData?.dodoRole,
+      });
+
+      setIsUpdateUser(true);
+    },
+    [confirmCreateTeamData, requestData],
+  );
 
   const closeConfirmCreateTeam = useCallback(
     () => setIsConfirmCreateTeam(false),
@@ -151,7 +168,7 @@ export const useRequest = () => {
     createTeamData,
     openConfirmCreateTeam,
     isConfirmCreateTeam,
-    createTeam,
+    createTeamInHook,
     closeConfirmCreateTeam,
     confirmCreateTeamData,
     showUpdateUser,

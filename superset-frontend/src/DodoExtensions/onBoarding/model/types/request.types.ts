@@ -1,4 +1,4 @@
-import { userFromEnum } from '../../types';
+import { UserFromEnum } from '../../types';
 
 export const ONBOARDING_REQUEST_LOADING = 'ONBOARDING_REQUEST_LOADING';
 export const ONBOARDING_REQUEST_SUCCESS = 'ONBOARDING_REQUEST_SUCCESS';
@@ -14,7 +14,7 @@ type ActionRequestError = {
 };
 
 type ActionRequestSuccessPayload = {
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   firstName: string;
   lastName: string;
   email: string;

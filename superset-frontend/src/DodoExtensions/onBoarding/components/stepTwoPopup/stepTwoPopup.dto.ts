@@ -1,7 +1,7 @@
-import { Role, userFromEnum } from '../../types';
+import { Role, UserFromEnum } from '../../types';
 
 export type StepTwoPopupDto = {
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   isNewTeam: boolean;
   teamName: string;
   teamSlug: string;

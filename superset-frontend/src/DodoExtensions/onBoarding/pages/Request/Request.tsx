@@ -11,7 +11,7 @@ import { CreateTeamModal } from './components/CreateTeamModal';
 import { RoleDescription } from './components/RoleDescription';
 import { ConfirmCreateTeamModal } from './components/ConfirmCreateTeamModal';
 import { UpdateUser } from './components/UpdateUser';
-import { userFromEnum } from '../../types';
+import { UserFromEnum } from '../../types';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -47,7 +47,7 @@ export const Request: FC = () => {
     openConfirmCreateTeam,
     isConfirmCreateTeam,
     closeConfirmCreateTeam,
-    createTeam,
+    createTeamInHook,
     confirmCreateTeamData,
     showUpdateUser,
     isUpdateUser,
@@ -90,7 +90,7 @@ export const Request: FC = () => {
             <Col span={8}>
               <StyledSpace direction="vertical" size="middle">
                 <RequestFindTeam
-                  userFrom={requestData?.userFrom ?? userFromEnum.Franchisee}
+                  userFrom={requestData?.userFrom ?? UserFromEnum.Franchisee}
                   newTeam={newTeam}
                   setNewTeam={setNewTeam}
                   existingTeam={existingTeam}
@@ -148,10 +148,10 @@ export const Request: FC = () => {
               data={createTeamData}
             />
           )}
-          {isConfirmCreateTeam && (
+          {isConfirmCreateTeam && confirmCreateTeamData && (
             <ConfirmCreateTeamModal
               onCloseModal={closeConfirmCreateTeam}
-              onSubmit={createTeam}
+              onSubmit={createTeamInHook}
               data={confirmCreateTeamData}
             />
           )}
