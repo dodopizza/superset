@@ -20,7 +20,7 @@ class UserSchema(Schema):
 
 class StatementGetResponseSchema(Schema):
     id = fields.Int()
-    owners = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+    user = fields.List(fields.Nested(UserSchema()))
     finished = fields.Boolean()
     team = fields.String()
     isNewTeam = fields.Boolean()

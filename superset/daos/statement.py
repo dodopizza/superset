@@ -2,16 +2,11 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
-from superset.daos.base import BaseDAO, T
-from superset.daos.exceptions import DAOConfigError, DAOCreateFailedError
+from superset.daos.base import BaseDAO
 from superset.statement.commands.exceptions import (
-    StatementAccessDeniedError,
-    StatementForbiddenError,
     StatementNotFoundError,
 )
-from superset.exceptions import SupersetSecurityException
 from superset.extensions import db
 from superset.models.statement import Statement
 
@@ -27,7 +22,7 @@ class StatementDAO(BaseDAO[Statement]):
                 db.session.query(Statement).filter(Statement.id == pk)
             )
             statement = query.one_or_none()
-            logger.error(statement)
+
             if not statement:
                 raise StatementNotFoundError()
         except AttributeError as e:
