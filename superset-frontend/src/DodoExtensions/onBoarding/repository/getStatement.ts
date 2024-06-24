@@ -1,14 +1,16 @@
 import { SupersetClient } from '@superset-ui/core';
 import rison from 'rison';
 import { ActionRequestListSuccessPayload } from '../model/types/requestList.types';
-import { parseRoles } from './utils/parseRoles';
 import { FetchDataConfig } from '../../../components/ListView';
 
 type ResponseDto = {
   count: number;
   result: Array<{
     id: number;
-    request_roles: string;
+    request_roles: Array<{
+      id: number;
+      name: string;
+    }>;
     team: string;
     team_slug: string;
     created_datetime: string;
@@ -63,7 +65,7 @@ export const getStatementRepository = async ({
       lastName: item.user.at(0)?.last_name ?? '',
       email: item.user.at(0)?.email ?? '',
       team: `${item.team} (${item.team_slug})`,
-      requestedRoles: parseRoles(item.request_roles).join(', '),
+      requestedRoles: item.request_roles.map(role => role.name).join(', '),
       isClosed: item.finished,
       requestDate: new Date(item.created_datetime),
     })),
