@@ -45,7 +45,7 @@ from superset.views.filters import (
     FilterRelatedOwners,
     BaseFilterRelatedUsersFirstName
 )
-from superset.views.utils import finish_onboarding, get_permissions
+from superset.views.utils import finish_onboarding, get_dodo_role
 
 logger = logging.getLogger(__name__)
 
@@ -151,16 +151,13 @@ class StatementRestApi(BaseSupersetModelRestApi):
         try:
             statement = StatementDAO.get_by_id(pk)
             user = statement.user[0]
-            # current_roles, _ = get_permissions(user)
-            roles = security_manager.get_user_roles(user)
-            roles_list = [role.name for role in roles]
-            logger.error(roles)
+            dodo_role = get_dodo_role(user.id)
         except StatementAccessDeniedError:
             return self.response_403()
         except StatementNotFoundError:
             return self.response_404()
         result = self.statement_get_response_schema.dump(statement)
-        result["current_roles"] = roles_list
+        result["dodo_role"] = dodo_role
         return self.response(200, result=result)
 
     @expose("/", methods=("POST",))

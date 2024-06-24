@@ -153,6 +153,18 @@ def get_language() -> str:  # DODO changed #33835937
         return "ru"
 
 
+def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
+
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        return user_info.dodo_role
+    except Exception:
+        logger.warning(f"User id = {user_id} dont have dodo role in database")
+        return ''
+
+
 def create_userinfo(lang: str):   # DODO changed #33835937
     try:
         user_id = get_user_id()
