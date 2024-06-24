@@ -14,7 +14,6 @@ from superset.teams.commands.exceptions import (
     TeamNotFoundError,
     TeamUpdateFailedError,
 )
-from superset.models.user_info import UserInfo
 
 logger = logging.getLogger(__name__)
 
@@ -41,4 +40,3 @@ class UpdateTeamCommand(UpdateMixin, BaseCommand):
         self._model = TeamDAO.find_by_id(self._model_id)
         if not self._model:
             raise TeamNotFoundError()
-

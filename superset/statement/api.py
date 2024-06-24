@@ -2,7 +2,7 @@
 
 import logging
 
-from flask import request, Response, g
+from flask import request, Response, g, redirect
 from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
@@ -295,11 +295,10 @@ class StatementRestApi(BaseSupersetModelRestApi):
                     "participants": user
                 }
                 changed_team = UpdateTeamCommand(team_id, participants).run()
-                # roles = changed_statement.request_roles
-                # logger.error(user)
-                # logger.error(roles)
-                # logger.error(type(roles[0]))
-                # changed_user = update_user_roles(user, roles)
+                request_roles = changed_statement.request_roles
+                current_roles = user[0].roles
+                roles = request_roles + current_roles
+                changed_user = update_user_roles(user[0], roles)
             response = self.response(
                 200,
                 id=changed_statement.id,

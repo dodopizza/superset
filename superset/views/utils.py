@@ -194,12 +194,8 @@ def update_language(lang: str):  # DODO changed #33835937
         create_userinfo(lang)
 
 
-def update_user_roles(user_model: int, roles: list[security_manager.role_model]):  # DODO changed #33835937
-    properties = {
-        "roles": roles
-    }
-    for key, value in properties.items():
-        setattr(user_model, key, value)
+def update_user_roles(user_model: int, roles):  # DODO changed #33835937
+    setattr(user_model, "roles", roles)
     try:
         db.session.merge(user_model)
         db.session.commit()
