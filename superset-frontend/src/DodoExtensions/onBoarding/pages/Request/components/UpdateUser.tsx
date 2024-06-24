@@ -2,8 +2,11 @@ import { t, useTheme } from '@superset-ui/core';
 import React, { FC } from 'react';
 import Modal from 'src/components/Modal';
 import { Descriptions } from 'antd';
+import { useSelector } from 'react-redux';
 import Button from '../../../../../components/Button';
 import { Role } from '../../../types';
+import { getCloseRequestError } from '../../../model/selector/getCloseRequestError';
+import Alert from '../../../../../components/Alert';
 
 export type UpdateUserDto = {
   userName: string;
@@ -22,6 +25,8 @@ type Props = {
 
 export const UpdateUser: FC<Props> = ({ onCloseModal, onSubmit, data }) => {
   const theme = useTheme();
+  const closeRequestError = useSelector(getCloseRequestError);
+
   return (
     <Modal
       title="User update"
@@ -57,6 +62,7 @@ export const UpdateUser: FC<Props> = ({ onCloseModal, onSubmit, data }) => {
           {data?.teamName}
         </Descriptions.Item>
       </Descriptions>
+      {closeRequestError && <Alert message={closeRequestError} type="error" />}
     </Modal>
   );
 };

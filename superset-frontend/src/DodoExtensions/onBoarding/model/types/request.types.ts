@@ -10,6 +10,8 @@ export const ONBOARDING_REQUEST_CLOSING_SUCCESS =
   'ONBOARDING_REQUEST_CLOSING_SUCCESS';
 export const ONBOARDING_REQUEST_CLOSING_ERROR =
   'ONBOARDING_REQUEST_CLOSING_ERROR';
+export const ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR =
+  'ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR';
 
 type ActionRequestLoading = {
   type: typeof ONBOARDING_REQUEST_LOADING;
@@ -52,13 +54,18 @@ type ActionRequestClosingError = {
   payload: { error: string };
 };
 
+type ActionRequestClosingErrorClear = {
+  type: typeof ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR;
+};
+
 type OnboardingRequestAction =
   | ActionRequestLoading
   | ActionRequestError
   | ActionRequestSuccess
   | ActionRequestClosingPending
   | ActionRequestClosingSuccess
-  | ActionRequestClosingError;
+  | ActionRequestClosingError
+  | ActionRequestClosingErrorClear;
 
 type OnboardingRequestState = {
   requestIsLoading: boolean;

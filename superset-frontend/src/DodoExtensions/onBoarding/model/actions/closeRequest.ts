@@ -14,7 +14,6 @@ type Params = {
 
 export function closeRequest(params: Params) {
   return async function (dispatch: Dispatch) {
-    debugger;
     try {
       dispatch({
         type: ONBOARDING_REQUEST_CLOSING_PENDING,

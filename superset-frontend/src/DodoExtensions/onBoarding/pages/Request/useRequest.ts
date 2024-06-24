@@ -21,6 +21,9 @@ import { getCreateTeamData } from '../../model/selector/getCreateTeamData';
 import { useToasts } from '../../../../components/MessageToasts/withToasts';
 import { getCreateTeamError } from '../../model/selector/getCreateTeamError';
 import { closeRequest } from '../../model/actions/closeRequest';
+import { getCloseRequestError } from '../../model/selector/getCloseRequestError';
+import { getCloseRequestSuccess } from '../../model/selector/getCloseRequestSuccess';
+import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -44,6 +47,9 @@ export const useRequest = () => {
 
   const createdTeamData = useSelector(getCreateTeamData);
   const createdTeamError = useSelector(getCreateTeamError);
+
+  const closeRequestError = useSelector(getCloseRequestError);
+  const closeRequestSuccess = useSelector(getCloseRequestSuccess);
 
   const toast = useToasts();
 
@@ -75,6 +81,8 @@ export const useRequest = () => {
         dodoRole: requestData?.dodoRole,
       });
 
+      dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
+
       setIsUpdateUser(true);
     }
   }, [createdTeamData]);
@@ -85,6 +93,21 @@ export const useRequest = () => {
       toast.addDangerToast(t('An error occurred while creating the team'));
     }
   }, [createdTeamError]);
+
+  useEffect(() => {
+    // Успех при закрытии заявки
+    if (closeRequestSuccess) {
+      toast.addSuccessToast(t('Request closed successfully.'));
+      setIsUpdateUser(false);
+    }
+  }, [closeRequestSuccess]);
+
+  useEffect(() => {
+    // Ошибка при закрытии заявки
+    if (closeRequestError) {
+      toast.addDangerToast(t('An error occurred while closing the request'));
+    }
+  }, [closeRequestError]);
 
   const showCreateTeam = useCallback(() => setIsCreateTeam(true), []);
   const closeCreateTeam = useCallback(() => setIsCreateTeam(false), []);
@@ -158,7 +181,7 @@ export const useRequest = () => {
         }),
       );
     },
-    [confirmCreateTeamData, requestData],
+    [dispatch],
   );
 
   const closeConfirmCreateTeam = useCallback(
@@ -175,6 +198,7 @@ export const useRequest = () => {
       requestedRoles: existingTeam.roles,
       dodoRole: requestData?.dodoRole,
     });
+    dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
     setIsUpdateUser(true);
   }, [requestData, existingTeam]);
 
@@ -189,7 +213,6 @@ export const useRequest = () => {
         }),
       );
     }
-    setIsUpdateUser(false);
   }, [updateUserData]);
 
   return {

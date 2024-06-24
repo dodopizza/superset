@@ -1,5 +1,6 @@
 import {
   ONBOARDING_REQUEST_CLOSING_ERROR,
+  ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR,
   ONBOARDING_REQUEST_CLOSING_PENDING,
   ONBOARDING_REQUEST_CLOSING_SUCCESS,
   ONBOARDING_REQUEST_ERROR,
@@ -58,6 +59,12 @@ export const onboardingRequestSlice = (
         ...state,
         isClosing: false,
         closingError: action.payload.error,
+      };
+    }
+    case ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR: {
+      return {
+        ...state,
+        closingError: null,
       };
     }
 
