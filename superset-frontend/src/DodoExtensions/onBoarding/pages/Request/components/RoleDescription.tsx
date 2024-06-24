@@ -41,7 +41,7 @@ export const RoleDescription = () => {
       <Descriptions.Item label={t('Input Data')}>
         <List>
           <li>{t('Add your own data sources to Superset')}</li>
-          <li>{t("Use SQL Lab for your Ad-hoc queries'")}</li>
+          <li>{t('Use SQL Lab for your Ad-hoc queries')}</li>
         </List>
       </Descriptions.Item>
     </Descriptions>

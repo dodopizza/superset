@@ -25,7 +25,7 @@ export const RequestData: FC<Props> = ({ data }) => {
 
   return (
     <Descriptions
-      title="Onboarding request"
+      title={t('Onboarding request')}
       size="small"
       bordered
       column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
@@ -35,10 +35,10 @@ export const RequestData: FC<Props> = ({ data }) => {
       <Descriptions.Item label={t('User from')}>
         {data?.userFrom}
       </Descriptions.Item>
-      <Descriptions.Item label={t('First Name')}>
+      <Descriptions.Item label={t('First name')}>
         {data?.firstName}
       </Descriptions.Item>
-      <Descriptions.Item label={t('Last Name')}>
+      <Descriptions.Item label={t('Last name')}>
         {data?.lastName}
       </Descriptions.Item>
       <Descriptions.Item label={t('email')}>{data?.email}</Descriptions.Item>
