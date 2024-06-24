@@ -1,4 +1,7 @@
 import {
+  ONBOARDING_REQUEST_CLOSING_ERROR,
+  ONBOARDING_REQUEST_CLOSING_PENDING,
+  ONBOARDING_REQUEST_CLOSING_SUCCESS,
   ONBOARDING_REQUEST_ERROR,
   ONBOARDING_REQUEST_LOADING,
   ONBOARDING_REQUEST_SUCCESS,
@@ -10,6 +13,10 @@ const initialState: OnboardingRequestState = {
   requestIsLoading: false,
   loadingRequestError: null,
   requestData: null,
+
+  isClosing: false,
+  closingSuccess: false,
+  closingError: null,
 };
 
 export const onboardingRequestSlice = (
@@ -28,6 +35,29 @@ export const onboardingRequestSlice = (
         ...state,
         requestIsLoading: false,
         loadingRequestError: action.payload.error,
+      };
+    }
+
+    case ONBOARDING_REQUEST_CLOSING_PENDING: {
+      return {
+        ...state,
+        isClosing: true,
+        closingSuccess: false,
+        closingError: null,
+      };
+    }
+    case ONBOARDING_REQUEST_CLOSING_SUCCESS: {
+      return {
+        ...state,
+        isClosing: false,
+        closingSuccess: true,
+      };
+    }
+    case ONBOARDING_REQUEST_CLOSING_ERROR: {
+      return {
+        ...state,
+        isClosing: false,
+        closingError: action.payload.error,
       };
     }
 

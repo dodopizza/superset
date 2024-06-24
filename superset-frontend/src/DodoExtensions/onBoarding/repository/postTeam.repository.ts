@@ -9,7 +9,7 @@ type Params = {
 };
 
 export const postTeamRepository = async (params: Params): Promise<void> => {
-  await SupersetClient.post({
+  const response = await SupersetClient.post({
     url: '/api/v1/team/',
     body: JSON.stringify({
       isExternal: params.userFrom === UserFromEnum.Franchisee ? 1 : 0,
@@ -20,4 +20,6 @@ export const postTeamRepository = async (params: Params): Promise<void> => {
     headers: { 'Content-Type': 'application/json' },
     parseMethod: null,
   });
+
+  await response.json();
 };

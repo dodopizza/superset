@@ -1,9 +1,12 @@
 import { t, useTheme } from '@superset-ui/core';
 import React, { FC } from 'react';
 import { Descriptions, Typography } from 'antd';
+import { useSelector } from 'react-redux';
 import Button from '../../../../../components/Button';
 import Modal from '../../../../../components/Modal';
 import { Role, UserFromEnum } from '../../../types';
+import { getCreateTeamError } from '../../../model/selector/getCreateTeamError';
+import Alert from '../../../../../components/Alert';
 
 export type ConfirmCreateTeamModalDto = {
   userFrom: UserFromEnum;
@@ -24,6 +27,7 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
   data,
 }) => {
   const theme = useTheme();
+  const createdTeamError = useSelector(getCreateTeamError);
 
   return (
     <Modal
@@ -60,6 +64,7 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
       <Typography.Paragraph>
         {t('User update is on the next step')}
       </Typography.Paragraph>
+      {createdTeamError && <Alert message={createdTeamError} type="error" />}
     </Modal>
   );
 };

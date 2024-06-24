@@ -1,6 +1,7 @@
 import { SupersetClient } from '@superset-ui/core';
 import rison from 'rison';
-import { Role, Team, UserFromEnum } from '../types';
+import { Team, UserFromEnum } from '../types';
+import { getRoleFromString } from '../utils/getRoleFromString';
 
 enum Operation {
   contains = 'ct_name',
@@ -19,33 +20,11 @@ type ResponseDto = {
   result: Array<ResponseDtoRecord>;
 };
 
-const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => {
-  const getRole = ({ name }: { name: string }): Role => {
-    switch (name) {
-      case Role.AnalyseData: {
-        return Role.AnalyseData;
-      }
-      case Role.CreateData: {
-        return Role.CreateData;
-      }
-      case Role.UseData: {
-        return Role.UseData;
-      }
-      case Role.InputData: {
-        return Role.InputData;
-      }
-      default:
-        return Role.Unknown;
-    }
-  };
-
-  return {
-    value: dtoRecord.slug,
-    label: dtoRecord.name,
-    roles: dtoRecord.roles.map(role => getRole(role)),
-  };
-};
-
+const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => ({
+  value: dtoRecord.slug,
+  label: dtoRecord.name,
+  roles: dtoRecord.roles.map(role => getRoleFromString(role)),
+});
 export const getTeamListRepository = async (
   userFrom: UserFromEnum,
   query: string,

@@ -5,13 +5,13 @@ import {
   ONBOARDING_CREATE_TEAM_SUCCESS,
 } from '../types/team.types';
 import { postTeamRepository } from '../../repository/postTeam.repository';
-import { UserFromEnum } from '../../types';
+import { Role, UserFromEnum } from '../../types';
 
 type Params = {
   userFrom: UserFromEnum;
   name: string;
   slug: string;
-  roles: Array<string>;
+  roles: Array<Role>;
 };
 
 export function createTeam(params: Params) {
@@ -25,12 +25,20 @@ export function createTeam(params: Params) {
 
       dispatch({
         type: ONBOARDING_CREATE_TEAM_SUCCESS,
+        payload: {
+          slug: params.slug,
+          name: params.name,
+          roles: params.roles,
+        },
       });
-    } catch (e) {
+    } catch (response) {
+      const { statusText } = response;
+      const error = await response.json();
+
       dispatch({
         type: ONBOARDING_CREATE_TEAM_ERROR,
         payload: {
-          error: e.message,
+          error: `${statusText}:${JSON.stringify(error)}`,
         },
       });
     }

@@ -3,13 +3,15 @@ import React, { FC } from 'react';
 import Modal from 'src/components/Modal';
 import { Descriptions } from 'antd';
 import Button from '../../../../../components/Button';
+import { Role } from '../../../types';
 
 export type UpdateUserDto = {
   userName: string;
   dodoRole?: string;
   currentRoles?: Array<string>;
-  requestedRoles?: Array<string>;
+  requestedRoles?: Array<Role>;
   teamName?: string;
+  teamSlug?: string;
 };
 
 type Props = {

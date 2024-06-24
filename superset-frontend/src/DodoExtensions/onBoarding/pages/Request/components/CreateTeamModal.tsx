@@ -56,7 +56,7 @@ export const CreateTeamModal: FC<Props> = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       form.setFieldsValue({
         teamName: getTeamName(event.target.value, data.userFrom),
-        teamTag: getTeamSlug(event.target.value, data.userFrom),
+        teamSlug: getTeamSlug(event.target.value, data.userFrom),
       });
     },
     [data.userFrom, form],

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { t } from '@superset-ui/core';
 import { loadRequest } from '../../model/actions/loadRequest';
 import { getRequestLoading } from '../../model/selector/getRequestLoading';
 import { getRequestData } from '../../model/selector/getRequestData';
@@ -10,9 +11,16 @@ import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
 import { getTeamSlug } from '../../utils/getTeamSlug';
-import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
+import {
+  ONBOARDING_CREATE_TEAM_ERROR_CLEAR,
+  ONBOARDING_TEAMS_CLEAR,
+} from '../../model/types/team.types';
 import { createTeam } from '../../model/actions/createTeam';
 import { UserFromEnum } from '../../types';
+import { getCreateTeamData } from '../../model/selector/getCreateTeamData';
+import { useToasts } from '../../../../components/MessageToasts/withToasts';
+import { getCreateTeamError } from '../../model/selector/getCreateTeamError';
+import { closeRequest } from '../../model/actions/closeRequest';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -34,10 +42,49 @@ export const useRequest = () => {
   const isLoading = useSelector(getRequestLoading);
   const requestData = useSelector(getRequestData);
 
+  const createdTeamData = useSelector(getCreateTeamData);
+  const createdTeamError = useSelector(getCreateTeamError);
+
+  const toast = useToasts();
+
   useEffect(() => {
     dispatch({ type: ONBOARDING_TEAMS_CLEAR });
     dispatch(loadRequest(id));
   }, [dispatch, id]);
+
+  useEffect(() => {
+    // Команда создана успешно
+    if (createdTeamData) {
+      toast.addSuccessToast(t('Team has been created successfully.'));
+
+      setExistingTeam({
+        value: createdTeamData.slug,
+        label: createdTeamData.name,
+        roles: createdTeamData.roles,
+      });
+      setNewTeam(null);
+
+      setIsConfirmCreateTeam(false);
+
+      setUpdateUserData({
+        userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
+        teamName: createdTeamData.name,
+        teamSlug: createdTeamData.slug,
+        currentRoles: requestData?.currentRoles,
+        requestedRoles: createdTeamData.roles,
+        dodoRole: requestData?.dodoRole,
+      });
+
+      setIsUpdateUser(true);
+    }
+  }, [createdTeamData]);
+
+  useEffect(() => {
+    // Ошибка при создании команды
+    if (createdTeamError) {
+      toast.addDangerToast(t('An error occurred while creating the team'));
+    }
+  }, [createdTeamError]);
 
   const showCreateTeam = useCallback(() => setIsCreateTeam(true), []);
   const closeCreateTeam = useCallback(() => setIsCreateTeam(false), []);
@@ -89,8 +136,8 @@ export const useRequest = () => {
   );
 
   const openConfirmCreateTeam = useCallback((data: CreateTeamModalDto) => {
-    debugger;
     setIsCreateTeam(false);
+    dispatch({ type: ONBOARDING_CREATE_TEAM_ERROR_CLEAR });
     setConfirmCreateTeamData({
       teamName: data.teamName,
       teamSlug: data.teamSlug,
@@ -102,7 +149,6 @@ export const useRequest = () => {
 
   const createTeamInHook = useCallback(
     (value: ConfirmCreateTeamModalDto) => {
-      debugger;
       dispatch(
         createTeam({
           name: value.teamName,
@@ -111,18 +157,6 @@ export const useRequest = () => {
           userFrom: value.userFrom,
         }),
       );
-
-      setIsConfirmCreateTeam(false);
-
-      setUpdateUserData({
-        userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
-        teamName: confirmCreateTeamData?.teamName,
-        currentRoles: requestData?.currentRoles,
-        requestedRoles: confirmCreateTeamData?.roles,
-        dodoRole: requestData?.dodoRole,
-      });
-
-      setIsUpdateUser(true);
     },
     [confirmCreateTeamData, requestData],
   );
@@ -135,18 +169,26 @@ export const useRequest = () => {
   const showUpdateUser = useCallback(() => {
     setUpdateUserData({
       userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
-      teamName: requestData?.team,
+      teamName: existingTeam.label,
+      teamSlug: existingTeam.value,
       currentRoles: requestData?.currentRoles,
-      requestedRoles: requestData?.requestedRoles,
+      requestedRoles: existingTeam.roles,
       dodoRole: requestData?.dodoRole,
     });
     setIsUpdateUser(true);
-  }, [requestData]);
+  }, [requestData, existingTeam]);
 
   const closeUpdateUser = useCallback(() => setIsUpdateUser(false), []);
 
   const updateUser = useCallback(() => {
-    console.log('update user:', updateUserData);
+    if (updateUserData?.teamSlug && updateUserData.requestedRoles) {
+      dispatch(
+        closeRequest({
+          slug: updateUserData.teamSlug,
+          roles: updateUserData.requestedRoles,
+        }),
+      );
+    }
     setIsUpdateUser(false);
   }, [updateUserData]);
 
@@ -176,5 +218,6 @@ export const useRequest = () => {
     closeUpdateUser,
     updateUserData,
     updateUser,
+    createdTeamError,
   };
 };
