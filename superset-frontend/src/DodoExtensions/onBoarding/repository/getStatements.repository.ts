@@ -24,7 +24,7 @@ type ResponseDto = {
   }>;
 };
 
-export const getStatementRepository = async ({
+export const getStatementsRepository = async ({
   pageIndex,
   pageSize,
   sortBy,

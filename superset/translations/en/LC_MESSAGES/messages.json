@@ -4769,7 +4769,11 @@
       "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [""],
       "Based on your selection, your roles are:": [""],
       "Minimum 3 characters": [""],
-      "Maximum 30 characters": [""]
+      "Maximum 30 characters": [""],
+      "Closed": [""],
+      "Request date": [""],
+      "Team": [""],
+      "Requested roles": [""]
     }
   }
 }
