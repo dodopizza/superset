@@ -28,7 +28,21 @@ from superset.statement.schemas import (
 from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
+    RelatedFieldFilter,
+    requires_form_data,
+    requires_json,
     statsd_metrics,
+)
+from superset.statement.filters import (
+    StatementIDFilter,
+    StatementFinishedFilter,
+    StatementUserFirstNameFilter
+)
+from superset.views.filters import (
+    BaseFilterRelatedRoles,
+    BaseFilterRelatedUsers,
+    FilterRelatedOwners,
+    BaseFilterRelatedUsersFirstName
 )
 from superset.views.utils import finish_onboarding
 
@@ -38,7 +52,7 @@ logger = logging.getLogger(__name__)
 class StatementRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(Statement)
 
-    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET
+    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET.add(RouteMethod.RELATED)
     resource_name = "statement"
     allow_browser_login = True
 
@@ -61,6 +75,32 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "last_changed_datetime"
     ]
 
+    search_columns = (
+        "id",
+        "user",
+        "finished",
+        "team"
+    )
+
+    order_columns = [
+        "user",
+        "created_datetime",
+        "finished",
+    ]
+
+    list_select_columns = list_columns
+    search_filters = {
+        "user": [StatementUserFirstNameFilter]
+    }
+
+    base_related_field_filters = {
+        "user": [["id", BaseFilterRelatedUsers, lambda: []]]
+    }
+
+    related_field_filters = {
+        "user": RelatedFieldFilter("first_name", BaseFilterRelatedUsersFirstName)
+    }
+    allowed_rel_fields = {"user"}
     get_model_schema = StatementGetSchema()
     edit_model_schema = StatementPutSchema()
     team_get_response_schema = StatementGetResponseSchema()
