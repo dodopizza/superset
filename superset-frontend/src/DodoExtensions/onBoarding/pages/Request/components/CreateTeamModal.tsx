@@ -11,6 +11,7 @@ import { getTeamName } from '../../../utils/getTeamName';
 import { Select } from '../../../../../components';
 import { SelectProps } from '../../../../../components/Select/types';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
+import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 
 export type CreateTeamModalDto = {
   userFrom: UserFromEnum;
@@ -62,6 +63,16 @@ export const CreateTeamModal: FC<Props> = ({
     [data.userFrom, form],
   );
 
+  const handleRoleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const reg = /^-?[0-9a-zA-Z ]*(\.[0-9a-zA-Z ]*)?$/;
+      if (!reg.test(event.key)) {
+        event.preventDefault();
+      }
+    },
+    [],
+  );
+
   return (
     <Modal
       title="Create new team"
@@ -86,9 +97,19 @@ export const CreateTeamModal: FC<Props> = ({
         <FormItem
           name="name"
           label={t('Team Name')}
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            {
+              min: MIN_TEAM_NAME_LENGTH,
+              message: t('Too short'),
+            },
+            {
+              max: MAX_TEAM_NAME_LENGTH,
+              message: t('Too long'),
+            },
+          ]}
         >
-          <Input onChange={setNameAndTag} />
+          <Input onChange={setNameAndTag} onKeyPress={handleRoleKeyPress} />
         </FormItem>
         <FormItem
           name="teamName"
