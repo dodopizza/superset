@@ -26,7 +26,15 @@ export const onboardingRequestSlice = (
 ): OnboardingRequestState => {
   switch (action.type) {
     case ONBOARDING_REQUEST_LOADING: {
-      return { ...state, requestIsLoading: true };
+      return {
+        ...state,
+        requestIsLoading: true,
+        requestData: null,
+        loadingRequestError: null,
+        isClosing: false,
+        closingSuccess: false,
+        closingError: null,
+      };
     }
     case ONBOARDING_REQUEST_SUCCESS: {
       return { ...state, requestIsLoading: false, requestData: action.payload };
