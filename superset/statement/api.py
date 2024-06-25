@@ -287,7 +287,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
                 pk,
                 change_fields_for_statement).run()
             if item.get("is_approved"):
-                team_slug = changed_statement.team_slug
+                team_slug = item.get("team_slug")
                 team_model = find_team_by_slug(team_slug)
                 team_id = team_model.id
                 user = changed_statement.user
