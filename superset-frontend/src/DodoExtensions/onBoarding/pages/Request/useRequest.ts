@@ -10,13 +10,11 @@ import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
-import { getTeamSlug } from '../../utils/getTeamSlug';
 import {
   ONBOARDING_CREATE_TEAM_CLEAR,
   ONBOARDING_TEAMS_CLEAR,
 } from '../../model/types/team.types';
 import { createTeam } from '../../model/actions/createTeam';
-import { UserFromEnum } from '../../types';
 import { getCreateTeamData } from '../../model/selector/getCreateTeamData';
 import { useToasts } from '../../../../components/MessageToasts/withToasts';
 import { getCreateTeamError } from '../../model/selector/getCreateTeamError';
@@ -24,16 +22,15 @@ import { closeRequest } from '../../model/actions/closeRequest';
 import { getCloseRequestError } from '../../model/selector/getCloseRequestError';
 import { getCloseRequestSuccess } from '../../model/selector/getCloseRequestSuccess';
 import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
+import { UserFromEnum } from '../../types';
+import { getTeamSlug } from '../../utils/getTeamSlug';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
 
-  const [isCreateTeam, setIsCreateTeam] = useState<boolean>(false);
-  const [isConfirmCreateTeam, setIsConfirmCreateTeam] =
-    useState<boolean>(false);
-  const [isUpdateUser, setIsUpdateUser] = useState<boolean>(false);
-
+  const [createTeamData, setCreateTeamData] =
+    useState<CreateTeamModalDto | null>(null);
   const [confirmCreateTeamData, setConfirmCreateTeamData] =
     useState<ConfirmCreateTeamModalDto | null>(null);
   const [updateUserData, setUpdateUserData] = useState<UpdateUserDto | null>(
@@ -55,14 +52,19 @@ export const useRequest = () => {
 
   useEffect(() => {
     // Первоначальная загрузка данных
-    dispatch({ type: ONBOARDING_TEAMS_CLEAR });
-    dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
     dispatch(loadRequest(id));
+    return () => {
+      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+      dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
+      dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
+    };
   }, [dispatch, id]);
 
   useEffect(() => {
     // Команда создана успешно
     if (createdTeamData) {
+      dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
+
       toast.addSuccessToast(t('Team has been created successfully.'));
 
       setExistingTeam({
@@ -72,7 +74,7 @@ export const useRequest = () => {
       });
       setNewTeam(null);
 
-      setIsConfirmCreateTeam(false);
+      setConfirmCreateTeamData(null);
 
       setUpdateUserData({
         userName: `${requestData?.firstName} ${requestData?.lastName} (${requestData?.email})`,
@@ -82,10 +84,6 @@ export const useRequest = () => {
         requestedRoles: createdTeamData.roles,
         dodoRole: requestData?.dodoRole,
       });
-
-      dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
-
-      setIsUpdateUser(true);
     }
   }, [createdTeamData]);
 
@@ -98,11 +96,11 @@ export const useRequest = () => {
 
   useEffect(() => {
     // Успех при закрытии заявки
-    if (closeRequestSuccess) {
+    if (closeRequestSuccess && toast) {
       toast.addSuccessToast(t('Request closed successfully.'));
-      setIsUpdateUser(false);
+      setUpdateUserData(null);
     }
-  }, [closeRequestSuccess]);
+  }, [closeRequestSuccess, toast]);
 
   useEffect(() => {
     // Ошибка при закрытии заявки
@@ -111,8 +109,19 @@ export const useRequest = () => {
     }
   }, [closeRequestError, toast]);
 
-  const showCreateTeam = useCallback(() => setIsCreateTeam(true), []);
-  const closeCreateTeam = useCallback(() => setIsCreateTeam(false), []);
+  const showCreateTeam = useCallback(() => {
+    setCreateTeamData({
+      userFrom: requestData?.userFrom ?? UserFromEnum.Unknown,
+      name: newTeam,
+      teamName: getTeamName(newTeam, requestData?.userFrom),
+      teamSlug: getTeamSlug(newTeam, requestData?.userFrom),
+      roles: [],
+    });
+  }, [newTeam, requestData?.userFrom]);
+
+  const closeCreateTeam = useCallback(() => {
+    setCreateTeamData(null);
+  }, []);
 
   const tagClosable = useMemo(
     () => (!!existingTeam || !!newTeam) && !requestData?.isClosed,
@@ -149,20 +158,9 @@ export const useRequest = () => {
     return 'no team';
   }, [existingTeam, newTeam, requestData?.userFrom]);
 
-  const createTeamData: CreateTeamModalDto = useMemo(
-    () => ({
-      userFrom: requestData?.userFrom ?? UserFromEnum.Unknown,
-      name: newTeam,
-      teamName: getTeamName(newTeam, requestData?.userFrom),
-      teamSlug: getTeamSlug(newTeam, requestData?.userFrom),
-      roles: [],
-    }),
-    [newTeam, requestData?.userFrom],
-  );
-
   const openConfirmCreateTeam = useCallback(
     (data: CreateTeamModalDto) => {
-      setIsCreateTeam(false);
+      setCreateTeamData(null);
       dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
       setConfirmCreateTeamData({
         teamName: data.teamName,
@@ -170,7 +168,6 @@ export const useRequest = () => {
         roles: data.roles,
         userFrom: data.userFrom,
       });
-      setIsConfirmCreateTeam(true);
     },
     [dispatch],
   );
@@ -189,10 +186,9 @@ export const useRequest = () => {
     [dispatch],
   );
 
-  const closeConfirmCreateTeam = useCallback(
-    () => setIsConfirmCreateTeam(false),
-    [],
-  );
+  const closeConfirmCreateTeam = useCallback(() => {
+    setConfirmCreateTeamData(null);
+  }, []);
 
   const showUpdateUser = useCallback(() => {
     setUpdateUserData({
@@ -204,7 +200,6 @@ export const useRequest = () => {
       dodoRole: requestData?.dodoRole,
     });
     dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
-    setIsUpdateUser(true);
   }, [
     requestData?.firstName,
     requestData?.lastName,
@@ -217,7 +212,9 @@ export const useRequest = () => {
     dispatch,
   ]);
 
-  const closeUpdateUser = useCallback(() => setIsUpdateUser(false), []);
+  const closeUpdateUser = useCallback(() => {
+    setUpdateUserData(null);
+  }, []);
 
   const updateUser = useCallback(() => {
     if (updateUserData?.teamSlug && updateUserData.requestedRoles) {
@@ -238,7 +235,6 @@ export const useRequest = () => {
     setNewTeam,
     existingTeam,
     setExistingTeam,
-    isCreateTeam,
     showCreateTeam,
     closeCreateTeam,
     tagClosable,
@@ -248,12 +244,10 @@ export const useRequest = () => {
     formatedTeamName,
     createTeamData,
     openConfirmCreateTeam,
-    isConfirmCreateTeam,
     createTeamInHook: createTeamHandle,
     closeConfirmCreateTeam,
     confirmCreateTeamData,
     showUpdateUser,
-    isUpdateUser,
     closeUpdateUser,
     updateUserData,
     updateUser,

@@ -147,7 +147,6 @@ export const filters: Filters = [
     id: 'finished',
     Header: t('Closed'),
     key: 'isClosed',
-    // urlDisplay: 'favorite',
     input: 'select',
     operator: FilterOperator.equals,
     unfilteredLabel: t('Any'),
@@ -158,4 +157,4 @@ export const filters: Filters = [
   },
 ];
 
-export const initialSort = [{ id: 'id', desc: false }];
+export const initialSort = [{ id: 'finished', desc: false }];

@@ -35,7 +35,6 @@ export const Request: FC = () => {
     setNewTeam,
     existingTeam,
     setExistingTeam,
-    isCreateTeam,
     showCreateTeam,
     closeCreateTeam,
     tagClosable,
@@ -45,12 +44,10 @@ export const Request: FC = () => {
     formatedTeamName,
     createTeamData,
     openConfirmCreateTeam,
-    isConfirmCreateTeam,
     closeConfirmCreateTeam,
     createTeamInHook,
     confirmCreateTeamData,
     showUpdateUser,
-    isUpdateUser,
     closeUpdateUser,
     updateUserData,
     updateUser,
@@ -143,21 +140,21 @@ export const Request: FC = () => {
               <RoleDescription />
             </Col>
           </Row>
-          {isCreateTeam && (
+          {createTeamData && (
             <CreateTeamModal
               onCloseModal={closeCreateTeam}
               onSubmit={openConfirmCreateTeam}
               data={createTeamData}
             />
           )}
-          {isConfirmCreateTeam && confirmCreateTeamData && (
+          {confirmCreateTeamData && (
             <ConfirmCreateTeamModal
               onCloseModal={closeConfirmCreateTeam}
               onSubmit={createTeamInHook}
               data={confirmCreateTeamData}
             />
           )}
-          {isUpdateUser && (
+          {updateUserData && (
             <UpdateUser
               onCloseModal={closeUpdateUser}
               data={updateUserData}

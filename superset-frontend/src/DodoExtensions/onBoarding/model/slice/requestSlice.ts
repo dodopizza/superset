@@ -60,6 +60,7 @@ export const onboardingRequestSlice = (
         ...state,
         isClosing: false,
         closingSuccess: true,
+        closingError: null,
         requestData: action.payload,
       };
     }
@@ -67,6 +68,7 @@ export const onboardingRequestSlice = (
       return {
         ...state,
         isClosing: false,
+        closingSuccess: false,
         closingError: action.payload.error,
       };
     }
@@ -74,6 +76,8 @@ export const onboardingRequestSlice = (
       return {
         ...state,
         closingError: null,
+        isClosing: false,
+        closingSuccess: false,
       };
     }
 
