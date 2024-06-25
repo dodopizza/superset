@@ -95,6 +95,7 @@ export const Request: FC = () => {
                   setNewTeam={setNewTeam}
                   existingTeam={existingTeam}
                   setExistingTeam={setExistingTeam}
+                  disabled={requestData?.isClosed}
                 />
                 {teamOK && (
                   <>
@@ -119,7 +120,7 @@ export const Request: FC = () => {
                   <StyledButton
                     type="primary"
                     htmlType="button"
-                    disabled={!newTeamOK}
+                    disabled={requestData?.isClosed}
                     onClick={showCreateTeam}
                   >
                     {t('Create team')}
@@ -131,6 +132,7 @@ export const Request: FC = () => {
                     type="primary"
                     htmlType="button"
                     onClick={showUpdateUser}
+                    disabled={requestData?.isClosed}
                   >
                     {t('Check information and update user')}
                   </StyledButton>

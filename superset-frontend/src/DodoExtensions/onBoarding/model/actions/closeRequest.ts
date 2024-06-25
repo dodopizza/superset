@@ -20,10 +20,11 @@ export function closeRequest(params: Params) {
         type: ONBOARDING_REQUEST_CLOSING_PENDING,
       });
 
-      await putStatementRepository(params);
+      const payload = await putStatementRepository(params);
 
       dispatch({
         type: ONBOARDING_REQUEST_CLOSING_SUCCESS,
+        payload,
       });
     } catch (response) {
       const { statusText } = response;

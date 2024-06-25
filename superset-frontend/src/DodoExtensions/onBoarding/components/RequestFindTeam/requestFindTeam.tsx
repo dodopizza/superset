@@ -13,6 +13,7 @@ type Props = {
   setNewTeam: (value: string | null) => void;
   userFrom: UserFromEnum;
   setRoles?: (value: Array<Role>) => void;
+  disabled?: boolean;
 };
 
 export const RequestFindTeam: FC<Props> = memo(
@@ -23,6 +24,7 @@ export const RequestFindTeam: FC<Props> = memo(
     setExistingTeam,
     userFrom,
     setRoles,
+    disabled,
   }) => {
     const { teamsIsLoading, teams } = useSelector(getTeamsData);
 
@@ -43,6 +45,7 @@ export const RequestFindTeam: FC<Props> = memo(
         style={{ width: '100%' }}
         onSearch={debouncedLoadTeamList}
         onChange={handleTeamChange}
+        disabled={disabled}
       >
         <Input.Search
           placeholder={t('enter team')}

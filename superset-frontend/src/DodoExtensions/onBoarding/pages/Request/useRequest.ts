@@ -114,8 +114,8 @@ export const useRequest = () => {
   const closeCreateTeam = useCallback(() => setIsCreateTeam(false), []);
 
   const tagClosable = useMemo(
-    () => !!existingTeam || !!newTeam,
-    [existingTeam, newTeam],
+    () => (!!existingTeam || !!newTeam) && !requestData?.isClosed,
+    [existingTeam, newTeam, requestData?.isClosed],
   );
 
   const removeTeam = useCallback(
@@ -159,17 +159,20 @@ export const useRequest = () => {
     [newTeam, requestData?.userFrom],
   );
 
-  const openConfirmCreateTeam = useCallback((data: CreateTeamModalDto) => {
-    setIsCreateTeam(false);
-    dispatch({ type: ONBOARDING_CREATE_TEAM_ERROR_CLEAR });
-    setConfirmCreateTeamData({
-      teamName: data.teamName,
-      teamSlug: data.teamSlug,
-      roles: data.roles,
-      userFrom: data.userFrom,
-    });
-    setIsConfirmCreateTeam(true);
-  }, []);
+  const openConfirmCreateTeam = useCallback(
+    (data: CreateTeamModalDto) => {
+      setIsCreateTeam(false);
+      dispatch({ type: ONBOARDING_CREATE_TEAM_ERROR_CLEAR });
+      setConfirmCreateTeamData({
+        teamName: data.teamName,
+        teamSlug: data.teamSlug,
+        roles: data.roles,
+        userFrom: data.userFrom,
+      });
+      setIsConfirmCreateTeam(true);
+    },
+    [dispatch],
+  );
 
   const createTeamHandle = useCallback(
     (value: ConfirmCreateTeamModalDto) => {
@@ -201,7 +204,17 @@ export const useRequest = () => {
     });
     dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
     setIsUpdateUser(true);
-  }, [requestData, existingTeam]);
+  }, [
+    requestData?.firstName,
+    requestData?.lastName,
+    requestData?.email,
+    requestData?.currentRoles,
+    requestData?.dodoRole,
+    existingTeam?.label,
+    existingTeam?.value,
+    existingTeam?.roles,
+    dispatch,
+  ]);
 
   const closeUpdateUser = useCallback(() => setIsUpdateUser(false), []);
 

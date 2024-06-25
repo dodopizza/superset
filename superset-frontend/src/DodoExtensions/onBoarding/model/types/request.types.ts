@@ -22,7 +22,7 @@ type ActionRequestError = {
   payload: { error: string };
 };
 
-type ActionRequestSuccessPayload = {
+type SingleStatementModel = {
   userFrom: UserFromEnum;
   firstName: string;
   lastName: string;
@@ -38,7 +38,7 @@ type ActionRequestSuccessPayload = {
 
 type ActionRequestSuccess = {
   type: typeof ONBOARDING_REQUEST_SUCCESS;
-  payload: ActionRequestSuccessPayload;
+  payload: SingleStatementModel;
 };
 
 type ActionRequestClosingPending = {
@@ -47,6 +47,7 @@ type ActionRequestClosingPending = {
 
 type ActionRequestClosingSuccess = {
   type: typeof ONBOARDING_REQUEST_CLOSING_SUCCESS;
+  payload: SingleStatementModel;
 };
 
 type ActionRequestClosingError = {
@@ -70,7 +71,7 @@ type OnboardingRequestAction =
 type OnboardingRequestState = {
   requestIsLoading: boolean;
   loadingRequestError: string | null;
-  requestData: ActionRequestSuccessPayload | null;
+  requestData: SingleStatementModel | null;
 
   isClosing: boolean;
   closingSuccess: boolean;
@@ -80,5 +81,5 @@ type OnboardingRequestState = {
 export {
   OnboardingRequestState,
   OnboardingRequestAction,
-  ActionRequestSuccessPayload,
+  SingleStatementModel,
 };

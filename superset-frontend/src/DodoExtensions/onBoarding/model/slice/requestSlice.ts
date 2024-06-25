@@ -52,6 +52,7 @@ export const onboardingRequestSlice = (
         ...state,
         isClosing: false,
         closingSuccess: true,
+        requestData: action.payload,
       };
     }
     case ONBOARDING_REQUEST_CLOSING_ERROR: {
