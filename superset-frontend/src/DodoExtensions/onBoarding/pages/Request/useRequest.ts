@@ -12,7 +12,7 @@ import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
 import { getTeamSlug } from '../../utils/getTeamSlug';
 import {
-  ONBOARDING_CREATE_TEAM_ERROR_CLEAR,
+  ONBOARDING_CREATE_TEAM_CLEAR,
   ONBOARDING_TEAMS_CLEAR,
 } from '../../model/types/team.types';
 import { createTeam } from '../../model/actions/createTeam';
@@ -56,6 +56,7 @@ export const useRequest = () => {
   useEffect(() => {
     // Первоначальная загрузка данных
     dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+    dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
     dispatch(loadRequest(id));
   }, [dispatch, id]);
 
@@ -93,7 +94,7 @@ export const useRequest = () => {
     if (createdTeamError) {
       toast.addDangerToast(t('An error occurred while creating the team'));
     }
-  }, [createdTeamError]);
+  }, [createdTeamError, toast]);
 
   useEffect(() => {
     // Успех при закрытии заявки
@@ -108,7 +109,7 @@ export const useRequest = () => {
     if (closeRequestError) {
       toast.addDangerToast(t('An error occurred while closing the request'));
     }
-  }, [closeRequestError]);
+  }, [closeRequestError, toast]);
 
   const showCreateTeam = useCallback(() => setIsCreateTeam(true), []);
   const closeCreateTeam = useCallback(() => setIsCreateTeam(false), []);
@@ -162,7 +163,7 @@ export const useRequest = () => {
   const openConfirmCreateTeam = useCallback(
     (data: CreateTeamModalDto) => {
       setIsCreateTeam(false);
-      dispatch({ type: ONBOARDING_CREATE_TEAM_ERROR_CLEAR });
+      dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
       setConfirmCreateTeamData({
         teamName: data.teamName,
         teamSlug: data.teamSlug,
@@ -228,7 +229,7 @@ export const useRequest = () => {
         }),
       );
     }
-  }, [updateUserData, id]);
+  }, [updateUserData?.teamSlug, updateUserData?.requestedRoles, dispatch, id]);
 
   return {
     isLoading,

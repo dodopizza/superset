@@ -1,6 +1,6 @@
 import {
+  ONBOARDING_CREATE_TEAM_CLEAR,
   ONBOARDING_CREATE_TEAM_ERROR,
-  ONBOARDING_CREATE_TEAM_ERROR_CLEAR,
   ONBOARDING_CREATE_TEAM_PENDING,
   ONBOARDING_CREATE_TEAM_SUCCESS,
   ONBOARDING_TEAMS_CLEAR,
@@ -47,7 +47,12 @@ export const onboardingTeamSlice = (
     }
 
     case ONBOARDING_CREATE_TEAM_PENDING: {
-      return { ...state, createTeamPending: true, createTeamError: null };
+      return {
+        ...state,
+        createTeamPending: true,
+        createTeamError: null,
+        createTeamData: null,
+      };
     }
     case ONBOARDING_CREATE_TEAM_SUCCESS: {
       return {
@@ -65,10 +70,12 @@ export const onboardingTeamSlice = (
         createTeamError: action.payload.error,
       };
     }
-    case ONBOARDING_CREATE_TEAM_ERROR_CLEAR: {
+    case ONBOARDING_CREATE_TEAM_CLEAR: {
       return {
         ...state,
+        createTeamPending: false,
         createTeamError: null,
+        createTeamData: null,
       };
     }
 
