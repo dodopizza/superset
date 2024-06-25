@@ -1,44 +1,49 @@
 import { SupersetClient } from '@superset-ui/core';
 import rison from 'rison';
-import { Team, UserFromEnum } from '../types';
-import { getRoleFromString } from '../utils/getRoleFromString';
-
-enum Operation {
-  contains = 'ct_name',
-  equals = 'eq_external',
-}
-
-type ResponseDtoRecord = {
-  id: number;
-  isExternal: boolean;
-  name: string;
-  slug: string;
-  roles: Array<{ name: string }>;
-};
+import { FetchDataConfig } from '../../../components/ListView';
+import { OnboardingTeamListSuccessPayload } from '../model/types/teamList.types';
 
 type ResponseDto = {
-  result: Array<ResponseDtoRecord>;
+  count: number;
+  result: Array<{
+    id: number;
+    isExternal: boolean;
+    roles: Array<{
+      id: number;
+      name: string;
+    }>;
+    name: string;
+    slug: string;
+    participants: Array<{
+      id: number;
+      first_name: string;
+      last_name: string;
+    }>;
+  }>;
 };
 
-const fromDtoFactory = (dtoRecord: ResponseDtoRecord): Team => ({
-  value: dtoRecord.slug,
-  label: dtoRecord.name,
-  roles: dtoRecord.roles.map(role => getRoleFromString(role)),
-});
-export const getTeamListRepository = async (
-  userFrom: UserFromEnum,
-  query: string,
-): Promise<Array<Team>> => {
-  const filterExps = [
-    { col: 'name', opr: Operation.contains, value: query },
-    {
-      col: 'isExternal',
-      opr: Operation.equals,
-      value: userFrom === UserFromEnum.Franchisee ? 1 : 0,
-    },
-  ];
+export const getTeamListRepository = async ({
+  pageIndex,
+  pageSize,
+  sortBy,
+  filters: filterValues,
+}: FetchDataConfig): Promise<OnboardingTeamListSuccessPayload> => {
+  const filterExps = filterValues.map(({ id, operator: opr, value }) => ({
+    col: id,
+    opr,
+    value:
+      value && typeof value === 'object' && 'value' in value
+        ? value.value
+        : value,
+  }));
 
-  const queryParams = rison.encode_uri({ filters: filterExps });
+  const queryParams = rison.encode_uri({
+    order_column: sortBy[0].id,
+    order_direction: sortBy[0].desc ? 'desc' : 'asc',
+    page: pageIndex,
+    page_size: pageSize,
+    ...(filterExps.length ? { filters: filterExps } : {}),
+  });
 
   const url = `/api/v1/team/?q=${queryParams}`;
 
@@ -50,5 +55,15 @@ export const getTeamListRepository = async (
 
   const dto: ResponseDto = await response.json();
 
-  return dto.result.map(item => fromDtoFactory(item));
+  return {
+    count: dto.count,
+    rows: dto.result.map(item => ({
+      id: item.id,
+      name: item.name,
+      slug: item.slug,
+      roles: item.roles.map(role => role.name).join(', '),
+      isExternal: item.isExternal,
+      membersCount: item.participants.length,
+    })),
+  };
 };

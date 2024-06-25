@@ -8,7 +8,7 @@ import { getTeamName } from '../../../utils/getTeamName';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 import { loadTeams } from '../../../model/actions/loadTeams';
-import { getTeamsData } from '../../../model/selector/getTeamsData';
+import { getTeamsData } from '../../../model/selectors/getTeamsData';
 
 const StyledSpace = styled(Space)`
   width: 100%;

@@ -9,8 +9,8 @@ import { StepOnePopupDto } from './stepOnePopup.dto';
 import { Input } from '../../../../components/Input';
 import Loading from '../../../../components/Loading';
 import { ButtonWithTopMargin } from '../styles';
-import { getOnboardingStartedTime } from '../../model/selector/getStepOneData';
-import { getOnboardingStepOneUpdating } from '../../model/selector/getOnboardingStepOneUpdating';
+import { getOnboardingStartedTime } from '../../model/selectors/getStepOneData';
+import { getOnboardingStepOneUpdating } from '../../model/selectors/getOnboardingStepOneUpdating';
 
 const Wrapper = styled.div`
   padding: 1.5rem;

@@ -7,8 +7,8 @@ import {
   updateStorageTimeOfTheLastShow,
 } from '../utils/localStorageUtils';
 import { initOnboarding } from '../model/actions/initOnboarding';
-import { getIsOnboardingFinished } from '../model/selector/getIsOnboardingFinished';
-import { getOnboardingStartedTime } from '../model/selector/getOnboardingStartedTime';
+import { getIsOnboardingFinished } from '../model/selectors/getIsOnboardingFinished';
+import { getOnboardingStartedTime } from '../model/selectors/getOnboardingStartedTime';
 import { stepOneFinish } from '../model/actions/stepOneFinish';
 
 const oneDayPassed = (date?: Date): boolean => {

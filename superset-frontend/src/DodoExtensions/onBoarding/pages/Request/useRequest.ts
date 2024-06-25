@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { t } from '@superset-ui/core';
 import { loadRequest } from '../../model/actions/loadRequest';
-import { getRequestLoading } from '../../model/selector/getRequestLoading';
-import { getRequestData } from '../../model/selector/getRequestData';
+import { getRequestLoading } from '../../model/selectors/getRequestLoading';
+import { getRequestData } from '../../model/selectors/getRequestData';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
@@ -15,15 +15,16 @@ import {
   ONBOARDING_TEAMS_CLEAR,
 } from '../../model/types/team.types';
 import { createTeam } from '../../model/actions/createTeam';
-import { getCreateTeamData } from '../../model/selector/getCreateTeamData';
+import { getCreateTeamData } from '../../model/selectors/getCreateTeamData';
 import { useToasts } from '../../../../components/MessageToasts/withToasts';
-import { getCreateTeamError } from '../../model/selector/getCreateTeamError';
+import { getCreateTeamError } from '../../model/selectors/getCreateTeamError';
 import { closeRequest } from '../../model/actions/closeRequest';
-import { getCloseRequestError } from '../../model/selector/getCloseRequestError';
-import { getCloseRequestSuccess } from '../../model/selector/getCloseRequestSuccess';
+import { getCloseRequestError } from '../../model/selectors/getCloseRequestError';
+import { getCloseRequestSuccess } from '../../model/selectors/getCloseRequestSuccess';
 import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
 import { UserFromEnum } from '../../types';
 import { getTeamSlug } from '../../utils/getTeamSlug';
+import { getUserInfo } from '../../model/selectors/getUserInfo';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -49,6 +50,13 @@ export const useRequest = () => {
   const closeRequestSuccess = useSelector(getCloseRequestSuccess);
 
   const toast = useToasts();
+
+  const user = useSelector(getUserInfo);
+  const history = useHistory();
+
+  if (!user.roles.Admin) {
+    history.push('/superset/welcome/');
+  }
 
   useEffect(() => {
     // Первоначальная загрузка данных

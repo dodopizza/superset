@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { FetchDataConfig } from '../../../../components/ListView';
+import { useCallback } from 'react';
 import { getUserInfo } from '../../model/selectors/getUserInfo';
-import { loadRequestList } from '../../model/actions/loadRequestList';
+import { loadTeamList } from '../../model/actions/loadTeamList';
+import { FetchDataConfig } from '../../../../components/ListView';
 
-export const useRequestList = () => {
+export const useTeamList = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUserInfo);
   const history = useHistory();
@@ -16,12 +16,10 @@ export const useRequestList = () => {
 
   const fetchData = useCallback(
     (config: FetchDataConfig) => {
-      dispatch(loadRequestList(config));
+      dispatch(loadTeamList(config));
     },
     [dispatch],
   );
 
-  return {
-    fetchData,
-  };
+  return { fetchData };
 };

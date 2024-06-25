@@ -53,6 +53,7 @@ import {
   onboardingRequestListSlice,
   onboardingRequestSlice,
   onboardingStartSlice,
+  onboardingTeamListSlice,
   onboardingTeamSlice,
 } from '../DodoExtensions/onBoarding';
 
@@ -140,6 +141,7 @@ const reducers = {
   onboardingTeam: onboardingTeamSlice,
   onboardingRequestList: onboardingRequestListSlice,
   onboardingRequest: onboardingRequestSlice,
+  onboardingTeamList: onboardingTeamListSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html

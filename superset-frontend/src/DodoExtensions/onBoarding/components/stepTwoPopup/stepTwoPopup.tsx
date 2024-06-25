@@ -9,7 +9,7 @@ import { UserFromEnum } from '../../types';
 import { SelectRoles } from './components/selectRoles';
 import { ButtonWithTopMargin } from '../styles';
 import { useStepTwoPopup } from './useStepTwoPopup';
-import { getOnboardingFinishUpdating } from '../../model/selector/getOnboardingFinishUpdating';
+import { getOnboardingFinishUpdating } from '../../model/selectors/getOnboardingFinishUpdating';
 import Loading from '../../../../components/Loading';
 import { RequestFindTeam } from '../RequestFindTeam/requestFindTeam';
 

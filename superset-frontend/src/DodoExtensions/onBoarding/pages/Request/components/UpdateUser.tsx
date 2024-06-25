@@ -5,7 +5,7 @@ import { Descriptions } from 'antd';
 import { useSelector } from 'react-redux';
 import Button from '../../../../../components/Button';
 import { Role } from '../../../types';
-import { getCloseRequestError } from '../../../model/selector/getCloseRequestError';
+import { getCloseRequestError } from '../../../model/selectors/getCloseRequestError';
 import Alert from '../../../../../components/Alert';
 
 export type UpdateUserDto = {

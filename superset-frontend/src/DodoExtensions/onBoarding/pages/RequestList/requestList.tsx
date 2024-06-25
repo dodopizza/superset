@@ -6,12 +6,12 @@ import { useRequestList } from './useRequestList';
 import type { RequestListType } from './types';
 import { columns, filters, initialSort } from './consts';
 import SubMenu from '../../../../features/home/SubMenu';
-import { getRequestListData } from '../../model/selector/getRequestListData';
-import { getRequestListLoading } from '../../model/selector/getRequestListLoading';
+import { getRequestListData } from '../../model/selectors/getRequestListData';
+import { getRequestListLoading } from '../../model/selectors/getRequestListLoading';
 
 const PAGE_SIZE = 10;
 
-const RequestList: FC = () => {
+const RequestListPage: FC = () => {
   const { fetchData } = useRequestList();
 
   const data = useSelector(getRequestListData);
@@ -36,4 +36,4 @@ const RequestList: FC = () => {
   );
 };
 
-export { RequestList };
+export { RequestListPage };

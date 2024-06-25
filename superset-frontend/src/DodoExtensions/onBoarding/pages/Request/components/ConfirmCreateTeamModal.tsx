@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Button from '../../../../../components/Button';
 import Modal from '../../../../../components/Modal';
 import { Role, UserFromEnum } from '../../../types';
-import { getCreateTeamError } from '../../../model/selector/getCreateTeamError';
+import { getCreateTeamError } from '../../../model/selectors/getCreateTeamError';
 import Alert from '../../../../../components/Alert';
 
 export type ConfirmCreateTeamModalDto = {

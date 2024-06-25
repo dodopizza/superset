@@ -24,6 +24,7 @@ import Home from 'src/pages/Home';
 import {
   REQUEST_PAGE_LIST_URL,
   REQUEST_PAGE_URL,
+  TEAM_PAGE_LIST_URL,
 } from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
@@ -126,14 +127,21 @@ const RowLevelSecurityList = lazy(
 const RequestList = lazy(
   () =>
     import(
-      /* webpackChunkName: "ChartList" */ 'src/DodoExtensions/onBoarding/pages/RequestList'
+      /* webpackChunkName: "RequestList" */ 'src/DodoExtensions/onBoarding/pages/RequestList'
     ),
 );
 
 const Request = lazy(
   () =>
     import(
-      /* webpackChunkName: "ChartList" */ 'src/DodoExtensions/onBoarding/pages/Request'
+      /* webpackChunkName: "Request" */ 'src/DodoExtensions/onBoarding/pages/Request'
+    ),
+);
+
+const TeamList = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "TeamList" */ 'src/DodoExtensions/onBoarding/pages/TeamList'
     ),
 );
 // DODO added stop 32839654
@@ -244,6 +252,10 @@ export const routes: Routes = [
   {
     path: REQUEST_PAGE_URL,
     Component: Request,
+  },
+  {
+    path: TEAM_PAGE_LIST_URL,
+    Component: TeamList,
   },
   // DODO added stop 32839654
 ];

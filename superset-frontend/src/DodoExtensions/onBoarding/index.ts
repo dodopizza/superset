@@ -1,6 +1,7 @@
 export * from './onBoardingEntryPoint';
 export * from './utils/onboardingMenuItems';
-export { onboardingRequestSlice } from './model/slice/requestSlice';
-export { onboardingRequestListSlice } from './model/slice/requestListSlice';
-export { onboardingTeamSlice } from './model/slice/teamSlice';
-export { onboardingStartSlice } from './model/slice/onboardingStartSlice';
+export { onboardingRequestSlice } from './model/slices/request.slice';
+export { onboardingRequestListSlice } from './model/slices/requestList.slice';
+export { onboardingTeamSlice } from './model/slices/team.slice';
+export { onboardingStartSlice } from './model/slices/onboardingStart.slice';
+export { onboardingTeamListSlice } from './model/slices/teamList.slice';

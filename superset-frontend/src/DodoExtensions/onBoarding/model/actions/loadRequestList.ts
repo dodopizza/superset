@@ -4,7 +4,7 @@ import {
   ONBOARDING_REQUEST_LIST_LOADING,
   ONBOARDING_REQUEST_LIST_SUCCESS,
 } from '../types/requestList.types';
-import { getStatementsRepository } from '../../repository/getStatements.repository';
+import { getStatementListRepository } from '../../repository/getStatementList.repository';
 import { FetchDataConfig } from '../../../../components/ListView';
 
 export function loadRequestList(config: FetchDataConfig) {
@@ -14,7 +14,7 @@ export function loadRequestList(config: FetchDataConfig) {
         type: ONBOARDING_REQUEST_LIST_LOADING,
       });
 
-      const data = await getStatementsRepository(config);
+      const data = await getStatementListRepository(config);
 
       dispatch({
         type: ONBOARDING_REQUEST_LIST_SUCCESS,

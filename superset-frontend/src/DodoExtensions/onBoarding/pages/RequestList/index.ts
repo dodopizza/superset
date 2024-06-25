@@ -1,3 +1,3 @@
-import { RequestList } from './requestList';
+import { RequestListPage } from './requestList';
 
-export default RequestList;
+export default RequestListPage;

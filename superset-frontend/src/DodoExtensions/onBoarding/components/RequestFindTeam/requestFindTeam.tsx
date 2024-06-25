@@ -3,7 +3,7 @@ import { AutoComplete, Input } from 'antd';
 import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
 import { Role, UserFromEnum } from '../../types';
-import { getTeamsData } from '../../model/selector/getTeamsData';
+import { getTeamsData } from '../../model/selectors/getTeamsData';
 import { useTeam } from './useTeam';
 
 type Props = {
