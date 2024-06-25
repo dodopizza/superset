@@ -302,7 +302,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
             response = self.response(
                 200,
                 id=changed_statement.id,
-                result=item,
+                result=self.statement_get_response_schema.dump(changed_statement),
             )
         except StatementNotFoundError:
             response = self.response_404()
