@@ -81,7 +81,7 @@ export const columns = [
     id: 'franchisee',
     Cell: (props: any) => (
       <div style={{ textAlign: 'center' }}>
-        <CheckboxControl hovered value={!props.value} disabled />
+        <CheckboxControl hovered value={!!props.value} disabled />
       </div>
     ),
     Header: t('Franchisee'),
@@ -90,17 +90,10 @@ export const columns = [
   },
   {
     Cell: ({ row: { original } }: any) => (
-      // const openEditModal = () => {};
-
       <StyledActions className="actions">
         <Tooltip id="edit-action-tooltip" title={t('Edit')} placement="bottom">
           <Link to={TEAM_PAGE_URL.replace(':id', original.id)}>
-            <span
-              role="button"
-              tabIndex={0}
-              className="action-button"
-              // onClick={openEditModal}
-            >
+            <span role="button" tabIndex={0} className="action-button">
               <Icons.EditAlt data-test="edit-alt" />
             </span>
           </Link>
