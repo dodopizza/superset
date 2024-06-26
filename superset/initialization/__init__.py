@@ -274,7 +274,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             category_icon="",
         )
         appbuilder.add_view(
-            TagModelView,
+            TeamModelView,
             "Team",
             label=__("Team"),
             icon="fa-team",
