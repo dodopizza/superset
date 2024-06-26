@@ -20,21 +20,6 @@ logger = logging.getLogger(__name__)
 
 class TeamDAO(BaseDAO[Team]):
 
-    @classmethod
-    def get_by_name_and_external(cls, subname: str, is_external: bool) -> list[Team]:
-        try:
-
-            query = (
-                db.session.query(Team).filter(Team.isExternal == is_external).
-                filter(Team.name.contains(subname))
-            )
-            teams = query.all()
-            if not teams:
-                raise TeamNotFoundError()
-        except AttributeError as e:
-            raise TeamNotFoundError()
-        return teams
-
     @staticmethod
     def validate_slug_uniqueness(slug: str) -> bool:
         if not slug:
