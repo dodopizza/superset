@@ -190,6 +190,8 @@ class CurrentUserRestApi(BaseSupersetApi):
         if team:
             team = team[0]
             result["team"] = team.name
+        else:
+            result["team"] = None
         return self.response(200, result=user_response_schema.dump(result))
 
 
