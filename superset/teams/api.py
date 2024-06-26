@@ -59,6 +59,58 @@ class TeamRestApi(BaseSupersetModelRestApi):
     team_get_response_schema = TeamGetResponseSchema()
     add_model_schema = TeamPostSchema()
 
+    @expose("/<pk>", methods=("GET",))
+    @protect()
+    @safe
+    @statsd_metrics
+    def get(self, pk: int) -> Response:
+        """Creates a new Dashboard
+        ---
+        post:
+          description: >-
+            Get a Team.
+          requestBody:
+            description: Dashboard schema
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+          responses:
+            201:
+              description: Dashboard added
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      result:
+                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+            400:
+              $ref: '#/components/responses/400'
+            401:
+              $ref: '#/components/responses/401'
+            404:
+              $ref: '#/components/responses/404'
+            500:
+              $ref: '#/components/responses/500'
+        """
+        try:
+            team = TeamDAO().find_by_id(pk)
+            return self.response(201, result=self.get_model_schema.dump(team))
+        except TeamInvalidError as ex:
+            return self.response_422(message=ex.normalized_messages())
+        except TeamCreateFailedError as ex:
+            logger.error(
+                "Error creating model %s: %s",
+                self.__class__.__name__,
+                str(ex),
+                exc_info=True,
+            )
+            return self.response_422(message=str(ex))
+
     @expose("/", methods=("POST",))
     @protect()
     @safe

@@ -27,11 +27,11 @@ class CreateTeamCommand(CreateMixin, BaseCommand):
     def run(self) -> Model:
         self.validate()
         try:
-            dashboard = TeamDAO.create(self._properties, commit=True)
+            team = TeamDAO.create(self._properties, commit=True)
         except DAOCreateFailedError as ex:
             logger.exception(ex.exception)
             raise TeamCreateFailedError() from ex
-        return dashboard
+        return team
 
     def validate(self) -> None:
         exceptions: list[ValidationError] = []

@@ -31,6 +31,7 @@ class UserResponseSchema(Schema):
     isOnboardingFinished = Boolean(missing=True)
     onboardingStartedTime = Boolean(missing=True)
     dodo_role = String(missing=True)
+    team = String(missing=True)
 
 
 class ValidateOnboardingPutSchema(Schema):
