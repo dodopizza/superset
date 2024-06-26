@@ -24,8 +24,14 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema, ValidateOnboardingPutSchema
-from superset.views.utils import (bootstrap_user_data, update_language, get_onboarding,
-                                  update_onboarding)
+from superset.views.utils import (
+    bootstrap_user_data,
+    update_language,
+    get_onboarding,
+    update_onboarding,
+    get_team_by_user_id
+)
+
 from superset import app
 
 logger = logging.getLogger(__name__)
@@ -162,6 +168,30 @@ class CurrentUserRestApi(BaseSupersetApi):
             'onboardingStartedTime': update_user_onboarding.get("onboardingStartedTime")
         }
         return self.response(200, result=user_response_schema.dump(result))
+
+    @expose("/team", ("GET",))
+    def my_team(self):
+        try:
+            user = g.user
+            if user is None or user.is_anonymous:
+                return self.response_401()
+        except NoAuthorizationError:
+            return self.response_401()
+        except ValidationError as error:
+            logger.warning("validate data failed to add new dashboard")
+            return self.response_400(message=error.messages)
+        team = get_team_by_user_id()
+        result = {
+            'id': user.id,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+        }
+        if team:
+            team = team[0]
+            result["team"] = team.name
+        return self.response(200, result=user_response_schema.dump(result))
+
 
 
 

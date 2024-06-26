@@ -57,4 +57,5 @@ class Team(Model):
     roles = relationship(security_manager.role_model, secondary=TeamRoles)
     participants = relationship(
         security_manager.user_model, secondary=team_users, passive_deletes=True,
+        backref="teams"
     )
