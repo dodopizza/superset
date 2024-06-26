@@ -1,25 +1,8 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React from 'react';
 import Gravatar from 'react-gravatar';
 import moment from 'moment';
-import { t, styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
 
 interface UserInfoProps {
@@ -30,7 +13,23 @@ const StyledContainer = styled.div`
   .panel {
     padding: ${({ theme }) => theme.gridUnit * 6}px;
   }
+
+  /* DODO added start 32839667 */
+
+  .username {
+    overflow-wrap: break-word;
+    font-size: 1rem;
+  }
+
+  /* DODO added stop 32839667 */
 `;
+
+// DODO added start 32839667
+const List = styled.ul`
+  padding-left: 0;
+  list-style-type: none;
+`;
+// DODO added stop 32839667
 
 export default function UserInfo({ user }: UserInfoProps) {
   return (
@@ -76,6 +75,20 @@ export default function UserInfo({ user }: UserInfoProps) {
           <span className="text-muted">{t('id')}:</span>&nbsp;
           <span className="user-id">{user?.userId}</span>
         </p>
+        {/* DODO added start 32839667 */}
+        <hr />
+        <h4 className="username">{t('Requests')}</h4>
+        <List>
+          <li>
+            <i className="fa fa-check" aria-hidden="true" />
+            &nbsp;<span>9876534</span>
+          </li>
+          <li>
+            <i className="fa fa-hourglass-half" aria-hidden="true" />
+            &nbsp;<span>012345</span>
+          </li>
+        </List>
+        {/* DODO added start 32839667 */}
       </div>
     </StyledContainer>
   );
