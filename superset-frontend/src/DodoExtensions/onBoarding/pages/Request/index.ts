@@ -1,3 +1,3 @@
-import { Request } from './Request';
+import { RequestPage } from './Request';
 
-export default Request;
+export default RequestPage;

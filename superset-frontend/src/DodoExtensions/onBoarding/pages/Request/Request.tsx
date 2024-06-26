@@ -25,7 +25,7 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-export const Request: FC = () => {
+export const RequestPage: FC = () => {
   const theme = useTheme();
 
   const {
