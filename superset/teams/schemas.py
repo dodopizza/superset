@@ -18,6 +18,10 @@ class UserSchema(Schema):
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    email = fields.String()
+    last_login = fields.DateTime()
+    created_on = fields.DateTime()
+    login_count = fields.Int()
 
 
 class RolesSchema(Schema):
@@ -37,7 +41,7 @@ class TeamGetSchema(Schema):
     isExternal = fields.Boolean()
     tag = fields.Nested(TagSchema)
     roles = fields.List(fields.Nested(RolesSchema))
-    participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
+    participants = fields.List(fields.Nested(UserSchema()))
 
 
 class TeamGetResponseSchema(Schema):
