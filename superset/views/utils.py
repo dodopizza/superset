@@ -108,7 +108,7 @@ def get_onboarding() -> dict:
         }
 
 
-def get_team_by_user_id() -> list[Team]:
+def get_team_by_user_id() -> Team:
     user_id = get_user_id()
     try:
         user = (
@@ -117,7 +117,7 @@ def get_team_by_user_id() -> list[Team]:
             ).one_or_none()
         )
 
-        return user.teams
+        return user.teams[0]
     except Exception or AttributeError:
         logger.warning(f"User id = {user_id} doesnt have team info in database")
 
