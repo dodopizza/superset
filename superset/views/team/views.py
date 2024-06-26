@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class TeamModelView(
     TeamMixin, SupersetModelView
 ):
-    route_base = "/onboarding/request"
+    route_base = "/onboarding/team"
     datamodel = SQLAInterface(TeamModel)
     class_permission_name = "Team"
     method_permission_name = MODEL_VIEW_RW_METHOD_PERMISSION_MAP
