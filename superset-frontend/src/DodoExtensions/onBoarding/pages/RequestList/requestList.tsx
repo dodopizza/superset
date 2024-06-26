@@ -19,7 +19,7 @@ const RequestListPage: FC = () => {
 
   return (
     <div>
-      <SubMenu name={t('Заявки')} buttons={[]} />
+      <SubMenu name={t('Requests')} buttons={[]} />
       <ListView<RequestListType>
         className="request-list-view"
         columns={columns}

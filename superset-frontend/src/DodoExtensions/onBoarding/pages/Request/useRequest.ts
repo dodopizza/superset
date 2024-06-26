@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { t } from '@superset-ui/core';
 import { loadRequest } from '../../model/actions/loadRequest';
 import { getRequestLoading } from '../../model/selectors/getRequestLoading';
@@ -24,7 +24,6 @@ import { getCloseRequestSuccess } from '../../model/selectors/getCloseRequestSuc
 import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
 import { UserFromEnum } from '../../types';
 import { getTeamSlug } from '../../utils/getTeamSlug';
-import { getUserInfo } from '../../model/selectors/getUserInfo';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -50,13 +49,6 @@ export const useRequest = () => {
   const closeRequestSuccess = useSelector(getCloseRequestSuccess);
 
   const toast = useToasts();
-
-  const user = useSelector(getUserInfo);
-  const history = useHistory();
-
-  if (!user.roles.Admin) {
-    history.push('/superset/welcome/');
-  }
 
   useEffect(() => {
     // Первоначальная загрузка данных
