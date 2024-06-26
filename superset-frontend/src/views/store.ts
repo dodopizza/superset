@@ -56,6 +56,7 @@ import {
   onboardingTeamListSlice,
   onboardingTeamSlice,
 } from '../DodoExtensions/onBoarding';
+import { onboardingTeamPageSlice } from '../DodoExtensions/onBoarding/model/slices/teamPage.slice';
 
 // Some slice don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
@@ -142,6 +143,7 @@ const reducers = {
   onboardingRequestList: onboardingRequestListSlice,
   onboardingRequest: onboardingRequestSlice,
   onboardingTeamList: onboardingTeamListSlice,
+  onboardingTeamPage: onboardingTeamPageSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html
