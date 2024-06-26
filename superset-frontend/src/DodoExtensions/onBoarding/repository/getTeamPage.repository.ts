@@ -6,6 +6,7 @@ type ResponseDto = {
     id: number;
     isExternal: boolean;
     name: string;
+    slug: string;
     participants: Array<{
       created_on: string;
       email: string;
@@ -40,7 +41,7 @@ export const getTeamPageRepository = async (
     id: dto.result.id,
     isExternal: dto.result.isExternal,
     name: dto.result.name,
-    slug: 'to-do',
+    slug: dto.result.slug,
     membersCount: dto.result.participants.length,
     roles: dto.result.roles.map(role => role.name).join(', '),
     participants: dto.result.participants.map(item => ({
