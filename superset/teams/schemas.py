@@ -29,17 +29,11 @@ class RolesSchema(Schema):
     name = fields.String()
 
 
-class TagSchema(Schema):
-    id = fields.Int()
-    name = fields.String()
-    type = fields.Enum(TagTypes, by_value=True)
-
-
 class TeamGetSchema(Schema):
     id = fields.Int()
     name = fields.String()
+    slug = fields.String()
     isExternal = fields.Boolean()
-    tag = fields.Nested(TagSchema)
     roles = fields.List(fields.Nested(RolesSchema))
     participants = fields.List(fields.Nested(UserSchema()))
 
