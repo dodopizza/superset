@@ -1,5 +1,5 @@
-import { OnboardingTeamState } from '../types/team.types';
+import { OnboardingTeamCreateState } from '../types/teamCreate.types';
 
 export const getCreateTeamData = (state: {
-  onboardingTeam: OnboardingTeamState;
-}) => state.onboardingTeam.createTeamData;
+  onboardingTeamCreate: OnboardingTeamCreateState;
+}) => state.onboardingTeamCreate.data;

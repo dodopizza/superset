@@ -8,7 +8,7 @@ import { getTeamName } from '../../../utils/getTeamName';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 import { loadTeams } from '../../../model/actions/loadTeams';
-import { getTeamsData } from '../../../model/selectors/getTeamsData';
+import { getTeamSearchData } from '../../../model/selectors/getTeamSearchData';
 
 const StyledSpace = styled(Space)`
   width: 100%;
@@ -37,7 +37,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
     formatedTeamName,
   }) => {
     const dispatch = useDispatch();
-    const { teamsIsLoading, teams } = useSelector(getTeamsData);
+    const { teamsIsLoading, teams } = useSelector(getTeamSearchData);
 
     const debouncedLoadTeamList = useMemo(
       () =>

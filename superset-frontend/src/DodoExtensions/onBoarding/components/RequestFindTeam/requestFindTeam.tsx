@@ -3,7 +3,7 @@ import { AutoComplete, Input } from 'antd';
 import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
 import { Role, UserFromEnum } from '../../types';
-import { getTeamsData } from '../../model/selectors/getTeamsData';
+import { getTeamSearchData } from '../../model/selectors/getTeamSearchData';
 import { useTeam } from './useTeam';
 
 type Props = {
@@ -26,7 +26,7 @@ export const RequestFindTeam: FC<Props> = memo(
     setRoles,
     disabled,
   }) => {
-    const { teamsIsLoading, teams } = useSelector(getTeamsData);
+    const { teamsIsLoading, teams } = useSelector(getTeamSearchData);
 
     const { debouncedLoadTeamList, handleTeamChange, teamNameOnAutoComplete } =
       useTeam({

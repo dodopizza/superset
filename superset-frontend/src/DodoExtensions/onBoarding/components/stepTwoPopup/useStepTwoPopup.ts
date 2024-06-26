@@ -7,7 +7,7 @@ import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { getTeamSlug } from '../../utils/getTeamSlug';
 import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
-import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
+import { ONBOARDING_TEAM_SEARCH_CLEAR } from '../../model/types/teamSearch.types';
 
 export const useStepTwoPopup = () => {
   const [userFrom, setUserFrom] = useState<UserFromEnum>(
@@ -26,7 +26,7 @@ export const useStepTwoPopup = () => {
       setExistingTeam(null);
       setNewTeam(null);
       setRoles([]);
-      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
     },
     [dispatch],
   );
@@ -83,7 +83,7 @@ export const useStepTwoPopup = () => {
       setExistingTeam(null);
       setRoles([]);
       e.preventDefault();
-      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
     },
     [setExistingTeam, setNewTeam, setRoles],
   );

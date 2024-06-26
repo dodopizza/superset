@@ -1,11 +1,11 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import {
-  ONBOARDING_CREATE_TEAM_ERROR,
-  ONBOARDING_CREATE_TEAM_PENDING,
-  ONBOARDING_CREATE_TEAM_SUCCESS,
-} from '../types/team.types';
 import { postTeamRepository } from '../../repository/postTeam.repository';
 import { Role, UserFromEnum } from '../../types';
+import {
+  ONBOARDING_TEAM_CREATE_ERROR,
+  ONBOARDING_TEAM_CREATE_PENDING,
+  ONBOARDING_TEAM_CREATE_SUCCESS,
+} from '../types/teamCreate.types';
 
 type Params = {
   userFrom: UserFromEnum;
@@ -18,13 +18,15 @@ export function createTeam(params: Params) {
   return async function (dispatch: Dispatch) {
     try {
       dispatch({
-        type: ONBOARDING_CREATE_TEAM_PENDING,
+        // type: ONBOARDING_CREATE_TEAM_PENDING,
+        type: ONBOARDING_TEAM_CREATE_PENDING,
       });
 
       await postTeamRepository(params);
 
       dispatch({
-        type: ONBOARDING_CREATE_TEAM_SUCCESS,
+        // type: ONBOARDING_CREATE_TEAM_SUCCESS,
+        type: ONBOARDING_TEAM_CREATE_SUCCESS,
         payload: {
           slug: params.slug,
           name: params.name,
@@ -36,7 +38,8 @@ export function createTeam(params: Params) {
       const error = await response.json();
 
       dispatch({
-        type: ONBOARDING_CREATE_TEAM_ERROR,
+        // type: ONBOARDING_CREATE_TEAM_ERROR,
+        type: ONBOARDING_TEAM_CREATE_ERROR,
         payload: {
           error: `${statusText}:${JSON.stringify(error)}`,
         },

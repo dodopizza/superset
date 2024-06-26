@@ -3,10 +3,10 @@ import { UserFromEnum } from '../../types';
 
 import { getTeamsRepository } from '../../repository/getTeams.repository';
 import {
-  ONBOARDING_TEAMS_ERROR,
-  ONBOARDING_TEAMS_LOADING,
-  ONBOARDING_TEAMS_SUCCESS,
-} from '../types/team.types';
+  ONBOARDING_TEAM_SEARCH_ERROR,
+  ONBOARDING_TEAM_SEARCH_PENDING,
+  ONBOARDING_TEAM_SEARCH_SUCCESS,
+} from '../types/teamSearch.types';
 
 let beforeSendToBackendQuery = '';
 
@@ -14,7 +14,7 @@ export function loadTeams(userFrom: UserFromEnum, query: string) {
   return async function (dispatch: Dispatch) {
     try {
       dispatch({
-        type: ONBOARDING_TEAMS_LOADING,
+        type: ONBOARDING_TEAM_SEARCH_PENDING,
       });
 
       beforeSendToBackendQuery = query;
@@ -24,7 +24,7 @@ export function loadTeams(userFrom: UserFromEnum, query: string) {
       // to handle backend raise condition
       if (query === beforeSendToBackendQuery) {
         dispatch({
-          type: ONBOARDING_TEAMS_SUCCESS,
+          type: ONBOARDING_TEAM_SEARCH_SUCCESS,
           payload: data,
         });
       }
@@ -32,12 +32,12 @@ export function loadTeams(userFrom: UserFromEnum, query: string) {
       if (e.status === 404) {
         // No team found
         dispatch({
-          type: ONBOARDING_TEAMS_SUCCESS,
+          type: ONBOARDING_TEAM_SEARCH_SUCCESS,
           payload: [],
         });
       } else {
         dispatch({
-          type: ONBOARDING_TEAMS_ERROR,
+          type: ONBOARDING_TEAM_SEARCH_ERROR,
           payload: {
             error: e.message,
           },

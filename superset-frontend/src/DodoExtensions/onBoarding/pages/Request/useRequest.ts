@@ -10,10 +10,7 @@ import { getTeamName } from '../../utils/getTeamName';
 import { CreateTeamModalDto } from './components/CreateTeamModal';
 import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
-import {
-  ONBOARDING_CREATE_TEAM_CLEAR,
-  ONBOARDING_TEAMS_CLEAR,
-} from '../../model/types/team.types';
+import { ONBOARDING_TEAM_SEARCH_CLEAR } from '../../model/types/teamSearch.types';
 import { createTeam } from '../../model/actions/createTeam';
 import { getCreateTeamData } from '../../model/selectors/getCreateTeamData';
 import { useToasts } from '../../../../components/MessageToasts/withToasts';
@@ -24,6 +21,7 @@ import { getCloseRequestSuccess } from '../../model/selectors/getCloseRequestSuc
 import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
 import { UserFromEnum } from '../../types';
 import { getTeamSlug } from '../../utils/getTeamSlug';
+import { ONBOARDING_TEAM_CREATE_CLEAR } from '../../model/types/teamCreate.types';
 
 export const useRequest = () => {
   const [newTeam, setNewTeam] = useState<string | null>(null);
@@ -54,8 +52,8 @@ export const useRequest = () => {
     // Первоначальная загрузка данных
     dispatch(loadRequest(id));
     return () => {
-      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
-      dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_CREATE_CLEAR });
       dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
     };
   }, [dispatch, id]);
@@ -161,7 +159,7 @@ export const useRequest = () => {
   const openConfirmCreateTeam = useCallback(
     (data: CreateTeamModalDto) => {
       setCreateTeamData(null);
-      dispatch({ type: ONBOARDING_CREATE_TEAM_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_CREATE_CLEAR });
       setConfirmCreateTeamData({
         teamName: data.teamName,
         teamSlug: data.teamSlug,
