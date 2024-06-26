@@ -63,6 +63,26 @@ class TagDAO(BaseDAO[Tag]):
         db.session.commit()
 
     @staticmethod
+    def create_team_tagged_objects(
+        object_type: ObjectTypes, object_id: int, tag_names: list[str]
+    ) -> None:
+        tagged_objects = []
+        for name in tag_names:
+            if not TagDAO.validate_tag_name(name):
+                raise DAOCreateFailedError(
+                    message="Invalid Tag Name (cannot contain ':' or ',')"
+                )
+            type_ = TagTypes.team
+            tag_name = name.strip()
+            tag = TagDAO.get_by_name(tag_name, type_)
+            tagged_objects.append(
+                TaggedObject(object_id=object_id, object_type=object_type, tag=tag)
+            )
+
+        db.session.add_all(tagged_objects)
+        db.session.commit()
+
+    @staticmethod
     def delete_tagged_object(
         object_type: ObjectTypes, object_id: int, tag_name: str
     ) -> None:

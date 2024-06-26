@@ -39,6 +39,8 @@ from superset.commands.importers.exceptions import NoValidFilesFoundError
 from superset.commands.importers.v1.utils import get_contents_from_bundle
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.dashboard import DashboardDAO, EmbeddedDashboardDAO
+from superset.tags.commands.create import CreateTeamTagCommand
+from superset.tags.models import ObjectTypes
 from superset.dashboards.commands.create import CreateDashboardCommand
 from superset.dashboards.commands.delete import DeleteDashboardCommand
 from superset.dashboards.commands.exceptions import (
@@ -100,6 +102,7 @@ from superset.views.filters import (
     FilterRelatedOwners,
 )
 from superset.common.chart_data import ChartDataResultLanguage
+from superset.views.utils import get_team_by_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -623,6 +626,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             new_model = CreateDashboardCommand(item).run()
+            team = get_team_by_user_id()
+            team_slug = team.slug
+            object_type = ObjectTypes.dashboard
+            object_id = new_model.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             return self.response(201, id=new_model.id, result=item)
         except DashboardInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
@@ -696,6 +704,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             changed_model = UpdateDashboardCommand(pk, item).run()
+            team = get_team_by_user_id()
+            team_slug = team.slug
+            object_type = ObjectTypes.dashboard
+            object_id = changed_model.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             last_modified_time = changed_model.changed_on.replace(
                 microsecond=0
             ).timestamp()
