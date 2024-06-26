@@ -48,7 +48,8 @@ from superset.legacy import update_time_range
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
 from superset.models.user_info import UserInfo
-from superset.models.team import Team, team_users
+from superset.models.team import Team
+from superset.models.statement import Statement
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
 from superset.superset_typing import FormData
@@ -119,6 +120,20 @@ def get_team_by_user_id() -> list[Team]:
         return user.teams
     except Exception or AttributeError:
         logger.warning(f"User id = {user_id} doesnt have team info in database")
+
+
+def get_statements_by_user_id() -> list[Statement]:
+    user_id = get_user_id()
+    try:
+        user = (
+            db.session.query(security_manager.user_model).filter(
+                security_manager.user_model.id == user_id
+            ).one_or_none()
+        )
+
+        return user.statements
+    except Exception or AttributeError:
+        logger.warning(f"User id = {user_id} doesnt have statements info in database")
 
 
 def update_onboarding(dodo_role, started_time):

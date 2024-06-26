@@ -56,6 +56,7 @@ class Statement(Model):
     id = Column(Integer, primary_key=True)
     user = relationship(
         security_manager.user_model, secondary=statement_user, passive_deletes=True,
+        backref="statements"
     )
     finished = Column(Boolean, default=False)
     team = Column(String, nullable=False)
