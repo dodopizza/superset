@@ -1,8 +1,12 @@
 import React from 'react';
 import { t } from '@superset-ui/core';
+import { Link } from 'react-router-dom';
 import { FilterOperator, Filters } from '../../../../components/ListView';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import { Tooltip } from '../../../../components/Tooltip';
+import { StyledActions } from '../RequestList/styled';
+import { TEAM_PAGE_URL } from '../../consts';
+import Icons from '../../../../components/Icons';
 
 // ------------
 // size: xs, xl, xxl
@@ -82,6 +86,31 @@ export const columns = [
     ),
     Header: t('Franchisee'),
     accessor: 'isExternal',
+    size: 'xs',
+  },
+  {
+    Cell: ({ row: { original } }: any) => (
+      // const openEditModal = () => {};
+
+      <StyledActions className="actions">
+        <Tooltip id="edit-action-tooltip" title={t('Edit')} placement="bottom">
+          <Link to={TEAM_PAGE_URL.replace(':id', original.id)}>
+            <span
+              role="button"
+              tabIndex={0}
+              className="action-button"
+              // onClick={openEditModal}
+            >
+              <Icons.EditAlt data-test="edit-alt" />
+            </span>
+          </Link>
+        </Tooltip>
+      </StyledActions>
+    ),
+    Header: t('Actions'),
+    id: 'actions',
+    disableSortBy: true,
+    hidden: false,
     size: 'xs',
   },
 ];

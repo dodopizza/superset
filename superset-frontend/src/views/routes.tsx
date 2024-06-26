@@ -25,6 +25,7 @@ import {
   REQUEST_PAGE_LIST_URL,
   REQUEST_PAGE_URL,
   TEAM_PAGE_LIST_URL,
+  TEAM_PAGE_URL,
 } from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
@@ -144,6 +145,13 @@ const TeamList = lazy(
       /* webpackChunkName: "TeamList" */ 'src/DodoExtensions/onBoarding/pages/TeamList'
     ),
 );
+
+const Team = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Team" */ 'src/DodoExtensions/onBoarding/pages/Team'
+    ),
+);
 // DODO added stop 32839654
 
 type Routes = {
@@ -256,6 +264,10 @@ export const routes: Routes = [
   {
     path: TEAM_PAGE_LIST_URL,
     Component: TeamList,
+  },
+  {
+    path: TEAM_PAGE_URL,
+    Component: Team,
   },
   // DODO added stop 32839654
 ];
