@@ -17,7 +17,12 @@
 from typing import Union
 
 from marshmallow import Schema, fields
-from marshmallow.fields import Boolean, Integer, String, DateTime
+from marshmallow.fields import Boolean, Integer, String, DateTime, List, Nested
+
+
+class StatementSchema(Schema):
+    id = Integer()
+    finished = Boolean()
 
 
 class UserResponseSchema(Schema):
@@ -32,6 +37,7 @@ class UserResponseSchema(Schema):
     onboardingStartedTime = Boolean(missing=True)
     dodo_role = String(missing=True)
     team = String(missing=True)
+    statements = List(Nested(StatementSchema()), missing=True)
 
 
 class ValidateOnboardingPutSchema(Schema):

@@ -176,6 +176,9 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.views.statement.views import (
             StatementModelView
         )
+        from superset.views.team.views import (
+            TeamModelView
+        )
         from superset.views.database.views import (
             ColumnarToDatabaseView,
             CsvToDatabaseView,
@@ -267,6 +270,14 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             "Statements",
             label=__("Statements"),
             icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TagModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
             category="",
             category_icon="",
         )
