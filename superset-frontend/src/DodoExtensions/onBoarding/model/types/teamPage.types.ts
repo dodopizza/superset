@@ -9,6 +9,16 @@ type TeamPageSuccessPayload = {
   slug: string;
   roles: string;
   membersCount: number;
+  participants: Array<{
+    id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    createdOn: Date;
+    lastLogin: Date;
+    loginCount: number;
+  }>;
 };
 
 type Pending = {
