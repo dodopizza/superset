@@ -190,7 +190,7 @@ class CurrentUserRestApi(BaseSupersetApi):
             'last_name': user.last_name,
         }
         if team:
-            team = team[0]
+            team = team
             result["team"] = team.name
         else:
             result["team"] = None
