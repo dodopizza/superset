@@ -28,6 +28,7 @@ from superset.statement.schemas import (
     StatementPostSchema
 )
 from superset.teams.commands.update import UpdateTeamCommand
+from superset.teams.commands.delete import DeleteTeamCommand
 from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
@@ -301,8 +302,13 @@ class StatementRestApi(BaseSupersetModelRestApi):
                     "participants": [user]
                 }
                 current_teams: list = user.teams
-                if len(current_teams):
-                    logger.error(current_teams)
+                logger.error(current_teams)
+                if len(current_teams) > 1:
+                    current_team = [
+                        team.id for team in current_teams
+                        if team.slug != team_slug
+                    ]
+                    DeleteTeamCommand(current_team).run()
                 changed_team = UpdateTeamCommand(team_id, participants).run()
                 request_roles = changed_statement.request_roles
                 current_roles = user.roles
