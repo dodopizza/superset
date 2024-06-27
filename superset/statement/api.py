@@ -298,18 +298,26 @@ class StatementRestApi(BaseSupersetModelRestApi):
                 team_model = find_team_by_slug(team_slug)
                 team_id = team_model.id
                 user = changed_statement.user[0]
-                participants = {
-                    "participants": [user]
-                }
+
                 current_teams: list = user.teams
-                logger.error(current_teams)
-                if len(current_teams) > 1:
-                    current_team = [
-                        team.id for team in current_teams
-                        if team.slug != team_slug
-                    ]
-                    DeleteTeamCommand(current_team).run()
-                changed_team = UpdateTeamCommand(team_id, participants).run()
+                logger.error(len(current_teams))
+                if current_teams and len(current_teams) > 0:
+                    for current_team in current_teams:
+                        participants = [participant for participant in current_team.participants if participant.id != user.id]
+                        logger.error("не текущие пользователи в команде")
+                        logger.error(participants)
+                        updated_participants = {
+                            "participants": participants
+                        }
+                        changed_team = UpdateTeamCommand(current_team.id,
+                                                         updated_participants).run()
+                        # changed_team = update_team_users(current_team, participants)
+                participants = team_model.participants
+                updated_participants = {
+                    "participants": participants.append(user) if participants else [user]
+                }
+                logger.error(updated_participants)
+                changed_team = UpdateTeamCommand(team_id, updated_participants).run()
                 request_roles = changed_statement.request_roles
                 current_roles = user.roles
                 roles = request_roles + current_roles
