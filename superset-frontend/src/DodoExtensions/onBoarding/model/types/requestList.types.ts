@@ -17,8 +17,9 @@ type ActionRequestListSuccessPayload = {
   count: number;
   rows: Array<{
     id: number;
-    firstName: string;
-    lastName: string;
+    user: string;
+    // firstName: string;
+    // lastName: string;
     email: string;
     requestedRoles: string;
     team: string;

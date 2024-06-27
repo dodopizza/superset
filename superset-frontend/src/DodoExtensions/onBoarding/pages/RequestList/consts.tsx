@@ -6,7 +6,6 @@ import moment from 'moment';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import { StyledActions } from './styled';
 import { Tooltip } from '../../../../components/Tooltip';
-import { FilterOperator, Filters } from '../../../../components/ListView';
 import { REQUEST_PAGE_URL } from '../../consts';
 
 // ------------
@@ -23,17 +22,23 @@ export const columns = [
     hidden: false,
   },
   {
-    id: 'user.first_name',
+    id: 'user',
     Cell: (props: any) => <span>{props.value}</span>,
-    Header: t('First name'),
-    accessor: 'firstName',
+    Header: t('User'),
+    accessor: 'user',
   },
-  {
-    id: 'user.last_name',
-    Cell: (props: any) => <span>{props.value}</span>,
-    Header: t('Last name'),
-    accessor: 'lastName',
-  },
+  // {
+  //   id: 'user.first_name',
+  //   Cell: (props: any) => <span>{props.value}</span>,
+  //   Header: t('First name'),
+  //   accessor: 'firstName',
+  // },
+  // {
+  //   id: 'user.last_name',
+  //   Cell: (props: any) => <span>{props.value}</span>,
+  //   Header: t('Last name'),
+  //   accessor: 'lastName',
+  // },
   {
     id: 'user.email',
     Cell: (props: any) => <span>{props.value}</span>,
@@ -111,49 +116,6 @@ export const columns = [
     id: 'actions',
     disableSortBy: true,
     hidden: false,
-  },
-];
-
-export const filters: Filters = [
-  {
-    id: 'id',
-    Header: 'id',
-    key: 'id',
-    input: 'search',
-    operator: FilterOperator.equals,
-  },
-  {
-    id: 'user.first_name',
-    Header: t('First name'),
-    key: 'firstName',
-    input: 'search',
-    operator: FilterOperator.contains,
-  },
-  {
-    id: 'user.last_name',
-    Header: t('Last name'),
-    key: 'lastName',
-    input: 'search',
-    operator: FilterOperator.contains,
-  },
-  {
-    id: 'user.email',
-    Header: t('email'),
-    key: 'email',
-    input: 'search',
-    operator: FilterOperator.contains,
-  },
-  {
-    id: 'finished',
-    Header: t('Closed'),
-    key: 'isClosed',
-    input: 'select',
-    operator: FilterOperator.equals,
-    unfilteredLabel: t('Any'),
-    selects: [
-      { label: t('Yes'), value: true },
-      { label: t('No'), value: false },
-    ],
   },
 ];
 

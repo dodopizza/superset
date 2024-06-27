@@ -121,6 +121,4 @@ export enum FilterOperator {
   dashboardTags = 'dashboard_tags',
   chartTags = 'chart_tags',
   savedQueryTags = 'saved_query_tags',
-  // DODO add 32839648
-  // requestIsClosed = 'request_is_closed',
 }

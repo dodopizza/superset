@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ListView from '../../../../components/ListView';
 import { useRequestList } from './useRequestList';
 import type { RequestListType } from './types';
-import { columns, filters, initialSort } from './consts';
+import { columns, initialSort } from './consts';
 import SubMenu from '../../../../features/home/SubMenu';
 import { getRequestListData } from '../../model/selectors/getRequestListData';
 import { getRequestListLoading } from '../../model/selectors/getRequestListLoading';
@@ -12,7 +12,7 @@ import { getRequestListLoading } from '../../model/selectors/getRequestListLoadi
 const PAGE_SIZE = 10;
 
 const RequestListPage: FC = () => {
-  const { fetchData } = useRequestList();
+  const { fetchData, filters } = useRequestList();
 
   const data = useSelector(getRequestListData);
   const loading = useSelector(getRequestListLoading);

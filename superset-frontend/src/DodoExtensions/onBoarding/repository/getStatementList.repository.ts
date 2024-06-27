@@ -61,8 +61,11 @@ export const getStatementListRepository = async ({
     count: dto.count,
     rows: dto.result.map(item => ({
       id: item.id,
-      firstName: item.user.at(0)?.first_name ?? '',
-      lastName: item.user.at(0)?.last_name ?? '',
+      user: `${item.user.at(0)?.first_name ?? ''} ${
+        item.user.at(0)?.last_name ?? ''
+      }`,
+      // firstName: item.user.at(0)?.first_name ?? '',
+      // lastName: item.user.at(0)?.last_name ?? '',
       email: item.user.at(0)?.email ?? '',
       team: `${item.team} (${item.team_slug})`,
       requestedRoles: item.request_roles.map(role => role.name).join(', '),
