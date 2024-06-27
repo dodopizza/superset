@@ -74,11 +74,11 @@ export const columns = [
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Members'),
     accessor: 'membersCount',
-    // disableSortBy: true,
+    disableSortBy: true,
     hidden: false,
   },
   {
-    id: 'franchisee',
+    id: 'isExternal',
     Cell: (props: any) => (
       <div style={{ textAlign: 'center' }}>
         <CheckboxControl hovered value={!!props.value} disabled />
@@ -86,6 +86,7 @@ export const columns = [
     ),
     Header: t('Franchisee'),
     accessor: 'isExternal',
+    disableSortBy: true,
     size: 'xs',
   },
   {
@@ -114,7 +115,7 @@ export const filters: Filters = [
     Header: 'id',
     key: 'id',
     input: 'search',
-    operator: FilterOperator.equals,
+    operator: 'eq_id_team' as FilterOperator,
   },
   {
     id: 'name',
@@ -131,7 +132,7 @@ export const filters: Filters = [
     operator: FilterOperator.contains,
   },
   {
-    id: 'franchisee',
+    id: 'isExternal',
     Header: t('Franchisee'),
     key: 'isExternal',
     input: 'select',

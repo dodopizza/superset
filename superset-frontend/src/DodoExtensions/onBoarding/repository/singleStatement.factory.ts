@@ -15,7 +15,15 @@ export const singleStatementFactory = (
   currentRoles: dto.result.user.at(0)?.roles.map(role => role.name) ?? [],
   requestedRoles: dto.result.request_roles,
   team: `${dto.result.team} (${dto.result.team_slug})`,
-  requestDate: new Date(dto.result.created_datetime),
+  requestDate: new Date(
+    dto.result.created_datetime.includes('Z')
+      ? dto.result.created_datetime
+      : `${dto.result.created_datetime}Z`,
+  ),
   isClosed: dto.result.finished,
-  updateDate: new Date(dto.result.last_changed_datetime),
+  updateDate: new Date(
+    dto.result.last_changed_datetime.includes('Z')
+      ? dto.result.last_changed_datetime
+      : `${dto.result.last_changed_datetime}Z`,
+  ),
 });

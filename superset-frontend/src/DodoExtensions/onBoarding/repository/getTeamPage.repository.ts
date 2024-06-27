@@ -50,8 +50,13 @@ export const getTeamPageRepository = async (
       firstName: item.first_name,
       lastName: item.last_name,
       email: item.email,
-      createdOn: new Date(item.created_on),
-      lastLogin: new Date(item.last_login),
+      createdOn: new Date(
+        item.created_on.includes('Z') ? item.created_on : `${item.created_on}Z`,
+      ),
+      lastLogin: new Date(
+        item.created_on.includes('Z') ? item.last_login : `${item.last_login}Z`,
+      ),
+
       loginCount: item.login_count,
     })),
   };

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { Descriptions, List, Typography } from 'antd';
 import { t, useTheme } from '@superset-ui/core';
+import moment from 'moment';
 import Loading from '../../../../components/Loading';
 import { useTeamPage } from './useTeamPage';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
@@ -83,13 +84,13 @@ export const TeamPage: FC = () => {
                       {item?.email}
                     </Descriptions.Item>
                     <Descriptions.Item label={t('Created on')}>
-                      {item?.createdOn.toLocaleDateString()}
+                      {moment(item?.createdOn).format('DD/MM/YYYY HH:mm')}
                     </Descriptions.Item>
                     <Descriptions.Item label="Login count">
                       {item?.loginCount}
                     </Descriptions.Item>
                     <Descriptions.Item label={t('Last login')}>
-                      {item?.lastLogin.toLocaleDateString()}
+                      {moment(item?.lastLogin).format('DD/MM/YYYY HH:mm')}
                     </Descriptions.Item>
                   </Descriptions>
                 </Card>

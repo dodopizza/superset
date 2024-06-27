@@ -23,6 +23,7 @@ const StyledSpace = styled(Space)`
 
 type Props = {
   onClose: () => void;
+  onFinish: (value: boolean) => void;
 };
 
 const userFromOptions = [
@@ -33,7 +34,7 @@ const userFromOptions = [
   },
 ];
 
-export const StepTwoPopup: FC<Props> = ({ onClose }) => {
+export const StepTwoPopup: FC<Props> = ({ onClose, onFinish }) => {
   const {
     userFrom,
     toggleUseFrom,
@@ -49,7 +50,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
     removeTeam,
     tagClosable,
     teamDescription,
-  } = useStepTwoPopup();
+  } = useStepTwoPopup(onFinish);
 
   const isFinishUpdating = useSelector(getOnboardingFinishUpdating);
   const { Title } = Typography;

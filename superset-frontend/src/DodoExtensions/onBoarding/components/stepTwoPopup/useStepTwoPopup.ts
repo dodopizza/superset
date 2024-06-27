@@ -9,7 +9,7 @@ import { getTeamSlug } from '../../utils/getTeamSlug';
 import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
 import { ONBOARDING_TEAM_SEARCH_CLEAR } from '../../model/types/teamSearch.types';
 
-export const useStepTwoPopup = () => {
+export const useStepTwoPopup = (onFinish: (value: boolean) => void) => {
   const [userFrom, setUserFrom] = useState<UserFromEnum>(
     UserFromEnum.Franchisee,
   );
@@ -63,19 +63,26 @@ export const useStepTwoPopup = () => {
     return 'no slug';
   }, [existingTeam, newTeam, userFrom]);
 
-  const submit = useCallback(
-    () =>
-      dispatch(
-        finishOnBoarding({
-          userFrom,
-          isNewTeam: !!newTeam,
-          teamName: formatedTeamName,
-          teamSlug: formatedSlug,
-          roles,
-        }),
-      ),
-    [dispatch, userFrom, newTeam, formatedTeamName, formatedSlug, roles],
-  );
+  const submit = useCallback(() => {
+    onFinish(true);
+    dispatch(
+      finishOnBoarding({
+        userFrom,
+        isNewTeam: !!newTeam,
+        teamName: formatedTeamName,
+        teamSlug: formatedSlug,
+        roles,
+      }),
+    );
+  }, [
+    onFinish,
+    dispatch,
+    userFrom,
+    newTeam,
+    formatedTeamName,
+    formatedSlug,
+    roles,
+  ]);
 
   const removeTeam = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
@@ -85,7 +92,7 @@ export const useStepTwoPopup = () => {
       e.preventDefault();
       dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
     },
-    [setExistingTeam, setNewTeam, setRoles],
+    [dispatch],
   );
 
   const tagClosable = useMemo(
