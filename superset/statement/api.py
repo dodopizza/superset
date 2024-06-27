@@ -1,6 +1,7 @@
 # DODO added #32839641
 
 import logging
+import datetime
 
 from flask import request, Response, g, redirect
 from flask_appbuilder.api import expose, protect, safe
@@ -286,7 +287,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
         try:
             change_fields_for_statement = {
                 "finished": True,
-                "last_changed_datetime": item.get("last_changed_datetime")
+                "last_changed_datetime": datetime.datetime.utcnow().isoformat()
             }
             changed_statement = UpdateStatementCommand(
                 pk,

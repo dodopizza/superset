@@ -1,5 +1,6 @@
 # DODO added #32839641
 import logging
+import datetime
 
 
 from flask import request, Response, g
@@ -162,6 +163,8 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
         try:
             user_id = g.user.id
             id_model = OnboardingDAO.get_by_user_id(user_id).id
+            onboardingStartedTime = datetime.datetime.utcnow().isoformat()
+            item["onboardingStartedTime"] = onboardingStartedTime
             changed_model = UpdateOnboardingCommand(id_model, item).run()
             response = self.response(200, result=item)
         except OnboardingNotFoundError:
