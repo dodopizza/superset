@@ -19,7 +19,6 @@ export const putStatementRepository: (
       team_slug: params.slug,
       is_approved: true,
       request_roles: params.roles,
-      last_changed_datetime: new Date(),
     }),
     headers: { 'Content-Type': 'application/json' },
     parseMethod: null,

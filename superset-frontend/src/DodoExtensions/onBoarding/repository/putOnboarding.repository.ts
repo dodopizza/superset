@@ -15,7 +15,6 @@ export const putOnboardingRepository: (
     url: '/api/v1/onboarding/',
     body: JSON.stringify({
       dodo_role: dodoRole,
-      onboardingStartedTime: new Date(),
     }),
     headers: { 'Content-Type': 'application/json' },
     parseMethod: null,
