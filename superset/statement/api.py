@@ -296,15 +296,18 @@ class StatementRestApi(BaseSupersetModelRestApi):
                 team_slug = item.get("team_slug")
                 team_model = find_team_by_slug(team_slug)
                 team_id = team_model.id
-                user = changed_statement.user
+                user = changed_statement.user[0]
                 participants = {
-                    "participants": user
+                    "participants": [user]
                 }
+                current_teams: list = user.teams
+                if len(current_teams):
+                    logger.error(current_teams)
                 changed_team = UpdateTeamCommand(team_id, participants).run()
                 request_roles = changed_statement.request_roles
-                current_roles = user[0].roles
+                current_roles = user.roles
                 roles = request_roles + current_roles
-                changed_user = update_user_roles(user[0], roles)
+                changed_user = update_user_roles(user, roles)
             response = self.response(
                 200,
                 id=changed_statement.id,

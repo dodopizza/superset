@@ -28,6 +28,7 @@ class TeamNameFilter(BaseFilter):
     arg_name = "ct_name"
 
     def apply(self, query: Query, value: Any) -> Query:
+        logger.error(value)
         if not value:
             return query
         ilike_value = f"%{value}%"
@@ -37,7 +38,7 @@ class TeamNameFilter(BaseFilter):
 
 
 class TeamSlugFilter(BaseFilter):
-    name = _("Name")
+    name = _("Slug")
     arg_name = "ct_slug"
 
     def apply(self, query: Query, value: Any) -> Query:
