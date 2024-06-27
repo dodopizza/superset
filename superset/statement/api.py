@@ -94,9 +94,14 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "finished",
     ]
 
+    # base_filters = [
+    #     ["id", StatementIDFilter],
+    # ]
+
     list_select_columns = list_columns
     search_filters = {
-        "user": [StatementUserFirstNameFilter]
+        "user": [StatementUserFirstNameFilter],
+        "id": [StatementIDFilter]
     }
 
     base_related_field_filters = {
