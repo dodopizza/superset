@@ -5979,8 +5979,29 @@
       "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": ["Добавление в Суперсет своих источников данных. Использование SQL Lab для произвольных запросов"],
       "Based on your selection, your roles are:": ["Вы выбрали следующие роли"],
       "Minimum 3 characters": ["Минимум 3 символа"],
-      "Maximum 30 characters": ["Максимум 30 символов"]
-
+      "Maximum 30 characters": ["Максимум 30 символов"],
+      "Closed": ["Закрыта"],
+      "Request date": ["Дата заявки"],
+      "Team": ["Команда"],
+      "Requested roles": ["Запрошенные роли"],
+      "Onboarding request": ["Заявка на онбоардинг"],
+      "User from": ["Пользователь из"],
+      "Current roles": ["Текущие роли"],
+      "Update date": ["Дата обновления"],
+      "If this is C-level":["Если запрос от C-level"],
+      "Team search": ["Поиск команды"],
+      "Analyze available dashboards": ["Анализ существующих дашбордов"],
+      "Gather insights from charts inside a dashboard": ["Анализ графиков в дашюордах"],
+      "Create dashboards": ["Создание дашбордов"],
+      "Create charts": ["Создание графиков"],
+      "Create datasets from sources from Data Platform": ["Создание датасетов из источников, находящихся в Data Platform"],
+      "Use SQL Lab for your Ad-hoc queries": ["Использование SQL Lab для произвольных запросов"],
+      "Add your own data sources to Superset": ["Добавление в Суперсет своих источников данных"],
+      "What roles and teams should be?":["Кому давать какие команды и роли?"],
+      "If it's a franchisee": ["Если это френчайзи"],
+      "If from management company": ["Если это сотрудник УК"],
+      "Give: by the name of the team": ["даем: по названию команды"],
+      "Give: fr_{last name}_{first name}": ["даем: fr_{фамилия}_{имя}"]
     }
   }
 }

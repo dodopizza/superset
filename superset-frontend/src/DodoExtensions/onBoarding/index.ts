@@ -1,4 +1,7 @@
 export * from './onBoardingEntryPoint';
 export * from './utils/onboardingMenuItems';
-export { onboardingTeamSlice } from './model/slice/teamSlice';
-export { onboardingStartSlice } from './model/slice/onboardingStartSlice';
+export { onboardingRequestSlice } from './model/slices/request.slice';
+export { onboardingRequestListSlice } from './model/slices/requestList.slice';
+export { onboardingTeamSearchSlice } from './model/slices/teamSearch.slice';
+export { onboardingStartSlice } from './model/slices/onboardingStart.slice';
+export { onboardingTeamListSlice } from './model/slices/teamList.slice';

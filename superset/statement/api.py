@@ -2,11 +2,12 @@
 
 import logging
 
-from flask import request, Response, g
+from flask import request, Response, g, redirect
 from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
+from superset import security_manager
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.statement.commands.exceptions import (
     StatementAccessDeniedError,
@@ -25,12 +26,28 @@ from superset.statement.schemas import (
     StatementPutSchema,
     StatementPostSchema
 )
+from superset.teams.commands.update import UpdateTeamCommand
 from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
+    RelatedFieldFilter,
+    requires_form_data,
+    requires_json,
     statsd_metrics,
 )
-from superset.views.utils import finish_onboarding
+from superset.statement.filters import (
+    StatementIDFilter,
+    StatementFinishedFilter,
+    StatementUserFirstNameFilter
+)
+from superset.views.filters import (
+    BaseFilterRelatedRoles,
+    BaseFilterRelatedUsers,
+    FilterRelatedOwners,
+    BaseFilterRelatedUsersFirstName
+)
+from superset.views.utils import (finish_onboarding, get_dodo_role, find_team_by_slug,
+                                  update_user_roles)
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +55,7 @@ logger = logging.getLogger(__name__)
 class StatementRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(Statement)
 
-    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET
+    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET.add(RouteMethod.RELATED)
     resource_name = "statement"
     allow_browser_login = True
 
@@ -47,20 +64,57 @@ class StatementRestApi(BaseSupersetModelRestApi):
 
     list_columns = [
         "id",
-        "user_id",
+        "user.id",
+        "user.first_name",
+        "user.last_name",
+        "user.email",
         "finished",
         "team",
         "isNewTeam",
         "team_slug",
         "isExternal",
         "created_datetime",
-        "request_roles",
+        "request_roles.name",
+        "request_roles.id",
         "last_changed_datetime"
     ]
 
+    search_columns = (
+        "id",
+        "user",
+        "finished",
+        "team"
+    )
+
+    order_columns = [
+        "id",
+        "team",
+        "user",
+        "created_datetime",
+        "finished",
+    ]
+
+    # base_filters = [
+    #     ["id", StatementIDFilter],
+    # ]
+
+    list_select_columns = list_columns
+    search_filters = {
+        "user": [StatementUserFirstNameFilter],
+        "id": [StatementIDFilter]
+    }
+
+    base_related_field_filters = {
+        "user": [["id", BaseFilterRelatedUsers, lambda: []]]
+    }
+
+    related_field_filters = {
+        "user": RelatedFieldFilter("first_name", BaseFilterRelatedUsersFirstName)
+    }
+    allowed_rel_fields = {"user"}
     get_model_schema = StatementGetSchema()
     edit_model_schema = StatementPutSchema()
-    team_get_response_schema = StatementGetResponseSchema()
+    statement_get_response_schema = StatementGetResponseSchema()
     add_model_schema = StatementPostSchema()
 
     @expose("/<pk>", methods=("GET",))
@@ -103,11 +157,14 @@ class StatementRestApi(BaseSupersetModelRestApi):
         """
         try:
             statement = StatementDAO.get_by_id(pk)
+            user = statement.user[0]
+            dodo_role = get_dodo_role(user.id)
         except StatementAccessDeniedError:
             return self.response_403()
         except StatementNotFoundError:
             return self.response_404()
-        result = self.team_get_response_schema.dump(statement)
+        result = self.statement_get_response_schema.dump(statement)
+        result["dodo_role"] = dodo_role
         return self.response(200, result=result)
 
     @expose("/", methods=("POST",))
@@ -156,7 +213,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             user_id = g.user.id
-            item["user_id"] = user_id
+            item["user"] = [user_id]
             item["finished"] = False
             new_model = CreateStatementCommand(item).run()
             finished_onboarding = finish_onboarding()
@@ -227,11 +284,30 @@ class StatementRestApi(BaseSupersetModelRestApi):
         except ValidationError as error:
             return self.response_400(message=error.messages)
         try:
-            changed_model = UpdateStatementCommand(pk, item).run()
+            change_fields_for_statement = {
+                "finished": True,
+                "last_changed_datetime": item.get("last_changed_datetime")
+            }
+            changed_statement = UpdateStatementCommand(
+                pk,
+                change_fields_for_statement).run()
+            if item.get("is_approved"):
+                team_slug = item.get("team_slug")
+                team_model = find_team_by_slug(team_slug)
+                team_id = team_model.id
+                user = changed_statement.user
+                participants = {
+                    "participants": user
+                }
+                changed_team = UpdateTeamCommand(team_id, participants).run()
+                request_roles = changed_statement.request_roles
+                current_roles = user[0].roles
+                roles = request_roles + current_roles
+                changed_user = update_user_roles(user[0], roles)
             response = self.response(
                 200,
-                id=changed_model.id,
-                result=item,
+                id=changed_statement.id,
+                result=self.statement_get_response_schema.dump(changed_statement),
             )
         except StatementNotFoundError:
             response = self.response_404()

@@ -5,11 +5,11 @@ import { Col, Row } from 'src/components';
 import { Radio } from 'src/components/Radio';
 import { useSelector } from 'react-redux';
 import Modal from '../../../../components/Modal';
-import { userFromEnum } from '../../types';
+import { UserFromEnum } from '../../types';
 import { SelectRoles } from './components/selectRoles';
 import { ButtonWithTopMargin } from '../styles';
 import { useStepTwoPopup } from './useStepTwoPopup';
-import { getOnboardingFinishUpdating } from '../../model/selector/getOnboardingFinishUpdating';
+import { getOnboardingFinishUpdating } from '../../model/selectors/getOnboardingFinishUpdating';
 import Loading from '../../../../components/Loading';
 import { RequestFindTeam } from '../RequestFindTeam/requestFindTeam';
 
@@ -26,10 +26,10 @@ type Props = {
 };
 
 const userFromOptions = [
-  { label: t(userFromEnum.Franchisee), value: userFromEnum.Franchisee },
+  { label: t(UserFromEnum.Franchisee), value: UserFromEnum.Franchisee },
   {
-    label: t(userFromEnum.ManagingCompany),
-    value: userFromEnum.ManagingCompany,
+    label: t(UserFromEnum.ManagingCompany),
+    value: UserFromEnum.ManagingCompany,
   },
 ];
 
@@ -122,7 +122,7 @@ export const StepTwoPopup: FC<Props> = ({ onClose }) => {
             <SelectRoles
               noTeam={noTeam}
               existingTeam={!!existingTeam}
-              isFranchisee={userFrom === userFromEnum.Franchisee}
+              isFranchisee={userFrom === UserFromEnum.Franchisee}
               roles={roles}
               setRoles={setRoles}
             />

@@ -1,8 +1,16 @@
 # DODO added #32839638
 
+import enum
 from marshmallow import fields, Schema
 
 from superset.tags.models import TagTypes
+
+
+class CustomDodoRoles(enum.Enum):
+    Use_data = "Use data"
+    Analyze_Data = "Analyze data"
+    Create_Data = "Create data"
+    Input_Data = "Input data"
 
 
 class UserSchema(Schema):
@@ -10,6 +18,10 @@ class UserSchema(Schema):
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    email = fields.String()
+    last_login = fields.DateTime()
+    created_on = fields.DateTime()
+    login_count = fields.Int()
 
 
 class RolesSchema(Schema):
@@ -17,24 +29,21 @@ class RolesSchema(Schema):
     name = fields.String()
 
 
-class TagSchema(Schema):
+class TeamGetSchema(Schema):
     id = fields.Int()
     name = fields.String()
-    type = fields.Enum(TagTypes, by_value=True)
+    slug = fields.String()
+    isExternal = fields.Boolean()
+    roles = fields.List(fields.Nested(RolesSchema))
+    participants = fields.List(fields.Nested(UserSchema()))
 
 
 class TeamGetResponseSchema(Schema):
-    class TeamSchema(Schema):
-        id = fields.Int()
-        name = fields.String()
-        isExternal = fields.Boolean()
-        tag = fields.Nested(TagSchema)
-        roles = fields.List(fields.Nested(RolesSchema))
-        participants = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
-
-    result = fields.List(fields.Nested(TeamSchema))
+    result = fields.List(fields.Nested(TeamGetSchema))
 
 
-class TeamGetSchema(Schema):
+class TeamPostSchema(Schema):
     isExternal = fields.Boolean()
-    query = fields.String()
+    name = fields.String()
+    slug = fields.String()
+    roles = fields.List(fields.String(validate=CustomDodoRoles))

@@ -1,9 +1,9 @@
-import { userFromEnum } from '../types';
+import { UserFromEnum } from '../types';
 
-export const getTeamSlug = (userFrom: userFromEnum, value: string | null) => {
-  const v = value?.toLowerCase().replace(/ /g, '_') ?? '';
+export const getTeamSlug = (value: string | null, userFrom?: UserFromEnum) => {
+  const v = value?.trim().toLowerCase().replace(/ /g, '_') ?? '';
 
-  if (userFrom === userFromEnum.Franchisee) {
+  if (userFrom === UserFromEnum.Franchisee) {
     return `fr_${v}`;
   }
   return v;

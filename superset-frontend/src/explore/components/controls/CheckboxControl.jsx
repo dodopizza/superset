@@ -18,7 +18,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styled, css } from '@superset-ui/core';
+import { css, styled } from '@superset-ui/core';
 import ControlHeader from '../ControlHeader';
 import Checkbox from '../../../components/Checkbox';
 

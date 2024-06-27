@@ -41,8 +41,7 @@ team_users = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("team_id", Integer, ForeignKey("teams.id", ondelete="CASCADE")),
-    Column("user_id", Integer, ForeignKey("ab_user.id", ondelete="CASCADE")),
-    UniqueConstraint("team_id", "user_id"),
+    Column("user_id", Integer, ForeignKey("ab_user.id", ondelete="CASCADE"))
 )
 
 
@@ -56,6 +55,7 @@ class Team(Model):
     isExternal = Column(Boolean, nullable=False)
     slug = Column(String, unique=True)
     roles = relationship(security_manager.role_model, secondary=TeamRoles)
-    participants: list[User] = relationship(
-        User, secondary=team_users, backref="teams"
+    participants = relationship(
+        security_manager.user_model, secondary=team_users, passive_deletes=True,
+        backref="teams"
     )

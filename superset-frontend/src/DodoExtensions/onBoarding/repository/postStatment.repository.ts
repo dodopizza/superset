@@ -1,6 +1,6 @@
 import { SupersetClient } from '@superset-ui/core';
 import { StepTwoPopupDto } from '../components/stepTwoPopup/stepTwoPopup.dto';
-import { userFromEnum } from '../types';
+import { UserFromEnum } from '../types';
 import { OnboardingFinishSuccessPayload } from '../model/types/start.types';
 
 type RequestDto = {
@@ -22,7 +22,7 @@ export const postStatementRepository = async (
 ): Promise<OnboardingFinishSuccessPayload> => {
   const requestDto: RequestDto = {
     isNewTeam: popupDto.isNewTeam,
-    isExternal: popupDto.userFrom === userFromEnum.Franchisee,
+    isExternal: popupDto.userFrom === UserFromEnum.Franchisee,
     team: popupDto.teamName,
     team_slug: popupDto.teamSlug,
     request_roles: popupDto.roles,

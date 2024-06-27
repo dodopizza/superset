@@ -4,7 +4,7 @@ import {
   ONBOARDING_STEP_ONE_FINISH_SUCCESS,
   ONBOARDING_STEP_ONE_FINISH_UPDATING,
 } from '../types/start.types';
-import { putOnboardingRepository } from '../../repository/putOnboarding.repository.repository';
+import { putOnboardingRepository } from '../../repository/putOnboarding.repository';
 
 export function stepOneFinish(dodoRole: string) {
   return async function (dispatch: Dispatch) {

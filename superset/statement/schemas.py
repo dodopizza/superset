@@ -1,14 +1,40 @@
 # DODO added #32839641
 
+import enum
 from marshmallow import fields, Schema
+
+
+class CustomDodoRoles(enum.Enum):
+    Use_data = "Use data"
+    Analyze_Data = "Analyze data"
+    Create_Data = "Create data"
+    Input_Data = "Input data"
+
+
+class RolesSchema(Schema):
+    id = fields.Int()
+    name = fields.String()
+
+
+class UserSchema(Schema):
+    id = fields.Int()
+    username = fields.String()
+    first_name = fields.String()
+    last_name = fields.String()
+    email = fields.String()
+    roles = fields.List(fields.Nested(RolesSchema))
 
 
 class StatementGetResponseSchema(Schema):
     id = fields.Int()
-    user_id = fields.Int()
+    user = fields.List(fields.Nested(UserSchema()))
     finished = fields.Boolean()
-    team_id = fields.Int()
+    team = fields.String()
+    isNewTeam = fields.Boolean()
+    team_slug = fields.String()
+    isExternal = fields.Boolean()
     created_datetime = fields.DateTime()
+    request_roles = fields.List(fields.String(validate=CustomDodoRoles))
     last_changed_datetime = fields.DateTime()
 
 
@@ -18,7 +44,10 @@ class StatementGetSchema(Schema):
 
 
 class StatementPutSchema(Schema):
-    pass
+    team_slug = fields.String()
+    is_approved = fields.Boolean()
+    request_roles = fields.List(fields.String(validate=CustomDodoRoles))
+    last_changed_datetime = fields.DateTime()
 
 
 class StatementPostSchema(Schema):
@@ -26,4 +55,4 @@ class StatementPostSchema(Schema):
     team = fields.String()
     team_slug = fields.String()
     isExternal = fields.Boolean()
-    request_roles = fields.List(fields.String)
+    request_roles = fields.List(fields.String(validate=CustomDodoRoles))

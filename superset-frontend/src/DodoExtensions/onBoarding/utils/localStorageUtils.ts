@@ -1,5 +1,5 @@
-import { ONBOARDING_LOCAL_STORAGE_KEY } from '../consts';
 import { OnBoardingStorageInfo } from '../types';
+import { ONBOARDING_LOCAL_STORAGE_KEY } from '../consts';
 
 export const getOnboardingStorageInfo: () => OnBoardingStorageInfo = () => {
   const fromStorage = localStorage.getItem(ONBOARDING_LOCAL_STORAGE_KEY);

@@ -2,16 +2,16 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { useDispatch } from 'react-redux';
 import { t } from '@superset-ui/core';
-import { Role, userFromEnum } from '../../types';
+import { Role, UserFromEnum } from '../../types';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
 import { getTeamSlug } from '../../utils/getTeamSlug';
 import { finishOnBoarding } from '../../model/actions/finishOnBoarding';
-import { ONBOARDING_TEAMS_CLEAR } from '../../model/types/team.types';
+import { ONBOARDING_TEAM_SEARCH_CLEAR } from '../../model/types/teamSearch.types';
 
 export const useStepTwoPopup = () => {
-  const [userFrom, setUserFrom] = useState<userFromEnum>(
-    userFromEnum.Franchisee,
+  const [userFrom, setUserFrom] = useState<UserFromEnum>(
+    UserFromEnum.Franchisee,
   );
   const [newTeam, setNewTeam] = useState<string | null>(null);
   const [existingTeam, setExistingTeam] = useState<any | null>(null);
@@ -26,9 +26,9 @@ export const useStepTwoPopup = () => {
       setExistingTeam(null);
       setNewTeam(null);
       setRoles([]);
-      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
     },
-    [],
+    [dispatch],
   );
 
   const noTeam = useMemo(
@@ -47,7 +47,7 @@ export const useStepTwoPopup = () => {
       return `${existingTeam.label}`;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      const name = getTeamName(userFrom, newTeam);
+      const name = getTeamName(newTeam, userFrom);
       return `${name}`;
     }
     return 'no team';
@@ -58,7 +58,7 @@ export const useStepTwoPopup = () => {
       return existingTeam.value;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      return getTeamSlug(userFrom, newTeam);
+      return getTeamSlug(newTeam, userFrom);
     }
     return 'no slug';
   }, [existingTeam, newTeam, userFrom]);
@@ -83,7 +83,7 @@ export const useStepTwoPopup = () => {
       setExistingTeam(null);
       setRoles([]);
       e.preventDefault();
-      dispatch({ type: ONBOARDING_TEAMS_CLEAR });
+      dispatch({ type: ONBOARDING_TEAM_SEARCH_CLEAR });
     },
     [setExistingTeam, setNewTeam, setRoles],
   );
@@ -100,8 +100,8 @@ export const useStepTwoPopup = () => {
       )}`;
     }
     if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-      const name = getTeamName(userFrom, newTeam);
-      const slug = getTeamSlug(userFrom, newTeam);
+      const name = getTeamName(newTeam, userFrom);
+      const slug = getTeamSlug(newTeam, userFrom);
       return `[${name} (${slug})] ${t(
         'is a new team, so Superset admins will have to evaluate this request.',
       )}`;

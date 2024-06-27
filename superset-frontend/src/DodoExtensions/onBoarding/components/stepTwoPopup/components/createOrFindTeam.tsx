@@ -3,12 +3,12 @@ import { AutoComplete, Input, Space, Tag as TagAnt, Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { Role, userFromEnum } from '../../../types';
+import { Role, UserFromEnum } from '../../../types';
 import { getTeamName } from '../../../utils/getTeamName';
 import { getTeamSlug } from '../../../utils/getTeamSlug';
 import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
 import { loadTeams } from '../../../model/actions/loadTeams';
-import { getTeamsData } from '../../../model/selector/getTeamsData';
+import { getTeamSearchData } from '../../../model/selectors/getTeamSearchData';
 
 const StyledSpace = styled(Space)`
   width: 100%;
@@ -22,7 +22,7 @@ type Props = {
   setExistingTeam: (value: any | null) => void;
   setNewTeam: (value: string | null) => void;
   setRoles: (roles: Array<Role>) => void;
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   formatedTeamName: string;
 };
 
@@ -37,7 +37,7 @@ export const CreateOrFindTeam: FC<Props> = memo(
     formatedTeamName,
   }) => {
     const dispatch = useDispatch();
-    const { teamsIsLoading, teams } = useSelector(getTeamsData);
+    const { teamsIsLoading, teams } = useSelector(getTeamSearchData);
 
     const debouncedLoadTeamList = useMemo(
       () =>
@@ -103,8 +103,8 @@ export const CreateOrFindTeam: FC<Props> = memo(
         )}`;
       }
       if ((newTeam ?? '').trim().length >= MIN_TEAM_NAME_LENGTH) {
-        const name = getTeamName(userFrom, newTeam);
-        const tag = getTeamSlug(userFrom, newTeam);
+        const name = getTeamName(newTeam, userFrom);
+        const tag = getTeamSlug(newTeam, userFrom);
         return `[${name} (${tag})] ${t(
           'is a new team, so Superset admins will have to evaluate this request.',
         )}`;

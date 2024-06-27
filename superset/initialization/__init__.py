@@ -173,6 +173,12 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             DashboardModelView,
             DashboardModelViewAsync,
         )
+        from superset.views.statement.views import (
+            StatementModelView
+        )
+        from superset.views.team.views import (
+            TeamModelView
+        )
         from superset.views.database.views import (
             ColumnarToDatabaseView,
             CsvToDatabaseView,
@@ -256,6 +262,22 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             "Dashboards",
             label=__("Dashboards"),
             icon="fa-dashboard",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            StatementModelView,
+            "Statements",
+            label=__("Statements"),
+            icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TeamModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
             category="",
             category_icon="",
         )

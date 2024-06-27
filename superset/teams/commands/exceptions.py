@@ -11,11 +11,21 @@ from superset.commands.exceptions import (
     ImportFailedError,
     ObjectNotFoundError,
     UpdateFailedError,
+    ValidationError
 )
 
 
 class TeamInvalidError(CommandInvalidError):
     message = _("Team parameters are invalid.")
+
+
+class TeamSlugExistsValidationError(ValidationError):
+    """
+    Marshmallow validation error for dashboard slug already exists
+    """
+
+    def __init__(self) -> None:
+        super().__init__([_("Must be unique")], field_name="slug")
 
 
 class TeamNotFoundError(ObjectNotFoundError):

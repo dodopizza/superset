@@ -37,7 +37,7 @@ import {
 import { useSelector } from 'react-redux';
 import RightMenu from './RightMenu';
 import { onboardingMenuItems } from '../../DodoExtensions/onBoarding';
-import { getUserInfo } from '../../DodoExtensions/onBoarding/model/selector/getUserInfo';
+import { getUserInfo } from '../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
 
 interface MenuProps {
   data: MenuData;
@@ -183,6 +183,7 @@ export function Menu({
         setMenu('inline');
       } else setMenu('horizontal');
     }
+
     handleResize();
     const windowResize = debounce(() => handleResize(), 10);
     window.addEventListener('resize', windowResize);

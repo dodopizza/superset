@@ -11,6 +11,18 @@ from superset.views.base import BaseFilter
 logger = logging.getLogger(__name__)
 
 
+class TeamIDFilter(BaseFilter):  # pylint: disable=too-few-public-methods
+    name = _("id")
+    arg_name = "eq_id_team"
+
+    def apply(self, query: Query, value: Any) -> Query:
+        if value:
+            return query.filter(
+                Team.id == int(value)
+            )
+        return query
+
+
 class TeamNameFilter(BaseFilter):
     name = _("Name")
     arg_name = "ct_name"
@@ -21,6 +33,19 @@ class TeamNameFilter(BaseFilter):
         ilike_value = f"%{value}%"
         return query.filter(
             Team.name.ilike(ilike_value)
+        )
+
+
+class TeamSlugFilter(BaseFilter):
+    name = _("Name")
+    arg_name = "ct_slug"
+
+    def apply(self, query: Query, value: Any) -> Query:
+        if not value:
+            return query
+        ilike_value = f"%{value}%"
+        return query.filter(
+            Team.slug.ilike(ilike_value)
         )
 
 

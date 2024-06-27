@@ -4769,7 +4769,30 @@
       "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [""],
       "Based on your selection, your roles are:": [""],
       "Minimum 3 characters": [""],
-      "Maximum 30 characters": [""]
+      "Maximum 30 characters": [""],
+      "Closed": [""],
+      "Request date": [""],
+      "Team": [""],
+      "Requested roles": [""],
+      "Onboarding request": [""],
+      "User from": [""],
+      "Current roles": [""],
+      "Update date": [""],
+      "If this is C-level":[""],
+      "Team search": [""],
+      "Analyze available dashboards": [""],
+      "Gather insights from charts inside a dashboard": [""],
+      "Create dashboards": [""],
+      "Create charts": [""],
+      "Create datasets from sources from Data Platform": [""],
+      "Use SQL Lab for your Ad-hoc queries": [""],
+      "Add your own data sources to Superset": [""],
+      "Use SQL Lab for your Ad-hoc queries": [""],
+      "What roles and teams should be?":[""],
+      "If it's a franchisee": [""],
+      "If from management company": [""],
+      "Give: by the name of the team": [""],
+      "Give: fr_{last name}_{first name}": [""]
     }
   }
 }

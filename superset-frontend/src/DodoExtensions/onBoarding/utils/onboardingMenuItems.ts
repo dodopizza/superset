@@ -1,16 +1,17 @@
 import { MenuObjectProps } from 'src/types/bootstrapTypes';
 import { t } from '@superset-ui/core';
+import { REQUEST_PAGE_LIST_URL, TEAM_PAGE_LIST_URL } from '../consts';
 
 export const onboardingMenuItems: () => MenuObjectProps[] = () => [
   {
     label: t('Requests'),
     name: 'requests',
-    url: '/',
+    url: REQUEST_PAGE_LIST_URL,
   },
   {
     label: t('Teams'),
     name: 'teams',
-    url: '/',
+    url: TEAM_PAGE_LIST_URL,
   },
   {
     label: t('Tags'),

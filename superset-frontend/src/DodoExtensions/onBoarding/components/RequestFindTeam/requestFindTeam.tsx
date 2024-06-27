@@ -2,8 +2,8 @@ import React, { FC, memo } from 'react';
 import { AutoComplete, Input } from 'antd';
 import { t } from '@superset-ui/core';
 import { useSelector } from 'react-redux';
-import { Role, userFromEnum } from '../../types';
-import { getTeamsData } from '../../model/selector/getTeamsData';
+import { Role, UserFromEnum } from '../../types';
+import { getTeamSearchData } from '../../model/selectors/getTeamSearchData';
 import { useTeam } from './useTeam';
 
 type Props = {
@@ -11,8 +11,9 @@ type Props = {
   existingTeam: any | null;
   setExistingTeam: (value: any | null) => void;
   setNewTeam: (value: string | null) => void;
-  userFrom: userFromEnum;
+  userFrom: UserFromEnum;
   setRoles?: (value: Array<Role>) => void;
+  disabled?: boolean;
 };
 
 export const RequestFindTeam: FC<Props> = memo(
@@ -23,8 +24,9 @@ export const RequestFindTeam: FC<Props> = memo(
     setExistingTeam,
     userFrom,
     setRoles,
+    disabled,
   }) => {
-    const { teamsIsLoading, teams } = useSelector(getTeamsData);
+    const { teamsIsLoading, teams } = useSelector(getTeamSearchData);
 
     const { debouncedLoadTeamList, handleTeamChange, teamNameOnAutoComplete } =
       useTeam({
@@ -43,6 +45,7 @@ export const RequestFindTeam: FC<Props> = memo(
         style={{ width: '100%' }}
         onSearch={debouncedLoadTeamList}
         onChange={handleTeamChange}
+        disabled={disabled}
       >
         <Input.Search
           placeholder={t('enter team')}

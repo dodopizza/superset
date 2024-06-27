@@ -50,9 +50,14 @@ import { HydrateExplore } from 'src/explore/actions/hydrateExplore';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { Dataset } from '@superset-ui/chart-controls';
 import {
+  onboardingRequestListSlice,
+  onboardingRequestSlice,
   onboardingStartSlice,
-  onboardingTeamSlice,
+  onboardingTeamListSlice,
+  onboardingTeamSearchSlice,
 } from '../DodoExtensions/onBoarding';
+import { onboardingTeamPageSlice } from '../DodoExtensions/onBoarding/model/slices/teamPage.slice';
+import { onboardingTeamCreateSlice } from '../DodoExtensions/onBoarding/model/slices/teamCreate.slice';
 
 // Some slice don't do anything, and redux is just used to reference the initial "state".
 // This may change later, as the client application takes on more responsibilities.
@@ -135,7 +140,12 @@ const reducers = {
   explore,
   // DODO added
   onboardingStart: onboardingStartSlice,
-  onboardingTeam: onboardingTeamSlice,
+  onboardingTeamSearch: onboardingTeamSearchSlice,
+  onboardingTeamCreate: onboardingTeamCreateSlice,
+  onboardingRequestList: onboardingRequestListSlice,
+  onboardingRequest: onboardingRequestSlice,
+  onboardingTeamList: onboardingTeamListSlice,
+  onboardingTeamPage: onboardingTeamPageSlice,
 };
 
 /* In some cases the jinja template injects two seperate React apps into basic.html
