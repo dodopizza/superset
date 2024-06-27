@@ -24,7 +24,6 @@ class StatementModelView(
 ):
     route_base = "/onboarding/request"
     datamodel = SQLAInterface(StatementModel)
-    # once we move to ChartRestModelApi
     class_permission_name = "Statement"
     method_permission_name = MODEL_VIEW_RW_METHOD_PERMISSION_MAP
 
@@ -35,7 +34,6 @@ class StatementModelView(
     @has_access
     @expose("/list")
     def list(self) -> FlaskResponse:
-        logger.error(request.url)
         return super().render_app_template()
 
     @has_access
