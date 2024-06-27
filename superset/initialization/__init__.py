@@ -265,22 +265,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             category="",
             category_icon="",
         )
-        appbuilder.add_view(
-            StatementModelView,
-            "Statements",
-            label=__("Statements"),
-            icon="fa-statement",
-            category="",
-            category_icon="",
-        )
-        appbuilder.add_view(
-            TeamModelView,
-            "Team",
-            label=__("Team"),
-            icon="fa-team",
-            category="",
-            category_icon="",
-        )
+
         appbuilder.add_view(
             SliceModelView,
             "Charts",
@@ -317,6 +302,23 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             icon="fa-css3",
             category="Manage",
             category_label=__("Manage"),
+            category_icon="",
+        )
+
+        appbuilder.add_view(
+            StatementModelView,
+            "Statements",
+            label=__("Statements"),
+            icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TeamModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
+            category="",
             category_icon="",
         )
 
