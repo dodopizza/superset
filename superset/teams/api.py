@@ -18,7 +18,12 @@ from superset.teams.schemas import (
 )
 from superset.teams.commands.create import CreateTeamCommand
 from superset.daos.teams import TeamDAO
-from superset.teams.filters import TeamNameFilter, TeamExternalFilter
+from superset.teams.filters import (
+    TeamNameFilter,
+    TeamExternalFilter,
+    TeamIDFilter,
+    TeamSlugFilter
+)
 from superset.models.team import Team
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
@@ -38,9 +43,18 @@ class TeamRestApi(BaseSupersetModelRestApi):
     class_permission_name = "Team"
     method_permission_name = MODEL_API_RW_METHOD_PERMISSION_MAP
 
+    search_columns = (
+        "id",
+        "slug",
+        "isExternal",
+        "name"
+    )
+
     search_filters = {
         "name": [TeamNameFilter],
         "isExternal": [TeamExternalFilter],
+        "id": [TeamIDFilter],
+        "slug": [TeamSlugFilter]
     }
 
     list_columns = [
