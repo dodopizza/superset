@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
 
@@ -25,6 +25,8 @@ const oneDayPassed = (date?: Date): boolean => {
 export const useOnboarding = () => {
   const [step, setStep] = useState<number | null>(null);
 
+  const step2PassedRef = useRef<null | boolean>();
+
   const dispatch = useDispatch();
   const isOnboardingFinished = useSelector(getIsOnboardingFinished);
   const onboardingStartedTime = useSelector(getOnboardingStartedTime);
@@ -36,7 +38,11 @@ export const useOnboarding = () => {
   }, [dispatch]);
 
   if (isOnboardingFinished) {
-    if (step !== null) {
+    if (step2PassedRef.current) {
+      if (step !== 3) {
+        setStep(3);
+      }
+    } else if (step !== null) {
       setStep(null);
     }
   } else if (onboardingStartedTime) {
@@ -60,9 +66,20 @@ export const useOnboarding = () => {
     dispatch(stepOneFinish(stepOneDto.DodoRole));
   };
 
+  const setStep2Passed = useCallback(() => {
+    step2PassedRef.current = true;
+  }, []);
+
+  const setStep3Passed = useCallback(() => {
+    step2PassedRef.current = null;
+    setStep(null);
+  }, []);
+
   return {
     step,
     closeOnboarding,
     toStepTwo,
+    setStep2Passed,
+    setStep3Passed,
   };
 };
