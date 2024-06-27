@@ -52,6 +52,7 @@ from superset.models.filter_set import FilterSet
 from superset.models.slice import Slice
 from superset.utils.core import get_iterable, get_user_id
 from superset.utils.dashboard_filter_scopes_converter import copy_filter_scopes
+from superset.views.utils import get_permissions
 
 logger = logging.getLogger(__name__)
 
@@ -317,9 +318,11 @@ class DashboardDAO(BaseDAO[Dashboard]):
     def copy_dashboard(
         cls, original_dash: Dashboard, data: dict[str, Any]
     ) -> Dashboard:
-        if is_feature_enabled("DASHBOARD_RBAC") and not security_manager.is_owner(
+        user = g.user
+        roles, _ = get_permissions(user)
+        if (is_feature_enabled("DASHBOARD_RBAC") and not security_manager.is_owner(
             original_dash
-        ):
+        )) and not (roles.get("Gamma") or roles.get("Alpha")):
             raise DashboardForbiddenError()
 
         dash = Dashboard()
