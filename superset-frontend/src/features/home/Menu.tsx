@@ -36,8 +36,12 @@ import {
 } from 'src/types/bootstrapTypes';
 import { useSelector } from 'react-redux';
 import RightMenu from './RightMenu';
-import { onboardingMenuItems } from '../../DodoExtensions/onBoarding';
+import { onboardingMenuAdminItems } from '../../DodoExtensions/onBoarding';
 import { getUserInfo } from '../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
+import {
+  REQUEST_PAGE_LIST_URL,
+  TEAM_PAGE_LIST_URL,
+} from '../../DodoExtensions/onBoarding/consts';
 
 interface MenuProps {
   data: MenuData;
@@ -147,11 +151,14 @@ const globalStyles = (theme: SupersetTheme) => css`
   .ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light.ant-menu-submenu-placement-bottomLeft {
     border-radius: 0px;
   }
+
   .ant-menu-submenu.ant-menu-submenu-popup.ant-menu.ant-menu-light {
     border-radius: 0px;
   }
+
   .ant-menu-vertical > .ant-menu-submenu.data-menu > .ant-menu-submenu-title {
     height: 28px;
+
     i {
       padding-right: ${theme.gridUnit * 2}px;
       margin-left: ${theme.gridUnit * 1.75}px;
@@ -323,6 +330,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   const newMenuData = {
     ...data,
   };
+
   // Menu items that should go into settings dropdown
   const settingsMenus = {
     Data: true,
@@ -333,41 +341,51 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   // Cycle through menu.menu to build out cleanedMenu and settings
   const cleanedMenu: MenuObjectProps[] = [];
   const settings: MenuObjectProps[] = [];
-  newMenuData.menu.forEach((item: any) => {
-    if (!item) {
-      return;
-    }
+  newMenuData.menu
+    .filter(
+      item =>
+        item.url !== REQUEST_PAGE_LIST_URL && item.url !== TEAM_PAGE_LIST_URL,
+    ) // DODO add filter with onboarding to make this item on frontend (not get from backend)
+    .forEach((item: any) => {
+      if (!item) {
+        return;
+      }
 
-    const children: (MenuObjectProps | string)[] = [];
-    const newItem = {
-      ...item,
-    };
+      const children: (MenuObjectProps | string)[] = [];
+      const newItem = {
+        ...item,
+      };
 
-    // Filter childs
-    if (item.childs) {
-      item.childs.forEach((child: MenuObjectChildProps | string) => {
-        if (typeof child === 'string') {
-          children.push(child);
-        } else if ((child as MenuObjectChildProps).label) {
-          children.push(child);
-        }
-      });
+      // Filter childs
+      if (item.childs) {
+        item.childs.forEach((child: MenuObjectChildProps | string) => {
+          if (typeof child === 'string') {
+            children.push(child);
+          } else if ((child as MenuObjectChildProps).label) {
+            children.push(child);
+          }
+        });
 
-      newItem.childs = children;
-    }
+        newItem.childs = children;
+      }
 
-    if (!settingsMenus.hasOwnProperty(item.name)) {
-      cleanedMenu.push(newItem);
-    } else {
-      settings.push(newItem);
-    }
-  });
+      if (!settingsMenus.hasOwnProperty(item.name)) {
+        cleanedMenu.push(newItem);
+      } else {
+        settings.push(newItem);
+      }
+    });
 
   // DODO added 32839645 start
   const user = useSelector(getUserInfo);
   if (user.roles.Admin) {
-    cleanedMenu.push(...onboardingMenuItems());
+    cleanedMenu.push(...onboardingMenuAdminItems());
   }
+  cleanedMenu.push({
+    label: t('Tags'),
+    name: 'tags',
+    url: '/superset/tags/',
+  });
   // DODO added 32839645 stop
 
   newMenuData.menu = cleanedMenu;
