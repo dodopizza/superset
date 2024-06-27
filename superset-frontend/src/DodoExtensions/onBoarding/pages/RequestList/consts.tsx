@@ -26,24 +26,14 @@ export const columns = [
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('User'),
     accessor: 'user',
+    disableSortBy: true,
   },
-  // {
-  //   id: 'user.first_name',
-  //   Cell: (props: any) => <span>{props.value}</span>,
-  //   Header: t('First name'),
-  //   accessor: 'firstName',
-  // },
-  // {
-  //   id: 'user.last_name',
-  //   Cell: (props: any) => <span>{props.value}</span>,
-  //   Header: t('Last name'),
-  //   accessor: 'lastName',
-  // },
   {
     id: 'user.email',
     Cell: (props: any) => <span>{props.value}</span>,
     Header: t('Email'),
     accessor: 'email',
+    disableSortBy: true,
   },
   {
     Cell: (props: any) => (
@@ -71,7 +61,9 @@ export const columns = [
   },
   {
     id: 'created_datetime',
-    Cell: (props: any) => <span>{moment.utc(props.value).fromNow()}</span>,
+    Cell: (props: any) => (
+      <span>{moment(props.value).format('DD/MM/YYYY HH:mm')}</span>
+    ),
     Header: t('Request date'),
     accessor: 'requestDate',
     size: 'xs',

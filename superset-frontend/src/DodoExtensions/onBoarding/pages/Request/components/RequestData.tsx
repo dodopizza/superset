@@ -1,6 +1,7 @@
 import { Descriptions } from 'antd';
 import { t, useTheme } from '@superset-ui/core';
 import React, { FC } from 'react';
+import moment from 'moment';
 import CheckboxControl from '../../../../../explore/components/controls/CheckboxControl';
 import { UserFromEnum } from '../../../types';
 
@@ -56,10 +57,10 @@ export const RequestData: FC<Props> = ({ data }) => {
         <CheckboxControl hovered value={data?.isClosed} disabled />
       </Descriptions.Item>
       <Descriptions.Item label={t('Request date')}>
-        {data?.requestDate.toLocaleDateString()}
+        {moment(data?.requestDate).format('DD/MM/YYYY HH:mm')}
       </Descriptions.Item>
       <Descriptions.Item label={t('Update date')}>
-        {data?.updateDate.toLocaleDateString()}
+        {moment(data?.updateDate).format('DD/MM/YYYY HH:mm')}
       </Descriptions.Item>
     </Descriptions>
   );
