@@ -29,7 +29,7 @@ export const UpdateUser: FC<Props> = ({ onCloseModal, onSubmit, data }) => {
 
   return (
     <Modal
-      title="User update"
+      title={t('User update')}
       show
       onHide={onCloseModal}
       footer={
@@ -52,7 +52,7 @@ export const UpdateUser: FC<Props> = ({ onCloseModal, onSubmit, data }) => {
         <Descriptions.Item label={t('Role in Dodo Brands')}>
           {data?.dodoRole}
         </Descriptions.Item>
-        <Descriptions.Item label={t('Current Roles')}>
+        <Descriptions.Item label={t('Current roles')}>
           {data?.currentRoles?.join(', ')}
         </Descriptions.Item>
         <Descriptions.Item label={t('New Roles')}>

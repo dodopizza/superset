@@ -38,8 +38,10 @@ export const TeamPage: FC = () => {
               <CheckboxControl hovered value={data?.isExternal} disabled />
             </Descriptions.Item>
             <Descriptions.Item label="Slug">{data?.slug}</Descriptions.Item>
-            <Descriptions.Item label="Roles">{data?.roles}</Descriptions.Item>
-            <Descriptions.Item label="Members count">
+            <Descriptions.Item label={t('Roles')}>
+              {data?.roles}
+            </Descriptions.Item>
+            <Descriptions.Item label={t('Members count')}>
               {data?.membersCount}
             </Descriptions.Item>
           </Descriptions>
@@ -86,10 +88,10 @@ export const TeamPage: FC = () => {
                     <Descriptions.Item label={t('Created on')}>
                       {moment(item?.createdOn).format('DD/MM/YYYY HH:mm')}
                     </Descriptions.Item>
-                    <Descriptions.Item label="Login count">
+                    <Descriptions.Item label={t('Login count')}>
                       {item?.loginCount}
                     </Descriptions.Item>
-                    <Descriptions.Item label={t('Last login')}>
+                    <Descriptions.Item label={t('Last login date')}>
                       {moment(item?.lastLogin).format('DD/MM/YYYY HH:mm')}
                     </Descriptions.Item>
                   </Descriptions>

@@ -11096,6 +11096,48 @@
       ],
       "Give: fr_{last name}_{first name}": [
         "даем: fr_{фамилия}_{имя}"
+      ],
+      "give: c_level": [
+        "даем: c_level"
+      ],
+      "Create new team": [
+        "Создайте новую команду"
+      ],
+      "New team will be created": [
+        "Будет создана новая команда"
+      ],
+      "Team Name": [
+        "Название команды"
+      ],
+      "Full Team Name": [
+        "Полное название команды"
+      ],
+      "User will update is on the next step": [
+        "Пользователь будет обновлен на следующем шаге"
+      ],
+      "Create team": [
+        "Создать команду"
+      ],
+      "New Roles": [
+        "Новые роли"
+      ],
+      "Apply roles and link to a team": [
+        "Применить роли и добавить в команду"
+      ],
+      "User update": [
+        "Обновить пользователя"
+      ],
+      "Members": [
+        "Участники"
+      ],
+      "Members count": [
+        "Количество участников"
+      ],
+      "Login count": [
+        "Количество логинов"
+      ],
+      "Last login date": [
+        "Дата последнего логина"
       ]
     }
   }

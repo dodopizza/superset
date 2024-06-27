@@ -75,7 +75,7 @@ export const CreateTeamModal: FC<Props> = ({
 
   return (
     <Modal
-      title="Create new team"
+      title={t('Create new team')}
       show
       onHide={onCloseModal}
       footer={
@@ -120,13 +120,13 @@ export const CreateTeamModal: FC<Props> = ({
         </FormItem>
         <FormItem
           name="teamSlug"
-          label={t('Team slug')}
+          label={t('slug')}
           rules={[{ required: true }]}
         >
           <Input disabled />
         </FormItem>
 
-        <FormItem name="roles" label="Roles" rules={[{ required: true }]}>
+        <FormItem name="roles" label={t('Roles')} rules={[{ required: true }]}>
           <Select
             mode="multiple"
             allowClear

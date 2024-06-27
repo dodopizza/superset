@@ -31,7 +31,7 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
 
   return (
     <Modal
-      title="Create new team"
+      title={t('Create new team')}
       show
       onHide={onCloseModal}
       footer={
@@ -50,7 +50,7 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
           <Descriptions.Item label={t('Team')}>
             {data?.teamName}
           </Descriptions.Item>
-          <Descriptions.Item label={t('Team slug')}>
+          <Descriptions.Item label={t('slug')}>
             {data?.teamSlug}
           </Descriptions.Item>
           <Descriptions.Item label={t('Roles')}>
@@ -62,7 +62,7 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
         {t('New team will be created')}
       </Typography.Paragraph>
       <Typography.Paragraph>
-        {t('User update is on the next step')}
+        {t('User will update is on the next step')}
       </Typography.Paragraph>
       {createdTeamError && <Alert message={createdTeamError} type="error" />}
     </Modal>
