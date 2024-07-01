@@ -29,7 +29,6 @@ class UpdateTeamCommand(UpdateMixin, BaseCommand):
         assert self._model
 
         try:
-            logger.error(self._properties)
             team = TeamDAO.update(self._model, self._properties, commit=True)
         except DAOUpdateFailedError as ex:
             logger.exception(ex.exception)
