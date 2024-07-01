@@ -1,5 +1,5 @@
 // DODO was here
-import React, { FunctionComponent, useState, useRef } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import Alert from 'src/components/Alert';
 import Button from 'src/components/Button';
 import {
@@ -31,6 +31,7 @@ const StyledDatasourceModal = styled(Modal)`
   .modal-header {
     flex: 0 1 auto;
   }
+
   .modal-body {
     flex: 1 1 auto;
     overflow: auto;
@@ -193,9 +194,13 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
       .catch(response => {
         setIsSaving(false);
         getClientErrorObject(response).then(({ error }) => {
+          // DODO added start 34054751
+          const errorText =
+            typeof error === 'object' ? JSON.stringify(error) : error;
+          // DODO added stop 34054751
           modal.error({
             title: t('Error'),
-            content: error || t('An error has occurred'),
+            content: errorText || t('An error has occurred'), // DODO changed 34054751 error => errorText
             okButtonProps: { danger: true, className: 'btn-danger' },
           });
         });
