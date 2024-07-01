@@ -300,6 +300,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
                 team_id = team_model.id
                 user = changed_statement.user[0]
 
+                #  ищем в какой команде пользователь и удаляем его оттуда
                 current_teams: list = user.teams
                 if current_teams and len(current_teams) > 0:
                     for current_team in current_teams:
@@ -313,6 +314,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
                 updated_participants = {
                     "participants": participants.append(user) if participants else [user]
                 }
+                #  записываем пользователя в новую команду
                 changed_team = UpdateTeamCommand(team_id, updated_participants).run()
                 request_roles = changed_statement.request_roles
                 current_roles = user.roles
