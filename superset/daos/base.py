@@ -173,7 +173,6 @@ class BaseDAO(Generic[T]):
         :raises: DAOCreateFailedError
         """
         for key, value in properties.items():
-            logger.error(f"model={model}, key={key}, value={value}")
             setattr(model, key, value)
         try:
             db.session.merge(model)

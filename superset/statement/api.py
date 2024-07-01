@@ -311,9 +311,11 @@ class StatementRestApi(BaseSupersetModelRestApi):
                         changed_team = UpdateTeamCommand(current_team.id,
                                                          updated_participants).run()
                 participants = team_model.participants
+                logger.error(f"participants = {participants}")
                 updated_participants = {
                     "participants": participants.append(user) if participants else [user]
                 }
+                logger.error(f"updated_participants = {updated_participants}")
                 #  записываем пользователя в новую команду
                 changed_team = UpdateTeamCommand(team_id, updated_participants).run()
                 request_roles = changed_statement.request_roles
