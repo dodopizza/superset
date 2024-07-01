@@ -18,13 +18,13 @@ import {
 } from 'src/dashboard/reducers/dashboardFilters';
 import {
   DASHBOARD_HEADER_ID,
-  GRID_DEFAULT_CHART_WIDTH,
-  GRID_COLUMN_COUNT,
   DASHBOARD_ROOT_ID,
+  GRID_COLUMN_COUNT,
+  GRID_DEFAULT_CHART_WIDTH,
 } from 'src/dashboard/util/constants';
 import {
-  DASHBOARD_HEADER_TYPE,
   CHART_TYPE,
+  DASHBOARD_HEADER_TYPE,
   ROW_TYPE,
 } from 'src/dashboard/util/componentTypes';
 import findFirstParentContainerId from 'src/dashboard/util/findFirstParentContainer';
@@ -322,7 +322,8 @@ export const hydrateDashboard =
           userId: user.userId ? String(user.userId) : null, // legacy, please use state.user instead
           dash_edit_perm: canEdit,
           // dash_save_perm: canUserSaveAsDashboard(dashboard, user), // DODO commented #33907853
-          dash_save_perm: findPermission('can_save_dash', 'Superset', roles), // DODO added #33907853
+          dash_save_perm:
+            findPermission('can_save_dash', 'Superset', roles) || roles.Admin, // DODO added #33907853
           dash_share_perm: findPermission(
             'can_share_dashboard',
             'Superset',
