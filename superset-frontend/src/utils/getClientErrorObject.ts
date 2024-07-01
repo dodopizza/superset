@@ -18,8 +18,8 @@
  */
 import { JsonObject, SupersetClientResponse, t } from '@superset-ui/core';
 import {
-  SupersetError,
   ErrorTypeEnum,
+  SupersetError,
 } from 'src/components/ErrorMessage/types';
 import COMMON_ERR_MESSAGES from './errorMessages';
 
@@ -52,6 +52,7 @@ type ErrorTextSource = 'dashboard' | 'chart' | 'query' | 'dataset' | 'database';
 export function parseErrorJson(responseObject: JsonObject): ClientErrorObject {
   let error = { ...responseObject };
   // Backwards compatibility for old error renderers with the new error object
+
   if (error.errors && error.errors.length > 0) {
     error.error = error.description = error.errors[0].message;
     error.link = error.errors[0]?.extra?.link;
@@ -60,9 +61,43 @@ export function parseErrorJson(responseObject: JsonObject): ClientErrorObject {
   // of { message: { field1: [msg1, msg2], field2: [msg], } }
   if (!error.error && error.message) {
     if (typeof error.message === 'object') {
-      error.error =
-        Object.values(error.message as Record<string, string[]>)[0]?.[0] ||
-        t('Invalid input');
+      // DODO added start 34054751
+      // add work with this response format
+      // { "message": {
+      //     "columns": {
+      //       "1": {
+      //         "python_date_format": [
+      //           "Invalid date/timestamp format"
+      //         ]
+      //       }
+      //     }
+      //   }
+      // }
+
+      let text = '';
+
+      const firstMessage = Object.values(error.message)[0];
+
+      if (!Array.isArray(firstMessage) && typeof firstMessage === 'object') {
+        const firstMessageL2 = Object.values(firstMessage ?? {})?.[0];
+
+        if (typeof firstMessageL2 === 'object') {
+          const [key, value] = Object.entries(firstMessageL2)?.[0];
+          text = `${key}: ${value}`;
+        }
+      } else if (Array.isArray(firstMessage)) {
+        text = firstMessage?.[0];
+      }
+
+      text = text || t('Invalid input');
+
+      error.error = text;
+      // DODO added end 34054751
+
+      // version before DODO fix
+      // error.error =
+      //   Object.values(error.message as Record<string, string[]>)[0]?.[0] ||
+      //   t('Invalid input');
     }
     if (typeof error.message === 'string') {
       error.error = error.message;
