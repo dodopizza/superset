@@ -572,7 +572,6 @@ class BaseSupersetModelRestApi(ModelRestApi, BaseSupersetApiMixin):
             self.incr_stats("error", self.related.__name__)
             return self.response_404()
         args = kwargs.get("rison", {})
-        logger.error("qkakmsdkmsdmfldamfl;dmflmdalflslfmksmdfkmsdknfjnsdjfnjsdnfjnsdnf")
         # handle pagination
         page, page_size = self._handle_page_args(args)
 

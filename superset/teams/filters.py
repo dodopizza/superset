@@ -28,7 +28,6 @@ class TeamNameFilter(BaseFilter):
     arg_name = "ct_name"
 
     def apply(self, query: Query, value: Any) -> Query:
-        logger.error(value)
         if not value:
             return query
         ilike_value = f"%{value}%"

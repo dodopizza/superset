@@ -39,7 +39,6 @@ class CreateStatementCommand(CreateMixin, BaseCommand):
             user = self.populate_owners(user_id)
             self._properties["user"] = user
             roles = get_ids_roles_by_name(role_names)
-            logger.error(roles)
             self._properties["request_roles"] = roles
         except ValidationError as ex:
             exceptions.append(ex)

@@ -144,7 +144,6 @@ def update_onboarding(dodo_role, started_time):
         )
         user_info.dodo_role = dodo_role
         user_info.onboardingStartedTime = started_time
-        logger.error(user_info.__dict__)
         db.session.commit()
         return {
             "dodo_role": dodo_role,

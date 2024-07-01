@@ -32,7 +32,6 @@ class TeamModelView(
     @has_access
     @expose("/list")
     def list(self) -> FlaskResponse:
-        logger.error(request.url)
         return super().render_app_template()
 
     @has_access
