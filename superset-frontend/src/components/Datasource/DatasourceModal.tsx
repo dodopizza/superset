@@ -194,13 +194,9 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
       .catch(response => {
         setIsSaving(false);
         getClientErrorObject(response).then(({ error }) => {
-          // DODO added start 34054751
-          const errorText =
-            typeof error === 'object' ? JSON.stringify(error) : error;
-          // DODO added stop 34054751
           modal.error({
             title: t('Error'),
-            content: errorText || t('An error has occurred'), // DODO changed 34054751 error => errorText
+            content: error || t('An error has occurred'), // DODO changed 34054751 error => errorText
             okButtonProps: { danger: true, className: 'btn-danger' },
           });
         });
