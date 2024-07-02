@@ -41,6 +41,10 @@ from superset.queries.saved_queries.commands.exceptions import (
     SavedQueryDeleteFailedError,
     SavedQueryNotFoundError,
 )
+from superset.tags.commands.create import CreateTeamTagCommand
+from superset.tags.models import ObjectTypes
+from superset.tags.models import ObjectTypes
+from superset.views.utils import get_team_by_user_id
 from superset.queries.saved_queries.commands.export import ExportSavedQueriesCommand
 from superset.queries.saved_queries.commands.importers.dispatcher import (
     ImportSavedQueriesCommand,
@@ -168,6 +172,11 @@ class SavedQueryRestApi(BaseSupersetModelRestApi):
 
     def pre_add(self, item: SavedQuery) -> None:
         item.user = g.user
+        team = get_team_by_user_id()
+        team_slug = team.slug
+        object_type = ObjectTypes.query
+        object_id = item.id
+        CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
 
     def pre_update(self, item: SavedQuery) -> None:
         self.pre_add(item)

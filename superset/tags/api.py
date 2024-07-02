@@ -179,12 +179,6 @@ class TagRestApi(BaseSupersetModelRestApi):
         """
         try:
             tags = request.json["properties"]["tags"]
-             # is_team = request.json["properties"]["is_team"]
-            # if is_team:
-            #     # This validates custom Schema with custom validations
-            #     CreateTeamTagCommand(object_type, object_id, tags).run()
-            # else:
-                # This validates custom Schema with custom validations
             CreateCustomTagCommand(object_type, object_id, tags).run()
             return self.response(201)
         except KeyError:
