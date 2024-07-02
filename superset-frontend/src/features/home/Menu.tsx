@@ -378,14 +378,16 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
 
   // DODO added 32839645 start
   const user = useSelector(getUserInfo);
-  if (user.roles.Admin) {
-    cleanedMenu.push(...onboardingMenuAdminItems());
+  if (user.roles) {
+    if (user.roles.Admin) {
+      cleanedMenu.push(...onboardingMenuAdminItems());
+    }
+    cleanedMenu.push({
+      label: t('Tags'),
+      name: 'tags',
+      url: '/superset/tags/',
+    });
   }
-  cleanedMenu.push({
-    label: t('Tags'),
-    name: 'tags',
-    url: '/superset/tags/',
-  });
   // DODO added 32839645 stop
 
   newMenuData.menu = cleanedMenu;
