@@ -60,7 +60,6 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import PropertiesModal from 'src/explore/components/PropertiesModal';
 import ImportModelsModal from 'src/components/ImportModal/index';
 import Chart, { ChartLinkedDashboard } from 'src/types/Chart';
-import Tag from 'src/types/TagType';
 import { Tooltip } from 'src/components/Tooltip';
 import Icons from 'src/components/Icons';
 import { nativeFilterGate } from 'src/dashboard/components/nativeFilters/utils';
@@ -260,6 +259,7 @@ function ChartList(props: ChartListProps) {
       ),
     );
   }
+
   const fetchDashboards = async (
     filterValue = '',
     page: number,
@@ -456,11 +456,13 @@ function ChartList(props: ChartListProps) {
         }: any) => (
           // Only show custom type tags
           <TagsList
-            tags={tags.filter((tag: Tag) =>
-              tag.type
-                ? tag.type === 1 || tag.type === 'TagTypes.custom'
-                : true,
-            )}
+            // DODO commented 35538076 - show all tags
+            // tags={tags.filter((tag: Tag) =>
+            //   tag.type
+            //     ? tag.type === 1 || tag.type === 'TagTypes.custom'
+            //     : true,
+            // )}
+            tags={tags} // DODO added 35538076
             maxTags={3}
           />
         ),

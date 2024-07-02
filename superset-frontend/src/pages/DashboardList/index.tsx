@@ -486,9 +486,11 @@ function DashboardList(props: DashboardListProps) {
         }) => (
           // Only show custom type tags
           <TagsList
-            tags={tags.filter(
-              (tag: Tag) => tag.type === 'TagTypes.custom' || tag.type === 1,
-            )}
+            // DODO commented 35538076 - show all tags
+            // tags={tags.filter(
+            //   (tag: Tag) => tag.type === 'TagTypes.custom' || tag.type === 1,
+            // )}
+            tags={tags} // DODO added 35538076
             maxTags={3}
           />
         ),
