@@ -10,10 +10,10 @@ import rison from 'rison';
 import {
   CategoricalColorNamespace,
   ensureIsArray,
-  isFeatureEnabled,
   FeatureFlag,
   getCategoricalSchemeRegistry,
   getSharedLabelColor,
+  isFeatureEnabled,
   styled,
   SupersetClient,
   t,
@@ -34,6 +34,8 @@ import {
   OBJECT_TYPES,
 } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '../../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -635,6 +637,10 @@ const PropertiesModal = ({
     setTags([...uniqueTags.map(t => ({ name: t }))]);
   };
 
+  // DODO added start 35537946
+  const user = useSelector(getUserInfo);
+  // DODO added stop 35537946
+
   return (
     <Modal
       show={show}
@@ -764,6 +770,7 @@ const PropertiesModal = ({
                   options={loadTags}
                   onChange={handleChangeTags}
                   allowClear
+                  disabled={!user?.roles?.Admin} // DODO added 35537946
                 />
               </StyledFormItem>
               <p className="help-block">
