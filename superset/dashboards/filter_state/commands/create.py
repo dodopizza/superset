@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import cast
-
+import logging
 from flask import session
 
 from superset.dashboards.filter_state.commands.utils import check_access
@@ -27,12 +27,14 @@ from superset.temporary_cache.commands.parameters import CommandParameters
 from superset.temporary_cache.utils import cache_key
 from superset.utils.core import get_user_id
 
+logger = logging.getLogger(__name__)
+
 
 class CreateFilterStateCommand(CreateTemporaryCacheCommand):
     def create(self, cmd_params: CommandParameters) -> str:
         resource_id = cmd_params.resource_id
         tab_id = cmd_params.tab_id
-        contextual_key = cache_key(session.get("_id"), tab_id, resource_id)
+        contextual_key = cache_key(get_user_id(), tab_id, resource_id) # DODO added #33605679
         key = cache_manager.filter_state_cache.get(contextual_key)
         if not key or not tab_id:
             key = random_key()

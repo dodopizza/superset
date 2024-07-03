@@ -40,7 +40,8 @@ export default class CategoricalColorNamespace {
   getScale(schemeId?: string) {
     const id = schemeId ?? getCategoricalSchemeRegistry().getDefaultKey() ?? '';
     const scheme = getCategoricalSchemeRegistry().get(id);
-    return new CategoricalColorScale(scheme?.colors ?? [], this.forcedItems);
+
+    return new CategoricalColorScale(scheme?.colors ?? [], this.forcedItems); // DODO changed with 33261964 and reverted with 34054565
   }
 
   /**
