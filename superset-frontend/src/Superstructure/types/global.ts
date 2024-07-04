@@ -6,9 +6,18 @@ export interface RouteConfig {
   hidden: boolean;
 }
 
+export interface dashboardConfig {
+  idOrSlug: null | string | number;
+  name: string;
+  nameRU: string;
+  route: string;
+}
+
 export interface MicrofrontendNavigation {
   showNavigationMenu: boolean;
+  base?: '/OfficeManager/HrMetrics/' | '/OfficeManager/Analytics/';
   routes: RouteConfig[];
+  dashboards?: Record<string, dashboardConfig> | null | {};
 }
 
 export interface FullConfiguration {
@@ -20,10 +29,12 @@ export interface FullConfiguration {
 
 export interface MicrofrontendParams {
   originUrl?: string;
+  businessId?: 'dodopizza' | 'drinkit';
+  navigation: MicrofrontendNavigation;
+  // -----------
   frontendLogger?: boolean;
   token?: string;
   basename?: string;
-  businessId?: 'dodopizza' | 'drinkit' | 'doner42';
 }
 
 export type RoutesConfig = MicrofrontendNavigation['routes'];
@@ -42,10 +53,10 @@ export type AnnotationMessages = InitializedResponse<{
   result: SingleAnnotation;
 }>[];
 
-export type BusinessId = 'dodopizza' | 'drinkit' | 'doner42';
+export type BusinessId = 'dodopizza' | 'drinkit';
 
 export interface MainComponentProps {
-  navigation: MicrofrontendNavigation;
+  routes: Array<{ idOrSlug: null | string | number }>;
   store: any;
   theme?: any;
   basename: string;
