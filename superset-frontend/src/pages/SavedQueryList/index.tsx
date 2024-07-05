@@ -55,6 +55,7 @@ import ImportModelsModal from 'src/components/ImportModal/index';
 import Icons from 'src/components/Icons';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
 import SavedQueryPreviewModal from 'src/features/queries/SavedQueryPreviewModal';
+import Tag from '../../types/TagType';
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -382,12 +383,15 @@ function SavedQueryList({
         }: any) => (
           // Only show custom type tags
           <TagsList
-            // DODO commented 35538076 - show all tags
-            // tags={tags.filter(
-            //   (tag: Tag) => tag.type === 'TagTypes.custom' || tag.type === 1,
-            // )}
-            // tags={tags.filter((tag: Tag) => tag.type === 1)}
-            tags={tags} // DODO added 35538076
+            // DODO commented 35538076 - show custom and team tags
+            tags={tags.filter((tag: Tag) =>
+              tag.type
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' ||
+                  tag.type === 5 ||
+                  tag.type === 'TagTypes.team'
+                : true,
+            )}
           />
         ),
         Header: t('Tags'),
