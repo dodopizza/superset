@@ -18,6 +18,7 @@ export interface BubbleDodoTransformProps extends ChartProps {
 export type BubbleDodoComponentProps = {
   height: number;
   width: number;
-  data: DataRecordValue[][];
+  dimensionList: DataRecordValue[];
+  data: DataRecordValue[][][];
   showLabels: boolean;
 };
