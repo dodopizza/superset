@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -8,14 +8,14 @@ import Icons from 'src/components/Icons';
 import {
   GlobalError,
   Loading,
-  Version,
   ServiceNotAvailable,
+  Version,
 } from '../components';
 import {
-  MicrofrontendParams,
-  FullConfiguration,
-  Dashboard,
   AnnotationLayer,
+  Dashboard,
+  FullConfiguration,
+  MicrofrontendParams,
 } from '../types/global';
 import { composeAPIConfig } from '../config';
 
@@ -26,41 +26,46 @@ import Main from '../components/Main/index';
 
 import setupClient from '../setupClient';
 import {
-  getLoginToken,
+  defineNavigation,
+  dirtyHackDodoIs,
+  getAnnotationLayersData,
   getCsrfToken,
   getDashboardsData,
-  getAnnotationLayersData,
+  getLoginToken,
   getSingleAnnotationLayerIdsData,
-  dirtyHackDodoIs,
-  defineNavigation,
   sortDashboards,
-  validCertifiedBy,
   validCertificationDetails,
+  validCertifiedBy,
 } from './utils';
 
 import {
-  RootComponentWrapper,
-  DashboardComponentWrapper,
   ContentWrapper,
+  DashboardComponentWrapper,
+  RootComponentWrapper,
 } from './styles';
 
-import { getNavigationConfig, APP_VERSION } from '../parseEnvFile';
+import { APP_VERSION, getNavigationConfig } from '../parseEnvFile';
 import { serializeValue } from '../parseEnvFile/utils';
 import { addSlash, logConfigs } from './helpers';
 
 import '../../theme';
 import {
   MESSAGES,
-  STYLES_DODOPIZZA,
-  STYLES_DRINKIT,
-  STYLES_DONER42,
   SORTING_PREFIX,
+  STYLES_DODOPIZZA,
+  STYLES_DONER42,
+  STYLES_DRINKIT,
 } from '../constants';
 import { getDefaultDashboard } from '../utils/getDefaultDashboard';
 import {
   handleAnnotationsRequest,
   loadAnnotations,
 } from '../../DodoExtensions/utils/annotationUtils';
+
+window.featureFlags = {
+  ...window.featureFlags,
+  GENERIC_CHART_AXES: true, // DODO add 35751135
+};
 
 setupClient();
 
