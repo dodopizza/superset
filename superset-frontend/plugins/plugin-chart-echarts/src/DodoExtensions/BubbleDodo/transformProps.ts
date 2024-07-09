@@ -24,6 +24,10 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       yAxisName,
       xLogScale,
       yLogScale,
+      xNameGapInPixel,
+      xNameLocation,
+      yNameGapInPixel,
+      yNameLocation,
     },
   } = chartProps;
 
@@ -75,6 +79,12 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const marginAsInt = parseInt(marginTopInPixel, 10);
   const marginTop = marginAsInt > 0 ? marginAsInt : 0;
 
+  const xNameGapAsInt = parseInt(xNameGapInPixel, 10);
+  const xNameGap = xNameGapAsInt > 0 ? xNameGapAsInt : 0;
+
+  const yNameGapAsInt = parseInt(yNameGapInPixel, 10);
+  const yNameGap = yNameGapAsInt > 0 ? yNameGapAsInt : 0;
+
   return {
     height,
     width,
@@ -88,5 +98,9 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     yAxisName,
     xLogScale,
     yLogScale,
+    xNameGap,
+    xNameLocation,
+    yNameGap,
+    yNameLocation,
   };
 }

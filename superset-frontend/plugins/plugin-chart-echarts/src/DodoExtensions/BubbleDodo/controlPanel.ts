@@ -166,6 +166,112 @@ import {
 //   },
 // };
 
+const xAxis = {
+  label: t('X Axis'),
+  expanded: false,
+  controlSetRows: [
+    [
+      {
+        name: 'x_log_scale',
+        config: {
+          type: 'CheckboxControl',
+          label: t('X Log Scale'),
+          renderTrigger: true,
+          default: false,
+          description: t('Use a log scale for the X-axis.'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'x_axis_name',
+        config: {
+          type: 'TextControl',
+          label: t('X Axis name'),
+          renderTrigger: true,
+          default: 0,
+          description: t('X axis name'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'x_name_location',
+        config: {
+          type: 'SelectControl',
+          label: t('Name location'),
+          renderTrigger: true,
+          default: 'center',
+          choices: formatSelectOptions<string>(['start', 'center', 'end']),
+        },
+      },
+      {
+        name: 'x_name_gap_in_pixel',
+        config: {
+          type: 'TextControl',
+          label: t('Name gap (in pixels)'),
+          renderTrigger: true,
+          default: 30,
+          description: t('Name gap from chart grid'),
+        },
+      },
+    ],
+  ],
+};
+
+const yAxis = {
+  label: t('Y Axis'),
+  expanded: false,
+  controlSetRows: [
+    [
+      {
+        name: 'y_log_scale',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Y Log Scale'),
+          renderTrigger: true,
+          default: false,
+          description: t('Use a log scale for the Y-axis.'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'y_axis_name',
+        config: {
+          type: 'TextControl',
+          label: t('Y Axis name'),
+          renderTrigger: true,
+          default: 0,
+          description: t('Y axis name'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'y_name_location',
+        config: {
+          type: 'SelectControl',
+          label: t('Name location'),
+          renderTrigger: true,
+          default: 'center',
+          choices: formatSelectOptions<string>(['start', 'center', 'end']),
+        },
+      },
+      {
+        name: 'y_name_gap_in_pixel',
+        config: {
+          type: 'TextControl',
+          label: t('Name gap (in pixels)'),
+          renderTrigger: true,
+          default: 30,
+          description: t('Name gap from chart grid'),
+        },
+      },
+    ],
+  ],
+};
+
 const config: ControlPanelConfig = {
   controlPanelSections: [
     // sections.legacyRegularTime,
@@ -265,78 +371,8 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
-    {
-      label: t('X Axis'),
-      expanded: false,
-      controlSetRows: [
-        [
-          {
-            name: 'x_log_scale',
-            config: {
-              type: 'CheckboxControl',
-              label: t('X Log Scale'),
-              renderTrigger: true,
-              default: false,
-              description: t('Use a log scale for the X-axis.'),
-            },
-          },
-        ],
-        [
-          {
-            name: 'x_axis_name',
-            config: {
-              type: 'TextControl',
-              label: t('X Axis name'),
-              renderTrigger: true,
-              default: 0,
-              description: t('X axis name'),
-            },
-          },
-        ],
-        [
-          {
-            name: 'name_location',
-            config: {
-              type: 'SelectControl',
-              label: t('Name location'),
-              renderTrigger: true,
-              default: 'end',
-              choices: formatSelectOptions<string>(['start', 'center', 'end']),
-            },
-          },
-        ],
-      ],
-    },
-    {
-      label: t('Y Axis'),
-      expanded: false,
-      controlSetRows: [
-        [
-          {
-            name: 'y_log_scale',
-            config: {
-              type: 'CheckboxControl',
-              label: t('Y Log Scale'),
-              renderTrigger: true,
-              default: false,
-              description: t('Use a log scale for the Y-axis.'),
-            },
-          },
-        ],
-        [
-          {
-            name: 'y_axis_name',
-            config: {
-              type: 'TextControl',
-              label: t('Y Axis name'),
-              renderTrigger: true,
-              default: 0,
-              description: t('Y axis name'),
-            },
-          },
-        ],
-      ],
-    },
+    { ...xAxis },
+    { ...yAxis },
     // {
     //   label: t('X Axis'),
     //   expanded: true,
