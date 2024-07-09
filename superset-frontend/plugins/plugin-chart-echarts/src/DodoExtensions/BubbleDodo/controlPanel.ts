@@ -175,20 +175,6 @@ const config: ControlPanelConfig = {
       expanded: true,
       controlSetRows: [
         ['series'],
-        // [
-        //   {
-        //     ...dndGroupByControl,
-        //     name: 'series2',
-        //     label: t('Dimension2'),
-        //     multi: false,
-        //     default: null,
-        //     description: t(
-        //       'Defines the grouping of entities. ' +
-        //         'Each series is shown as a specific color on the chart and ' +
-        //         'has a legend toggle',
-        //     ),
-        //   },
-        // ],
         ['entity'],
         ['x'],
         ['y'],
@@ -233,6 +219,48 @@ const config: ControlPanelConfig = {
               renderTrigger: true,
               default: false,
               description: t('Whether to display the labels.'),
+            },
+          },
+        ],
+      ],
+    },
+    {
+      label: t('Dimension Options'),
+      expanded: false,
+      controlSetRows: [
+        [
+          {
+            name: 'show_dimension',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Show dimension'),
+              renderTrigger: true,
+              default: false,
+              description: t('Whether to display the dimension.'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'margin_top_in_pixel',
+            config: {
+              type: 'TextControl',
+              label: t('Grid margin top (in pixels)'),
+              renderTrigger: true,
+              default: 0,
+              description: t('Margin top for chart grid'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'scroll_dimensions',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Scroll dimension'),
+              renderTrigger: true,
+              default: false,
+              description: t('Whether to scroll dimensions.'),
             },
           },
         ],

@@ -8,6 +8,9 @@ import {
 type BubbleDodoFormData = QueryFormData & {
   maxBubbleSize: string;
   showLabels: boolean;
+  showDimension: boolean;
+  marginTopInPixel: string;
+  scrollDimensions: boolean;
 };
 
 export interface BubbleDodoTransformProps extends ChartProps {
@@ -21,4 +24,7 @@ export type BubbleDodoComponentProps = {
   dimensionList: DataRecordValue[];
   data: DataRecordValue[][][];
   showLabels: boolean;
+  showDimension: boolean;
+  marginTop: number;
+  scrollDimensions: boolean;
 };

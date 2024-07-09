@@ -8,14 +8,26 @@ export default function BubbleDodo({
   dimensionList,
   data,
   showLabels,
+  showDimension,
+  marginTop,
+  scrollDimensions,
   // @ts-ignore
   refs,
   ...rest
 }: BubbleDodoComponentProps) {
+  const grid =
+    marginTop > 0
+      ? {
+          top: marginTop,
+        }
+      : undefined;
+
+  const legend = {
+    data: showDimension ? [...dimensionList] : [],
+    type: scrollDimensions ? 'scroll' : undefined,
+  };
+
   const option = {
-    title: {
-      text: 'ECharts Getting Started Example',
-    },
     tooltip: {
       show: true,
       // Text of labels.
@@ -26,17 +38,13 @@ export default function BubbleDodo({
       },
       position: 'top',
     },
-    legend: {
-      right: '10%',
-      top: '5%',
-      data: [...dimensionList],
-    },
+    legend,
+    grid,
     xAxis: {},
     yAxis: {},
     series: dimensionList.map(
       (dimension, index) => ({
         name: dimension,
-        // symbolSize: 20,
         symbolSize(data: Array<number | string>) {
           return data[2];
         },
@@ -116,7 +124,8 @@ export default function BubbleDodo({
     ),
   };
 
-  console.log(`===option`, option);
+  console.log(`==option`, option);
+
   return (
     <Echart
       // eventHandlers={eventHandlers}
