@@ -11,6 +11,10 @@ type BubbleDodoFormData = QueryFormData & {
   showDimension: boolean;
   marginTopInPixel: string;
   scrollDimensions: boolean;
+  xLogScale: boolean;
+  yLogScale: boolean;
+  xAxisName: string;
+  yAxisName: string;
 };
 
 export interface BubbleDodoTransformProps extends ChartProps {
@@ -27,4 +31,8 @@ export type BubbleDodoComponentProps = {
   showDimension: boolean;
   marginTop: number;
   scrollDimensions: boolean;
+  xLogScale: boolean;
+  yLogScale: boolean;
+  xAxisName: string;
+  yAxisName: string;
 };

@@ -5,7 +5,6 @@ import {
   ControlPanelConfig,
   formatSelectOptions,
   getStandardizedControls,
-  sections,
 } from '@superset-ui/chart-controls';
 
 // const showLegend: CustomControlItem = {
@@ -169,7 +168,7 @@ import {
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
-    sections.legacyRegularTime,
+    // sections.legacyRegularTime,
     {
       label: t('Query'),
       expanded: true,
@@ -261,6 +260,78 @@ const config: ControlPanelConfig = {
               renderTrigger: true,
               default: false,
               description: t('Whether to scroll dimensions.'),
+            },
+          },
+        ],
+      ],
+    },
+    {
+      label: t('X Axis'),
+      expanded: false,
+      controlSetRows: [
+        [
+          {
+            name: 'x_log_scale',
+            config: {
+              type: 'CheckboxControl',
+              label: t('X Log Scale'),
+              renderTrigger: true,
+              default: false,
+              description: t('Use a log scale for the X-axis.'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'x_axis_name',
+            config: {
+              type: 'TextControl',
+              label: t('X Axis name'),
+              renderTrigger: true,
+              default: 0,
+              description: t('X axis name'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'name_location',
+            config: {
+              type: 'SelectControl',
+              label: t('Name location'),
+              renderTrigger: true,
+              default: 'end',
+              choices: formatSelectOptions<string>(['start', 'center', 'end']),
+            },
+          },
+        ],
+      ],
+    },
+    {
+      label: t('Y Axis'),
+      expanded: false,
+      controlSetRows: [
+        [
+          {
+            name: 'y_log_scale',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Y Log Scale'),
+              renderTrigger: true,
+              default: false,
+              description: t('Use a log scale for the Y-axis.'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'y_axis_name',
+            config: {
+              type: 'TextControl',
+              label: t('Y Axis name'),
+              renderTrigger: true,
+              default: 0,
+              description: t('Y axis name'),
             },
           },
         ],

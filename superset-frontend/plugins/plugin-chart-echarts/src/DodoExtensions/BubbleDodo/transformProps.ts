@@ -20,6 +20,10 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       showDimension,
       marginTopInPixel,
       scrollDimensions,
+      xAxisName,
+      yAxisName,
+      xLogScale,
+      yLogScale,
     },
   } = chartProps;
 
@@ -80,5 +84,9 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     marginTop,
     dimensionList,
     scrollDimensions,
+    xAxisName,
+    yAxisName,
+    xLogScale,
+    yLogScale,
   };
 }

@@ -11,6 +11,10 @@ export default function BubbleDodo({
   showDimension,
   marginTop,
   scrollDimensions,
+  xAxisName,
+  yAxisName,
+  xLogScale,
+  yLogScale,
   // @ts-ignore
   refs,
   ...rest
@@ -34,14 +38,23 @@ export default function BubbleDodo({
       formatter(param: { data: Array<number | string> }) {
         return `${param.data[3]} <br/> 
                     x:${param.data[0]} <br/> 
-                    y:${param.data[1]}`;
+                    y:${param.data[1]} <br/>
+                    size:${param.data[2]}`;
       },
       position: 'top',
     },
     legend,
     grid,
-    xAxis: {},
-    yAxis: {},
+    xAxis: {
+      type: xLogScale ? 'log' : 'value',
+      name: xAxisName,
+      nameLocation: 'center',
+      nameGap: 50,
+    },
+    yAxis: {
+      type: yLogScale ? 'log' : 'value',
+      name: yAxisName,
+    },
     series: dimensionList.map(
       (dimension, index) => ({
         name: dimension,
