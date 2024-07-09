@@ -272,9 +272,27 @@ const yAxis = {
   ],
 };
 
+const tooltip = {
+  label: t('Tooltip'),
+  expanded: false,
+  controlSetRows: [
+    [
+      {
+        name: 'y_log_scale',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Y Log Scale'),
+          renderTrigger: true,
+          default: false,
+          description: t('Use a log scale for the Y-axis.'),
+        },
+      },
+    ],
+  ],
+};
+
 const config: ControlPanelConfig = {
   controlPanelSections: [
-    // sections.legacyRegularTime,
     {
       label: t('Query'),
       expanded: true,
@@ -311,10 +329,7 @@ const config: ControlPanelConfig = {
     {
       label: t('Chart Options'),
       expanded: true,
-      // tabOverride: 'customize',
       controlSetRows: [
-        // ['color_scheme'],
-        // [showLegend, null],
         [
           {
             name: 'show_labels',
@@ -373,55 +388,9 @@ const config: ControlPanelConfig = {
     },
     { ...xAxis },
     { ...yAxis },
-    // {
-    //   label: t('X Axis'),
-    //   expanded: true,
-    //   tabOverride: 'customize',
-    //   controlSetRows: [
-    //     [xAxisLabel, leftMargin],
-    //     [
-    //       {
-    //         name: xAxisFormat.name,
-    //         config: {
-    //           ...xAxisFormat.config,
-    //           default: 'SMART_NUMBER',
-    //           choices: D3_FORMAT_OPTIONS,
-    //         },
-    //       },
-    //       xTicksLayout,
-    //     ],
-    //     [
-    //       {
-    //         name: 'x_log_scale',
-    //         config: {
-    //           type: 'CheckboxControl',
-    //           label: t('X Log Scale'),
-    //           default: false,
-    //           renderTrigger: true,
-    //           description: t('Use a log scale for the X-axis'),
-    //         },
-    //       },
-    //       xAxisShowMinmax,
-    //     ],
-    //   ],
-    // },
-    // {
-    //   label: t('Y Axis'),
-    //   expanded: true,
-    //   tabOverride: 'customize',
-    //   controlSetRows: [
-    //     [yAxisLabel, bottomMargin],
-    //     ['y_axis_format', null],
-    //     [yLogScale, yAxisShowMinmax],
-    //     [yAxisBounds],
-    //   ],
-    // },
+    { ...tooltip },
   ],
-  controlOverrides: {
-    color_scheme: {
-      renderTrigger: false,
-    },
-  },
+
   formDataOverrides: formData => ({
     ...formData,
     series: getStandardizedControls().shiftColumn(),
