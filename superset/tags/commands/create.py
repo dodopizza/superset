@@ -38,7 +38,7 @@ class CreateCustomTagCommand(CreateMixin, BaseCommand):
             object_type = to_object_type(self._object_type)
             if object_type is None:
                 raise TagCreateFailedError(f"invalid object type {self._object_type}")
-            TagDAO.create_custom_tagged_objects(
+            TagDAO.create_custom_or_team_tagged_objects(
                 object_type=object_type,
                 object_id=self._object_id,
                 tag_names=self._tags,
