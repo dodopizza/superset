@@ -8,19 +8,11 @@ const metadata = new ChartMetadata({
   category: t('Correlation'),
   credits: ['https://echarts.apache.org'],
   description: t(
-    'Visualizes a metric across three dimensions of data in a single chart (X axis, Y axis, and bubble size). Bubbles from the same group can be showcased using bubble color.',
+    'Visualizes a metric across three dimensions of data in a single chart (X axis, Y axis, and bubble size).',
   ),
-  // exampleGallery: [{ url: example }],
   name: t('EChart Bubble Chart'),
-  tags: [
-    // t('Multi-Dimensions'),
-    t('Scatter'),
-    t('Popular'),
-    t('ECharts'),
-    t('DODOIS_friendly'),
-  ],
+  tags: [t('Scatter'), t('Popular'), t('ECharts'), t('DODOIS_friendly')],
   thumbnail,
-  // useLegacyApi: true,
 });
 
 export default class EChartBubbleChartDodo extends ChartPlugin {

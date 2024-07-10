@@ -97,8 +97,6 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     data.push(dimensionData);
   });
 
-  console.log(`transformProps data`, data);
-
   const marginTop = getIntPositive(marginTopInPixel);
   const xNameGap = getIntPositive(xNameGapInPixel);
   const yNameGap = getIntPositive(yNameGapInPixel);
