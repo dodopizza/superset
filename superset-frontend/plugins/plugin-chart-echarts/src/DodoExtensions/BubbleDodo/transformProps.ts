@@ -1,8 +1,22 @@
-import { DataRecord, DataRecordValue } from '@superset-ui/core';
+import {
+  DataRecord,
+  DataRecordValue,
+  getValueFormatter,
+} from '@superset-ui/core';
 import { BubbleDodoTransformProps } from './types';
 
 const DEFAULT_MAX_BUBBLE_SIZE = '25';
 const DEFAULT_BUBBLE_SIZE = 10;
+
+const getIntPositive = (value: string) => {
+  const asInt = parseInt(value, 10);
+  return asInt > 0 ? asInt : 0;
+};
+
+const getFormatter = (d3Format: string) =>
+  getValueFormatter(undefined, {}, {}, d3Format, undefined);
+
+const defaultDimention = 'no dimension';
 
 export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const {
@@ -28,6 +42,9 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       xNameLocation,
       yNameGapInPixel,
       yNameLocation,
+      xAxisFormat,
+      yAxisFormat,
+      sizeFormat,
     },
   } = chartProps;
 
@@ -40,7 +57,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   );
 
   const dimensionList: DataRecordValue[] = [
-    ...new Set(rawData.map(item => item[series])),
+    ...new Set(rawData.map(item => item[series] ?? defaultDimention)),
   ];
 
   let minSize = Infinity;
@@ -62,28 +79,32 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
 
   dimensionList.forEach(dimension => {
     const dimensionData = rawData
-      .filter(item => item[series] === dimension)
+      .filter(item => (item[series] ?? defaultDimention) === dimension)
       .map(item => {
         const absoluteSize = Number(item[bubbleSizeInfo]);
         const size = absoluteSize
           ? absoluteSize * sizeCoefficient
           : DEFAULT_BUBBLE_SIZE;
 
-        return [item[axisXInfo], item[axisYInfo], size, item[entity]];
+        return [
+          item[axisXInfo],
+          item[axisYInfo],
+          size,
+          absoluteSize,
+          item[entity],
+        ];
       });
     data.push(dimensionData);
   });
 
   console.log(`transformProps data`, data);
 
-  const marginAsInt = parseInt(marginTopInPixel, 10);
-  const marginTop = marginAsInt > 0 ? marginAsInt : 0;
-
-  const xNameGapAsInt = parseInt(xNameGapInPixel, 10);
-  const xNameGap = xNameGapAsInt > 0 ? xNameGapAsInt : 0;
-
-  const yNameGapAsInt = parseInt(yNameGapInPixel, 10);
-  const yNameGap = yNameGapAsInt > 0 ? yNameGapAsInt : 0;
+  const marginTop = getIntPositive(marginTopInPixel);
+  const xNameGap = getIntPositive(xNameGapInPixel);
+  const yNameGap = getIntPositive(yNameGapInPixel);
+  const xAxisFormatter = getFormatter(xAxisFormat);
+  const yAxisFormatter = getFormatter(yAxisFormat);
+  const sizeFormatter = getFormatter(sizeFormat);
 
   return {
     height,
@@ -102,5 +123,8 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     xNameLocation,
     yNameGap,
     yNameLocation,
+    xAxisFormatter,
+    yAxisFormatter,
+    sizeFormatter,
   };
 }

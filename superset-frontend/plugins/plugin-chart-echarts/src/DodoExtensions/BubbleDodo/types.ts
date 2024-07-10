@@ -3,22 +3,30 @@ import {
   ChartProps,
   DataRecordValue,
   QueryFormData,
+  ValueFormatter,
 } from '@superset-ui/core';
 
 type BubbleDodoFormData = QueryFormData & {
   maxBubbleSize: string;
   showLabels: boolean;
+
   showDimension: boolean;
   marginTopInPixel: string;
   scrollDimensions: boolean;
+
   xLogScale: boolean;
-  yLogScale: boolean;
   xAxisName: string;
-  yAxisName: string;
   xNameLocation: string;
   xNameGapInPixel: string;
+  xAxisFormat: string;
+
+  yLogScale: boolean;
+  yAxisName: string;
   yNameLocation: string;
   yNameGapInPixel: string;
+  yAxisFormat: string;
+
+  sizeFormat: string;
 };
 
 export interface BubbleDodoTransformProps extends ChartProps {
@@ -43,4 +51,7 @@ export type BubbleDodoComponentProps = {
   xNameLocation: string;
   yNameGap: number;
   yNameLocation: string;
+  xAxisFormatter: ValueFormatter;
+  yAxisFormatter: ValueFormatter;
+  sizeFormatter: ValueFormatter;
 };

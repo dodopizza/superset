@@ -272,19 +272,43 @@ const yAxis = {
   ],
 };
 
-const tooltip = {
-  label: t('Tooltip'),
+const dimentions = {
+  label: t('Dimension Options'),
   expanded: false,
   controlSetRows: [
     [
       {
-        name: 'y_log_scale',
+        name: 'show_dimension',
         config: {
           type: 'CheckboxControl',
-          label: t('Y Log Scale'),
+          label: t('Show dimension'),
           renderTrigger: true,
           default: false,
-          description: t('Use a log scale for the Y-axis.'),
+          description: t('Whether to display the dimension.'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'margin_top_in_pixel',
+        config: {
+          type: 'TextControl',
+          label: t('Grid margin top (in pixels)'),
+          renderTrigger: true,
+          default: 0,
+          description: t('Margin top for chart grid'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'scroll_dimensions',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Scroll dimension'),
+          renderTrigger: true,
+          default: false,
+          description: t('Whether to scroll dimensions.'),
         },
       },
     ],
@@ -344,51 +368,14 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
-    {
-      label: t('Dimension Options'),
-      expanded: false,
-      controlSetRows: [
-        [
-          {
-            name: 'show_dimension',
-            config: {
-              type: 'CheckboxControl',
-              label: t('Show dimension'),
-              renderTrigger: true,
-              default: false,
-              description: t('Whether to display the dimension.'),
-            },
-          },
-        ],
-        [
-          {
-            name: 'margin_top_in_pixel',
-            config: {
-              type: 'TextControl',
-              label: t('Grid margin top (in pixels)'),
-              renderTrigger: true,
-              default: 0,
-              description: t('Margin top for chart grid'),
-            },
-          },
-        ],
-        [
-          {
-            name: 'scroll_dimensions',
-            config: {
-              type: 'CheckboxControl',
-              label: t('Scroll dimension'),
-              renderTrigger: true,
-              default: false,
-              description: t('Whether to scroll dimensions.'),
-            },
-          },
-        ],
-      ],
-    },
+    { ...dimentions },
     { ...xAxis },
     { ...yAxis },
-    { ...tooltip },
+    {
+      label: t('Tooltip'),
+      expanded: false,
+      controlSetRows: [['x_axis_format'], ['y_axis_format'], ['size_format']],
+    },
   ],
 
   formDataOverrides: formData => ({

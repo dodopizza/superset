@@ -1,6 +1,16 @@
 import React, { useMemo } from 'react';
+import { EChartsCoreOption } from 'echarts';
 import Echart from '../../components/Echart';
 import { BubbleDodoComponentProps } from './types';
+
+const getNumber = (value: number | string) =>
+  typeof value === 'number' ? value : parseFloat(value);
+
+const xIndex = 0;
+const yIndex = 1;
+const sizeIndex = 2;
+const absoluteSizeIndex = 3;
+const entryIndex = 4;
 
 export default function BubbleDodo({
   height,
@@ -19,6 +29,9 @@ export default function BubbleDodo({
   xNameGap,
   yNameLocation,
   yNameGap,
+  xAxisFormatter,
+  yAxisFormatter,
+  sizeFormatter,
   // @ts-ignore
   refs,
 }: BubbleDodoComponentProps) {
@@ -40,44 +53,57 @@ export default function BubbleDodo({
     [dimensionList, scrollDimensions, showDimension],
   );
 
-  const option = useMemo(
+  const tooltip = useMemo(
     () => ({
-      tooltip: {
-        show: true,
-        formatter(param: { data: Array<number | string> }) {
-          return `${param.data[3]} <br/> 
-                    x:${param.data[0]} <br/> 
-                    y:${param.data[1]} <br/>
-                    size:${param.data[2]}`;
-        },
-        position: 'top',
+      show: true,
+      formatter(param: { data: Array<number | string> }) {
+        const x = getNumber(param.data[xIndex]);
+        const y = getNumber(param.data[yIndex]);
+        const size = getNumber(param.data[absoluteSizeIndex]);
+        return `${param.data[entryIndex]} <br/> 
+                    x: ${xAxisFormatter(x)} <br/> 
+                    y: ${yAxisFormatter(y)} <br/>
+                    size: ${sizeFormatter(size)}`;
       },
-      legend,
-      grid,
-      xAxis: {
-        type: xLogScale ? 'log' : 'value',
-        name: xAxisName,
-        nameLocation: xNameLocation,
-        nameGap: xNameGap,
-        scale: true,
-        nameTextStyle: {
-          fontWeight: 'bold',
-        },
+      position: 'top',
+    }),
+    [sizeFormatter, xAxisFormatter, yAxisFormatter],
+  );
+
+  const xAxis = useMemo(
+    () => ({
+      type: xLogScale ? 'log' : 'value',
+      name: xAxisName,
+      nameLocation: xNameLocation,
+      nameGap: xNameGap,
+      scale: true,
+      nameTextStyle: {
+        fontWeight: 'bold',
       },
-      yAxis: {
-        type: yLogScale ? 'log' : 'value',
-        name: yAxisName,
-        nameLocation: yNameLocation,
-        nameGap: yNameGap,
-        scale: true,
-        nameTextStyle: {
-          fontWeight: 'bold',
-        },
+    }),
+    [xAxisName, xLogScale, xNameGap, xNameLocation],
+  );
+
+  const yAxis = useMemo(
+    () => ({
+      type: yLogScale ? 'log' : 'value',
+      name: yAxisName,
+      nameLocation: yNameLocation,
+      nameGap: yNameGap,
+      scale: true,
+      nameTextStyle: {
+        fontWeight: 'bold',
       },
-      series: dimensionList.map((dimension, index) => ({
+    }),
+    [yAxisName, yLogScale, yNameGap, yNameLocation],
+  );
+
+  const series = useMemo(
+    () =>
+      dimensionList.map((dimension, index) => ({
         name: dimension,
         symbolSize(data: Array<number | string>) {
-          return data[2];
+          return data[sizeIndex];
         },
         data: data[index],
         type: 'scatter',
@@ -85,27 +111,24 @@ export default function BubbleDodo({
           show: showLabels,
           // Text of labels.
           formatter(param: { data: Array<number | string> }) {
-            return param.data[3];
+            return param.data[entryIndex];
           },
           position: 'top',
         },
       })),
-    }),
-    [
-      data,
-      dimensionList,
-      grid,
+    [data, dimensionList, showLabels],
+  );
+
+  const option: EChartsCoreOption = useMemo(
+    () => ({
+      tooltip,
       legend,
-      showLabels,
-      xAxisName,
-      xLogScale,
-      xNameGap,
-      xNameLocation,
-      yAxisName,
-      yLogScale,
-      yNameGap,
-      yNameLocation,
-    ],
+      grid,
+      xAxis,
+      yAxis,
+      series,
+    }),
+    [grid, legend, series, tooltip, xAxis, yAxis],
   );
 
   return (
