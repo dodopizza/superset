@@ -148,7 +148,7 @@ const truncateLongCells: ControlFormItemSpec<'Checkbox'> = {
 const pinColumn: ControlFormItemSpec<'Checkbox'> = {
   controlType: 'Checkbox',
   label: t('Pin column'),
-  description: t('Pin column in table'),
+  description: t('Pin column with horizontal scroll'),
   defaultValue: false,
   debounceDelay: 400,
 };
