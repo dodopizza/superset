@@ -144,6 +144,16 @@ const truncateLongCells: ControlFormItemSpec<'Checkbox'> = {
   debounceDelay: 400,
 };
 
+// DODO added start 34122445
+const pinColumn: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Pin column'),
+  description: t('Pin column in table'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+// DODO added stop 34122445
+
 const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   controlType: 'CurrencyControl',
   label: t('Currency format'),
@@ -174,6 +184,7 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
+  pinColumn, // DODO added 34122445
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
