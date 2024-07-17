@@ -153,7 +153,7 @@ const dimentions = {
   ],
 };
 
-const labeles = {
+const labels = {
   label: t('Label Options'),
   expanded: true,
   controlSetRows: [
@@ -195,6 +195,27 @@ const labeles = {
         },
       },
     ],
+    [
+      {
+        name: 'label_font_size',
+        config: {
+          type: 'TextControl',
+          label: t('Label font (in pixels)'),
+          renderTrigger: true,
+          default: 12,
+        },
+      },
+    ],
+    [
+      {
+        name: 'label_color',
+        config: {
+          label: t('Label color'),
+          type: 'ColorPickerControl',
+          renderTrigger: true,
+        },
+      },
+    ],
   ],
 };
 
@@ -232,7 +253,7 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
-    { ...labeles },
+    { ...labels },
     { ...dimentions },
     { ...xAxis },
     { ...yAxis },

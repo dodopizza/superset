@@ -8,6 +8,34 @@ import { BubbleDodoTransformProps } from './types';
 const DEFAULT_MAX_BUBBLE_SIZE = '25';
 const DEFAULT_BUBBLE_SIZE = 10;
 
+// from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+function rgbToHex(r: number, g: number, b: number) {
+  return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
+}
+
+// https://stackoverflow.com/questions/2049230/convert-rgba-color-to-rgb
+function buildNewRgbWithoutOpacity(
+  rgba: { red: number; green: number; blue: number; alpha: number },
+  background: { red: number; green: number; blue: number; alpha: number } = {
+    red: 255,
+    green: 255,
+    blue: 255,
+    alpha: 1,
+  },
+): { red: number; green: number; blue: number } {
+  const red = Math.round(
+    (1 - rgba.alpha) * background.red + rgba.alpha * rgba.red,
+  );
+  const green = Math.round(
+    (1 - rgba.alpha) * background.green + rgba.alpha * rgba.green,
+  );
+  const blue = Math.round(
+    (1 - rgba.alpha) * background.blue + rgba.alpha * rgba.blue,
+  );
+
+  return { red, green, blue };
+}
+
 const getIntPositive = (value: string) => {
   const asInt = parseInt(value, 10);
   return asInt > 0 ? asInt : 0;
@@ -46,8 +74,25 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       yAxisFormat,
       sizeFormat,
       labelLocation,
+      labelFontSize,
+      labelColor,
     },
   } = chartProps;
+
+  let labelColorHEX;
+  if (labelColor) {
+    const withoutAlfa = buildNewRgbWithoutOpacity({
+      red: labelColor.r,
+      green: labelColor.g,
+      blue: labelColor.b,
+      alpha: labelColor.a,
+    });
+    labelColorHEX = rgbToHex(
+      withoutAlfa.red,
+      withoutAlfa.green,
+      withoutAlfa.blue,
+    );
+  }
 
   const rawData: Array<DataRecord> = (queriesData[0].data || []).filter(
     item =>
@@ -126,5 +171,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     yAxisFormatter,
     sizeFormatter,
     labelLocation,
+    labelFontSize,
+    labelColor: labelColorHEX,
   };
 }

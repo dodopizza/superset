@@ -6,11 +6,12 @@ import { BubbleDodoComponentProps } from './types';
 const getNumber = (value: number | string) =>
   typeof value === 'number' ? value : parseFloat(value);
 
-const xIndex = 0;
-const yIndex = 1;
-const sizeIndex = 2;
-const absoluteSizeIndex = 3;
-const entryIndex = 4;
+const X_INDEX = 0;
+const Y_INDEX = 1;
+const SIZE_INDEX = 2;
+const ABSOLUTE_SIZE_INDEX = 3;
+const ENTRY_INDEX = 4;
+const DEFAULT_LABEL_FONT_SIZE = 12;
 
 export default function BubbleDodo({
   height,
@@ -33,6 +34,8 @@ export default function BubbleDodo({
   yAxisFormatter,
   sizeFormatter,
   labelLocation,
+  labelFontSize,
+  labelColor,
   // @ts-ignore
   refs,
 }: BubbleDodoComponentProps) {
@@ -58,10 +61,10 @@ export default function BubbleDodo({
     () => ({
       show: true,
       formatter(param: { data: Array<number | string> }) {
-        const x = getNumber(param.data[xIndex]);
-        const y = getNumber(param.data[yIndex]);
-        const size = getNumber(param.data[absoluteSizeIndex]);
-        return `${param.data[entryIndex]} <br/> 
+        const x = getNumber(param.data[X_INDEX]);
+        const y = getNumber(param.data[Y_INDEX]);
+        const size = getNumber(param.data[ABSOLUTE_SIZE_INDEX]);
+        return `${param.data[ENTRY_INDEX]} <br/> 
                     x: ${xAxisFormatter(x)} <br/> 
                     y: ${yAxisFormatter(y)} <br/>
                     size: ${sizeFormatter(size)}`;
@@ -104,7 +107,7 @@ export default function BubbleDodo({
       dimensionList.map((dimension, index) => ({
         name: dimension,
         symbolSize(data: Array<number | string>) {
-          return data[sizeIndex];
+          return data[SIZE_INDEX];
         },
         data: data[index],
         type: 'scatter',
@@ -112,9 +115,11 @@ export default function BubbleDodo({
           show: showLabels,
           // Text of labels.
           formatter(param: { data: Array<number | string> }) {
-            return param.data[entryIndex];
+            return param.data[ENTRY_INDEX];
           },
           position: labelLocation ?? 'top',
+          fontSize: getNumber(labelFontSize) || DEFAULT_LABEL_FONT_SIZE,
+          color: labelColor || undefined,
         },
       })),
     [data, dimensionList, labelLocation, showLabels],

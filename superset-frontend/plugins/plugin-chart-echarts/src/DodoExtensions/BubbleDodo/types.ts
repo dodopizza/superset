@@ -28,6 +28,13 @@ type BubbleDodoFormData = QueryFormData & {
 
   sizeFormat: string;
   labelLocation: string;
+  labelFontSize: string;
+  labelColor?: {
+    a: number;
+    r: number;
+    b: number;
+    g: number;
+  };
 };
 
 export interface BubbleDodoTransformProps extends ChartProps {
@@ -56,4 +63,6 @@ export type BubbleDodoComponentProps = {
   yAxisFormatter: ValueFormatter;
   sizeFormatter: ValueFormatter;
   labelLocation: string;
+  labelFontSize: string;
+  labelColor?: string;
 };
