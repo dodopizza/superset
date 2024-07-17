@@ -153,6 +153,51 @@ const dimentions = {
   ],
 };
 
+const labeles = {
+  label: t('Label Options'),
+  expanded: true,
+  controlSetRows: [
+    [
+      {
+        name: 'show_labels',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Show Labels'),
+          renderTrigger: true,
+          default: false,
+          description: t('Whether to display the labels.'),
+        },
+      },
+    ],
+    [
+      {
+        name: 'label_location',
+        config: {
+          type: 'SelectControl',
+          label: t('Label location'),
+          renderTrigger: true,
+          default: 'top',
+          choices: formatSelectOptions<string>([
+            'top',
+            'left',
+            'right',
+            'bottom',
+            'inside',
+            'insideLeft',
+            'insideRight',
+            'insideTop',
+            'insideBottom',
+            'insideTopLeft',
+            'insideBottomLeft',
+            'insideTopRight',
+            'insideBottomRight',
+          ]),
+        },
+      },
+    ],
+  ],
+};
+
 const config: ControlPanelConfig = {
   controlPanelSections: [
     {
@@ -187,24 +232,7 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
-    {
-      label: t('Chart Options'),
-      expanded: true,
-      controlSetRows: [
-        [
-          {
-            name: 'show_labels',
-            config: {
-              type: 'CheckboxControl',
-              label: t('Show Labels'),
-              renderTrigger: true,
-              default: false,
-              description: t('Whether to display the labels.'),
-            },
-          },
-        ],
-      ],
-    },
+    { ...labeles },
     { ...dimentions },
     { ...xAxis },
     { ...yAxis },

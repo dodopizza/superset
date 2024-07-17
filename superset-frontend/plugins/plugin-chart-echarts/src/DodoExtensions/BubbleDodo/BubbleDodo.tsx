@@ -32,6 +32,7 @@ export default function BubbleDodo({
   xAxisFormatter,
   yAxisFormatter,
   sizeFormatter,
+  labelLocation,
   // @ts-ignore
   refs,
 }: BubbleDodoComponentProps) {
@@ -113,10 +114,10 @@ export default function BubbleDodo({
           formatter(param: { data: Array<number | string> }) {
             return param.data[entryIndex];
           },
-          position: 'top',
+          position: labelLocation ?? 'top',
         },
       })),
-    [data, dimensionList, showLabels],
+    [data, dimensionList, labelLocation, showLabels],
   );
 
   const option: EChartsCoreOption = useMemo(

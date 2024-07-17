@@ -16,7 +16,7 @@ const getIntPositive = (value: string) => {
 const getFormatter = (d3Format: string) =>
   getValueFormatter(undefined, {}, {}, d3Format, undefined);
 
-const defaultDimention = 'no dimension';
+const defaultDimension = 'no dimension';
 
 export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const {
@@ -45,6 +45,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       xAxisFormat,
       yAxisFormat,
       sizeFormat,
+      labelLocation,
     },
   } = chartProps;
 
@@ -57,7 +58,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   );
 
   const dimensionList: DataRecordValue[] = [
-    ...new Set(rawData.map(item => item[series] ?? defaultDimention)),
+    ...new Set(rawData.map(item => item[series] ?? defaultDimension)),
   ];
 
   let minSize = Infinity;
@@ -79,7 +80,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
 
   dimensionList.forEach(dimension => {
     const dimensionData = rawData
-      .filter(item => (item[series] ?? defaultDimention) === dimension)
+      .filter(item => (item[series] ?? defaultDimension) === dimension)
       .map(item => {
         const absoluteSize = Number(item[bubbleSizeInfo]);
         const size = absoluteSize
@@ -124,5 +125,6 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     xAxisFormatter,
     yAxisFormatter,
     sizeFormatter,
+    labelLocation,
   };
 }
