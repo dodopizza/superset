@@ -963,6 +963,10 @@ class CeleryConfig:  # pylint: disable=too-few-public-methods
             "task": "reports.prune_log",
             "schedule": crontab(minute=0, hour=0),
         },
+        "reports.kafka_send": {
+            "task": "reports.kafka_send",
+            "schedule": crontab(minute=0, hour=0),
+        }
     }
 
 

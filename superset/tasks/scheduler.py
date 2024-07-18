@@ -19,8 +19,9 @@ from datetime import datetime
 
 from celery import Celery
 from celery.exceptions import SoftTimeLimitExceeded
+from confluent_kafka import Producer
 
-from superset import app, is_feature_enabled
+from superset import app, is_feature_enabled, db
 from superset.commands.exceptions import CommandException
 from superset.daos.report import ReportScheduleDAO
 from superset.extensions import celery_app
@@ -31,6 +32,7 @@ from superset.tasks.cron_util import cron_schedule_window
 from superset.utils.celery import session_scope
 from superset.utils.core import LoggerLevel
 from superset.utils.log import get_logger_from_status
+from superset.models.core import Log
 
 logger = logging.getLogger(__name__)
 
@@ -114,3 +116,34 @@ def prune_log() -> None:
         logger.warning("A timeout occurred while pruning report schedule logs: %s", ex)
     except CommandException as ex:
         logger.exception("An exception occurred while pruning report schedule logs")
+
+
+@celery_app.task(name="reports.kafka_send")
+def kafka_send() -> None:
+    import datetime
+    try:
+        kafka_config = app.config["KAFKA_CONFIG"]
+        producer = Producer(kafka_config)
+    except Exception as e:
+        logger.warning(e)
+
+    def send_logs(topic, message):
+        producer.produce(topic, value=message)
+        producer.flush()
+
+    try:
+        current_msk_time = datetime.datetime.utcnow() + datetime.timedelta(hours=3)
+        previous_day = current_msk_time - datetime.timedelta(days=1)
+        logs = (
+            db.session.query(Log)
+            .filter(Log.dttm > previous_day)
+            .filter(Log.dttm < current_msk_time)
+            .all()
+        )
+        for log in logs:
+            send_logs("superset", log)
+    except Exception as e:
+        logger.warning(e)
+
+
+
