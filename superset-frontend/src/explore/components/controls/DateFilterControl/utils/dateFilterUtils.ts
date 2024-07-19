@@ -1,12 +1,12 @@
 // DODO was here
 import rison from 'rison';
-import { SupersetClient, NO_TIME_RANGE, JsonObject } from '@superset-ui/core';
+import { JsonObject, NO_TIME_RANGE, SupersetClient } from '@superset-ui/core';
 import { getClientErrorObject } from 'src/utils/getClientErrorObject';
 import { useSelector } from 'react-redux';
 import { API_HANDLER } from 'src/Superstructure/api';
 import {
-  COMMON_RANGE_VALUES_SET,
   CALENDAR_RANGE_VALUES_SET,
+  COMMON_RANGE_VALUES_SET,
   customTimeRangeDecode,
   dttmToMoment,
 } from '.';
@@ -76,14 +76,14 @@ export const fetchTimeRange = async (
       method: 'get',
       url: endpoint,
     });
-    // DODO added start #11681438
-    const since = dttmToMoment(response?.json?.result?.since).format(
+    // DODO added start #11681438 and #35283561
+    const since = dttmToMoment(response?.result?.since).format(
       MOMENT_FORMAT_UI_DODO,
     );
-    const until = dttmToMoment(response?.json?.result?.until).format(
+    const until = dttmToMoment(response?.result?.until).format(
       MOMENT_FORMAT_UI_DODO,
     );
-    // DODO added stop #11681438
+    // DODO added stop #11681438 and #35283561
     const timeRangeString = buildTimeRangeString(since, until); // DODO changed #11681438
 
     return {
