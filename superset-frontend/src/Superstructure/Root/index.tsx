@@ -62,11 +62,6 @@ import {
   loadAnnotations,
 } from '../../DodoExtensions/utils/annotationUtils';
 
-window.featureFlags = {
-  ...window.featureFlags,
-  GENERIC_CHART_AXES: true, // DODO add 35751135
-};
-
 setupClient();
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
