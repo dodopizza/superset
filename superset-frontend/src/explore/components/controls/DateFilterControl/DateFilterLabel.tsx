@@ -1,14 +1,14 @@
 // DODO was here
 
-import React, { ReactNode, useState, useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import {
   css,
-  styled,
-  t,
-  useTheme,
   NO_TIME_RANGE,
+  styled,
   SupersetTheme,
+  t,
   useCSSTextTruncation,
+  useTheme,
 } from '@superset-ui/core';
 import Button from 'src/components/Button';
 import ControlHeader from 'src/explore/components/ControlHeader';
@@ -31,10 +31,10 @@ import {
   useDefaultTimeFilter,
 } from './utils';
 import {
-  CommonFrame,
-  CalendarFrame,
-  CustomFrame,
   AdvancedFrame,
+  CalendarFrame,
+  CommonFrame,
+  CustomFrame,
   DateLabel,
 } from './components';
 
@@ -104,9 +104,11 @@ const IconWrapper = styled.span`
     margin-right: ${({ theme }) => 2 * theme.gridUnit}px;
     vertical-align: middle;
   }
+
   .text {
     vertical-align: middle;
   }
+
   .error {
     color: ${({ theme }) => theme.colors.error.base};
   }
@@ -133,6 +135,17 @@ const getTooltipTitle = (
   ) : (
     range || null
   );
+
+// DODO add start 35283569
+// For superset dashboard plugin we need to retranslate the labels
+const retranslateConstants = (opts: { value: string; label: string }[]) =>
+  process.env.type === undefined
+    ? opts
+    : opts.map(opt => ({
+        value: opt.value,
+        label: t(opt.label),
+      }));
+// DODO add stop 35283569
 
 export default function DateFilterLabel(props: DateFilterControlProps) {
   const {
@@ -269,7 +282,8 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       <div className="control-label">{t('RANGE TYPE')}</div>
       <StyledRangeType
         ariaLabel={t('RANGE TYPE')}
-        options={FRAME_OPTIONS}
+        // options={FRAME_OPTIONS} // DODO commented 35283569
+        options={retranslateConstants(FRAME_OPTIONS)} // DODO added 35283569
         value={frame}
         onChange={onChangeFrame}
       />
