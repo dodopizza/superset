@@ -11525,6 +11525,15 @@
       ],
       "Pin column with horizontal scroll": [
         ""
+      ],
+      "Custom (until include)": [
+        "Exact date (until include)"
+      ],
+      "END (INCLUSIVE)": [
+        ""
+      ],
+      "End date include to time range": [
+        ""
       ]
     }
   }

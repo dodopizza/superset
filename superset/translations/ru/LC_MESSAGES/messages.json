@@ -10934,6 +10934,15 @@
       ],
       "Pin column with horizontal scroll": [
         "Закрепить колонку при горизонтальном скроле"
+      ],
+      "Custom (until include)": [
+        "Пользовательский (включительно)"
+      ],
+      "END (INCLUSIVE)": [
+        "КОНЕЦ (ВКЛЮЧИТЕЛЬНО)"
+      ],
+      "End date include to time range": [
+        "Дата окончания включена в диапазон"
       ]
     }
   }

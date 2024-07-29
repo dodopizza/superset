@@ -1,12 +1,12 @@
 // DODO was here
 import rison from 'rison';
-import { SupersetClient, NO_TIME_RANGE, JsonObject } from '@superset-ui/core';
+import { JsonObject, NO_TIME_RANGE, SupersetClient } from '@superset-ui/core';
 import { getClientErrorObject } from 'src/utils/getClientErrorObject';
 import { useSelector } from 'react-redux';
 import { API_HANDLER } from 'src/Superstructure/api';
 import {
-  COMMON_RANGE_VALUES_SET,
   CALENDAR_RANGE_VALUES_SET,
+  COMMON_RANGE_VALUES_SET,
   customTimeRangeDecode,
   dttmToMoment,
 } from '.';
@@ -43,7 +43,28 @@ export const guessFrame = (timeRange: string): FrameType => {
   if (timeRange === NO_TIME_RANGE) {
     return 'No filter';
   }
-  if (customTimeRangeDecode(timeRange).matchedFlag) {
+  // DODO commented
+  // if (customTimeRangeDecode(timeRange).matchedFlag) {
+  //   return 'Custom';
+  // }
+  // DODO added
+
+  const decode = customTimeRangeDecode(timeRange);
+
+  if (decode.matchedFlag) {
+    if (
+      decode.customRange.untilMode === 'specific' &&
+      decode.customRange.untilDatetime
+    ) {
+      const until = new Date(decode.customRange.untilDatetime);
+      if (
+        until.getHours() === 23 &&
+        until.getMinutes() === 59 &&
+        until.getSeconds() === 59
+      ) {
+        return 'CustomUntilInclude';
+      }
+    }
     return 'Custom';
   }
   return 'Advanced';

@@ -1905,6 +1905,9 @@ const en = {
       'Export to .XLSX': [''],
       'Specific Date/Time': [''],
       'Relative Date/Time': [''],
+      'Custom (until include)': ['Exact date (until include)'],
+      'END (INCLUSIVE)': [''],
+      'End date include to time range': [''],
     },
   },
 };
