@@ -43,7 +43,7 @@ class TagDAO(BaseDAO[Tag]):
         return True
 
     @staticmethod
-    def create_custom_tagged_objects(
+    def create_custom_or_team_tagged_objects(
         object_type: ObjectTypes, object_id: int, tag_names: list[str]
     ) -> None:
         tagged_objects = []
@@ -54,7 +54,8 @@ class TagDAO(BaseDAO[Tag]):
                 )
             type_ = TagTypes.custom
             tag_name = name.strip()
-            tag = TagDAO.get_by_name(tag_name, type_)
+            tag_exist = TagDAO.find_by_name(tag_name)
+            tag = tag_exist if tag_exist else TagDAO.get_by_name(tag_name, type_)
             tagged_objects.append(
                 TaggedObject(object_id=object_id, object_type=object_type, tag=tag)
             )

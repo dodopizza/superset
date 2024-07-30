@@ -70,6 +70,7 @@ import { GenericLink } from 'src/components/GenericLink/GenericLink';
 import Owner from 'src/types/Owner';
 import { loadTags } from 'src/components/Tags/utils';
 import ChartCard from 'src/features/charts/ChartCard';
+import Tag from 'src/types/TagType';
 
 const FlexRowContainer = styled.div`
   align-items: center;
@@ -456,13 +457,15 @@ function ChartList(props: ChartListProps) {
         }: any) => (
           // Only show custom type tags
           <TagsList
-            // DODO commented 35538076 - show all tags
-            // tags={tags.filter((tag: Tag) =>
-            //   tag.type
-            //     ? tag.type === 1 || tag.type === 'TagTypes.custom'
-            //     : true,
-            // )}
-            tags={tags} // DODO added 35538076
+            // DODO commented 35538076 - show custom and team tags
+            tags={tags.filter((tag: Tag) =>
+              tag.type
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' ||
+                  tag.type === 5 ||
+                  tag.type === 'TagTypes.team'
+                : true,
+            )}
             maxTags={3}
           />
         ),
