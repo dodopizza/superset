@@ -1,10 +1,12 @@
 // DODO was here
-import React, { useEffect, useState } from 'react';
-import Gravatar from 'react-gravatar';
+import React, { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { styled, SupersetClient, t } from '@superset-ui/core';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
+import { Space } from 'antd';
 import { REQUEST_PAGE_URL } from '../../DodoExtensions/onBoarding/consts';
+import Button from '../../components/Button';
+import { clearOnboardingStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 
 interface UserInfoProps {
   user: BootstrapUser;
@@ -16,6 +18,8 @@ const StyledContainer = styled.div`
   }
 
   /* DODO added start 32839667 */
+
+  padding-top: 12px;
 
   .username {
     overflow-wrap: break-word;
@@ -52,7 +56,7 @@ export default function UserInfo({ user }: UserInfoProps) {
       })
         .then(response => response.json())
         .then(dto => {
-          setRequestList(dto.result.statements);
+          setRequestList(dto.result.statements ?? []);
         });
     } finally {
       setRequestListLoading(false);
@@ -76,22 +80,35 @@ export default function UserInfo({ user }: UserInfoProps) {
       setTeamLoading(false);
     }
   }, []);
+
+  const teamInfo = useMemo(() => {
+    if (team) {
+      return <span>{team}</span>;
+    }
+    if (requestList.length > 0) {
+      return <span>Team will be assigned by administrator</span>;
+    }
+    return (
+      <Space direction="vertical">
+        <span>Go through onboarding first, to be added to the team</span>
+        <Button
+          type="primary"
+          block
+          onClick={() => {
+            clearOnboardingStorageInfo();
+            window.location.assign('/');
+          }}
+        >
+          {t('Onboarding')}
+        </Button>
+      </Space>
+    );
+  }, [requestList.length, team]);
+
   // DODO added stop 32839667
 
   return (
     <StyledContainer>
-      <a href="https://en.gravatar.com/">
-        <Gravatar
-          email={user?.email}
-          width="100%"
-          height=""
-          size={220}
-          alt={t('Profile picture provided by Gravatar')}
-          className="img-rounded"
-          style={{ borderRadius: 15 }}
-        />
-      </a>
-      <hr />
       <div className="panel">
         <div className="header">
           <h3>
@@ -122,33 +139,37 @@ export default function UserInfo({ user }: UserInfoProps) {
           <span className="user-id">{user?.userId}</span>
         </p>
         {/* DODO added start 32839667 */}
-        <hr />
-        <h4 className="username">{t('Requests')}</h4>
-        <List>
-          {requestListLoading ? (
-            <span>Loading...</span>
-          ) : (
-            requestList.map(item => {
-              const className = item.finished
-                ? 'fa fa-check'
-                : 'fa fa-hourglass-half';
-              return (
-                <li key={item.id}>
-                  <i className={className} aria-hidden="true" />
-                  &nbsp;&nbsp;&nbsp;
-                  <span>
-                    <a href={REQUEST_PAGE_URL.replace(':id', `${item.id}`)}>
-                      {item.id}
-                    </a>
-                  </span>
-                </li>
-              );
-            })
-          )}
-        </List>
+        {requestList.length > 0 && (
+          <>
+            <hr />
+            <h4 className="username">{t('Requests')}</h4>
+            <List>
+              {requestListLoading ? (
+                <span>Loading...</span>
+              ) : (
+                requestList.map(item => {
+                  const className = item.finished
+                    ? 'fa fa-check'
+                    : 'fa fa-hourglass-half';
+                  return (
+                    <li key={item.id}>
+                      <i className={className} aria-hidden="true" />
+                      &nbsp;&nbsp;&nbsp;
+                      <span>
+                        <a href={REQUEST_PAGE_URL.replace(':id', `${item.id}`)}>
+                          {item.id}
+                        </a>
+                      </span>
+                    </li>
+                  );
+                })
+              )}
+            </List>
+          </>
+        )}
         <hr />
         <h4 className="username">{t('Team')}</h4>
-        {teamLoading ? <span>Loading...</span> : <span>{team}</span>}
+        {teamLoading ? <span>Loading...</span> : teamInfo}
         {/* DODO added stop 32839667 */}
       </div>
     </StyledContainer>

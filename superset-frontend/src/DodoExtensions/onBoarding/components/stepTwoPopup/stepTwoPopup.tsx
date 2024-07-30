@@ -89,7 +89,8 @@ export const StepTwoPopup: FC<Props> = ({ onClose, onFinish }) => {
 
               <StyledSpace direction="vertical" size="small">
                 <Typography.Text type="secondary">
-                  {t('All C-level people please select ‘c_level’')}
+                  {/* {t('All C-level people please select ‘c_level’')} */}
+                  {t('Select `C LEVEL` if you ‘c level’ in DODO')}
                 </Typography.Text>
 
                 <RequestFindTeam

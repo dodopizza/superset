@@ -10980,9 +10980,6 @@
       "Create of find your team": [
         "Создайте или найдите вашу команду"
       ],
-      "All C-level people please select ‘c_level’": [
-        "Выберите ‘c_level’ если ваш уровень C-level"
-      ],
       "your team": [
         "ваша команда"
       ],
@@ -11142,8 +11139,14 @@
       "You request created": [
         "Ваша заявка создана"
       ],
-      "Request will be proceed by administrators": [
-        "Запрос будет обработан администраторами"
+      "Select `C LEVEL` if you ‘c level’ in DODO": [
+        "Выберите `C LEVEL` если вы ‘c level’ в ДОДО"
+      ],
+      "Request will be proceed by administrators. You can see your requests in": [
+        "Заявка будет обработана администраторами. Вы можете увидеть ваши заявки в "
+      ],
+      "profile": [
+        "профиле"
       ]
     }
   }

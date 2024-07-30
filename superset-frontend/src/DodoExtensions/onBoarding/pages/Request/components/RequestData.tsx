@@ -1,6 +1,6 @@
 import { Descriptions } from 'antd';
 import { t, useTheme } from '@superset-ui/core';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import moment from 'moment';
 import CheckboxControl from '../../../../../explore/components/controls/CheckboxControl';
 import { UserFromEnum } from '../../../types';
@@ -24,6 +24,16 @@ type Props = {
 export const RequestData: FC<Props> = ({ data }) => {
   const theme = useTheme();
 
+  const userFrom = useMemo(() => {
+    if (data?.userFrom === UserFromEnum.ManagingCompany) {
+      return 'Управляющая компания';
+    }
+    if (data?.userFrom === UserFromEnum.Franchisee) {
+      return 'Франчайзи';
+    }
+    return 'не известно';
+  }, [data?.userFrom]);
+
   return (
     <Descriptions
       title={t('Onboarding request')}
@@ -33,9 +43,7 @@ export const RequestData: FC<Props> = ({ data }) => {
       labelStyle={{ width: '25%' }}
       contentStyle={{ backgroundColor: theme.colors.grayscale.light5 }}
     >
-      <Descriptions.Item label={t('User from')}>
-        {data?.userFrom}
-      </Descriptions.Item>
+      <Descriptions.Item label={t('User from')}>{userFrom}</Descriptions.Item>
       <Descriptions.Item label={t('First name')}>
         {data?.firstName}
       </Descriptions.Item>
