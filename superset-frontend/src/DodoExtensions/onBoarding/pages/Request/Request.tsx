@@ -7,9 +7,9 @@ import { useRequest } from './useRequest';
 import Loading from '../../../../components/Loading';
 import { RequestFindTeam } from '../../components/RequestFindTeam/requestFindTeam';
 import { RequestData } from './components/RequestData';
-import { CreateTeamModal } from './components/CreateTeamModal';
+import { CreateTeamModal } from '../../components/CreateTeamModal/CreateTeamModal';
 import { RoleDescription } from './components/RoleDescription';
-import { ConfirmCreateTeamModal } from './components/ConfirmCreateTeamModal';
+import { ConfirmCreateTeamModal } from '../../components/ConfirmCreateTeamModal/ConfirmCreateTeamModal';
 import { UpdateUser } from './components/UpdateUser';
 import { UserFromEnum } from '../../types';
 

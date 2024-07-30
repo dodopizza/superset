@@ -2,11 +2,11 @@ import { t, useTheme } from '@superset-ui/core';
 import React, { FC } from 'react';
 import { Descriptions, Typography } from 'antd';
 import { useSelector } from 'react-redux';
-import Button from '../../../../../components/Button';
-import Modal from '../../../../../components/Modal';
-import { Role, UserFromEnum } from '../../../types';
-import { getCreateTeamError } from '../../../model/selectors/getCreateTeamError';
-import Alert from '../../../../../components/Alert';
+import Button from '../../../../components/Button';
+import Modal from '../../../../components/Modal';
+import { Role, UserFromEnum } from '../../types';
+import { getCreateTeamError } from '../../model/selectors/getCreateTeamError';
+import Alert from '../../../../components/Alert';
 
 export type ConfirmCreateTeamModalDto = {
   userFrom: UserFromEnum;
@@ -19,12 +19,14 @@ type ConfirmCreateTeamModalProps = {
   onCloseModal: () => void;
   onSubmit: (value: ConfirmCreateTeamModalDto) => void;
   data: ConfirmCreateTeamModalDto;
+  showUpdateUserInfo?: boolean;
 };
 
 export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
   onCloseModal,
   onSubmit,
   data,
+  showUpdateUserInfo = true,
 }) => {
   const theme = useTheme();
   const createdTeamError = useSelector(getCreateTeamError);
@@ -47,6 +49,9 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
             backgroundColor: theme.colors.grayscale.light5,
           }}
         >
+          <Descriptions.Item label={t('User from')}>
+            {t(data?.userFrom)}
+          </Descriptions.Item>
           <Descriptions.Item label={t('Team')}>
             {data?.teamName}
           </Descriptions.Item>
@@ -61,9 +66,11 @@ export const ConfirmCreateTeamModal: FC<ConfirmCreateTeamModalProps> = ({
       <Typography.Paragraph>
         {t('New team will be created')}
       </Typography.Paragraph>
-      <Typography.Paragraph>
-        {t('User will update is on the next step')}
-      </Typography.Paragraph>
+      {showUpdateUserInfo && (
+        <Typography.Paragraph>
+          {t('User will update is on the next step')}
+        </Typography.Paragraph>
+      )}
       {createdTeamError && <Alert message={createdTeamError} type="error" />}
     </Modal>
   );

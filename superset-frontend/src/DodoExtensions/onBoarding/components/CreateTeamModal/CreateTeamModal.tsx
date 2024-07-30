@@ -2,19 +2,19 @@ import { useForm } from 'antd/es/form/Form';
 import React, { ChangeEvent, FC, useCallback } from 'react';
 import { Typography } from 'antd';
 import { t } from '@superset-ui/core';
-import Modal from '../../../../../components/Modal';
-import { Role, UserFromEnum } from '../../../types';
-import { Form, FormItem } from '../../../../../components/Form';
-import { Input } from '../../../../../components/Input';
-import Button from '../../../../../components/Button';
-import { getTeamName } from '../../../utils/getTeamName';
-import { Select } from '../../../../../components';
-import { SelectProps } from '../../../../../components/Select/types';
-import { getTeamSlug } from '../../../utils/getTeamSlug';
-import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../../consts';
+import Modal from '../../../../components/Modal';
+import { Role, UserFromEnum } from '../../types';
+import { Form, FormItem } from '../../../../components/Form';
+import { Input } from '../../../../components/Input';
+import Button from '../../../../components/Button';
+import { getTeamName } from '../../utils/getTeamName';
+import { Select } from '../../../../components';
+import { SelectProps } from '../../../../components/Select/types';
+import { getTeamSlug } from '../../utils/getTeamSlug';
+import { MAX_TEAM_NAME_LENGTH, MIN_TEAM_NAME_LENGTH } from '../../consts';
 
 export type CreateTeamModalDto = {
-  userFrom: UserFromEnum;
+  userFrom?: UserFromEnum;
   name: string | null;
   teamName: string;
   teamSlug: string;
@@ -40,6 +40,17 @@ const RolesList: SelectProps['options'] = [
   },
 ];
 
+const FromList: SelectProps['options'] = [
+  {
+    label: `${UserFromEnum.ManagingCompany}`,
+    value: UserFromEnum.ManagingCompany,
+  },
+  {
+    label: `${UserFromEnum.Franchisee}`,
+    value: UserFromEnum.Franchisee,
+  },
+];
+
 type Props = {
   onCloseModal: () => void;
   onSubmit: (data: CreateTeamModalDto) => void;
@@ -55,13 +66,23 @@ export const CreateTeamModal: FC<Props> = ({
 
   const setNameAndTag = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
+      const from = form.getFieldValue('userFrom');
       form.setFieldsValue({
-        teamName: getTeamName(event.target.value, data.userFrom),
-        teamSlug: getTeamSlug(event.target.value, data.userFrom),
+        teamName: getTeamName(event.target.value, from),
+        teamSlug: getTeamSlug(event.target.value, from),
       });
     },
-    [data.userFrom, form],
+    [form],
   );
+
+  const clear = useCallback(() => {
+    form.setFieldsValue({
+      name: '',
+      teamName: '',
+      teamSlug: '',
+      roles: [],
+    });
+  }, [form]);
 
   const handleRoleKeyPress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -94,6 +115,21 @@ export const CreateTeamModal: FC<Props> = ({
         <Typography.Title level={4}>
           {t('New team will be created')}
         </Typography.Title>
+        <FormItem
+          name="userFrom"
+          label={t('User from')}
+          rules={[{ required: true }]}
+        >
+          <Select
+            allowClear
+            placeholder={t('User from')}
+            options={FromList}
+            oneLine={false}
+            maxTagCount={10}
+            disabled={!!data.userFrom}
+            onChange={clear}
+          />
+        </FormItem>
         <FormItem
           name="name"
           label={t('Team Name')}

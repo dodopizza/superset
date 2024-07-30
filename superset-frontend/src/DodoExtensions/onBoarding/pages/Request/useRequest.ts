@@ -7,8 +7,8 @@ import { getRequestLoading } from '../../model/selectors/getRequestLoading';
 import { getRequestData } from '../../model/selectors/getRequestData';
 import { MIN_TEAM_NAME_LENGTH } from '../../consts';
 import { getTeamName } from '../../utils/getTeamName';
-import { CreateTeamModalDto } from './components/CreateTeamModal';
-import { ConfirmCreateTeamModalDto } from './components/ConfirmCreateTeamModal';
+import { CreateTeamModalDto } from '../../components/CreateTeamModal/CreateTeamModal';
+import { ConfirmCreateTeamModalDto } from '../../components/ConfirmCreateTeamModal/ConfirmCreateTeamModal';
 import { UpdateUserDto } from './components/UpdateUser';
 import { ONBOARDING_TEAM_SEARCH_CLEAR } from '../../model/types/teamSearch.types';
 import { createTeam } from '../../model/actions/createTeam';
@@ -164,7 +164,7 @@ export const useRequest = () => {
         teamName: data.teamName,
         teamSlug: data.teamSlug,
         roles: data.roles,
-        userFrom: data.userFrom,
+        userFrom: data.userFrom ?? UserFromEnum.Unknown,
       });
     },
     [dispatch],

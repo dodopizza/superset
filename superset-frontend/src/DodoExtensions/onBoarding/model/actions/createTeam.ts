@@ -18,14 +18,12 @@ export function createTeam(params: Params) {
   return async function (dispatch: Dispatch) {
     try {
       dispatch({
-        // type: ONBOARDING_CREATE_TEAM_PENDING,
         type: ONBOARDING_TEAM_CREATE_PENDING,
       });
 
       await postTeamRepository(params);
 
       dispatch({
-        // type: ONBOARDING_CREATE_TEAM_SUCCESS,
         type: ONBOARDING_TEAM_CREATE_SUCCESS,
         payload: {
           slug: params.slug,
@@ -38,7 +36,6 @@ export function createTeam(params: Params) {
       const error = await response.json();
 
       dispatch({
-        // type: ONBOARDING_CREATE_TEAM_ERROR,
         type: ONBOARDING_TEAM_CREATE_ERROR,
         payload: {
           error: `${statusText}:${JSON.stringify(error)}`,
