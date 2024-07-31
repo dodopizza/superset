@@ -4,7 +4,7 @@ import DashboardApp from '../App';
 import { MainComponentProps } from '../../types/global';
 
 export default function Main({
-  navigation,
+  routes,
   store,
   basename,
   startDashboardId = 0,
@@ -20,10 +20,10 @@ export default function Main({
     TAGGING_SYSTEM: false,
   };
 
-  return navigation ? (
+  return routes ? (
     <>
       <Switch>
-        {navigation.routes.map((mappedRoute, index) => (
+        {routes.map((mappedRoute, index) => (
           <Route
             key={`${mappedRoute.idOrSlug}-${index}`}
             path={`${basename}${mappedRoute.idOrSlug}`}

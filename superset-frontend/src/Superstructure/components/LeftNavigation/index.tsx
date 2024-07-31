@@ -1,22 +1,27 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
-import { RoutesConfig, StylesConfig } from '../../types/global';
+import { StylesConfig } from '../../types/global';
 import {
   LeftNavigationWrapper,
-  UlContainer,
   ListItem,
   StyledLink,
+  UlContainer,
 } from './styles';
 
 const LeftNavigation = (props: {
-  routesConfig: RoutesConfig;
+  routes: Array<{
+    idOrSlug: null | string | number;
+    hidden?: boolean;
+    name: string;
+    nameRU: string;
+  }>;
   baseRoute: string;
   stylesConfig: StylesConfig;
   language: string;
   isVisible: boolean;
   onNavigate?: () => void; // DODO added #33605679
 }) => {
-  const allAvailableRoutes = props.routesConfig.filter(route => !route.hidden);
+  const allAvailableRoutes = props.routes.filter(route => !route.hidden);
   const { isVisible, onNavigate } = props; // DODO changed #33605679
   const { businessId } = props.stylesConfig;
 

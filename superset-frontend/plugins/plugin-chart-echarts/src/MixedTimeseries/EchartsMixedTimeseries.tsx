@@ -4,8 +4,8 @@ import { ECBasicOption } from 'echarts/types/src/util/types';
 import {
   AxisType,
   BinaryQueryObjectFilterClause,
-  DTTM_ALIAS,
   DataRecordValue,
+  DTTM_ALIAS,
   getColumnLabel,
   getNumberFormatter,
   getTimeFormatter,
@@ -179,8 +179,8 @@ export default function EchartsMixedTimeseries({
   };
 
   const getCurrentLabelState = (
-    series: Array<{ label: { show: boolean; position: string } }>,
-  ) => series.map(s => s.label.show)[0];
+    series: Array<{ label?: { show: boolean; position: string } }>,
+  ) => series.map(s => s.label?.show)[0];
 
   const [alteredEchartsOptions, setEchartsOptions] = useState(echartOptions);
   const [isVisibleNow, setIsVisible] = useState(false);
@@ -189,7 +189,7 @@ export default function EchartsMixedTimeseries({
     setEchartsOptions(echartOptions);
     const current = getCurrentLabelState(
       echartOptions.series as Array<{
-        label: { show: boolean; position: string };
+        label?: { show: boolean; position: string };
       }>,
     );
     setIsVisible(!current);

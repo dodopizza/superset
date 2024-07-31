@@ -13,16 +13,16 @@ import { Radio } from 'src/components/Radio';
 import Select from 'src/components/Select/Select';
 import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls';
 import {
-  SINCE_GRAIN_OPTIONS,
-  SINCE_MODE_OPTIONS,
-  UNTIL_GRAIN_OPTIONS,
-  UNTIL_MODE_OPTIONS,
-  MOMENT_FORMAT,
-  MIDNIGHT,
   customTimeRangeDecode,
   customTimeRangeEncode,
   dttmToMoment,
   LOCALE_MAPPING,
+  MIDNIGHT,
+  MOMENT_FORMAT,
+  SINCE_GRAIN_OPTIONS,
+  SINCE_MODE_OPTIONS,
+  UNTIL_GRAIN_OPTIONS,
+  UNTIL_MODE_OPTIONS,
 } from 'src/explore/components/controls/DateFilterControl/utils';
 import {
   CustomRangeKey,
@@ -141,7 +141,8 @@ export function CustomFrame(props: FrameComponentProps) {
           </div>
           <Select
             ariaLabel={t('START (INCLUSIVE)')}
-            options={retranslateConstants(SINCE_MODE_OPTIONS)}
+            // options={SINCE_MODE_OPTIONS} // DODO commented 35283569
+            options={retranslateConstants(SINCE_MODE_OPTIONS)} // DODO added 35283569
             value={sinceMode}
             onChange={(value: string) => onChange('sinceMode', value)}
           />
@@ -177,7 +178,11 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={SINCE_GRAIN_OPTIONS}
+                  // options={SINCE_GRAIN_OPTIONS} // DODO commented 35283569
+                  options={retranslateConstantsComposed(
+                    SINCE_GRAIN_OPTIONS,
+                    'Before',
+                  )} // DODO added 35283569
                   value={sinceGrain}
                   onChange={(value: string) => onChange('sinceGrain', value)}
                 />
@@ -195,7 +200,8 @@ export function CustomFrame(props: FrameComponentProps) {
           </div>
           <Select
             ariaLabel={t('END (EXCLUSIVE)')}
-            options={UNTIL_MODE_OPTIONS}
+            // options={UNTIL_MODE_OPTIONS} // DODO commented 35283569
+            options={retranslateConstants(UNTIL_MODE_OPTIONS)} // DODO added 35283569
             value={untilMode}
             onChange={(value: string) => onChange('untilMode', value)}
           />

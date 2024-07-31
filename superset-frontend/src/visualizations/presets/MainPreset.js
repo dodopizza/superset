@@ -38,9 +38,7 @@ import {
   EchartsGraphChartPlugin,
   EchartsMixedTimeseriesChartPlugin,
   EchartsPieChartPlugin,
-  EchartsPieChartPluginDodo,
   EchartsRadarChartPlugin,
-  EchartsSunburstChartPlugin,
   EchartsTimeseriesBarChartPlugin,
   EchartsTimeseriesChartPlugin,
   EchartsTimeseriesLineChartPlugin,
@@ -48,6 +46,9 @@ import {
   EchartsTimeseriesSmoothLineChartPlugin,
   EchartsTimeseriesStepChartPlugin,
   EchartsTreeChartPlugin,
+  EchartsSunburstChartPlugin,
+  EchartsBarChartPluginDodo,
+  EChartBubbleChartDodo,
   EchartsTreemapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
@@ -147,9 +148,10 @@ export default class MainPreset extends Preset {
         // new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         ...experimentalplugins,
         // DODO added
-        new EchartsPieChartPluginDodo().configure({
-          key: 'echarts_bar',
+        new EchartsBarChartPluginDodo().configure({
+          key: 'echarts_bar_dodo',
         }),
+        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
         new SelectByIdFilterPlugin().configure({ key: 'filter_select_by_id' }), // DODO added 29749076
       ],
     });

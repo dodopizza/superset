@@ -17,22 +17,22 @@
  * under the License.
  */
 import {
+  ChartDataResponseResult,
+  ChartProps,
+  ContextMenuFilters,
+  Currency,
+  CurrencyFormatter,
+  DataRecord,
+  DataRecordFilters,
+  DataRecordValue,
+  GenericDataType,
   NumberFormatter,
+  QueryFormData,
+  QueryFormMetric,
+  QueryMode,
+  SetDataMaskHook,
   TimeFormatter,
   TimeGranularity,
-  QueryFormMetric,
-  ChartProps,
-  DataRecord,
-  DataRecordValue,
-  DataRecordFilters,
-  GenericDataType,
-  QueryMode,
-  ChartDataResponseResult,
-  QueryFormData,
-  SetDataMaskHook,
-  ContextMenuFilters,
-  CurrencyFormatter,
-  Currency,
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -49,6 +49,7 @@ export type TableColumnConfig = {
   colorPositiveNegative?: boolean;
   truncateLongCells?: boolean;
   currencyFormat?: Currency;
+  pinColumn?: boolean; // DODO added 34122445
 };
 
 export interface DataColumnMeta {

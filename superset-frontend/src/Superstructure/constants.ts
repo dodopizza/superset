@@ -50,16 +50,6 @@ const STYLES_DRINKIT = {
   },
 };
 
-const STYLES_DONER42 = {
-  businessId: 'doner42',
-  colors: {
-    primary: '#ff6900',
-    secondary: '#ffefe3',
-    light: '#efefef',
-    dark: '#141414',
-  },
-};
-
 const MESSAGES = {
   GET_MENU: {
     CONFIG: {
@@ -354,7 +344,6 @@ export {
   MESSAGES,
   STYLES_DODOPIZZA,
   STYLES_DRINKIT,
-  STYLES_DONER42,
   SUPERSET_ENDPOINT,
   PLUGIN_SELECTOR,
   DODOPIZZA_THEME,

@@ -1903,8 +1903,10 @@ const en = {
       'View as table': [''],
       'Export to .CSV': [''],
       'Export to .XLSX': [''],
+      'Specific Date/Time': [''],
+      'Relative Date/Time': [''],
       'You are welcome to Superset': [''],
-      Onboarding: [''],
+      'Onboarding': [''],
     },
   },
 };
