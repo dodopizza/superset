@@ -33,21 +33,21 @@ import {
   t,
 } from '@superset-ui/core';
 import {
+  ColumnMeta,
   ColumnOption,
   ControlConfig,
   ControlPanelConfig,
   ControlPanelsContainerProps,
+  ControlPanelState,
+  ControlState,
   ControlStateMapping,
   D3_TIME_FORMAT_OPTIONS,
+  Dataset,
+  defineSavedMetrics,
+  getStandardizedControls,
   QueryModeLabel,
   sections,
   sharedControls,
-  ControlPanelState,
-  ControlState,
-  Dataset,
-  ColumnMeta,
-  defineSavedMetrics,
-  getStandardizedControls,
 } from '@superset-ui/chart-controls';
 
 import { PAGE_SIZE_OPTIONS } from './consts';
@@ -96,6 +96,77 @@ const queryMode: ControlConfig<'RadioButtonControl'> = {
   mapStateToProps: ({ controls }) => ({ value: getQueryMode(controls) }),
   rerender: ['all_columns', 'groupby', 'metrics', 'percent_metrics'],
 };
+
+// DODO added start 34122445
+const columnConfig = {
+  '0': [
+    {
+      tab: 'Display',
+      children: [
+        [
+          'columnWidth',
+          {
+            name: 'horizontalAlign',
+            override: {
+              defaultValue: 'right',
+            },
+          },
+        ],
+        ['showCellBars'],
+        ['alignPositiveNegative'],
+        ['colorPositiveNegative'],
+        ['pinColumn'],
+      ],
+    },
+    {
+      tab: 'Number formatting',
+      children: [
+        ['d3NumberFormat'],
+        ['d3SmallNumberFormat'],
+        ['currencyFormat'],
+      ],
+    },
+  ],
+  '1': [
+    [
+      'columnWidth',
+      {
+        name: 'horizontalAlign',
+        override: {
+          defaultValue: 'left',
+        },
+      },
+    ],
+    ['truncateLongCells'],
+    ['pinColumn'],
+  ],
+  '2': [
+    [
+      'columnWidth',
+      {
+        name: 'horizontalAlign',
+        override: {
+          defaultValue: 'left',
+        },
+      },
+    ],
+    ['d3TimeFormat'],
+    ['pinColumn'],
+  ],
+  '3': [
+    [
+      'columnWidth',
+      {
+        name: 'horizontalAlign',
+        override: {
+          defaultValue: 'left',
+        },
+      },
+    ],
+    ['pinColumn'],
+  ],
+};
+// DODO added stop 34122445
 
 const allColumnsControl: typeof sharedControls.groupby = {
   ...sharedControls.groupby,
@@ -482,8 +553,10 @@ const config: ControlPanelConfig = {
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
               width: 400,
-              height: 320,
+              // height: 320, //DODO commented 34122445
+              height: 340, // DODO added 34122445
               renderTrigger: true,
+              configFormLayout: columnConfig, // DODO added 34122445
               shouldMapStateToProps() {
                 return true;
               },
