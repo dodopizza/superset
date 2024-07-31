@@ -16,8 +16,8 @@ import {
 import { createTeam } from '../../model/actions/createTeam';
 import { getCreateTeamData } from '../../model/selectors/getCreateTeamData';
 import { getCreateTeamError } from '../../model/selectors/getCreateTeamError';
-import { ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR } from '../../model/types/request.types';
 import { useToasts } from '../../../../components/MessageToasts/withToasts';
+import { ONBOARDING_TEAM_CREATE_CLEAR } from '../../model/types/teamCreate.types';
 
 const PAGE_SIZE = 10;
 
@@ -56,13 +56,15 @@ const TeamListPage: FC = () => {
   useEffect(() => {
     // Команда создана успешно
     if (createdTeamData) {
-      dispatch({ type: ONBOARDING_REQUEST_CLOSING_ERROR_CLEAR });
-
       toast.addSuccessToast(t('Team has been created successfully.'));
 
       setCreateTeamDto(undefined);
       setShowListView(true);
     }
+
+    return () => {
+      dispatch({ type: ONBOARDING_TEAM_CREATE_CLEAR });
+    };
   }, [createdTeamData, dispatch, toast]);
 
   useEffect(() => {
