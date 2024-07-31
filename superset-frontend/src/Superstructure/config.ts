@@ -1,7 +1,10 @@
 import { API_HANDLER } from './api';
-import { MicrofrontendParams } from './types/global';
 
-export const composeAPIConfig = (params: MicrofrontendParams) => {
+export const composeAPIConfig = (params: {
+  originUrl: string;
+  frontendLogger: boolean;
+  token?: string;
+}) => {
   console.log('WEBPACK_MODE', process.env.WEBPACK_MODE);
 
   if (process.env.WEBPACK_MODE === 'production') {

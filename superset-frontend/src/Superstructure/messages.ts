@@ -64,27 +64,6 @@ const RULES_DRINKIT_RU = {
   ],
 };
 
-const RULES_DONER42_RU = {
-  title: 'Добро пожаловать в Superset dashboard plugin',
-  subTitle: 'Новый инструмент от команды DE для DONER42',
-  extra: IF_QUESTIONS_RU,
-  messages: [
-    'Слева можно выбрать интересующий дашборд.',
-    'Данный инструмент встроен в DODO IS и показывает дашборды из standalone сервиса по ссылке: https://analytics.dodois.io/',
-    'Примененные конфигурации: CERTIFIED BY => DONER42',
-  ],
-  buttons: [
-    {
-      txt: 'Посмотреть инструкцию по работе с дашбордами',
-      link: 'https://dodopizza.info/support/articles/f8170159-480d-4f82-9564-192ced3159b9/ru',
-    },
-    {
-      txt: 'Посмотреть все доступные дашборды',
-      link: DODOPIZZA_ANALYTICS_URL,
-    },
-  ],
-};
-
 const CSV_TEMP_PROBLEM_RU = {
   title: 'Внимание! Экспорт данных в CSV формате временно не работает.',
   date: 'Команда Data Engineering работает над устранением данной пробемы (08.02.2023)',
@@ -100,7 +79,6 @@ export {
   IF_QUESTIONS_RU,
   RULES_RU,
   RULES_DRINKIT_RU,
-  RULES_DONER42_RU,
   GLOBAL_WARNING_DEFAULT_HEADER,
   GLOBAL_WARNING_DEFAULT_BODY,
   LIMIT_WARNING_HEADER,
