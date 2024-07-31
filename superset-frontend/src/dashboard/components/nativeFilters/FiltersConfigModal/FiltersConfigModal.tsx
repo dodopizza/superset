@@ -17,22 +17,22 @@
  * under the License.
  */
 import React, {
-  useEffect,
   useCallback,
+  useEffect,
   useMemo,
-  useState,
   useRef,
+  useState,
 } from 'react';
-import { uniq, isEqual, sortBy, debounce, isEmpty } from 'lodash';
+import { debounce, isEmpty, isEqual, sortBy, uniq } from 'lodash';
 import {
+  css,
+  Divider,
   Filter,
   FilterConfiguration,
   NativeFilterType,
-  Divider,
-  styled,
   SLOW_DEBOUNCE,
+  styled,
   t,
-  css,
   useTheme,
 } from '@superset-ui/core';
 import { useDispatch } from 'react-redux';
@@ -52,13 +52,13 @@ import Footer from './Footer/Footer';
 import { useOpenModal, useRemoveCurrentFilter } from './state';
 import { FilterRemoval, NativeFiltersForm } from './types';
 import {
-  createHandleSave,
   createHandleRemoveItem,
+  createHandleSave,
   generateFilterId,
   getFilterIds,
-  validateForm,
-  NATIVE_FILTER_DIVIDER_PREFIX,
   hasCircularDependency,
+  NATIVE_FILTER_DIVIDER_PREFIX,
+  validateForm,
 } from './utils';
 import DividerConfigForm from './DividerConfigForm';
 
@@ -86,6 +86,7 @@ const StyledModalWrapper = styled(StyledModal)<{ expanded: boolean }>`
       .ant-modal-body {
         flex: 1 1 auto;
       }
+
       .ant-modal-content {
         height: 100%;
       }
@@ -97,6 +98,7 @@ export const StyledModalBody = styled.div<{ expanded: boolean }>`
   height: ${({ expanded }) => (expanded ? '100%' : '700px')};
   flex-direction: row;
   flex: 1;
+
   .filters-list {
     width: ${({ theme }) => theme.gridUnit * 50}px;
     overflow: auto;
@@ -123,10 +125,12 @@ export interface FiltersConfigModalProps {
   onSave: (filterConfig: FilterConfiguration) => Promise<void>;
   onCancel: () => void;
 }
+
 export const ALLOW_DEPENDENCIES = [
   'filter_range',
   'filter_select',
   'filter_time',
+  'filter_select_by_id', // DODO added 29749076
 ];
 
 const DEFAULT_EMPTY_FILTERS: string[] = [];
