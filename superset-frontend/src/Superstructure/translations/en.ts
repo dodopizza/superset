@@ -1906,7 +1906,7 @@ const en = {
       'Specific Date/Time': [''],
       'Relative Date/Time': [''],
       'You are welcome to Superset': [''],
-      'Onboarding': [''],
+      Onboarding: [''],
     },
   },
 };

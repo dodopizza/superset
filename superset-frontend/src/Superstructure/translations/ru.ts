@@ -2862,7 +2862,7 @@ const ru = {
       'Specific Date/Time': ['Конкретная дата/время'],
       'Relative Date/Time': ['Относительная дата/время'],
       'You are welcome to Superset': ['Добро пожаловать в Суперсет'],
-      'Onboarding': ['Онбординг'],
+      Onboarding: ['Онбординг'],
     },
   },
 };
