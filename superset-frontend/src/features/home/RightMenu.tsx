@@ -38,7 +38,7 @@ import {
   GlobalMenuDataOptions,
   RightMenuProps,
 } from './types';
-import { clearOnboardingStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
+import { setInitByUserStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 import { getIsOnboardingFinished } from '../../DodoExtensions/onBoarding/model/selectors/getIsOnboardingFinished';
 
 const extensionsRegistry = getExtensionsRegistry();
@@ -473,7 +473,7 @@ const RightMenu = ({
                     href="#"
                     onClick={e => {
                       e.preventDefault();
-                      clearOnboardingStorageInfo();
+                      setInitByUserStorageInfo();
                       window.location.assign('/');
                     }}
                   >

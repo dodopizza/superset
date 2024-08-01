@@ -11,16 +11,20 @@ import { getIsOnboardingFinished } from '../model/selectors/getIsOnboardingFinis
 import { getOnboardingStartedTime } from '../model/selectors/getOnboardingStartedTime';
 import { stepOneFinish } from '../model/actions/stepOneFinish';
 
-const oneDayPassed = (date?: Date): boolean => {
-  const ONE_DAY_LATER_DISTANCE = 24 * 60 * 60 * 1000;
+// hardcode to stop show onboarding popup
 
-  if (date) {
-    if (new Date(Number(date) + ONE_DAY_LATER_DISTANCE) >= new Date()) {
-      return false;
-    }
-  }
-  return true;
-};
+const oneDayPassed = (date?: Date): boolean => false;
+
+// const oneDayPassed = (date?: Date): boolean => {
+//   const ONE_DAY_LATER_DISTANCE = 24 * 60 * 60 * 1000;
+//
+//   if (date) {
+//     if (new Date(Number(date) + ONE_DAY_LATER_DISTANCE) >= new Date()) {
+//       return false;
+//     }
+//   }
+//   return true;
+// };
 
 export const useOnboarding = () => {
   const [step, setStep] = useState<number | null>(null);
@@ -46,12 +50,18 @@ export const useOnboarding = () => {
       setStep(null);
     }
   } else if (onboardingStartedTime) {
-    if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+    if (
+      oneDayPassed(storageInfo.theTimeOfTheLastShow) ||
+      storageInfo.initialByUser
+    ) {
       if (step !== 2) {
         setStep(2);
       }
     }
-  } else if (oneDayPassed(storageInfo.theTimeOfTheLastShow)) {
+  } else if (
+    oneDayPassed(storageInfo.theTimeOfTheLastShow) ||
+    storageInfo.initialByUser
+  ) {
     if (step === null) {
       setStep(1);
     }

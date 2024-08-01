@@ -20,12 +20,14 @@ export const getOnboardingStorageInfo: () => OnBoardingStorageInfo = () => {
 
   return {
     theTimeOfTheLastShow: undefined,
+    initialByUser: false,
   };
 };
 
 export const updateStorageTimeOfTheLastShow = () => {
   const info: OnBoardingStorageInfo = {
     theTimeOfTheLastShow: new Date(),
+    initialByUser: false,
   };
 
   localStorage.setItem(ONBOARDING_LOCAL_STORAGE_KEY, JSON.stringify(info));
@@ -33,4 +35,12 @@ export const updateStorageTimeOfTheLastShow = () => {
 
 export const clearOnboardingStorageInfo = () => {
   localStorage.removeItem(ONBOARDING_LOCAL_STORAGE_KEY);
+};
+
+export const setInitByUserStorageInfo = () => {
+  const info: OnBoardingStorageInfo = {
+    initialByUser: true,
+  };
+
+  localStorage.setItem(ONBOARDING_LOCAL_STORAGE_KEY, JSON.stringify(info));
 };

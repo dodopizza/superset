@@ -1,5 +1,6 @@
 export type OnBoardingStorageInfo = {
   theTimeOfTheLastShow?: Date;
+  initialByUser?: boolean;
 };
 
 export enum Role {

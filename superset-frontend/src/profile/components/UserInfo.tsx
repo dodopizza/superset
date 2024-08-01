@@ -6,7 +6,7 @@ import { BootstrapUser } from 'src/types/bootstrapTypes';
 import { Space } from 'antd';
 import { REQUEST_PAGE_URL } from '../../DodoExtensions/onBoarding/consts';
 import Button from '../../components/Button';
-import { clearOnboardingStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
+import { setInitByUserStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 
 interface UserInfoProps {
   user: BootstrapUser;
@@ -95,7 +95,7 @@ export default function UserInfo({ user }: UserInfoProps) {
           type="primary"
           block
           onClick={() => {
-            clearOnboardingStorageInfo();
+            setInitByUserStorageInfo();
             window.location.assign('/');
           }}
         >
