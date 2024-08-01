@@ -69,6 +69,7 @@ export const TeamPage: FC = () => {
           <Typography.Title level={5}>{t('Add members')}</Typography.Title>
           <Space>
             <AutoComplete
+              value={memberToAdd ? memberToAdd.label : undefined}
               options={memberList}
               style={{ width: '100%' }}
               onSearch={debouncedLoadMemberList}
