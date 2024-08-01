@@ -1,6 +1,13 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
-import { Descriptions, List, Typography } from 'antd';
+import {
+  AutoComplete,
+  Descriptions,
+  Input,
+  List,
+  Space,
+  Typography,
+} from 'antd';
 import { t, useTheme } from '@superset-ui/core';
 import moment from 'moment';
 import Popconfirm from 'antd/es/popconfirm';
@@ -17,7 +24,18 @@ const Wrapper = styled.div`
 export const TeamPage: FC = () => {
   const theme = useTheme();
 
-  const { isLoading, data, removeFromTeam } = useTeamPage();
+  const {
+    isLoading,
+    data,
+    removeFromTeam,
+    debouncedLoadMemberList,
+    memberList,
+    membersIsLoading,
+    handleMemberSelect,
+    memberToAdd,
+    handleOnChangeMember,
+    addToTeam,
+  } = useTeamPage();
 
   return (
     <Wrapper>
@@ -47,6 +65,30 @@ export const TeamPage: FC = () => {
               {data?.membersCount}
             </Descriptions.Item>
           </Descriptions>
+
+          <Typography.Title level={5}>{t('Add members')}</Typography.Title>
+          <Space>
+            <AutoComplete
+              options={memberList}
+              style={{ width: '100%' }}
+              onSearch={debouncedLoadMemberList}
+              onSelect={handleMemberSelect}
+              onChange={handleOnChangeMember}
+            >
+              <Input.Search
+                placeholder={t('select member')}
+                loading={membersIsLoading}
+                allowClear
+                size="middle"
+              />
+            </AutoComplete>
+            {memberToAdd && (
+              <Button
+                onClick={addToTeam}
+              >{`Add to team : ${memberToAdd?.label}`}</Button>
+            )}
+          </Space>
+
           <Typography.Title level={5}>{t('Members')}</Typography.Title>
           <List
             grid={{
