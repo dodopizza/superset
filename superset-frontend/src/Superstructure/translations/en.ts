@@ -1907,6 +1907,9 @@ const en = {
       'Relative Date/Time': [''],
       'You are welcome to Superset': [''],
       Onboarding: [''],
+      'Custom (until include)': ['Exact date (until include)'],
+      'END (INCLUSIVE)': [''],
+      'End date include to time range': [''],
     },
   },
 };

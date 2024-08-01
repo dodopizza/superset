@@ -24,7 +24,7 @@ import {
   DateTimeModeType,
 } from 'src/explore/components/controls/DateFilterControl/types';
 import { SEPARATOR } from './dateFilterUtils';
-import { SEVEN_DAYS_AGO, MIDNIGHT, MOMENT_FORMAT } from './constants';
+import { MIDNIGHT, MOMENT_FORMAT, SEVEN_DAYS_AGO } from './constants';
 
 /**
  * RegExp to test a string for a full ISO 8601 Date
@@ -104,10 +104,15 @@ export const customTimeRangeDecode = (
 
     // relative : specific
     const sinceCapturedGroup = since.match(CUSTOM_RANGE_EXPRESSION);
+    // DODO added start 18581845
+    const untilStart = dttmToMoment(until)
+      .startOf('date')
+      .format(MOMENT_FORMAT);
+    // DODO added stop 18581845
     if (
       sinceCapturedGroup &&
       ISO8601_AND_CONSTANT.test(until) &&
-      since.includes(until)
+      since.includes(untilStart) // DODO changed
     ) {
       const [dttm, grainValue, grain] = sinceCapturedGroup.slice(1);
       const untilMode = (
@@ -119,7 +124,8 @@ export const customTimeRangeDecode = (
           sinceGrain: grain as DateTimeGrainType,
           sinceGrainValue: parseInt(grainValue, 10),
           sinceDatetime: dttm,
-          untilDatetime: dttm,
+          // untilDatetime: dttm, // DODO commented 18581845
+          untilDatetime: until, // DODO changed 18581845
           sinceMode: 'relative',
           untilMode,
         },
@@ -220,9 +226,14 @@ export const customTimeRangeEncode = (customRange: CustomRangeType): string => {
   if (sinceMode === 'relative' && SPECIFIC_MODE.includes(untilMode)) {
     const until =
       untilMode === 'specific' ? dttmToString(untilDatetime) : untilMode;
-    const since = `DATEADD(DATETIME("${until}"), ${-Math.abs(
+    // DODO added start 18581845
+    const untilStart = dttmToMoment(until)
+      .startOf('date')
+      .format(MOMENT_FORMAT);
+    // DODO added stop 18581845
+    const since = `DATEADD(DATETIME("${untilStart}"), ${-Math.abs(
       sinceGrainValue,
-    )}, ${sinceGrain})`;
+    )}, ${sinceGrain})`; // DODO changed 18581845
     return `${since} : ${until}`;
   }
 
