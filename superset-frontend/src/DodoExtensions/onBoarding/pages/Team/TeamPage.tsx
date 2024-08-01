@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 import { Descriptions, List, Typography } from 'antd';
 import { t, useTheme } from '@superset-ui/core';
 import moment from 'moment';
+import Popconfirm from 'antd/es/popconfirm';
 import Loading from '../../../../components/Loading';
 import { useTeamPage } from './useTeamPage';
 import CheckboxControl from '../../../../explore/components/controls/CheckboxControl';
 import Card from '../../../../components/Card';
+import Button from '../../../../components/Button';
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -15,7 +17,7 @@ const Wrapper = styled.div`
 export const TeamPage: FC = () => {
   const theme = useTheme();
 
-  const { isLoading, data } = useTeamPage();
+  const { isLoading, data, removeFromTeam } = useTeamPage();
 
   return (
     <Wrapper>
@@ -93,6 +95,16 @@ export const TeamPage: FC = () => {
                     </Descriptions.Item>
                     <Descriptions.Item label={t('Last login date')}>
                       {moment(item?.lastLogin).format('DD/MM/YYYY HH:mm')}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="">
+                      <Popconfirm
+                        title={`${item?.username} will be deleted from team ${data?.name}`}
+                        onConfirm={() => removeFromTeam(item.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button>REMOVE FROM TEAM</Button>
+                      </Popconfirm>
                     </Descriptions.Item>
                   </Descriptions>
                 </Card>
