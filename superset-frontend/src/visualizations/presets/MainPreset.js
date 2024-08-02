@@ -1,5 +1,5 @@
 // DODO was here
-import { FeatureFlag, isFeatureEnabled, Preset } from '@superset-ui/core';
+import { isFeatureEnabled, Preset, FeatureFlag } from '@superset-ui/core';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
@@ -48,6 +48,9 @@ import {
   EchartsTimeseriesSmoothLineChartPlugin,
   EchartsTimeseriesStepChartPlugin,
   EchartsTreeChartPlugin,
+  EchartsSunburstChartPlugin,
+  EchartsBarChartPluginDodo,
+  EChartBubbleChartDodo,
   EchartsTreemapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
@@ -147,9 +150,10 @@ export default class MainPreset extends Preset {
         // new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         ...experimentalplugins,
         // DODO added
-        new EchartsPieChartPluginDodo().configure({
-          key: 'echarts_bar',
+        new EchartsBarChartPluginDodo().configure({
+          key: 'echarts_bar_dodo',
         }),
+        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
         new SelectByIdFilterPlugin().configure({ key: 'filter_select_by_id' }), // DODO added 29749076
       ],
     });

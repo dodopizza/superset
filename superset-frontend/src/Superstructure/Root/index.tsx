@@ -14,8 +14,9 @@ import {
 import {
   AnnotationLayer,
   Dashboard,
-  FullConfiguration,
+  MicrofrontendNavigation,
   MicrofrontendParams,
+  RouteConfig,
 } from '../types/global';
 import { composeAPIConfig } from '../config';
 
@@ -44,7 +45,7 @@ import {
   RootComponentWrapper,
 } from './styles';
 
-import { APP_VERSION, getNavigationConfig } from '../parseEnvFile';
+import { APP_VERSION } from '../parseEnvFile';
 import { serializeValue } from '../parseEnvFile/utils';
 import { addSlash, logConfigs } from './helpers';
 
@@ -53,7 +54,6 @@ import {
   MESSAGES,
   SORTING_PREFIX,
   STYLES_DODOPIZZA,
-  STYLES_DONER42,
   STYLES_DRINKIT,
 } from '../constants';
 import { getDefaultDashboard } from '../utils/getDefaultDashboard';
@@ -62,12 +62,17 @@ import {
   loadAnnotations,
 } from '../../DodoExtensions/utils/annotationUtils';
 
-window.featureFlags = {
-  ...window.featureFlags,
-  GENERIC_CHART_AXES: true, // DODO add 35751135
-};
-
 setupClient();
+
+const StyledCollapseBtn = styled.button<{
+  isVisible: boolean;
+}>`
+  color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
+  background: none;
+  border: none;
+  position: relative;
+  padding-top: 8px;
+`;
 
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
   const businessId = incomingParams.businessId || 'dodopizza';
@@ -102,12 +107,19 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     title: '',
     stackTrace: '',
   });
-  const [FULL_CONFIG, setFullConfig] = useState({
-    navigation: { showNavigationMenu: false, routes: [] },
+  const [FULL_CONFIG, setFullConfig] = useState<{
+    showNavigationMenu: boolean;
+    routes: Array<RouteConfig>;
+    originUrl: string;
+    frontendLogger: boolean;
+    basename: string;
+  }>({
+    showNavigationMenu: false,
+    routes: [],
     originUrl: '',
     frontendLogger: false,
     basename: '',
-  } as FullConfiguration);
+  });
   const [isFullConfigReady, setFullConfigReady] = useState(false);
   const [stylesConfig, setStylesConfig] = useState(STYLES_DODOPIZZA);
   const [annotationsObjects, setAnnotationsObjects] = useState(null) as any;
@@ -297,6 +309,8 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     basename: string;
     frontendLogger: boolean;
     business: string;
+    showNavigationMenu: boolean;
+    dashboards: MicrofrontendNavigation['dashboards'];
   } = useMemo(() => {
     const env = process.env.WEBPACK_MODE;
 
@@ -309,6 +323,8 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         : '/',
       frontendLogger: incomingParams.frontendLogger || true,
       business: businessId,
+      dashboards: incomingParams.navigation.dashboards,
+      showNavigationMenu: incomingParams.navigation.showNavigationMenu,
     };
 
     // Superset API works only with port 3000
@@ -335,7 +351,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   useEffect(() => {
     composeAPIConfig(params);
     if (params.business === 'drinkit') setStylesConfig(STYLES_DRINKIT);
-    else if (params.business === 'doner42') setStylesConfig(STYLES_DONER42);
   }, [params]);
 
   useEffect(() => {
@@ -364,64 +379,99 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         const csrf = await handleCsrfRequest({ useAuth });
 
         if (csrf?.data?.result) {
-          const dashboards = await handleDashboardsRequest(params.business);
+          const hardcodedDashboard = params?.dashboards ?? {};
+          const hardcodedDashboardKeys = Object.keys(hardcodedDashboard ?? {});
+          if (hardcodedDashboardKeys.length > 0) {
+            const routes: Array<RouteConfig> = [];
 
-          setAnnotationsObjects(await loadAnnotations());
+            hardcodedDashboardKeys.forEach(key => {
+              const item = hardcodedDashboard[key];
 
-          if (dashboards?.data?.length) {
-            let SORTING_IDS = [] as any[];
+              routes.push({
+                idOrSlug: item.idOrSlug,
+                name: item.name,
+                nameRU: item.nameRU,
+                hidden: false,
+                location: '',
+              });
+            });
 
-            const sortingAnnotationIds =
-              await handleAnnotationLayersRequestSorting();
+            setLoaded(true);
 
-            if (sortingAnnotationIds) {
-              const annotations = await handleAnnotationsRequest(
-                sortingAnnotationIds,
-              );
+            const { basename, originUrl, frontendLogger, showNavigationMenu } =
+              params;
+            setFullConfig({
+              basename,
+              originUrl,
+              frontendLogger,
+              showNavigationMenu,
+              routes,
+            });
+            setFullConfigReady(true);
+          } else {
+            const dashboards = await handleDashboardsRequest(params.business);
 
-              if (annotations?.length) {
-                const filteredSortingAnnotations = annotations.filter(
-                  annotation =>
-                    annotation?.data?.result.short_descr.includes(
-                      SORTING_PREFIX,
-                    ),
+            setAnnotationsObjects(await loadAnnotations());
+
+            if (dashboards?.data?.length) {
+              let SORTING_IDS = [] as any[];
+
+              const sortingAnnotationIds =
+                await handleAnnotationLayersRequestSorting();
+
+              if (sortingAnnotationIds) {
+                const annotations = await handleAnnotationsRequest(
+                  sortingAnnotationIds,
                 );
-                const jsonObjectString = !filteredSortingAnnotations.length
-                  ? '{}'
-                  : filteredSortingAnnotations[0]?.data?.result.json_metadata;
 
-                if (jsonObjectString) {
-                  SORTING_IDS = JSON.parse(jsonObjectString)?.order || [];
+                if (annotations?.length) {
+                  const filteredSortingAnnotations = annotations.filter(
+                    annotation =>
+                      annotation?.data?.result.short_descr.includes(
+                        SORTING_PREFIX,
+                      ),
+                  );
+                  const jsonObjectString = !filteredSortingAnnotations.length
+                    ? '{}'
+                    : filteredSortingAnnotations[0]?.data?.result.json_metadata;
+
+                  if (jsonObjectString) {
+                    SORTING_IDS = JSON.parse(jsonObjectString)?.order || [];
+                  }
                 }
               }
-            }
 
-            const navConfigFull = getNavigationConfig(
-              sortDashboards(
+              const routes = sortDashboards(
                 defineNavigation(dashboards.data),
                 SORTING_IDS || [],
-              ),
-            );
+              );
 
-            if (navConfigFull?.navigation.routes.length) {
-              setLoaded(true);
+              if (routes.length) {
+                setLoaded(true);
 
-              const { basename, originUrl, frontendLogger } = params;
-              setFullConfig({
-                ...navConfigFull,
-                basename,
-                originUrl,
-                frontendLogger,
-              });
-              setFullConfigReady(true);
-            } else {
-              setLoaded(false);
-              setError(true);
-              setErrorObject({
-                msg: 'Что-то пошло не так c настройкой меню',
-                title: 'UNEXPECTED_ERROR',
-                stackTrace: 'UNKNOWN',
-              });
+                const {
+                  basename,
+                  originUrl,
+                  frontendLogger,
+                  showNavigationMenu,
+                } = params;
+                setFullConfig({
+                  basename,
+                  originUrl,
+                  frontendLogger,
+                  showNavigationMenu,
+                  routes,
+                });
+                setFullConfigReady(true);
+              } else {
+                setLoaded(false);
+                setError(true);
+                setErrorObject({
+                  msg: 'Что-то пошло не так c настройкой меню',
+                  title: 'UNEXPECTED_ERROR',
+                  stackTrace: 'UNKNOWN',
+                });
+              }
             }
           }
         }
@@ -446,22 +496,18 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       </>
     );
   }
-  const StyledCollapseBtn = styled.button<{
-    isVisible: boolean;
-  }>`
-    color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
-    background: none;
-    border: none;
-    position: relative;
-    padding-top: 8px;
-  `;
 
   const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
 
   const startDashboard = getDefaultDashboard({
     businessId,
-    routes: FULL_CONFIG.navigation.routes,
+    routes: FULL_CONFIG.routes,
   });
+
+  const withNavigation = useMemo(
+    () => FULL_CONFIG.routes.length > 1 && FULL_CONFIG.showNavigationMenu,
+    [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
+  );
 
   return (
     <div>
@@ -470,33 +516,33 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         {!isLoaded || !isFullConfigReady ? (
           <Loading />
         ) : (
-          <RootComponentWrapper
-            withNavigation={FULL_CONFIG.navigation.showNavigationMenu}
-          >
+          <RootComponentWrapper withNavigation={withNavigation}>
             <Router>
-              <LeftNavigation
-                routesConfig={FULL_CONFIG.navigation.routes}
-                baseRoute={FULL_CONFIG.basename}
-                stylesConfig={stylesConfig}
-                language={userLanguage}
-                isVisible={isVisible}
-                onNavigate={closeLeftNavigation} // DODO added #33605679
-              />
-              <DashboardComponentWrapper
-                withNavigation={
-                  FULL_CONFIG.navigation.showNavigationMenu && isVisible
-                }
-              >
-                <StyledCollapseBtn
-                  type="button"
-                  onClick={() => setIsVisible(!isVisible)}
+              {withNavigation && (
+                <LeftNavigation
+                  routes={FULL_CONFIG.routes}
+                  baseRoute={FULL_CONFIG.basename}
+                  stylesConfig={stylesConfig}
+                  language={userLanguage}
                   isVisible={isVisible}
-                >
-                  {isVisible && <Icons.Expand />}
-                  {!isVisible && <Icons.Collapse />}
-                </StyledCollapseBtn>
+                  onNavigate={closeLeftNavigation} // DODO added #33605679
+                />
+              )}
+              <DashboardComponentWrapper
+                withNavigation={withNavigation && isVisible}
+              >
+                {withNavigation && (
+                  <StyledCollapseBtn
+                    type="button"
+                    onClick={() => setIsVisible(!isVisible)}
+                    isVisible={isVisible}
+                  >
+                    {isVisible && <Icons.Expand />}
+                    {!isVisible && <Icons.Collapse />}
+                  </StyledCollapseBtn>
+                )}
                 <Main
-                  navigation={FULL_CONFIG.navigation}
+                  routes={FULL_CONFIG.routes}
                   store={store}
                   basename={FULL_CONFIG.basename}
                   stylesConfig={stylesConfig}

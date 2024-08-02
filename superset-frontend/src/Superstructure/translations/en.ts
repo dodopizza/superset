@@ -1903,6 +1903,11 @@ const en = {
       'View as table': [''],
       'Export to .CSV': [''],
       'Export to .XLSX': [''],
+      'Specific Date/Time': [''],
+      'Relative Date/Time': [''],
+      'Custom (until include)': ['Exact date (until include)'],
+      'END (INCLUSIVE)': [''],
+      'End date include to time range': [''],
     },
   },
 };

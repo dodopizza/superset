@@ -2859,6 +2859,11 @@ const ru = {
       'View as table': ['Открыть как таблицу'],
       'Export to .CSV': ['Скачать .CSV файл'],
       'Export to .XLSX': ['Скачать .XLSX файл'],
+      'Specific Date/Time': ['Конкретная дата/время'],
+      'Relative Date/Time': ['Относительная дата/время'],
+      'Custom (until include)': ['Пользовательский (включительно)'],
+      'END (INCLUSIVE)': ['КОНЕЦ (ВКЛЮЧИТЕЛЬНО)'],
+      'End date include to time range': ['Дата окончания включена в диапазон'],
     },
   },
 };
