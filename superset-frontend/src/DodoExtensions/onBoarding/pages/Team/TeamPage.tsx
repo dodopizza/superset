@@ -35,6 +35,7 @@ export const TeamPage: FC = () => {
     memberToAdd,
     handleOnChangeMember,
     addToTeam,
+    addUserPending,
   } = useTeamPage();
 
   return (
@@ -71,7 +72,7 @@ export const TeamPage: FC = () => {
             <AutoComplete
               value={memberToAdd ? memberToAdd.label : undefined}
               options={memberList}
-              style={{ width: '100%' }}
+              style={{ minWidth: '500px' }}
               onSearch={debouncedLoadMemberList}
               onSelect={handleMemberSelect}
               onChange={handleOnChangeMember}
@@ -86,6 +87,7 @@ export const TeamPage: FC = () => {
             {memberToAdd && (
               <Button
                 onClick={addToTeam}
+                disabled={addUserPending}
               >{`Add to team : ${memberToAdd?.label}`}</Button>
             )}
           </Space>

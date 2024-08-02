@@ -19,7 +19,7 @@ export type Team = {
 
 export type User = {
   label: string;
-  value: string;
+  value: number;
 };
 
 export enum UserFromEnum {

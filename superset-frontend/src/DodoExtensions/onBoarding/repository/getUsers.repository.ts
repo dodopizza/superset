@@ -20,7 +20,7 @@ type ResponseDto = {
 const fromDtoFactory = (dtoRecord: ResponseDtoRecord): User => {
   const teams = dtoRecord.teams.map(item => item.name).join(', ');
   return {
-    value: `${dtoRecord.id}`,
+    value: dtoRecord.id,
     label: `${dtoRecord.first_name} ${dtoRecord.last_name} ${
       teams ? `(${teams})` : '(no team)'
     }`,
