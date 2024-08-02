@@ -31,7 +31,9 @@ import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
+  EChartBubbleChartDodo,
   EchartsAreaChartPlugin,
+  EchartsBarChartPluginDodo,
   EchartsBoxPlotChartPlugin,
   EchartsFunnelChartPlugin,
   EchartsGaugeChartPlugin,
@@ -39,6 +41,7 @@ import {
   EchartsMixedTimeseriesChartPlugin,
   EchartsPieChartPlugin,
   EchartsRadarChartPlugin,
+  EchartsSunburstChartPlugin,
   EchartsTimeseriesBarChartPlugin,
   EchartsTimeseriesChartPlugin,
   EchartsTimeseriesLineChartPlugin,
@@ -46,9 +49,6 @@ import {
   EchartsTimeseriesSmoothLineChartPlugin,
   EchartsTimeseriesStepChartPlugin,
   EchartsTreeChartPlugin,
-  EchartsSunburstChartPlugin,
-  EchartsBarChartPluginDodo,
-  EChartBubbleChartDodo,
   EchartsTreemapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
