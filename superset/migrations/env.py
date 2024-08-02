@@ -38,6 +38,7 @@ logger = logging.getLogger("alembic.env")
 
 # DATABASE_URI = "postgresql://superset:superset@localhost/superset"
 DATABASE_URI = current_app.config["SQLALCHEMY_DATABASE_URI"]
+# DATABASE_URI = "postgresql://superset:superset@127.0.0.1/superset"
 if "sqlite" in DATABASE_URI:
     logger.warning(
         "SQLite Database support for metadata databases will \
