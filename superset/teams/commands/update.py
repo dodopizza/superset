@@ -45,5 +45,6 @@ class UpdateTeamCommand(UpdateMixin, BaseCommand):
             for user in self._model.participants:
                 self._properties.get("participants").append(user)
 
-        if self.command == "delete_user":
+        if self.command == "remove_user":
             self._model.participants.remove(self._properties.get("participants")[0])
+            self._properties["participants"] = self._model.participants.copy()

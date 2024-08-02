@@ -42,7 +42,8 @@ class TeamRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(Team)
 
     include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET | {
-        "add_user"
+        "add_user",
+        "remove_user"
     }
     resource_name = "team"
     allow_browser_login = True
@@ -302,7 +303,7 @@ class TeamRestApi(BaseSupersetModelRestApi):
             team_id = item.get("team_id")
             user = security_manager.get_user_by_id(item.get("user_id"))
             changed_model = UpdateTeamCommand(team_id, {"participants": [user]},
-                                              "add_user").run()
+                                              "remove_user").run()
             return self.response(201, result={"status": "successful"})
         except TeamInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
