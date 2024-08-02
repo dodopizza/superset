@@ -50,7 +50,7 @@ export const useTeamPage = () => {
       dispatch(loadTeamPage(id));
       toast.addSuccessToast(t('Member added successfully.'));
     }
-  }, [addUserSuccess]);
+  }, [addUserSuccess, dispatch, id, toast]);
 
   useEffect(() => {
     if (removeUserSuccess) {
@@ -58,19 +58,23 @@ export const useTeamPage = () => {
       dispatch(loadTeamPage(id));
       toast.addSuccessToast(t('Member remove successfully.'));
     }
-  }, [removeUserSuccess]);
+  }, [dispatch, id, removeUserSuccess, toast]);
 
   useEffect(() => {
     if (addUserError) {
-      toast.addDangerToast(t('An error occurred while adding user'));
+      toast.addDangerToast(
+        t(`An error occurred while adding user:`) + addUserError,
+      );
     }
-  }, [addUserError]);
+  }, [addUserError, toast]);
 
   useEffect(() => {
     if (removeUserError) {
-      toast.addDangerToast(t('An error occurred while removing user'));
+      toast.addDangerToast(
+        t(`An error occurred while removing user:`) + removeUserError,
+      );
     }
-  }, [removeUserError]);
+  }, [removeUserError, toast]);
 
   const removeFromTeam = useCallback(
     (memberId: number) => {
@@ -83,7 +87,7 @@ export const useTeamPage = () => {
         );
       }
     },
-    [dispatch, id],
+    [dispatch, data?.id],
   );
 
   const addToTeam = useCallback(() => {
@@ -96,7 +100,7 @@ export const useTeamPage = () => {
       );
     }
     setMemberToAdd(null);
-  }, [dispatch, id, memberToAdd?.label]);
+  }, [memberToAdd?.value, data?.id, dispatch]);
 
   const debouncedLoadMemberList = useMemo(
     () =>
