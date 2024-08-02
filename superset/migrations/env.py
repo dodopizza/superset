@@ -36,6 +36,7 @@ if not current_app.config["ALEMBIC_SKIP_LOG_CONFIG"]:
     fileConfig(config.config_file_name)
 logger = logging.getLogger("alembic.env")
 
+# DATABASE_URI = "postgresql://superset:superset@localhost/superset"
 DATABASE_URI = current_app.config["SQLALCHEMY_DATABASE_URI"]
 if "sqlite" in DATABASE_URI:
     logger.warning(
@@ -113,11 +114,10 @@ def run_migrations_online() -> None:
         **kwargs,
     )
 
-    try:
-        with context.begin_transaction():
-            context.run_migrations()
-    finally:
-        connection.close()
+    with context.begin_transaction():
+        context.run_migrations()
+
+    connection.close()
 
 
 if context.is_offline_mode():
