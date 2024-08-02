@@ -31,11 +31,38 @@ import {
 import { ExplorePageState } from 'src/explore/types';
 import { MOMENT_FORMAT_UI_DODO } from '../../../../../DodoExtensions/explore/components/controls/DateFilterControl/utils/constants';
 
-export function CustomFrame(props: FrameComponentProps) {
+export function CustomFrame(
+  // props: FrameComponentProps, // DODO commented
+  props: FrameComponentProps & { withTime?: boolean; untilInclude?: boolean }, // DODO added
+) {
+  const { withTime = true, untilInclude = false } = props; // DODO added
   const { customRange, matchedFlag } = customTimeRangeDecode(props.value);
+
+  // DODO added start 18581845
+  if (customRange.untilMode === 'specific' && customRange.untilDatetime) {
+    if (untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .endOf('date')
+        .format(MOMENT_FORMAT);
+    } else if (!untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .startOf('date')
+        .format(MOMENT_FORMAT);
+    }
+
+    props.onChange(
+      customTimeRangeEncode({
+        ...customRange,
+        untilDatetime: customRange.untilDatetime,
+      }),
+    );
+  }
+  // DODO added end 18581845
+
   if (!matchedFlag) {
     props.onChange(customTimeRangeEncode(customRange));
   }
+
   const {
     sinceDatetime,
     sinceMode,
@@ -149,9 +176,9 @@ export function CustomFrame(props: FrameComponentProps) {
           {sinceMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                showTime={withTime} // DODO added #11681438
                 defaultValue={dttmToMoment(sinceDatetime)}
-                format={MOMENT_FORMAT_UI_DODO} // DODO added #11681438
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO added #11681438
                 onChange={(datetime: Moment) =>
                   onChange('sinceDatetime', datetime.format(MOMENT_FORMAT))
                 }
@@ -192,11 +219,27 @@ export function CustomFrame(props: FrameComponentProps) {
         </Col>
         <Col span={12}>
           <div className="control-label">
-            {t('END (EXCLUSIVE)')}{' '}
-            <InfoTooltipWithTrigger
-              tooltip={t('End date excluded from time range')}
-              placement="right"
-            />
+            {
+              // DODO changed #11681438
+              untilInclude ? (
+                <>
+                  {t('END (INCLUSIVE)')}{' '}
+                  <InfoTooltipWithTrigger
+                    tooltip={t('End date include to time range')}
+                    placement="right"
+                  />
+                </>
+              ) : (
+                <>
+                  {t('END (EXCLUSIVE)')}{' '}
+                  <InfoTooltipWithTrigger
+                    tooltip={t('End date excluded from time range')}
+                    placement="right"
+                  />
+                </>
+              )
+              // DODO changed stop #11681438
+            }
           </div>
           <Select
             ariaLabel={t('END (EXCLUSIVE)')}
@@ -208,12 +251,20 @@ export function CustomFrame(props: FrameComponentProps) {
           {untilMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                showTime={withTime} // DODO changed #11681438
                 defaultValue={dttmToMoment(untilDatetime)}
-                format={MOMENT_FORMAT_UI_DODO} // DODO added #11681438
-                onChange={(datetime: Moment) =>
-                  onChange('untilDatetime', datetime.format(MOMENT_FORMAT))
-                }
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO changed #11681438
+                onChange={(datetime: Moment) => {
+                  // onChange('untilDatetime', datetime.format(MOMENT_FORMAT)); // DODO commented #11681438
+                  // DODO added start #11681438
+                  onChange(
+                    'untilDatetime',
+                    untilInclude
+                      ? datetime.endOf('date').format(MOMENT_FORMAT)
+                      : datetime.format(MOMENT_FORMAT),
+                  );
+                  // DODO added stop #11681438
+                }}
                 allowClear={false}
                 locale={datePickerLocale}
               />

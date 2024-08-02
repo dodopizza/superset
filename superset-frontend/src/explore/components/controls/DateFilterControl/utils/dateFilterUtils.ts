@@ -43,7 +43,28 @@ export const guessFrame = (timeRange: string): FrameType => {
   if (timeRange === NO_TIME_RANGE) {
     return 'No filter';
   }
-  if (customTimeRangeDecode(timeRange).matchedFlag) {
+  // DODO commented
+  // if (customTimeRangeDecode(timeRange).matchedFlag) {
+  //   return 'Custom';
+  // }
+  // DODO added
+
+  const decode = customTimeRangeDecode(timeRange);
+
+  if (decode.matchedFlag) {
+    if (
+      decode.customRange.untilMode === 'specific' &&
+      decode.customRange.untilDatetime
+    ) {
+      const until = new Date(decode.customRange.untilDatetime);
+      if (
+        until.getHours() === 23 &&
+        until.getMinutes() === 59 &&
+        until.getSeconds() === 59
+      ) {
+        return 'CustomUntilInclude';
+      }
+    }
     return 'Custom';
   }
   return 'Advanced';
