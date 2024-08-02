@@ -17,13 +17,13 @@ export type Team = {
   roles: Array<Role>;
 };
 
+export type User = {
+  label: string;
+  value: string;
+};
+
 export enum UserFromEnum {
   Franchisee = 'Franchisee',
   ManagingCompany = 'Managing Company',
   Unknown = 'Unknown',
 }
-
-export type LoadTeamList = (
-  userFrom: UserFromEnum,
-  query: string,
-) => Promise<void>;

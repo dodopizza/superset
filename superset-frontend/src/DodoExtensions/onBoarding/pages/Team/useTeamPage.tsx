@@ -7,6 +7,10 @@ import { loadTeamPage } from '../../model/actions/loadTeamPage';
 import { getTeamPagePending } from '../../model/selectors/getTeamPagePending';
 import { getTeamPageData } from '../../model/selectors/getTeamPageData';
 import { SEARCH_MEMBER_DELAY } from '../../consts';
+import { loadUsers } from '../../model/actions/loadUsers';
+import { getUserSearchPending } from '../../model/selectors/getUserSearchPending';
+import { getUserSearchData } from '../../model/selectors/getUserSearchData';
+import { ONBOARDING_USER_SEARCH_CLEAR } from '../../model/types/userSearch.types';
 
 export const useTeamPage = () => {
   const [memberToAdd, setMemberToAdd] = useState<{
@@ -17,7 +21,7 @@ export const useTeamPage = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getTeamPagePending);
   const data = useSelector(getTeamPageData);
-  const membersIsLoading = false;
+  const membersIsLoading = useSelector(getUserSearchPending);
 
   const { id } = useParams<{ id: string }>();
 
@@ -41,11 +45,10 @@ export const useTeamPage = () => {
     () =>
       debounce((value: string) => {
         if (value.length >= 3) {
-          // dispatch(loadTeams(userFrom, value));
-          message.success(`loading member list by: ${value}`);
+          dispatch(loadUsers(value));
         }
       }, SEARCH_MEMBER_DELAY),
-    [],
+    [dispatch],
   );
 
   const handleMemberSelect: (value: string, option: any) => void = useCallback(
@@ -65,25 +68,12 @@ export const useTeamPage = () => {
 
   useEffect(() => {
     dispatch(loadTeamPage(id));
+    return () => {
+      dispatch({ type: ONBOARDING_USER_SEARCH_CLEAR });
+    };
   }, [dispatch, id]);
 
-  const memberList = useMemo(
-    () => [
-      {
-        label: 'label',
-        value: 'value',
-      },
-      {
-        label: 'label - 2',
-        value: 'value2',
-      },
-      {
-        label: 'long long long long long',
-        value: 'value3',
-      },
-    ],
-    [],
-  );
+  const memberList = useSelector(getUserSearchData);
 
   return {
     isLoading,
