@@ -47,3 +47,8 @@ class TeamPostSchema(Schema):
     name = fields.String()
     slug = fields.String()
     roles = fields.List(fields.String(validate=CustomDodoRoles))
+
+
+class AddUserSchema(Schema):
+    user_id = fields.Int()
+    team_id = fields.Int()

@@ -6,6 +6,9 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.api import expose, protect, safe
 from marshmallow import ValidationError
 
+from superset.extensions import (
+    security_manager,
+)
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.teams.commands.exceptions import (
     TeamInvalidError,
@@ -14,9 +17,11 @@ from superset.teams.commands.exceptions import (
 from superset.teams.schemas import (
     TeamGetResponseSchema,
     TeamGetSchema,
-    TeamPostSchema
+    TeamPostSchema,
+    AddUserSchema
 )
 from superset.teams.commands.create import CreateTeamCommand
+from superset.teams.commands.update import UpdateTeamCommand
 from superset.daos.teams import TeamDAO
 from superset.teams.filters import (
     TeamNameFilter,
@@ -36,7 +41,9 @@ logger = logging.getLogger(__name__)
 class TeamRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(Team)
 
-    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET
+    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET | {
+        "add_user"
+    }
     resource_name = "team"
     allow_browser_login = True
 
@@ -72,6 +79,7 @@ class TeamRestApi(BaseSupersetModelRestApi):
     get_model_schema = TeamGetSchema()
     team_get_response_schema = TeamGetResponseSchema()
     add_model_schema = TeamPostSchema()
+    add_user_schema = AddUserSchema()
 
     @expose("/<pk>", methods=("GET",))
     @protect()
@@ -125,6 +133,8 @@ class TeamRestApi(BaseSupersetModelRestApi):
             )
             return self.response_422(message=str(ex))
 
+
+
     @expose("/", methods=("POST",))
     @protect()
     @safe
@@ -172,6 +182,128 @@ class TeamRestApi(BaseSupersetModelRestApi):
         try:
             new_model = CreateTeamCommand(item).run()
             return self.response(201, result={"status": "cool"})
+        except TeamInvalidError as ex:
+            return self.response_422(message=ex.normalized_messages())
+        except TeamCreateFailedError as ex:
+            logger.error(
+                "Error creating model %s: %s",
+                self.__class__.__name__,
+                str(ex),
+                exc_info=True,
+            )
+            return self.response_422(message=str(ex))
+
+    @expose("/add_user", methods=("POST",))
+    @protect()
+    @safe
+    @statsd_metrics
+    def add_user(self) -> Response:
+        """Creates a new Dashboard
+        ---
+        post:
+          description: >-
+            Create a new Dashboard.
+          requestBody:
+            description: Dashboard schema
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+          responses:
+            201:
+              description: Dashboard added
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      result:
+                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+            400:
+              $ref: '#/components/responses/400'
+            401:
+              $ref: '#/components/responses/401'
+            404:
+              $ref: '#/components/responses/404'
+            500:
+              $ref: '#/components/responses/500'
+        """
+        try:
+            item = self.add_user_schema.load(request.json)
+        # This validates custom Schema with custom validations
+        except ValidationError as error:
+            logger.warning("validate data failed to add new Team")
+            return self.response_400(message=error.messages)
+        try:
+            team_id = item.get("team_id")
+            user = security_manager.get_user_by_id(item.get("user_id"))
+            changed_model = UpdateTeamCommand(team_id, {"participants": [user]},
+                                              "add_user").run()
+            return self.response(201, result={"status": "successful"})
+        except TeamInvalidError as ex:
+            return self.response_422(message=ex.normalized_messages())
+        except TeamCreateFailedError as ex:
+            logger.error(
+                "Error creating model %s: %s",
+                self.__class__.__name__,
+                str(ex),
+                exc_info=True,
+            )
+            return self.response_422(message=str(ex))
+
+    @expose("/remove_user", methods=("POST",))
+    @protect()
+    @safe
+    @statsd_metrics
+    def remove_user(self) -> Response:
+        """Creates a new Dashboard
+        ---
+        post:
+          description: >-
+            Create a new Dashboard.
+          requestBody:
+            description: Dashboard schema
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+          responses:
+            201:
+              description: Dashboard added
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      result:
+                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+            400:
+              $ref: '#/components/responses/400'
+            401:
+              $ref: '#/components/responses/401'
+            404:
+              $ref: '#/components/responses/404'
+            500:
+              $ref: '#/components/responses/500'
+        """
+        try:
+            item = self.add_user_schema.load(request.json)
+        # This validates custom Schema with custom validations
+        except ValidationError as error:
+            logger.warning("validate data failed to add new Team")
+            return self.response_400(message=error.messages)
+        try:
+            team_id = item.get("team_id")
+            user = security_manager.get_user_by_id(item.get("user_id"))
+            changed_model = UpdateTeamCommand(team_id, {"participants": [user]},
+                                              "add_user").run()
+            return self.response(201, result={"status": "successful"})
         except TeamInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
         except TeamCreateFailedError as ex:
