@@ -13,14 +13,20 @@ import { COLUMN_TYPE, ROW_TYPE } from 'src/dashboard/util/componentTypes';
 import {
   createComponent,
   deleteComponent,
-  updateComponents,
   handleComponentDrop,
+  updateComponents,
 } from 'src/dashboard/actions/dashboardLayout';
 import {
-  setDirectPathToChild,
   setActiveTabs,
+  setDirectPathToChild,
   setFullSizeChartId,
 } from 'src/dashboard/actions/dashboardState';
+import { bootstrapData } from '../../preamble';
+
+// DODO added userLanguage
+const userLanguage =
+  (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
+  'en';
 
 const propTypes = {
   id: PropTypes.string,
@@ -105,7 +111,11 @@ class DashboardComponent extends React.PureComponent {
   render() {
     const { component } = this.props;
     const Component = component ? componentLookup[component.type] : null;
-    return Component ? <Component {...this.props} /> : null;
+
+    // DODO added userLanguage
+    return Component ? (
+      <Component {...this.props} userLanguage={userLanguage} />
+    ) : null;
   }
 }
 

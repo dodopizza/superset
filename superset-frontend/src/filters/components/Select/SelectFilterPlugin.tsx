@@ -23,10 +23,10 @@ import {
   DataMask,
   ensureIsArray,
   ExtraFormData,
+  finestTemporalGrainFormatter,
   GenericDataType,
   getColumnLabel,
   JsonObject,
-  finestTemporalGrainFormatter,
   t,
   tn,
 } from '@superset-ui/core';
@@ -37,7 +37,7 @@ import { Select } from 'src/components';
 import { SLOW_DEBOUNCE } from 'src/constants';
 import { hasOption, propertyComparator } from 'src/components/Select/utils';
 import { FilterBarOrientation } from 'src/dashboard/types';
-import { uniqWith, isEqual } from 'lodash';
+import { isEqual, uniqWith } from 'lodash';
 import { PluginFilterSelectProps, SelectValue } from './types';
 import { FilterPluginStyle, StatusMessage, StyledFormItem } from '../common';
 import { getDataRecordFormatter, getSelectExtraFormData } from '../../utils';
@@ -102,11 +102,20 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     defaultToFirstItem,
     searchAllOptions,
   } = formData;
+
   const groupby = useMemo(
     () => ensureIsArray(formData.groupby).map(getColumnLabel),
     [formData.groupby],
   );
+  // DODO added start 29749076
+  const groupbyid = useMemo(
+    () => ensureIsArray(formData.groupbyid).map(getColumnLabel),
+    [formData.groupbyid],
+  );
+  // DODO added stop 29749076
+
   const [col] = groupby;
+  const [colid] = formData.vizType === 'filter_select_by_id' ? groupbyid : []; // DODO added 29749076
   const [initialColtypeMap] = useState(coltypeMap);
   const [search, setSearch] = useState('');
   const [dataMask, dispatchDataMask] = useImmerReducer(reducer, {
@@ -122,18 +131,68 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     [data],
   );
 
+  // DODO added start 29749076
+  const OptionsKeyByValue = useMemo(() => {
+    const map = new Map();
+
+    // DODO added start 29749076
+    // make list of value for one label in case same label with different id column
+    // console.log(`uniqueOptions data`, data);
+    if (formData.vizType === 'filter_select_by_id') {
+      const [valueField] = groupbyid;
+      const [labelField] = groupby;
+      data.forEach(row => {
+        const value = row[valueField];
+        const label = row[labelField];
+
+        if (!map.has(label)) {
+          map.set(label, []);
+        }
+
+        map.get(label).push(value);
+      });
+    }
+    // DODO added stop 29749076
+    return map;
+  }, [data, formData.vizType, groupby, groupbyid]);
+  // DODO stop start 29749076
+
   const updateDataMask = useCallback(
     (values: SelectValue) => {
       const emptyFilter =
         enableEmptyFilter && !inverseSelection && !values?.length;
 
       const suffix = inverseSelection && values?.length ? t(' (excluded)') : '';
+
+      // DODO added start 29749076
+      let valuesToFilter:
+        | null
+        | undefined
+        | (string | number | boolean | null)[] = [];
+      if (
+        formData.vizType === 'filter_select_by_id' &&
+        values &&
+        values?.length > 0
+      ) {
+        values.forEach(value => {
+          if (OptionsKeyByValue.has(value)) {
+            valuesToFilter?.push(...OptionsKeyByValue.get(value));
+          }
+        });
+      } else {
+        valuesToFilter = values;
+      }
+      // DODO added stop 29749076
+
+      // debugger;
       dispatchDataMask({
         type: 'filterState',
         __cache: filterState,
         extraFormData: getSelectExtraFormData(
-          col,
-          values,
+          // col, // DODO commented 29749076
+          colid ?? col, // DODO added 29749076
+          // values, // DODO commented 29749076
+          valuesToFilter, // DODO changed 29749076
           emptyFilter,
           inverseSelection,
         ),
@@ -219,16 +278,28 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
   }, [filterState.validateMessage, filterState.validateStatus]);
 
   const uniqueOptions = useMemo(() => {
-    const allOptions = [...data];
+    let allOptions = [...data];
+    // DODO added start 29749076
+    if (formData.vizType === 'filter_select_by_id') {
+      const [labelField] = groupby;
+      allOptions = [
+        ...data.map(el => ({
+          [labelField]: el[labelField],
+        })),
+      ];
+    }
+    // DODO added stop 29749076
+
     return uniqWith(allOptions, isEqual).map(row => {
       const [value] = groupby.map(col => row[col]);
+
       return {
-        label: labelFormatter(value, datatype),
+        label: labelFormatter(value, datatype), // DODO commented 29749076
         value,
         isNewOption: false,
       };
     });
-  }, [data, datatype, groupby, labelFormatter]);
+  }, [data, datatype, formData.vizType, groupby, groupbyid, labelFormatter]);
 
   const options = useMemo(() => {
     if (search && !multiSelect && !hasOption(search, uniqueOptions, true)) {

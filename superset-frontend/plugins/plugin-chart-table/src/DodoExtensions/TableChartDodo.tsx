@@ -1,12 +1,13 @@
 // DODO was here
 import React, {
   CSSProperties,
+  MouseEvent,
   useCallback,
+  useContext,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useState,
-  MouseEvent,
-  useContext,
 } from 'react';
 import { ColumnWithLooseAccessor, Row } from 'react-table';
 import { extent as d3Extent, max as d3Max } from 'd3-array';
@@ -15,15 +16,15 @@ import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 
 import cx from 'classnames';
 import {
+  BinaryQueryObjectFilterClause,
+  css,
   DataRecord,
   DataRecordValue,
   DTTM_ALIAS,
   ensureIsArray,
   getSelectedText,
   getTimeFormatterForGranularity,
-  BinaryQueryObjectFilterClause,
   styled,
-  css,
   t,
 } from '@superset-ui/core';
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
@@ -35,53 +36,65 @@ import getScrollBarSize from '../DataTable/utils/getScrollBarSize';
 import Styles from '../Styles';
 import { WidthContext } from './DataTable/hooks/useStickyDodo';
 import {
-  getSortTypeByDataType,
-  cellWidth,
-  cellOffset,
   cellBackground,
-  SortIcon,
-  SearchInput,
+  cellOffset,
+  cellWidth,
   getNoResultsMessage,
+  getSortTypeByDataType,
+  SearchInput,
   SelectPageSize,
+  SortIcon,
   TableSize,
   ValueRange,
 } from '../TableChart';
 
 // DODO added
 // DODO start block
-const StyledStickIcon = styled(AiFillPushpin)<{ $isSticky: boolean }>`
-  fill: ${props => (props.$isSticky ? '#666666' : `#b7b7b7`)};
+const StyledPinIcon = styled(AiFillPushpin)<{ $isPinned: boolean }>`
+  fill: ${props => (props.$isPinned ? '#666666' : `#b7b7b7`)};
   flex-shrink: 0;
 `;
 
-function StickIcon({
-  isColumnSticky,
+function PinIcon({
+  isColumnPinned,
   columnIndex,
-  setStickedColumns,
+  setPinnedColumns,
 }: {
-  isColumnSticky: boolean;
+  isColumnPinned: boolean;
   columnIndex: number;
-  setStickedColumns: React.Dispatch<React.SetStateAction<number[]>>;
+  setPinnedColumns: React.Dispatch<React.SetStateAction<number[]>>;
 }) {
-  const toggleStick = (e: MouseEvent) => {
+  const togglePin = (e: MouseEvent) => {
     e.stopPropagation();
-    if (isColumnSticky) {
-      setStickedColumns((v: Array<number>) =>
+    if (isColumnPinned) {
+      setPinnedColumns((v: Array<number>) =>
         v.filter(item => item !== columnIndex),
       );
     } else {
-      setStickedColumns((v: Array<number>) => [...v, columnIndex]);
+      setPinnedColumns((v: Array<number>) => [...v, columnIndex]);
     }
   };
 
   return (
-    <StyledStickIcon
+    <StyledPinIcon
       style={{ marginRight: '0.5rem' }}
-      $isSticky={isColumnSticky}
-      onClick={toggleStick}
+      $isPinned={isColumnPinned}
+      onClick={togglePin}
     />
   );
 }
+
+const getDefaultPinColumns = (columns: DataColumnMeta[]) => {
+  const result: Array<number> = [];
+  columns.forEach((item, index) => {
+    if (item.config?.pinColumn) {
+      result.push(index);
+    }
+  });
+
+  return result;
+};
+
 // DODO stop block
 
 export default function TableChartDodo<D extends DataRecord = DataRecord>(
@@ -115,8 +128,15 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     emitCrossFilters,
   } = props;
 
-  // DODO added new state
-  const [stickedColumns, setStickedColumns] = useState<Array<number>>([]);
+  // DODO added start
+  const [pinnedColumns, setPinnedColumns] = useState<Array<number>>(
+    getDefaultPinColumns(columnsMeta),
+  );
+
+  useEffect(() => {
+    setPinnedColumns(getDefaultPinColumns(columnsMeta));
+  }, [columnsMeta]);
+  // DODO added stop
 
   const timestampFormatter = useCallback(
     value => getTimeFormatterForGranularity(timeGrain)(value),
@@ -333,12 +353,12 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
       // DODO added
       // DODO started fragment
-      const isColumnSticked = stickedColumns.includes(i);
+      const isColumnPinned = pinnedColumns.includes(i);
 
-      const getStickyWidth = (colWidths: Array<number>) =>
+      const getPinnedWidth = (colWidths: Array<number>) =>
         i === 0
           ? '0px'
-          : `${stickedColumns.reduce((acc, item) => {
+          : `${pinnedColumns.reduce((acc, item) => {
               if (item < i) {
                 return acc + colWidths[item];
               }
@@ -382,11 +402,11 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
             // DODO added
             // DODO fragment start
             ${() => {
-              if (isColumnSticked) {
+              if (isColumnPinned) {
                 return css`
                   position: sticky;
                   z-index: 4;
-                  left: ${getStickyWidth(colWidths)};
+                  left: ${getPinnedWidth(colWidths)};
                   background: ${backgroundColor ?? 'white'};
                 `;
               }
@@ -505,11 +525,11 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                 ...sharedStyle,
                 ...style,
                 // DODO added start
-                ...(isColumnSticked
+                ...(isColumnPinned
                   ? {
                       position: 'sticky',
                       zIndex: 4,
-                      left: getStickyWidth(colWidths),
+                      left: getPinnedWidth(colWidths),
                     }
                   : {}),
                 // DODO added stop
@@ -542,10 +562,10 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                 }}
               >
                 {/* DODO added start */}
-                <StickIcon
-                  isColumnSticky={isColumnSticked}
+                <PinIcon
+                  isColumnPinned={isColumnPinned}
                   columnIndex={i}
-                  setStickedColumns={setStickedColumns}
+                  setPinnedColumns={setPinnedColumns}
                 />
                 {/* DODO added stop */}
                 <span data-column-name={col.id}>{label}</span>

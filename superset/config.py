@@ -443,7 +443,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DASHBOARD_CACHE": False,  # deprecated
     "REMOVE_SLICE_LEVEL_LABEL_COLORS": False,  # deprecated
     "SHARE_QUERIES_VIA_KV_STORE": False,
-    "TAGGING_SYSTEM": False,
+    "TAGGING_SYSTEM": True,
     "SQLLAB_BACKEND_PERSISTENCE": True,
     "LISTVIEWS_DEFAULT_CARD_VIEW": False,
     # When True, this escapes HTML (rather than rendering it) in Markdown components
@@ -1252,8 +1252,7 @@ DB_CONNECTION_MUTATOR = None
 def SQL_QUERY_MUTATOR(  # pylint: disable=invalid-name,unused-argument
     sql: str, **kwargs: Any
 ) -> str:
-    new_sql = sql.replace('"COUNT(*)"', "FULL_COUNT")
-    return new_sql
+    return sql
 
 # A variable that chooses whether to apply the SQL_QUERY_MUTATOR before or after splitting the input query
 # It allows for using the SQL_QUERY_MUTATOR function for more than comments

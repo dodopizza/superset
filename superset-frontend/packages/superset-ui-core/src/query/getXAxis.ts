@@ -19,20 +19,23 @@
 import {
   DTTM_ALIAS,
   FeatureFlag,
-  isFeatureEnabled,
   getColumnLabel,
+  isFeatureEnabled,
   isQueryFormColumn,
-  QueryFormData,
-  QueryFormColumn,
   Optional,
+  QueryFormColumn,
+  QueryFormData,
 } from '@superset-ui/core';
 
 export const isXAxisSet = (formData: QueryFormData) =>
   isQueryFormColumn(formData.x_axis);
 
-export const hasGenericChartAxes = isFeatureEnabled(
-  FeatureFlag.GENERIC_CHART_AXES,
-);
+// export const hasGenericChartAxes = isFeatureEnabled(
+//   FeatureFlag.GENERIC_CHART_AXES,
+// ); // DODO commented 35751135
+
+export const hasGenericChartAxes =
+  isFeatureEnabled(FeatureFlag.GENERIC_CHART_AXES) || !!process.env.type; // DODO added 35751135
 
 export const getXAxisColumn = (
   formData: QueryFormData,

@@ -16,6 +16,7 @@
 # under the License.
 from __future__ import annotations
 
+import logging
 from typing import Any, Generic, get_args, TypeVar
 
 from flask_appbuilder.models.filters import BaseFilter
@@ -34,7 +35,7 @@ from superset.extensions import db
 from superset.utils.core import get_iterable
 
 T = TypeVar("T", bound=Model)  # pylint: disable=invalid-name
-
+logger = logging.getLogger(__name__)
 
 class BaseDAO(Generic[T]):
     """

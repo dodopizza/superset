@@ -14,8 +14,15 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from marshmallow import Schema
-from marshmallow.fields import Boolean, Integer, String
+from typing import Union
+
+from marshmallow import Schema, fields
+from marshmallow.fields import Boolean, Integer, String, DateTime, List, Nested
+
+
+class StatementSchema(Schema):
+    id = Integer()
+    finished = Boolean()
 
 
 class UserResponseSchema(Schema):
@@ -26,3 +33,13 @@ class UserResponseSchema(Schema):
     last_name = String()
     is_active = Boolean()
     is_anonymous = Boolean()
+    isOnboardingFinished = Boolean(missing=True)
+    onboardingStartedTime = Boolean(missing=True)
+    dodo_role = String(missing=True)
+    team = String(missing=True)
+    statements = List(Nested(StatementSchema()), missing=True)
+
+
+class ValidateOnboardingPutSchema(Schema):
+    onboardingStartedTime = DateTime()
+    dodo_role = String()

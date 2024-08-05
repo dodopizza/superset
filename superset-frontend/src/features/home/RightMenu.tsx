@@ -38,6 +38,8 @@ import {
   GlobalMenuDataOptions,
   RightMenuProps,
 } from './types';
+import { setInitByUserStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
+import { getIsOnboardingFinished } from '../../DodoExtensions/onBoarding/model/selectors/getIsOnboardingFinished';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -54,6 +56,7 @@ const StyledI = styled.div`
 
 const styledDisabled = (theme: SupersetTheme) => css`
   color: ${theme.colors.grayscale.light1};
+
   .ant-menu-item-active {
     color: ${theme.colors.grayscale.light1};
     cursor: default;
@@ -66,6 +69,7 @@ const StyledDiv = styled.div<{ align: string }>`
   justify-content: ${({ align }) => align};
   align-items: center;
   margin-right: ${({ theme }) => theme.gridUnit}px;
+
   .ant-menu-submenu-title > svg {
     top: ${({ theme }) => theme.gridUnit * 5.25}px;
   }
@@ -325,6 +329,9 @@ const RightMenu = ({
 
   const theme = useTheme();
 
+  // DODO added
+  const isOnboardingFinished = useSelector(getIsOnboardingFinished);
+
   return (
     <StyledDiv align={align}>
       {/* DODO added */}
@@ -456,10 +463,25 @@ const RightMenu = ({
               <Menu.Divider key={`divider_${index}`} />
             ),
           ])}
-
           {!navbarRight.user_is_anonymous && [
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
+              {/*  DODO added start 32839641 */}
+              {!isOnboardingFinished && (
+                <Menu.Item key="errer">
+                  <a
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      setInitByUserStorageInfo();
+                      window.location.assign('/');
+                    }}
+                  >
+                    {t('Onboarding')}
+                  </a>
+                </Menu.Item>
+              )}
+              {/*  DODO added stop 32839641 */}
               {navbarRight.user_profile_url && (
                 <Menu.Item key="profile">
                   <a href={navbarRight.user_profile_url}>{t('Profile')}</a>

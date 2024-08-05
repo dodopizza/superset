@@ -7,12 +7,12 @@ import React, {
   useState,
 } from 'react';
 import {
-  ChartDataResponseResult,
   Behavior,
+  ChartDataResponseResult,
   DataMask,
-  isFeatureEnabled,
   FeatureFlag,
   getChartMetadataRegistry,
+  isFeatureEnabled,
   JsonObject,
   QueryFormData,
   styled,
@@ -36,7 +36,7 @@ import {
   setDirectPathToChild,
 } from 'src/dashboard/actions/dashboardState';
 import { FAST_DEBOUNCE } from 'src/constants';
-import { dispatchHoverAction, dispatchFocusAction } from './utils';
+import { dispatchFocusAction, dispatchHoverAction } from './utils';
 import { FilterControlProps } from './types';
 import { getFormData } from '../../utils';
 import { useFilterDependencies } from './state';
@@ -80,6 +80,7 @@ const FilterValue: React.FC<FilterControlProps> = ({
   validateStatus,
 }) => {
   const { id, targets, filterType, adhoc_filters, time_range } = filter;
+
   const metadata = getChartMetadataRegistry().get(filterType);
   const dependencies = useFilterDependencies(id, dataMaskSelected);
   const shouldRefresh = useShouldFilterRefresh();
@@ -98,8 +99,11 @@ const FilterValue: React.FC<FilterControlProps> = ({
   const {
     datasetId,
     column = {},
-  }: Partial<{ datasetId: number; column: { name?: string } }> = target;
-  const { name: groupby } = column;
+  }: // }: Partial<{ datasetId: number; column: { name?: string } }> = target; // DODO commented 29749076
+  Partial<{ datasetId: number; column: { name?: string; id?: string } }> =
+    target; // DODO added 29749076
+  // const { name: groupby} = column; // // DODO commented 29749076
+  const { name: groupby, id: groupbyid } = column; // // DODO added 29749076
   const hasDataSource = !!datasetId;
   const [isLoading, setIsLoading] = useState<boolean>(hasDataSource);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -125,11 +129,13 @@ const FilterValue: React.FC<FilterControlProps> = ({
     if (!inViewFirstTime) {
       return;
     }
+
     const newFormData = getFormData({
       ...filter,
       datasetId,
       dependencies,
       groupby,
+      groupbyid, // DODO added 29749076
       adhoc_filters,
       time_range,
       dashboardId,
@@ -154,7 +160,6 @@ const FilterValue: React.FC<FilterControlProps> = ({
         return;
       }
       setIsRefreshing(true);
-      // DODO added 33605679
       if (process.env.type === undefined) {
         getChartDataRequest({
           formData: newFormData,
