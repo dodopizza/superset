@@ -34,6 +34,8 @@ from superset.views.base_api import (
     BaseSupersetModelRestApi,
     statsd_metrics,
 )
+from superset.views.utils import (finish_onboarding, get_dodo_role, find_team_by_slug,
+                                  update_user_roles)
 
 logger = logging.getLogger(__name__)
 
@@ -243,6 +245,10 @@ class TeamRestApi(BaseSupersetModelRestApi):
             user = security_manager.get_user_by_id(item.get("user_id"))
             changed_model = UpdateTeamCommand(team_id, {"participants": [user]},
                                               "add_user").run()
+            current_roles = user.roles
+            team_roles = changed_model.roles
+            changed_roles = list(set(current_roles) | set(team_roles))
+            changed_user = update_user_roles(user, changed_roles)
             return self.response(201, result={"status": "successful"})
         except TeamInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
@@ -304,6 +310,10 @@ class TeamRestApi(BaseSupersetModelRestApi):
             user = security_manager.get_user_by_id(item.get("user_id"))
             changed_model = UpdateTeamCommand(team_id, {"participants": [user]},
                                               "remove_user").run()
+            current_roles = user.roles
+            team_roles = changed_model.roles
+            changed_roles = [role for role in current_roles if role not in team_roles]
+            changed_user = update_user_roles(user, changed_roles)
             return self.response(201, result={"status": "successful"})
         except TeamInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
