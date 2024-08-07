@@ -210,6 +210,19 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         raise ErrorLevel.ERROR
 
 
+def insert_data_auth(data_auth: str):
+    try:
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(
+                UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.data_auth_dodo = data_auth
+        db.session.commit()
+    except AttributeError:
+        logger.warning("Error add to db data_auth_dodo")
+
+
 def update_language(lang: str):  # DODO changed #33835937
     try:
         user_id = get_user_id()

@@ -1556,6 +1556,17 @@ GUEST_TOKEN_JWT_EXP_SECONDS = 300  # 5 minutes
 # Guest token audience for the embedded superset, either string or callable
 GUEST_TOKEN_JWT_AUDIENCE: Callable[[], str] | str | None = None
 
+KAFKA_TOPIC = "superset.log.v1"
+KAFKA_CONFIG = {
+        'bootstrap.servers': os.getenv("Endpoint"),
+        'security.protocol': 'SASL_SSL',
+        'ssl.ca.location': '/path/to/ca-certificate.crt',
+        'sasl.mechanism': 'PLAIN',
+        'sasl.username': '$ConnectionString',
+        'sasl.password': os.getenv("SharedAccessKey"),
+        'client.id': 'superset'
+    }
+
 # A SQL dataset health check. Note if enabled it is strongly advised that the callable
 # be memoized to aid with performance, i.e.,
 #

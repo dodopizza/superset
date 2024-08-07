@@ -2,6 +2,7 @@
 
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean, DateTime
 from flask_appbuilder import Model
+from superset.utils import core as utils
 
 
 class UserInfo(Model):
@@ -15,5 +16,6 @@ class UserInfo(Model):
     onboardingStartedTime = Column(DateTime, nullable=True)  # DODO added #32839638
     language = Column(String(32), default="ru")
     user_id = Column(Integer, ForeignKey("ab_user.id"))
+    data_auth_dodo = Column(utils.MediumText())
     dodo_role = Column(String(32), nullable=True)
 
