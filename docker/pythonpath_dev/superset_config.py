@@ -74,6 +74,7 @@ CACHE_CONFIG = {
 DATA_CACHE_CONFIG = CACHE_CONFIG
 XLSX_EXPORT = {"encoding": "utf-8", "index": False}
 
+
 class CeleryConfig:
     broker_url = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
     imports = ("superset.sql_lab",)
@@ -91,7 +92,7 @@ class CeleryConfig:
         },
         "reports.kafka_send": {
             "task": "reports.kafka_send",
-            "schedule": crontab(minute=0, hour=0),
+            "schedule": crontab(minute=3, hour=0),
         }
     }
 

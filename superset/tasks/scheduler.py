@@ -153,7 +153,6 @@ def kafka_send() -> None:
             Team
         ).filter(
             Log.dttm > previous_day).filter(Log.dttm < current_msk_time).all())
-        for log in logs:
-            send_logs(app.config["KAFKA_TOPIC"], log)
+        send_logs(app.config["KAFKA_TOPIC"], logs)
     except Exception as e:
         logger.warning(e)
