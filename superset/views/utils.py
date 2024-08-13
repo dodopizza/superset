@@ -210,6 +210,21 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         raise ErrorLevel.ERROR
 
 
+def insert_country(country_iso_num: int):
+    try:
+        import pycountry
+        country_name = pycountry.countries.get(numeric=f"{country_iso_num}").name
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(
+                UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.country = country_name
+        db.session.commit()
+    except AttributeError:
+        logger.warning("Error add to db data_auth_dodo")
+
+
 def insert_data_auth(data_auth: str):
     try:
         user_id = get_user_id()

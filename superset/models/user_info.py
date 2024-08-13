@@ -17,5 +17,6 @@ class UserInfo(Model):
     language = Column(String(32), default="ru")
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     data_auth_dodo = Column(utils.MediumText())
+    country = Column(Integer, nullable=True)
     dodo_role = Column(String(32), nullable=True)
 
