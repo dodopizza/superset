@@ -41,6 +41,21 @@ function isNumeric(key: string, data: DataRecord[] = []) {
   );
 }
 
+const getPinnedColumnIndexes = (
+  groupbyRows: Array<string>,
+  columnConfig: Record<string, { pinColumn: boolean }> | undefined,
+): Array<number> => {
+  if (!columnConfig) return [];
+
+  const indexes: number[] = [];
+
+  groupbyRows.forEach((row: string, index: number) => {
+    if (columnConfig[row]?.pinColumn) indexes.push(index);
+  });
+
+  return indexes;
+};
+
 export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   /**
    * This function is called after a successful response has been
@@ -90,6 +105,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     tableRenderer,
     colOrder,
     rowOrder,
+    columnConfig,
     aggregateFunction,
     transposePivot,
     combineMetric,
@@ -141,6 +157,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       {},
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
+  const pinnedColumns = getPinnedColumnIndexes(groupbyRows, columnConfig);
 
   return {
     width,
@@ -148,6 +165,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     data,
     groupbyRows,
     groupbyColumns,
+    pinnedColumns,
     metrics,
     tableRenderer,
     colOrder,

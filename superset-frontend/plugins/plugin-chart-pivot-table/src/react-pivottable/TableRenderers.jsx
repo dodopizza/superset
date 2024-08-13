@@ -18,7 +18,8 @@
  */
 
 import React from 'react';
-import { t } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
+import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 import PropTypes from 'prop-types';
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
@@ -55,17 +56,53 @@ function displayHeaderCell(
   );
 }
 
+const StyledPinIcon = styled(AiFillPushpin)`
+  fill: ${props => (props.$isPinned ? '#666666' : `#b7b7b7`)};
+  flex-shrink: 0;
+  cursor: pointer;
+`;
+
+function PinIcon({
+  isColumnPinned,
+  columnIndex,
+  setPinnedColumns,
+}) {
+  const togglePin = () => {
+    setPinnedColumns(isColumnPinned, columnIndex)
+  };
+
+  return (
+    <StyledPinIcon
+      style={{ marginRight: '0.5rem' }}
+      $isPinned={isColumnPinned}
+      onClick={togglePin}
+    />
+  );
+}
+
 export class TableRenderer extends React.Component {
   constructor(props) {
     super(props);
+    this.headerRefs = React.createRef();
+    this.headerRefs.current = [];
 
     // We need state to record which entries are collapsed and which aren't.
     // This is an object with flat-keys indicating if the corresponding rows
     // should be collapsed.
-    this.state = { collapsedRows: {}, collapsedCols: {} };
-
+    this.state = { collapsedRows: {}, collapsedCols: {}, pinnedColumns: [] };
     this.clickHeaderHandler = this.clickHeaderHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.setPinnedColumns = this.setPinnedColumns.bind(this);
+    this.getStickyCellLeft = this.getStickyCellLeft.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ pinnedColumns: this.props.pinnedColumns });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.pinnedColumns !== this.props.pinnedColumns)
+      this.setState({ pinnedColumns: this.props.pinnedColumns });
   }
 
   getBasePivotSettings() {
@@ -284,6 +321,31 @@ export class TableRenderer extends React.Component {
         },
       }));
     };
+  }
+
+  setPinnedColumns(isPinned, columnIndex) {
+    if (isPinned) {
+      this.setState((prev) => ({
+        pinnedColumns: prev.pinnedColumns.filter(item => item !== columnIndex).sort()
+      }));
+    } else {
+      this.setState((prev) => ({
+        pinnedColumns: [...prev.pinnedColumns, columnIndex].sort()
+      }));
+    }
+  }
+
+  getStickyCellLeft(columnIndex) {
+    if (columnIndex === 0 || this.state.pinnedColumns.length === 1) return 0;
+
+    let left = 0;
+
+    for (const index of this.state.pinnedColumns) {
+      if (index === columnIndex) break;
+      left += this.headerRefs.current[index]?.clientWidth ?? 0;
+    }
+
+    return left;
   }
 
   toggleColKey(flatColKey) {
@@ -531,8 +593,20 @@ export class TableRenderer extends React.Component {
                 : this.expandAttr(true, i, rowKeys);
             subArrow = i + 1 < maxRowVisible ? arrowExpanded : arrowCollapsed;
           }
+          const isColumnPinned = this.state.pinnedColumns.includes(i);
+
           return (
-            <th className="pvtAxisLabel" key={`rowAttr-${i}`}>
+            <th 
+              key={`rowAttr-${i}`}
+              className={['pvtAxisLabel', isColumnPinned ? 'stickyCell' : ''].join(' ')}
+              style={isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined }
+              ref={ref => this.headerRefs.current[i] = ref}
+            >
+              <PinIcon 
+                isColumnPinned={isColumnPinned}
+                columnIndex={i}
+                setPinnedColumns={this.setPinnedColumns}
+              />
               {displayHeaderCell(
                 needLabelToggle,
                 subArrow,
@@ -613,6 +687,10 @@ export class TableRenderer extends React.Component {
       ) {
         valueCellClassName += ' active';
       }
+      const isColumnPinned = this.state.pinnedColumns.includes(i);
+      if (isColumnPinned) {
+        valueCellClassName += ' stickyCell';
+      }
       const rowSpan = rowAttrSpans[rowIdx][i];
       if (rowSpan > 0) {
         const flatRowKey = flatKey(rowKey.slice(0, i + 1));
@@ -631,6 +709,7 @@ export class TableRenderer extends React.Component {
           <th
             key={`rowKeyLabel-${i}`}
             className={valueCellClassName}
+            style={isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined }
             rowSpan={rowSpan}
             colSpan={colSpan}
             onClick={this.clickHeaderHandler(

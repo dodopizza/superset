@@ -18,6 +18,7 @@
  */
 import React from 'react';
 import {
+  ChartDataResponseResult,
   ensureIsArray,
   hasGenericChartAxes,
   isAdhocColumn,
@@ -36,6 +37,13 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
+
+const columnConfig = {
+  '0': [['pinColumn']],
+  '1': [['pinColumn']],
+  '2': [['pinColumn']],
+  '3': [['pinColumn']],
+};
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -398,6 +406,30 @@ const config: ControlPanelConfig = {
               ],
               renderTrigger: true,
               description: t('Position of column level subtotal'),
+            },
+          },
+        ],
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize columns'),
+              description: t('Further customize how to display each column'),
+              width: 400,
+              height: 340,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                return {
+                  queryResponse: chart?.queriesResponse?.[0] as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
             },
           },
         ],

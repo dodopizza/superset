@@ -18,6 +18,7 @@ export const Styles = styled.div`
     table thead {
       position: ${isDashboardEditMode ? 'inherit' : 'sticky'};
       top: 0;
+      z-index: 2;
     }
 
     table tbody tr {
@@ -97,6 +98,11 @@ export const Styles = styled.div`
 
     table.pvtTable tbody tr th.pvtRowLabel {
       vertical-align: baseline;
+    }
+
+    .stickyCell {
+      position: sticky;
+      z-index: 1;
     }
 
     .pvtTotal,

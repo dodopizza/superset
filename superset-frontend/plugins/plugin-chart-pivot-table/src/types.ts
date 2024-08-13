@@ -96,4 +96,5 @@ export type PivotTableQueryFormData = QueryFormData &
 export type PivotTableProps = PivotTableStylesProps &
   PivotTableCustomizeProps & {
     data: DataRecord[];
+    pinnedColumns: number[];
   };
