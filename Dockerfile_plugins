@@ -131,7 +131,7 @@ RUN apt-get update -q \
     && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
     && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/* && apt-get clean
 
-COPY ../superset-plugins/src/. /app/.
+COPY ../superset-plugins/src/. /app/configs/
 COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
 # Cache everything for dev purposes...
 RUN pip install --no-cache-dir -r /app/requirements/docker.txt \
