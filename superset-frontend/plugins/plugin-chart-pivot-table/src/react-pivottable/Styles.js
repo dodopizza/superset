@@ -105,6 +105,10 @@ export const Styles = styled.div`
       z-index: 1;
     }
 
+    .stickyRightBorder {
+      border-right: 1px solid ${theme.colors.grayscale.light2};
+    }
+
     .pvtTotal,
     .pvtGrandTotal {
       font-weight: ${theme.typography.weights.bold};

@@ -594,11 +594,12 @@ export class TableRenderer extends React.Component {
             subArrow = i + 1 < maxRowVisible ? arrowExpanded : arrowCollapsed;
           }
           const isColumnPinned = this.state.pinnedColumns.includes(i);
+          const isLastPinnedColumn = i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
 
           return (
             <th 
               key={`rowAttr-${i}`}
-              className={['pvtAxisLabel', isColumnPinned ? 'stickyCell' : ''].join(' ')}
+              className={['pvtAxisLabel', isColumnPinned ? 'stickyCell' : '', isLastPinnedColumn ? 'stickyRightBorder' : ''].join(' ')}
               style={isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined }
               ref={ref => this.headerRefs.current[i] = ref}
             >
@@ -690,6 +691,10 @@ export class TableRenderer extends React.Component {
       const isColumnPinned = this.state.pinnedColumns.includes(i);
       if (isColumnPinned) {
         valueCellClassName += ' stickyCell';
+      }
+      const isLastPinnedColumn = i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
+      if (isLastPinnedColumn) {
+        valueCellClassName += ' stickyRightBorder';
       }
       const rowSpan = rowAttrSpans[rowIdx][i];
       if (rowSpan > 0) {
