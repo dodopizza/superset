@@ -19,11 +19,12 @@
 import { makeSingleton } from '../utils';
 import TimeFormatterRegistry from './TimeFormatterRegistry';
 import TimeFormatter from './TimeFormatter';
-import TimeFormatsForGranularity from './TimeFormatsForGranularity';
+import { getTimeFormatsForGranularity } from './getTimeFormatsForGranularity';
 import { LOCAL_PREFIX } from './TimeFormats';
 import { TimeGranularity } from './types';
 import createTimeRangeFromGranularity from './utils/createTimeRangeFromGranularity';
 import TimeRangeFormatter from './TimeRangeFormatter';
+import { smartDateFormatterRu } from '.';
 
 const getInstance = makeSingleton(TimeFormatterRegistry);
 
@@ -53,7 +54,10 @@ export function getTimeFormatter(
   granularity?: TimeGranularity,
 ) {
   if (granularity) {
-    const formatString = formatId || TimeFormatsForGranularity[granularity];
+    const isDateReversed = formatId === smartDateFormatterRu.id;
+    const TimeFormatsForGranularity =
+      getTimeFormatsForGranularity(isDateReversed);
+    const formatString = TimeFormatsForGranularity[granularity] || formatId;
     const timeRangeFormatter = getTimeRangeFormatter(formatString);
 
     return new TimeFormatter({

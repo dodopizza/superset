@@ -25,6 +25,7 @@ import {
   isPhysicalColumn,
   QueryFormMetric,
   smartDateFormatter,
+  smartDateFormatterRu,
   t,
   validateNonEmpty,
 } from '@superset-ui/core';
@@ -314,7 +315,10 @@ const config: ControlPanelConfig = {
               label: t('Date format'),
               default: smartDateFormatter.id,
               renderTrigger: true,
-              choices: D3_TIME_FORMAT_OPTIONS,
+              choices: [
+                ...D3_TIME_FORMAT_OPTIONS,
+                [smartDateFormatterRu.id, t(smartDateFormatterRu.label)],
+              ],
               description: t('D3 time format for datetime columns'),
             },
           },

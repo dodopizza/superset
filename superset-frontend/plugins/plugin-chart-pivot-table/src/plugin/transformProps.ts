@@ -22,9 +22,9 @@ import {
   extractTimegrain,
   GenericDataType,
   getTimeFormatter,
-  getTimeFormatterForGranularity,
   QueryFormData,
   smartDateFormatter,
+  smartDateFormatterRu,
   TimeFormats,
 } from '@superset-ui/core';
 import { getColorFormatters } from '@superset-ui/chart-controls';
@@ -136,10 +136,13 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
         temporalColname: string,
       ) => {
         let formatter: DateFormatter | undefined;
-        if (dateFormat === smartDateFormatter.id) {
+        if (
+          dateFormat === smartDateFormatter.id ||
+          dateFormat === smartDateFormatterRu.id
+        ) {
           if (granularity) {
             // time column use formats based on granularity
-            formatter = getTimeFormatterForGranularity(granularity);
+            formatter = getTimeFormatter(dateFormat, granularity);
           } else if (isNumeric(temporalColname, data)) {
             formatter = getTimeFormatter(DATABASE_DATETIME);
           } else {
