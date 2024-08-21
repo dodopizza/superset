@@ -544,8 +544,8 @@
       "Adaptive formatting": [
         "Адаптивное форматирование"
       ],
-      "Adaptive formatting ru": [
-        "%d-%m-%Y (гран.) | 14-01-2019"
+      "Adaptive formatting dot ddmmyyyy": [
+        "%d.%m.%Y (гран.) | 14.01.2019"
       ],
       "Add": [
         "Добавить"

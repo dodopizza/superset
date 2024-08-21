@@ -96,5 +96,6 @@ export type PivotTableQueryFormData = QueryFormData &
 export type PivotTableProps = PivotTableStylesProps &
   PivotTableCustomizeProps & {
     data: DataRecord[];
+    // DODO added #35514397
     pinnedColumns: number[];
   };

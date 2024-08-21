@@ -24,7 +24,8 @@ import {
   getTimeFormatter,
   QueryFormData,
   smartDateFormatter,
-  smartDateFormatterRu,
+  // DODO added #34239342
+  smartDateFormatter_dot_ddmmyyyy,
   TimeFormats,
 } from '@superset-ui/core';
 import { getColorFormatters } from '@superset-ui/chart-controls';
@@ -41,6 +42,7 @@ function isNumeric(key: string, data: DataRecord[] = []) {
   );
 }
 
+// DODO added start #35514397
 const getPinnedColumnIndexes = (
   groupbyRows: Array<string>,
   columnConfig: Record<string, { pinColumn: boolean }> | undefined,
@@ -55,6 +57,7 @@ const getPinnedColumnIndexes = (
 
   return indexes;
 };
+// DODO added stop #35514397
 
 export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   /**
@@ -105,6 +108,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     tableRenderer,
     colOrder,
     rowOrder,
+    // DODO added #35514397
     columnConfig,
     aggregateFunction,
     transposePivot,
@@ -136,13 +140,15 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
         temporalColname: string,
       ) => {
         let formatter: DateFormatter | undefined;
+        // DODO changed start #34239342
         if (
           dateFormat === smartDateFormatter.id ||
-          dateFormat === smartDateFormatterRu.id
+          dateFormat === smartDateFormatter_dot_ddmmyyyy.id
         ) {
           if (granularity) {
             // time column use formats based on granularity
             formatter = getTimeFormatter(dateFormat, granularity);
+            // DODO changed stop #34239342
           } else if (isNumeric(temporalColname, data)) {
             formatter = getTimeFormatter(DATABASE_DATETIME);
           } else {
@@ -160,6 +166,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       {},
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
+  // DODO added #35514397
   const pinnedColumns = getPinnedColumnIndexes(groupbyRows, columnConfig);
 
   return {
@@ -168,6 +175,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     data,
     groupbyRows,
     groupbyColumns,
+    // DODO added #35514397
     pinnedColumns,
     metrics,
     tableRenderer,

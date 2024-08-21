@@ -1,5 +1,4 @@
-// DODO was here
-
+// DODO created file #34239342
 import TimeFormats from './TimeFormats';
 import { TimeGranularity } from './types';
 
@@ -9,11 +8,11 @@ import { TimeGranularity } from './types';
 export const getTimeFormatsForGranularity = (isDateReversed: boolean) => {
   const {
     DATABASE_DATE,
-    DATABASE_DATE_REVERSE,
+    DATABASE_DATE_DOT_REVERSE,
     DATABASE_DATETIME,
     DATABASE_DATETIME_REVERSE,
   } = TimeFormats;
-  const DATE = isDateReversed ? DATABASE_DATE_REVERSE : DATABASE_DATE;
+  const DATE = isDateReversed ? DATABASE_DATE_DOT_REVERSE : DATABASE_DATE;
   const TIME = isDateReversed ? DATABASE_DATETIME_REVERSE : DATABASE_DATETIME;
   const MINUTE = `${DATE} %H:%M`;
 

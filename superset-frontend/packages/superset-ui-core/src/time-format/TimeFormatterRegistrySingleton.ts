@@ -22,9 +22,10 @@ import TimeFormatter from './TimeFormatter';
 import { getTimeFormatsForGranularity } from './getTimeFormatsForGranularity';
 import { LOCAL_PREFIX } from './TimeFormats';
 import { TimeGranularity } from './types';
+// DODO changed #34239342
 import createTimeRangeFromGranularity from './utils/createTimeRangeFromGranularity';
 import TimeRangeFormatter from './TimeRangeFormatter';
-import { smartDateFormatterRu } from '.';
+import smartDateFormatter_dot_ddmmyyyy from './formatters/smartDate_dot_ddmmyyyy';
 
 const getInstance = makeSingleton(TimeFormatterRegistry);
 
@@ -54,12 +55,13 @@ export function getTimeFormatter(
   granularity?: TimeGranularity,
 ) {
   if (granularity) {
-    const isDateReversed = formatId === smartDateFormatterRu.id;
+    // DODO start #34239342
+    const isDateReversed = formatId === smartDateFormatter_dot_ddmmyyyy.id;
     const TimeFormatsForGranularity =
       getTimeFormatsForGranularity(isDateReversed);
     const formatString = TimeFormatsForGranularity[granularity] || formatId;
     const timeRangeFormatter = getTimeRangeFormatter(formatString);
-
+    // DODO stop #34239342
     return new TimeFormatter({
       id: [formatString, granularity].join('/'),
       formatFunc: (value: Date) =>
