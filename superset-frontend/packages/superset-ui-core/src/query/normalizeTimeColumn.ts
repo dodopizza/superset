@@ -71,7 +71,7 @@ export function normalizeTimeColumn(
     }
 
     const newQueryObject = omit(queryObject, [
-      'extras.time_grain_sqla',
+      // 'extras.time_grain_sqla',
       'is_timeseries',
     ]);
     newQueryObject.columns = mutatedColumns;
