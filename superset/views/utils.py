@@ -222,7 +222,7 @@ def insert_country(country_iso_num: int):
         user_info.country = country_name
         db.session.commit()
     except AttributeError:
-        logger.warning("Error add to db data_auth_dodo")
+        logger.warning("Error add to db country")
 
 
 def insert_data_auth(data_auth: str):
