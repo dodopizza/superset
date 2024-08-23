@@ -1563,7 +1563,7 @@ KAFKA_CONFIG = {
         'ssl.ca.location': '/path/to/ca-certificate.crt',
         'sasl.mechanism': 'PLAIN',
         'sasl.username': '$ConnectionString',
-        'sasl.password': os.getenv("SharedAccessKey"),
+        'sasl.password': '',
         'client.id': 'superset'
     }
 
