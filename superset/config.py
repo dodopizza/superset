@@ -1558,7 +1558,7 @@ GUEST_TOKEN_JWT_AUDIENCE: Callable[[], str] | str | None = None
 
 KAFKA_TOPIC = "superset.log.v1"
 KAFKA_CONFIG = {
-        'bootstrap.servers': os.getenv("Endpoint"),
+        'bootstrap.servers': os.getenv("KAFKA_BOOTSTRAP_SERVER"),
         'security.protocol': 'SASL_SSL',
         'ssl.ca.location': '/path/to/ca-certificate.crt',
         'sasl.mechanism': 'PLAIN',
