@@ -6134,6 +6134,9 @@
       "give: c_level": [
         "даем: c_level"
       ],
+      "An error occurred while checking user's team": [
+        "Произошла ошибка при получении команды пользователя."
+      ],
       "Create new team": [
         "Создайте новую команду"
       ],

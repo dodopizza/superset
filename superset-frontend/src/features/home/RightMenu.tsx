@@ -32,6 +32,7 @@ import { uploadUserPerms } from 'src/views/CRUD/utils';
 // DODO added
 import { Version } from 'src/Superstructure/components';
 import { APP_VERSION } from 'src/constants';
+import { useHasUserTeam } from 'src/DodoExtensions/onBoarding/hooks/useHasUserTeam';
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -329,8 +330,11 @@ const RightMenu = ({
 
   const theme = useTheme();
 
-  // DODO added
+  // DODO added start
+  const hasTeam = useHasUserTeam(String(user?.userId ?? ''));
   const isOnboardingFinished = useSelector(getIsOnboardingFinished);
+  const isOnBoardingVisible = !isOnboardingFinished || !hasTeam;
+  // DODO added stop
 
   return (
     <StyledDiv align={align}>
@@ -467,7 +471,7 @@ const RightMenu = ({
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
               {/*  DODO added start 32839641 */}
-              {!isOnboardingFinished && (
+              {isOnBoardingVisible && (
                 <Menu.Item key="errer">
                   <a
                     href="#"
