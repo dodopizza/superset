@@ -18,7 +18,7 @@ export const Styles = styled.div`
     table thead {
       position: ${isDashboardEditMode ? 'inherit' : 'sticky'};
       top: 0;
-      // DODO added #35514397
+      // DODO added 35514397
       z-index: 2;
     }
 
@@ -101,16 +101,16 @@ export const Styles = styled.div`
       vertical-align: baseline;
     }
 
-    // DODO added start #35514397
-    .stickyCell {
+    // DODO added start 35514397
+    th.stickyCell {
       position: sticky;
       z-index: 1;
     }
 
-    .stickyRightBorder {
-      border-right: 1px solid ${theme.colors.grayscale.light2};
+    th.stickyRightBorder {
+      border-right: 1px solid ${theme.colors.grayscale.light2} !important;
     }
-    // DODO added stop #35514397
+    // DODO added stop 35514397
 
     .pvtTotal,
     .pvtGrandTotal {
