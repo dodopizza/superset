@@ -11164,19 +11164,19 @@
         ""
       ],
       "last day": [
-        ""
+        "last day"
       ],
       "last month": [
-        ""
+        "last 30 days"
       ],
       "last quarter": [
-        ""
+        "last 90 days"
       ],
       "last week": [
-        ""
+        "last 7 days"
       ],
       "last year": [
-        ""
+        "last 365 days"
       ],
       "latest partition:": [
         ""
@@ -11527,7 +11527,7 @@
         ""
       ],
       "Custom (until include)": [
-        "Exact date (until include)"
+        "Select date (until include)"
       ],
       "END (INCLUSIVE)": [
         ""
