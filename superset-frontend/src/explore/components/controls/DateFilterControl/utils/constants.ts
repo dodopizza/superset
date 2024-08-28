@@ -31,7 +31,8 @@ export const FRAME_OPTIONS: SelectOptionType[] = [
   { value: 'Common', label: t('Last') },
   { value: 'Calendar', label: t('Previous') },
   { value: 'Custom', label: t('Custom') },
-  { value: 'CustomUntilInclude', label: t('Custom (until include)') }, // DODO added 18581845
+  // TODO: Релиз в Плагин, В Standalone без изменений
+  // { value: 'CustomUntilInclude', label: t('Custom (until include)') }, // DODO added 18581845
   { value: 'Advanced', label: t('Advanced') },
   { value: 'No filter', label: t('No filter') },
 ];
