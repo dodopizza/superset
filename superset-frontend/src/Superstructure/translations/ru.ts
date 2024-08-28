@@ -2861,7 +2861,7 @@ const ru = {
       'Export to .XLSX': ['Скачать .XLSX файл'],
       'Specific Date/Time': ['Конкретная дата/время'],
       'Relative Date/Time': ['Относительная дата/время'],
-      'Custom (until include)': ['Пользовательский (включительно)'],
+      'Custom (until include)': ['Выбор даты (конец включительно)'],
       'END (INCLUSIVE)': ['КОНЕЦ (ВКЛЮЧИТЕЛЬНО)'],
       'End date include to time range': ['Дата окончания включена в диапазон'],
     },
