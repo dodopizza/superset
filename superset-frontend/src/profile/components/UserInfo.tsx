@@ -44,6 +44,8 @@ export default function UserInfo({ user }: UserInfoProps) {
   >([]);
   const [teamLoading, setTeamLoading] = useState(false);
   const [team, setTeam] = useState<string>('');
+  const [countryLoading, setCountryLoading] = useState(false);
+  const [country, setCountry] = useState('');
 
   useEffect(() => {
     try {
@@ -62,6 +64,26 @@ export default function UserInfo({ user }: UserInfoProps) {
       setRequestListLoading(false);
     }
   }, []);
+
+  // DODO added start 34269608
+  useEffect(() => {
+    try {
+      setCountryLoading(true);
+
+      SupersetClient.get({
+        url: '/api/v1/me/country',
+        headers: { 'Content-Type': 'application/json' },
+        parseMethod: null,
+      })
+        .then(response => response.json())
+        .then(dto => {
+          setCountry(dto?.result?.country_name?.toUpperCase() ?? 'N/A');
+        });
+    } finally {
+      setCountryLoading(false);
+    }
+  }, []);
+  // DODO added stop 34269608
 
   useEffect(() => {
     try {
@@ -138,6 +160,11 @@ export default function UserInfo({ user }: UserInfoProps) {
           <span className="text-muted">{t('id')}:</span>&nbsp;
           <span className="user-id">{user?.userId}</span>
         </p>
+        {/* DODO added start 34269608 */}
+        <hr />
+        <h4 className="username">{t('Country')}</h4>
+        {countryLoading ? 'Loading...' : country}
+        {/* DODO added stop 34269608 */}
         {/* DODO added start 32839667 */}
         {requestList.length > 0 && (
           <>
