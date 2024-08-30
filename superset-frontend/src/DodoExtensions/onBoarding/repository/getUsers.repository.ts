@@ -8,9 +8,11 @@ enum Operation {
 
 type ResponseDtoRecord = {
   id: number;
+  email: string;
   first_name: string;
   last_name: string;
   teams: Array<{ name: string }>;
+  user_info: Array<{ country_name: string | null }>;
 };
 
 type ResponseDto = {
@@ -21,9 +23,12 @@ const fromDtoFactory = (dtoRecord: ResponseDtoRecord): User => {
   const teams = dtoRecord.teams.map(item => item.name).join(', ');
   return {
     value: dtoRecord.id,
-    label: `${dtoRecord.first_name} ${dtoRecord.last_name} ${
-      teams ? `(${teams})` : '(no team)'
-    }`,
+    label: `
+      ${dtoRecord.first_name} ${dtoRecord.last_name} 
+      ${teams ? `(${teams})` : '(no team)'}
+      ${dtoRecord.email}
+      (${dtoRecord.user_info[0]?.country_name?.toUpperCase() || 'no country'})
+    `,
   };
 };
 
