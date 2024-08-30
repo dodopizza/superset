@@ -130,10 +130,22 @@ def get_statements_by_user_id() -> list[Statement]:
                 security_manager.user_model.id == user_id
             ).one_or_none()
         )
-
         return user.statements
     except Exception or AttributeError:
         logger.warning(f"User id = {user_id} doesnt have statements info in database")
+
+
+def get_country_by_user_id() -> list[UserInfo]:
+    user_id = get_user_id()
+    try:
+        user = (
+            db.session.query(security_manager.user_model).filter(
+                security_manager.user_model.id == user_id
+            ).one_or_none()
+        )
+        return user.user_info
+    except Exception or AttributeError:
+        logger.warning(f"User id = {user_id} doesnt have user_info in database")
 
 
 def update_onboarding(dodo_role, started_time):

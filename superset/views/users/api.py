@@ -31,7 +31,8 @@ from superset.views.utils import (
     get_onboarding,
     update_onboarding,
     get_team_by_user_id,
-    get_statements_by_user_id
+    get_statements_by_user_id,
+    get_country_by_user_id
 )
 
 from superset import app
@@ -217,6 +218,29 @@ class CurrentUserRestApi(BaseSupersetApi):
             result["statements"] = statements
         else:
             result["statements"] = None
+        return self.response(200, result=user_response_schema.dump(result))
+
+    @expose("/country", ("GET",))
+    def my_country(self):
+        try:
+            user = g.user
+            if user is None or user.is_anonymous:
+                return self.response_401()
+        except NoAuthorizationError:
+            return self.response_401()
+        except ValidationError as error:
+            logger.warning("validate data failed to add new dashboard")
+            return self.response_400(message=error.messages)
+        result = {
+            'id': user.id,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+        }
+        if country := get_country_by_user_id():
+            result["country_name"] = country[0].country_name
+        else:
+            result["country_name"] = None
         return self.response(200, result=user_response_schema.dump(result))
 
 

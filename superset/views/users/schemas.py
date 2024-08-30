@@ -38,6 +38,7 @@ class UserResponseSchema(Schema):
     dodo_role = String(missing=True)
     team = String(missing=True)
     statements = List(Nested(StatementSchema()), missing=True)
+    country_name = String(missing=True)
 
 
 class ValidateOnboardingPutSchema(Schema):
