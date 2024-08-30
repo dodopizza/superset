@@ -37,6 +37,8 @@ class UserRestApi(BaseSupersetModelRestApi):
         "first_name",
         "last_name",
         "teams.name",
+        "email",
+        "user_info.country_name"
     ]
 
     user_get_response_schema = UserSchema()
