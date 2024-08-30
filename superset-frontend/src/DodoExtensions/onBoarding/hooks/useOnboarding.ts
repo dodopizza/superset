@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StepOnePopupDto } from '../components/stepOnePopup/stepOnePopup.dto';
 
 import {
+  clearStorageInitialByUser,
   getOnboardingStorageInfo,
   updateStorageTimeOfTheLastShow,
 } from '../utils/localStorageUtils';
@@ -69,6 +70,7 @@ export const useOnboarding = () => {
 
   const closeOnboarding = useCallback(() => {
     updateStorageTimeOfTheLastShow();
+    clearStorageInitialByUser();
     setStep(null);
   }, []);
 

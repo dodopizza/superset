@@ -37,6 +37,17 @@ export const clearOnboardingStorageInfo = () => {
   localStorage.removeItem(ONBOARDING_LOCAL_STORAGE_KEY);
 };
 
+export const clearStorageInitialByUser = () => {
+  const { theTimeOfTheLastShow } = getOnboardingStorageInfo();
+
+  if (theTimeOfTheLastShow)
+    localStorage.setItem(
+      ONBOARDING_LOCAL_STORAGE_KEY,
+      JSON.stringify({ theTimeOfTheLastShow }),
+    );
+  else localStorage.removeItem(ONBOARDING_LOCAL_STORAGE_KEY);
+};
+
 export const setInitByUserStorageInfo = () => {
   const info: OnBoardingStorageInfo = {
     initialByUser: true,
