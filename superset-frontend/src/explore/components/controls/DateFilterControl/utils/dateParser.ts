@@ -24,7 +24,8 @@ import {
   DateTimeModeType,
 } from 'src/explore/components/controls/DateFilterControl/types';
 import { SEPARATOR } from './dateFilterUtils';
-import { MIDNIGHT, MOMENT_FORMAT, SEVEN_DAYS_AGO } from './constants';
+// DODO changed 38009528
+import { MIDNIGHT, MOMENT_FORMAT, TODAY } from './constants';
 
 /**
  * RegExp to test a string for a full ISO 8601 Date
@@ -48,8 +49,10 @@ export const ISO8601_AND_CONSTANT = RegExp(
 );
 const DATETIME_CONSTANT = ['now', 'today'];
 const defaultCustomRange: CustomRangeType = {
-  sinceDatetime: SEVEN_DAYS_AGO,
-  sinceMode: 'relative',
+  // DODO changed start 38009528
+  sinceDatetime: TODAY,
+  sinceMode: 'specific',
+  // DODO changed stop 38009528
   sinceGrain: 'day',
   sinceGrainValue: -7,
   untilDatetime: MIDNIGHT,
