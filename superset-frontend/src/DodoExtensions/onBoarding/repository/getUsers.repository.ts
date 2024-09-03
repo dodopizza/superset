@@ -23,12 +23,11 @@ const fromDtoFactory = (dtoRecord: ResponseDtoRecord): User => {
   const teams = dtoRecord.teams.map(item => item.name).join(', ');
   return {
     value: dtoRecord.id,
-    label: `
-      ${dtoRecord.first_name} ${dtoRecord.last_name} 
-      ${teams ? `(${teams})` : '(no team)'}
-      ${dtoRecord.email}
-      (${dtoRecord.user_info[0]?.country_name?.toUpperCase() || 'no country'})
-    `,
+    label: `${dtoRecord.first_name} ${dtoRecord.last_name} ${
+      teams ? `(${teams})` : '(no team)'
+    } ${dtoRecord.email} (${
+      dtoRecord.user_info[0]?.country_name?.toUpperCase() || 'no country'
+    })`,
   };
 };
 
@@ -42,8 +41,6 @@ export const getUsersRepository = async (
   const queryParams = rison.encode_uri({ filters: filterExps });
 
   const url = `/api/v1/user/?q=${queryParams}`;
-
-  console.log(`url`, url);
 
   const response = await SupersetClient.get({
     url,

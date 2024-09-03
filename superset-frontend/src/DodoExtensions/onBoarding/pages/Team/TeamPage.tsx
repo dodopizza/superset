@@ -88,7 +88,7 @@ export const TeamPage: FC = () => {
               <Button
                 onClick={addToTeam}
                 disabled={addUserPending}
-              >{`Add to team : ${memberToAdd?.label}`}</Button>
+              >{`Add to team: ${memberToAdd?.label}`}</Button>
             )}
           </Space>
 
@@ -148,7 +148,7 @@ export const TeamPage: FC = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button>REMOVE FROM TEAM</Button>
+                        <Button>{t('REMOVE FROM TEAM')}</Button>
                       </Popconfirm>
                     </Descriptions.Item>
                   </Descriptions>
