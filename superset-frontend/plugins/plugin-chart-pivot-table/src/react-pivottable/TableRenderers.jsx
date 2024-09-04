@@ -65,13 +65,9 @@ const StyledPinIcon = styled(AiFillPushpin)`
   cursor: pointer;
 `;
 
-function PinIcon({
-  isColumnPinned,
-  columnIndex,
-  setPinnedColumns,
-}) {
+function PinIcon({ isColumnPinned, columnIndex, setPinnedColumns }) {
   const togglePin = () => {
-    setPinnedColumns(isColumnPinned, columnIndex)
+    setPinnedColumns(isColumnPinned, columnIndex);
   };
 
   return (
@@ -110,8 +106,10 @@ export class TableRenderer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.pinnedColumns !== this.props.pinnedColumns)
+    if (prevProps.pinnedColumns !== this.props.pinnedColumns) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ pinnedColumns: this.props.pinnedColumns });
+    }
   }
   // DODO added stop 35514397
 
@@ -336,12 +334,14 @@ export class TableRenderer extends React.Component {
   // DODO added start 35514397
   setPinnedColumns(isPinned, columnIndex) {
     if (isPinned) {
-      this.setState((prev) => ({
-        pinnedColumns: prev.pinnedColumns.filter(item => item !== columnIndex).sort()
+      this.setState(prev => ({
+        pinnedColumns: prev.pinnedColumns
+          .filter(item => item !== columnIndex)
+          .sort(),
       }));
     } else {
-      this.setState((prev) => ({
-        pinnedColumns: [...prev.pinnedColumns, columnIndex].sort()
+      this.setState(prev => ({
+        pinnedColumns: [...prev.pinnedColumns, columnIndex].sort(),
       }));
     }
   }
@@ -349,24 +349,19 @@ export class TableRenderer extends React.Component {
   getStickyCellLeft(columnIndex) {
     if (columnIndex === 0 || this.state.pinnedColumns.length === 1) return 0;
 
-    let left = 0;
-
-    for (const index of this.state.pinnedColumns) {
-      if (index === columnIndex) break;
-      left += this.headerRefs.current[index]?.clientWidth ?? 0;
-    }
+    const left = this.state.pinnedColumns.reduce((acc, index) => {
+      if (index === columnIndex) return acc;
+      return acc + (this.headerRefs.current[index]?.clientWidth ?? 0);
+    }, 0);
 
     return left;
   }
 
   getAllPinnedColumnsWidth() {
-    let width = 0;
-
-    for (const index of this.state.pinnedColumns) {
-      width += this.headerRefs.current[index]?.clientWidth ?? 0;
-    }
-
-    return width;
+    return this.state.pinnedColumns.reduce(
+      (acc, index) => acc + (this.headerRefs.current[index]?.clientWidth ?? 0),
+      0,
+    );
   }
   // DODO added stop 35514397
 
@@ -440,8 +435,11 @@ export class TableRenderer extends React.Component {
     } = this.props.tableOptions;
 
     // DODO added 35514397
-    const isAllColumnsPinned = this.state.pinnedColumns.length === rowAttrs.length;
-    const stickyCellStyles = isAllColumnsPinned ? { left: this.getAllPinnedColumnsWidth() } : undefined;
+    const isAllColumnsPinned =
+      this.state.pinnedColumns.length === rowAttrs.length;
+    const stickyCellStyles = isAllColumnsPinned
+      ? { left: this.getAllPinnedColumnsWidth() }
+      : undefined;
 
     const spaceCell =
       attrIdx === 0 && rowAttrs.length !== 0 ? (
@@ -470,14 +468,16 @@ export class TableRenderer extends React.Component {
     }
     const attrNameCell = (
       // DODO changed start 35514397
-      <th 
+      <th
         key="label"
         style={stickyCellStyles}
         className={[
-          'pvtAxisLabel', 
+          'pvtAxisLabel',
           isAllColumnsPinned && 'stickyCell',
           isAllColumnsPinned && 'stickyRightBorder',
-        ].filter(Boolean).join(' ')}
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
         {/* DODO changed stop 35514397 */}
         {displayHeaderCell(
@@ -619,7 +619,8 @@ export class TableRenderer extends React.Component {
       namesMapping,
     } = pivotSettings;
     // DODO added start 35514397
-    const isAllColumnsPinned = this.state.pinnedColumns.length === rowAttrs.length;
+    const isAllColumnsPinned =
+      this.state.pinnedColumns.length === rowAttrs.length;
     return (
       <tr key="rowHdr">
         {rowAttrs.map((r, i) => {
@@ -636,26 +637,35 @@ export class TableRenderer extends React.Component {
           }
           // DODO added start 35514397
           const isColumnPinned = this.state.pinnedColumns.includes(i);
-          const isPinnedColumnLast = i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
+          const isPinnedColumnLast =
+            i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
           // DODO added stop 35514397
           return (
-            <th 
+            <th
               key={`rowAttr-${i}`}
               // DODO added start 35514397
               className={[
-                'pvtAxisLabel', 
-                isColumnPinned ? 'stickyCell' : '', 
-                isPinnedColumnLast && !isAllColumnsPinned ? 'stickyRightBorder' : ''
-              ].filter(Boolean).join(' ')}
-              style={isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined }
-              ref={ref => this.headerRefs.current[i] = ref}
+                'pvtAxisLabel',
+                isColumnPinned ? 'stickyCell' : '',
+                isPinnedColumnLast && !isAllColumnsPinned
+                  ? 'stickyRightBorder'
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              style={
+                isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined
+              }
+              ref={ref => {
+                this.headerRefs.current[i] = ref;
+              }}
             >
-              <PinIcon 
+              <PinIcon
                 isColumnPinned={isColumnPinned}
                 columnIndex={i}
                 setPinnedColumns={this.setPinnedColumns}
               />
-             {/* DODO added stop 35514397 */}
+              {/* DODO added stop 35514397 */}
               {displayHeaderCell(
                 needLabelToggle,
                 subArrow,
@@ -668,12 +678,18 @@ export class TableRenderer extends React.Component {
         })}
         <th
           // DODO changed start 35514397
-          style={isAllColumnsPinned ? { left: this.getAllPinnedColumnsWidth() } : undefined}
+          style={
+            isAllColumnsPinned
+              ? { left: this.getAllPinnedColumnsWidth() }
+              : undefined
+          }
           className={[
-            'pvtTotalLabel', 
+            'pvtTotalLabel',
             isAllColumnsPinned && 'stickyCell',
             isAllColumnsPinned && 'stickyRightBorder',
-          ].filter(Boolean).join(' ')}
+          ]
+            .filter(Boolean)
+            .join(' ')}
           // DODO changed stop 35514397
           key="padding"
           onClick={this.clickHeaderHandler(
@@ -748,7 +764,8 @@ export class TableRenderer extends React.Component {
       if (isColumnPinned) {
         valueCellClassName += ' stickyCell';
       }
-      const isPinnedColumnLast = i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
+      const isPinnedColumnLast =
+        i === this.state.pinnedColumns[this.state.pinnedColumns.length - 1];
       if (isPinnedColumnLast) {
         valueCellClassName += ' stickyRightBorder';
       }
@@ -772,7 +789,9 @@ export class TableRenderer extends React.Component {
             key={`rowKeyLabel-${i}`}
             className={valueCellClassName}
             // DODO added 35514397
-            style={isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined }
+            style={
+              isColumnPinned ? { left: this.getStickyCellLeft(i) } : undefined
+            }
             rowSpan={rowSpan}
             colSpan={colSpan}
             onClick={this.clickHeaderHandler(
