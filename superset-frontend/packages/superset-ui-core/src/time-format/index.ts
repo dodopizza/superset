@@ -33,6 +33,8 @@ export { default as createD3TimeFormatter } from './factories/createD3TimeFormat
 export { default as createMultiFormatter } from './factories/createMultiFormatter';
 
 export { default as smartDateFormatter } from './formatters/smartDate';
+// DODO added #34239342
+export { default as smartDateFormatter_dot_ddmmyyyy } from './formatters/smartDate_dot_ddmmyyyy';
 export { default as smartDateDetailedFormatter } from './formatters/smartDateDetailed';
 export { default as smartDateVerboseFormatter } from './formatters/smartDateVerbose';
 export { default as finestTemporalGrainFormatter } from './formatters/finestTemporalGrain';

@@ -129,6 +129,7 @@ export default function PivotTableChart(props: PivotTableProps) {
     width,
     groupbyRows: groupbyRowsRaw,
     groupbyColumns: groupbyColumnsRaw,
+    pinnedColumns,
     metrics,
     colOrder,
     rowOrder,
@@ -543,6 +544,7 @@ export default function PivotTableChart(props: PivotTableProps) {
           data={unpivotedData}
           rows={rows}
           cols={cols}
+          pinnedColumns={pinnedColumns}
           aggregatorsFactory={aggregatorsFactory}
           defaultFormatter={defaultFormatter}
           customFormatters={metricFormatters}

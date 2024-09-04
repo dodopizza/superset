@@ -22,9 +22,10 @@ import {
   extractTimegrain,
   GenericDataType,
   getTimeFormatter,
-  getTimeFormatterForGranularity,
   QueryFormData,
   smartDateFormatter,
+  // DODO added #34239342
+  smartDateFormatter_dot_ddmmyyyy,
   TimeFormats,
 } from '@superset-ui/core';
 import { getColorFormatters } from '@superset-ui/chart-controls';
@@ -40,6 +41,23 @@ function isNumeric(key: string, data: DataRecord[] = []) {
       typeof record[key] === 'number',
   );
 }
+
+// DODO added start #35514397
+const getPinnedColumnIndexes = (
+  groupbyRows: Array<string>,
+  columnConfig: Record<string, { pinColumn: boolean }> | undefined,
+): Array<number> => {
+  if (!columnConfig) return [];
+
+  const indexes: number[] = [];
+
+  groupbyRows.forEach((row: string, index: number) => {
+    if (columnConfig[row]?.pinColumn) indexes.push(index);
+  });
+
+  return indexes;
+};
+// DODO added stop #35514397
 
 export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   /**
@@ -90,6 +108,8 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     tableRenderer,
     colOrder,
     rowOrder,
+    // DODO added #35514397
+    columnConfig,
     aggregateFunction,
     transposePivot,
     combineMetric,
@@ -120,10 +140,15 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
         temporalColname: string,
       ) => {
         let formatter: DateFormatter | undefined;
-        if (dateFormat === smartDateFormatter.id) {
+        // DODO changed start #34239342
+        if (
+          dateFormat === smartDateFormatter.id ||
+          dateFormat === smartDateFormatter_dot_ddmmyyyy.id
+        ) {
           if (granularity) {
             // time column use formats based on granularity
-            formatter = getTimeFormatterForGranularity(granularity);
+            formatter = getTimeFormatter(dateFormat, granularity);
+            // DODO changed stop #34239342
           } else if (isNumeric(temporalColname, data)) {
             formatter = getTimeFormatter(DATABASE_DATETIME);
           } else {
@@ -141,6 +166,8 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       {},
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
+  // DODO added #35514397
+  const pinnedColumns = getPinnedColumnIndexes(groupbyRows, columnConfig);
 
   return {
     width,
@@ -148,6 +175,8 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     data,
     groupbyRows,
     groupbyColumns,
+    // DODO added #35514397
+    pinnedColumns,
     metrics,
     tableRenderer,
     colOrder,
