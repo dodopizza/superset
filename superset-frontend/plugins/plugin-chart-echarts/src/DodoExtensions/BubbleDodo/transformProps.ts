@@ -93,23 +93,35 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       withoutAlfa.blue,
     );
   }
+  const axisX =
+    typeof axisXInfo === 'object' && 'label' in axisXInfo
+      ? axisXInfo.label
+      : axisXInfo;
+  const axisY =
+    typeof axisYInfo === 'object' && 'label' in axisYInfo
+      ? axisYInfo.label
+      : axisYInfo;
 
   const rawData: Array<DataRecord> = (queriesData[0]?.data || []).filter(
     item =>
-      item[axisXInfo?.label] !== null &&
-      item[axisXInfo?.label] !== undefined &&
-      item[axisYInfo?.label] !== null &&
-      item[axisYInfo?.label] !== undefined,
+      item[axisX] !== null &&
+      item[axisX] !== undefined &&
+      item[axisX] !== null &&
+      item[axisX] !== undefined,
   );
 
   const dimensionList: DataRecordValue[] = [
     ...new Set(rawData.map(item => item[series] ?? defaultDimension)),
   ];
 
+  const bubbleSize =
+    typeof bubbleSizeInfo === 'object' && 'label' in bubbleSizeInfo
+      ? bubbleSizeInfo.label
+      : bubbleSizeInfo;
   let minSize = Infinity;
   let maxSize = -Infinity;
   rawData.forEach(item => {
-    const size = Number(item[bubbleSizeInfo?.label]);
+    const size = Number(item[bubbleSize]);
     if (size > maxSize) {
       maxSize = size;
     }
@@ -127,18 +139,12 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     const dimensionData = rawData
       .filter(item => (item[series] ?? defaultDimension) === dimension)
       .map(item => {
-        const absoluteSize = Number(item[bubbleSizeInfo?.label]);
+        const absoluteSize = Number(item[bubbleSize]);
         const size = absoluteSize
           ? absoluteSize * sizeCoefficient
           : DEFAULT_BUBBLE_SIZE;
 
-        return [
-          item[axisXInfo?.label],
-          item[axisYInfo?.label],
-          size,
-          absoluteSize,
-          item[entity],
-        ];
+        return [item[axisX], item[axisY], size, absoluteSize, item[entity]];
       });
     data.push(dimensionData);
   });
