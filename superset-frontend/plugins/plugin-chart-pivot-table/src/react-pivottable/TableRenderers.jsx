@@ -349,10 +349,13 @@ export class TableRenderer extends React.Component {
   getStickyCellLeft(columnIndex) {
     if (columnIndex === 0 || this.state.pinnedColumns.length === 1) return 0;
 
-    const left = this.state.pinnedColumns.reduce((acc, index) => {
-      if (index === columnIndex) return acc;
-      return acc + (this.headerRefs.current[index]?.clientWidth ?? 0);
-    }, 0);
+    let left = 0;
+
+    for (let i = 0; i < this.state.pinnedColumns.length; i += 1) {
+      const index = this.state.pinnedColumns[i];
+      if (index === columnIndex) break;
+      left += this.headerRefs.current[index]?.clientWidth ?? 0;
+    }
 
     return left;
   }
