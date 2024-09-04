@@ -94,12 +94,12 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     );
   }
 
-  const rawData: Array<DataRecord> = (queriesData[0].data || []).filter(
+  const rawData: Array<DataRecord> = (queriesData[0]?.data || []).filter(
     item =>
-      item[axisXInfo] !== null &&
-      item[axisXInfo] !== undefined &&
-      item[axisYInfo] !== null &&
-      item[axisYInfo] !== undefined,
+      item[axisXInfo?.label] !== null &&
+      item[axisXInfo?.label] !== undefined &&
+      item[axisYInfo?.label] !== null &&
+      item[axisYInfo?.label] !== undefined,
   );
 
   const dimensionList: DataRecordValue[] = [
@@ -109,7 +109,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   let minSize = Infinity;
   let maxSize = -Infinity;
   rawData.forEach(item => {
-    const size = Number(item[bubbleSizeInfo]);
+    const size = Number(item[bubbleSizeInfo?.label]);
     if (size > maxSize) {
       maxSize = size;
     }
@@ -127,14 +127,14 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     const dimensionData = rawData
       .filter(item => (item[series] ?? defaultDimension) === dimension)
       .map(item => {
-        const absoluteSize = Number(item[bubbleSizeInfo]);
+        const absoluteSize = Number(item[bubbleSizeInfo?.label]);
         const size = absoluteSize
           ? absoluteSize * sizeCoefficient
           : DEFAULT_BUBBLE_SIZE;
 
         return [
-          item[axisXInfo],
-          item[axisYInfo],
+          item[axisXInfo?.label],
+          item[axisYInfo?.label],
           size,
           absoluteSize,
           item[entity],
