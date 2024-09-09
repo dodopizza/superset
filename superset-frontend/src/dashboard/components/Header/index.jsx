@@ -279,7 +279,7 @@ class Header extends React.PureComponent {
       const { dashboardInfo } = this.props;
       const periodicRefreshOptions =
       // DODO changed 38335469
-        dashboardInfo.common?.conf?.DASHBOARD_AUTO_REFRESH_INTERVALS || [];
+        dashboardInfo?.common?.conf?.DASHBOARD_AUTO_REFRESH_INTERVALS || [];
       const predefinedValue = periodicRefreshOptions.find(
         option => Number(option[0]) === interval / 1000,
       );
