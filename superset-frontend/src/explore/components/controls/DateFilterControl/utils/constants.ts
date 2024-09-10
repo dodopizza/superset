@@ -110,6 +110,8 @@ export const CALENDAR_RANGE_SET: Set<CalendarRangeType> = new Set([
 ]);
 
 export const MOMENT_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
+// DODO added 38009528
+export const TODAY = moment().utc().startOf('day').format(MOMENT_FORMAT);
 export const SEVEN_DAYS_AGO = moment()
   .utc()
   .startOf('day')
