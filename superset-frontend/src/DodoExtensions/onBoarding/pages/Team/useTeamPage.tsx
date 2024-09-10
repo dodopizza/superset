@@ -56,7 +56,7 @@ export const useTeamPage = () => {
     if (removeUserSuccess) {
       // reload page after add user
       dispatch(loadTeamPage(id));
-      toast.addSuccessToast(t('Member remove successfully.'));
+      toast.addSuccessToast(t('Member removed successfully.'));
     }
   }, [dispatch, id, removeUserSuccess, toast]);
 
