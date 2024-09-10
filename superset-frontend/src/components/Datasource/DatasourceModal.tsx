@@ -143,6 +143,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               // DODO added
               verbose_name_EN: metric.verbose_name,
               verbose_name_RU: metric.verbose_name_RU,
+              // DODO added 30135470
+              number_format: metric.number_format,
             };
             if (!Number.isNaN(Number(metric.id))) {
               metricBody.id = metric.id;
