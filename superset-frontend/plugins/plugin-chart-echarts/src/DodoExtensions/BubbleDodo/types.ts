@@ -65,4 +65,5 @@ export type BubbleDodoComponentProps = {
   labelLocation: string;
   labelFontSize: string;
   labelColor?: string;
+  tooltipLabels: { x: string; y: string; size: string };
 };
