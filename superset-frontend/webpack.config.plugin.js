@@ -102,6 +102,7 @@ const output = {
   // publicPath: `${ASSET_BASE_URL}/static/assets/`,
   publicPath: getPublicPath(isProd, publicPath),
   filename: '[name].[hash].js',
+  chunkFilename: 'chunk-[name].[hash].js',
   library: '[name]',
   libraryTarget: 'this',
 };
