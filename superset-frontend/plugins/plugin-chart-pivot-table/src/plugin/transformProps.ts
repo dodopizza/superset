@@ -29,7 +29,8 @@ import {
   TimeFormats,
 } from '@superset-ui/core';
 import { getColorFormatters } from '@superset-ui/chart-controls';
-import { DateFormatter } from '../types';
+// DODO changed 38087840
+import { DateFormatter, MetricsLayoutEnum } from '../types';
 
 const { DATABASE_DATETIME } = TimeFormats;
 
@@ -58,6 +59,9 @@ const getPinnedColumnIndexes = (
   return indexes;
 };
 // DODO added stop #35514397
+
+// DODO added 38087840
+const METRIC_KEY = 'Metric';
 
 export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   /**
@@ -166,8 +170,14 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       {},
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
-  // DODO added #35514397
-  const pinnedColumns = getPinnedColumnIndexes(groupbyRows, columnConfig);
+  // DODO added start 38087840
+  const isRowsLayout = metricsLayout === MetricsLayoutEnum.ROWS;
+  const groupbyRowsWithMetric = combineMetric
+    ? [...groupbyRows, METRIC_KEY]
+    : [METRIC_KEY, ...groupbyRows];
+  const columns = !isRowsLayout ? groupbyRows : groupbyRowsWithMetric;
+  const pinnedColumns = getPinnedColumnIndexes(columns, columnConfig);
+  // DODO added stop 38087840
 
   return {
     width,
