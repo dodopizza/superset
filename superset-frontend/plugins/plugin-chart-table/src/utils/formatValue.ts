@@ -49,6 +49,14 @@ function formatValue(
   if (formatter) {
     return [false, formatter(value as number)];
   }
+  // DODO added start 24712063
+  if (typeof value === 'string' && value.startsWith('http')) {
+    return [
+      true,
+      `<a href="${value}" target="_blank" rel="noopener noreferrer">${value}</a>`,
+    ];
+  }
+  // DODO added stop 24712063
   if (typeof value === 'string') {
     return isProbablyHTML(value) ? [true, sanitizeHtml(value)] : [false, value];
   }
