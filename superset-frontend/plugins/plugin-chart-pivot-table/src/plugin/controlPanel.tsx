@@ -40,14 +40,15 @@ import {
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
 
-// DODO added start #35514397
+// DODO added start 35514397, 38087840
 const columnConfig = {
   '0': [['pinColumn']],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
 };
-// DODO start changes #35514397
+const METRIC_KEY = 'Metric';
+// DODO start changes 35514397, 38087840
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -421,7 +422,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added start #35514397
+        // DODO added start 35514397, 38087840
         [
           {
             name: 'column_config',
@@ -437,8 +438,22 @@ const config: ControlPanelConfig = {
                 return true;
               },
               mapStateToProps(explore, _, chart) {
+                const colnames = [
+                  METRIC_KEY,
+                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
+                ];
+                const coltypes = [
+                  0,
+                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
+                ];
+                const isRowsLayout =
+                  chart?.latestQueryFormData?.metricsLayout ===
+                  MetricsLayoutEnum.ROWS;
+                const newQueriesResponse = !isRowsLayout
+                  ? chart?.queriesResponse?.[0]
+                  : { ...chart?.queriesResponse?.[0], colnames, coltypes };
                 return {
-                  queryResponse: chart?.queriesResponse?.[0] as
+                  queryResponse: newQueriesResponse as
                     | ChartDataResponseResult
                     | undefined,
                 };
@@ -446,7 +461,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added stop #35514397
+        // DODO added stop 35514397, 38087840
         [
           {
             name: 'conditional_formatting',
