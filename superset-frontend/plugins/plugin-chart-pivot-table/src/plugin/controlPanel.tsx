@@ -439,12 +439,12 @@ const config: ControlPanelConfig = {
               },
               mapStateToProps(explore, _, chart) {
                 const colnames = [
-                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
                   METRIC_KEY,
+                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
                 ];
                 const coltypes = [
-                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
                   0,
+                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
                 ];
                 const isRowsLayout =
                   chart?.latestQueryFormData?.metricsLayout ===
