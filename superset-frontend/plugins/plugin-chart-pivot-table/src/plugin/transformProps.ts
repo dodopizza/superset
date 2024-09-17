@@ -171,11 +171,12 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
   // DODO added start 38087840
+  const group = transposePivot ? groupbyColumns : groupbyRows;
   const isRowsLayout = metricsLayout === MetricsLayoutEnum.ROWS;
-  const groupbyRowsWithMetric = combineMetric
-    ? [...groupbyRows, METRIC_KEY]
-    : [METRIC_KEY, ...groupbyRows];
-  const columns = !isRowsLayout ? groupbyRows : groupbyRowsWithMetric;
+  const groupWithMetric = combineMetric
+    ? [...group, METRIC_KEY]
+    : [METRIC_KEY, ...group];
+  const columns = !isRowsLayout ? group : groupWithMetric;
   const pinnedColumns = getPinnedColumnIndexes(columns, columnConfig);
   // DODO added stop 38087840
 
