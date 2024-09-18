@@ -443,7 +443,7 @@ const config: ControlPanelConfig = {
                   ...(chart?.queriesResponse?.[0]?.colnames ?? []),
                 ];
                 const coltypes = [
-                  0,
+                  1,
                   ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
                 ];
                 const isRowsLayout =
