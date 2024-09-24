@@ -160,6 +160,14 @@ export default function AsyncAceEditor(
             setCompleters(keywords);
           }
         }, [keywords, setCompleters]);
+        // DODO added start 38456774
+        const hasVerticalResize = [
+          'auto',
+          'both',
+          'vertical',
+          'block',
+        ].includes(props.style?.resize ?? '');
+        // DODO added stop 38456774
 
         return (
           <ReactAceEditor
@@ -170,6 +178,8 @@ export default function AsyncAceEditor(
             defaultValue={defaultValue}
             setOptions={{ fontFamily }}
             {...props}
+            // DODO added 38456774
+            maxLines={hasVerticalResize ? undefined : props.maxLines}
           />
         );
       },
