@@ -1,0 +1,43 @@
+{
+  "name": "@superset-ui/plugin-chart-openlayers",
+  "version": "0.0.1",
+  "description": "Superset Chart - OpenLayers",
+  "keywords": [
+    "superset"
+  ],
+  "homepage": "https://superset.apache.org/",
+  "bugs": {
+    "url": "https://github.com/apache/superset/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/superset.git",
+    "directory": "superset-frontend/plugins/plugin-chart-openlayers"
+  },
+  "license": "Apache-2.0",
+  "author": "Superset",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "esm",
+    "lib"
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@types/d3-color": "^3.1.3",
+    "ol": "^10.2.0",
+    "prop-types": "^15.6.2",
+    "viewport-mercator-project": "^6.1.1"
+  },
+  "peerDependencies": {
+    "@superset-ui/chart-controls": "*",
+    "@superset-ui/core": "*",
+    "react": "^15 || ^16"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

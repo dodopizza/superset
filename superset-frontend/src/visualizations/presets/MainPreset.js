@@ -64,6 +64,7 @@ import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/p
 // import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
 import TimeTableChartPlugin from '../TimeTable';
+import OpenLayersChartPlugin from '@superset-ui/plugin-chart-openlayers';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -153,6 +154,7 @@ export default class MainPreset extends Preset {
         }),
         new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
         new SelectByIdFilterPlugin().configure({ key: 'filter_select_by_id' }), // DODO added 29749076
+        new OpenLayersChartPlugin().configure({ key: 'openlayers' }) //DODO added
       ],
     });
   }
