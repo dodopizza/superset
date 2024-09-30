@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import 'ol/ol.css';
-import { Map, View, Feature } from 'ol';
+import { Map, View, Feature, Collection } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import VectorLayer from 'ol/layer/Vector';
@@ -46,7 +46,7 @@ const defaultProps = {
   pointRadiusUnit: 'Pixels',
 };
 
-interface IMapRef {
+interface IMapElementsRef {
   map: Map | null;
   drawInteraction: Draw | null;
   modifyInteraction: Modify | null;
@@ -59,7 +59,7 @@ const OpenLayers = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const mapObjectRef = useRef<IMapRef>({
+  const mapElementsRef = useRef<IMapElementsRef>({
     map: null,
     drawInteraction: null,
     modifyInteraction: null,
@@ -84,7 +84,7 @@ const OpenLayers = () => {
     });
 
     const map = new Map({
-      target: mapRef.current as HTMLDivElement,
+      target: mapRef.current!,
       layers: [new TileLayer({ source: new OSM() }), vectorLayer],
       view: new View({
         center: fromLonLat([0, 0]),
@@ -106,9 +106,11 @@ const OpenLayers = () => {
     });
 
     drawInteraction.on('drawend', (event: DrawEvent) => {
-      const polygon = event.feature.getGeometry() as Polygon;
-      const coordinates = polygon.getCoordinates();
-      console.log('Polygon coordinates:', coordinates);
+      const polygon = event.feature.getGeometry();
+      if (polygon) {
+        const coordinates = (polygon as Polygon).getCoordinates();
+        console.log('Polygon coordinates:', coordinates);
+      }
     });
 
     const selectInteraction = new Select({
@@ -117,19 +119,21 @@ const OpenLayers = () => {
     map.addInteraction(selectInteraction);
 
     selectInteraction.on('select', (e: SelectEvent) => {
-      const selectedFeatures = e.target.getFeatures();
+      const selectedFeatures = e.target.getFeatures() as Collection<
+        Feature<Geometry>
+      >;
       if (selectedFeatures.getLength() > 0) {
-        setSelectedFeature(selectedFeatures.item(0) as Feature<Geometry>);
+        setSelectedFeature(selectedFeatures.item(0));
       } else {
         setSelectedFeature(null);
         setIsEditing(false);
       }
     });
 
-    mapObjectRef.current.map = map;
-    mapObjectRef.current.drawInteraction = drawInteraction;
-    mapObjectRef.current.modifyInteraction = modifyInteraction;
-    mapObjectRef.current.vectorSource = vectorSource;
+    mapElementsRef.current.map = map;
+    mapElementsRef.current.drawInteraction = drawInteraction;
+    mapElementsRef.current.modifyInteraction = modifyInteraction;
+    mapElementsRef.current.vectorSource = vectorSource;
 
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isDrawing) {
@@ -147,7 +151,7 @@ const OpenLayers = () => {
   }, []);
 
   const toggleDrawing = () => {
-    const { map, drawInteraction } = mapObjectRef.current;
+    const { map, drawInteraction } = mapElementsRef.current;
     if (isDrawing) {
       map?.removeInteraction(drawInteraction!);
     } else {
@@ -158,7 +162,7 @@ const OpenLayers = () => {
   };
 
   const toggleEditing = () => {
-    const { map, modifyInteraction } = mapObjectRef.current;
+    const { map, modifyInteraction } = mapElementsRef.current;
     if (isEditing) {
       map?.removeInteraction(modifyInteraction!);
     } else {
@@ -168,7 +172,7 @@ const OpenLayers = () => {
   };
 
   const deletePolygon = () => {
-    const { vectorSource } = mapObjectRef.current;
+    const { vectorSource } = mapElementsRef.current;
     if (selectedFeature && vectorSource) {
       vectorSource.removeFeature(selectedFeature);
       setSelectedFeature(null);
