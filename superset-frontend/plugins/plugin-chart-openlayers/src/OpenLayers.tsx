@@ -15,6 +15,7 @@ import { click } from 'ol/events/condition';
 import { Geometry, Polygon } from 'ol/geom';
 import { useTheme } from '@superset-ui/core';
 import { hexToRGB } from './utils/colors';
+import { mockData } from './mockData';
 
 const NOOP = () => {};
 export const DEFAULT_MAX_ZOOM = 16;
@@ -67,6 +68,26 @@ const OpenLayers = () => {
   });
   const theme = useTheme();
 
+  const addPolygons = (vectorSource: VectorSource<Feature<Geometry>>) => {
+    mockData.result.forEach(cell => {
+      const coordinates = [
+        [cell.lon_1, cell.lat_1],
+        [cell.lon_2, cell.lat_2],
+        [cell.lon_3, cell.lat_3],
+        [cell.lon_4, cell.lat_4],
+        [cell.lon_5, cell.lat_5],
+        [cell.lon_6, cell.lat_6],
+      ].map(coordinate => fromLonLat(coordinate));
+
+      const polygon = new Polygon([coordinates]);
+      const feature = new Feature({
+        geometry: polygon,
+      });
+
+      vectorSource.addFeature(feature);
+    });
+  };
+
   useEffect(() => {
     const vectorSource = new VectorSource();
 
@@ -87,8 +108,11 @@ const OpenLayers = () => {
       target: mapRef.current!,
       layers: [new TileLayer({ source: new OSM() }), vectorLayer],
       view: new View({
-        center: fromLonLat([0, 0]),
-        zoom: 2,
+        center: fromLonLat([
+          mockData.result[0].lon_1,
+          mockData.result[0].lat_1,
+        ]),
+        zoom: 8,
       }),
     });
 
@@ -129,6 +153,8 @@ const OpenLayers = () => {
         setIsEditing(false);
       }
     });
+
+    addPolygons(vectorSource);
 
     mapElementsRef.current.map = map;
     mapElementsRef.current.drawInteraction = drawInteraction;
