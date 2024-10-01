@@ -930,6 +930,8 @@ class DatasourceEditor extends React.PureComponent {
               language="markdown"
               offerEditInModal={false}
               resize="vertical"
+              // DODO added 38456774
+              height={50}
             />
           }
         />
@@ -965,6 +967,8 @@ class DatasourceEditor extends React.PureComponent {
                 controlId="fetch_values_predicate"
                 minLines={5}
                 resize="vertical"
+                // DODO added 38456774
+                height={50}
               />
             }
           />
@@ -985,6 +989,8 @@ class DatasourceEditor extends React.PureComponent {
                 language="json"
                 offerEditInModal={false}
                 resize="vertical"
+                // DODO added 38456774
+                height={50}
               />
             }
           />
@@ -1363,6 +1369,8 @@ class DatasourceEditor extends React.PureComponent {
                     language="markdown"
                     offerEditInModal={false}
                     resize="vertical"
+                    // DODO added 38456774
+                    height={50}
                   />
                 }
               />
@@ -1418,6 +1426,8 @@ class DatasourceEditor extends React.PureComponent {
               minLines={5}
               textAreaStyles={{ minWidth: '200px', maxWidth: '450px' }}
               resize="both"
+              // DODO added 38456774
+              height={100}
             />
           ),
           description: (v, onChange, label) => (
