@@ -96,6 +96,7 @@ class TextAreaControl extends React.Component {
       this.resizeObserver.unobserve(this.editorContainerRef.current);
     }
   }
+
   // DODO added stop 38456774
   onControlChange(event) {
     const { value } = event.target;
