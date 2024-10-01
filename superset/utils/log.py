@@ -263,7 +263,7 @@ class AbstractEventLogger(ABC):
 
     def log_this_with_context(self, **kwargs: Any) -> Callable[..., Any]:
         """Decorator that can override kwargs of log_context"""
-        if kwargs.get("refereer") and 'officemanager' in kwargs.get("refereer"):
+        if kwargs.get("refereer") and 'officemanager' in kwargs.get("referrer"):
             self.log_this(kwargs)
 
         def func(f: Callable[..., Any]) -> Callable[..., Any]:
