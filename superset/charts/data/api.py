@@ -502,6 +502,27 @@ class ChartDataRestApi(ChartRestApi):
                 default=json_int_dttm_ser,
                 ignore_nan=True,
             )
+            response_data = simplejson.loads(response_data)
+            l = []
+            new_data = {}
+            list_of_data: list = response_data.get('result')[0].get('data')
+            if list_of_data:
+                if len(list_of_data[0]) == 2:
+                    keys = list_of_data[0].keys()
+                    k = 1
+                    keys_numbers = {}
+                    for i in keys:
+                        keys_numbers[k] = i
+                        k += 1
+                    for row in list_of_data:
+                        if new_data.get(row.get(keys_numbers.get(1))):
+                            new_data[row.get(keys_numbers.get(1))] = new_data[row.get(keys_numbers.get(1))].append(row.get(keys_numbers.get(2)))
+                        else:
+                            new_data[row.get(keys_numbers.get(1))] = [row.get(keys_numbers.get(2))]
+                    for k, v in new_data.items():
+                        l.append({keys_numbers.get(1): k, keys_numbers.get(2): v})
+                    response_data['result'][0]['data'] = l
+
             resp = make_response(response_data, 200)
             resp.headers["Content-Type"] = "application/json; charset=utf-8"
             return resp
