@@ -2588,6 +2588,12 @@
       "Customize columns": [
         "Настроить столбцы"
       ],
+      "Export as time": [
+        "Экспортировать как величину времени"
+      ],
+      "Export a numeric value as number of days": [
+        "Экспорт числового значения в виде количества дней"
+      ],
       "Cyclic dependency detected": [
         "Обнаружена циклическая зависимость"
       ],

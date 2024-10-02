@@ -154,6 +154,16 @@ const pinColumn: ControlFormItemSpec<'Checkbox'> = {
 };
 // DODO added stop 34122445
 
+// DODO added start 33638561
+const exportAsTime: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Export as time'),
+  description: t('Export a numeric value as number of days'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+// DODO added stop 33638561
+
 const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   controlType: 'CurrencyControl',
   label: t('Currency format'),
@@ -185,6 +195,7 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   colorPositiveNegative,
   currencyFormat,
   pinColumn, // DODO added 34122445
+  exportAsTime,
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
