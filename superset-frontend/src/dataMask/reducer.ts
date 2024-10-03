@@ -72,15 +72,19 @@ export function getInitialDataMask(
 const flattenValInDataMask = (dataMask: DataMask): DataMask => {
   // Flatten the 'val' property in filters if it's nested
   const filters = (dataMask?.extraFormData?.filters ?? []).map(filter => {
-    if (
-      'val' in filter &&
-      Array.isArray(filter.val) &&
-      Array.isArray(filter.val[0])
-    ) {
-      return {
-        ...filter,
-        val: isSetOperator(filter.op) ? filter.val.flat() : filter.val[0],
-      };
+    if ('val' in filter && Array.isArray(filter.val)) {
+      if (Array.isArray(filter.val[0]) && isSetOperator(filter.op)) {
+        return {
+          ...filter,
+          val: filter.val.flat(),
+        };
+      }
+      if (!Array.isArray(filter.val[0]) && !isSetOperator(filter.op)) {
+        return {
+          ...filter,
+          val: filter.val[0],
+        };
+      }
     }
     return filter;
   }) as QueryObjectFilterClause[];
