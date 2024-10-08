@@ -69,7 +69,6 @@ def delete_tz_from_df(d: dict) -> pd.DataFrame:
             if type_col == GenericDataType.NUMERIC:
                 name_col = colnames[k]
                 df[name_col] = pd.to_numeric(df[name_col])
-        logger.error(df)
         return df
     return df
 

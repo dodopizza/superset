@@ -425,7 +425,6 @@ class ChartDataRestApi(ChartRestApi):
 
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
-                logger.error(form_data)
                 exportAsTime = form_data.get('exportAsTime')
                 column_config = form_data.get('column_config')
                 if list_of_data := result["queries"]:
@@ -456,7 +455,6 @@ class ChartDataRestApi(ChartRestApi):
                             if v.get('exportAsTime'):
                                 df[k] = df[k].apply(convert_to_time)
 
-                    logger.error(df)
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
                                 sheet_name="Sheet_1", index_label=None, index=False)
