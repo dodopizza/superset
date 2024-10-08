@@ -16,6 +16,7 @@
 # under the License.
 from __future__ import annotations
 
+import logging
 import datetime
 from typing import Any, TYPE_CHECKING
 
@@ -26,6 +27,8 @@ from superset.utils.core import GenericDataType
 
 if TYPE_CHECKING:
     from superset.common.query_object import QueryObject
+
+logger = logging.getLogger(__name__)
 
 
 def left_join_df(
@@ -40,6 +43,11 @@ def left_join_df(
     )
     df.reset_index(inplace=True)
     return df
+
+
+def convert_to_time(values):
+    dt = datetime.datetime.fromtimestamp(values / 1000.0, tz=datetime.timezone.utc)
+    return dt.time().isoformat()
 
 
 def delete_tz_from_df(d: dict) -> pd.DataFrame:
@@ -61,7 +69,6 @@ def delete_tz_from_df(d: dict) -> pd.DataFrame:
             if type_col == GenericDataType.NUMERIC:
                 name_col = colnames[k]
                 df[name_col] = pd.to_numeric(df[name_col])
-
         return df
     return df
 
