@@ -19,6 +19,8 @@
 
 import prettyMsFormatter from 'pretty-ms';
 import NumberFormatter from '../NumberFormatter';
+// DODO added 33638561
+import { NumberFormatFunction } from '../types';
 
 export default function createDurationFormatter(
   config: {
@@ -26,13 +28,28 @@ export default function createDurationFormatter(
     id?: string;
     label?: string;
     multiplier?: number;
+    // DODO added 33638561
+    formatFunc?: NumberFormatFunction;
   } & prettyMsFormatter.Options = {},
 ) {
-  const { description, id, label, multiplier = 1, ...prettyMsOptions } = config;
+  // DODO chaned start 33638561
+  const {
+    description,
+    id,
+    label,
+    multiplier = 1,
+    formatFunc,
+    ...prettyMsOptions
+  } = config;
+  // DODO added stop 33638561
 
   return new NumberFormatter({
     description,
-    formatFunc: value => prettyMsFormatter(value * multiplier, prettyMsOptions),
+    // DODO changed start 33638561
+    formatFunc:
+      formatFunc ??
+      (value => prettyMsFormatter(value * multiplier, prettyMsOptions)),
+    // DODO changed stop 33638561
     id: id ?? 'duration_format',
     label: label ?? `Duration formatter`,
   });

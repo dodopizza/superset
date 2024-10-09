@@ -82,6 +82,20 @@ export default {
             },
           },
         ],
+        // DODO added start 33638561
+        [
+          {
+            name: 'exportAsTime',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Export as time'),
+              renderTrigger: false,
+              default: false,
+              description: t('Export a numeric value as number of days'),
+            },
+          },
+        ],
+        // DODO added stop 33638561
       ],
     },
     { ...BigNumberControlPanelConditionalFormatting }, // DODO added}

@@ -42,7 +42,7 @@ from superset.charts.data.query_context_cache_loader import QueryContextCacheLoa
 from superset.charts.post_processing import apply_post_process
 from superset.charts.schemas import ChartDataQueryContextSchema
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
-from superset.common.utils.dataframe_utils import delete_tz_from_df
+from superset.common.utils.dataframe_utils import delete_tz_from_df, convert_to_time
 from superset.connectors.base.models import BaseDatasource
 from superset.daos.exceptions import DatasourceNotFound
 from superset.exceptions import QueryObjectValidationError
@@ -52,6 +52,7 @@ from superset.utils.async_query_manager import AsyncQueryTokenException
 from superset.utils.core import create_zip, get_user_id, json_int_dttm_ser
 from superset.views.base import CsvResponse, generate_download_headers, XlsxResponse
 from superset.views.base_api import statsd_metrics
+from superset.viz import viz_types
 
 if TYPE_CHECKING:
     from superset.common.query_context import QueryContext
@@ -424,10 +425,12 @@ class ChartDataRestApi(ChartRestApi):
 
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
-
+                exportAsTime = form_data.get('exportAsTime')
+                column_config = form_data.get('column_config')
                 if list_of_data := result["queries"]:
                     df = pd.DataFrame()
                     for data in list_of_data:
+                        logger.error(list_of_data)
                         try:
                             # return query results xlsx format
                             new_df = delete_tz_from_df(data)
@@ -442,6 +445,15 @@ class ChartDataRestApi(ChartRestApi):
                             return self.response_500(
                                 _("Server error occurred while exporting the file")
                             )
+                    if exportAsTime:
+                        key_column = df.keys()[0]
+                        df[key_column] = df[key_column].apply(convert_to_time)
+
+
+                    if column_config:
+                        for k, v in column_config.items():
+                            if v.get('exportAsTime'):
+                                df[k] = df[k].apply(convert_to_time)
 
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
@@ -502,6 +514,27 @@ class ChartDataRestApi(ChartRestApi):
                 default=json_int_dttm_ser,
                 ignore_nan=True,
             )
+            response_data = simplejson.loads(response_data)
+            l = []
+            new_data = {}
+            list_of_data: list = response_data.get('result')[0].get('data')
+            if list_of_data:
+                if len(list_of_data[0]) == 2:
+                    keys = list_of_data[0].keys()
+                    k = 1
+                    keys_numbers = {}
+                    for i in keys:
+                        keys_numbers[k] = i
+                        k += 1
+                    for row in list_of_data:
+                        if new_data.get(row.get(keys_numbers.get(1))):
+                            new_data[row.get(keys_numbers.get(1))] = new_data[row.get(keys_numbers.get(1))].append(row.get(keys_numbers.get(2)))
+                        else:
+                            new_data[row.get(keys_numbers.get(1))] = [row.get(keys_numbers.get(2))]
+                    for k, v in new_data.items():
+                        l.append({keys_numbers.get(1): k, keys_numbers.get(2): v})
+                    response_data['result'][0]['data'] = l
+
             resp = make_response(response_data, 200)
             resp.headers["Content-Type"] = "application/json; charset=utf-8"
             return resp
