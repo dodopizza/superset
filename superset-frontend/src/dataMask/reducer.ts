@@ -29,6 +29,10 @@ import {
   Filter,
   FilterConfiguration,
   Filters,
+  // DODO added start 38368947
+  isSetOperator,
+  QueryObjectFilterClause,
+  // DODO added stop 38368947
 } from '@superset-ui/core';
 import { NATIVE_FILTER_PREFIX } from 'src/dashboard/components/nativeFilters/FiltersConfigModal/utils';
 import { HYDRATE_DASHBOARD } from 'src/dashboard/actions/hydrate';
@@ -63,6 +67,37 @@ export function getInitialDataMask(
     ...moreProps,
   } as DataMaskWithId;
 }
+
+// DODO added start 38368947
+const flattenValInDataMask = (dataMask: DataMask): DataMask => {
+  // Flatten the 'val' property in filters if it's nested
+  const filters = (dataMask?.extraFormData?.filters ?? []).map(filter => {
+    if ('val' in filter && Array.isArray(filter.val)) {
+      if (Array.isArray(filter.val[0]) && isSetOperator(filter.op)) {
+        return {
+          ...filter,
+          val: filter.val.flat(),
+        };
+      }
+      if (!Array.isArray(filter.val[0]) && !isSetOperator(filter.op)) {
+        return {
+          ...filter,
+          val: filter.val[0],
+        };
+      }
+    }
+    return filter;
+  }) as QueryObjectFilterClause[];
+
+  return {
+    ...dataMask,
+    extraFormData: {
+      ...dataMask.extraFormData,
+      filters,
+    },
+  };
+};
+// DODO added stop 38368947
 
 function fillNativeFilters(
   filterConfig: FilterConfiguration,
@@ -99,6 +134,15 @@ function fillNativeFilters(
       mergedDataMask[filter?.id] = filter;
     }
   });
+
+  // DODO added start 38368947
+  // Flatten the 'val' property in filters if it's nested
+  Object.keys(mergedDataMask).forEach(key => {
+    if (key.startsWith(NATIVE_FILTER_PREFIX)) {
+      flattenValInDataMask(mergedDataMask[key]);
+    }
+  });
+  // DODO added stop 38368947
 }
 
 const dataMaskReducer = produce(
@@ -111,7 +155,8 @@ const dataMaskReducer = produce(
         draft[action.filterId] = {
           ...getInitialDataMask(action.filterId),
           ...draft[action.filterId],
-          ...action.dataMask,
+          // DODO changed 38368947
+          ...flattenValInDataMask(action.dataMask),
         };
         return draft;
       // TODO: update hydrate to .ts
