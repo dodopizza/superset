@@ -2863,7 +2863,7 @@ const ru = {
       'Relative Date/Time': ['Относительная дата/время'],
       'You are welcome to Superset': ['Добро пожаловать в Суперсет'],
       Onboarding: ['Онбординг'],
-      'Custom (until include)': ['Пользовательский (включительно)'],
+      'Custom (until include)': ['Выбор даты (конец включительно)'],
       'END (INCLUSIVE)': ['КОНЕЦ (ВКЛЮЧИТЕЛЬНО)'],
       'End date include to time range': ['Дата окончания включена в диапазон'],
     },

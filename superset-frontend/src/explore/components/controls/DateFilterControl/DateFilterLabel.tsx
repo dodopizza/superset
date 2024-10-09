@@ -65,7 +65,8 @@ const ContentStyleWrapper = styled.div`
     .control-label {
       font-size: 11px;
       font-weight: ${theme.typography.weights.medium};
-      color: ${theme.colors.grayscale.light2};
+      // DODO changed 38009528
+      color: ${theme.colors.grayscale.base};
       line-height: 16px;
       text-transform: uppercase;
       margin: 8px 0;

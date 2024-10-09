@@ -4,8 +4,22 @@
 
 Create a file  `docker/requirements-local.txt` with this content:
 ```
+Authlib==0.15.5
+gevent==21.12.0
+moz-sql-parser==4.9.21002
+mysqlclient==2.1.0
+prometheus-client==0.13.1
+psycopg2==2.8.5
+pybigquery==0.5.0
+pymssql==2.1.5
+python-json-logger==2.0.2
+redis==4.6.0
+typing-extensions==4.9.0
 sqlalchemy-kusto==2.0.1
-flask-http-middleware==0.4.2
+xlsxwriter==3.0.7
+flask-http-middleware==0.3.1
+sshtunnel==0.4.0
+Flask-SQLAlchemy==2.5.1
 marshmallow-enum==1.5.1
 
 ```
@@ -57,7 +71,7 @@ LANGUAGES = {
 }
 ```
 
-## How to release this to the dev stage (https://superset.dodois.ru/) and PROD (https://analytics.dodois.io/)?
+## How to release this to the dev stage (https://superset.d.yandex.dodois.dev/) and PROD (https://analytics.dodois.io/)?
 
 1. Merge everything to the branch `3.0-dodo` (March 2024)
 2. Go to the repo https://github.com/dodopizza/superset-plugins/actions
@@ -110,13 +124,13 @@ We need `main-0fc46f1-312768185`
 6. Release on dev stage
 
 ```
-/yunga promote superset dev dev superset main-0fc46f1-312768185
+/yunga promote superset d yandex spr main-0fc46f1-312768185
 ```
 
-7. Release on dev stage
+7. Release on prod stage
 
 ```
-/yunga promote superset prod we superset main-0fc46f1-312768185
+/yunga promote superset p azure superset main-0fc46f1-312768185
 ```
 
 8. You are amazing

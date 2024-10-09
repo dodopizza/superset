@@ -18,12 +18,15 @@
  */
 import React from 'react';
 import {
+  ChartDataResponseResult,
   ensureIsArray,
   hasGenericChartAxes,
   isAdhocColumn,
   isPhysicalColumn,
   QueryFormMetric,
   smartDateFormatter,
+  // DODO added #34239342
+  smartDateFormatter_dot_ddmmyyyy,
   t,
   validateNonEmpty,
 } from '@superset-ui/core';
@@ -36,6 +39,16 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
+
+// DODO added start 35514397, 38087840
+const columnConfig = {
+  '0': [['pinColumn']],
+  '1': [['pinColumn']],
+  '2': [['pinColumn']],
+  '3': [['pinColumn']],
+};
+const METRIC_KEY = 'Metric';
+// DODO start changes 35514397, 38087840
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -306,7 +319,15 @@ const config: ControlPanelConfig = {
               label: t('Date format'),
               default: smartDateFormatter.id,
               renderTrigger: true,
-              choices: D3_TIME_FORMAT_OPTIONS,
+              // DODO start changes #34239342
+              choices: [
+                ...D3_TIME_FORMAT_OPTIONS,
+                [
+                  smartDateFormatter_dot_ddmmyyyy.id,
+                  t(smartDateFormatter_dot_ddmmyyyy.label),
+                ],
+              ],
+              // DODO stop changes #34239342
               description: t('D3 time format for datetime columns'),
             },
           },
@@ -401,6 +422,46 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added start 35514397, 38087840
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize columns'),
+              description: t('Further customize how to display each column'),
+              width: 400,
+              height: 340,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                const colnames = [
+                  METRIC_KEY,
+                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
+                ];
+                const coltypes = [
+                  1,
+                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
+                ];
+                const isRowsLayout =
+                  chart?.latestQueryFormData?.metricsLayout ===
+                  MetricsLayoutEnum.ROWS;
+                const newQueriesResponse = !isRowsLayout
+                  ? chart?.queriesResponse?.[0]
+                  : { ...chart?.queriesResponse?.[0], colnames, coltypes };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
+            },
+          },
+        ],
+        // DODO added stop 35514397, 38087840
         [
           {
             name: 'conditional_formatting',

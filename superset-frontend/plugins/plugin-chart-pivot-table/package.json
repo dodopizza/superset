@@ -26,15 +26,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@react-icons/all-files": "^4.1.0"
+  },
   "peerDependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@superset-ui/chart-controls": "*",
     "@superset-ui/core": "*",
-    "@ant-design/icons": "^5.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "lodash": "^4.17.11",
     "prop-types": "*",
-    "lodash": "^4.17.11"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@babel/types": "^7.13.12",

@@ -18,6 +18,8 @@ export const Styles = styled.div`
     table thead {
       position: ${isDashboardEditMode ? 'inherit' : 'sticky'};
       top: 0;
+      // DODO added 35514397
+      z-index: 2;
     }
 
     table tbody tr {
@@ -98,6 +100,17 @@ export const Styles = styled.div`
     table.pvtTable tbody tr th.pvtRowLabel {
       vertical-align: baseline;
     }
+
+    // DODO added start 35514397
+    th.stickyCell {
+      position: sticky;
+      z-index: 1;
+    }
+
+    th.stickyRightBorder {
+      border-right: 1px solid ${theme.colors.grayscale.light2} !important;
+    }
+    // DODO added stop 35514397
 
     .pvtTotal,
     .pvtGrandTotal {

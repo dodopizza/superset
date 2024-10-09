@@ -71,7 +71,8 @@ export function normalizeTimeColumn(
     }
 
     const newQueryObject = omit(queryObject, [
-      'extras.time_grain_sqla',
+      // DODO commented line out 36464693
+      // 'extras.time_grain_sqla',
       'is_timeseries',
     ]);
     newQueryObject.columns = mutatedColumns;
