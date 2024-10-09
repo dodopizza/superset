@@ -332,7 +332,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       parameters = {
         ...parameters,
         basename: '/',
-        originUrl: 'https://superset.dodois.dev',
+        originUrl: 'https://superset.d.yandex.dodois.dev',
         frontendLogger: true,
       };
     }
