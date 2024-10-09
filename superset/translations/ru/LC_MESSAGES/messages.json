@@ -9058,6 +9058,9 @@
       "Total (%(aggregatorName)s)": [
         ""
       ],
+      "Value has own aggregation: %(aggregation)s": [
+        "Значение имеет собственную агрегацию: %(aggregation)s"
+      ],
       "Total: %s": [
         "Итого: %s"
       ],
@@ -10937,6 +10940,9 @@
       ],
       "Pin column with horizontal scroll": [
         "Закрепить колонку при горизонтальном скроле"
+      ],
+      "Hide value in Total": [
+        "Скрыть значение в Total"
       ],
       "Custom (until include)": [
         "Выбор даты (конец включительно)"

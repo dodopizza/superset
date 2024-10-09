@@ -646,9 +646,18 @@ class PivotData {
     PivotData.forEachRecord(this.props.data, this.processRecord);
   }
 
-  getFormattedAggregator(record, totalsKeys) {
+  // DODO changed 30154541
+  getFormattedAggregator(record, totalsKeys, aggregation) {
+    // DODO added start 30154541
+    // Checking whether record has own aggregate function
+    const aggregator = aggregation
+      ? this.props
+          .aggregatorsFactory(this.props.defaultFormatter)
+          [aggregation](this.props.vals)
+      : this.aggregator;
+    // DODO added stop 30154541
     if (!this.formattedAggregators) {
-      return this.aggregator;
+      return aggregator; // DODO changed 30154541
     }
     const [groupName, groupValue] =
       Object.entries(record).find(
@@ -661,9 +670,9 @@ class PivotData {
       !groupValue ||
       (totalsKeys && !totalsKeys.includes(groupValue))
     ) {
-      return this.aggregator;
+      return aggregator; // DODO changed 30154541
     }
-    return this.formattedAggregators[groupName][groupValue] || this.aggregator;
+    return this.formattedAggregators[groupName][groupValue] || aggregator; // DODO changed 30154541
   }
 
   arrSort(attrs, partialOnTop, reverse = false) {
@@ -767,6 +776,10 @@ class PivotData {
 
     for (let ci = colStart; ci <= colKey.length; ci += 1) {
       isColSubtotal = ci < colKey.length;
+      // DODO added start 30154541
+      const metric = colKey[this.props.combineMetric ? colKey.length - 1 : 0];
+      const metricAggregation = this.props.columnConfig?.[metric]?.aggregation;
+      // DODO added stop 30154541
       const fColKey = colKey.slice(0, ci);
       const flatColKey = flatKey(fColKey);
       if (!this.colTotals[flatColKey]) {
@@ -774,6 +787,7 @@ class PivotData {
         this.colTotals[flatColKey] = this.getFormattedAggregator(
           record,
           colKey,
+          metricAggregation, // DODO added 30154541
         )(this, [], fColKey);
       }
       this.colTotals[flatColKey].push(record);
