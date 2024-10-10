@@ -17,7 +17,7 @@ const createData: Array<string> = [
   'Use SQL Lab for your Ad-hoc queries',
 ];
 
-const useData: Array<string> = ['Create dashboards', 'Create charts'];
+const vizualizeData: Array<string> = ['Create dashboards', 'Create charts'];
 
 const inputData: Array<string> = [
   'Add your own data sources to Superset',
