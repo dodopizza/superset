@@ -793,7 +793,7 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         self.set_role("Alpha", self._is_alpha_pvm)
         self.set_role("Gamma", self._is_gamma_pvm)
         self.set_role("sql_lab", self._is_sql_lab_pvm)
-        self.set_role("Vizualize Data", self._is_alpha_pvm)
+        self.set_role("Vizualize data", self._is_alpha_pvm)
         self.set_role("Check data", self._is_alpha_pvm)
         self.set_role("Create data", self._is_alpha_pvm)
         self.set_role("Input data", self._is_alpha_pvm)
