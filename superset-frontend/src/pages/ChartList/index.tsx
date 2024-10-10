@@ -18,15 +18,15 @@
  */
 import {
   ensureIsArray,
-  isFeatureEnabled,
   FeatureFlag,
   getChartMetadataRegistry,
+  isFeatureEnabled,
   JsonResponse,
   styled,
   SupersetClient,
   t,
 } from '@superset-ui/core';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import rison from 'rison';
 import { uniqBy } from 'lodash';
 import moment from 'moment';
@@ -60,7 +60,6 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import PropertiesModal from 'src/explore/components/PropertiesModal';
 import ImportModelsModal from 'src/components/ImportModal/index';
 import Chart, { ChartLinkedDashboard } from 'src/types/Chart';
-import Tag from 'src/types/TagType';
 import { Tooltip } from 'src/components/Tooltip';
 import Icons from 'src/components/Icons';
 import { nativeFilterGate } from 'src/dashboard/components/nativeFilters/utils';
@@ -71,6 +70,7 @@ import { GenericLink } from 'src/components/GenericLink/GenericLink';
 import Owner from 'src/types/Owner';
 import { loadTags } from 'src/components/Tags/utils';
 import ChartCard from 'src/features/charts/ChartCard';
+import Tag from 'src/types/TagType';
 
 const FlexRowContainer = styled.div`
   align-items: center;
@@ -260,6 +260,7 @@ function ChartList(props: ChartListProps) {
       ),
     );
   }
+
   const fetchDashboards = async (
     filterValue = '',
     page: number,
@@ -456,9 +457,13 @@ function ChartList(props: ChartListProps) {
         }: any) => (
           // Only show custom type tags
           <TagsList
+            // DODO commented 35538076 - show custom and team tags
             tags={tags.filter((tag: Tag) =>
               tag.type
-                ? tag.type === 1 || tag.type === 'TagTypes.custom'
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' ||
+                  tag.type === 5 ||
+                  tag.type === 'TagTypes.team'
                 : true,
             )}
             maxTags={3}
@@ -806,6 +811,9 @@ function ChartList(props: ChartListProps) {
       });
     }
   }
+
+  // console.log(`chart table columns`, columns);
+  // console.log(`chart table charts`, charts);
 
   return (
     <>

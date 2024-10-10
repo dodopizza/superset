@@ -25,6 +25,7 @@ export interface CheckboxProps {
   onChange: (val?: boolean) => void;
   style?: React.CSSProperties;
   className?: string;
+  disabled?: boolean;
 }
 
 const Styles = styled.span`
@@ -39,12 +40,15 @@ export default function Checkbox({
   onChange,
   style,
   className,
+  disabled,
 }: CheckboxProps) {
   return (
     <Styles
       style={style}
       onClick={() => {
-        onChange(!checked);
+        if (!disabled) {
+          onChange(!checked);
+        }
       }}
       role="checkbox"
       tabIndex={0}
@@ -52,7 +56,11 @@ export default function Checkbox({
       aria-label="Checkbox"
       className={className || ''}
     >
-      {checked ? <CheckboxChecked /> : <CheckboxUnchecked />}
+      {checked ? (
+        <CheckboxChecked disabled={disabled} />
+      ) : (
+        <CheckboxUnchecked disabled={disabled} />
+      )}
     </Styles>
   );
 }

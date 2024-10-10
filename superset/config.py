@@ -443,7 +443,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     "DASHBOARD_CACHE": False,  # deprecated
     "REMOVE_SLICE_LEVEL_LABEL_COLORS": False,  # deprecated
     "SHARE_QUERIES_VIA_KV_STORE": False,
-    "TAGGING_SYSTEM": False,
+    "TAGGING_SYSTEM": True,
     "SQLLAB_BACKEND_PERSISTENCE": True,
     "LISTVIEWS_DEFAULT_CARD_VIEW": False,
     # When True, this escapes HTML (rather than rendering it) in Markdown components
@@ -963,6 +963,10 @@ class CeleryConfig:  # pylint: disable=too-few-public-methods
             "task": "reports.prune_log",
             "schedule": crontab(minute=0, hour=0),
         },
+        "reports.kafka_send": {
+            "task": "reports.kafka_send",
+            "schedule": crontab(minute=3, hour=0),
+        }
     }
 
 
@@ -1551,6 +1555,17 @@ GUEST_TOKEN_HEADER_NAME = "X-GuestToken"
 GUEST_TOKEN_JWT_EXP_SECONDS = 300  # 5 minutes
 # Guest token audience for the embedded superset, either string or callable
 GUEST_TOKEN_JWT_AUDIENCE: Callable[[], str] | str | None = None
+
+KAFKA_TOPIC = "superset.log.v1"
+KAFKA_CONFIG = {
+        'bootstrap.servers': os.getenv("KAFKA_BOOTSTRAP_SERVER"),
+        'security.protocol': 'SASL_SSL',
+        'ssl.ca.location': '/path/to/ca-certificate.crt',
+        'sasl.mechanism': 'PLAIN',
+        'sasl.username': '$ConnectionString',
+        'sasl.password': '',
+        'client.id': 'superset'
+    }
 
 # A SQL dataset health check. Note if enabled it is strongly advised that the callable
 # be memoized to aid with performance, i.e.,
