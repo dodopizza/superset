@@ -36,6 +36,7 @@ def upgrade():
     op.add_column('user_info', sa.Column('data_auth_dodo', sa.Text().with_variant(mysql.MEDIUMTEXT(), 'mysql'), nullable=True))
     op.add_column('user_info', sa.Column('country_num', sa.Integer(), nullable=True))
     op.add_column('user_info', sa.Column('country_name', sa.String(), nullable=True))
+    op.add_column('logs', sa.Column('is_plugin', sa.Boolean(), nullable=True))
     # ### end Alembic commands ###
 
 
@@ -44,4 +45,5 @@ def downgrade():
     op.drop_column('user_info', 'country_name')
     op.drop_column('user_info', 'country_num')
     op.drop_column('user_info', 'data_auth_dodo')
+    op.drop_column('logs', 'is_plugin')
     # ### end Alembic commands ###
