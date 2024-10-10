@@ -160,6 +160,8 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         "Datasource",
     } | READ_ONLY_MODEL_VIEWS
 
+    EMPTY_ROLE = {}
+
     ADMIN_ONLY_VIEW_MENUS = {
         "Access Requests",
         "Action Log",
@@ -793,10 +795,10 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         self.set_role("Alpha", self._is_alpha_pvm)
         self.set_role("Gamma", self._is_gamma_pvm)
         self.set_role("sql_lab", self._is_sql_lab_pvm)
-        self.set_role("Vizualize data", self._is_alpha_pvm)
-        self.set_role("Check data", self._is_alpha_pvm)
-        self.set_role("Create data", self._is_alpha_pvm)
-        self.set_role("Input data", self._is_alpha_pvm)
+        self.set_role("Vizualize data", self._is_empty_role_only)
+        self.set_role("Check data", self._is_empty_role_only)
+        self.set_role("Create data", self._is_empty_role_only)
+        self.set_role("Input data", self._is_empty_role_only)
 
         # Configure public role
         if current_app.config["PUBLIC_ROLE_LIKE"]:
@@ -937,6 +939,25 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         return (
             pvm.view_menu.name in self.ALPHA_ONLY_VIEW_MENUS
             or pvm.permission.name in self.ALPHA_ONLY_PERMISSIONS
+        )
+
+    def _is_empty_role_only(self, pvm: PermissionView) -> bool:
+        """
+        Return True if the FAB permission/view is accessible to only Alpha users,
+        False otherwise.
+
+        :param pvm: The FAB permission/view
+        :returns: Whether the FAB object is accessible to only Alpha users
+        """
+
+        if (
+            pvm.view_menu.name in self.EMPTY_ROLE
+            and pvm.permission.name not in self.EMPTY_ROLE
+        ):
+            return True
+        return (
+            pvm.view_menu.name in self.EMPTY_ROLE
+            or pvm.permission.name in self.EMPTY_ROLE
         )
 
     def _is_accessible_to_all(self, pvm: PermissionView) -> bool:
