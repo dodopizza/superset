@@ -5,7 +5,7 @@ from marshmallow import fields, Schema
 
 
 class CustomDodoRoles(enum.Enum):
-    Use_data = "Vizualize Data"
+    Vizualize_data = "Vizualize Data"
     Analyze_Data = "Analyze data"
     Create_Data = "Create data"
     Input_Data = "Input data"
