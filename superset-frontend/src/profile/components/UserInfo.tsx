@@ -108,11 +108,11 @@ export default function UserInfo({ user }: UserInfoProps) {
       return <span>{team}</span>;
     }
     if (requestList.length > 0) {
-      return <span>Team will be assigned by administrator</span>;
+      return <span>{t('Team will be assigned by administrator')}</span>;
     }
     return (
       <Space direction="vertical">
-        <span>Go through onboarding first, to be added to the team</span>
+        <span>{t('Go through onboarding first, to be added to the team')}</span>
         <Button
           type="primary"
           block
@@ -183,9 +183,10 @@ export default function UserInfo({ user }: UserInfoProps) {
                       <i className={className} aria-hidden="true" />
                       &nbsp;&nbsp;&nbsp;
                       <span>
-                        <a href={REQUEST_PAGE_URL.replace(':id', `${item.id}`)}>
+                        {/* <a href={REQUEST_PAGE_URL.replace(':id', `${item.id}`)}>
                           {item.id}
-                        </a>
+                        </a> */}
+                        {item.id}
                       </span>
                     </li>
                   );

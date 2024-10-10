@@ -427,6 +427,12 @@
       "A list of domain names that can embed this dashboard. Leaving this field empty will allow embedding from any domain.": [
         "Список доменных имен, которые могут встраивать этот дашборд. Если оставить поле пустым, любой домен сможет сделать встраивание."
       ],
+      "A list of tags that have been applied to this chart.": [
+        "Список тегов, которые были применены к этому графику."
+      ],
+      "Your team tags will be added automatically": [
+        "Теги вашей команды добавятся автоматически"
+      ],
       "A list of users who can alter the chart. Searchable by name or username.": [
         "Владельцы - это пользователи, которые могут изменять график"
       ],
@@ -10941,39 +10947,6 @@
       "Custom (until include)": [
         "Выбор даты (конец включительно)"
       ],
-      "END (INCLUSIVE)": [
-        "КОНЕЦ (ВКЛЮЧИТЕЛЬНО)"
-      ],
-      "Single Value": [
-        "Одиночное значение"
-      ],
-      "Single value type": [
-        "Тип одиночного значения"
-      ],
-      "Minimum": [
-        "Минимум"
-      ],
-      "Exact": [
-        "Точное"
-      ],
-      "Maximum": [
-        "Максимум"
-      ],
-      "Values dependent on": [
-        "Значения зависят от"
-      ],
-      "No filter": [
-        "Без фильтра"
-      ],
-      "Add and edit filters": [
-        "Создать/изменить фильтры"
-      ],
-      "List Users": [
-        "Список пользователей"
-      ],
-      "List Roles": [
-        "Список ролей"
-      ],
       "Teams": [
         "Команды"
       ],
@@ -10985,6 +10958,12 @@
       ],
       "Onboarding": [
         "Онбординг"
+      ],
+      "Team will be assigned by administrator": [
+        "Команда будет назначена администратором"
+      ],
+      "Go through onboarding first, to be added to the team": [
+        "Пройди онбординг, чтобы тебя добавили в команду"
       ],
       "Tell us more about yourself": [
         "Расскажите нам о себе"
@@ -11040,11 +11019,14 @@
       "Which use cases are you interested in using Superset for?": [
         "Как вы планируете использовать Суперсет?"
       ],
-      "Analyze data": [
-        "Анализ данных"
+      "Check data": [
+        "Проверка данных"
       ],
-      "Analyze available dashboards. Gather insights from charts inside a dashboard": [
-        "Анализ существующих дашбордов и графиков в них"
+      "Check available dashboards": [
+        "Проверка доступных дашбордов"
+      ],
+      "Check available dashboards. Gather insights from charts inside a dashboard": [
+        "Проверка доступных дашбордов. Получение информации из графиков внутри дашбордов"
       ],
       "Create dashboards and charts": [
         "Создание дашбордов и графиков"
@@ -11201,15 +11183,6 @@
       ],
       "profile": [
         "профиле"
-      ],
-      "Pin column": [
-        "Закрепить колонку"
-      ],
-      "Pin column with horizontal scroll": [
-        "Закрепить колонку при горизонтальном скроле"
-      ],
-      "Custom (until include)": [
-        "Пользовательский (включительно)"
       ],
       "END (INCLUSIVE)": [
         "КОНЕЦ (ВКЛЮЧИТЕЛЬНО)"
