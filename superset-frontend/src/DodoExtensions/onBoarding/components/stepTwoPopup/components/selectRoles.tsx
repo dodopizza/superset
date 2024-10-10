@@ -45,20 +45,22 @@ export const SelectRoles: FC<Props> = memo(
         <StyledSpace direction="vertical" size="small">
           <CheckboxControl
             hovered
-            label={t('Analyze data')}
+            label={t('Check data')}
             description={t(
-              'Analyze available dashboards. Gather insights from charts inside a dashboard',
+              'Check available dashboards. Gather insights from charts inside a dashboard',
             )}
-            value={roles.includes(Role.AnalyseData)}
-            onChange={(value: boolean) => updateRoles(value, Role.AnalyseData)}
+            value={roles.includes(Role.CheckData)}
+            onChange={(value: boolean) => updateRoles(value, Role.CheckData)}
             disabled={noTeam || existingTeam}
           />
           <CheckboxControl
             hovered
             label={t('Create dashboards and charts')}
             description={t('Create dashboards. Create charts')}
-            value={roles.includes(Role.UseData)}
-            onChange={(value: boolean) => updateRoles(value, Role.UseData)}
+            value={roles.includes(Role.VizualizeData)}
+            onChange={(value: boolean) =>
+              updateRoles(value, Role.VizualizeData)
+            }
             disabled={noTeam || existingTeam}
           />
           <CheckboxControl

@@ -23,16 +23,16 @@ export type CreateTeamModalDto = {
 
 const RolesList: SelectProps['options'] = [
   {
-    label: `${Role.AnalyseData}`,
-    value: Role.AnalyseData,
-  },
-  {
-    label: `${Role.UseData}`,
-    value: Role.UseData,
+    label: `${Role.CheckData}`,
+    value: Role.CheckData,
   },
   {
     label: `${Role.CreateData}`,
     value: Role.CreateData,
+  },
+  {
+    label: `${Role.VizualizeData}`,
+    value: Role.VizualizeData,
   },
   {
     label: `${Role.InputData}`,

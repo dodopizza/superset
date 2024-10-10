@@ -20,22 +20,22 @@ export const RoleDescription = () => {
         backgroundColor: theme.colors.grayscale.light5,
       }}
     >
-      <Descriptions.Item label={t('Analyse Data')}>
+      <Descriptions.Item label={t('Check Data')}>
         <List>
-          <li>{t('Analyze available dashboards')}</li>
+          <li>{t('Check available dashboards')}</li>
           <li>{t('Gather insights from charts inside a dashboard')}</li>
-        </List>
-      </Descriptions.Item>
-      <Descriptions.Item label={t('Use Data')}>
-        <List>
-          <li>{t('Create dashboards')}</li>
-          <li>{t('Create charts')}</li>
         </List>
       </Descriptions.Item>
       <Descriptions.Item label={t('Create Data')}>
         <List>
           <li>{t('Create datasets from sources from Data Platform')}</li>
           <li>{t('Use SQL Lab for your Ad-hoc queries')}</li>
+        </List>
+      </Descriptions.Item>
+      <Descriptions.Item label={t('Vizualize Data')}>
+        <List>
+          <li>{t('Create dashboards')}</li>
+          <li>{t('Create charts')}</li>
         </List>
       </Descriptions.Item>
       <Descriptions.Item label={t('Input Data')}>
