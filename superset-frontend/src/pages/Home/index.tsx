@@ -53,9 +53,9 @@ import SubMenu, { SubMenuProps } from 'src/features/home/SubMenu';
 import { userHasPermission } from 'src/dashboard/util/permissionUtils';
 import { WelcomePageLastTab } from 'src/features/home/types';
 import ActivityTable from 'src/features/home/ActivityTable';
-import ChartTable from 'src/features/home/ChartTable';
-import SavedQueries from 'src/features/home/SavedQueries';
-import DashboardTable from 'src/features/home/DashboardTable';
+// import ChartTable from 'src/features/home/ChartTable';
+// import SavedQueries from 'src/features/home/SavedQueries';
+// import DashboardTable from 'src/features/home/DashboardTable';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -382,7 +382,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
                   <LoadingCards />
                 )}
               </Collapse.Panel>
-              <Collapse.Panel header={t('Dashboards')} key="2">
+              {/* <Collapse.Panel header={t('Dashboards')} key="2">
                 {!dashboardData || isRecentActivityLoading ? (
                   <LoadingCards cover={checked} />
                 ) : (
@@ -423,7 +423,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
                     />
                   )}
                 </Collapse.Panel>
-              )}
+              )} */}
             </Collapse>
           </>
         )}
