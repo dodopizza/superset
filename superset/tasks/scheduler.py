@@ -130,7 +130,7 @@ def kafka_send() -> None:
         kafka_config = app.config["KAFKA_CONFIG"]
         producer = Producer(kafka_config)
     except Exception as e:
-        logger.warning(e)
+        logger.error(e)
 
     def send_logs(topic, message):
         producer.produce(topic, value=message)

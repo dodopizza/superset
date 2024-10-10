@@ -704,11 +704,6 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             changed_model = UpdateDashboardCommand(pk, item).run()
-            # team = get_team_by_user_id()
-            # team_slug = team.slug
-            # object_type = ObjectTypes.dashboard
-            # object_id = changed_model.id
-            # CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             last_modified_time = changed_model.changed_on.replace(
                 microsecond=0
             ).timestamp()

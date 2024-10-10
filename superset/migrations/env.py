@@ -115,10 +115,11 @@ def run_migrations_online() -> None:
         **kwargs,
     )
 
-    with context.begin_transaction():
-        context.run_migrations()
-
-    connection.close()
+    try:
+        with context.begin_transaction():
+            context.run_migrations()
+    finally:
+        connection.close()
 
 
 if context.is_offline_mode():
