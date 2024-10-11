@@ -4,7 +4,7 @@ import moment from 'moment';
 import { styled, SupersetClient, t } from '@superset-ui/core';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
 import { Space } from 'antd';
-import { REQUEST_PAGE_URL } from '../../DodoExtensions/onBoarding/consts';
+// import { REQUEST_PAGE_URL } from '../../DodoExtensions/onBoarding/consts';
 import Button from '../../components/Button';
 import { setInitByUserStorageInfo } from '../../DodoExtensions/onBoarding/utils/localStorageUtils';
 

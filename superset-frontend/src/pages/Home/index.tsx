@@ -192,7 +192,8 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     'welcome.main.replacement',
   );
 
-  const [otherTabTitle, otherTabFilters] = useMemo(() => {
+  // const [otherTabTitle, otherTabFilters] = useMemo(() => {
+  const [, otherTabFilters] = useMemo(() => {
     const lastTab = bootstrapData.common?.conf
       .WELCOME_PAGE_LAST_TAB as WelcomePageLastTab;
     const [customTitle, customFilter] = Array.isArray(lastTab)
@@ -325,8 +326,8 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     }
   }, [activityData]);
 
-  const isRecentActivityLoading =
-    !activityData?.[TableTab.Other] && !activityData?.[TableTab.Viewed];
+  // const isRecentActivityLoading =
+  //   !activityData?.[TableTab.Other] && !activityData?.[TableTab.Viewed];
 
   const menuData: SubMenuProps = {
     activeChild: 'Home',
