@@ -34,8 +34,6 @@ import {
   OBJECT_TYPES,
 } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
-import { useSelector } from 'react-redux';
-import { getUserInfo } from '../../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -636,10 +634,6 @@ const PropertiesModal = ({
     const uniqueTags = [...new Set(values.map(v => v.label))];
     setTags([...uniqueTags.map(t => ({ name: t }))]);
   };
-
-  // DODO added start 35537946
-  const user = useSelector(getUserInfo);
-  // DODO added stop 35537946
 
   return (
     <Modal
