@@ -15,7 +15,8 @@ export const RoleDescription = () => {
     <Descriptions
       size="small"
       bordered
-      column={{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }}
+      // column={{ xxl: 2, xl: 2, lg: 1, md: 1, sm: 1, xs: 1 }}
+      column={1}
       contentStyle={{
         backgroundColor: theme.colors.grayscale.light5,
       }}

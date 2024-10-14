@@ -61,26 +61,6 @@ export const RequestPage: FC = () => {
         <>
           <RequestData data={requestData} />
 
-          <Divider />
-
-          <Descriptions
-            title={t('What roles and teams should be?')}
-            size="small"
-            bordered
-            column={{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }}
-            contentStyle={{ backgroundColor: theme.colors.grayscale.light5 }}
-          >
-            <Descriptions.Item label={t('If this is C-level')}>
-              {t('give: c_level')}
-            </Descriptions.Item>
-            <Descriptions.Item label={t("If it's a franchisee")}>
-              {t('Give: fr_{last name}_{first name}')}
-            </Descriptions.Item>
-            <Descriptions.Item label={t('If from management company')}>
-              {t('Give: by the name of the team')}
-            </Descriptions.Item>
-          </Descriptions>
-
           <Divider orientation="left">{t('Team search')}</Divider>
 
           <Row gutter={24}>
@@ -136,7 +116,29 @@ export const RequestPage: FC = () => {
                 )}
               </StyledSpace>
             </Col>
-            <Col span={16}>
+            <Col span={8}>
+              <Descriptions
+                // title={t('What roles and teams should be?')}
+                size="small"
+                bordered
+                // column={{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }}
+                column={1}
+                contentStyle={{
+                  backgroundColor: theme.colors.grayscale.light5,
+                }}
+              >
+                <Descriptions.Item label={t('If this is C-level')}>
+                  {t('give: c_level')}
+                </Descriptions.Item>
+                <Descriptions.Item label={t("If it's a franchisee")}>
+                  {t('Give: fr_{last name}_{first name}')}
+                </Descriptions.Item>
+                <Descriptions.Item label={t('If from management company')}>
+                  {t('Give: by the name of the team')}
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+            <Col span={8}>
               <RoleDescription />
             </Col>
           </Row>
