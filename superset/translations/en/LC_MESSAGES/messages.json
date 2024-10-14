@@ -11594,16 +11594,10 @@
       "Create dashboards. Create charts": [
         ""
       ],
-      "Create datasets from data from Data Platform": [
+      "Create datasets and use SQL Lab": [
         ""
       ],
-      "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": [
-        ""
-      ],
-      "Create datasets from data from isolated databases": [
-        ""
-      ],
-      "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [
+      "Create datasets. Use SQL Lab for your Ad-hoc queries": [
         ""
       ],
       "Based on your selection, your roles are:": [
@@ -11657,13 +11651,10 @@
       "Create charts": [
         ""
       ],
-      "Create datasets from sources from Data Platform": [
+      "Create datasets": [
         ""
       ],
       "Use SQL Lab for your Ad-hoc queries": [
-        ""
-      ],
-      "Add your own data sources to Superset": [
         ""
       ],
       "What roles and teams should be?": [

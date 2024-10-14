@@ -184,9 +184,9 @@ export default function UserInfo({ user }: UserInfoProps) {
                       &nbsp;&nbsp;&nbsp;
                       <span>
                         {/* <a href={REQUEST_PAGE_URL.replace(':id', `${item.id}`)}>
-                          {item.id}
+                          #{item.id} (team request)
                         </a> */}
-                        {item.id}
+                        #{item.id} (team request)
                       </span>
                     </li>
                   );

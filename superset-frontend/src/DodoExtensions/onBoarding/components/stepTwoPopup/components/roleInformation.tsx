@@ -13,16 +13,11 @@ const checkData: Array<string> = [
 ];
 
 const createData: Array<string> = [
-  'Create datasets from sources from Data Platform',
+  'Create datasets',
   'Use SQL Lab for your Ad-hoc queries',
 ];
 
 const vizualizeData: Array<string> = ['Create dashboards', 'Create charts'];
-
-const inputData: Array<string> = [
-  'Add your own data sources to Superset',
-  'Use SQL Lab for your Ad-hoc queries',
-];
 
 const StyledList = styled(List)`
   & .ant-list-header {
@@ -59,7 +54,6 @@ const content = (
     <RoleInfo title="Check Data" data={checkData} />
     <RoleInfo title="Create Data" data={createData} />
     <RoleInfo title="Vizualize Data" data={vizualizeData} />
-    <RoleInfo title="Input Data" data={inputData} />
   </>
 );
 

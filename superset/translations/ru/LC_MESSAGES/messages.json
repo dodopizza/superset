@@ -11034,17 +11034,11 @@
       "Create dashboards. Create charts": [
         "Создание дашбордов, создание графиков"
       ],
-      "Create datasets from data from Data Platform": [
-        "Создание датасетов на основе данных в Data Platform"
+      "Create datasets and use SQL Lab": [
+        "Создание датасетов и использование SQL Lab"
       ],
-      "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": [
-        "Создание датасетов из источников, находящихся в Data Platform. Использование SQL Lab для произвольных запросов"
-      ],
-      "Create datasets from data from isolated databases": [
-        "Создание датасетов на основе данных в изолированных базах"
-      ],
-      "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [
-        "Добавление в Суперсет своих источников данных. Использование SQL Lab для произвольных запросов"
+      "Create datasets. Use SQL Lab for your Ad-hoc queries": [
+        "Создание датасетов. Использование SQL Lab для Ad-hoc запросов"
       ],
       "Based on your selection, your roles are:": [
         "Вы выбрали следующие роли"
@@ -11097,14 +11091,11 @@
       "Create charts": [
         "Создание графиков"
       ],
-      "Create datasets from sources from Data Platform": [
-        "Создание датасетов из источников, находящихся в Data Platform"
+      "Create datasets": [
+        "Создание датасетов"
       ],
       "Use SQL Lab for your Ad-hoc queries": [
         "Использование SQL Lab для произвольных запросов"
-      ],
-      "Add your own data sources to Superset": [
-        "Добавление в Суперсет своих источников данных"
       ],
       "What roles and teams should be?": [
         "Кому давать какие команды и роли?"

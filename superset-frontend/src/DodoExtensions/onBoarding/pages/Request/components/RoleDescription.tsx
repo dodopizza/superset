@@ -28,7 +28,7 @@ export const RoleDescription = () => {
       </Descriptions.Item>
       <Descriptions.Item label={t('Create Data')}>
         <List>
-          <li>{t('Create datasets from sources from Data Platform')}</li>
+          <li>{t('Create datasets')}</li>
           <li>{t('Use SQL Lab for your Ad-hoc queries')}</li>
         </List>
       </Descriptions.Item>
@@ -36,12 +36,6 @@ export const RoleDescription = () => {
         <List>
           <li>{t('Create dashboards')}</li>
           <li>{t('Create charts')}</li>
-        </List>
-      </Descriptions.Item>
-      <Descriptions.Item label={t('Input Data')}>
-        <List>
-          <li>{t('Add your own data sources to Superset')}</li>
-          <li>{t('Use SQL Lab for your Ad-hoc queries')}</li>
         </List>
       </Descriptions.Item>
     </Descriptions>
