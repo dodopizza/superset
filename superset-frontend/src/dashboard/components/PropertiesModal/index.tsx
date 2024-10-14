@@ -770,7 +770,6 @@ const PropertiesModal = ({
                   options={loadTags}
                   onChange={handleChangeTags}
                   allowClear
-                  disabled={!user?.roles?.Admin} // DODO added 35537946
                 />
               </StyledFormItem>
               <p className="help-block">
