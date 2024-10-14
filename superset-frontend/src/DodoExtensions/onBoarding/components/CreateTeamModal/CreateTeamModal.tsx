@@ -34,10 +34,6 @@ const RolesList: SelectProps['options'] = [
     label: `${Role.VizualizeData}`,
     value: Role.VizualizeData,
   },
-  {
-    label: `${Role.InputData}`,
-    value: Role.InputData,
-  },
 ];
 
 const FromList: SelectProps['options'] = [

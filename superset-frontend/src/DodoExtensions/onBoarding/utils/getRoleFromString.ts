@@ -11,9 +11,6 @@ export const getRoleFromString = ({ name }: { name: string }): Role => {
     case Role.VizualizeData: {
       return Role.VizualizeData;
     }
-    case Role.InputData: {
-      return Role.InputData;
-    }
     default:
       return Role.Unknown;
   }

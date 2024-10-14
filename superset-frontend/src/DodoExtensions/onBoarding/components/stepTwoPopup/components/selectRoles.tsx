@@ -65,22 +65,12 @@ export const SelectRoles: FC<Props> = memo(
           />
           <CheckboxControl
             hovered
-            label={t('Create datasets from data from Data Platform')}
+            label={t('Create datasets and use SQL Lab')}
             description={t(
-              'Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries',
+              'Create datasets. Use SQL Lab for your Ad-hoc queries',
             )}
             value={roles.includes(Role.CreateData)}
             onChange={(value: boolean) => updateRoles(value, Role.CreateData)}
-            disabled={noTeam || existingTeam || isFranchisee}
-          />
-          <CheckboxControl
-            hovered
-            label={t('Create datasets from data from isolated databases')}
-            description={t(
-              'Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries',
-            )}
-            value={roles.includes(Role.InputData)}
-            onChange={(value: boolean) => updateRoles(value, Role.InputData)}
             disabled={noTeam || existingTeam || isFranchisee}
           />
           <Typography.Text>

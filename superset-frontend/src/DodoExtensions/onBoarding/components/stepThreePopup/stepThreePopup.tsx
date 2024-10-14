@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Col, Row } from 'src/components';
 import { Typography } from 'antd';
 import { styled, t } from '@superset-ui/core';
-import { Link } from 'react-router-dom';
 import Modal from '../../../../components/Modal';
 
 const Wrapper = styled.div`
@@ -34,9 +33,7 @@ export const StepThreePopup: FC<Props> = ({ onClose }) => {
               {t(
                 'Request will be proceed by administrators. You can see your requests in',
               )}
-              <Link to="/superset/profile/" target="_blank">
-                &nbsp;{t('profile')}.
-              </Link>
+              <a href="/superset/profile/">&nbsp;{t('profile')}.</a>
             </Paragraph>
           </Col>
 

@@ -434,6 +434,9 @@
       "A list of tags that have been applied to this chart.": [
         ""
       ],
+      "Your team tags will be added automatically": [
+        ""
+      ],
       "A list of users who can alter the chart. Searchable by name or username.": [
         ""
       ],
@@ -11520,102 +11523,6 @@
       "List Roles": [
         ""
       ],
-      "Pin column": [
-        ""
-      ],
-      "Pin column with horizontal scroll": [
-        ""
-      ],
-      "Custom (until include)": [
-        "Select date (until included)"
-      ],
-      "END (INCLUSIVE)": [
-        ""
-      ],
-      "use latest_partition template": [
-        ""
-      ],
-      "value ascending": [
-        ""
-      ],
-      "value descending": [
-        ""
-      ],
-      "var": [
-        ""
-      ],
-      "variance": [
-        ""
-      ],
-      "view instructions": [
-        ""
-      ],
-      "virtual": [
-        ""
-      ],
-      "viz type": [
-        ""
-      ],
-      "was created": [
-        ""
-      ],
-      "week": [
-        ""
-      ],
-      "week ending Saturday": [
-        ""
-      ],
-      "week starting Sunday": [
-        ""
-      ],
-      "x": [
-        ""
-      ],
-      "x: values are normalized within each column": [
-        ""
-      ],
-      "y": [
-        ""
-      ],
-      "y: values are normalized within each row": [
-        ""
-      ],
-      "year": [
-        ""
-      ],
-      "zoom area": [
-        ""
-      ],
-      "Custom": [
-        "Exact date"
-      ],
-      "Week starting sunday": [
-        ""
-      ],
-      "Week starting monday": [
-        ""
-      ],
-      "Week ending saturday": [
-        ""
-      ],
-      "Week_ending sunday": [
-        ""
-      ],
-      "Week starting Sunday": [
-        ""
-      ],
-      "Week starting Monday": [
-        ""
-      ],
-      "Week ending Saturday": [
-        ""
-      ],
-      "List Users": [
-        ""
-      ],
-      "List Roles": [
-        ""
-      ],
       "Teams": [
         ""
       ],
@@ -11626,6 +11533,12 @@
         ""
       ],
       "Onboarding": [
+        ""
+      ],
+      "Team will be assigned by administrator": [
+        ""
+      ],
+      "Go through onboarding first, to be added to the team": [
         ""
       ],
       "Tell us more about yourself": [
@@ -11666,10 +11579,13 @@
       "Which use cases are you interested in using Superset for?": [
         ""
       ],
-      "Analyze data": [
+      "Check data": [
         ""
       ],
-      "Analyze available dashboards. Gather insights from charts inside a dashboard": [
+      "Check available dashboards": [
+        ""
+      ],
+      "Check available dashboards. Gather insights from charts inside a dashboard": [
         ""
       ],
       "Create dashboards and charts": [
@@ -11678,16 +11594,10 @@
       "Create dashboards. Create charts": [
         ""
       ],
-      "Create datasets from data from Data Platform": [
+      "Create datasets and use SQL Lab": [
         ""
       ],
-      "Create datasets from sources from Data Platform. Use SQL Lab for your Ad-hoc queries": [
-        ""
-      ],
-      "Create datasets from data from isolated databases": [
-        ""
-      ],
-      "Add your own data sources to Superset. Use SQL Lab for your Ad-hoc queries": [
+      "Create datasets. Use SQL Lab for your Ad-hoc queries": [
         ""
       ],
       "Based on your selection, your roles are:": [
@@ -11741,13 +11651,10 @@
       "Create charts": [
         ""
       ],
-      "Create datasets from sources from Data Platform": [
+      "Create datasets": [
         ""
       ],
       "Use SQL Lab for your Ad-hoc queries": [
-        ""
-      ],
-      "Add your own data sources to Superset": [
         ""
       ],
       "What roles and teams should be?": [

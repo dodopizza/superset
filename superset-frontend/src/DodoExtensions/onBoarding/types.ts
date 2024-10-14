@@ -7,7 +7,6 @@ export enum Role {
   CheckData = 'Check data',
   CreateData = 'Create data',
   VizualizeData = 'Vizualize data',
-  InputData = 'Input data',
   Unknown = 'Unknown',
 }
 
