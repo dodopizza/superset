@@ -10,7 +10,6 @@ class CustomDodoRoles(enum.Enum):
     Check_Data = "Check data"
     Create_Data = "Create data"
     Vizualize_Data = "Vizualize data"
-    Input_Data = "Input data"
 
 
 class UserSchema(Schema):

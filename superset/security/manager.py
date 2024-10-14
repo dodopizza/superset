@@ -798,7 +798,6 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         self.set_role("Vizualize data", self._is_empty_role_only)
         self.set_role("Check data", self._is_empty_role_only)
         self.set_role("Create data", self._is_empty_role_only)
-        self.set_role("Input data", self._is_empty_role_only)
 
         # Configure public role
         if current_app.config["PUBLIC_ROLE_LIKE"]:
