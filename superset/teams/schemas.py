@@ -7,7 +7,7 @@ from superset.tags.models import TagTypes
 
 
 class CustomDodoRoles(enum.Enum):
-    Check_Data = "Check data"
+    Check_Data = "readonly"
     Create_Data = "Create data"
     Vizualize_Data = "Vizualize data"
 
