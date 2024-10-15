@@ -25,6 +25,7 @@ import os
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
+from datetime import timedelta
 
 logger = logging.getLogger()
 
@@ -92,7 +93,7 @@ class CeleryConfig:
         },
         "reports.kafka_send": {
             "task": "reports.kafka_send",
-            "schedule": crontab(minute=3, hour=0),
+            "schedule": timedelta(seconds=30),
         }
     }
 
