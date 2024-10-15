@@ -2,8 +2,8 @@ import { Role } from '../types';
 
 export const getRoleFromString = ({ name }: { name: string }): Role => {
   switch (name) {
-    case Role.CheckData: {
-      return Role.CheckData;
+    case Role.readonly: {
+      return Role.readonly;
     }
     case Role.CreateData: {
       return Role.CreateData;

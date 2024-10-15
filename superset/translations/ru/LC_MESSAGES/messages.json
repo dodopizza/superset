@@ -11019,8 +11019,14 @@
       "Which use cases are you interested in using Superset for?": [
         "Как вы планируете использовать Суперсет?"
       ],
-      "Check data": [
+      "readonly": [
         "Анализ данных"
+      ],
+      "Create data": [
+        "Подготовка данных"
+      ],
+      "Vizualize data": [
+        "Визуализация данных"
       ],
       "Check available dashboards": [
         "Проверка доступных дашбордов"

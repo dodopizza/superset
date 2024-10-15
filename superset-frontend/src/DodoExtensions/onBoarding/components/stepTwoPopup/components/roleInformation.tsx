@@ -51,7 +51,7 @@ const RoleInfo: FC<{ title: string; data: Array<string> }> = ({
 
 const content = (
   <>
-    <RoleInfo title="Check Data" data={checkData} />
+    <RoleInfo title="readonly" data={checkData} />
     <RoleInfo title="Create Data" data={createData} />
     <RoleInfo title="Vizualize Data" data={vizualizeData} />
   </>

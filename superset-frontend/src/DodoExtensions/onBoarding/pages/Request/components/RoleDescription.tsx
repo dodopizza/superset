@@ -21,7 +21,7 @@ export const RoleDescription = () => {
         backgroundColor: theme.colors.grayscale.light5,
       }}
     >
-      <Descriptions.Item label={t('Check Data')}>
+      <Descriptions.Item label={t('readonly')}>
         <List>
           <li>{t('Check available dashboards')}</li>
           <li>{t('Gather insights from charts inside a dashboard')}</li>
