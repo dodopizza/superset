@@ -128,10 +128,11 @@ class Dashboard(BaseSupersetView):
         db.session.add(new_dashboard)
         db.session.commit()
         team = get_team_by_user_id()
-        team_slug = team.slug
-        object_type = ObjectTypes.dashboard
-        object_id = new_dashboard.id
-        CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
+        if team:
+            team_slug = team.slug
+            object_type = ObjectTypes.dashboard
+            object_id = new_dashboard.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
         return redirect(f"/superset/dashboard/{new_dashboard.id}/?edit=true")
 
     @expose("/<dashboard_id_or_slug>/embedded")
