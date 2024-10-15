@@ -133,6 +133,7 @@ def kafka_send() -> None:
         logger.error(e)
 
     def send_logs(topic, message):
+        logger.warning("send_logs")
         producer.produce(topic, value=message)
         producer.flush()
 
@@ -153,6 +154,7 @@ def kafka_send() -> None:
             Team
         ).filter(
             Log.dttm > previous_day).filter(Log.dttm < current_msk_time).all())
+        logger.warning("kafka_send")
         send_logs(app.config["KAFKA_TOPIC"], logs)
     except Exception as e:
         logger.warning(e)
