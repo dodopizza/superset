@@ -11011,10 +11011,10 @@
         "Название вашей команды:"
       ],
       "is a known command, so you can enter the team automatically.": [
-        "существующая команда, вы можете присоединиться к ней автоматически"
+        "это существующая команда, вы можете присоединиться к ней автоматически"
       ],
       "is a new team, so Superset admins will have to evaluate this request.": [
-        "новая команда, администраторы Суперсета обработают вашу заявку"
+        "это новая команда. Администратор обработает вашу заявку"
       ],
       "Which use cases are you interested in using Superset for?": [
         "Как вы планируете использовать Суперсет?"
@@ -11166,9 +11166,10 @@
       "You request created": [
         "Ваша заявка создана"
       ],
-      "Select `C LEVEL` if you ‘c level’ in DODO": [
-        "Выберите `C LEVEL` если вы ‘c level’ в ДОДО"
+      "Select `C_LEVEL` if you are a ‘C level’ in DODO": [
+        "Выберите `C_LEVEL` если вы ‘C level’ в ДОДО"
       ],
+      "enter team name": ["Введите название команды"],
       "Request will be proceed by administrators. You can see your requests in": [
         "Заявка будет обработана администраторами. Вы можете увидеть ваши заявки в "
       ],

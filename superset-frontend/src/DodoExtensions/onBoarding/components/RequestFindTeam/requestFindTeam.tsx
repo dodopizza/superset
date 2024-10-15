@@ -48,11 +48,11 @@ export const RequestFindTeam: FC<Props> = memo(
         disabled={disabled}
       >
         <Input.Search
-          placeholder={t('enter team')}
+          placeholder={t('enter team name')}
           loading={teamsIsLoading}
           allowClear
           enterButton
-          size="large"
+          size="middle"
         />
       </AutoComplete>
     );
