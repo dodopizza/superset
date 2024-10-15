@@ -11579,7 +11579,13 @@
       "Which use cases are you interested in using Superset for?": [
         ""
       ],
-      "Check data": [
+      "readonly": [
+        "Check data"
+      ],
+      "Create data": [
+        ""
+      ],
+      "Vizualize data": [
         ""
       ],
       "Check available dashboards": [
