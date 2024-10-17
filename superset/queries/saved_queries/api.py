@@ -173,10 +173,11 @@ class SavedQueryRestApi(BaseSupersetModelRestApi):
     def pre_add(self, item: SavedQuery) -> None:
         item.user = g.user
         team = get_team_by_user_id()
-        team_slug = team.slug
-        object_type = ObjectTypes.query
-        object_id = item.id
-        CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
+        if team:
+            team_slug = team.slug
+            object_type = ObjectTypes.query
+            object_id = item.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
 
     def pre_update(self, item: SavedQuery) -> None:
         self.pre_add(item)
