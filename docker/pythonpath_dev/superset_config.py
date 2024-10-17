@@ -91,10 +91,6 @@ class CeleryConfig:
             "task": "reports.prune_log",
             "schedule": crontab(minute=10, hour=0),
         },
-        "reports.kafka_send": {
-            "task": "reports.kafka_send",
-            "schedule": timedelta(seconds=30),
-        }
     }
 
 
