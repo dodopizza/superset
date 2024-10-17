@@ -34,7 +34,7 @@ import {
   dangerouslySetItemDoNotUse,
   getItem,
   LocalStorageKeys,
-  setItem,
+  // setItem, // DODO commented out 37852927
 } from 'src/utils/localStorageHelpers';
 import ListViewCard from 'src/components/ListViewCard';
 import withToasts from 'src/components/MessageToasts/withToasts';
@@ -75,7 +75,7 @@ interface LoadingProps {
   cover?: boolean;
 }
 
-const DEFAULT_TAB_ARR = ['2', '3'];
+// const DEFAULT_TAB_ARR = ['2', '3']; // DODO commented out 37852927
 
 const WelcomeContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.grayscale.light4};
@@ -178,13 +178,15 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
   );
   const [isFetchingActivityData, setIsFetchingActivityData] = useState(true);
 
-  const collapseState = getItem(LocalStorageKeys.homepage_collapse_state, []);
-  const [activeState, setActiveState] = useState<Array<string>>(collapseState);
+  // DODO commented out 37852927
+  // const collapseState = getItem(LocalStorageKeys.homepage_collapse_state, []);
+  // const [activeState, setActiveState] = useState<Array<string>>(collapseState);
 
-  const handleCollapse = (state: Array<string>) => {
-    setActiveState(state);
-    setItem(LocalStorageKeys.homepage_collapse_state, state);
-  };
+  // DODO commented out 37852927
+  // const handleCollapse = (state: Array<string>) => {
+  //   setActiveState(state);
+  //   setItem(LocalStorageKeys.homepage_collapse_state, state);
+  // };
 
   const WelcomeMessageExtension = extensionsRegistry.get('welcome.message');
   const WelcomeTopExtension = extensionsRegistry.get('welcome.banner');
@@ -222,7 +224,8 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
       return;
     }
     const activeTab = getItem(LocalStorageKeys.homepage_activity_filter, null);
-    setActiveState(collapseState.length > 0 ? collapseState : DEFAULT_TAB_ARR);
+    // DODO commented out 37852927
+    // setActiveState(collapseState.length > 0 ? collapseState : DEFAULT_TAB_ARR);
     getRecentActivityObjs(user.userId!, recent, addDangerToast, otherTabFilters)
       .then(res => {
         const data: ActivityData | null = {};
@@ -307,9 +310,10 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
   };
 
   useEffect(() => {
-    if (!collapseState && queryData?.length) {
-      setActiveState(activeState => [...activeState, '4']);
-    }
+    // DODO commented out 37852927
+    // if (!collapseState && queryData?.length) {
+    //   setActiveState(activeState => [...activeState, '4']);
+    // }
     setActivityData(activityData => ({
       ...activityData,
       Created: [
@@ -320,11 +324,12 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
     }));
   }, [chartData, queryData, dashboardData]);
 
-  useEffect(() => {
-    if (!collapseState && activityData?.[TableTab.Viewed]?.length) {
-      setActiveState(activeState => ['1', ...activeState]);
-    }
-  }, [activityData]);
+  // DODO commented out 37852927
+  // useEffect(() => {
+  //   if (!collapseState && activityData?.[TableTab.Viewed]?.length) {
+  //     setActiveState(activeState => ['1', ...activeState]);
+  //   }
+  // }, [activityData]);
 
   // const isRecentActivityLoading =
   //   !activityData?.[TableTab.Other] && !activityData?.[TableTab.Viewed];
@@ -360,12 +365,8 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
         {WelcomeMainExtension && <WelcomeMainExtension />}
         {(!WelcomeTopExtension || !WelcomeMainExtension) && (
           <>
-            <Collapse
-              activeKey={activeState}
-              onChange={handleCollapse}
-              ghost
-              bigger
-            >
+            {/* DODO changed 37852927 */}
+            <Collapse activeKey={['1']} ghost bigger>
               <Collapse.Panel header={t('Recents')} key="1">
                 {activityData &&
                 (activityData[TableTab.Viewed] ||
@@ -383,6 +384,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
                   <LoadingCards />
                 )}
               </Collapse.Panel>
+              {/* DODO commented out 37852927 */}
               {/* <Collapse.Panel header={t('Dashboards')} key="2">
                 {!dashboardData || isRecentActivityLoading ? (
                   <LoadingCards cover={checked} />
