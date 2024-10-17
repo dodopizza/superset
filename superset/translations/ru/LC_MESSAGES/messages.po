@@ -20269,3 +20269,15 @@ msgstr "год"
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:521
 msgid "zoom area"
 msgstr ""
+
+#: superset-frontend/src/DodoExtensions/onBoarding/components/stepOnePopup.tsx:35
+msgid "You are welcome to Superset"
+msgstr "Добро пожаловать в Суперсет"
+
+#: superset-frontend/src/features/home/RightMenu.tsx:473
+msgid "Onboarding"
+msgstr "Онбоардинг"
+
+#: superset-frontend/src/DodoExtensions/onBoarding/components/stepOnePopup/stepOnePopup.tsx:43
+msgid "Tell us more about yourself"
+msgstr "Расскажите нам о себе"

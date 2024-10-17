@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, styled } from '@superset-ui/core';
+import { styled, t } from '@superset-ui/core';
 import React, { useCallback, useEffect, useRef } from 'react';
 import Alert from 'src/components/Alert';
 import cx from 'classnames';
@@ -29,10 +29,10 @@ import CardCollection from './CardCollection';
 import FilterControls from './Filters';
 import { CardSortSelect } from './CardSortSelect';
 import {
+  CardSortSelectOption,
   FetchDataConfig,
   Filters,
   SortColumn,
-  CardSortSelectOption,
   ViewModeType,
 } from './types';
 import { ListViewError, useListViewState } from './utils';

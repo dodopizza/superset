@@ -434,6 +434,9 @@
       "A list of tags that have been applied to this chart.": [
         ""
       ],
+      "Your team tags will be added automatically": [
+        ""
+      ],
       "A list of users who can alter the chart. Searchable by name or username.": [
         ""
       ],
@@ -11520,6 +11523,216 @@
       "List Roles": [
         ""
       ],
+      "Teams": [
+        ""
+      ],
+      "Requests": [
+        ""
+      ],
+      "You are welcome to Superset": [
+        ""
+      ],
+      "Onboarding": [
+        ""
+      ],
+      "Team will be assigned by administrator": [
+        ""
+      ],
+      "Go through onboarding first, to be added to the team": [
+        ""
+      ],
+      "Tell us more about yourself": [
+        ""
+      ],
+      "All the data is from Dodo IS. Please enter your team or role. It helps to proceed your request.": [
+        ""
+      ],
+      "First name": [],
+      "Last name": [],
+      "Role in Dodo Brands": [],
+      "Please input your role in Dodo Brands!": [],
+      "Next step": [],
+      "Tell us why you are here": [],
+      "Are you a franchisee or from a Managing Company?": [],
+      "Finish onboarding": [],
+      "Franchisee": [
+        ""
+      ],
+      "Managing Company": [
+        ""
+      ],
+      "Create of find your team": [
+        ""
+      ],
+      "your team": [
+        ""
+      ],
+      "Your team name is": [
+        ""
+      ],
+      "is a known command, so you can enter the team automatically.": [
+        ""
+      ],
+      "is a new team, so Superset admins will have to evaluate this request.": [
+        ""
+      ],
+      "Which use cases are you interested in using Superset for?": [
+        ""
+      ],
+      "readonly": [
+        "Check data"
+      ],
+      "Create data": [
+        ""
+      ],
+      "Vizualize data": [
+        ""
+      ],
+      "Check available dashboards": [
+        ""
+      ],
+      "Check available dashboards. Gather insights from charts inside a dashboard": [
+        ""
+      ],
+      "Create dashboards and charts": [
+        ""
+      ],
+      "Create dashboards. Create charts": [
+        ""
+      ],
+      "Create datasets and use SQL Lab": [
+        ""
+      ],
+      "Create datasets. Use SQL Lab for your Ad-hoc queries": [
+        ""
+      ],
+      "Based on your selection, your roles are:": [
+        ""
+      ],
+      "Minimum 3 characters": [
+        ""
+      ],
+      "Maximum 30 characters": [
+        ""
+      ],
+      "Closed": [
+        ""
+      ],
+      "Request date": [
+        ""
+      ],
+      "Team": [
+        ""
+      ],
+      "Requested roles": [
+        ""
+      ],
+      "Onboarding request": [
+        ""
+      ],
+      "User from": [
+        ""
+      ],
+      "Current roles": [
+        ""
+      ],
+      "Update date": [
+        ""
+      ],
+      "If this is C-level": [
+        ""
+      ],
+      "Team search": [
+        ""
+      ],
+      "Analyze available dashboards": [
+        ""
+      ],
+      "Gather insights from charts inside a dashboard": [
+        ""
+      ],
+      "Create dashboards": [
+        ""
+      ],
+      "Create charts": [
+        ""
+      ],
+      "Create datasets": [
+        ""
+      ],
+      "Use SQL Lab for your Ad-hoc queries": [
+        ""
+      ],
+      "What roles and teams should be?": [
+        ""
+      ],
+      "If it's a franchisee": [
+        ""
+      ],
+      "If from management company": [
+        ""
+      ],
+      "Give: by the name of the team": [
+        ""
+      ],
+      "Give: fr_{last name}_{first name}": [
+        ""
+      ],
+      "give: c_level": [
+        ""
+      ],
+      "Create new team": [
+        ""
+      ],
+      "New team will be created": [
+        ""
+      ],
+      "Team Name": [
+        ""
+      ],
+      "Full Team Name": [
+        ""
+      ],
+      "User will update is on the next step": [
+        ""
+      ],
+      "Create team": [
+        ""
+      ],
+      "New Roles": [
+        ""
+      ],
+      "Apply roles and link to a team": [
+        ""
+      ],
+      "User update": [
+        ""
+      ],
+      "Members": [
+        ""
+      ],
+      "Members count": [
+        ""
+      ],
+      "Login count": [
+        ""
+      ],
+      "Last login date": [
+        ""
+      ],
+      "You request created": [
+        ""
+      ],
+      "Select `C_LEVEL` if you are a ‘C level’ in DODO": [
+        ""
+      ],
+      "enter team name": [""],
+      "Request will be proceed by administrators. You can see your requests in": [
+        ""
+      ],
+      "profile": [
+        ""
+      ],
       "Pin column": [
         ""
       ],
@@ -11527,7 +11740,7 @@
         ""
       ],
       "Custom (until include)": [
-        "Select date (until included)"
+        "Exact date (until include)"
       ],
       "END (INCLUSIVE)": [
         ""

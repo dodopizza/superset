@@ -25,6 +25,7 @@ from superset import security_manager
 from superset.commands.exceptions import (
     DatasourceNotFoundValidationError,
     OwnersNotFoundValidationError,
+    ParticipantNotFoundValidationError,
     RolesNotFoundValidationError,
 )
 from superset.daos.datasource import DatasourceDAO
@@ -84,3 +85,37 @@ def get_datasource_by_id(datasource_id: int, datasource_type: str) -> BaseDataso
         )
     except DatasourceNotFound as ex:
         raise DatasourceNotFoundValidationError() from ex
+
+
+def get_ids_roles_by_name(role_names: list):
+    roles: list[Role] = []
+    if role_names:
+        roles = security_manager.find_roles_by_name(role_names)
+        if len(roles) != len(role_names):
+            raise RolesNotFoundValidationError()
+    return roles
+
+
+def populate_participants(
+    participant_ids: list[int] | None
+) -> list[User]:
+    """
+    Helper function for commands, will fetch all users from owners id's
+
+    :param participant_ids: list of owners by id's
+    :raises ParticipantNotFoundValidationError: if at least one participant id can't be resolved
+    :returns: Final list of participants
+    """
+    participant_ids = participant_ids or []
+    participants = []
+    if not participant_ids:
+        raise
+    if not (security_manager.is_admin() or get_user_id() in participant_ids):
+        # make sure non-admins can't remove themselves as owner by mistake
+        participants.append(g.user)
+    for participant_id in participant_ids:
+        participant = security_manager.get_user_by_id(participant_id)
+        if not participant:
+            raise ParticipantNotFoundValidationError()
+        participants.append(participant)
+    return participants
