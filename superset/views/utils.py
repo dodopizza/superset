@@ -222,30 +222,55 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         raise ErrorLevel.ERROR
 
 
-def insert_country(country_iso_num: int):
+def insert_country(country_iso_num: int, email: str):
     try:
         import pycountry
         country_name = pycountry.countries.get(numeric=f"{country_iso_num}").name
-        user_id = get_user_id()
+        user = (
+            db.session.query(User).filter(
+                User.email == email).one_or_none()
+        )
+        user_id = user.id
+
         user_info = (
             db.session.query(UserInfo).filter(
                 UserInfo.user_id == user_id).one_or_none()
         )
-        user_info.country = country_name
+        if user_info:
+            create_userinfo('ru')
+            user_info = (
+                db.session.query(UserInfo).filter(
+                    UserInfo.user_id == user_id).one_or_none()
+            )
+        user_info.country_name = country_name
+        user_info.country_num = country_iso_num
         db.session.commit()
+
     except AttributeError:
         logger.warning("Error add to db country")
 
 
-def insert_data_auth(data_auth: str):
+def insert_data_auth(data_auth: str, email: str):
     try:
-        user_id = get_user_id()
+        user = (
+            db.session.query(User).filter(
+                User.email == email).one_or_none()
+        )
+        user_id = user.id
+
         user_info = (
             db.session.query(UserInfo).filter(
                 UserInfo.user_id == user_id).one_or_none()
         )
+        if user_info:
+            create_userinfo('ru')
+            user_info = (
+                db.session.query(UserInfo).filter(
+                    UserInfo.user_id == user_id).one_or_none()
+            )
         user_info.data_auth_dodo = data_auth
         db.session.commit()
+
     except AttributeError:
         logger.warning("Error add to db data_auth_dodo")
     except Exception as e:
