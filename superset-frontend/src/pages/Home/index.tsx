@@ -365,8 +365,12 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
         {WelcomeMainExtension && <WelcomeMainExtension />}
         {(!WelcomeTopExtension || !WelcomeMainExtension) && (
           <>
-            {/* DODO changed 37852927 */}
-            <Collapse activeKey={['1']} ghost bigger>
+            <Collapse
+              activeKey={['1']} // DODO changed 37852927
+              // onChange={handleCollapse} // DODO commented out 37852927
+              ghost
+              bigger
+            >
               <Collapse.Panel header={t('Recents')} key="1">
                 {activityData &&
                 (activityData[TableTab.Viewed] ||
