@@ -1,17 +1,17 @@
 // DODO was here (TODO)
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Modal from 'src/components/Modal';
 import { Input, TextArea } from 'src/components/Input';
 import Button from 'src/components/Button';
-import { AsyncSelect, Row, Col, AntdForm } from 'src/components';
+import { AntdForm, AsyncSelect, Col, Row } from 'src/components';
 import { SelectValue } from 'antd/lib/select';
 import rison from 'rison';
 import {
-  t,
-  SupersetClient,
-  styled,
-  isFeatureEnabled,
   FeatureFlag,
+  isFeatureEnabled,
+  styled,
+  SupersetClient,
+  t,
 } from '@superset-ui/core';
 import Chart, { Slice } from 'src/types/Chart';
 import { getClientErrorObject } from 'src/utils/getClientErrorObject';
@@ -24,6 +24,8 @@ import {
   OBJECT_TYPES,
 } from 'src/features/tags/tags';
 import TagType from 'src/types/TagType';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '../../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
 
 export type PropertiesModalProps = {
   slice: Slice;
@@ -277,6 +279,10 @@ function PropertiesModal({
     setTags([]);
   };
 
+  // DODO added start 35537946
+  const user = useSelector(getUserInfo);
+  // DODO added stop 35537946
+
   return (
     <Modal
       show={show}
@@ -423,6 +429,7 @@ function PropertiesModal({
                   onChange={handleChangeTags}
                   onClear={handleClearTags}
                   allowClear
+                  disabled={!user?.roles?.Admin} // DODO added 35537946
                 />
                 <StyledHelpBlock className="help-block">
                   {t('A list of tags that have been applied to this chart.')}

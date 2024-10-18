@@ -126,14 +126,14 @@ class TestTagsDAO(SupersetTestCase):
     def test_create_tagged_objects(self):
         # test that a tag cannot be added if it has ':' in it
         with pytest.raises(DAOCreateFailedError):
-            TagDAO.create_custom_tagged_objects(
+            TagDAO.create_custom_or_team_tagged_objects(
                 object_type=ObjectTypes.dashboard.name,
                 object_id=1,
                 tag_names=["invalid:example tag 1"],
             )
 
         # test that a tag can be added if it has a valid name
-        TagDAO.create_custom_tagged_objects(
+        TagDAO.create_custom_or_team_tagged_objects(
             object_type=ObjectTypes.dashboard.name,
             object_id=1,
             tag_names=["example tag 1"],

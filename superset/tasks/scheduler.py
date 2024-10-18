@@ -19,8 +19,10 @@ from datetime import datetime
 
 from celery import Celery
 from celery.exceptions import SoftTimeLimitExceeded
+from confluent_kafka import Producer
+from flask_appbuilder.security.sqla.models import User
 
-from superset import app, is_feature_enabled
+from superset import app, is_feature_enabled, db
 from superset.commands.exceptions import CommandException
 from superset.daos.report import ReportScheduleDAO
 from superset.extensions import celery_app
@@ -31,6 +33,11 @@ from superset.tasks.cron_util import cron_schedule_window
 from superset.utils.celery import session_scope
 from superset.utils.core import LoggerLevel
 from superset.utils.log import get_logger_from_status
+from superset.models.core import Log
+from superset.models.dashboard import Dashboard
+from superset.models.slice import Slice
+from superset.models.user_info import UserInfo
+from superset.models.team import Team
 
 logger = logging.getLogger(__name__)
 
