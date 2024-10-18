@@ -168,6 +168,8 @@ def update_onboarding(dodo_role, started_time):
 def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO changed #33835937
     try:
         user_id = get_user_id()
+        if not user_id:
+            raise Exception
         model = UserInfo()
         setattr(model, 'user_id', user_id)
         setattr(model, 'dodo_role', dodo_role)
@@ -178,8 +180,8 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
         except SQLAlchemyError as ex:
             db.session.rollback()
         return True
-    except Exception:
-        raise ErrorLevel.ERROR
+    except Exception as e:
+        logger.warning(e)
 
 
 def get_language() -> str:  # DODO changed #33835937
@@ -209,6 +211,8 @@ def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 def create_userinfo(lang: str):   # DODO changed #33835937
     try:
         user_id = get_user_id()
+        if not user_id:
+            raise Exception
         model = UserInfo()
         setattr(model, 'language', lang)
         setattr(model, 'user_id', user_id)
@@ -218,8 +222,8 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         except SQLAlchemyError as ex:
             db.session.rollback()
         return True
-    except Exception:
-        raise ErrorLevel.ERROR
+    except Exception as e:
+        logger.warning(e)
 
 
 def insert_country(country_iso_num: int, username: str):
