@@ -248,6 +248,8 @@ def insert_data_auth(data_auth: str):
         db.session.commit()
     except AttributeError:
         logger.warning("Error add to db data_auth_dodo")
+    except Exception as e:
+        logger.warning(e)
 
 
 def update_language(lang: str):  # DODO changed #33835937
