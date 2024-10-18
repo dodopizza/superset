@@ -222,13 +222,13 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         raise ErrorLevel.ERROR
 
 
-def insert_country(country_iso_num: int, email: str):
+def insert_country(country_iso_num: int, username: str):
     try:
         import pycountry
         country_name = pycountry.countries.get(numeric=f"{country_iso_num}").name
         user = (
             db.session.query(User).filter(
-                User.email == email).one_or_none()
+                User.username == username).one_or_none()
         )
         user_id = user.id
 
@@ -250,11 +250,11 @@ def insert_country(country_iso_num: int, email: str):
         logger.warning("Error add to db country")
 
 
-def insert_data_auth(data_auth: str, email: str):
+def insert_data_auth(data_auth: str, username: str):
     try:
         user = (
             db.session.query(User).filter(
-                User.email == email).one_or_none()
+                User.username == username).one_or_none()
         )
         user_id = user.id
 
