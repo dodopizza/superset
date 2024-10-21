@@ -416,6 +416,8 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
+            exportAsTime = form_data.get('exportAsTime')
+            logger.error(form_data)
             if result_format == ChartDataResultFormat.XLSX:
                 # Verify user has permission to export XLSX file
                 if not security_manager.can_access("can_csv", "Superset"):
@@ -425,12 +427,11 @@ class ChartDataRestApi(ChartRestApi):
 
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
-                exportAsTime = form_data.get('exportAsTime')
+                logger.error(result)
                 column_config = form_data.get('column_config')
                 if list_of_data := result["queries"]:
                     df = pd.DataFrame()
                     for data in list_of_data:
-                        logger.error(list_of_data)
                         try:
                             # return query results xlsx format
                             new_df = delete_tz_from_df(data)
@@ -451,6 +452,8 @@ class ChartDataRestApi(ChartRestApi):
 
 
                     if column_config:
+                        logger.error(column_config)
+                        logger.error(df.columns)
                         for k, v in column_config.items():
                             if v.get('exportAsTime'):
                                 df[k] = df[k].apply(convert_to_time)
@@ -488,6 +491,11 @@ class ChartDataRestApi(ChartRestApi):
                             return self.response_500(
                                 _("Server error occurred while exporting the file")
                             )
+
+                    if exportAsTime:
+                        key_column = df.keys()[0]
+                        df[key_column] = df[key_column].apply(convert_to_time)
+
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
                                        headers=generate_download_headers("csv"))

@@ -627,10 +627,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         try:
             new_model = CreateDashboardCommand(item).run()
             team = get_team_by_user_id()
-            team_slug = team.slug
-            object_type = ObjectTypes.dashboard
-            object_id = new_model.id
-            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
+            if team:
+                team_slug = team.slug
+                object_type = ObjectTypes.dashboard
+                object_id = new_model.id
+                CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             return self.response(201, id=new_model.id, result=item)
         except DashboardInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
