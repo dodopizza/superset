@@ -94,7 +94,8 @@
     visibility: hidden;
   }
 
-  .card__providers label input:after {
+  .card__providers label input:after,
+  .card__providers label input:checked:after {
     content: none;
   }
 
@@ -137,12 +138,12 @@
       {% for provider in providers %}
       <label
         for="input-signin-{{ provider.name }}"
-        id="{% if provider.name == 'RU_KZ_BY_KG_UZ_TJ' %}left{% else %}right{% endif %}"
+        id="{% if loop.first %}left{% elif loop.last %}right{% endif %}"
       >
         <span>{{ provider.label }}</span>
         <input id="input-signin-{{provider.name}}" name="provider" type="radio"
-        value="{{ provider.name }}" {% if provider.name == 'RU_KZ_BY_KG_UZ_TJ'
-        %}checked{% endif %} />
+        value="{{ provider.name }}" {% if loop.first %}checked{% endif %} 
+        />
       </label>
       {% endfor %}
     </div>
