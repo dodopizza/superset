@@ -1,0 +1,174 @@
+<!-- extend base layout -->
+{% extends "appbuilder/base.html" %} {% block content %}
+
+<style>
+  .container-signin > * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container-signin {
+    padding-top: 92px;
+    padding-inline: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .card {
+    padding: 40px clamp(20px, 9vw, 40px);
+    width: min(100%, 382px);
+    min-width: 210px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0, 10, 28, 0.15);
+    font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+
+  .card__logo {
+    margin-inline: auto;
+    width: 130px;
+    height: 28px;
+  }
+
+  .card__providers {
+    margin-top: 40px;
+    display: flex;
+  }
+
+  .card__providers label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 40px;
+    padding-inline: 15px;
+    padding-block: 0;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    color: rgba(0, 0, 0, 0.88);
+    transition: color 0.2s;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .card__providers label#left {
+    border-block-start-width: 1.02px;
+    border-inline-end-width: 0;
+    border-start-start-radius: 6px;
+    border-end-start-radius: 6px;
+  }
+
+  .card__providers label#right {
+    border-block-start-width: 1.02px;
+    border-inline-end-width: 1px;
+    border-start-end-radius: 6px;
+    border-end-end-radius: 6px;
+  }
+
+  .card__providers label:hover {
+    color: #ff6900;
+  }
+
+  .card__providers label:has(input:checked) {
+    color: #ff6900;
+    border-color: #ff6900;
+  }
+
+  .card__providers label#left:has(input:checked) {
+    border-inline-end-width: 1px;
+  }
+
+  .card__providers label#left:has(input:checked) ~ label#right {
+    border-inline-start-width: 0;
+  }
+
+  .card__providers label input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+
+  .card__button {
+    margin-top: 28px;
+  }
+
+  .card__button button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    border: none;
+    outline: none;
+    background: #ff6900;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .card__button button:hover {
+    background: #cc5400;
+  }
+</style>
+
+<div class="container-signin">
+  <form class="card" id="signin-card">
+    <div class="card__logo">
+      <img
+        src="https://auth.dodois.io/static/auth-logo.svg"
+        alt="DODO Auth logo"
+        draggable="false"
+      />
+    </div>
+
+    <div class="card__providers">
+      {% for provider in providers %}
+      <label
+        for="input-signin-{{ provider.name }}"
+        id="{% if provider.name == 'RU_KZ_BY_KG_UZ_TJ' %}left{% else %}right{% endif %}"
+      >
+        <span>{{ provider.label }}</span>
+        <input id="input-signin-{{provider.name}}" name="provider" type="radio"
+        value="{{ provider.name }}" {% if provider.name == 'RU_KZ_BY_KG_UZ_TJ'
+        %}checked{% endif %} />
+      </label>
+      {% endfor %}
+    </div>
+
+    <div class="card__button">
+      <button type="submit">Sign in</button>
+    </div>
+  </form>
+</div>
+
+<script nonce="{{ baselib.get_nonce() }}">
+  const baseLoginUrl = "{{appbuilder.get_url_for_login}}";
+  const baseRegisterUrl = "{{appbuilder.get_url_for_login}}";
+  const next = "?next=" + "{{request.args.get('next', '') | urlencode}}";
+
+  function signin(provider) {
+    window.location.href = baseLoginUrl + provider + next;
+  }
+
+  document
+    .getElementById("signin-card")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const provider = document.querySelector(
+        'input[name="provider"]:checked'
+      ).value;
+
+      signin(provider);
+    });
+</script>
+{% endblock %}
+
+<!-- Maybe to change checked attribute in input to this approach -->
+<!-- checked="{% if provider.name == 'RU_KZ_BY_KG_UZ_TJ' %}true{% else %}false{% endif %}" -->
