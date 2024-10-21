@@ -138,6 +138,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.dashboards.permalink.api import DashboardPermalinkRestApi
         from superset.databases.api import DatabaseRestApi
         from superset.datasets.api import DatasetRestApi
+        from superset.onboarding.api import OnboardingRestApi
+        from superset.teams.api import TeamRestApi
+        from superset.user.api import UserRestApi
+        from superset.statement.api import StatementRestApi
         from superset.datasets.columns.api import DatasetColumnsRestApi
         from superset.datasets.metrics.api import DatasetMetricRestApi
         from superset.datasource.api import DatasourceRestApi
@@ -169,6 +173,12 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             Dashboard,
             DashboardModelView,
             DashboardModelViewAsync,
+        )
+        from superset.views.statement.views import (
+            StatementModelView
+        )
+        from superset.views.team.views import (
+            TeamModelView
         )
         from superset.views.database.views import (
             ColumnarToDatabaseView,
@@ -227,6 +237,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_api(SavedQueryRestApi)
         appbuilder.add_api(TagRestApi)
         appbuilder.add_api(SqlLabRestApi)
+        appbuilder.add_api(OnboardingRestApi)
+        appbuilder.add_api(TeamRestApi)
+        appbuilder.add_api(UserRestApi)
+        appbuilder.add_api(StatementRestApi)
         #
         # Setup regular views
         #
@@ -253,6 +267,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             category="",
             category_icon="",
         )
+
         appbuilder.add_view(
             SliceModelView,
             "Charts",
@@ -289,6 +304,23 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             icon="fa-css3",
             category="Manage",
             category_label=__("Manage"),
+            category_icon="",
+        )
+
+        appbuilder.add_view(
+            StatementModelView,
+            "Statements",
+            label=__("Statements"),
+            icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TeamModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
+            category="",
             category_icon="",
         )
 

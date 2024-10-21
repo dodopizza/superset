@@ -21,6 +21,12 @@ import React, { lazy } from 'react';
 
 // not lazy loaded since this is the home page.
 import Home from 'src/pages/Home';
+import {
+  REQUEST_PAGE_LIST_URL,
+  REQUEST_PAGE_URL,
+  TEAM_PAGE_LIST_URL,
+  TEAM_PAGE_URL,
+} from '../DodoExtensions/onBoarding/consts';
 
 const ChartCreation = lazy(
   () =>
@@ -118,6 +124,35 @@ const RowLevelSecurityList = lazy(
       /* webpackChunkName: "RowLevelSecurityList" */ 'src/pages/RowLevelSecurityList'
     ),
 );
+// DODO added start 32839654
+const RequestList = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "RequestList" */ 'src/DodoExtensions/onBoarding/pages/RequestList'
+    ),
+);
+
+const Request = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Request" */ 'src/DodoExtensions/onBoarding/pages/Request'
+    ),
+);
+
+const TeamList = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "TeamList" */ 'src/DodoExtensions/onBoarding/pages/TeamList'
+    ),
+);
+
+const Team = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "Team" */ 'src/DodoExtensions/onBoarding/pages/Team'
+    ),
+);
+// DODO added stop 32839654
 
 type Routes = {
   path: string;
@@ -217,6 +252,24 @@ export const routes: Routes = [
     path: '/rowlevelsecurity/list',
     Component: RowLevelSecurityList,
   },
+  // DODO added start 32839654
+  {
+    path: REQUEST_PAGE_LIST_URL,
+    Component: RequestList,
+  },
+  {
+    path: REQUEST_PAGE_URL,
+    Component: Request,
+  },
+  {
+    path: TEAM_PAGE_LIST_URL,
+    Component: TeamList,
+  },
+  {
+    path: TEAM_PAGE_URL,
+    Component: Team,
+  },
+  // DODO added stop 32839654
 ];
 
 if (isFeatureEnabled(FeatureFlag.TAGGING_SYSTEM)) {
