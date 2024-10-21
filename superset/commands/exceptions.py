@@ -112,6 +112,13 @@ class OwnersNotFoundValidationError(ValidationError):
         super().__init__([_("Owners are invalid")], field_name="owners")
 
 
+class ParticipantNotFoundValidationError(ValidationError):
+    status = 422
+
+    def __init__(self) -> None:
+        super().__init__([_("Participant are invalid")], field_name="participants")
+
+
 class RolesNotFoundValidationError(ValidationError):
     status = 422
 

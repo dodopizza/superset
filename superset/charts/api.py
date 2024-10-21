@@ -90,6 +90,9 @@ from superset.views.base_api import (
     requires_json,
     statsd_metrics,
 )
+from superset.tags.commands.create import CreateTeamTagCommand
+from superset.tags.models import ObjectTypes
+from superset.views.utils import get_team_by_user_id
 from superset.views.filters import BaseFilterRelatedUsers, FilterRelatedOwners
 
 logger = logging.getLogger(__name__)
@@ -330,6 +333,12 @@ class ChartRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             new_model = CreateChartCommand(item).run()
+            team = get_team_by_user_id()
+            if team:
+                team_slug = team.slug
+                object_type = ObjectTypes.chart
+                object_id = new_model.id
+                CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             return self.response(201, id=new_model.id, result=item)
         except DashboardsForbiddenError as ex:
             return self.response(ex.status, message=ex.message)

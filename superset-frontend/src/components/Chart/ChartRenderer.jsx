@@ -2,19 +2,19 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-restricted-syntax */
 // DODO was here
-import { snakeCase, isEqual, cloneDeep } from 'lodash';
+import { cloneDeep, isEqual, snakeCase } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  SuperChart,
-  logging,
   Behavior,
-  t,
-  isFeatureEnabled,
   FeatureFlag,
   getChartMetadataRegistry,
+  isFeatureEnabled,
+  logging,
+  SuperChart,
+  t,
 } from '@superset-ui/core';
-import { Logger, LOG_ACTIONS_RENDER_CHART } from 'src/logger/LogUtils';
+import { LOG_ACTIONS_RENDER_CHART, Logger } from 'src/logger/LogUtils';
 // DODO swapped component
 import {
   EmptyStateBig,
