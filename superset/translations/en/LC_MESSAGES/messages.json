@@ -9591,6 +9591,9 @@
       "Total (%(aggregatorName)s)": [
         ""
       ],
+      "Value has own aggregation: %(aggregation)s": [
+        ""
+      ],
       "Total value": [
         ""
       ],
@@ -11737,6 +11740,9 @@
         ""
       ],
       "Pin column with horizontal scroll": [
+        ""
+      ],
+      "Hide value in Total": [
         ""
       ],
       "Custom (until include)": [
