@@ -97,7 +97,12 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     rawFormData,
     hooks: { setDataMask = () => {}, onContextMenu },
     filterState,
-    datasource: { verboseMap = {}, columnFormats = {}, currencyFormats = {} },
+    datasource: {
+      verboseMap = {},
+      columnFormats = {},
+      currencyFormats = {},
+      metrics: datasourceMetrics, // DODO added 30135470
+    },
     emitCrossFilters,
   } = chartProps;
   const { data, colnames, coltypes } = queriesData[0];
@@ -203,5 +208,6 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceMetrics, // DODO added 30135470
   };
 }

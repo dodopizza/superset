@@ -155,6 +155,7 @@ export default function PivotTableChart(props: PivotTableProps) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceMetrics, // DODO added 30135470
   } = props;
 
   const theme = useTheme();
@@ -557,6 +558,7 @@ export default function PivotTableChart(props: PivotTableProps) {
           subtotalOptions={subtotalOptions}
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
+          datasourceMetrics={datasourceMetrics} // DODO added 30135470
         />
       </PivotTableWrapper>
     </Styles>

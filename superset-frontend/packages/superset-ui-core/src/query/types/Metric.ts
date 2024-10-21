@@ -65,6 +65,7 @@ export interface Metric {
   certification_details?: Maybe<string>;
   certified_by?: Maybe<string>;
   d3format?: Maybe<string>;
+  number_format?: Maybe<string>; // DODO added 30135470
   currency?: Maybe<string>;
   description?: Maybe<string>;
   is_certified?: boolean;

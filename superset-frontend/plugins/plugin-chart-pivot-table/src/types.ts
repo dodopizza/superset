@@ -29,6 +29,7 @@ import {
   TimeGranularity,
   ContextMenuFilters,
   Currency,
+  Metric, // DODO added 30135470
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -87,6 +88,7 @@ interface PivotTableCustomizeProps {
   timeGrainSqla?: TimeGranularity;
   time_grain_sqla?: TimeGranularity;
   granularity_sqla?: string;
+  datasourceMetrics: Metric[]; // DODO added 30135470
 }
 
 export type PivotTableQueryFormData = QueryFormData &

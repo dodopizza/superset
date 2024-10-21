@@ -133,6 +133,7 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               metric_name: metric.metric_name,
               metric_type: metric.metric_type,
               d3format: metric.d3format || null,
+              number_format: metric.number_format, // DODO added 30135470
               currency: !isDefined(metric.currency)
                 ? null
                 : JSON.stringify(metric.currency),
@@ -143,8 +144,6 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               // DODO added
               verbose_name_EN: metric.verbose_name,
               verbose_name_RU: metric.verbose_name_RU,
-              // DODO added 30135470
-              number_format: metric.number_format,
             };
             if (!Number.isNaN(Number(metric.id))) {
               metricBody.id = metric.id;
