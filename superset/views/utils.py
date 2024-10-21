@@ -251,7 +251,7 @@ def insert_country(country_iso_num: int, username: str):
         db.session.commit()
 
     except AttributeError:
-        logger.warning("Error add to db country")
+        logger.warning(f"Error add to db country country_iso_num={country_iso_num}, username={username}")
 
 
 def insert_data_auth(data_auth: str, username: str):
@@ -276,7 +276,7 @@ def insert_data_auth(data_auth: str, username: str):
         db.session.commit()
 
     except AttributeError:
-        logger.warning("Error add to db data_auth_dodo")
+        logger.warning(f"Error add to db data_auth_dodo data_auth={data_auth}, username={username}")
     except Exception as e:
         logger.warning(e)
 
