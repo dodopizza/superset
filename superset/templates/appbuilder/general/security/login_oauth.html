@@ -42,15 +42,16 @@
 
   .card__providers label {
     margin: 0;
+    padding-inline: 15px;
+    padding-block: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 1;
     height: 40px;
-    padding-inline: 15px;
-    padding-block: 0;
     font-size: 14px;
     border: 1px solid #d9d9d9;
+    border-radius: 6px;
     color: rgba(0, 0, 0, 0.88);
     transition: color 0.2s;
     text-align: center;
@@ -59,17 +60,21 @@
   }
 
   .card__providers label#left {
-    border-block-start-width: 1.02px;
+    border-block-start-width: 1px;
     border-inline-end-width: 0;
     border-start-start-radius: 6px;
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
     border-end-start-radius: 6px;
   }
 
   .card__providers label#right {
-    border-block-start-width: 1.02px;
+    border-block-start-width: 1px;
     border-inline-end-width: 1px;
+    border-start-start-radius: 0;
     border-start-end-radius: 6px;
     border-end-end-radius: 6px;
+    border-end-start-radius: 0;
   }
 
   .card__providers label:hover {
@@ -136,17 +141,26 @@
     </div>
 
     <div class="card__providers">
-      {% for provider in providers %}
-      <label
-        for="input-signin-{{ provider.name }}"
-        id="{% if loop.first %}left{% elif loop.last %}right{% endif %}"
-      >
-        <span>{{ provider.label }}</span>
-        <input id="input-signin-{{provider.name}}" name="provider" type="radio"
-        value="{{ provider.name }}" {% if loop.first %}checked{% endif %} 
-        />
-      </label>
-      {% endfor %}
+      {% if providers|length > 1 %}
+        {% for provider in providers %}
+        <label
+          for="input-signin-{{ provider.name }}"
+          {% if loop.first %}id="left"{% elif loop.last %}id="right"{% endif %}
+        >
+          <span>{{ provider.label }}</span>
+          <input id="input-signin-{{ provider.name }}" name="provider" type="radio"
+            value="{{ provider.name }}" {% if loop.first %}checked{% endif %} />
+        </label>
+        {% endfor %}
+      {% else %}
+        {% for provider in providers %}
+        <label for="input-signin-{{ provider.name }}">
+          <span>{{ provider.label }}</span>
+          <input id="input-signin-{{ provider.name }}" name="provider" type="radio"
+            value="{{ provider.name }}" checked />
+        </label>
+        {% endfor %}
+      {% endif %}
     </div>
 
     <div class="card__button">
