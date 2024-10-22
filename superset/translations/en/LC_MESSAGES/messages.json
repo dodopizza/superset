@@ -2691,6 +2691,12 @@
       "Customize columns": [
         ""
       ],
+      "Export as time": [
+        ""
+      ],
+      "Export a numeric value as number of days": [
+        ""
+      ],
       "Cyclic dependency detected": [
         ""
       ],
@@ -3495,6 +3501,9 @@
         ""
       ],
       "Duration in ms (66000 => 1m 6s)": [
+        ""
+      ],
+      "Duration in ms (66000 => 0:01:06)": [
         ""
       ],
       "Duration: %s": [

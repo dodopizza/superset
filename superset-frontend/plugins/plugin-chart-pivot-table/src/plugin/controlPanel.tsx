@@ -40,15 +40,15 @@ import {
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
 
-// DODO added start 35514397, 38087840
+// DODO added start 35514397, 38087840, 33638561
 const columnConfig = {
-  '0': [['pinColumn']],
+  '0': [['pinColumn'], ['exportAsTime']],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
 };
 const METRIC_KEY = 'Metric';
-// DODO start changes 35514397, 38087840
+// DODO start changes 35514397, 38087840, 33638561
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -431,7 +431,7 @@ const config: ControlPanelConfig = {
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
               width: 400,
-              height: 340,
+              height: 145,
               renderTrigger: true,
               configFormLayout: columnConfig,
               shouldMapStateToProps() {
