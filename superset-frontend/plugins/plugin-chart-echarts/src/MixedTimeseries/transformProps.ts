@@ -113,6 +113,7 @@ export default function transformProps(
     verboseMap = {},
     currencyFormats = {},
     columnFormats = {},
+    metrics: datasourceMetrics = [], // DODO added 30135470
   } = datasource;
   const { label_map: labelMap } =
     queriesData[0] as TimeseriesChartDataResponseResult;
@@ -230,6 +231,7 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    datasourceMetrics, // DODO added 30135470
   );
   const customFormattersSecondary = buildCustomFormatters(
     [...ensureIsArray(metrics), ...ensureIsArray(metricsB)],
@@ -237,6 +239,7 @@ export default function transformProps(
     columnFormats,
     yAxisFormatSecondary,
     currencyFormatSecondary,
+    datasourceMetrics, // DODO added 30135470
   );
 
   const primarySeries = new Set<string>();

@@ -22,6 +22,7 @@ import {
   ensureIsArray,
   getNumberFormatter,
   isSavedMetric,
+  Metric, // DODO added 30135470
   QueryFormMetric,
   ValueFormatter,
 } from '@superset-ui/core';
@@ -32,11 +33,18 @@ export const buildCustomFormatters = (
   savedColumnFormats: Record<string, string>,
   d3Format: string | undefined,
   currencyFormat: Currency | undefined,
+  datasourceMetrics?: Metric[], // DODO added 30135470
 ) => {
   const metricsArray = ensureIsArray(metrics);
   return metricsArray.reduce((acc, metric) => {
     if (isSavedMetric(metric)) {
-      const actualD3Format = d3Format ?? savedColumnFormats[metric];
+      // DODO added start 30135470
+      const metricNumberFormat = datasourceMetrics?.find(
+        datasourceMetric => datasourceMetric.metric_name === metric,
+      )?.number_format;
+      // DODO added stop 30135470
+      const actualD3Format =
+        metricNumberFormat ?? d3Format ?? savedColumnFormats[metric]; // DODO changed 30135470
       const actualCurrencyFormat = currencyFormat?.symbol
         ? currencyFormat
         : savedCurrencyFormats[metric];
@@ -76,6 +84,7 @@ export const getValueFormatter = (
   d3Format: string | undefined,
   currencyFormat: Currency | undefined,
   key?: string,
+  datasourceMetrics?: Metric[], // DODO added 30135470
 ) => {
   const customFormatter = getCustomFormatter(
     buildCustomFormatters(
@@ -84,6 +93,7 @@ export const getValueFormatter = (
       savedColumnFormats,
       d3Format,
       currencyFormat,
+      datasourceMetrics, // DODO added 30135470
     ),
     metrics,
     key,

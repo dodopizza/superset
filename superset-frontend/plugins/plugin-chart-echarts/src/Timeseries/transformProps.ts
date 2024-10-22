@@ -120,6 +120,7 @@ export default function transformProps(
     verboseMap = {},
     columnFormats = {},
     currencyFormats = {},
+    metrics: datasourceMetrics = [], // DODO added 30135470
   } = datasource;
   const [queryData] = queriesData;
   const { data = [], label_map = {} } =
@@ -257,6 +258,7 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    datasourceMetrics, // DODO added 30135470
   );
 
   const array = ensureIsArray(chartProps.rawFormData?.time_compare);

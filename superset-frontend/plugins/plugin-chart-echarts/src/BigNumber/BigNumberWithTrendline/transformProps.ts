@@ -62,7 +62,11 @@ export default function transformProps(
     theme,
     hooks,
     inContextMenu,
-    datasource: { currencyFormats = {}, columnFormats = {} },
+    datasource: {
+      currencyFormats = {},
+      columnFormats = {},
+      metrics: datasourceMetrics = [], // DODO added 30135470
+    },
   } = chartProps;
   const {
     colorPicker,
@@ -187,6 +191,10 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    // DODO added start 30135470
+    undefined,
+    datasourceMetrics,
+    // DODO added stop 30135470
   );
 
   const headerFormatter =
