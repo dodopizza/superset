@@ -54,6 +54,11 @@ const numberFormat = function (optsIn) {
   };
 };
 
+// DODO added start 30135470
+const getMetricNumberFormat = (metrics, metricName) =>
+  metrics.find(metric => metric.metric_name === metricName)?.number_format;
+// DODO added stop 30135470
+
 const rx = /(\d+)|(\D+)/g;
 const rd = /\d/;
 const rz = /^0/;
@@ -887,6 +892,7 @@ export {
   locales,
   naturalSort,
   numberFormat,
+  getMetricNumberFormat, // DODO added 30135470
   getSort,
   sortAs,
   flatKey,

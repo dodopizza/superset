@@ -35,7 +35,12 @@ import {
   t,
   useTheme,
 } from '@superset-ui/core';
-import { aggregatorTemplates, PivotTable, sortAs } from './react-pivottable';
+import {
+  aggregatorTemplates,
+  getMetricNumberFormat, // DODO added 30135470
+  PivotTable,
+  sortAs,
+} from './react-pivottable';
 import {
   FilterType,
   MetricsLayoutEnum,
@@ -175,13 +180,26 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
+          // DODO added start 30135470
+          ...datasourceMetrics
+            .map(metric => (metric?.number_format ? metric.metric_name : ''))
+            .filter(Boolean),
+          // DODO added stop 30135470
         ]),
       ).map(metricName => [
         metricName,
-        columnFormats[metricName] || valueFormat,
+        getMetricNumberFormat(datasourceMetrics, metricName) || // DODO changed 30135470
+          columnFormats[metricName] ||
+          valueFormat,
         currencyFormats[metricName] || currencyFormat,
       ]),
-    [columnFormats, currencyFormat, currencyFormats, valueFormat],
+    [
+      columnFormats,
+      currencyFormat,
+      currencyFormats,
+      valueFormat,
+      datasourceMetrics, // DODO added 30135470
+    ],
   );
   const hasCustomMetricFormatters = customFormatsArray.length > 0;
   const metricFormatters = useMemo(
@@ -558,7 +576,6 @@ export default function PivotTableChart(props: PivotTableProps) {
           subtotalOptions={subtotalOptions}
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
-          datasourceMetrics={datasourceMetrics} // DODO added 30135470
         />
       </PivotTableWrapper>
     </Styles>
