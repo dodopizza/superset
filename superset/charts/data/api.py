@@ -417,7 +417,7 @@ class ChartDataRestApi(ChartRestApi):
                 return self.response_400(_("Empty query result"))
 
             exportAsTime = form_data.get('exportAsTime')
-            logger.error(form_data)
+            column_config = form_data.get('column_config')
             if result_format == ChartDataResultFormat.XLSX:
                 # Verify user has permission to export XLSX file
                 if not security_manager.can_access("can_csv", "Superset"):
@@ -427,8 +427,7 @@ class ChartDataRestApi(ChartRestApi):
 
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
-                logger.error(result)
-                column_config = form_data.get('column_config')
+
                 if list_of_data := result["queries"]:
                     df = pd.DataFrame()
                     for data in list_of_data:
@@ -450,13 +449,15 @@ class ChartDataRestApi(ChartRestApi):
                         key_column = df.keys()[0]
                         df[key_column] = df[key_column].apply(convert_to_time)
 
+                    metric_map = dict()
+                    datasourceMetrics = form_data.get('datasourceMetrics')
 
+                    for datasource_metric in datasourceMetrics:
+                        metric_map[datasource_metric.get('metric_name')] = datasource_metric.get('verbose_name')
                     if column_config:
-                        logger.error(column_config)
-                        logger.error(df.columns)
                         for k, v in column_config.items():
                             if v.get('exportAsTime'):
-                                df[k] = df[k].apply(convert_to_time)
+                                df[metric_map.get(k) or k] = df[metric_map.get(k) or k].apply(convert_to_time)
 
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
@@ -495,6 +496,18 @@ class ChartDataRestApi(ChartRestApi):
                     if exportAsTime:
                         key_column = df.keys()[0]
                         df[key_column] = df[key_column].apply(convert_to_time)
+
+                    metric_map = dict()
+                    datasourceMetrics = form_data.get('datasourceMetrics')
+
+                    for datasource_metric in datasourceMetrics:
+                        metric_map[datasource_metric.get(
+                            'metric_name')] = datasource_metric.get('verbose_name')
+
+                    if column_config:
+                        for k, v in column_config.items():
+                            if v.get('exportAsTime'):
+                                df[metric_map.get(k) or k] = df[metric_map.get(k) or k].apply(convert_to_time)
 
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
