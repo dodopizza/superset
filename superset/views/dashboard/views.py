@@ -39,6 +39,11 @@ from superset.views.base import (
     generate_download_headers,
     SupersetModelView,
 )
+
+from superset.tags.commands.create import CreateTeamTagCommand
+from superset.tags.models import ObjectTypes
+from superset.views.utils import get_team_by_user_id
+
 from superset.views.dashboard.mixin import DashboardMixin
 
 
@@ -122,6 +127,12 @@ class Dashboard(BaseSupersetView):
         )
         db.session.add(new_dashboard)
         db.session.commit()
+        team = get_team_by_user_id()
+        if team:
+            team_slug = team.slug
+            object_type = ObjectTypes.dashboard
+            object_id = new_dashboard.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
         return redirect(f"/superset/dashboard/{new_dashboard.id}/?edit=true")
 
     @expose("/<dashboard_id_or_slug>/embedded")

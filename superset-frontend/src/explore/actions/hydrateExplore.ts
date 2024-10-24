@@ -36,8 +36,8 @@ import {
   QueryFormColumn,
 } from '@superset-ui/core';
 import {
-  getFormDataFromControls,
   applyMapStateToPropsToControl,
+  getFormDataFromControls,
 } from 'src/explore/controlUtils';
 import { getDatasourceUid } from 'src/utils/getDatasourceUid';
 import { getUrlParam } from 'src/utils/urlUtils';

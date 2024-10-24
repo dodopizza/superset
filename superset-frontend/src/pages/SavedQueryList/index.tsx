@@ -18,30 +18,30 @@
  */
 
 import {
-  isFeatureEnabled,
   FeatureFlag,
+  isFeatureEnabled,
   styled,
   SupersetClient,
   t,
 } from '@superset-ui/core';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import rison from 'rison';
 import moment from 'moment';
 import {
-  createFetchRelated,
-  createFetchDistinct,
   createErrorHandler,
+  createFetchDistinct,
+  createFetchRelated,
 } from 'src/views/CRUD/utils';
 import Popover from 'src/components/Popover';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import { useListViewResource } from 'src/views/CRUD/hooks';
 import ConfirmStatusChange from 'src/components/ConfirmStatusChange';
 import handleResourceExport from 'src/utils/export';
-import SubMenu, { SubMenuProps, ButtonProps } from 'src/features/home/SubMenu';
+import SubMenu, { ButtonProps, SubMenuProps } from 'src/features/home/SubMenu';
 import ListView, {
-  ListViewProps,
-  Filters,
   FilterOperator,
+  Filters,
+  ListViewProps,
 } from 'src/components/ListView';
 import Loading from 'src/components/Loading';
 import DeleteModal from 'src/components/DeleteModal';
@@ -51,11 +51,11 @@ import { Tooltip } from 'src/components/Tooltip';
 import { commonMenuData } from 'src/features/home/commonMenuData';
 import { SavedQueryObject } from 'src/views/CRUD/types';
 import copyTextToClipboard from 'src/utils/copy';
-import Tag from 'src/types/TagType';
 import ImportModelsModal from 'src/components/ImportModal/index';
 import Icons from 'src/components/Icons';
 import { BootstrapUser } from 'src/types/bootstrapTypes';
 import SavedQueryPreviewModal from 'src/features/queries/SavedQueryPreviewModal';
+import Tag from '../../types/TagType';
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -382,7 +382,17 @@ function SavedQueryList({
           },
         }: any) => (
           // Only show custom type tags
-          <TagsList tags={tags.filter((tag: Tag) => tag.type === 1)} />
+          <TagsList
+            // DODO commented 35538076 - show custom and team tags
+            tags={tags.filter((tag: Tag) =>
+              tag.type
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' ||
+                  tag.type === 5 ||
+                  tag.type === 'TagTypes.team'
+                : true,
+            )}
+          />
         ),
         Header: t('Tags'),
         accessor: 'tags',

@@ -160,6 +160,8 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         "Datasource",
     } | READ_ONLY_MODEL_VIEWS
 
+    EMPTY_ROLE = {}
+
     ADMIN_ONLY_VIEW_MENUS = {
         "Access Requests",
         "Action Log",
@@ -834,6 +836,13 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         query = self.get_session.query(Role).filter(Role.id.in_(role_ids))
         return query.all()
 
+    def find_roles_by_name(self, role_names: list[str]) -> list[Role]:
+        """
+        Find a List of models by a list of names, if defined applies `base_filter`
+        """
+        query = self.get_session.query(Role).filter(Role.name.in_(role_names))
+        return query.all()
+
     def copy_role(
         self, role_from_name: str, role_to_name: str, merge: bool = True
     ) -> None:
@@ -926,6 +935,25 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         return (
             pvm.view_menu.name in self.ALPHA_ONLY_VIEW_MENUS
             or pvm.permission.name in self.ALPHA_ONLY_PERMISSIONS
+        )
+
+    def _is_empty_role_only(self, pvm: PermissionView) -> bool:
+        """
+        Return True if the FAB permission/view is accessible to only Alpha users,
+        False otherwise.
+
+        :param pvm: The FAB permission/view
+        :returns: Whether the FAB object is accessible to only Alpha users
+        """
+
+        if (
+            pvm.view_menu.name in self.EMPTY_ROLE
+            and pvm.permission.name not in self.EMPTY_ROLE
+        ):
+            return True
+        return (
+            pvm.view_menu.name in self.EMPTY_ROLE
+            or pvm.permission.name in self.EMPTY_ROLE
         )
 
     def _is_accessible_to_all(self, pvm: PermissionView) -> bool:

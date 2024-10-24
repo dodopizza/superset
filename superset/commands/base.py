@@ -19,7 +19,7 @@ from typing import Any, Optional
 
 from flask_appbuilder.security.sqla.models import User
 
-from superset.commands.utils import populate_owners
+from superset.commands.utils import populate_owners, populate_participants
 
 
 class BaseCommand(ABC):
@@ -56,6 +56,17 @@ class CreateMixin:  # pylint: disable=too-few-public-methods
         :returns: Final list of owners
         """
         return populate_owners(owner_ids, default_to_user=True)
+
+    @staticmethod
+    def populate_participants(participant_ids: Optional[list[int]] = None) -> list[User]:
+        """
+        Populate list of participants
+
+        :param participant_ids: list of owners by id's
+        :raises ParticipantNotFoundValidationError: if at least one participant can't be resolved
+        :returns: Final list of owners
+        """
+        return populate_participants(participant_ids)
 
 
 class UpdateMixin:  # pylint: disable=too-few-public-methods

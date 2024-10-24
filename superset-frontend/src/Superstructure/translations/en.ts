@@ -1905,6 +1905,8 @@ const en = {
       'Export to .XLSX': [''],
       'Specific Date/Time': [''],
       'Relative Date/Time': [''],
+      'You are welcome to Superset': [''],
+      Onboarding: [''],
       'Custom (until include)': ['Select date (until included)'],
       'END (INCLUSIVE)': [''],
       'End date include to time range': [''],

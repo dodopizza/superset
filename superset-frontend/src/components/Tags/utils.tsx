@@ -79,7 +79,11 @@ export const loadTags = async (
         label: string;
         value: string | number;
       }[] = response.json.result
-        .filter((item: Tag & { table_name: string }) => item.type === 1)
+        .filter(
+          (item: Tag & { table_name: string }) =>
+            item.type === 1 ||
+            item.type === 5 /* DODO added 35537946 <|| item.type === 5 >  */,
+        )
         .map(tagToSelectOption);
       return {
         data,
