@@ -98,4 +98,5 @@ export type PivotTableProps = PivotTableStylesProps &
     data: DataRecord[];
     // DODO added #35514397
     pinnedColumns: number[];
+    datasourceDescriptions: Record<string, string>; // DODO added 38403772
   };
