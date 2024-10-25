@@ -80,6 +80,7 @@ import {
 import { getDefaultTooltip } from '../utils/tooltip';
 import { getYAxisFormatter } from '../utils/getYAxisFormatter';
 import { LabelPositionDoDo } from '../DodoExtensions/types';
+import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 38403772
 
 const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 
@@ -402,7 +403,7 @@ export default function transformProps(
     onContextMenu,
     onLegendStateChanged,
   } = hooks;
-
+  console.group(series);
   const addYAxisLabelOffset = !!yAxisTitle;
   const addXAxisLabelOffset = !!xAxisTitle;
   const padding = getPadding(
@@ -475,6 +476,11 @@ export default function transformProps(
     datasourceColumns,
     locale,
   );
+  const extendedDatasourceDescriptions = extendDatasourceDescriptions(
+    datasourceDescriptions,
+    groupby,
+    series,
+  );
   // DODO added stop 38403772
 
   const echartOptions: EChartsCoreOption = {
@@ -540,7 +546,7 @@ export default function transformProps(
         theme,
         zoomable,
         legendState,
-        datasourceDescriptions, // DODO added 38403772
+        extendedDatasourceDescriptions, // DODO added 38403772
       ),
       data: legendData as string[],
     },
