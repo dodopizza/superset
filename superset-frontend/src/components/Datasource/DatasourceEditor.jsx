@@ -267,10 +267,20 @@ function ColumnCollectionTable({
             />
             <Field
               fieldKey="description"
-              label={t('Description')}
+              label={t('Description EN')}
               control={
                 <TextControl
                   controlId="description"
+                  placeholder={t('Description')}
+                />
+              }
+            />
+            <Field
+              fieldKey="description_RU"
+              label={t('Description RU')}
+              control={
+                <TextControl
+                  controlId="description_RU"
                   placeholder={t('Description')}
                 />
               }
@@ -677,6 +687,7 @@ class DatasourceEditor extends React.PureComponent {
       metrics: datasource.metrics.map(v => ({
         ...v,
         verbose_name_EN: v.verbose_name || null,
+        description_EN: v.description || null,
       })),
     };
 
@@ -709,6 +720,7 @@ class DatasourceEditor extends React.PureComponent {
         databaseColumns: alteredObj.databaseColumns.map(c => ({
           ...c,
           verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
         })),
       };
     }
@@ -718,6 +730,7 @@ class DatasourceEditor extends React.PureComponent {
         calculatedColumns: alteredObj.calculatedColumns.map(c => ({
           ...c,
           verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
         })),
       };
     }
@@ -1306,10 +1319,20 @@ class DatasourceEditor extends React.PureComponent {
             <Fieldset compact>
               <Field
                 fieldKey="description"
-                label={t('Description')}
+                label={t('Description EN')}
                 control={
                   <TextControl
                     controlId="description"
+                    placeholder={t('Description')}
+                  />
+                }
+              />
+              <Field
+                fieldKey="description_RU"
+                label={t('Description RU')}
+                control={
+                  <TextControl
+                    controlId="description_RU"
                     placeholder={t('Description')}
                   />
                 }

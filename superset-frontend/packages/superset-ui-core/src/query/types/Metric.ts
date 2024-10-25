@@ -58,7 +58,15 @@ export type SavedMetric = string;
 /**
  * Metric definition stored in datasource metadata.
  */
-export interface Metric {
+// DODO added start
+interface MetricDodoExtended {
+  verbose_name_RU?: Maybe<string>;
+  verbose_name_EN?: Maybe<string>;
+  description_RU?: Maybe<string>;
+  description_EN?: Maybe<string>;
+}
+// DODO added stop
+export interface Metric extends MetricDodoExtended {
   id?: number;
   metric_name: string;
   expression?: Maybe<string>;
@@ -69,10 +77,6 @@ export interface Metric {
   description?: Maybe<string>;
   is_certified?: boolean;
   verbose_name?: string;
-  // DODO added start
-  verbose_name_EN?: Maybe<string>;
-  verbose_name_RU?: Maybe<string>;
-  // DODO added stop
   warning_markdown?: Maybe<string>;
   warning_text?: Maybe<string>;
 }
