@@ -27,6 +27,7 @@ import {
   styled,
   t,
 } from '@superset-ui/core';
+import Tooltip from 'packages/superset-ui-chart-controls/src/components/Tooltip'; // DODO added 38403772
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
 import DataTable, { DataTableProps, SizeOption } from '../DataTable';
 import { PAGE_SIZE_OPTIONS } from '../consts';
@@ -126,6 +127,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
+    datasourceDescriptions, // DODO added 38403772
   } = props;
 
   // DODO added start
@@ -179,71 +181,74 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     [filters],
   );
 
-  const getCrossFilterDataMask = (key: string, value: DataRecordValue) => {
-    let updatedFilters = { ...(filters || {}) };
-    if (filters && isActiveFilterValue(key, value)) {
-      updatedFilters = {};
-    } else {
-      updatedFilters = {
-        [key]: [value],
-      };
-    }
-    if (
-      Array.isArray(updatedFilters[key]) &&
-      updatedFilters[key].length === 0
-    ) {
-      delete updatedFilters[key];
-    }
-
-    const groupBy = Object.keys(updatedFilters);
-    const groupByValues = Object.values(updatedFilters);
-    const labelElements: string[] = [];
-    groupBy.forEach(col => {
-      const isTimestamp = col === DTTM_ALIAS;
-      const filterValues = ensureIsArray(updatedFilters?.[col]);
-      if (filterValues.length) {
-        const valueLabels = filterValues.map(value =>
-          isTimestamp ? timestampFormatter(value) : value,
-        );
-        labelElements.push(`${valueLabels.join(', ')}`);
+  const getCrossFilterDataMask = useCallback(
+    (key: string, value: DataRecordValue) => {
+      let updatedFilters = { ...(filters || {}) };
+      if (filters && isActiveFilterValue(key, value)) {
+        updatedFilters = {};
+      } else {
+        updatedFilters = {
+          [key]: [value],
+        };
       }
-    });
+      if (
+        Array.isArray(updatedFilters[key]) &&
+        updatedFilters[key].length === 0
+      ) {
+        delete updatedFilters[key];
+      }
 
-    return {
-      dataMask: {
-        extraFormData: {
-          filters:
-            groupBy.length === 0
-              ? []
-              : groupBy.map(col => {
-                  const val = ensureIsArray(updatedFilters?.[col]);
-                  if (!val.length)
+      const groupBy = Object.keys(updatedFilters);
+      const groupByValues = Object.values(updatedFilters);
+      const labelElements: string[] = [];
+      groupBy.forEach(col => {
+        const isTimestamp = col === DTTM_ALIAS;
+        const filterValues = ensureIsArray(updatedFilters?.[col]);
+        if (filterValues.length) {
+          const valueLabels = filterValues.map(value =>
+            isTimestamp ? timestampFormatter(value) : value,
+          );
+          labelElements.push(`${valueLabels.join(', ')}`);
+        }
+      });
+
+      return {
+        dataMask: {
+          extraFormData: {
+            filters:
+              groupBy.length === 0
+                ? []
+                : groupBy.map(col => {
+                    const val = ensureIsArray(updatedFilters?.[col]);
+                    if (!val.length)
+                      return {
+                        col,
+                        op: 'IS NULL' as const,
+                      };
                     return {
                       col,
-                      op: 'IS NULL' as const,
+                      op: 'IN' as const,
+                      val: val.map(el =>
+                        el instanceof Date ? el.getTime() : el!,
+                      ),
+                      grain: col === DTTM_ALIAS ? timeGrain : undefined,
                     };
-                  return {
-                    col,
-                    op: 'IN' as const,
-                    val: val.map(el =>
-                      el instanceof Date ? el.getTime() : el!,
-                    ),
-                    grain: col === DTTM_ALIAS ? timeGrain : undefined,
-                  };
-                }),
+                  }),
+          },
+          filterState: {
+            label: labelElements.join(', '),
+            value: groupByValues.length ? groupByValues : null,
+            filters:
+              updatedFilters && Object.keys(updatedFilters).length
+                ? updatedFilters
+                : null,
+          },
         },
-        filterState: {
-          label: labelElements.join(', '),
-          value: groupByValues.length ? groupByValues : null,
-          filters:
-            updatedFilters && Object.keys(updatedFilters).length
-              ? updatedFilters
-              : null,
-        },
-      },
-      isCurrentValueSelected: isActiveFilterValue(key, value),
-    };
-  };
+        isCurrentValueSelected: isActiveFilterValue(key, value),
+      };
+    },
+    [filters, isActiveFilterValue, timeGrain, timestampFormatter],
+  );
 
   const toggleFilter = useCallback(
     function toggleFilter(key: string, val: DataRecordValue) {
@@ -321,7 +326,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
       // inline style for both th and td cell
       const sharedStyle: CSSProperties = getSharedStyle(column);
-
+      console.log(column)
       const alignPositiveNegative =
         config.alignPositiveNegative === undefined
           ? defaultAlignPN
@@ -365,7 +370,12 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
               return acc;
             }, 0)}px`;
       // DODO stop fragment
-
+      // DODO added start 38403772
+      const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
+      const headerTitle = headerDescription
+        ? undefined
+        : t('Shift + Click to sort by multiple columns');
+      // DODO added stop 38403772
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -516,10 +526,18 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
         Header: ({ column: col, onClick, style, onDragStart, onDrop }) => {
           // DODO added line
           const { colWidths } = useContext(WidthContext);
-
+          // DODO added start 38403772
+          const headerValue = headerDescription ? (
+            <Tooltip title={headerDescription}>
+              <span data-column-name={col.id}>{label}</span>
+            </Tooltip>
+          ) : (
+            <span data-column-name={col.id}>{label}</span>
+          );
+          // DODO added stop 38403772
           return (
             <th
-              title={t('Shift + Click to sort by multiple columns')}
+              title={headerTitle} // DODO changed 38403772
               className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
               style={{
                 ...sharedStyle,
@@ -568,7 +586,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   setPinnedColumns={setPinnedColumns}
                 />
                 {/* DODO added stop */}
-                <span data-column-name={col.id}>{label}</span>
+                {headerValue} {/* DODO changed 38403772 */}
                 <SortIcon column={col} />
               </div>
             </th>

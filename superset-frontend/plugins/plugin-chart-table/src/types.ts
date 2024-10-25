@@ -136,6 +136,7 @@ export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
     clientY: number,
     filters?: ContextMenuFilters,
   ) => void;
+  datasourceDescriptions: Record<string, string>; // DODO added 38403772
 }
 
 export default {};
