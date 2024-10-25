@@ -70,7 +70,12 @@ export const extractDatasourceDescriptions = (
     if (!description) return;
 
     if (isSavedMetric(queryFormMetric)) {
-      if (!descriptions[sourceName]) descriptions[sourceName] = description;
+      if (!descriptions[sourceName]) {
+        descriptions[sourceName] = description;
+
+        const sourceLabel = source.verbose_name;
+        if (sourceLabel) descriptions[sourceLabel] = description;
+      }
     } else {
       const columnLabel = queryFormMetric.label;
       if (columnLabel && !descriptions[columnLabel])

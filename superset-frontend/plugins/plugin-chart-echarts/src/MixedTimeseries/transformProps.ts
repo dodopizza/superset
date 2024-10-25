@@ -1,5 +1,6 @@
 // DODO was here
 
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 /* eslint-disable camelcase */
 import { invert } from 'lodash';
 import {
@@ -24,7 +25,10 @@ import {
   getCustomFormatter,
   CurrencyFormatter,
 } from '@superset-ui/core';
-import { getOriginalSeries } from '@superset-ui/chart-controls';
+import {
+  getOriginalSeries,
+  extractDatasourceDescriptions, // DODO added 38403772
+} from '@superset-ui/chart-controls';
 import { EChartsCoreOption, SeriesOption } from 'echarts';
 import {
   DEFAULT_FORM_DATA,
@@ -75,6 +79,8 @@ import { getDefaultTooltip } from '../utils/tooltip';
 import { getYAxisFormatter } from '../utils/getYAxisFormatter';
 import { LabelPositionDoDo } from '../DodoExtensions/types';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
+
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,
   defaultFormatter: ValueFormatter,
@@ -113,6 +119,8 @@ export default function transformProps(
     verboseMap = {},
     currencyFormats = {},
     columnFormats = {},
+    metrics: datasourceMetrics, // DODO added 38403772
+    columns: datasourceColumns, // DODO added 38403772
   } = datasource;
   const { label_map: labelMap } =
     queriesData[0] as TimeseriesChartDataResponseResult;
@@ -470,6 +478,15 @@ export default function transformProps(
   const { setDataMask = () => {}, onContextMenu } = hooks;
   const alignTicks = yAxisIndex !== yAxisIndexB;
 
+  // DODO added start 38403772
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...metricsB],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  // DODO added stop 38403772
+
   const echartOptions: EChartsCoreOption = {
     useUTC: true,
     grid: {
@@ -598,6 +615,8 @@ export default function transformProps(
         showLegend,
         theme,
         zoomable,
+        undefined, // DODO added 38403772
+        datasourceDescriptions, // DODO added 38403772
       ),
       // @ts-ignore
       data: rawSeriesA
