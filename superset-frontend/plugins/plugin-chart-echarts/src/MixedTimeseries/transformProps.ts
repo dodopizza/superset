@@ -1,7 +1,7 @@
 // DODO was here
 
-import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 /* eslint-disable camelcase */
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import { invert } from 'lodash';
 import {
   AnnotationLayer,
