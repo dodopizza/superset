@@ -1,14 +1,14 @@
 import {
   AdhocMetricSimple,
   Column,
-  isAdhocMetricSimple,
+  isAdhocMetricSQL,
   isSavedMetric,
   Maybe,
   Metric,
   QueryFormMetric,
 } from '@superset-ui/core';
 
-type Source = Metric | AdhocMetricSimple['column'];
+type Source = Metric | Column | AdhocMetricSimple['column'];
 
 export const extractDatasourceDescriptions = (
   metrics: QueryFormMetric[], // Chart Metrics
@@ -23,85 +23,45 @@ export const extractDatasourceDescriptions = (
     | 'description_EN'
     | 'description_RU';
 
+  const datasource = [...datasourceMetrics, ...datasourceColumns];
+  const datasourceMap = datasource.reduce(
+    (acc: Record<string, Source>, source) => {
+      const sourceName =
+        'metric_name' in source ? source.metric_name : source.column_name;
+      acc[sourceName] = source;
+      return acc;
+    },
+    {},
+  );
+
   const getDescription = (source: Source): Maybe<string> | undefined =>
     source[localizedKey] ||
     source.description_RU ||
     source.description_EN ||
     source.description;
 
-  const queryFormMetricMap = metrics.reduce(
-    (acc: Record<string, QueryFormMetric>, metric) => {
-      if (isSavedMetric(metric)) {
-        acc[metric] = metric;
-      }
-      if (isAdhocMetricSimple(metric) && metric.column.column_name) {
-        acc[metric.column.column_name] = metric;
-      }
-      return acc;
-    },
-    {},
-  );
-  console.log('metrics', metrics)
-  console.log('queryFormMetricMap', queryFormMetricMap)
-  // Set for checking metric or column is used in Chart metrics
-  // const savedMetricsSet = new Set(
-  //   metrics.map(metric => {
-  //     if (isSavedMetric(metric)) return metric;
+  const addDescriptionToDictionary = (metric: QueryFormMetric) => {
+    if (isAdhocMetricSQL(metric)) return;
 
-  //     if (isAdhocMetricSimple(metric)) {
-  //       const description = getDescription(metric.column);
-  //       if (description && metric.label)
-  //         descriptions[metric.label] = description;
-  //       return metric.column.column_name;
-  //     }
-  //     return null;
-  //   }),
-  // );
+    const metricName = isSavedMetric(metric)
+      ? metric
+      : metric.column.column_name;
+    if (!metricName) return;
 
-  const addDescriptionIfUsedInMetrics = (source: Source) => {
-    const sourceName =
-      'metric_name' in source ? source.metric_name : source.column_name;
-    if (!sourceName) return;
-
-    const queryFormMetric = queryFormMetricMap[sourceName];
-    if (!queryFormMetric) return;
+    const source = datasourceMap[metricName];
+    if (!source) return;
 
     const description = getDescription(source);
     if (!description) return;
 
-    if (isSavedMetric(queryFormMetric)) {
-      if (!descriptions[sourceName]) {
-        descriptions[sourceName] = description;
+    descriptions[metricName] = description;
 
-        const sourceLabel = source.verbose_name;
-        if (sourceLabel) descriptions[sourceLabel] = description;
-      }
-    } else {
-      const columnLabel = queryFormMetric.label;
-      if (columnLabel && !descriptions[columnLabel])
-        descriptions[columnLabel] = description;
-    }
+    const label = isSavedMetric(metric) ? source.verbose_name : metric.label;
+    if (label) descriptions[label] = description;
   };
 
-  // const addDescriptionIfUsedInMetrics = (source: Source) => {
-  //   const sourceName =
-  //     'metric_name' in source ? source.metric_name : source.column_name;
-  //   const sourceLabel = source.verbose_name;
-  //   if (sourceName && savedMetricsSet.has(sourceName)) {
-  //     const description = getDescription(source);
-  //     if (description && !descriptions[sourceName])
-  //       descriptions[sourceName] = description;
-  //     if (description && sourceLabel && !descriptions[sourceLabel])
-  //       descriptions[sourceLabel] = description;
-  //   }
-  // };
-
-  datasourceMetrics.forEach(metric => {
-    addDescriptionIfUsedInMetrics(metric);
-  });
-
-  datasourceColumns.forEach(column => {
-    addDescriptionIfUsedInMetrics(column);
+  metrics.forEach(metric => {
+    addDescriptionToDictionary(metric);
   });
 
   return descriptions;
