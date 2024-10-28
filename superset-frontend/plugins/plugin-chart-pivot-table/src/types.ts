@@ -79,10 +79,6 @@ interface PivotTableCustomizeProps {
   dateFormatters: Record<string, DateFormatter | undefined>;
   legacy_order_by: QueryFormMetric[] | QueryFormMetric | null;
   order_desc: boolean;
-  // DODO added 30154541
-  columnConfig:
-    | Record<string, Record<string, string | number | boolean>>
-    | undefined;
   onContextMenu?: (
     clientX: number,
     clientY: number,
@@ -102,4 +98,8 @@ export type PivotTableProps = PivotTableStylesProps &
     data: DataRecord[];
     // DODO added #35514397
     pinnedColumns: number[];
+    // DODO added 30154541
+    columnConfig:
+      | Record<string, Record<string, string | number | boolean>>
+      | undefined;
   };
