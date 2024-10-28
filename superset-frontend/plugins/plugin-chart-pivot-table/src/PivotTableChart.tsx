@@ -130,6 +130,7 @@ export default function PivotTableChart(props: PivotTableProps) {
     groupbyRows: groupbyRowsRaw,
     groupbyColumns: groupbyColumnsRaw,
     pinnedColumns,
+    columnConfig, // DODO added 30154541
     metrics,
     colOrder,
     rowOrder,
@@ -545,6 +546,10 @@ export default function PivotTableChart(props: PivotTableProps) {
           rows={rows}
           cols={cols}
           pinnedColumns={pinnedColumns}
+          // DODO added start 30154541
+          columnConfig={columnConfig}
+          combineMetric={combineMetric}
+          // DODO added stop 30154541
           aggregatorsFactory={aggregatorsFactory}
           defaultFormatter={defaultFormatter}
           customFormatters={metricFormatters}

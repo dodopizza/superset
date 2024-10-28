@@ -37,18 +37,19 @@ import {
   sharedControls,
   Dataset,
   getStandardizedControls,
+  AGGREGATE_FUNCTION_OPTIONS, // DODO added 30154541
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
 
-// DODO added start 35514397, 38087840, 33638561
+// DODO added start 35514397, 38087840, 30154541
 const columnConfig = {
-  '0': [['pinColumn'], ['exportAsTime']],
+  '0': [['aggregation'], ['hideValueInTotal'], ['pinColumn']],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
 };
 const METRIC_KEY = 'Metric';
-// DODO start changes 35514397, 38087840, 33638561
+// DODO start changes 35514397, 38087840, 30154541
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -188,29 +189,7 @@ const config: ControlPanelConfig = {
               type: 'SelectControl',
               label: t('Aggregation function'),
               clearable: false,
-              choices: [
-                ['Count', t('Count')],
-                ['Count Unique Values', t('Count Unique Values')],
-                ['List Unique Values', t('List Unique Values')],
-                ['Sum', t('Sum')],
-                ['Average', t('Average')],
-                ['Median', t('Median')],
-                ['Sample Variance', t('Sample Variance')],
-                ['Sample Standard Deviation', t('Sample Standard Deviation')],
-                ['Minimum', t('Minimum')],
-                ['Maximum', t('Maximum')],
-                ['First', t('First')],
-                ['Last', t('Last')],
-                ['Sum as Fraction of Total', t('Sum as Fraction of Total')],
-                ['Sum as Fraction of Rows', t('Sum as Fraction of Rows')],
-                ['Sum as Fraction of Columns', t('Sum as Fraction of Columns')],
-                ['Count as Fraction of Total', t('Count as Fraction of Total')],
-                ['Count as Fraction of Rows', t('Count as Fraction of Rows')],
-                [
-                  'Count as Fraction of Columns',
-                  t('Count as Fraction of Columns'),
-                ],
-              ],
+              choices: AGGREGATE_FUNCTION_OPTIONS, // DODO changed 30154541
               default: 'Sum',
               description: t(
                 'Aggregate function to apply when pivoting and computing the total rows and columns',
@@ -431,7 +410,7 @@ const config: ControlPanelConfig = {
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
               width: 400,
-              height: 145,
+              height: 265,
               renderTrigger: true,
               configFormLayout: columnConfig,
               shouldMapStateToProps() {
