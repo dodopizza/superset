@@ -43,7 +43,7 @@ import { MetricsLayoutEnum } from '../types';
 
 // DODO added start 35514397, 38087840, 30154541
 const columnConfig = {
-  '0': [['aggregation'], ['hideValueInTotal'], ['pinColumn']],
+  '0': [['aggregation'], ['hideValueInTotal'], ['pinColumn'], ['exportAsTime']],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
