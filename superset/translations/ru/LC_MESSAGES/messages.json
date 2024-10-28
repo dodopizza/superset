@@ -427,6 +427,12 @@
       "A list of domain names that can embed this dashboard. Leaving this field empty will allow embedding from any domain.": [
         "Список доменных имен, которые могут встраивать этот дашборд. Если оставить поле пустым, любой домен сможет сделать встраивание."
       ],
+      "A list of tags that have been applied to this chart.": [
+        "Список тегов, которые были применены к этому графику."
+      ],
+      "Your team tags will be added automatically": [
+        "Теги вашей команды добавятся автоматически"
+      ],
       "A list of users who can alter the chart. Searchable by name or username.": [
         "Владельцы - это пользователи, которые могут изменять график"
       ],
@@ -2588,6 +2594,12 @@
       "Customize columns": [
         "Настроить столбцы"
       ],
+      "Export as time": [
+        "Экспортировать как величину времени"
+      ],
+      "Export a numeric value as number of days": [
+        "Экспорт числового значения в виде количества дней"
+      ],
       "Cyclic dependency detected": [
         "Обнаружена циклическая зависимость"
       ],
@@ -3372,6 +3384,9 @@
       ],
       "Duration in ms (66000 => 1m 6s)": [
         "Продолжительность в мс (66000 => 1m 6s)"
+      ],
+      "Duration in ms (66000 => 0:01:06)": [
+        "Продолжительность в мс (66000 => 0:01:06)"
       ],
       "Duration: %s": [
         "Продолжительность: %s"
@@ -10946,6 +10961,241 @@
       ],
       "Custom (until include)": [
         "Выбор даты (конец включительно)"
+      ],
+      "Teams": [
+        "Команды"
+      ],
+      "Requests": [
+        "Заявки"
+      ],
+      "You are welcome to Superset": [
+        "Добро пожаловать в Суперсет"
+      ],
+      "Onboarding": [
+        "Онбординг"
+      ],
+      "Team will be assigned by administrator": [
+        "Команда будет назначена администратором"
+      ],
+      "Go through onboarding first, to be added to the team": [
+        "Пройди онбординг, чтобы тебя добавили в команду"
+      ],
+      "Tell us more about yourself": [
+        "Расскажите нам о себе"
+      ],
+      "All the data is from Dodo IS. Please enter your team or role. It helps to proceed your request.": [
+        "Все данные взяты из Dodo IS. Пожалуйста, укажите свою команду или должность. Это поможет выполнить ваш запрос."
+      ],
+      "First name": [
+        "Имя"
+      ],
+      "Last name": [
+        "Фамилия"
+      ],
+      "Role in Dodo Brands": [
+        "Роль в Dodo Brands"
+      ],
+      "Please input your role in Dodo Brands!": [
+        "Пожалуйста, укажите вашу роль в Dodo Brands"
+      ],
+      "Next step": [
+        "Следующий шаг"
+      ],
+      "Tell us why you are here": [
+        "Расскажите нам, почему вы здесь"
+      ],
+      "Are you a franchisee or from a Managing Company?": [
+        "Вы являетесь франчайзи или работаете в управляющей компании?"
+      ],
+      "Finish onboarding": [
+        "Завершить онбординг"
+      ],
+      "Franchisee": [
+        "Франчайзи"
+      ],
+      "Managing Company": [
+        "Управляющая компания"
+      ],
+      "Create of find your team": [
+        "Создайте или найдите вашу команду"
+      ],
+      "your team": [
+        "ваша команда"
+      ],
+      "Your team name is": [
+        "Название вашей команды:"
+      ],
+      "is a known command, so you can enter the team automatically.": [
+        "это существующая команда, вы можете присоединиться к ней автоматически"
+      ],
+      "is a new team, so Superset admins will have to evaluate this request.": [
+        "это новая команда. Администратор обработает вашу заявку"
+      ],
+      "Which use cases are you interested in using Superset for?": [
+        "Как вы планируете использовать Суперсет?"
+      ],
+      "readonly": [
+        "Анализ данных"
+      ],
+      "Create data": [
+        "Подготовка данных"
+      ],
+      "Vizualize data": [
+        "Визуализация данных"
+      ],
+      "Check available dashboards": [
+        "Проверка доступных дашбордов"
+      ],
+      "Check available dashboards. Gather insights from charts inside a dashboard": [
+        "Проверка доступных дашбордов. Получение информации из графиков внутри дашбордов"
+      ],
+      "Create dashboards and charts": [
+        "Создание дашбордов и графиков"
+      ],
+      "Create dashboards. Create charts": [
+        "Создание дашбордов, создание графиков"
+      ],
+      "Create datasets and use SQL Lab": [
+        "Создание датасетов и использование SQL Lab"
+      ],
+      "Create datasets. Use SQL Lab for your Ad-hoc queries": [
+        "Создание датасетов. Использование SQL Lab для Ad-hoc запросов"
+      ],
+      "Based on your selection, your roles are:": [
+        "Вы выбрали следующие роли"
+      ],
+      "Minimum 3 characters": [
+        "Минимум 3 символа"
+      ],
+      "Maximum 30 characters": [
+        "Максимум 30 символов"
+      ],
+      "Closed": [
+        "Закрыта"
+      ],
+      "Request date": [
+        "Дата заявки"
+      ],
+      "Team": [
+        "Команда"
+      ],
+      "Requested roles": [
+        "Запрашиваемые роли"
+      ],
+      "Onboarding request": [
+        "Заявка на онбоардинг"
+      ],
+      "User from": [
+        "Пользователь из"
+      ],
+      "Current roles": [
+        "Текущие роли"
+      ],
+      "Update date": [
+        "Дата обновления"
+      ],
+      "If this is C-level": [
+        "Если запрос от C-level"
+      ],
+      "Team search": [
+        "Поиск команды"
+      ],
+      "Analyze available dashboards": [
+        "Анализ существующих дашбордов"
+      ],
+      "Gather insights from charts inside a dashboard": [
+        "Анализ графиков в дашбордах"
+      ],
+      "Create dashboards": [
+        "Создание дашбордов"
+      ],
+      "Create charts": [
+        "Создание графиков"
+      ],
+      "Create datasets": [
+        "Создание датасетов"
+      ],
+      "Use SQL Lab for your Ad-hoc queries": [
+        "Использование SQL Lab для произвольных запросов"
+      ],
+      "What roles and teams should be?": [
+        "Кому давать какие команды и роли?"
+      ],
+      "If it's a franchisee": [
+        "Если это френчайзи"
+      ],
+      "If from management company": [
+        "Если это сотрудник УК"
+      ],
+      "Give: by the name of the team": [
+        "даем: по названию команды"
+      ],
+      "Give: fr_{last name}_{first name}": [
+        "даем: fr_{фамилия}_{имя}"
+      ],
+      "give: c_level": [
+        "даем: c_level"
+      ],
+      "An error occurred while checking user's team": [
+        "Произошла ошибка при получении команды пользователя."
+      ],
+      "Create new team": [
+        "Создайте новую команду"
+      ],
+      "New team will be created": [
+        "Будет создана новая команда"
+      ],
+      "Team Name": [
+        "Название команды"
+      ],
+      "Full Team Name": [
+        "Полное название команды"
+      ],
+      "User will update is on the next step": [
+        "Пользователь будет обновлен на следующем шаге"
+      ],
+      "Create team": [
+        "Создать команду"
+      ],
+      "New Roles": [
+        "Новые роли"
+      ],
+      "Apply roles and link to a team": [
+        "Применить роли и добавить в команду"
+      ],
+      "User update": [
+        "Обновить пользователя"
+      ],
+      "Add members": [
+        "Добавить участников"
+      ],
+      "Members": [
+        "Участники"
+      ],
+      "Members count": [
+        "Количество участников"
+      ],
+      "Login count": [
+        "Количество логинов"
+      ],
+      "Last login date": [
+        "Дата последнего логина"
+      ],
+      "REMOVE FROM TEAM": [
+        "Удалить из команды"
+      ],
+      "You request created": [
+        "Ваша заявка создана"
+      ],
+      "Select `C_LEVEL` if you are a ‘C level’ in DODO": [
+        "Выберите `C_LEVEL` если вы ‘C level’ в ДОДО"
+      ],
+      "enter team name": ["Введите название команды"],
+      "Request will be proceed by administrators. You can see your requests in": [
+        "Заявка будет обработана администраторами. Вы можете увидеть ваши заявки в "
+      ],
+      "profile": [
+        "профиле"
       ],
       "END (INCLUSIVE)": [
         "КОНЕЦ (ВКЛЮЧИТЕЛЬНО)"

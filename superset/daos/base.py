@@ -35,7 +35,6 @@ from superset.utils.core import get_iterable
 
 T = TypeVar("T", bound=Model)  # pylint: disable=invalid-name
 
-
 class BaseDAO(Generic[T]):
     """
     Base DAO, implement base CRUD sqlalchemy operations

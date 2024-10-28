@@ -38,7 +38,43 @@ class CreateCustomTagCommand(CreateMixin, BaseCommand):
             object_type = to_object_type(self._object_type)
             if object_type is None:
                 raise TagCreateFailedError(f"invalid object type {self._object_type}")
-            TagDAO.create_custom_tagged_objects(
+            TagDAO.create_custom_or_team_tagged_objects(
+                object_type=object_type,
+                object_id=self._object_id,
+                tag_names=self._tags,
+            )
+        except DAOCreateFailedError as ex:
+            logger.exception(ex.exception)
+            raise TagCreateFailedError() from ex
+
+    def validate(self) -> None:
+        exceptions = []
+        # Validate object_id
+        if self._object_id == 0:
+            exceptions.append(TagCreateFailedError())
+        # Validate object type
+        object_type = to_object_type(self._object_type)
+        if not object_type:
+            exceptions.append(
+                TagCreateFailedError(f"invalid object type {self._object_type}")
+            )
+        if exceptions:
+            raise TagInvalidError(exceptions=exceptions)
+
+
+class CreateTeamTagCommand(CreateMixin, BaseCommand):
+    def __init__(self, object_type: ObjectTypes, object_id: int, tags: list[str]):
+        self._object_type = object_type
+        self._object_id = object_id
+        self._tags = tags
+
+    def run(self) -> None:
+        self.validate()
+        try:
+            object_type = to_object_type(self._object_type)
+            if object_type is None:
+                raise TagCreateFailedError(f"invalid object type {self._object_type}")
+            TagDAO.create_team_tagged_objects(
                 object_type=object_type,
                 object_id=self._object_id,
                 tag_names=self._tags,

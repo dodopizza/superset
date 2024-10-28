@@ -55,6 +55,7 @@ class TagTypes(enum.Enum):
     type = 2
     owner = 3
     favorited_by = 4
+    team = 5
 
 
 class ObjectTypes(enum.Enum):

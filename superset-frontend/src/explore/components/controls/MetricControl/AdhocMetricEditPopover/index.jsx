@@ -343,6 +343,8 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
       onChange: this.onSavedMetricChange,
       allowClear: true,
       autoFocus: true,
+      // DODO added 33201825
+      optionFilterProps: ['value', 'verbose_name_EN', 'verbose_name_RU'],
     };
 
     const stateIsValid = adhocMetric.isValid() || savedMetric?.metric_name;
@@ -387,6 +389,10 @@ export default class AdhocMetricEditPopover extends React.PureComponent {
                     savedMetric => ({
                       value: savedMetric.metric_name,
                       label: savedMetric.metric_name,
+                      // DODO added start 33201825
+                      verbose_name_EN: savedMetric?.verbose_name_EN ?? '',
+                      verbose_name_RU: savedMetric?.verbose_name_RU ?? '',
+                      // DODO added stop 33201825
                       customLabel: this.renderMetricOption(savedMetric),
                       key: savedMetric.id,
                     }),
