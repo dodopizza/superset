@@ -175,13 +175,16 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
+          ...Object.keys(columnConfig || {}), // DODO added 33638561
         ]),
       ).map(metricName => [
         metricName,
-        columnFormats[metricName] || valueFormat,
+        columnConfig?.[metricName]?.d3NumberFormat || // DODO changed 33638561
+          columnFormats[metricName] ||
+          valueFormat,
         currencyFormats[metricName] || currencyFormat,
       ]),
-    [columnFormats, currencyFormat, currencyFormats, valueFormat],
+    [columnFormats, currencyFormat, currencyFormats, valueFormat, columnConfig], // DODO changed 33638561
   );
   const hasCustomMetricFormatters = customFormatsArray.length > 0;
   const metricFormatters = useMemo(
