@@ -22,6 +22,7 @@ import logging
 from typing import Any, TYPE_CHECKING, Optional
 
 import pandas as pd
+from pandas import Series
 import simplejson
 from flask import current_app, g, make_response, request, Response, send_file
 from flask_appbuilder.api import expose, protect
@@ -457,7 +458,10 @@ class ChartDataRestApi(ChartRestApi):
                     if column_config:
                         for k, v in column_config.items():
                             if v.get('exportAsTime'):
-                                df[metric_map.get(k) or k] = df[metric_map.get(k) or k].apply(convert_to_time)
+                                if isinstance(df.get(k), Series):
+                                    df[k] = df[k].apply(convert_to_time)
+                                if isinstance(df.get(metric_map.get(k)), Series):
+                                    df[metric_map.get(k)] = df[metric_map.get(k)].apply(convert_to_time)
 
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
@@ -507,7 +511,11 @@ class ChartDataRestApi(ChartRestApi):
                     if column_config:
                         for k, v in column_config.items():
                             if v.get('exportAsTime'):
-                                df[metric_map.get(k) or k] = df[metric_map.get(k) or k].apply(convert_to_time)
+                                if isinstance(df.get(k), Series):
+                                    df[k] = df[k].apply(convert_to_time)
+                                if isinstance(df.get(metric_map.get(k)), Series):
+                                    df[metric_map.get(k)] = df[metric_map.get(k)].apply(
+                                        convert_to_time)
 
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
