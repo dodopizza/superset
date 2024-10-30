@@ -35,7 +35,12 @@ import {
   t,
   useTheme,
 } from '@superset-ui/core';
-import { aggregatorTemplates, PivotTable, sortAs } from './react-pivottable';
+import {
+  aggregatorTemplates,
+  filterColumnConfig, // DODO added 30154541
+  PivotTable,
+  sortAs,
+} from './react-pivottable';
 import {
   FilterType,
   MetricsLayoutEnum,
@@ -175,7 +180,7 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
-          ...Object.keys(columnConfig || {}), // DODO added 33638561
+          ...Object.keys(filterColumnConfig(columnConfig || {})), // DODO added 33638561
         ]),
       ).map(metricName => [
         metricName,
