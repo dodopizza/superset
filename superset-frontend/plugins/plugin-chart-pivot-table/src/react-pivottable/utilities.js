@@ -173,8 +173,9 @@ const usFmtPct = numberFormat({
 const filterColumnConfig = columnConfig => {
   const filteredConfig = {};
   Object.keys(columnConfig).forEach(column => {
-    if (columnConfig[column].d3NumberFormat)
+    if (columnConfig[column].d3NumberFormat) {
       filteredConfig[column] = columnConfig[column];
+    }
   });
   return filteredConfig;
 };
