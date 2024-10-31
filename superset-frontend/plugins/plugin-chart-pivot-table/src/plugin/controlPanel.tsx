@@ -38,18 +38,36 @@ import {
   Dataset,
   getStandardizedControls,
   AGGREGATE_FUNCTION_OPTIONS, // DODO added 30154541
+  D3_FORMAT_OPTIONS, // DODO added 33638561
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
 
-// DODO added start 35514397, 38087840, 30154541
+// DODO added start 35514397, 38087840, 30154541, 33638561
 const columnConfig = {
-  '0': [['aggregation'], ['hideValueInTotal'], ['pinColumn'], ['exportAsTime']],
+  '0': [
+    [
+      {
+        name: 'd3NumberFormat',
+        override: {
+          options: [['', t('Default')], ...D3_FORMAT_OPTIONS].map(option => ({
+            value: option[0],
+            label: option[1],
+          })),
+          defaultValue: '',
+        },
+      },
+    ],
+    ['aggregation'],
+    ['hideValueInTotal'],
+    ['pinColumn'],
+    ['exportAsTime'],
+  ],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
 };
 const METRIC_KEY = 'Metric';
-// DODO start changes 35514397, 38087840, 30154541
+// DODO start changes 35514397, 38087840, 30154541, 33638561
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -410,7 +428,7 @@ const config: ControlPanelConfig = {
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
               width: 400,
-              height: 265,
+              height: 340,
               renderTrigger: true,
               configFormLayout: columnConfig,
               shouldMapStateToProps() {
