@@ -27,7 +27,7 @@ import {
   styled,
   t,
 } from '@superset-ui/core';
-import Tooltip from 'packages/superset-ui-chart-controls/src/components/Tooltip'; // DODO added 38403772
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
 import DataTable, { DataTableProps, SizeOption } from '../DataTable';
 import { PAGE_SIZE_OPTIONS } from '../consts';
@@ -326,7 +326,6 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
       // inline style for both th and td cell
       const sharedStyle: CSSProperties = getSharedStyle(column);
-      console.log(column)
       const alignPositiveNegative =
         config.alignPositiveNegative === undefined
           ? defaultAlignPN
@@ -372,10 +371,6 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
       // DODO stop fragment
       // DODO added start 38403772
       const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
-      const headerTitle = headerDescription
-        ? undefined
-        : t('Shift + Click to sort by multiple columns');
-      // DODO added stop 38403772
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -526,18 +521,10 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
         Header: ({ column: col, onClick, style, onDragStart, onDrop }) => {
           // DODO added line
           const { colWidths } = useContext(WidthContext);
-          // DODO added start 38403772
-          const headerValue = headerDescription ? (
-            <Tooltip title={headerDescription}>
-              <span data-column-name={col.id}>{label}</span>
-            </Tooltip>
-          ) : (
-            <span data-column-name={col.id}>{label}</span>
-          );
-          // DODO added stop 38403772
+
           return (
             <th
-              title={headerTitle} // DODO changed 38403772
+              title={t('Shift + Click to sort by multiple columns')}
               className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
               style={{
                 ...sharedStyle,
@@ -586,7 +573,16 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   setPinnedColumns={setPinnedColumns}
                 />
                 {/* DODO added stop */}
-                {headerValue} {/* DODO changed 38403772 */}
+                {/* DODO added start 38403772 */}
+                {headerDescription && (
+                  <InfoTooltipWithTrigger
+                    tooltip={headerDescription}
+                    placement="top"
+                    iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                  />
+                )}
+                {/* DODO added stop 38403772 */}
+                <span data-column-name={col.id}>{label}</span>
                 <SortIcon column={col} />
               </div>
             </th>

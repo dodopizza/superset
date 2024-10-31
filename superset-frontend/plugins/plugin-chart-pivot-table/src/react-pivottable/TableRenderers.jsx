@@ -5,9 +5,9 @@ import { styled, t } from '@superset-ui/core';
 import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 // DODO changed stop 35514397
 import PropTypes from 'prop-types';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
-import Tooltip from 'packages/superset-ui-chart-controls/src/components/Tooltip'; // DODO added 38403772
 
 const parseLabel = value => {
   if (typeof value === 'number' || typeof value === 'string') {
@@ -27,10 +27,17 @@ function displayHeaderCell(
   const name = namesMapping[value] || value;
   // DODO added start 38403772
   const datasourceDescription = datasourceDescriptions[value];
-  const cellValue = datasourceDescription ? (
-    <Tooltip title={datasourceDescription}>{parseLabel(name)}</Tooltip>
-  ) : (
-    parseLabel(name)
+  const cellValue = (
+    <>
+      {datasourceDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={datasourceDescription}
+          placement="top"
+          iconsStyle={{ marginRight: '4px' }}
+        />
+      )}
+      {parseLabel(name)}
+    </>
   );
   // DODO added stop 38403772
   return needToggle ? (
@@ -111,7 +118,7 @@ export class TableRenderer extends React.Component {
     const { props } = this;
     const colAttrs = props.cols;
     const rowAttrs = props.rows;
-    const datasourceDescriptions = props.datasourceDescriptions; // DODO added 38403772
+    const { datasourceDescriptions } = props; // DODO added 38403772
 
     const tableOptions = {
       rowTotals: true,
