@@ -108,7 +108,7 @@ def get_onboarding() -> dict:
         }
 
 
-def get_team_by_user_id() -> Team | None:
+def get_team_by_user_id() -> Team:
     user_id = get_user_id()
     try:
         user = (
@@ -122,7 +122,7 @@ def get_team_by_user_id() -> Team | None:
         return None
 
 
-def get_statements_by_user_id() -> list[Statement] | list:
+def get_statements_by_user_id() -> list[Statement]:
     user_id = get_user_id()
     try:
         user = (
@@ -135,7 +135,7 @@ def get_statements_by_user_id() -> list[Statement] | list:
         return []
 
 
-def get_country_by_user_id() -> list[UserInfo] | list:
+def get_country_by_user_id() -> list[UserInfo]:
     user_id = get_user_id()
     try:
         user = (
