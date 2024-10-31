@@ -19,6 +19,7 @@ from __future__ import annotations
 import logging
 import datetime
 import isodate
+import math
 from typing import Any, TYPE_CHECKING
 
 import numpy as np
@@ -47,7 +48,7 @@ def left_join_df(
 
 
 def convert_to_time(value):
-    if value and (isinstance(value, int) or isinstance(value, float)):
+    if value and (isinstance(value, int) or isinstance(value, float)) and not math.isnan(value):
         dt = datetime.datetime.fromtimestamp(value / 1000.0, tz=datetime.timezone.utc) - datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc)
         return (
             f"{dt.days if (dt.days and len(str(dt.days)) != 1) else f'0{str(dt.days)}'}:"
