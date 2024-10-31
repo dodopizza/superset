@@ -108,7 +108,7 @@ def get_onboarding() -> dict:
         }
 
 
-def get_team_by_user_id() -> Team:
+def get_team_by_user_id() -> Team | None:
     user_id = get_user_id()
     try:
         user = (
@@ -118,11 +118,11 @@ def get_team_by_user_id() -> Team:
         )
 
         return user.teams[0]
-    except Exception or AttributeError:
-        logger.warning(f"User id = {user_id} doesnt have team info in database")
+    except Exception:
+        return None
 
 
-def get_statements_by_user_id() -> list[Statement]:
+def get_statements_by_user_id() -> list[Statement] | list:
     user_id = get_user_id()
     try:
         user = (
@@ -131,11 +131,11 @@ def get_statements_by_user_id() -> list[Statement]:
             ).one_or_none()
         )
         return user.statements
-    except Exception or AttributeError:
-        logger.warning(f"User id = {user_id} doesnt have statements info in database")
+    except Exception:
+        return []
 
 
-def get_country_by_user_id() -> list[UserInfo]:
+def get_country_by_user_id() -> list[UserInfo] | list:
     user_id = get_user_id()
     try:
         user = (
@@ -145,7 +145,7 @@ def get_country_by_user_id() -> list[UserInfo]:
         )
         return user.user_info
     except Exception or AttributeError:
-        logger.warning(f"User id = {user_id} doesnt have user_info in database")
+        return []
 
 
 def update_onboarding(dodo_role, started_time):
@@ -191,9 +191,14 @@ def get_language() -> str:  # DODO changed #33835937
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
         return user_info.language
-    except Exception:
+    except SQLAlchemyError:
+        logger.warning('Exception when select language from db')
+    except AttributeError:
         logger.warning(f"User id = {user_id} dont have language in database")
-        return "ru"
+    except Exception:
+        logger.warning("Error get language ")
+    finally:
+        return 'ru'
 
 
 def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
@@ -203,8 +208,13 @@ def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
         return user_info.dodo_role
+    except SQLAlchemyError:
+        logger.warning('Exception when select dodo_role from db')
+    except AttributeError:
+        logger.warning(f"User id = {user_id} dont have dodo_role in database")
     except Exception:
-        logger.warning(f"User id = {user_id} dont have dodo role in database")
+        logger.warning("Error get dodo_role ")
+    finally:
         return ''
 
 
@@ -250,6 +260,8 @@ def insert_country(country_iso_num: int, username: str):
         user_info.country_num = country_iso_num
         db.session.commit()
 
+    except SQLAlchemyError:
+        logger.warning('Error select when insert country in db')
     except AttributeError:
         logger.warning("Error add to db country")
 
@@ -274,7 +286,8 @@ def insert_data_auth(data_auth: str, username: str):
             )
         user_info.data_auth_dodo = data_auth
         db.session.commit()
-
+    except SQLAlchemyError:
+        logger.warning("Error select when insert data auth in db")
     except AttributeError:
         logger.warning("Error add to db data_auth_dodo")
     except Exception as e:
@@ -311,7 +324,7 @@ def find_team_by_slug(team_slug: str):
         )
         return team
     except Exception:
-        raise ErrorLevel.ERROR
+        logger.warning("Cant find team by slug")
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:
