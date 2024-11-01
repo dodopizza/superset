@@ -633,7 +633,22 @@ export default function transformProps(
             ForecastSeriesEnum.Observation,
         )
         .map(entry => entry.name || '')
-        .concat(extractAnnotationLabels(annotationLayers, annotationData)),
+        .concat(extractAnnotationLabels(annotationLayers, annotationData))
+        // DODO added start 38403772
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                },
+              },
+            },
+          },
+        })),
+      // DODO added stop 38403772
     },
     series: dedupSeries(series),
     toolbox: {

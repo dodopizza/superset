@@ -403,7 +403,7 @@ export default function transformProps(
     onContextMenu,
     onLegendStateChanged,
   } = hooks;
-  console.group(series);
+
   const addYAxisLabelOffset = !!yAxisTitle;
   const addXAxisLabelOffset = !!xAxisTitle;
   const padding = getPadding(
@@ -548,7 +548,22 @@ export default function transformProps(
         legendState,
         extendedDatasourceDescriptions, // DODO added 38403772
       ),
-      data: legendData as string[],
+      data: legendData
+        // DODO added start 38403772
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                },
+              },
+            },
+          },
+        })),
+      // DODO added stop 38403772
     },
     series: dedupSeries(series),
     toolbox: {

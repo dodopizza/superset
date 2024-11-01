@@ -444,6 +444,10 @@ export function getLegendProps(
       extraCssText:
         'max-width: 450px; white-space: normal; word-wrap: break-word',
     };
+    legend.formatter = (name: string) => {
+      const label = datasourceDescriptions[name] ? `{icon|} ${name}` : name;
+      return label;
+    };
   }
   // DODO added stop 38403772
   return legend;
