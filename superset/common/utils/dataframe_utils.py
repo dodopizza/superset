@@ -51,10 +51,9 @@ def convert_to_time(value):
     if value and (isinstance(value, int) or isinstance(value, float)) and not math.isnan(value):
         dt = datetime.datetime.fromtimestamp(value / 1000.0, tz=datetime.timezone.utc) - datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc)
         return (
-            f"{dt.days if (dt.days and len(str(dt.days)) != 1) else f'0{str(dt.days)}'}:"
-            f"{dt.seconds//3600 if ((dt.seconds // 3600) and len(str(dt.seconds // 3600)) != 1)  else f'0{str(dt.seconds // 3600)}'}:"
-            f"{(dt.seconds % 3600 // 60) if ((dt.seconds % 3600 // 60) and len(str(dt.seconds % 3600 // 60)) != 1)  else f'0{str(dt.seconds % 3600 // 60)}'}:"
-            f"{dt.seconds % 60 if ((dt.seconds % 60) and len(str(dt.seconds % 60)) != 1) else f'0{str(dt.seconds % 60)}'}"
+            f"{dt.seconds//3600 + dt.days * 24 if ((dt.seconds // 3600)  + dt.days * 24 and len(str((dt.seconds // 3600) + dt.days * 24)) != 1)  else f'{str((dt.seconds // 3600) + dt.days * 24)}'}:"
+            f"{(dt.seconds % 3600 // 60) if ((dt.seconds % 3600 // 60) and len(str(dt.seconds % 3600 // 60)) != 1)  else f'{str(dt.seconds % 3600 // 60)}'}:"
+            f"{dt.seconds % 60 if ((dt.seconds % 60) and len(str(dt.seconds % 60)) != 1) else f'{str(dt.seconds % 60)}'}"
         )
     return '00:00:00:00'
 
