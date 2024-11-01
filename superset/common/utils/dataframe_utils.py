@@ -55,7 +55,7 @@ def convert_to_time(value):
             f"{(dt.seconds % 3600 // 60) if ((dt.seconds % 3600 // 60) and len(str(dt.seconds % 3600 // 60)) != 1)  else f'0{str(dt.seconds % 3600 // 60)}'}:"
             f"{dt.seconds % 60 if ((dt.seconds % 60) and len(str(dt.seconds % 60)) != 1) else f'0{str(dt.seconds % 60)}'}"
         )
-    return '00:00:00:00'
+    return '00:00:00'
 
 
 def delete_tz_from_df(d: dict) -> pd.DataFrame:
