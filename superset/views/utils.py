@@ -193,13 +193,13 @@ def get_language() -> str:  # DODO changed #33835937
         return user_info.language
     except SQLAlchemyError:
         logger.warning('Exception when select language from db')
+        return 'ru'
     except AttributeError:
         logger.warning(f"User id = {user_id} dont have language in database")
+        return 'ru'
     except Exception:
         logger.warning("Error get language ")
-    finally:
         return 'ru'
-
 
 def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 
@@ -210,11 +210,12 @@ def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
         return user_info.dodo_role
     except SQLAlchemyError:
         logger.warning('Exception when select dodo_role from db')
+        return ''
     except AttributeError:
         logger.warning(f"User id = {user_id} dont have dodo_role in database")
+        return ''
     except Exception:
         logger.warning("Error get dodo_role ")
-    finally:
         return ''
 
 
