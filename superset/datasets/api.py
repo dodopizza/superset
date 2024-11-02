@@ -182,6 +182,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "metrics.verbose_name",
         "metrics.verbose_name_RU",
         "metrics.verbose_name_EN",
+        "metrics.number_format",
         "metrics.warning_text",
         "datasource_type",
         "url",
