@@ -495,6 +495,13 @@ export function renderTriggered(value, key) {
   return { type: RENDER_TRIGGERED, value, key };
 }
 
+// DODO added start 36195582
+export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
+export function updateFormData(value, key) {
+  return { type: UPDATE_FORM_DATA, value, key };
+}
+// DODO added stop 36195582
+
 export const UPDATE_QUERY_FORM_DATA = 'UPDATE_QUERY_FORM_DATA';
 export function updateQueryFormData(value, key) {
   return { type: UPDATE_QUERY_FORM_DATA, value, key };

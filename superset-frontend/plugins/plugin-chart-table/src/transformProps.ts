@@ -221,6 +221,7 @@ const transformProps = (
       onAddFilter: onChangeFilter,
       setDataMask = () => {},
       onContextMenu,
+      setFormData, // DODO added 36195582
     },
     emitCrossFilters,
   } = chartProps;
@@ -238,6 +239,7 @@ const transformProps = (
     show_totals: showTotals,
     conditional_formatting: conditionalFormatting,
     allow_rearrange_columns: allowRearrangeColumns,
+    slice_id: sliceId, // DODO added 36195582
   } = formData;
   const timeGrain = extractTimegrain(formData);
 
@@ -261,6 +263,14 @@ const transformProps = (
       : undefined;
   const columnColorFormatters =
     getColorFormatters(conditionalFormatting, data) ?? defaultColorFormatters;
+
+  // DODO added start 36195582
+  // to add table_order_by into formdata for export
+  const updateFormData = (field: Record<string, any>) => {
+    const newQueryFormData = { ...formData, ...field };
+    if (setFormData) setFormData(newQueryFormData, sliceId);
+  };
+  // DODO added stop 36195582
 
   return {
     height,
@@ -292,6 +302,7 @@ const transformProps = (
     timeGrain,
     allowRearrangeColumns,
     onContextMenu,
+    updateFormData, // DODO added 36195582
   };
 };
 
