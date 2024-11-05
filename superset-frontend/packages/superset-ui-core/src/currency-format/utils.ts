@@ -44,7 +44,7 @@ export const buildCustomFormatters = (
       )?.number_format;
       // DODO added stop 30135470
       const actualD3Format =
-        metricNumberFormat ?? d3Format ?? savedColumnFormats[metric]; // DODO changed 30135470
+        d3Format ?? metricNumberFormat ?? savedColumnFormats[metric]; // DODO changed 30135470
       const actualCurrencyFormat = currencyFormat?.symbol
         ? currencyFormat
         : savedCurrencyFormats[metric];

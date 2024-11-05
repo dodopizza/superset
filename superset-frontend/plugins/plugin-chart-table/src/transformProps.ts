@@ -136,7 +136,7 @@ const processColumns = memoizeOne(function processColumns(
       )?.number_format;
       // DODO added stop 30135470
       const numberFormat =
-        metricNumberFormat || config.d3NumberFormat || savedFormat; // DODO changed 30135470
+        config.d3NumberFormat || metricNumberFormat || savedFormat; // DODO changed 30135470
       const currency = config.currencyFormat?.symbol
         ? config.currencyFormat
         : savedCurrency;
