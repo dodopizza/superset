@@ -19,6 +19,7 @@
 import React from 'react';
 import { GenericDataType, t, validateNumber } from '@superset-ui/core';
 import {
+  AGGREGATE_FUNCTION_OPTIONS, // DODO added 30154541
   ControlFormItemSpec,
   D3_FORMAT_DOCS,
   D3_FORMAT_OPTIONS,
@@ -39,7 +40,9 @@ export type SharedColumnConfigProp =
   | 'horizontalAlign'
   | 'truncateLongCells'
   | 'showCellBars'
-  | 'currencyFormat';
+  | 'currencyFormat'
+  | 'aggregation' // DODO added 30154541
+  | 'hideValueInTotal'; // DODO added 30154541
 
 const d3NumberFormat: ControlFormItemSpec<'Select'> = {
   controlType: 'Select',
@@ -154,6 +157,16 @@ const pinColumn: ControlFormItemSpec<'Checkbox'> = {
 };
 // DODO added stop 34122445
 
+// DODO added start 33638561
+const exportAsTime: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Export as time'),
+  description: t('Export a numeric value as number of days'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+// DODO added stop 33638561
+
 const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   controlType: 'CurrencyControl',
   label: t('Currency format'),
@@ -162,6 +175,30 @@ const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   ),
   debounceDelay: 200,
 };
+
+// DODO added start 30154541
+const hideValueInTotal: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Hide value in Total'),
+  description: t('Hide value in Total'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+
+const aggregation: ControlFormItemSpec<'Select'> = {
+  controlType: 'Select',
+  label: t('Select aggregate options'),
+  placeholder: t('%s aggregates(s)', AGGREGATE_FUNCTION_OPTIONS.length),
+  description: t('Select aggregate options'),
+  options: [['', t('Default')], ...AGGREGATE_FUNCTION_OPTIONS].map(option => ({
+    value: option[0],
+    label: option[1],
+  })),
+  defaultValue: '',
+  minWidth: '10em',
+  debounceDelay: 500,
+};
+// DODO added stop 30154541
 /**
  * All configurable column formatting properties.
  */
@@ -184,7 +221,10 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
+  aggregation, // DODO added 30154541
+  hideValueInTotal, // DODO added 30154541
   pinColumn, // DODO added 34122445
+  exportAsTime,
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
