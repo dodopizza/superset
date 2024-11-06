@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import PropTypes from 'prop-types';
 import { t } from '@superset-ui/core';
@@ -190,6 +173,18 @@ const usFmtPct = numberFormat({
   scaler: 100,
   suffix: '%',
 });
+
+// DODO added start 30154541
+const filterColumnConfig = columnConfig => {
+  const filteredConfig = {};
+  Object.keys(columnConfig).forEach(column => {
+    if (columnConfig[column].d3NumberFormat) {
+      filteredConfig[column] = columnConfig[column];
+    }
+  });
+  return filteredConfig;
+};
+// DODO added stop 30154541
 
 const fmtNonString = formatter => x => typeof x === 'string' ? x : formatter(x);
 
@@ -638,6 +633,25 @@ class PivotData {
         },
         {},
       );
+    // DODO added start 30154541
+    this.totalFormattedAggregators =
+      this.props.customFormatters &&
+      Object.entries(this.props.customFormatters).reduce(
+        (acc, [key, columnFormatter]) => {
+          acc[key] = {};
+          Object.entries(columnFormatter).forEach(([column, formatter]) => {
+            const aggregatorName =
+              this.props.columnConfig?.[column]?.aggregation ||
+              this.props.aggregatorName;
+            acc[key][column] = this.props
+              .aggregatorsFactory(formatter)
+              [aggregatorName](this.props.vals);
+          });
+          return acc;
+        },
+        {},
+      );
+    // DODO added stop 30154541
     this.tree = {};
     this.rowKeys = [];
     this.colKeys = [];
@@ -651,24 +665,37 @@ class PivotData {
     PivotData.forEachRecord(this.props.data, this.processRecord);
   }
 
-  getFormattedAggregator(record, totalsKeys) {
-    if (!this.formattedAggregators) {
-      return this.aggregator;
+  // DODO changed 30154541
+  getFormattedAggregator(record, totalsKeys, aggregation) {
+    // DODO added start 30154541
+    // Checking whether record has own aggregate function, only for Total
+    const aggregator = aggregation
+      ? this.props
+          .aggregatorsFactory(this.props.defaultFormatter)
+          [aggregation](this.props.vals)
+      : this.aggregator;
+    const formattedAggregators = aggregation
+      ? this.totalFormattedAggregators
+      : this.formattedAggregators;
+    // DODO added stop 30154541
+    // DODO changed start 30154541
+    if (!formattedAggregators) {
+      return aggregator;
     }
+    // DODO changed stop 30154541
     const [groupName, groupValue] =
       Object.entries(record).find(
         ([name, value]) =>
-          this.formattedAggregators[name] &&
-          this.formattedAggregators[name][value],
+          formattedAggregators[name] && formattedAggregators[name][value], // DODO changed 30154541
       ) || [];
     if (
       !groupName ||
       !groupValue ||
       (totalsKeys && !totalsKeys.includes(groupValue))
     ) {
-      return this.aggregator;
+      return aggregator; // DODO changed 30154541
     }
-    return this.formattedAggregators[groupName][groupValue] || this.aggregator;
+    return formattedAggregators[groupName][groupValue] || aggregator; // DODO changed 30154541
   }
 
   arrSort(attrs, partialOnTop, reverse = false) {
@@ -772,6 +799,10 @@ class PivotData {
 
     for (let ci = colStart; ci <= colKey.length; ci += 1) {
       isColSubtotal = ci < colKey.length;
+      // DODO added start 30154541
+      const metric = colKey[this.props.combineMetric ? colKey.length - 1 : 0];
+      const metricAggregation = this.props.columnConfig?.[metric]?.aggregation;
+      // DODO added stop 30154541
       const fColKey = colKey.slice(0, ci);
       const flatColKey = flatKey(fColKey);
       if (!this.colTotals[flatColKey]) {
@@ -779,6 +810,7 @@ class PivotData {
         this.colTotals[flatColKey] = this.getFormattedAggregator(
           record,
           colKey,
+          metricAggregation, // DODO added 30154541
         )(this, [], fColKey);
       }
       this.colTotals[flatColKey].push(record);
@@ -896,5 +928,6 @@ export {
   getSort,
   sortAs,
   flatKey,
+  filterColumnConfig, // DODO changed start 30154541
   PivotData,
 };

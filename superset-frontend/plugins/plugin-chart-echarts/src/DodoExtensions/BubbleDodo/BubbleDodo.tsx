@@ -36,6 +36,7 @@ export default function BubbleDodo({
   labelLocation,
   labelFontSize,
   labelColor,
+  tooltipLabels,
   // @ts-ignore
   refs,
 }: BubbleDodoComponentProps) {
@@ -65,13 +66,13 @@ export default function BubbleDodo({
         const y = getNumber(param.data[Y_INDEX]);
         const size = getNumber(param.data[ABSOLUTE_SIZE_INDEX]);
         return `${param.data[ENTRY_INDEX]} <br/> 
-                    x: ${xAxisFormatter(x)} <br/> 
-                    y: ${yAxisFormatter(y)} <br/>
-                    size: ${sizeFormatter(size)}`;
+                    ${tooltipLabels.x}: ${xAxisFormatter(x)} <br/> 
+                    ${tooltipLabels.y}: ${yAxisFormatter(y)} <br/>
+                    ${tooltipLabels.size}: ${sizeFormatter(size)}`;
       },
       position: 'top',
     }),
-    [sizeFormatter, xAxisFormatter, yAxisFormatter],
+    [sizeFormatter, xAxisFormatter, yAxisFormatter, tooltipLabels],
   );
 
   const xAxis = useMemo(

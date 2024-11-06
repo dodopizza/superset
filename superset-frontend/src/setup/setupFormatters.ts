@@ -26,6 +26,8 @@ import {
   smartDateVerboseFormatter,
 } from '@superset-ui/core';
 import { FormatLocaleDefinition } from 'd3-format';
+// DODO added 33638561
+import { formatDurationHMMSS } from 'src/utils/formatDurationHMMSS';
 
 export default function setupFormatters(
   d3Format: Partial<FormatLocaleDefinition>,
@@ -70,7 +72,13 @@ export default function setupFormatters(
     .registerValue(
       'DURATION_SUB',
       createDurationFormatter({ formatSubMilliseconds: true }),
+    )
+    // DODO added start 33638561
+    .registerValue(
+      'DURATION_HMMSS',
+      createDurationFormatter({ formatFunc: formatDurationHMMSS }),
     );
+  // DODO added stop 33638561
 
   getTimeFormatterRegistry()
     .registerValue('smart_date', smartDateFormatter)

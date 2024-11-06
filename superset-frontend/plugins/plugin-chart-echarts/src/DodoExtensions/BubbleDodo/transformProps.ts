@@ -1,9 +1,13 @@
+import { bootstrapData } from 'src/preamble';
 import {
   DataRecord,
   DataRecordValue,
   getValueFormatter,
+  Metric,
 } from '@superset-ui/core';
-import { BubbleDodoTransformProps } from './types';
+import { BubbleDodoTransformProps, BubbleDodoComponentProps } from './types';
+
+const locale = bootstrapData?.common?.locale || 'en';
 
 const DEFAULT_MAX_BUBBLE_SIZE = '25';
 const DEFAULT_BUBBLE_SIZE = 10;
@@ -46,11 +50,34 @@ const getFormatter = (d3Format: string) =>
 
 const defaultDimension = 'no dimension';
 
+const getTooltipLabel = (
+  value: any,
+  metrics: Metric[],
+  defaultLabel: string,
+): string => {
+  const upperCasedLocale = locale.toUpperCase();
+  if (typeof value === 'object') {
+    const key = `label${upperCasedLocale}`;
+    const label = value?.[key] ?? value?.label;
+    if (label) return label;
+  }
+  if (typeof value === 'string') {
+    const metric = metrics.find(item => item.metric_name === value);
+    if (metric) {
+      const key = `verbose_name_${upperCasedLocale}` as keyof Metric;
+      const label = (metric?.[key] as string) ?? metric?.verbose_name;
+      if (label) return label;
+    }
+  }
+  return defaultLabel;
+};
+
 export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const {
     height,
     width,
     queriesData,
+    datasource: { metrics },
     formData: {
       series, // dimension on form
       entity, // entity on form
@@ -156,6 +183,12 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const yAxisFormatter = getFormatter(yAxisFormat);
   const sizeFormatter = getFormatter(sizeFormat);
 
+  const tooltipLabels: BubbleDodoComponentProps['tooltipLabels'] = {
+    x: getTooltipLabel(axisXInfo, metrics, 'x'),
+    y: getTooltipLabel(axisYInfo, metrics, 'y'),
+    size: getTooltipLabel(bubbleSizeInfo, metrics, 'size'),
+  };
+
   return {
     height,
     width,
@@ -179,5 +212,6 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     labelLocation,
     labelFontSize,
     labelColor: labelColorHEX,
+    tooltipLabels,
   };
 }

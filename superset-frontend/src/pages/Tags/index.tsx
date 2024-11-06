@@ -16,20 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { isFeatureEnabled, FeatureFlag, t } from '@superset-ui/core';
-import React, { useMemo, useCallback } from 'react';
+import { FeatureFlag, isFeatureEnabled, t } from '@superset-ui/core';
+import React, { useCallback, useMemo } from 'react';
 import {
-  createFetchRelated,
-  createErrorHandler,
   Actions,
+  createErrorHandler,
+  createFetchRelated,
 } from 'src/views/CRUD/utils';
 import { useListViewResource } from 'src/views/CRUD/hooks';
 import ConfirmStatusChange from 'src/components/ConfirmStatusChange';
 import SubMenu, { SubMenuProps } from 'src/features/home/SubMenu';
 import ListView, {
-  ListViewProps,
-  Filters,
   FilterOperator,
+  Filters,
+  FilterValue,
+  ListViewProps,
 } from 'src/components/ListView';
 import { dangerouslyGetItemDoNotUse } from 'src/utils/localStorageHelpers';
 import withToasts from 'src/components/MessageToasts/withToasts';
@@ -54,6 +55,17 @@ interface TagListProps {
   };
 }
 
+// DODO added start with onboarding - 35537774
+const baseFilters: FilterValue[] = [
+  {
+    id: 'name',
+    operator: FilterOperator.notContains,
+    value: ':',
+  },
+];
+
+// DODO added stop with onboarding - 35537774
+
 function TagList(props: TagListProps) {
   const {
     addDangerToast,
@@ -72,7 +84,14 @@ function TagList(props: TagListProps) {
     fetchData,
     toggleBulkSelect,
     refreshData,
-  } = useListViewResource<Tag>('tag', t('tag'), addDangerToast);
+  } = useListViewResource<Tag>(
+    'tag',
+    t('tag'),
+    addDangerToast,
+    true,
+    [],
+    baseFilters, // DODO added with onboarding - 35537774`
+  );
 
   // TODO: Fix usage of localStorage keying on the user id
   const userKey = dangerouslyGetItemDoNotUse(userId?.toString(), null);
@@ -297,7 +316,7 @@ function TagList(props: TagListProps) {
                 bulkActions={bulkActions}
                 bulkSelectEnabled={bulkSelectEnabled}
                 cardSortSelectOptions={sortTypes}
-                className="dashboard-list-view"
+                className="tag-list-view"
                 columns={columns}
                 count={tagCount}
                 data={tags.filter(tag => !tag.name.includes(':'))}

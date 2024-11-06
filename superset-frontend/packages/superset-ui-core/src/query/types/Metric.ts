@@ -70,6 +70,10 @@ export interface Metric {
   description?: Maybe<string>;
   is_certified?: boolean;
   verbose_name?: string;
+  // DODO added start
+  verbose_name_EN?: Maybe<string>;
+  verbose_name_RU?: Maybe<string>;
+  // DODO added stop
   warning_markdown?: Maybe<string>;
   warning_text?: Maybe<string>;
 }

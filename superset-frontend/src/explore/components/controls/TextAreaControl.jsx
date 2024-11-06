@@ -70,6 +70,34 @@ const defaultProps = {
 };
 
 class TextAreaControl extends React.Component {
+  // DODO added start 38456774
+  constructor(props) {
+    super(props);
+    this.editorContainerRef = React.createRef();
+    this.state = { height: this.props.height || defaultProps.height };
+    this.hasVerticalResize = ['auto', 'both', 'vertical', 'block'].includes(
+      this.props.resize ?? '',
+    );
+  }
+
+  componentDidMount() {
+    const container = this.editorContainerRef.current;
+    if (this.hasVerticalResize && container) {
+      this.resizeObserver = new ResizeObserver(() => {
+        const { height } = container.getBoundingClientRect();
+        this.setState({ height });
+      });
+      this.resizeObserver.observe(container);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.resizeObserver && this.editorContainerRef.current) {
+      this.resizeObserver.unobserve(this.editorContainerRef.current);
+    }
+  }
+
+  // DODO added stop 38456774
   onControlChange(event) {
     const { value } = event.target;
     this.props.onChange(value);
@@ -107,6 +135,12 @@ class TextAreaControl extends React.Component {
           key={this.props.name}
           {...this.props}
           onChange={this.onAreaEditorChange.bind(this)}
+          // DODO added start 38456774
+          onLoad={editor => {
+            this.editorContainerRef.current = editor.renderer.container;
+          }}
+          height={this.state.height}
+          // DODO added stop 38456774
         />
       );
     }

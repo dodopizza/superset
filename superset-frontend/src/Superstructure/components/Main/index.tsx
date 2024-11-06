@@ -17,6 +17,7 @@ export default function Main({
     DASHBOARD_NATIVE_FILTERS: true,
     DASHBOARD_CROSS_FILTERS: true,
     DASHBOARD_NATIVE_FILTERS_SET: false,
+    TAGGING_SYSTEM: false,
   };
 
   return routes ? (

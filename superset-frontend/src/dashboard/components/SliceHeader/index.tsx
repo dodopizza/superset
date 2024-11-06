@@ -174,23 +174,28 @@ const SliceHeader: FC<SliceHeaderProps> = ({
 
   const canExplore = !editMode && supersetCanExplore;
 
-  const userTooltip =
-    formData.chart_description_en || formData.chart_description_ru; // DODO add with task:#32232659
+  // DODO changed 38403450
+  const userTooltip = formData?.[`chart_description_${userLanguage}`]; // DODO add with task:#32232659
+  // DODO added 38403450
+  const localeSliceName = userLanguage === 'ru' ? sliceNameRU : sliceName;
 
   useEffect(() => {
     const headerElement = headerRef.current;
     if (canExplore) {
-      setHeaderTooltip(userTooltip ?? getSliceHeaderTooltip(sliceName)); // DODO add with task:#32232659
+      // DODO changed 38403450
+      setHeaderTooltip(userTooltip || getSliceHeaderTooltip(localeSliceName)); // DODO add with task:#32232659
     } else if (
       headerElement &&
       (headerElement.scrollWidth > headerElement.offsetWidth ||
         headerElement.scrollHeight > headerElement.offsetHeight)
     ) {
-      setHeaderTooltip(sliceName ?? null);
+      // DODO changed 38403450
+      setHeaderTooltip(localeSliceName ?? null);
     } else {
       setHeaderTooltip(null);
     }
-  }, [sliceName, width, height, canExplore, userTooltip]); // DODO changed with task:#32232659
+    // DODO changed 38403450
+  }, [width, height, canExplore, userTooltip, userLanguage, localeSliceName]); // DODO changed with task:#32232659
 
   const exploreUrl = `/explore/?dashboard_page_id=${dashboardPageId}&slice_id=${slice.slice_id}`;
 

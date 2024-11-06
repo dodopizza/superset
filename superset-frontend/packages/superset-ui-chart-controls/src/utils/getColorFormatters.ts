@@ -62,7 +62,7 @@ export const getColorFunction = (
     targetValueRight,
     colorScheme,
     // DODO changed
-    isFixedColor = true,
+    isFixedColor,
   }: ConditionalFormattingConfig,
   columnValues: number[],
   alpha?: boolean,

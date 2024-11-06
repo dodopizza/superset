@@ -10,10 +10,10 @@ import rison from 'rison';
 import {
   CategoricalColorNamespace,
   ensureIsArray,
-  isFeatureEnabled,
   FeatureFlag,
   getCategoricalSchemeRegistry,
   getSharedLabelColor,
+  isFeatureEnabled,
   styled,
   SupersetClient,
   t,
@@ -767,7 +767,7 @@ const PropertiesModal = ({
                 />
               </StyledFormItem>
               <p className="help-block">
-                {t('A list of tags that have been applied to this chart.')}
+                {t('Your team tags will be added automatically')}
               </p>
             </Col>
           </Row>
