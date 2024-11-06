@@ -47,6 +47,7 @@ import {
   TableSize,
   ValueRange,
 } from '../TableChart';
+import { getTableSortOrder } from './utils/getTableSortOrder'; // DODO added 36195582
 
 // DODO added
 // DODO start block
@@ -520,20 +521,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
           // DODO added start 36195582
           const handleClick = (e: React.MouseEvent<Element>) => {
-            let order = null;
-            switch (col.isSortedDesc) {
-              case undefined:
-                order = [label, true];
-                break;
-              case true:
-                order = [label, false];
-                break;
-              case false:
-                order = null;
-                break;
-              default:
-                order = null;
-            }
+            const order = getTableSortOrder(label, col.isSortedDesc);
             updateFormData({ table_order_by: order });
             if (onClick) onClick(e);
           };
