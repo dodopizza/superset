@@ -399,7 +399,7 @@ export default function transformProps(
 
   rawSeriesB.forEach(entry => {
     const entryName = String(entry.name || '');
-    const seriesName = `${inverted[entryName] || entryName}`;
+    const seriesName = `${inverted[entryName] || entryName} (1)`;
     const colorScaleKey = getOriginalSeries(seriesName, array);
 
     const seriesFormatter = getFormatter(
@@ -425,7 +425,7 @@ export default function transformProps(
         yAxisIndex: yAxisIndexB,
         filterState,
         seriesKey: primarySeries.has(entry.name as string)
-          ? `${entry.name}`
+          ? `${entry.name} (1)`
           : entry.name,
         sliceId,
         queryIndex: 1,
