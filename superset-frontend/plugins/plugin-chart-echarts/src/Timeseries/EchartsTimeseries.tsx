@@ -249,7 +249,6 @@ export default function EchartsTimeseries({
     );
     setIsVisible(!current);
   }, [echartOptions]);
-
   // DODO added
   const showHideHandler = () => {
     const { series } = alteredEchartsOptions as ECBasicOption & {
@@ -304,7 +303,7 @@ export default function EchartsTimeseries({
         refs={refs}
         height={height - extraControlHeight}
         width={width}
-        echartOptions={echartOptions}
+        echartOptions={alteredEchartsOptions}
         eventHandlers={eventHandlers}
         zrEventHandlers={zrEventHandlers}
         selectedValues={selectedValues}
