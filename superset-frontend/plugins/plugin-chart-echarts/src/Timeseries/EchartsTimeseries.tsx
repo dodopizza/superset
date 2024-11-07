@@ -249,6 +249,7 @@ export default function EchartsTimeseries({
     );
     setIsVisible(!current);
   }, [echartOptions]);
+
   // DODO added
   const showHideHandler = () => {
     const { series } = alteredEchartsOptions as ECBasicOption & {
