@@ -188,4 +188,11 @@ export const DEFAULT_LEGEND_FORM_DATA: EchartsLegendFormData = {
   showLegend: true,
 };
 
+// DODO added start 30135470
+export type EchartsColumnConfig = {
+  d3NumberFormat?: string;
+  exportAsTime?: boolean;
+};
+// DODO added stop 30135470
+
 export * from './Timeseries/types';

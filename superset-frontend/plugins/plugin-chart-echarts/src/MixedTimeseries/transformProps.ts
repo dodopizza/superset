@@ -134,6 +134,7 @@ export default function transformProps(
     contributionMode,
     legendOrientation,
     legendType,
+    columnConfig, // DODO added 30135470
     logAxis,
     logAxisSecondary,
     markerEnabled,
@@ -232,6 +233,7 @@ export default function transformProps(
     yAxisFormat,
     currencyFormat,
     datasourceMetrics, // DODO added 30135470
+    columnConfig, // DODO added 30135470
   );
   const customFormattersSecondary = buildCustomFormatters(
     [...ensureIsArray(metrics), ...ensureIsArray(metricsB)],
@@ -240,6 +242,7 @@ export default function transformProps(
     yAxisFormatSecondary,
     currencyFormatSecondary,
     datasourceMetrics, // DODO added 30135470
+    columnConfig, // DODO added 30135470
   );
 
   // DODO added start 33638561
@@ -396,7 +399,7 @@ export default function transformProps(
 
   rawSeriesB.forEach(entry => {
     const entryName = String(entry.name || '');
-    const seriesName = `${inverted[entryName] || entryName} (1)`;
+    const seriesName = `${inverted[entryName] || entryName}`;
     const colorScaleKey = getOriginalSeries(seriesName, array);
 
     const seriesFormatter = getFormatter(
@@ -422,7 +425,7 @@ export default function transformProps(
         yAxisIndex: yAxisIndexB,
         filterState,
         seriesKey: primarySeries.has(entry.name as string)
-          ? `${entry.name} (1)`
+          ? `${entry.name}`
           : entry.name,
         sliceId,
         queryIndex: 1,
@@ -565,11 +568,11 @@ export default function transformProps(
           // otherwise it is a comma separated string where the first part is metric name
           let formatterKey;
           if (primarySeries.has(key)) {
-            formatterKey =
-              groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
+            formatterKey = inverted[key] || labelMap[key]?.[0]; // DODO changed 30135470
+            // groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
           } else {
-            formatterKey =
-              groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
+            formatterKey = inverted[key] || labelMapB[key]?.[0]; // DODO changed 30135470
+            // groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
           }
           const tooltipFormatter = getFormatter(
             customFormatters,

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable camelcase */
 import { invert } from 'lodash';
 import {
@@ -176,6 +159,7 @@ export default function transformProps(
     yAxisTitlePosition,
     zoomable,
     valueAlign = LabelPositionDoDo.top, // DODO added #10688314
+    columnConfig, // DODO added 30135470
   }: EchartsTimeseriesFormData = { ...DEFAULT_FORM_DATA, ...formData };
   const refs: Refs = {};
 
@@ -259,6 +243,7 @@ export default function transformProps(
     yAxisFormat,
     currencyFormat,
     datasourceMetrics, // DODO added 30135470
+    columnConfig, // DODO added 30135470
   );
 
   const array = ensureIsArray(chartProps.rawFormData?.time_compare);
@@ -516,8 +501,8 @@ export default function transformProps(
           }
           // if there are no dimensions, key is a verbose name of a metric,
           // otherwise it is a comma separated string where the first part is metric name
-          const formatterKey =
-            groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
+          const formatterKey = inverted[key] || labelMap[key]?.[0]; // DODO changed 30135470
+          // groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
           const content = formatForecastTooltipSeries({
             ...value,
             seriesName: key,
