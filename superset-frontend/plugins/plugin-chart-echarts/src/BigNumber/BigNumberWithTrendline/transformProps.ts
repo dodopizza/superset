@@ -12,6 +12,7 @@ import {
   Metric,
   ValueFormatter,
   getValueFormatter,
+  isSavedMetric, // DODO added 30135470
 } from '@superset-ui/core';
 import { EChartsCoreOption, graphic } from 'echarts';
 
@@ -185,6 +186,14 @@ export default function transformProps(
     metricEntry?.d3format,
   );
 
+  // DODO added start 30135470
+  const columnConfigImmitation = {
+    [isSavedMetric(metric) ? metric : metric.label || '']: {
+      d3NumberFormat: yAxisFormat,
+    },
+  };
+  // DODO added stop 30135470
+
   const numberFormatter = getValueFormatter(
     metric,
     currencyFormats,
@@ -194,6 +203,7 @@ export default function transformProps(
     // DODO added start 30135470
     undefined,
     datasourceMetrics,
+    columnConfigImmitation,
     // DODO added stop 30135470
   );
 
