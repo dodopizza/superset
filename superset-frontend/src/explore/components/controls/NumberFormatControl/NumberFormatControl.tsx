@@ -10,7 +10,7 @@ export interface NumberFormatControlProps {
   onChange: (format: string) => void;
 }
 
-const options = [['', t('None')], ...D3_FORMAT_OPTIONS].map(option => ({
+const options = [['', t('Not assigned')], ...D3_FORMAT_OPTIONS].map(option => ({
   value: option[0],
   label: option[1],
 }));
