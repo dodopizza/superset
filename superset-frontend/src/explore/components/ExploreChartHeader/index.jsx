@@ -36,6 +36,7 @@ const propTypes = {
   timeout: PropTypes.number,
   chart: chartPropShape,
   saveDisabled: PropTypes.bool,
+  datasourceMetrics: PropTypes.array, // DODO added 33638561 for export CSV
 };
 
 const saveButtonStyles = theme => css`
@@ -68,6 +69,7 @@ export const ExploreChartHeader = ({
   sliceName,
   saveDisabled,
   metadata,
+  datasourceMetrics, // DODO added 33638561
 }) => {
   const dispatch = useDispatch();
   const { latestQueryFormData, sliceFormData } = chart;
@@ -143,6 +145,7 @@ export const ExploreChartHeader = ({
       openPropertiesModal,
       ownState,
       metadata?.dashboards,
+      datasourceMetrics, // DODO added 33638561
     );
 
   const metadataBar = useMemo(() => {

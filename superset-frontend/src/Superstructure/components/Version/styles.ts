@@ -5,6 +5,6 @@ export const StyledVersion = styled.div`
   color: #ccc;
   font-size: 8px;
   position: absolute;
-  top: 6px;
+  top: 4px;
   right: 6px;
 `;

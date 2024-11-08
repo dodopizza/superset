@@ -239,6 +239,11 @@ export default function transformProps(
     currencyFormatSecondary,
   );
 
+  // DODO added start 33638561
+  const rawSeriesASet = new Set(
+    rawSeriesA.map(seriesOption => seriesOption.id),
+  );
+  // DODO added stop 33638561
   const primarySeries = new Set<string>();
   const secondarySeries = new Set<string>();
   const mapSeriesIdToAxis = (
@@ -580,7 +585,8 @@ export default function transformProps(
           const content = formatForecastTooltipSeries({
             ...value,
             seriesName: key,
-            formatter: primarySeries.has(key)
+            // formatter: primarySeries.has(key)
+            formatter: rawSeriesASet.has(key) // DODO changed 33638561
               ? tooltipFormatter
               : tooltipFormatterSecondary,
           });
