@@ -143,8 +143,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               // DODO added
               verbose_name_EN: metric.verbose_name,
               verbose_name_RU: metric.verbose_name_RU,
-              // description_EN: metric.description_EN,
-              // description_RU: metric.description_RU,
+              description_EN: metric.description_EN,
+              description_RU: metric.description_RU,
             };
             if (!Number.isNaN(Number(metric.id))) {
               metricBody.id = metric.id;
@@ -171,8 +171,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
             // DODO added
             verbose_name_EN: column.verbose_name_EN,
             verbose_name_RU: column.verbose_name_RU,
-            // description_EN: column.description_EN,
-            // description_RU: column.description_RU,
+            description_EN: column.description_EN,
+            description_RU: column.description_RU,
           }),
         ),
         owners: currentDatasource.owners.map(
