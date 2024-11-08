@@ -99,4 +99,8 @@ export type PivotTableProps = PivotTableStylesProps &
     // DODO added #35514397
     pinnedColumns: number[];
     datasourceDescriptions: Record<string, string>; // DODO added 38403772
+    // DODO added 30154541
+    columnConfig:
+      | Record<string, Record<string, string | number | boolean>>
+      | undefined;
   };

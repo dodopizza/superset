@@ -6,6 +6,7 @@ import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 // DODO changed stop 35514397
 import PropTypes from 'prop-types';
 import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
+import Tooltip from 'packages/superset-ui-chart-controls/src/components/Tooltip';
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
 
@@ -931,6 +932,10 @@ export class TableRenderer extends React.Component {
       pivotData,
       colTotalCallbacks,
       grandTotalCallback,
+      // DODO added start 30154541
+      columnConfig,
+      combineMetric,
+      // DODO added stop 30154541
     } = pivotSettings;
 
     const totalLabelCell = (
@@ -957,7 +962,24 @@ export class TableRenderer extends React.Component {
     const totalValueCells = visibleColKeys.map(colKey => {
       const flatColKey = flatKey(colKey);
       const agg = pivotData.getAggregator([], colKey);
-      const aggValue = agg.value();
+      const aggValue = 'inner' in agg ? agg.inner.value() : agg.value(); // DODO changed 30154541
+      // DODO added start 30154541
+      const metric = colKey[combineMetric ? colKey.length - 1 : 0];
+      const aggregation = columnConfig?.[metric]?.aggregation;
+      const tooltip =
+        aggregation &&
+        t('Value has own aggregation: %(aggregation)s', {
+          aggregation: t(aggregation),
+        });
+      const isValueHidden = columnConfig?.[metric]?.hideValueInTotal;
+      const getCellValue = () => {
+        if (isValueHidden) return '';
+        if (tooltip) {
+          return <Tooltip title={tooltip}>{agg.format(aggValue)}</Tooltip>;
+        }
+        return agg.format(aggValue);
+      };
+      // DODO added stop 30154541
 
       return (
         <td
@@ -968,7 +990,7 @@ export class TableRenderer extends React.Component {
           onContextMenu={e => this.props.onContextMenu(e, colKey, undefined)}
           style={{ padding: '5px' }}
         >
-          {agg.format(aggValue)}
+          {getCellValue()} {/* DODO changed 30154541 */}
         </td>
       );
     });
@@ -1054,6 +1076,10 @@ export class TableRenderer extends React.Component {
       maxColVisible: Math.max(...visibleColKeys.map(k => k.length)),
       rowAttrSpans: this.calcAttrSpans(visibleRowKeys, rowAttrs.length),
       colAttrSpans: this.calcAttrSpans(visibleColKeys, colAttrs.length),
+      // DODO added start 30154541
+      columnConfig: this.props.columnConfig,
+      combineMetric: this.props.combineMetric,
+      // DODO added stop 30154541
       ...this.cachedBasePivotSettings,
     };
 

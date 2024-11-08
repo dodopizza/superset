@@ -97,6 +97,7 @@ export const useExploreAdditionalActionsMenu = (
   onOpenPropertiesModal,
   ownState,
   dashboards,
+  datasourceMetrics, // DODO added 33638561
   ...rest
 ) => {
   const theme = useTheme();
@@ -125,12 +126,13 @@ export const useExploreAdditionalActionsMenu = (
       canDownloadCSV
         ? exportChart({
             formData: latestQueryFormData,
+            datasourceMetrics, // DODO added 33638561
             ownState,
             resultType: 'full',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, latestQueryFormData, datasourceMetrics], // DODO changed 33638561
   );
 
   const exportCSVPivoted = useCallback(
@@ -138,11 +140,12 @@ export const useExploreAdditionalActionsMenu = (
       canDownloadCSV
         ? exportChart({
             formData: latestQueryFormData,
+            datasourceMetrics, // DODO added 33638561
             resultType: 'post_processed',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, latestQueryFormData, datasourceMetrics], // DODO chenged 33638561
   );
 
   const exportJson = useCallback(
@@ -159,10 +162,11 @@ export const useExploreAdditionalActionsMenu = (
     () =>
       exportChart({
         formData: latestQueryFormData,
+        datasourceMetrics, // DODO added 33638561
         resultType: 'results',
         resultFormat: 'xlsx',
       }),
-    [latestQueryFormData],
+    [latestQueryFormData, datasourceMetrics], // DODO changed 33638561
   );
 
   const copyLink = useCallback(async () => {

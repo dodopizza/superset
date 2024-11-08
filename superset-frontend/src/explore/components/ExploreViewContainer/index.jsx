@@ -557,6 +557,7 @@ function ExploreViewContainer(props) {
         metadata={props.metadata}
         // DODO added
         sliceNameRU={props.sliceNameRU}
+        datasourceMetrics={props.datasource.metrics} // DODO added 33638561
       />
       <ExplorePanelContainer id="explore-container">
         <Global
