@@ -419,6 +419,7 @@ class ChartDataRestApi(ChartRestApi):
 
             exportAsTime = form_data.get('exportAsTime')
             column_config = form_data.get('column_config')
+            table_order_by = form_data.get('table_order_by')
             if result_format == ChartDataResultFormat.XLSX:
                 # Verify user has permission to export XLSX file
                 if not security_manager.can_access("can_csv", "Superset"):
@@ -452,9 +453,9 @@ class ChartDataRestApi(ChartRestApi):
 
                     metric_map = dict()
                     datasourceMetrics = form_data.get('datasourceMetrics')
-
-                    for datasource_metric in datasourceMetrics:
-                        metric_map[datasource_metric.get('metric_name')] = datasource_metric.get('verbose_name')
+                    if datasourceMetrics:
+                        for datasource_metric in datasourceMetrics:
+                            metric_map[datasource_metric.get('metric_name')] = datasource_metric.get('verbose_name')
                     if column_config:
                         for k, v in column_config.items():
                             if v.get('exportAsTime'):
@@ -462,6 +463,13 @@ class ChartDataRestApi(ChartRestApi):
                                     df[k] = df[k].apply(convert_to_time)
                                 if isinstance(df.get(metric_map.get(k)), Series):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(convert_to_time)
+
+                    if table_order_by:
+                        for k, v in table_order_by.items():
+                            if v == 'desc':
+                                df = df.sort_values(by=[k], ascending=False)
+                            if v == 'asc':
+                                df = df.sort_values(by=[k], ascending=True)
 
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
@@ -503,10 +511,10 @@ class ChartDataRestApi(ChartRestApi):
 
                     metric_map = dict()
                     datasourceMetrics = form_data.get('datasourceMetrics')
-
-                    for datasource_metric in datasourceMetrics:
-                        metric_map[datasource_metric.get(
-                            'metric_name')] = datasource_metric.get('verbose_name')
+                    if datasourceMetrics:
+                        for datasource_metric in datasourceMetrics:
+                            metric_map[datasource_metric.get(
+                                'metric_name')] = datasource_metric.get('verbose_name')
 
                     if column_config:
                         for k, v in column_config.items():
@@ -516,6 +524,13 @@ class ChartDataRestApi(ChartRestApi):
                                 if isinstance(df.get(metric_map.get(k)), Series):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(
                                         convert_to_time)
+
+                    if table_order_by:
+                        for k, v in table_order_by.items():
+                            if v == 'desc':
+                                df = df.sort_values(by=[k], ascending=False)
+                            if v == 'asc':
+                                df = df.sort_values(by=[k], ascending=True)
 
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
