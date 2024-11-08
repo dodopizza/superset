@@ -298,7 +298,7 @@ const config: ControlPanelConfig = {
     y_axis_format: {
       label: t('Number format'),
       // DODO added start 30135470
-      choices: [['', t('Default')], ...yAxisFormatChoices],
+      choices: yAxisFormatChoices,
       default: '',
       mapStateToProps: state => {
         const isPercentage =
