@@ -105,4 +105,5 @@ export type PivotTableProps = PivotTableStylesProps &
     columnConfig:
       | Record<string, Record<string, string | number | boolean>>
       | undefined;
+    datasourceMetrics: Metric[]; // DODO added 30135470
   };

@@ -1,4 +1,5 @@
 // DODO was here
+/* eslint-disable import/no-extraneous-dependencies */
 import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import {
   ChartProps,

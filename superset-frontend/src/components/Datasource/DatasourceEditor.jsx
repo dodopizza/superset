@@ -37,10 +37,10 @@ import SpatialControl from 'src/explore/components/controls/SpatialControl';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
+import NumberFormatControl from 'src/explore/components/controls/NumberFormatControl';
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
-import NumberFormatControl from 'src/explore/components/controls/NumberFormatControl';
 
 const DatasourceContainer = styled.div`
   .change-warning {
@@ -1362,9 +1362,7 @@ class DatasourceEditor extends React.PureComponent {
               <Field
                 fieldKey="number_format"
                 label={t('Number format')}
-                control={
-                  <NumberFormatControl />
-                }
+                control={<NumberFormatControl />}
               />
               <Field
                 label={t('Certified by')}
