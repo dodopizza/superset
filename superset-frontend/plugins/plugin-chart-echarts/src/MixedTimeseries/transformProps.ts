@@ -142,6 +142,7 @@ export default function transformProps(
     contributionMode,
     legendOrientation,
     legendType,
+    columnConfig, // DODO added 30135470
     logAxis,
     logAxisSecondary,
     markerEnabled,
@@ -239,6 +240,8 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    datasourceMetrics, // DODO added 30135470
+    columnConfig, // DODO added 30135470
   );
   const customFormattersSecondary = buildCustomFormatters(
     [...ensureIsArray(metrics), ...ensureIsArray(metricsB)],
@@ -246,6 +249,8 @@ export default function transformProps(
     columnFormats,
     yAxisFormatSecondary,
     currencyFormatSecondary,
+    datasourceMetrics, // DODO added 30135470
+    columnConfig, // DODO added 30135470
   );
 
   // DODO added start 33638561
@@ -585,11 +590,11 @@ export default function transformProps(
           // otherwise it is a comma separated string where the first part is metric name
           let formatterKey;
           if (primarySeries.has(key)) {
-            formatterKey =
-              groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
+            formatterKey = inverted[key] || labelMap[key]?.[0]; // DODO changed 30135470
+            // groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
           } else {
-            formatterKey =
-              groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
+            formatterKey = inverted[key] || labelMapB[key]?.[0]; // DODO changed 30135470
+            // groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
           }
           const tooltipFormatter = getFormatter(
             customFormatters,

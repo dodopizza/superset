@@ -81,6 +81,7 @@ class DatasetMetricsPutSchema(Schema):
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     verbose_name_RU = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     verbose_name_EN = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    number_format = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     warning_text = fields.String(allow_none=True)
     uuid = fields.UUID(allow_none=True)
 

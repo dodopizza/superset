@@ -219,5 +219,6 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     onContextMenu,
     timeGrainSqla,
     datasourceDescriptions, // DODO added 38403772
+    datasourceMetrics, // DODO added 30135470
   };
 }
