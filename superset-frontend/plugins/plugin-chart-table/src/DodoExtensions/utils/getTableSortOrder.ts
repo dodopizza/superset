@@ -1,8 +1,11 @@
+type SortOrder = 'asc' | 'desc';
+
 export const getTableSortOrder = (
   label: string,
   isSortedDesc: boolean | undefined,
-): Record<string, string> | null => {
-  let order: Record<string, string> | null = null;
+): Record<string, SortOrder> | null => {
+  let order: Record<string, SortOrder> | null = null;
+  // setting the sort order value for the next render after clicking on the cell
   switch (isSortedDesc) {
     case undefined:
       order = { [label]: 'desc' };
