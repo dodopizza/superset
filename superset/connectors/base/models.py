@@ -731,6 +731,7 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
     description = Column(MediumText())
     verbose_name_RU = Column(Text, nullable=True)
     verbose_name_EN = Column(Text, nullable=True, default=None)
+    number_format = Column(Text, nullable=True)
     d3format = Column(String(128))
     currency = Column(String(128))
     warning_text = Column(Text)
@@ -775,6 +776,7 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
             "verbose_name",
             "verbose_name_RU",
             "verbose_name_EN",
+            "number_format",
             "description",
             "expression",
             "warning_text",

@@ -40,6 +40,7 @@ import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
+import NumberFormatControl from 'src/explore/components/controls/NumberFormatControl';
 
 const DatasourceContainer = styled.div`
   .change-warning {
@@ -1333,6 +1334,13 @@ class DatasourceEditor extends React.PureComponent {
                       max-width: 30%;
                     `}
                   />
+                }
+              />
+              <Field
+                fieldKey="number_format"
+                label={t('Number format')}
+                control={
+                  <NumberFormatControl />
                 }
               />
               <Field
