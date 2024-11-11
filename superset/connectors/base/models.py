@@ -638,6 +638,8 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
     groupby = Column(Boolean, default=True)
     filterable = Column(Boolean, default=True)
     description = Column(MediumText())
+    description_EN = Column(MediumText(), nullable=True)
+    description_RU = Column(MediumText(), nullable=True)
     verbose_name_RU = Column(Text, nullable=True)
     verbose_name_EN = Column(Text, nullable=True, default=None)
     is_dttm = None
@@ -709,6 +711,8 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
             "verbose_name_RU",
             "verbose_name_EN",
             "description",
+            "description_EN",
+            "description_RU",
             "expression",
             "filterable",
             "groupby",
@@ -729,8 +733,11 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
     verbose_name = Column(String(1024))
     metric_type = Column(String(32))
     description = Column(MediumText())
+    description_EN = Column(MediumText(), nullable=True)
+    description_RU = Column(MediumText(), nullable=True)
     verbose_name_RU = Column(Text, nullable=True)
     verbose_name_EN = Column(Text, nullable=True, default=None)
+    number_format = Column(Text, nullable=True)
     d3format = Column(String(128))
     currency = Column(String(128))
     warning_text = Column(Text)
@@ -775,7 +782,10 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
             "verbose_name",
             "verbose_name_RU",
             "verbose_name_EN",
+            "number_format",
             "description",
+            "description_EN",
+            "description_RU",
             "expression",
             "warning_text",
             "d3format",

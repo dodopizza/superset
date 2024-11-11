@@ -1,21 +1,5 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import memoizeOne from 'memoize-one';
 import {
   CurrencyFormatter,
@@ -35,6 +19,7 @@ import {
 import {
   ColorFormatters,
   getColorFormatters,
+  extractDatasourceDescriptions, // DODO added start 38403772
 } from '@superset-ui/chart-controls';
 
 import isEqualColumns from './utils/isEqualColumns';
@@ -45,6 +30,7 @@ import {
   TableChartTransformedProps,
 } from './types';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 const { PERCENT_3_POINT } = NumberFormats;
 const { DATABASE_DATETIME } = TimeFormats;
 
@@ -85,7 +71,12 @@ const processColumns = memoizeOne(function processColumns(
   props: TableChartProps,
 ) {
   const {
-    datasource: { columnFormats, currencyFormats, verboseMap },
+    datasource: {
+      columnFormats,
+      currencyFormats,
+      verboseMap,
+      metrics: datasourceMetrics, // DODO added 30135470
+    },
     rawFormData: {
       table_timestamp_format: tableTimestampFormat,
       metrics: metrics_,
@@ -125,7 +116,13 @@ const processColumns = memoizeOne(function processColumns(
       const isNumber = dataType === GenericDataType.NUMERIC;
       const savedFormat = columnFormats?.[key];
       const savedCurrency = currencyFormats?.[key];
-      const numberFormat = config.d3NumberFormat || savedFormat;
+      // DODO added start 30135470
+      const metricNumberFormat = datasourceMetrics?.find(
+        metric => metric.metric_name === key,
+      )?.number_format;
+      // DODO added stop 30135470
+      const numberFormat =
+        config.d3NumberFormat || metricNumberFormat || savedFormat; // DODO changed 30135470
       const currency = config.currencyFormat?.symbol
         ? config.currencyFormat
         : savedCurrency;
@@ -213,6 +210,7 @@ const transformProps = (
   const {
     height,
     width,
+    datasource: { metrics: datasourceMetrics, columns: datasourceColumns }, // DODO added 38403772
     rawFormData: formData,
     queriesData = [],
     filterState,
@@ -263,6 +261,18 @@ const transformProps = (
       : undefined;
   const columnColorFormatters =
     getColorFormatters(conditionalFormatting, data) ?? defaultColorFormatters;
+  // DODO added start 38403772
+  const chartMetricsCollection =
+    queryMode === QueryMode.raw
+      ? columns.map(column => column.key)
+      : [...(formData?.metrics ?? []), ...(formData?.percent_metrics ?? [])];
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    chartMetricsCollection,
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  // DODO added stop 38403772
 
   // DODO added start 36195582
   // to add table_order_by into formdata for export
@@ -303,6 +313,7 @@ const transformProps = (
     allowRearrangeColumns,
     onContextMenu,
     updateFormData, // DODO added 36195582
+    datasourceDescriptions, // DODO added 38403772
   };
 };
 

@@ -1,8 +1,9 @@
 // DODO was here
-import { smartDateFormatter, t } from '@superset-ui/core';
+import { ComparisonType, smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   D3_FORMAT_DOCS,
+  D3_FORMAT_OPTIONS, // DODO added 30135470
   D3_TIME_FORMAT_OPTIONS,
   getStandardizedControls,
   sections,
@@ -14,6 +15,8 @@ import {
   conditionalMessageFontSize,
 } from '../../DodoExtensions/BigNumber/sharedControls';
 import { controlPanelCommonChartDescription } from '../../DodoExtensions/BigNumber/controlPanelCommon';
+
+const yAxisFormatChoices = [['', t('Default')], ...D3_FORMAT_OPTIONS]; // DODO added 30135470
 
 export default {
   controlPanelSections: [
@@ -103,6 +106,19 @@ export default {
   controlOverrides: {
     y_axis_format: {
       label: t('Number format'),
+      // DODO added start 30135470
+      choices: yAxisFormatChoices,
+      default: '',
+      mapStateToProps: state => {
+        const isPercentage =
+          state.controls?.comparison_type?.value === ComparisonType.Percentage;
+        return {
+          choices: isPercentage
+            ? yAxisFormatChoices.filter(option => option[0].includes('%'))
+            : yAxisFormatChoices,
+        };
+      },
+      // DODO added stop 30135470
     },
   },
   formDataOverrides: formData => ({
