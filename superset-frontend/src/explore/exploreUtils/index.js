@@ -201,6 +201,7 @@ export const buildV1ChartDataPayload = ({
   ownState,
   // DODO added
   language,
+  datasourceMetrics, // DODO added 33638561 for export CSV
 }) => {
   const buildQuery =
     getChartBuildQueryRegistry().get(formData.viz_type) ??
@@ -227,6 +228,14 @@ export const buildV1ChartDataPayload = ({
 
   return {
     ...builtQueryFunc,
+    // DODO added start 33638561
+    form_data: {
+      ...builtQueryFunc.form_data,
+      ...(datasourceMetrics && {
+        datasourceMetrics,
+      }),
+    },
+    // DODO added stop 33638561
     language,
   };
 };
@@ -268,6 +277,7 @@ export const exportChartPlugin = ({
   ownState = {},
   // DODO added
   language = 'en',
+  datasourceMetrics = [], // DODO added 33638561
 }) => {
   let url;
   let payload;
@@ -311,6 +321,7 @@ export const exportChartPlugin = ({
     parseMethod,
     // DODO added
     language,
+    datasourceMetrics, // DODO added 33638561
   });
 
   console.groupCollapsed('EXPORT CSV/XLSX');
@@ -348,6 +359,7 @@ export const exportChart = ({
   slice = {},
   // DODO added
   language = 'en',
+  datasourceMetrics = [], // DODO added 33638561
 }) => {
   console.log('slice', slice);
   console.log('language here', language);
@@ -358,6 +370,7 @@ export const exportChart = ({
     force,
     ownState,
     language,
+    datasourceMetrics, // DODO added 33638561
   });
 
   return exportResultPromise

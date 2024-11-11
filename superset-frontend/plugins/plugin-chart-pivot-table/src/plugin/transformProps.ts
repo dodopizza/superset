@@ -190,6 +190,8 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     groupbyColumns,
     // DODO added #35514397
     pinnedColumns,
+    // DODO added 30154541
+    columnConfig,
     metrics,
     tableRenderer,
     colOrder,

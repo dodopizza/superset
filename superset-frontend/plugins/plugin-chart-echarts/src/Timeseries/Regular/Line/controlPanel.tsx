@@ -17,7 +17,8 @@
  * under the License.
  */
 import React from 'react';
-import { t } from '@superset-ui/core';
+// DODO added changed 33638561
+import { ChartDataResponseResult, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   ControlPanelsContainerProps,
@@ -39,6 +40,15 @@ import {
   seriesOrderSection,
   showValueSection,
 } from '../../../controls';
+
+// DODO added start 33638561
+const columnConfig = {
+  '0': [['exportAsTime']],
+  '1': [],
+  '2': [],
+  '3': [],
+};
+// DODO added stop 33638561
 
 const {
   area,
@@ -261,6 +271,46 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added start 33638561
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize Metrics'),
+              width: 400,
+              height: 100,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                // Showing metrics instead of columns
+                const colnames = [
+                  ...(chart?.latestQueryFormData?.metrics ?? []),
+                ].map(metric =>
+                  typeof metric === 'string' ? metric : metric?.label,
+                );
+                const coltypes = Array.from(
+                  { length: colnames.length },
+                  () => 0,
+                );
+                const newQueriesResponse = {
+                  ...(chart?.queriesResponse?.[0] ?? {}),
+                  colnames,
+                  coltypes,
+                };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
+            },
+          },
+        ],
+        // DODO added stop 33638561
       ],
     },
   ],

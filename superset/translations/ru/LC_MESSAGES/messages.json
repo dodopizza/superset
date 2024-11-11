@@ -2594,6 +2594,12 @@
       "Customize columns": [
         "Настроить столбцы"
       ],
+      "Export as time": [
+        "Экспортировать как величину времени"
+      ],
+      "Export a numeric value as number of days": [
+        "Экспорт числового значения в виде количества дней"
+      ],
       "Cyclic dependency detected": [
         "Обнаружена циклическая зависимость"
       ],
@@ -3384,6 +3390,9 @@
       ],
       "Duration in ms (66000 => 1m 6s)": [
         "Продолжительность в мс (66000 => 1m 6s)"
+      ],
+      "Duration in ms (66000 => 0:01:06)": [
+        "Продолжительность в мс (66000 => 0:01:06)"
       ],
       "Duration: %s": [
         "Продолжительность: %s"
@@ -9070,6 +9079,9 @@
       "Total (%(aggregatorName)s)": [
         ""
       ],
+      "Value has own aggregation: %(aggregation)s": [
+        "Значение имеет собственную агрегацию: %(aggregation)s"
+      ],
       "Total: %s": [
         "Итого: %s"
       ],
@@ -10949,6 +10961,9 @@
       ],
       "Pin column with horizontal scroll": [
         "Закрепить колонку при горизонтальном скроле"
+      ],
+      "Hide value in Total": [
+        "Скрыть значение в Total"
       ],
       "Custom (until include)": [
         "Выбор даты (конец включительно)"
