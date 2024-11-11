@@ -48,6 +48,7 @@ import {
   TableSize,
   ValueRange,
 } from '../TableChart';
+import { getTableSortOrder } from './utils/getTableSortOrder'; // DODO added 36195582
 
 // DODO added
 // DODO start block
@@ -127,6 +128,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
+    updateFormData, // DODO added 36195582
     datasourceDescriptions, // DODO added 38403772
   } = props;
 
@@ -522,6 +524,13 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
           // DODO added line
           const { colWidths } = useContext(WidthContext);
 
+          // DODO added start 36195582
+          const handleClick = (e: React.MouseEvent<Element>) => {
+            const order = getTableSortOrder(label, col.isSortedDesc);
+            updateFormData({ table_order_by: order });
+            if (onClick) onClick(e);
+          };
+          // DODO added stop 36195582
           return (
             <th
               title={t('Shift + Click to sort by multiple columns')}
@@ -539,7 +548,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   : {}),
                 // DODO added stop
               }}
-              onClick={onClick}
+              onClick={handleClick} // DODO changed 36195582
               data-column-name={col.id}
               {...(allowRearrangeColumns && {
                 draggable: 'true',
