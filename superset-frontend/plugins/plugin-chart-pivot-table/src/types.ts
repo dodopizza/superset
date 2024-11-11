@@ -88,7 +88,6 @@ interface PivotTableCustomizeProps {
   timeGrainSqla?: TimeGranularity;
   time_grain_sqla?: TimeGranularity;
   granularity_sqla?: string;
-  datasourceMetrics: Metric[]; // DODO added 30135470
 }
 
 export type PivotTableQueryFormData = QueryFormData &
