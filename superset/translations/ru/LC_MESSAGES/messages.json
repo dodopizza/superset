@@ -3156,6 +3156,12 @@
       "Description": [
         "Описание"
       ],
+      "Description EN": [
+        "Описание EN"
+      ],
+      "Description RU": [
+        "Описание RU"
+      ],
       "Description (this can be seen in the list)": [
         "Описание (будет видно в списке)"
       ],

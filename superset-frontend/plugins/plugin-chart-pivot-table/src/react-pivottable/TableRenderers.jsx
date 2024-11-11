@@ -1,28 +1,11 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
+// DODO was here
 import React from 'react';
 // DODO changed start 35514397
 import { styled, t } from '@superset-ui/core';
 import { AiFillPushpin } from '@react-icons/all-files/ai/AiFillPushpin';
 // DODO changed stop 35514397
 import PropTypes from 'prop-types';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 import Tooltip from 'packages/superset-ui-chart-controls/src/components/Tooltip';
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
@@ -40,8 +23,24 @@ function displayHeaderCell(
   onArrowClick,
   value,
   namesMapping,
+  datasourceDescriptions = {}, // DODO added 38403772
 ) {
   const name = namesMapping[value] || value;
+  // DODO added start 38403772
+  const datasourceDescription = datasourceDescriptions[value];
+  const cellValue = (
+    <>
+      {datasourceDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={datasourceDescription}
+          placement="top"
+          iconsStyle={{ marginRight: '4px' }}
+        />
+      )}
+      {parseLabel(name)}
+    </>
+  );
+  // DODO added stop 38403772
   return needToggle ? (
     <span className="toggle-wrapper">
       <span
@@ -52,10 +51,10 @@ function displayHeaderCell(
       >
         {ArrowIcon}
       </span>
-      <span className="toggle-val">{parseLabel(name)}</span>
+      <span className="toggle-val">{cellValue}</span>
     </span>
   ) : (
-    parseLabel(name)
+    cellValue
   );
 }
 
@@ -120,6 +119,7 @@ export class TableRenderer extends React.Component {
     const { props } = this;
     const colAttrs = props.cols;
     const rowAttrs = props.rows;
+    const { datasourceDescriptions } = props; // DODO added 38403772
 
     const tableOptions = {
       rowTotals: true,
@@ -221,6 +221,7 @@ export class TableRenderer extends React.Component {
       colTotalCallbacks,
       grandTotalCallback,
       namesMapping,
+      datasourceDescriptions, // DODO added 38403772
     };
   }
 
@@ -430,6 +431,7 @@ export class TableRenderer extends React.Component {
       maxColVisible,
       pivotData,
       namesMapping,
+      datasourceDescriptions, // DODO added 38403772
     } = pivotSettings;
     const {
       highlightHeaderCellsOnHover,
@@ -490,6 +492,7 @@ export class TableRenderer extends React.Component {
           arrowClickHandle,
           attrName,
           namesMapping,
+          datasourceDescriptions, // DODO added 38403772
         )}
       </th>
     );
@@ -554,6 +557,7 @@ export class TableRenderer extends React.Component {
               onArrowClick,
               headerCellFormattedValue,
               namesMapping,
+              datasourceDescriptions, // DODO added 38403772
             )}
           </th>,
         );
@@ -732,6 +736,7 @@ export class TableRenderer extends React.Component {
       cellCallbacks,
       rowTotalCallbacks,
       namesMapping,
+      datasourceDescriptions, // DODO added 38403772
     } = pivotSettings;
 
     const {
@@ -815,6 +820,7 @@ export class TableRenderer extends React.Component {
               onArrowClick,
               headerCellFormattedValue,
               namesMapping,
+              datasourceDescriptions, // DODO added 38403772
             )}
           </th>
         );

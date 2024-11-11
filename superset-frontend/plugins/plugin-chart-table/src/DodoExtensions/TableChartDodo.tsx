@@ -27,6 +27,7 @@ import {
   styled,
   t,
 } from '@superset-ui/core';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
 import DataTable, { DataTableProps, SizeOption } from '../DataTable';
 import { PAGE_SIZE_OPTIONS } from '../consts';
@@ -126,6 +127,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
+    datasourceDescriptions, // DODO added 38403772
   } = props;
 
   // DODO added start
@@ -179,71 +181,74 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     [filters],
   );
 
-  const getCrossFilterDataMask = (key: string, value: DataRecordValue) => {
-    let updatedFilters = { ...(filters || {}) };
-    if (filters && isActiveFilterValue(key, value)) {
-      updatedFilters = {};
-    } else {
-      updatedFilters = {
-        [key]: [value],
-      };
-    }
-    if (
-      Array.isArray(updatedFilters[key]) &&
-      updatedFilters[key].length === 0
-    ) {
-      delete updatedFilters[key];
-    }
-
-    const groupBy = Object.keys(updatedFilters);
-    const groupByValues = Object.values(updatedFilters);
-    const labelElements: string[] = [];
-    groupBy.forEach(col => {
-      const isTimestamp = col === DTTM_ALIAS;
-      const filterValues = ensureIsArray(updatedFilters?.[col]);
-      if (filterValues.length) {
-        const valueLabels = filterValues.map(value =>
-          isTimestamp ? timestampFormatter(value) : value,
-        );
-        labelElements.push(`${valueLabels.join(', ')}`);
+  const getCrossFilterDataMask = useCallback(
+    (key: string, value: DataRecordValue) => {
+      let updatedFilters = { ...(filters || {}) };
+      if (filters && isActiveFilterValue(key, value)) {
+        updatedFilters = {};
+      } else {
+        updatedFilters = {
+          [key]: [value],
+        };
       }
-    });
+      if (
+        Array.isArray(updatedFilters[key]) &&
+        updatedFilters[key].length === 0
+      ) {
+        delete updatedFilters[key];
+      }
 
-    return {
-      dataMask: {
-        extraFormData: {
-          filters:
-            groupBy.length === 0
-              ? []
-              : groupBy.map(col => {
-                  const val = ensureIsArray(updatedFilters?.[col]);
-                  if (!val.length)
+      const groupBy = Object.keys(updatedFilters);
+      const groupByValues = Object.values(updatedFilters);
+      const labelElements: string[] = [];
+      groupBy.forEach(col => {
+        const isTimestamp = col === DTTM_ALIAS;
+        const filterValues = ensureIsArray(updatedFilters?.[col]);
+        if (filterValues.length) {
+          const valueLabels = filterValues.map(value =>
+            isTimestamp ? timestampFormatter(value) : value,
+          );
+          labelElements.push(`${valueLabels.join(', ')}`);
+        }
+      });
+
+      return {
+        dataMask: {
+          extraFormData: {
+            filters:
+              groupBy.length === 0
+                ? []
+                : groupBy.map(col => {
+                    const val = ensureIsArray(updatedFilters?.[col]);
+                    if (!val.length)
+                      return {
+                        col,
+                        op: 'IS NULL' as const,
+                      };
                     return {
                       col,
-                      op: 'IS NULL' as const,
+                      op: 'IN' as const,
+                      val: val.map(el =>
+                        el instanceof Date ? el.getTime() : el!,
+                      ),
+                      grain: col === DTTM_ALIAS ? timeGrain : undefined,
                     };
-                  return {
-                    col,
-                    op: 'IN' as const,
-                    val: val.map(el =>
-                      el instanceof Date ? el.getTime() : el!,
-                    ),
-                    grain: col === DTTM_ALIAS ? timeGrain : undefined,
-                  };
-                }),
+                  }),
+          },
+          filterState: {
+            label: labelElements.join(', '),
+            value: groupByValues.length ? groupByValues : null,
+            filters:
+              updatedFilters && Object.keys(updatedFilters).length
+                ? updatedFilters
+                : null,
+          },
         },
-        filterState: {
-          label: labelElements.join(', '),
-          value: groupByValues.length ? groupByValues : null,
-          filters:
-            updatedFilters && Object.keys(updatedFilters).length
-              ? updatedFilters
-              : null,
-        },
-      },
-      isCurrentValueSelected: isActiveFilterValue(key, value),
-    };
-  };
+        isCurrentValueSelected: isActiveFilterValue(key, value),
+      };
+    },
+    [filters, isActiveFilterValue, timeGrain, timestampFormatter],
+  );
 
   const toggleFilter = useCallback(
     function toggleFilter(key: string, val: DataRecordValue) {
@@ -321,7 +326,6 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
       // inline style for both th and td cell
       const sharedStyle: CSSProperties = getSharedStyle(column);
-
       const alignPositiveNegative =
         config.alignPositiveNegative === undefined
           ? defaultAlignPN
@@ -365,7 +369,8 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
               return acc;
             }, 0)}px`;
       // DODO stop fragment
-
+      // DODO added start 38403772
+      const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -568,6 +573,15 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   setPinnedColumns={setPinnedColumns}
                 />
                 {/* DODO added stop */}
+                {/* DODO added start 38403772 */}
+                {headerDescription && (
+                  <InfoTooltipWithTrigger
+                    tooltip={headerDescription}
+                    placement="top"
+                    iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                  />
+                )}
+                {/* DODO added stop 38403772 */}
                 <span data-column-name={col.id}>{label}</span>
                 <SortIcon column={col} />
               </div>

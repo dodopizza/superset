@@ -1,6 +1,7 @@
 // DODO was here
 
 /* eslint-disable camelcase */
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import { invert } from 'lodash';
 import {
   AnnotationLayer,
@@ -24,7 +25,10 @@ import {
   getCustomFormatter,
   CurrencyFormatter,
 } from '@superset-ui/core';
-import { getOriginalSeries } from '@superset-ui/chart-controls';
+import {
+  getOriginalSeries,
+  extractDatasourceDescriptions, // DODO added 38403772
+} from '@superset-ui/chart-controls';
 import { EChartsCoreOption, SeriesOption } from 'echarts';
 import {
   DEFAULT_FORM_DATA,
@@ -74,6 +78,9 @@ import { TIMESERIES_CONSTANTS, TIMEGRAIN_TO_TIMESTAMP } from '../constants';
 import { getDefaultTooltip } from '../utils/tooltip';
 import { getYAxisFormatter } from '../utils/getYAxisFormatter';
 import { LabelPositionDoDo } from '../DodoExtensions/types';
+import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 38403772
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,
@@ -113,7 +120,8 @@ export default function transformProps(
     verboseMap = {},
     currencyFormats = {},
     columnFormats = {},
-    metrics: datasourceMetrics = [], // DODO added 30135470
+    metrics: datasourceMetrics, // DODO added 38403772
+    columns: datasourceColumns, // DODO added 38403772
   } = datasource;
   const { label_map: labelMap } =
     queriesData[0] as TimeseriesChartDataResponseResult;
@@ -481,6 +489,20 @@ export default function transformProps(
   const { setDataMask = () => {}, onContextMenu } = hooks;
   const alignTicks = yAxisIndex !== yAxisIndexB;
 
+  // DODO added start 38403772
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...metricsB],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  const extendedDatasourceDescriptions = extendDatasourceDescriptions(
+    datasourceDescriptions,
+    [...groupby, ...groupbyB],
+    series,
+  );
+  // DODO added stop 38403772
+
   const echartOptions: EChartsCoreOption = {
     useUTC: true,
     grid: {
@@ -610,6 +632,8 @@ export default function transformProps(
         showLegend,
         theme,
         zoomable,
+        undefined, // DODO added 38403772
+        extendedDatasourceDescriptions, // DODO added 38403772
       ),
       // @ts-ignore
       data: rawSeriesA
@@ -620,7 +644,22 @@ export default function transformProps(
             ForecastSeriesEnum.Observation,
         )
         .map(entry => entry.name || '')
-        .concat(extractAnnotationLabels(annotationLayers, annotationData)),
+        .concat(extractAnnotationLabels(annotationLayers, annotationData))
+        // DODO added start 38403772
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                },
+              },
+            },
+          },
+        })),
+      // DODO added stop 38403772
     },
     series: dedupSeries(series),
     toolbox: {

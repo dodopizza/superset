@@ -1,5 +1,6 @@
 // DODO was here
 /* eslint-disable camelcase */
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import { invert } from 'lodash';
 import {
   AnnotationLayer,
@@ -22,6 +23,7 @@ import {
   CurrencyFormatter,
 } from '@superset-ui/core';
 import {
+  extractDatasourceDescriptions, // DODO added 38403772
   extractExtraMetrics,
   getOriginalSeries,
   isDerivedSeries,
@@ -79,6 +81,9 @@ import {
 import { getDefaultTooltip } from '../utils/tooltip';
 import { getYAxisFormatter } from '../utils/getYAxisFormatter';
 import { LabelPositionDoDo } from '../DodoExtensions/types';
+import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 38403772
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 
 export default function transformProps(
   chartProps: EchartsTimeseriesChartProps,
@@ -103,7 +108,8 @@ export default function transformProps(
     verboseMap = {},
     columnFormats = {},
     currencyFormats = {},
-    metrics: datasourceMetrics = [], // DODO added 30135470
+    metrics: datasourceMetrics, // DODO added 38403772
+    columns: datasourceColumns, // DODO added 38403772
   } = datasource;
   const [queryData] = queriesData;
   const { data = [], label_map = {} } =
@@ -467,6 +473,20 @@ export default function transformProps(
     yAxis.inverse = true;
   }
 
+  // DODO added start 38403772
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    metrics,
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  const extendedDatasourceDescriptions = extendDatasourceDescriptions(
+    datasourceDescriptions,
+    groupby,
+    series,
+  );
+  // DODO added stop 38403772
+
   const echartOptions: EChartsCoreOption = {
     useUTC: true,
     grid: {
@@ -530,8 +550,24 @@ export default function transformProps(
         theme,
         zoomable,
         legendState,
+        extendedDatasourceDescriptions, // DODO added 38403772
       ),
-      data: legendData as string[],
+      data: legendData
+        // DODO added start 38403772
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                },
+              },
+            },
+          },
+        })),
+      // DODO added stop 38403772
     },
     series: dedupSeries(series),
     toolbox: {
