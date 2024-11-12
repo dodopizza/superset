@@ -100,6 +100,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         "changed_on",
         "created_by_fk",
         "changed_by_fk",
+        "isPrimary",
         OWNER_USER_ID,
         NAME_FIELD,
         DESCRIPTION_FIELD,

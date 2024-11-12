@@ -431,6 +431,7 @@ class FilterSetDAO(BaseDAO[FilterSet]):
         )
         setattr(model, OWNER_TYPE_FIELD, properties[OWNER_TYPE_FIELD])
         setattr(model, DASHBOARD_ID_FIELD, properties[DASHBOARD_ID_FIELD])
+        setattr(model, "isPrimary", properties["isPrimary"])
         setattr(model, OWNER_USER_ID, get_user_id())
         try:
             db.session.add(model)
