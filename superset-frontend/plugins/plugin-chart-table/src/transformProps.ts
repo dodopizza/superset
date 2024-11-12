@@ -12,6 +12,7 @@ import {
   getTimeFormatter,
   getTimeFormatterForGranularity,
   NumberFormats,
+  PlainObject,
   QueryMode,
   smartDateFormatter,
   TimeFormats,
@@ -220,7 +221,7 @@ const transformProps = (
       onAddFilter: onChangeFilter,
       setDataMask = () => {},
       onContextMenu,
-      setFormData, // DODO added 36195582
+      addToExtraFormData, // DODO added 36195582
     },
     emitCrossFilters,
   } = chartProps;
@@ -276,10 +277,9 @@ const transformProps = (
   // DODO added stop 38403772
 
   // DODO added start 36195582
-  // to add table_order_by into formdata for export
-  const updateFormData = (field: Record<string, any>) => {
-    const newQueryFormData = { ...formData, ...field };
-    if (setFormData) setFormData(newQueryFormData, sliceId);
+  // to add table_order_by into extraFormData of a chart state for export
+  const handleAddToExtraFormData = (value: PlainObject) => {
+    if (addToExtraFormData) addToExtraFormData(value, sliceId);
   };
   // DODO added stop 36195582
 
@@ -313,7 +313,7 @@ const transformProps = (
     timeGrain,
     allowRearrangeColumns,
     onContextMenu,
-    updateFormData, // DODO added 36195582
+    handleAddToExtraFormData, // DODO added 36195582
     datasourceDescriptions, // DODO added 38403772
   };
 };

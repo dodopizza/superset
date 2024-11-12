@@ -10,6 +10,7 @@ import {
   DataRecordValue,
   GenericDataType,
   NumberFormatter,
+  PlainObject,
   QueryFormData,
   QueryFormMetric,
   QueryMode,
@@ -119,7 +120,7 @@ export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
     clientY: number,
     filters?: ContextMenuFilters,
   ) => void;
-  updateFormData: (field: Record<string, any>) => void; // DODO added 36195582
+  handleAddToExtraFormData: (value: PlainObject) => void; // DODO added 36195582
   datasourceDescriptions: Record<string, string>; // DODO added 38403772
 }
 

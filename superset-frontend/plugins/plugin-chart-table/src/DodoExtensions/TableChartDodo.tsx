@@ -128,7 +128,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
-    updateFormData, // DODO added 36195582
+    handleAddToExtraFormData, // DODO added 36195582
     datasourceDescriptions, // DODO added 38403772
   } = props;
 
@@ -523,8 +523,8 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
           // DODO added start 36195582
           const handleClick = (e: React.MouseEvent<Element>) => {
-            const order = getTableSortOrder(label, col.isSortedDesc);
-            updateFormData({ table_order_by: order });
+            const order = getTableSortOrder(label, sortDesc, col.isSortedDesc);
+            handleAddToExtraFormData({ table_order_by: order });
             if (onClick) onClick(e);
           };
           // DODO added stop 36195582

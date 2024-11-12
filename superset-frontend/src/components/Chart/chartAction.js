@@ -496,9 +496,9 @@ export function renderTriggered(value, key) {
 }
 
 // DODO added start 36195582
-export const UPDATE_FORM_DATA = 'UPDATE_FORM_DATA';
-export function updateFormData(value, key) {
-  return { type: UPDATE_FORM_DATA, value, key };
+export const ADD_TO_EXTRA_FORM_DATA = 'ADD_TO_EXTRA_FORM_DATA';
+export function addToExtraFormData(value, key) {
+  return { type: ADD_TO_EXTRA_FORM_DATA, value, key };
 }
 // DODO added stop 36195582
 
