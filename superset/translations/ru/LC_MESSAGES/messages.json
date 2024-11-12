@@ -4022,7 +4022,7 @@
         "Набор фильтров с этим именем уже существует"
       ],
       "Filter sets (%(filterSetCount)d)": [
-        "Наборы фильтров (%(filterSetCount)d)"
+        "Сохраненные (%(filterSetCount)d)"
       ],
       "Filter type": [
         "Тип фильтра"
@@ -6581,6 +6581,12 @@
       ],
       "Remove": [
         "Удалить"
+      ],
+      "Set as primary": [
+        "Установить основным"
+      ],
+      "You can set the primary filter set to be applied automatically": [
+        "Вы можете установить автоматическое применение набора фильтров"
       ],
       "Remove invalid filters": [
         "Удалить недействующие фильтры"

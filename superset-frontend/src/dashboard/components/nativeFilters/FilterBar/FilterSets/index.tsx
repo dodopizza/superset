@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import React, { useEffect, useState } from 'react';
 import {
@@ -33,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import {
   createFilterSet,
   deleteFilterSet,
+  setPrimaryFilterSet,
   updateFilterSet,
 } from 'src/dashboard/actions/nativeFilters';
 import { areObjectsEqual } from 'src/reduxUtils';
@@ -98,6 +82,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [filterSetName, setFilterSetName] = useState(DEFAULT_FILTER_SET_NAME);
+  const [isPrimaryFilterSet, setIsPrimaryFilterSet] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const dataMaskApplied = useNativeFiltersDataMask();
   const filterSets = useFilterSets();
@@ -233,6 +218,10 @@ const FilterSets: React.FC<FilterSetsProps> = ({
     setFilterSetName(DEFAULT_FILTER_SET_NAME);
   };
 
+  const handleSetPrimaryFilterSet = (id: number) => {
+    dispatch(setPrimaryFilterSet(id));
+  };
+
   return (
     <FilterSetsWrapper>
       {!selectedFiltersSetId && (
@@ -242,6 +231,8 @@ const FilterSets: React.FC<FilterSetsProps> = ({
             editMode={editMode}
             setFilterSetName={setFilterSetName}
             filterSetName={filterSetName}
+            isPrimaryFilterSet={isPrimaryFilterSet}
+            setIsPrimaryFilterSet={setIsPrimaryFilterSet}
           />
           <Footer
             filterSetName={filterSetName.trim()}
@@ -266,6 +257,8 @@ const FilterSets: React.FC<FilterSetsProps> = ({
         >
           <FilterSetUnit
             isApplied={filterSet.id === selectedFiltersSetId && !disabled}
+            isPrimary={filterSet.isPrimary}
+            onSetPrimary={() => handleSetPrimaryFilterSet(filterSet.id)}
             onDelete={() => handleDeleteFilterSet(filterSet.id)}
             onEdit={() => handleEdit(filterSet.id)}
             onRebuild={() => handleRebuild(filterSet.id)}

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { AntdDropdown, Typography } from 'src/components';
 import { Menu } from 'src/components/Menu';
 import React, { FC } from 'react';
@@ -30,6 +13,7 @@ import {
 import Icons from 'src/components/Icons';
 import Button from 'src/components/Button';
 import { Tooltip } from 'src/components/Tooltip';
+import CheckboxControl from 'src/explore/components/controls/CheckboxControl';
 import FiltersHeader from './FiltersHeader';
 import { getFilterBarTestId } from '../utils';
 
@@ -56,6 +40,7 @@ const IconsBlock = styled.div`
 export type FilterSetUnitProps = {
   editMode?: boolean;
   isApplied?: boolean;
+  isPrimary?: boolean;
   filterSet?: FilterSet;
   filterSetName?: string;
   dataMaskSelected?: DataMaskState;
@@ -63,6 +48,9 @@ export type FilterSetUnitProps = {
   onDelete?: HandlerFunction;
   onEdit?: HandlerFunction;
   onRebuild?: HandlerFunction;
+  onSetPrimary?: HandlerFunction;
+  isPrimaryFilterSet?: boolean;
+  setIsPrimaryFilterSet?: (value: boolean) => void;
 };
 
 const FilterSetUnit: FC<FilterSetUnitProps> = ({
@@ -75,12 +63,26 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
   filterSet,
   isApplied,
   onRebuild,
+  isPrimary,
+  onSetPrimary,
+  isPrimaryFilterSet,
+  setIsPrimaryFilterSet,
 }) => {
   const theme = useTheme();
 
   const menu = (
     <Menu>
       <Menu.Item onClick={onEdit}>{t('Edit')}</Menu.Item>
+      <Menu.Item onClick={onSetPrimary}>
+        <Tooltip
+          placement="right"
+          title={t(
+            'You can set the primary filter set to be applied automatically',
+          )}
+        >
+          {t('Set as primary')}
+        </Tooltip>
+      </Menu.Item>
       <Menu.Item onClick={onRebuild}>
         <Tooltip placement="right" title={t('Remove invalid filters')}>
           {t('Rebuild')}
@@ -106,6 +108,12 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           {filterSet?.name ?? filterSetName}
         </Typography.Text>
         <IconsBlock>
+          {isPrimary && (
+            <Icons.StarOutlined
+              iconSize="m"
+              iconColor={theme.colors.alert.dark1}
+            />
+          )}
           {isApplied && (
             <Icons.CheckOutlined
               iconSize="m"
@@ -133,6 +141,17 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           )}
         </IconsBlock>
       </TitleText>
+      {editMode && setIsPrimaryFilterSet && (
+        <CheckboxControl
+          hovered
+          label={t('Set as primary')}
+          description={t(
+            'You can set the primary filter set to be applied automatically',
+          )}
+          value={isPrimaryFilterSet}
+          onChange={(value: boolean) => setIsPrimaryFilterSet(value)}
+        />
+      )}
       <FiltersHeader
         filterSet={filterSet}
         dataMask={filterSet?.dataMask ?? dataMaskSelected}

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import {
   FilterConfiguration,
@@ -96,6 +79,20 @@ export interface DeleteFilterSetComplete {
 export const DELETE_FILTER_SET_FAIL = 'DELETE_FILTER_SET_FAIL';
 export interface DeleteFilterSetFail {
   type: typeof DELETE_FILTER_SET_FAIL;
+}
+
+export const SET_PRIMARY_FILTER_SET_BEGIN = 'DELETE_FILTER_SET_BEGIN';
+export interface SetPrimaryFilterSetBegin {
+  type: typeof SET_PRIMARY_FILTER_SET_BEGIN;
+}
+export const SET_PRIMARY_FILTER_SET_COMPLETE = 'DELETE_FILTER_SET_COMPLETE';
+export interface SetPrimaryFilterSetComplete {
+  type: typeof SET_PRIMARY_FILTER_SET_COMPLETE;
+  filterSet: FilterSet;
+}
+export const SET_PRIMARY_FILTER_SET_FAIL = 'DELETE_FILTER_SET_FAIL';
+export interface SetPrimaryFilterSetFail {
+  type: typeof SET_PRIMARY_FILTER_SET_FAIL;
 }
 
 export const UPDATE_FILTER_SET_BEGIN = 'UPDATE_FILTER_SET_BEGIN';
@@ -349,6 +346,27 @@ export const deleteFilterSet =
       type: DELETE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
+  };
+
+export const setPrimaryFilterSet =
+  (filterSetId: number) =>
+  async (dispatch: Function, getState: () => RootState) => {
+    const dashboardId = getState().dashboardInfo.id;
+    const setPrimaryFilterSet = makeApi<{}, {}>({
+      method: 'POST',
+      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
+    });
+
+    dispatch({
+      type: SET_PRIMARY_FILTER_SET_BEGIN,
+    });
+
+    // await deleteFilterSets({});
+
+    dispatch({
+      type: SET_PRIMARY_FILTER_SET_COMPLETE,
+    });
+    // dispatch(getFilterSets(dashboardId));
   };
 
 export const SET_FOCUSED_NATIVE_FILTER = 'SET_FOCUSED_NATIVE_FILTER';
