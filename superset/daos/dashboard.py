@@ -41,6 +41,7 @@ from superset.dashboards.filter_sets.consts import (
     NAME_FIELD,
     OWNER_ID_FIELD,
     OWNER_TYPE_FIELD,
+    OWNER_USER_ID
 )
 from superset.dashboards.filters import DashboardAccessFilter, is_uuid
 from superset.exceptions import SupersetSecurityException
@@ -430,6 +431,7 @@ class FilterSetDAO(BaseDAO[FilterSet]):
         )
         setattr(model, OWNER_TYPE_FIELD, properties[OWNER_TYPE_FIELD])
         setattr(model, DASHBOARD_ID_FIELD, properties[DASHBOARD_ID_FIELD])
+        setattr(model, OWNER_USER_ID, get_user_id())
         try:
             db.session.add(model)
             if commit:
