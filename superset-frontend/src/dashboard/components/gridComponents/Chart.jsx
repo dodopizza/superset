@@ -352,6 +352,7 @@ class Chart extends React.Component {
       slice: this.props.slice,
       // DODO added
       language: userLanguage,
+      datasourceMetrics: this.props.datasource.metrics, // DODO added 33638561
     });
   }
 
