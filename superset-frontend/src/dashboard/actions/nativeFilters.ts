@@ -270,15 +270,16 @@ export const createFilterSet =
       type: CREATE_FILTER_SET_BEGIN,
     });
 
+    // DODO changed 38080573
     const serverFilterSet: Omit<FilterSet, 'id' | 'name' | 'isPrimary'> & {
       name?: string;
-      isPrimary?: boolean;
+      isPrimary?: boolean; // DODO added 38080573
     } = {
       ...filterSet,
     };
 
     delete serverFilterSet.name;
-    delete serverFilterSet.isPrimary;
+    delete serverFilterSet.isPrimary; // DODO added 38080573
 
     await postFilterSets({
       name: filterSet.name,
@@ -292,7 +293,7 @@ export const createFilterSet =
       type: CREATE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
-  };
+  };;
 
 export const updateFilterSet =
   (filterSet: FilterSet) =>
@@ -310,18 +311,22 @@ export const updateFilterSet =
       type: UPDATE_FILTER_SET_BEGIN,
     });
 
-    const serverFilterSet: Omit<FilterSet, 'id' | 'name'> & {
+    // DODO changed 38080573
+    const serverFilterSet: Omit<FilterSet, 'id' | 'name' | 'isPrimary'> & {
       name?: string;
       id?: number;
+      isPrimary?: boolean; // DODO added 38080573
     } = {
       ...filterSet,
     };
 
     delete serverFilterSet.id;
     delete serverFilterSet.name;
+    delete serverFilterSet.isPrimary; // DODO added 38080573
 
     await postFilterSets({
       name: filterSet.name,
+      isPrimary: filterSet.isPrimary, // DODO added 38080573
       json_metadata: JSON.stringify(serverFilterSet),
     });
 
@@ -329,7 +334,7 @@ export const updateFilterSet =
       type: UPDATE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
-  };
+  };;
 
 export const deleteFilterSet =
   (filterSetId: number) =>
@@ -350,27 +355,6 @@ export const deleteFilterSet =
       type: DELETE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
-  };
-
-export const setPrimaryFilterSet =
-  (filterSetId: number) =>
-  async (dispatch: Function, getState: () => RootState) => {
-    const dashboardId = getState().dashboardInfo.id;
-    const setPrimaryFilterSet = makeApi<{}, {}>({
-      method: 'POST',
-      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
-    });
-
-    dispatch({
-      type: SET_PRIMARY_FILTER_SET_BEGIN,
-    });
-
-    // await deleteFilterSets({});
-
-    dispatch({
-      type: SET_PRIMARY_FILTER_SET_COMPLETE,
-    });
-    // dispatch(getFilterSets(dashboardId));
   };
 
 export const SET_FOCUSED_NATIVE_FILTER = 'SET_FOCUSED_NATIVE_FILTER';

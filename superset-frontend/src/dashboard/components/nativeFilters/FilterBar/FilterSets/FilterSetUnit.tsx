@@ -79,7 +79,7 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
     <Menu>
       <Menu.Item onClick={onEdit}>{t('Edit')}</Menu.Item>
       {/* DODO added start 38080573 */}
-      <Menu.Item onClick={onSetPrimary}>
+      <Menu.Item onClick={onSetPrimary} disabled={isPrimary}>
         <Tooltip
           placement="right"
           title={t(

@@ -16,7 +16,6 @@ import { useDispatch } from 'react-redux';
 import {
   createFilterSet,
   deleteFilterSet,
-  setPrimaryFilterSet,
   updateFilterSet,
 } from 'src/dashboard/actions/nativeFilters';
 import { areObjectsEqual } from 'src/reduxUtils';
@@ -219,9 +218,12 @@ const FilterSets: React.FC<FilterSetsProps> = ({
     setFilterSetName(DEFAULT_FILTER_SET_NAME);
   };
 
-  const handleSetPrimaryFilterSet = (id: number) => {
-    dispatch(setPrimaryFilterSet(id));
+  // DODO added start 38080573
+  const handleSetPrimary = (filterSet: FilterSet) => {
+    const updatedFilterSet: FilterSet = { ...filterSet, isPrimary: true };
+    dispatch(updateFilterSet(updatedFilterSet));
   };
+  // DODO added stop 38080573
 
   return (
     <FilterSetsWrapper>
@@ -258,8 +260,8 @@ const FilterSets: React.FC<FilterSetsProps> = ({
         >
           <FilterSetUnit
             isApplied={filterSet.id === selectedFiltersSetId && !disabled}
-            isPrimary={filterSet.isPrimary}
-            onSetPrimary={() => handleSetPrimaryFilterSet(filterSet.id)}
+            isPrimary={filterSet.isPrimary} // DODO added 38080573
+            onSetPrimary={() => handleSetPrimary(filterSet)} // DODO added 38080573
             onDelete={() => handleDeleteFilterSet(filterSet.id)}
             onEdit={() => handleEdit(filterSet.id)}
             onRebuild={() => handleRebuild(filterSet.id)}

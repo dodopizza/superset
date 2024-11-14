@@ -92,4 +92,5 @@ export type FilterSetFullData = {
   owner_id: number;
   owner_type: string;
   params: JsonObject;
+  isPrimary: boolean; // DODO added 38080573
 };
