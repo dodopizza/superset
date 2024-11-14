@@ -37,10 +37,16 @@ const IconsBlock = styled.div`
   }
 `;
 
+type FilterSetUnitPropsExtendedDodo = {
+  onSetPrimary?: HandlerFunction;
+  isPrimary?: boolean;
+  isFilterSetPrimary?: boolean;
+  setIsFilterSetPrimary?: (value: boolean) => void;
+};
+
 export type FilterSetUnitProps = {
   editMode?: boolean;
   isApplied?: boolean;
-  isPrimary?: boolean;
   filterSet?: FilterSet;
   filterSetName?: string;
   dataMaskSelected?: DataMaskState;
@@ -48,10 +54,7 @@ export type FilterSetUnitProps = {
   onDelete?: HandlerFunction;
   onEdit?: HandlerFunction;
   onRebuild?: HandlerFunction;
-  onSetPrimary?: HandlerFunction;
-  isPrimaryFilterSet?: boolean;
-  setIsPrimaryFilterSet?: (value: boolean) => void;
-};
+} & FilterSetUnitPropsExtendedDodo;
 
 const FilterSetUnit: FC<FilterSetUnitProps> = ({
   editMode,
@@ -63,16 +66,19 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
   filterSet,
   isApplied,
   onRebuild,
+  // DODO added start 38080573
   isPrimary,
   onSetPrimary,
-  isPrimaryFilterSet,
-  setIsPrimaryFilterSet,
+  isFilterSetPrimary,
+  setIsFilterSetPrimary,
+  // DODO added stop 38080573
 }) => {
   const theme = useTheme();
 
   const menu = (
     <Menu>
       <Menu.Item onClick={onEdit}>{t('Edit')}</Menu.Item>
+      {/* DODO added start 38080573 */}
       <Menu.Item onClick={onSetPrimary}>
         <Tooltip
           placement="right"
@@ -83,6 +89,7 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           {t('Set as primary')}
         </Tooltip>
       </Menu.Item>
+      {/* DODO added stop 38080573 */}
       <Menu.Item onClick={onRebuild}>
         <Tooltip placement="right" title={t('Remove invalid filters')}>
           {t('Rebuild')}
@@ -141,17 +148,19 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           )}
         </IconsBlock>
       </TitleText>
-      {editMode && setIsPrimaryFilterSet && (
+      {/* DODO added start 38080573 */}
+      {editMode && setIsFilterSetPrimary && (
         <CheckboxControl
           hovered
           label={t('Set as primary')}
           description={t(
             'You can set the primary filter set to be applied automatically',
           )}
-          value={isPrimaryFilterSet}
-          onChange={(value: boolean) => setIsPrimaryFilterSet(value)}
+          value={isFilterSetPrimary}
+          onChange={setIsFilterSetPrimary}
         />
       )}
+      {/* DODO added stop 38080573 */}
       <FiltersHeader
         filterSet={filterSet}
         dataMask={filterSet?.dataMask ?? dataMaskSelected}

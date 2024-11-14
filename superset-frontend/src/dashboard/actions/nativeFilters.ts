@@ -270,17 +270,21 @@ export const createFilterSet =
       type: CREATE_FILTER_SET_BEGIN,
     });
 
-    const serverFilterSet: Omit<FilterSet, 'id' | 'name'> & { name?: string } =
-      {
-        ...filterSet,
-      };
+    const serverFilterSet: Omit<FilterSet, 'id' | 'name' | 'isPrimary'> & {
+      name?: string;
+      isPrimary?: boolean;
+    } = {
+      ...filterSet,
+    };
 
     delete serverFilterSet.name;
+    delete serverFilterSet.isPrimary;
 
     await postFilterSets({
       name: filterSet.name,
       owner_type: 'Dashboard',
       owner_id: dashboardId,
+      isPrimary: filterSet.isPrimary,
       json_metadata: JSON.stringify(serverFilterSet),
     });
 

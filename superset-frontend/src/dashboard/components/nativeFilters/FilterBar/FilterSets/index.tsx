@@ -82,7 +82,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [filterSetName, setFilterSetName] = useState(DEFAULT_FILTER_SET_NAME);
-  const [isPrimaryFilterSet, setIsPrimaryFilterSet] = useState(false);
+  const [isFilterSetPrimary, setIsFilterSetPrimary] = useState(false); // DODO added 38080573
   const [editMode, setEditMode] = useState(false);
   const dataMaskApplied = useNativeFiltersDataMask();
   const filterSets = useFilterSets();
@@ -212,6 +212,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
         }),
         {},
       ),
+      isPrimary: isFilterSetPrimary,
     };
     dispatch(createFilterSet(newFilterSet));
     setEditMode(false);
@@ -231,8 +232,8 @@ const FilterSets: React.FC<FilterSetsProps> = ({
             editMode={editMode}
             setFilterSetName={setFilterSetName}
             filterSetName={filterSetName}
-            isPrimaryFilterSet={isPrimaryFilterSet}
-            setIsPrimaryFilterSet={setIsPrimaryFilterSet}
+            isFilterSetPrimary={isFilterSetPrimary} // DODO added 38080573
+            setIsFilterSetPrimary={setIsFilterSetPrimary} // DODO added 38080573
           />
           <Footer
             filterSetName={filterSetName.trim()}
