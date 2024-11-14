@@ -22,7 +22,6 @@ import logging
 from typing import Any, TYPE_CHECKING, Optional
 
 import pandas as pd
-from numpy.distutils.system_info import language_map
 from pandas import Series
 import simplejson
 from flask import current_app, g, make_response, request, Response, send_file
