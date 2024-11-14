@@ -65,6 +65,7 @@ import {
   getFormData,
   mergeExtraFormData,
 } from 'src/dashboard/components/nativeFilters/utils';
+import TextControl from 'src/explore/components/controls/TextControl'; // DODO added 38368947
 import {
   ALLOW_DEPENDENCIES as TYPES_SUPPORT_DEPENDENCIES,
   getFiltersConfigModalTestId,
@@ -119,8 +120,10 @@ const controlsOrder: ControlKey[] = [
   'inverseSelection',
 ];
 
-export const StyledFormItem = styled(FormItem)`
-  width: 49%;
+export const StyledFormItem = styled(FormItem)<{
+  width?: string; // DODO added 38368947
+}>`
+  width: ${({ width }) => width || '49%'};
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
 
   & .ant-form-item-label {
@@ -912,6 +915,38 @@ const FiltersConfigForm = (
               )}
           </StyledRowContainer>
         )}
+        {/* DODO added start 38368947 */}
+        {hasDataset && formFilter.filterType === 'filter_select_by_id' && (
+          <StyledRowContainer>
+            <StyledFormItem
+              width="130px"
+              name={['filters', filterId, 'topSelectValue']}
+              label={
+                <StyledLabel>
+                  Top Select Value{' '}
+                  <InfoTooltipWithTrigger tooltip={t('Use it with caution')} />
+                </StyledLabel>
+              }
+              initialValue={filterToEdit?.topSelectValue}
+              rules={[
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+                    if (!Number.isInteger(Number(value))) {
+                      return Promise.reject(
+                        new Error(t('Not a valid integer')),
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              <TextControl placeholder="1000" />
+            </StyledFormItem>
+          </StyledRowContainer>
+        )}
+        {/* DODO added stop 38368947 */}
         <StyledCollapse
           defaultActiveKey={activeFilterPanelKeys}
           onChange={key => {

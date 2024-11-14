@@ -10571,6 +10571,12 @@
       "is expected to be an integer": [
         "Ожидается целое число"
       ],
+      "Not a valid integer": [
+        "Не целое число"
+      ],
+      "Use it with caution": [
+        "Используйте с осторожностью"
+      ],
       "joined": [
         "Присоединился"
       ],
