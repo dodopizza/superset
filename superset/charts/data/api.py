@@ -22,6 +22,7 @@ import logging
 from typing import Any, TYPE_CHECKING, Optional
 
 import pandas as pd
+from numpy.distutils.system_info import language_map
 from pandas import Series
 import simplejson
 from flask import current_app, g, make_response, request, Response, send_file
@@ -259,7 +260,7 @@ class ChartDataRestApi(ChartRestApi):
 
         form_data = json_body.get("form_data")
         language = json_body.get("language")
-
+        form_data["language"] = language
         if language == "ru":
             for column in query_context.datasource.columns:
                 if column.verbose_name_RU:
@@ -276,11 +277,6 @@ class ChartDataRestApi(ChartRestApi):
                                                        datasource=query_context.datasource
                                                        )
 
-                for column in query_context.datasource.columns:
-                    column.verbose_name = column.verbose_name_EN
-                for metric in query_context.datasource.metrics:
-                    metric.verbose_name = metric.verbose_name_EN
-
                 return send_file(path_or_file=bytes_stream,
                                  mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                  as_attachment=True,
@@ -290,10 +286,6 @@ class ChartDataRestApi(ChartRestApi):
             response_csv = self._get_data_response(
                 command, form_data=form_data, datasource=query_context.datasource
             )
-            for column in query_context.datasource.columns:
-                column.verbose_name = column.verbose_name_EN
-            for metric in query_context.datasource.metrics:
-                metric.verbose_name = metric.verbose_name_EN
             return response_csv
 
         if query_context.result_format == ChartDataResultFormat.XLSX:
@@ -416,7 +408,7 @@ class ChartDataRestApi(ChartRestApi):
 
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
-
+            language = form_data.get("language")
             exportAsTime = form_data.get('exportAsTime')
             column_config = form_data.get('column_config')
             if result_format == ChartDataResultFormat.XLSX:
@@ -463,6 +455,11 @@ class ChartDataRestApi(ChartRestApi):
                                 if isinstance(df.get(metric_map.get(k)), Series):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(convert_to_time)
 
+                    if language == "ru":
+                        for key in df.keys():
+                            if metric_map.get(key):
+                                df = df.rename(columns={key: metric_map.get(key)})
+
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
                                 sheet_name="Sheet_1", index_label=None, index=False)
@@ -479,7 +476,6 @@ class ChartDataRestApi(ChartRestApi):
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
                 if list_of_data := result["queries"]:
-                    logger.info("get data for prepare")
                     df = pd.DataFrame()
                     for data in list_of_data:
                         try:
@@ -516,6 +512,11 @@ class ChartDataRestApi(ChartRestApi):
                                 if isinstance(df.get(metric_map.get(k)), Series):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(
                                         convert_to_time)
+
+                    if language == "ru":
+                        for key in df.keys():
+                            if metric_map.get(key):
+                                df = df.rename(columns={key: metric_map.get(key)})
 
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
