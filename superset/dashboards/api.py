@@ -525,9 +525,10 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                             column["label"] = column.get("labelRU")
 
                     groupby = chart.get("form_data", {}).get("groupby", [])
-                    for column in groupby:
-                        if isinstance(column, dict) and column.get("labelRU"):
-                            column["label"] = column.get("labelRU")
+                    if groupby:
+                        for column in groupby:
+                            if isinstance(column, dict) and column.get("labelRU"):
+                                column["label"] = column.get("labelRU")
 
                     metrics = chart.get("form_data").get("metrics")
                     if metrics:
