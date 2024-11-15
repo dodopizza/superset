@@ -72,7 +72,7 @@ function PinIcon({ isColumnPinned, columnIndex, setPinnedColumns }) {
 
   return (
     <StyledPinIcon
-      style={{ marginRight: '0.5rem' }}
+      style={{ marginRight: '4px', translate: '0 1px' }}
       $isPinned={isColumnPinned}
       onClick={togglePin}
     />
@@ -625,6 +625,7 @@ export class TableRenderer extends React.Component {
       maxRowVisible,
       pivotData,
       namesMapping,
+      datasourceDescriptions,
     } = pivotSettings;
     // DODO added start 35514397
     const isAllColumnsPinned =
@@ -680,6 +681,7 @@ export class TableRenderer extends React.Component {
                 arrowClickHandle,
                 r,
                 namesMapping,
+                datasourceDescriptions,
               )}
             </th>
           );

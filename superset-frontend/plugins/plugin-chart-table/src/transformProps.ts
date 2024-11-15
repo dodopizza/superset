@@ -267,7 +267,11 @@ const transformProps = (
   const chartMetricsCollection =
     queryMode === QueryMode.raw
       ? columns.map(column => column.key)
-      : [...(formData?.metrics ?? []), ...(formData?.percent_metrics ?? [])];
+      : [
+          ...(formData?.metrics ?? []),
+          ...(formData?.percent_metrics ?? []),
+          ...(formData?.groupby ?? []),
+        ];
   const datasourceDescriptions = extractDatasourceDescriptions(
     chartMetricsCollection,
     datasourceMetrics,
