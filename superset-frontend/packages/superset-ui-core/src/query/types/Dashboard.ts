@@ -72,7 +72,7 @@ export type Filter = {
   chartsInScope?: number[];
   type: typeof NativeFilterType.NATIVE_FILTER;
   description: string;
-  topSelectValue?: number; // DODO added 38368947
+  selectTopValue?: number; // DODO added 38368947
 };
 
 export type FilterWithDataMask = Filter & { dataMask: DataMaskWithId };

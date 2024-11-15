@@ -920,14 +920,14 @@ const FiltersConfigForm = (
           <StyledRowContainer>
             <StyledFormItem
               width="130px"
-              name={['filters', filterId, 'topSelectValue']}
+              name={['filters', filterId, 'selectTopValue']}
               label={
                 <StyledLabel>
-                  Top Select Value{' '}
+                  Select Top Value{' '}
                   <InfoTooltipWithTrigger tooltip={t('Use it with caution')} />
                 </StyledLabel>
               }
-              initialValue={filterToEdit?.topSelectValue}
+              initialValue={filterToEdit?.selectTopValue}
               rules={[
                 {
                   validator: (_, value) => {
