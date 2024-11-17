@@ -412,19 +412,24 @@ def get_form_data(  # pylint: disable=too-many-locals
     form_data: dict[str, Any] = initial_form_data or {}
 
     if has_request_context():
+        json_data = request.get_json(cache=True) if request.is_json else {}
+
         # chart data API requests are JSON
-        request_json_data = (
-            request.json["queries"][0]
-            if request.is_json and "queries" in request.json
+        first_query = (
+            json_data["queries"][0]
+            if "queries" in json_data and json_data["queries"]
             else None
         )
+
+        if extra_filters:=json_data.get("extra_form_data", {}).get("filters"):
+            form_data["extra_filters"] = extra_filters
 
         add_sqllab_custom_filters(form_data)
 
         request_form_data = request.form.get("form_data")
         request_args_data = request.args.get("form_data")
-        if request_json_data:
-            form_data.update(request_json_data)
+        if first_query:
+            form_data.update(first_query)
         if request_form_data:
             parsed_form_data = loads_request_json(request_form_data)
             # some chart data api requests are form_data
@@ -477,7 +482,23 @@ def get_form_data(  # pylint: disable=too-many-locals
             slice_form_data.update(form_data)
             form_data = slice_form_data
 
-    update_time_range(form_data)
+    # Add extra filters from extra_form_data if they exist
+    # extra_form_data = request.data
+    # if extra_form_data and "filters" in extra_form_data:
+    #     if "adhoc_filters" not in form_data:
+    #         form_data["adhoc_filters"] = []
+    #     for filter_obj in extra_form_data["filters"]:
+    #         adhoc_filter = {
+    #             "clause": "WHERE",
+    #             "expressionType": "SIMPLE",
+    #             "filterOptionName": f"filter_{len(form_data['adhoc_filters'])}",
+    #             "comparator": filter_obj["val"],
+    #             "operator": filter_obj["op"],
+    #             "subject": filter_obj["col"]
+    #         }
+    #         form_data["adhoc_filters"].append(adhoc_filter)
+
+    # update_time_range(form_data)
     return form_data, slc
 
 
