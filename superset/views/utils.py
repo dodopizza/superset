@@ -52,6 +52,7 @@ from superset.models.team import Team
 from superset.models.statement import Statement
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
+from superset.models.filter_set import FilterSet
 from superset.superset_typing import FormData
 from superset.utils.core import DatasourceType, get_user_id
 from superset.utils.decorators import stats_timing
@@ -72,6 +73,17 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
             datasource_database["parameters"] = {}
 
     return datasource_data
+
+
+def get_primary_filtersets(dashboard_id: int) -> Union[list[FilterSet], None]:
+    user_id = get_user_id()
+    if user_id:
+        primary_filtersets = (
+            db.session.query(FilterSet).filter(FilterSet.user_id == user_id).
+            filter(FilterSet.dashboard_id == dashboard_id).all()
+        )
+        return primary_filtersets
+    return None
 
 
 def finish_onboarding():
