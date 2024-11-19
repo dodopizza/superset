@@ -81,20 +81,6 @@ export interface DeleteFilterSetFail {
   type: typeof DELETE_FILTER_SET_FAIL;
 }
 
-export const SET_PRIMARY_FILTER_SET_BEGIN = 'DELETE_FILTER_SET_BEGIN';
-export interface SetPrimaryFilterSetBegin {
-  type: typeof SET_PRIMARY_FILTER_SET_BEGIN;
-}
-export const SET_PRIMARY_FILTER_SET_COMPLETE = 'DELETE_FILTER_SET_COMPLETE';
-export interface SetPrimaryFilterSetComplete {
-  type: typeof SET_PRIMARY_FILTER_SET_COMPLETE;
-  filterSet: FilterSet;
-}
-export const SET_PRIMARY_FILTER_SET_FAIL = 'DELETE_FILTER_SET_FAIL';
-export interface SetPrimaryFilterSetFail {
-  type: typeof SET_PRIMARY_FILTER_SET_FAIL;
-}
-
 export const UPDATE_FILTER_SET_BEGIN = 'UPDATE_FILTER_SET_BEGIN';
 export interface UpdateFilterSetBegin {
   type: typeof UPDATE_FILTER_SET_BEGIN;
@@ -293,7 +279,7 @@ export const createFilterSet =
       type: CREATE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
-  };;
+  };
 
 export const updateFilterSet =
   (filterSet: FilterSet) =>
@@ -334,7 +320,7 @@ export const updateFilterSet =
       type: UPDATE_FILTER_SET_COMPLETE,
     });
     dispatch(getFilterSets(dashboardId));
-  };;
+  };
 
 export const deleteFilterSet =
   (filterSetId: number) =>
