@@ -275,6 +275,10 @@ class ChartDataRestApi(ChartRestApi):
                 bytes_stream = self._get_data_response(command, form_data=form_data,
                                                        datasource=query_context.datasource
                                                        )
+                for column in query_context.datasource.columns:
+                    column.verbose_name = column.verbose_name_EN
+                for metric in query_context.datasource.metrics:
+                    metric.verbose_name = metric.verbose_name_EN
 
                 return send_file(path_or_file=bytes_stream,
                                  mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -285,6 +289,12 @@ class ChartDataRestApi(ChartRestApi):
             response_csv = self._get_data_response(
                 command, form_data=form_data, datasource=query_context.datasource
             )
+
+            for column in query_context.datasource.columns:
+                column.verbose_name = column.verbose_name_EN
+            for metric in query_context.datasource.metrics:
+                metric.verbose_name = metric.verbose_name_EN
+
             return response_csv
 
         if query_context.result_format == ChartDataResultFormat.XLSX:
@@ -454,10 +464,9 @@ class ChartDataRestApi(ChartRestApi):
                                 if isinstance(df.get(metric_map.get(k)), Series):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(convert_to_time)
 
-                    if language == "ru":
-                        for key in df.keys():
-                            if metric_map.get(key):
-                                df = df.rename(columns={key: metric_map.get(key)})
+                    for key in df.keys():
+                        if metric_map.get(key):
+                            df = df.rename(columns={key: metric_map.get(key)})
 
                     excel_writer = io.BytesIO()
                     df.to_excel(excel_writer, startrow=0, merge_cells=False,
@@ -512,10 +521,9 @@ class ChartDataRestApi(ChartRestApi):
                                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(
                                         convert_to_time)
 
-                    if language == "ru":
-                        for key in df.keys():
-                            if metric_map.get(key):
-                                df = df.rename(columns={key: metric_map.get(key)})
+                    for key in df.keys():
+                        if metric_map.get(key):
+                            df = df.rename(columns={key: metric_map.get(key)})
 
                     config_csv = current_app.config["CSV_EXPORT"]
                     return CsvResponse(df.to_csv(**config_csv),
