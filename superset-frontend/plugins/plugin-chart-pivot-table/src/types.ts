@@ -29,6 +29,7 @@ import {
   TimeGranularity,
   ContextMenuFilters,
   Currency,
+  Metric, // DODO added 30135470
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -98,8 +99,10 @@ export type PivotTableProps = PivotTableStylesProps &
     data: DataRecord[];
     // DODO added #35514397
     pinnedColumns: number[];
+    datasourceDescriptions: Record<string, string>; // DODO added 38403772
     // DODO added 30154541
     columnConfig:
       | Record<string, Record<string, string | number | boolean>>
       | undefined;
+    datasourceMetrics: Metric[]; // DODO added 30135470
   };

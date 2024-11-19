@@ -113,6 +113,11 @@ class ChartRenderer extends React.Component {
       setDataMask: dataMask => {
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
+      // DODO added start 36195582
+      addToExtraFormData: (value, sliceId) => {
+        this.props.actions?.addToExtraFormData(value, sliceId);
+      },
+      // DODO added stop 36195582
     };
 
     // TODO: queriesResponse comes from Redux store but it's being edited by

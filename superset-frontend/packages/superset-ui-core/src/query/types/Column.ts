@@ -33,6 +33,8 @@ export type PhysicalColumn = string;
 interface ColumnDodoExtended {
   verbose_name_RU?: string | null;
   verbose_name_EN?: string | null;
+  description_RU?: string | null;
+  description_EN?: string | null;
 }
 // DODO changed
 export interface Column extends ColumnDodoExtended {

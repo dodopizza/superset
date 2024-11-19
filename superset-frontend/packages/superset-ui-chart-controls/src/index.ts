@@ -34,3 +34,5 @@ export * from './components/ControlSubSectionHeader';
 export * from './shared-controls';
 export * from './types';
 export * from './fixtures';
+
+export * from './DodoExtensions/utils';
