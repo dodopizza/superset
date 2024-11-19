@@ -361,7 +361,7 @@ class BaseViz:  # pylint: disable=too-many-public-methods
 
         granularity = self.form_data.get("granularity_sqla")
         limit = int(self.form_data.get("limit") or 0)
-        timeseries_limit_metric = self.form_data.get("timeseries_limit_metric")
+        series_limit_metric = self.form_data.get("series_limit_metric")
 
         # apply row limit to query
         row_limit = int(self.form_data.get("row_limit") or config["ROW_LIMIT"])
@@ -418,9 +418,9 @@ class BaseViz:  # pylint: disable=too-many-public-methods
             "metrics": metrics,
             "row_limit": row_limit,
             "filter": self.form_data.get("filters", []),
-            "timeseries_limit": limit,
+            "series_limit": limit,
             "extras": extras,
-            "timeseries_limit_metric": timeseries_limit_metric,
+            "series_limit_metric": series_limit_metric,
             "order_desc": order_desc,
         }
 
@@ -954,7 +954,7 @@ class NVD3TimeSeriesViz(NVD3Viz):
     def query_obj(self) -> QueryObjectDict:
         query_obj = super().query_obj()
         sort_by = self.form_data.get(
-            "timeseries_limit_metric"
+            "series_limit_metric"
         ) or utils.get_first_metric_name(query_obj.get("metrics") or [])
         is_asc = not self.form_data.get("order_desc")
         if sort_by:
@@ -1305,7 +1305,7 @@ class DistributionBarViz(BaseViz):
         if not self.form_data.get("groupby"):
             raise QueryObjectValidationError(_("Pick at least one field for [Series]"))
 
-        if sort_by := self.form_data.get("timeseries_limit_metric"):
+        if sort_by := self.form_data.get("series_limit_metric"):
             sort_by_label = utils.get_metric_name(sort_by)
             if sort_by_label not in utils.get_metric_names(query_obj["metrics"]):
                 query_obj["metrics"].append(sort_by)
@@ -1337,7 +1337,7 @@ class DistributionBarViz(BaseViz):
         df[filled_cols] = df[filled_cols].fillna(value=NULL_STRING)
 
         sortby = utils.get_metric_name(
-            self.form_data.get("timeseries_limit_metric") or metrics[0]
+            self.form_data.get("series_limit_metric") or metrics[0]
         )
         row = df.groupby(groupby)[sortby].sum().copy()
         is_asc = not self.form_data.get("order_desc")
@@ -1735,7 +1735,7 @@ class ParallelCoordinatesViz(BaseViz):
     def query_obj(self) -> QueryObjectDict:
         query_obj = super().query_obj()
         query_obj["groupby"] = [self.form_data.get("series")]
-        if sort_by := self.form_data.get("timeseries_limit_metric"):
+        if sort_by := self.form_data.get("series_limit_metric"):
             sort_by_label = utils.get_metric_name(sort_by)
             if sort_by_label not in utils.get_metric_names(query_obj["metrics"]):
                 query_obj["metrics"].append(sort_by)
@@ -2532,7 +2532,7 @@ class PairedTTestViz(BaseViz):
     @deprecated(deprecated_in="3.0")
     def query_obj(self) -> QueryObjectDict:
         query_obj = super().query_obj()
-        if sort_by := self.form_data.get("timeseries_limit_metric"):
+        if sort_by := self.form_data.get("series_limit_metric"):
             sort_by_label = utils.get_metric_name(sort_by)
             if sort_by_label not in utils.get_metric_names(query_obj["metrics"]):
                 query_obj["metrics"].append(sort_by)
