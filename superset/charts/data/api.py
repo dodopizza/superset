@@ -259,7 +259,6 @@ class ChartDataRestApi(ChartRestApi):
 
         form_data = json_body.get("form_data")
         language = json_body.get("language")
-        form_data["language"] = language
         if language == "ru":
             for column in query_context.datasource.columns:
                 if column.verbose_name_RU:
@@ -417,7 +416,6 @@ class ChartDataRestApi(ChartRestApi):
 
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
-            language = form_data.get("language")
             exportAsTime = form_data.get('exportAsTime')
             column_config = form_data.get('column_config')
             if result_format == ChartDataResultFormat.XLSX:
