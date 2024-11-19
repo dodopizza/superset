@@ -77,14 +77,10 @@ logger = logging.getLogger(__name__)
 def unset_primary_filterset(item, dashboard_id):
     if item.get(IS_PRIMARY):
         primary_filtersets: list[FilterSet] = get_primary_filtersets(dashboard_id)
-        logger.error(primary_filtersets)
         if primary_filtersets:
             for filterset in primary_filtersets:
-                filterset.isPrimary = False
-                logger.error(filterset.to_dict())
-                UpdateFilterSetCommand(
-                    item.get(DASHBOARD_ID_FIELD), filterset.id,
-                    filterset.to_dict()).run()
+                d = {"isPrimary": False}
+                UpdateFilterSetCommand(dashboard_id, filterset.id, d).run()
 
 
 class FilterSetRestApi(BaseSupersetModelRestApi):
@@ -261,7 +257,6 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         """
         try:
             item = self.add_model_schema.load(request.json)
-            # TODO: Паша посмотри функцию ниже
             unset_primary_filterset(item, dashboard_id)
             new_model = CreateFilterSetCommand(dashboard_id, item).run()
             return self.response(
@@ -334,7 +329,6 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         """
         try:
             item = self.edit_model_schema.load(request.json)
-            # TODO: Паша посмотри функцию ниже
             unset_primary_filterset(item, dashboard_id)
             changed_model = UpdateFilterSetCommand(dashboard_id, pk, item).run()
             return self.response(
