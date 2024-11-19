@@ -65,8 +65,7 @@ class FilterSetFilterByUser(BaseFilter):  # pylint: disable=too-few-public-metho
             .join(dashboard_user, FilterSet.owner_id == dashboard_user.c.dashboard_id)
             .filter(
                 and_(
-                    FilterSet.owner_type == DASHBOARD_OWNER_TYPE,
-                    dashboard_user.c.user_id == get_user_id(),
+                    FilterSet.owner_type == DASHBOARD_OWNER_TYPE
                 )
             )
         )
