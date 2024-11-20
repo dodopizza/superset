@@ -45,7 +45,7 @@ class FilterSet(Model, AuditMixinNullable):
     owner_type = Column(String(255), nullable=False)
     owner_object = generic_relationship(owner_type, owner_id)
     user_id = Column(Integer, ForeignKey("ab_user.id"))
-    isPrimary = Column(Boolean)
+    is_primary = Column(Boolean)
 
     def __repr__(self) -> str:
         return f"FilterSet<{self.name or self.id}>"

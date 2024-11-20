@@ -79,7 +79,7 @@ def unset_primary_filterset(item, dashboard_id):
         primary_filtersets: list[FilterSet] = get_primary_filtersets(dashboard_id)
         if primary_filtersets:
             for filterset in primary_filtersets:
-                d = {"isPrimary": False}
+                d = {"is_primary": False}
                 UpdateFilterSetCommand(dashboard_id, filterset.id, d).run()
 
 
@@ -111,7 +111,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         "changed_on",
         "created_by_fk",
         "changed_by_fk",
-        "isPrimary",
+        "is_primary",
         OWNER_USER_ID,
         NAME_FIELD,
         DESCRIPTION_FIELD,

@@ -27,6 +27,6 @@ OWNER_OBJECT_FIELD = "owner_object"
 DASHBOARD_FIELD = "dashboard"
 PARAMS_PROPERTY = "params"
 OWNER_USER_ID = "user_id"
-IS_PRIMARY = "isPrimary"
+IS_PRIMARY = "is_primary"
 
 FILTER_SET_API_PERMISSIONS_NAME = "FilterSets"
