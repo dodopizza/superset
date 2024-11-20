@@ -81,6 +81,10 @@ def df_to_escaped_xlsx(df: pd.DataFrame, **kwargs: Any) -> io.BytesIO:
 
     # Escape xslx headers
     df = df.rename(columns=escape_values)
+    
+    # Convert timezone-aware timestamps to timezone-naive
+    for col in df.select_dtypes(include=['datetime64[ns, UTC]', 'datetimetz']).columns:
+        df[col] = df[col].dt.tz_localize(None)
 
     excel_writer = io.BytesIO()
     # Escape xlsx values
