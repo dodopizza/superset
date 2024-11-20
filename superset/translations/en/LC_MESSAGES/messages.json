@@ -11771,6 +11771,48 @@
       ],
       "End date include to time range": [
         ""
+      ],
+      "Access configuration": [
+        ""
+      ],
+      "Search for users": [
+        ""
+      ],
+      "Search for teams": [
+        ""
+      ],
+      "Search for roles": [
+        ""
+      ],
+      "Reader": [
+        ""
+      ],
+      "Editer": [
+        ""
+      ],
+      "Permission is changed": [
+        ""
+      ],
+      "This user has already been added to the access list": [
+        ""
+      ],
+      "This team has already been added to the access list": [
+        ""
+      ],
+      "This role has already been added to the access list": [
+        ""
+      ],
+      "Users with access": [
+        ""
+      ],
+      "Team with access": [
+        ""
+      ],
+      "Roles with access": [
+        ""
+      ],
+      "Number of changes": [
+        ""
       ]
     }
   }

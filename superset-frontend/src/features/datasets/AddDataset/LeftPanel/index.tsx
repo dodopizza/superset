@@ -16,7 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, SetStateAction, Dispatch, useCallback } from 'react';
+import React, {
+  useEffect,
+  SetStateAction,
+  Dispatch,
+  useCallback,
+  useState,
+} from 'react';
 import { styled, t } from '@superset-ui/core';
 import TableSelector, { TableOption } from 'src/components/TableSelector';
 import { DatabaseObject } from 'src/components/DatabaseSelector';
@@ -28,11 +34,16 @@ import {
   DatasetObject,
 } from 'src/features/datasets/AddDataset/types';
 import { Table } from 'src/hooks/apiResources';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types';
+import Button from 'src/components/Button';
 
 interface LeftPanelProps {
   setDataset: Dispatch<SetStateAction<object>>;
   dataset?: Partial<DatasetObject> | null;
   datasetNames?: (string | null | undefined)[] | undefined;
+  accessList: AccessList;
+  setAccessList: React.Dispatch<React.SetStateAction<AccessList>>;
 }
 
 const LeftPanelStyle = styled.div`
@@ -120,8 +131,15 @@ export default function LeftPanel({
   setDataset,
   dataset,
   datasetNames,
+  accessList,
+  setAccessList,
 }: LeftPanelProps) {
   const { addDangerToast } = useToasts();
+  const [showAccessConfiguration, setShowAccessConfiguration] = useState(false);
+  const toggleModal = useCallback(
+    () => setShowAccessConfiguration(prev => !prev),
+    [],
+  );
 
   const setDatabase = useCallback(
     (db: Partial<DatabaseObject>) => {
@@ -183,6 +201,21 @@ export default function LeftPanel({
         sqlLabMode={false}
         customTableOptionLabelRenderer={customTableOptionLabelRenderer}
         {...(dataset?.schema && { schema: dataset.schema })}
+      />
+      <Button
+        disabled={!dataset?.table_name}
+        buttonStyle="tertiary"
+        onClick={toggleModal}
+        style={{ marginTop: '1.5rem' }}
+      >
+        {t('Access configuration')}
+      </Button>
+      <AccessConfigurationModal
+        entityName={dataset?.table_name}
+        accessList={accessList}
+        onSave={setAccessList}
+        show={showAccessConfiguration}
+        onHide={toggleModal}
       />
     </LeftPanelStyle>
   );

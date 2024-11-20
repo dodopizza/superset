@@ -11211,6 +11211,48 @@
       ],
       "End date include to time range": [
         "Дата окончания включена в диапазон"
+      ],
+      "Access configuration": [
+        "Настройка доступа"
+      ],
+      "Search for users": [
+        "Поиск пользователей"
+      ],
+      "Search for teams": [
+        "Поиск команд"
+      ],
+      "Search for roles": [
+        "Поиск ролей"
+      ],
+      "Reader": [
+        "Читатель"
+      ],
+      "Editer": [
+        "Редактор"
+      ],
+      "Permission is changed": [
+        "Разрешение изменено"
+      ],
+      "This user has already been added to the access list": [
+        "Этот пользователь уже добавлен в список доступа"
+      ],
+      "This team has already been added to the access list": [
+        "Эта команда уже добавлена в список доступа"
+      ],
+      "This role has already been added to the access list": [
+        "Эта роль уже добавлена в список доступа"
+      ],
+      "Users with access": [
+        "Пользователи с доступом"
+      ],
+      "Teams with access": [
+        "Команды с доступом"
+      ],
+      "Roles with access": [
+        "Роли с доступом"
+      ],
+      "Number of changes": [
+        "Количество изменений"
       ]
     }
   }

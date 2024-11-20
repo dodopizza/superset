@@ -57,6 +57,7 @@ import {
 } from 'src/features/datasets/constants';
 import DuplicateDatasetModal from 'src/features/datasets/DuplicateDatasetModal';
 import { useSelector } from 'react-redux';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
 
 const SQL_PREVIEW_MAX_LINES = 1;
 
@@ -166,6 +167,9 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   const [datasetCurrentlyEditing, setDatasetCurrentlyEditing] =
     useState<Dataset | null>(null);
 
+  const [datasetAccessCurrentlyEditing, setDatasetAccessCurrentlyEditing] =
+    useState<Dataset | null>(null);
+
   const [datasetCurrentlyDuplicating, setDatasetCurrentlyDuplicating] =
     useState<VirtualDataset | null>(null);
 
@@ -233,6 +237,23 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           // eslint-disable-next-line no-param-reassign
           json.result.columns = [...addCertificationFields];
           setDatasetCurrentlyEditing(json.result);
+        })
+        .catch(() => {
+          addDangerToast(
+            t('An error occurred while fetching dataset related data'),
+          );
+        });
+    },
+    [addDangerToast],
+  );
+
+  const openDatasetAccessModal = useCallback(
+    ({ id }: Dataset) => {
+      SupersetClient.get({
+        endpoint: `/api/v1/dataset/${id}`,
+      })
+        .then(({ json = {} }) => {
+          setDatasetAccessCurrentlyEditing(json.result);
         })
         .catch(() => {
           addDangerToast(
@@ -460,6 +481,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           const handleDelete = () => openDatasetDeleteModal(original);
           const handleExport = () => handleBulkDatasetExport([original]);
           const handleDuplicate = () => openDatasetDuplicateModal(original);
+          const handleEditAccess = () => openDatasetAccessModal(original);
           if (!canEdit && !canDelete && !canExport && !canDuplicate) {
             return null;
           }
@@ -532,6 +554,28 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
                     onClick={handleDuplicate}
                   >
                     <Icons.Copy />
+                  </span>
+                </Tooltip>
+              )}
+              {canEdit && (
+                <Tooltip
+                  id="edit-action-tooltip"
+                  title={
+                    allowEdit
+                      ? t('Access configuration')
+                      : t(
+                          'You must be a dataset owner in order to edit. Please reach out to a dataset owner to request modifications or edit access.',
+                        )
+                  }
+                  placement="bottomRight"
+                >
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className={allowEdit ? 'action-button' : 'disabled'}
+                    onClick={allowEdit ? handleEditAccess : undefined}
+                  >
+                    <Icons.SettingOutlined />
                   </span>
                 </Tooltip>
               )}
@@ -686,6 +730,10 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
 
   const closeDatasetEditModal = () => {
     setDatasetCurrentlyEditing(null);
+  };
+
+  const closeDatasetAccessModal = () => {
+    setDatasetAccessCurrentlyEditing(null);
   };
 
   const closeDatasetDuplicateModal = () => {
@@ -899,6 +947,15 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         }
       />
       {preparingExport && <Loading />}
+      {datasetAccessCurrentlyEditing && (
+        <AccessConfigurationModal
+          entityName={datasetAccessCurrentlyEditing?.table_name}
+          accessList={{ users: [], teams: [], roles: [] }}
+          setAccessList={() => {}}
+          show
+          onHide={closeDatasetAccessModal}
+        />
+      )}
     </>
   );
 };

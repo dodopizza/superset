@@ -30,6 +30,11 @@ import {
   DSReducerActionType,
 } from 'src/features/datasets/AddDataset/types';
 import DatasetLayout from 'src/features/datasets/DatasetLayout';
+import {
+  AccessList,
+  Permission,
+} from 'src/DodoExtensions/components/AccessConfigurationModal/types';
+import { Role } from 'src/DodoExtensions/onBoarding/types';
 
 type Schema = {
   schema: string;
@@ -75,12 +80,51 @@ export function datasetReducer(
 const prevUrl =
   '/tablemodelview/list/?pageIndex=0&sortColumn=changed_on_delta_humanized&sortOrder=desc';
 
+const mockAccessList: AccessList = {
+  users: [
+    {
+      id: 109,
+      email: 'hello@HeartFilled.com',
+      first_name: 'Name',
+      last_name: 'Surname',
+      teams: [{ name: 'B2B team' }],
+      user_info: [{ country_name: 'Russian Federation' }],
+      permission: Permission.Write,
+    },
+    {
+      id: 102,
+      email: 'hello@H.com',
+      first_name: 'Name1',
+      last_name: 'Surname1',
+      teams: [{ name: 'B2B team' }],
+      user_info: [{ country_name: 'Russian Federation' }],
+      permission: Permission.Write,
+    },
+  ],
+  teams: [
+    { id: 100, team: 'CVM', permission: Permission.Read },
+    { id: 103, team: 'CVM', permission: Permission.Read },
+    // { id: 4, team: 'CVM', permission: Permission.Read },
+    // { id: 5, team: 'CVM', permission: Permission.Read },
+    // { id: 6, team: 'CVM', permission: Permission.Read },
+    // { id: 7, team: 'CVM', permission: Permission.Read },
+    // { id: 8, team: 'CVM', permission: Permission.Read },
+    // { id: 9, team: 'CVM', permission: Permission.Read },
+    // { id: 10, team: 'CVM', permission: Permission.Read },
+    // { id: 11, team: 'CVM', permission: Permission.Read },
+  ],
+  roles: [{ id: 202, role: Role.VizualizeData, permission: Permission.Read }],
+};
+
+const DEFAULT_ACCESS_LIST: AccessList = { users: [], teams: [], roles: [] };
+
 export default function AddDataset() {
   const [dataset, setDataset] = useReducer<
     Reducer<Partial<DatasetObject> | null, DSReducerActionType>
   >(datasetReducer, null);
   const [hasColumns, setHasColumns] = useState(false);
   const [editPageIsVisible, setEditPageIsVisible] = useState(false);
+  const [accessList, setAccessList] = useState<AccessList>(mockAccessList);
 
   const { datasets, datasetNames } = useDatasetsList(
     dataset?.db,
@@ -103,6 +147,8 @@ export default function AddDataset() {
       setDataset={setDataset}
       dataset={dataset}
       datasetNames={datasetNames}
+      accessList={accessList}
+      setAccessList={setAccessList}
     />
   );
 
@@ -124,6 +170,7 @@ export default function AddDataset() {
       datasetObject={dataset}
       hasColumns={hasColumns}
       datasets={datasetNames}
+      accessList={accessList}
     />
   );
 

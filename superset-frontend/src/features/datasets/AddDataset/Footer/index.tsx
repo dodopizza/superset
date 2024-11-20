@@ -30,6 +30,7 @@ import {
   LOG_ACTIONS_DATASET_CREATION_TABLE_CANCELLATION,
   LOG_ACTIONS_DATASET_CREATION_SUCCESS,
 } from 'src/logger/LogUtils';
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types';
 import { DatasetObject } from '../types';
 
 interface FooterProps {
@@ -39,6 +40,7 @@ interface FooterProps {
   onDatasetAdd?: (dataset: DatasetObject) => void;
   hasColumns?: boolean;
   datasets?: (string | null | undefined)[] | undefined;
+  accessList: AccessList;
 }
 
 const INPUT_FIELDS = ['db', 'schema', 'table_name'];
@@ -54,6 +56,7 @@ function Footer({
   addDangerToast,
   hasColumns = false,
   datasets,
+  accessList,
 }: FooterProps) {
   const history = useHistory();
   const { createResource } = useSingleViewResource<Partial<DatasetObject>>(
