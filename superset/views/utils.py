@@ -482,23 +482,7 @@ def get_form_data(  # pylint: disable=too-many-locals
             slice_form_data.update(form_data)
             form_data = slice_form_data
 
-    # Add extra filters from extra_form_data if they exist
-    # extra_form_data = request.data
-    # if extra_form_data and "filters" in extra_form_data:
-    #     if "adhoc_filters" not in form_data:
-    #         form_data["adhoc_filters"] = []
-    #     for filter_obj in extra_form_data["filters"]:
-    #         adhoc_filter = {
-    #             "clause": "WHERE",
-    #             "expressionType": "SIMPLE",
-    #             "filterOptionName": f"filter_{len(form_data['adhoc_filters'])}",
-    #             "comparator": filter_obj["val"],
-    #             "operator": filter_obj["op"],
-    #             "subject": filter_obj["col"]
-    #         }
-    #         form_data["adhoc_filters"].append(adhoc_filter)
-
-    # update_time_range(form_data)
+    update_time_range(form_data)
     return form_data, slc
 
 
