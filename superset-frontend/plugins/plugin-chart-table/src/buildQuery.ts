@@ -58,7 +58,7 @@ const buildQuery: BuildQuery<TableChartFormData> = (
     extra_form_data,
   } = formData;
   const queryMode = getQueryMode(formData);
-  const sortByMetric = ensureIsArray(formData.timeseries_limit_metric)[0];
+  const sortByMetric = ensureIsArray(formData.series_limit_metric)[0];
   const time_grain_sqla =
     extra_form_data?.time_grain_sqla || formData.time_grain_sqla;
   let formDataCopy = formData;

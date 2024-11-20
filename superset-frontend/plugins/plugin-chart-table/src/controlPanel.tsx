@@ -337,7 +337,7 @@ const config: ControlPanelConfig = {
         ['adhoc_filters'],
         [
           {
-            name: 'timeseries_limit_metric',
+            name: 'series_limit_metric',
             override: {
               visibility: isAggMode,
               resetOnHide: false,

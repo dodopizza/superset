@@ -159,7 +159,7 @@ test('should sort by extra metric', () => {
         x_axis_sort_asc: true,
         x_axis: 'Categorical Column',
         groupby: [],
-        timeseries_limit_metric: 'my_limit_metric',
+        series_limit_metric: 'my_limit_metric',
       },
       queryObject,
     ),

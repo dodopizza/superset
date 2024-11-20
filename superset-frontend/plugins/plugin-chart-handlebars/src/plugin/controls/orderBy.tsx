@@ -49,8 +49,8 @@ export const orderDescendingControlSetItem: ControlSetItem = {
     visibility: ({ controls }) =>
       !!(
         isAggMode({ controls }) &&
-        controls?.timeseries_limit_metric.value &&
-        !isEmpty(controls?.timeseries_limit_metric.value)
+        controls?.series_limit_metric.value &&
+        !isEmpty(controls?.series_limit_metric.value)
       ),
     resetOnHide: false,
   },
