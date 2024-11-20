@@ -109,6 +109,13 @@ export const useExploreAdditionalActionsMenu = (
   );
 
   const { datasource } = latestQueryFormData;
+  // DODO added start 36195582
+  const { extraFormData } = chart;
+  const formDataForExport = {
+    ...latestQueryFormData,
+    ...(extraFormData || {}),
+  };
+  // DODO added stop 36195582
 
   const shareByEmail = useCallback(async () => {
     try {
@@ -125,48 +132,48 @@ export const useExploreAdditionalActionsMenu = (
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 36195582
             datasourceMetrics, // DODO added 33638561
             ownState,
             resultType: 'full',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData, datasourceMetrics], // DODO changed 33638561
+    [canDownloadCSV, formDataForExport, datasourceMetrics], // DODO changed 33638561
   );
 
   const exportCSVPivoted = useCallback(
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 36195582
             datasourceMetrics, // DODO added 33638561
             resultType: 'post_processed',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData, datasourceMetrics], // DODO chenged 33638561
+    [canDownloadCSV, formDataForExport, datasourceMetrics], // DODO chenged 33638561
   );
 
   const exportJson = useCallback(
     () =>
       exportChart({
-        formData: latestQueryFormData,
+        formData: formDataForExport, // DODO changed 36195582
         resultType: 'results',
         resultFormat: 'json',
       }),
-    [latestQueryFormData],
+    [formDataForExport], // DODO changed 36195582
   );
 
   const exportExcel = useCallback(
     () =>
       exportChart({
-        formData: latestQueryFormData,
+        formData: formDataForExport, // DODO changed 36195582
         datasourceMetrics, // DODO added 33638561
         resultType: 'results',
         resultFormat: 'xlsx',
       }),
-    [latestQueryFormData, datasourceMetrics], // DODO changed 33638561
+    [formDataForExport, datasourceMetrics], // DODO changed 33638561
   );
 
   const copyLink = useCallback(async () => {
