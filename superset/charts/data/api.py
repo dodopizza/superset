@@ -530,9 +530,7 @@ class ChartDataRestApi(ChartRestApi):
                                         convert_to_time)
 
 
-                    for key in df.keys():
-                        if metric_map.get(key):
-                            df = df.rename(columns={key: metric_map.get(key)})
+                    df = df.rename(columns=metric_map)
 
                     if table_order_by:
                         for k, v in table_order_by.items():
