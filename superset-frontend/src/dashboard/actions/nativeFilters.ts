@@ -232,6 +232,7 @@ export const getFilterSets =
         ...response.result[i].params,
         id,
         name: response.result[i].name,
+        isPrimary: response.result[i].is_primary, // DODO added 38080573
       })),
     });
   };
@@ -271,7 +272,7 @@ export const createFilterSet =
       name: filterSet.name,
       owner_type: 'Dashboard',
       owner_id: dashboardId,
-      isPrimary: filterSet.isPrimary,
+      is_primary: filterSet.isPrimary,
       json_metadata: JSON.stringify(serverFilterSet),
     });
 
@@ -312,7 +313,7 @@ export const updateFilterSet =
 
     await postFilterSets({
       name: filterSet.name,
-      isPrimary: filterSet.isPrimary, // DODO added 38080573
+      is_primary: filterSet.isPrimary, // DODO added 38080573
       json_metadata: JSON.stringify(serverFilterSet),
     });
 
