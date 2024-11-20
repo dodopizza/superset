@@ -63,6 +63,12 @@ import {
   getSequentialSchemeRegistry,
   legacyValidateInteger,
   validateNonEmpty,
+  // DODO added start 30135470
+  getNumberFormatterRegistry,
+  PREVIEW_VALUE,
+  SUPPORTED_CURRENCIES_LOCALES_ARRAY,
+  D3_CURRENCIES_LOCALES,
+  // DODO added stop 30135470
 } from '@superset-ui/core';
 import { formatSelectOptions } from 'src/explore/exploreUtils';
 import { TIME_FILTER_LABELS } from './constants';
@@ -72,6 +78,30 @@ const categoricalSchemeRegistry = getCategoricalSchemeRegistry();
 const sequentialSchemeRegistry = getSequentialSchemeRegistry();
 
 export const PRIMARY_COLOR = { r: 0, g: 122, b: 135, a: 1 };
+
+// DODO added start 30135470
+const d3Currencies = () =>
+  SUPPORTED_CURRENCIES_LOCALES_ARRAY.map(localeName => {
+    const { id, code } = D3_CURRENCIES_LOCALES[localeName];
+    let displayName = '';
+
+    // special format for formatting values with a russian locale, but without a russian currency
+    if (localeName === 'RUSSIAN') displayName = t('With space');
+    else if (localeName === 'RUSSIAN_ROUNDED') {
+      displayName = t('With space rounded');
+    } else if (localeName === 'DEFAULT_ROUNDED') displayName = t('Rounded');
+    else if (localeName === 'RUSSIAN_ROUNDED_1') {
+      displayName = t('With space rounded 1');
+    } else if (localeName === 'RUSSIAN_ROUNDED_2') {
+      displayName = t('With space rounded 2');
+    } else if (localeName === 'RUSSIAN_ROUNDED_3') {
+      displayName = t('With space rounded 3');
+    } else displayName = code;
+
+    const preview = getNumberFormatterRegistry().format(id, PREVIEW_VALUE);
+    return [id, `${displayName} (${PREVIEW_VALUE} => ${preview})`];
+  });
+// DODO added stop 30135470
 
 // input choices & options
 export const D3_FORMAT_OPTIONS = [
@@ -86,6 +116,8 @@ export const D3_FORMAT_OPTIONS = [
   [',.3f', ',.3f (12345.432 => 12,345.432)'],
   ['+,', '+, (12345.432 => +12,345.432)'],
   ['$,.2f', '$,.2f (12345.432 => $12,345.43)'],
+  // DODO added 30135470
+  ...d3Currencies(),
   ['DURATION', t('Duration in ms (66000 => 1m 6s)')],
   ['DURATION_SUB', t('Duration in ms (100.40008 => 100ms 400µs 80ns)')],
 ];

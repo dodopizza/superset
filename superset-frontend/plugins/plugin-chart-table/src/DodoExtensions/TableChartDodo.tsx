@@ -27,6 +27,7 @@ import {
   styled,
   t,
 } from '@superset-ui/core';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 import { DataColumnMeta, TableChartTransformedProps } from '../types';
 import DataTable, { DataTableProps, SizeOption } from '../DataTable';
 import { PAGE_SIZE_OPTIONS } from '../consts';
@@ -47,6 +48,7 @@ import {
   TableSize,
   ValueRange,
 } from '../TableChart';
+import { getTableSortOrder } from './utils/getTableSortOrder'; // DODO added 36195582
 
 // DODO added
 // DODO start block
@@ -126,6 +128,8 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
+    handleAddToExtraFormData, // DODO added 36195582
+    datasourceDescriptions, // DODO added 38403772
   } = props;
 
   // DODO added start
@@ -321,7 +325,6 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
       // inline style for both th and td cell
       const sharedStyle: CSSProperties = getSharedStyle(column);
-
       const alignPositiveNegative =
         config.alignPositiveNegative === undefined
           ? defaultAlignPN
@@ -365,7 +368,12 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
               return acc;
             }, 0)}px`;
       // DODO stop fragment
-
+      // DODO added start 38403772
+      const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
+      const headerTitle = headerDescription
+        ? undefined
+        : t('Shift + Click to sort by multiple columns');
+      // DODO added stop 38403772
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -517,9 +525,17 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
           // DODO added line
           const { colWidths } = useContext(WidthContext);
 
+          // DODO added start 36195582
+          const handleClick = (e: React.MouseEvent<Element>) => {
+            const order = getTableSortOrder(label, sortDesc, col.isSortedDesc);
+            handleAddToExtraFormData({ table_order_by: order });
+            if (onClick) onClick(e);
+          };
+          // DODO added stop 36195582
           return (
             <th
-              title={t('Shift + Click to sort by multiple columns')}
+              // title={t('Shift + Click to sort by multiple columns')}
+              title={headerTitle} // DODO added 38403772
               className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
               style={{
                 ...sharedStyle,
@@ -534,7 +550,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   : {}),
                 // DODO added stop
               }}
-              onClick={onClick}
+              onClick={handleClick} // DODO changed 36195582
               data-column-name={col.id}
               {...(allowRearrangeColumns && {
                 draggable: 'true',
@@ -568,6 +584,15 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
                   setPinnedColumns={setPinnedColumns}
                 />
                 {/* DODO added stop */}
+                {/* DODO added start 38403772 */}
+                {headerDescription && (
+                  <InfoTooltipWithTrigger
+                    tooltip={headerDescription}
+                    placement="top"
+                    iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                  />
+                )}
+                {/* DODO added stop 38403772 */}
                 <span data-column-name={col.id}>{label}</span>
                 <SortIcon column={col} />
               </div>

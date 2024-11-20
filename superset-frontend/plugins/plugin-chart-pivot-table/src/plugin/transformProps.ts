@@ -1,21 +1,6 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
+/* eslint-disable import/no-extraneous-dependencies */
+import { bootstrapData } from 'src/preamble'; // DODO added 38403772
 import {
   ChartProps,
   DataRecord,
@@ -28,10 +13,14 @@ import {
   smartDateFormatter_dot_ddmmyyyy,
   TimeFormats,
 } from '@superset-ui/core';
-import { getColorFormatters } from '@superset-ui/chart-controls';
+import {
+  getColorFormatters,
+  extractDatasourceDescriptions, // DODO added 38403772
+} from '@superset-ui/chart-controls';
 // DODO changed 38087840
 import { DateFormatter, MetricsLayoutEnum } from '../types';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 const { DATABASE_DATETIME } = TimeFormats;
 
 function isNumeric(key: string, data: DataRecord[] = []) {
@@ -101,7 +90,13 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     rawFormData,
     hooks: { setDataMask = () => {}, onContextMenu },
     filterState,
-    datasource: { verboseMap = {}, columnFormats = {}, currencyFormats = {} },
+    datasource: {
+      verboseMap = {},
+      columnFormats = {},
+      currencyFormats = {},
+      metrics: datasourceMetrics, // DODO added 38403772
+      columns: datasourceColumns, // DODO added 38403772
+    },
     emitCrossFilters,
   } = chartProps;
   const { data, colnames, coltypes } = queriesData[0];
@@ -179,6 +174,14 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   const columns = !isRowsLayout ? group : groupWithMetric;
   const pinnedColumns = getPinnedColumnIndexes(columns, columnConfig);
   // DODO added stop 38087840
+  // DODO added start 38403772
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...groupbyRows, ...groupbyColumns],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  // DODO added stop 38403772
 
   return {
     width,
@@ -216,5 +219,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceDescriptions, // DODO added 38403772
+    datasourceMetrics, // DODO added 30135470
   };
 }

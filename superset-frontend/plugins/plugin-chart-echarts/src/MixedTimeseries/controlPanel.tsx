@@ -1,14 +1,13 @@
 // DODO was here
 
 import React from 'react';
-// DODO changed start 33638561
 import {
-  ChartDataResponseResult,
+  ChartDataResponseResult, // DODO added start 30135470
   ensureIsArray,
   hasGenericChartAxes,
+  isSavedMetric, // DODO added 30135470
   t,
 } from '@superset-ui/core';
-// DODO added stop 33638561
 import { cloneDeep } from 'lodash';
 import {
   ControlPanelConfig,
@@ -45,14 +44,14 @@ const {
   yAxisIndex,
 } = DEFAULT_FORM_DATA;
 
-// DODO added start 33638561
+// DODO added start 33638561, 30135470
 const columnConfig = {
-  '0': [['exportAsTime']],
+  '0': [['d3NumberFormat'], ['exportAsTime']],
   '1': [],
   '2': [],
   '3': [],
 };
-// DODO added stop 33638561
+// DODO added stop 33638561, 30135470
 
 function createQuerySection(
   label: string,
@@ -471,7 +470,7 @@ const config: ControlPanelConfig = {
               type: 'ColumnConfigControl',
               label: t('Customize Metrics'),
               width: 400,
-              height: 100,
+              height: 175,
               renderTrigger: true,
               configFormLayout: columnConfig,
               shouldMapStateToProps() {
@@ -483,7 +482,7 @@ const config: ControlPanelConfig = {
                   ...(chart?.latestQueryFormData?.metrics ?? []),
                   ...(chart?.latestQueryFormData?.metrics_b ?? []),
                 ].map(metric =>
-                  typeof metric === 'string' ? metric : metric?.label,
+                  isSavedMetric(metric) ? metric : metric?.label,
                 );
                 const coltypes = Array.from(
                   { length: colnames.length },
