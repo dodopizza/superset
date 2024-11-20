@@ -25,6 +25,7 @@ import os
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
+from datetime import timedelta
 
 logger = logging.getLogger()
 
@@ -72,6 +73,7 @@ CACHE_CONFIG = {
     "CACHE_REDIS_DB": REDIS_RESULTS_DB,
 }
 DATA_CACHE_CONFIG = CACHE_CONFIG
+XLSX_EXPORT = {"encoding": "utf-8", "index": False}
 
 
 class CeleryConfig:

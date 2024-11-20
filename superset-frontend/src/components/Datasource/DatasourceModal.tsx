@@ -1,5 +1,5 @@
 // DODO was here
-import React, { FunctionComponent, useState, useRef } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import Alert from 'src/components/Alert';
 import Button from 'src/components/Button';
 import {
@@ -31,6 +31,7 @@ const StyledDatasourceModal = styled(Modal)`
   .modal-header {
     flex: 0 1 auto;
   }
+
   .modal-body {
     flex: 1 1 auto;
     overflow: auto;
@@ -132,6 +133,7 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               metric_name: metric.metric_name,
               metric_type: metric.metric_type,
               d3format: metric.d3format || null,
+              number_format: metric.number_format, // DODO added 30135470
               currency: !isDefined(metric.currency)
                 ? null
                 : JSON.stringify(metric.currency),
@@ -142,6 +144,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
               // DODO added
               verbose_name_EN: metric.verbose_name,
               verbose_name_RU: metric.verbose_name_RU,
+              description_EN: metric.description_EN,
+              description_RU: metric.description_RU,
             };
             if (!Number.isNaN(Number(metric.id))) {
               metricBody.id = metric.id;
@@ -168,6 +172,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
             // DODO added
             verbose_name_EN: column.verbose_name_EN,
             verbose_name_RU: column.verbose_name_RU,
+            description_EN: column.description_EN,
+            description_RU: column.description_RU,
           }),
         ),
         owners: currentDatasource.owners.map(
@@ -195,7 +201,7 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
         getClientErrorObject(response).then(({ error }) => {
           modal.error({
             title: t('Error'),
-            content: error || t('An error has occurred'),
+            content: error || t('An error has occurred'), // DODO changed 34054751 error => errorText
             okButtonProps: { danger: true, className: 'btn-danger' },
           });
         });

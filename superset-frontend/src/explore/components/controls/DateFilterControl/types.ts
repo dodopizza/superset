@@ -25,6 +25,7 @@ export type FrameType =
   | 'Common'
   | 'Calendar'
   | 'Custom'
+  | 'CustomUntilInclude' // DODO added 18581845
   | 'Advanced'
   | 'No filter';
 

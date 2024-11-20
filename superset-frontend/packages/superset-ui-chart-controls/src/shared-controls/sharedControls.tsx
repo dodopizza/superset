@@ -35,54 +35,54 @@
  */
 import { isEmpty } from 'lodash';
 import {
-  t,
+  ComparisonType,
+  ensureIsArray,
   getCategoricalSchemeRegistry,
   getSequentialSchemeRegistry,
-  SequentialScheme,
-  legacyValidateInteger,
-  ComparisonType,
-  isAdhocColumn,
-  isPhysicalColumn,
-  ensureIsArray,
-  isDefined,
   hasGenericChartAxes,
+  isAdhocColumn,
+  isDefined,
+  isPhysicalColumn,
+  legacyValidateInteger,
   NO_TIME_RANGE,
+  SequentialScheme,
+  t,
 } from '@superset-ui/core';
 
 import {
-  formatSelectOptions,
-  D3_FORMAT_OPTIONS,
   D3_FORMAT_DOCS,
-  D3_TIME_FORMAT_OPTIONS,
+  D3_FORMAT_OPTIONS,
   D3_TIME_FORMAT_DOCS,
-  DEFAULT_TIME_FORMAT,
+  D3_TIME_FORMAT_OPTIONS,
   DEFAULT_NUMBER_FORMAT,
+  DEFAULT_TIME_FORMAT,
+  formatSelectOptions,
 } from '../utils';
 import { TIME_FILTER_LABELS } from '../constants';
 import {
-  SharedControlConfig,
-  Dataset,
   ColumnMeta,
-  ControlState,
   ControlPanelState,
+  ControlState,
+  Dataset,
+  SharedControlConfig,
 } from '../types';
 
 import {
   dndAdhocFilterControl,
   dndAdhocMetricControl,
+  dndAdhocMetricControl2,
   dndAdhocMetricsControl,
-  dndGranularitySqlaControl,
-  dndSortByControl,
-  dndSecondaryMetricControl,
-  dndSizeControl,
-  dndXControl,
-  dndYControl,
   dndColumnsControl,
   dndEntityControl,
+  dndGranularitySqlaControl,
   dndGroupByControl,
+  dndSecondaryMetricControl,
   dndSeriesControl,
-  dndAdhocMetricControl2,
+  dndSizeControl,
+  dndSortByControl,
   dndXAxisControl,
+  dndXControl,
+  dndYControl,
 } from './dndControls';
 
 export { withDndFallback } from './dndControls';
@@ -317,6 +317,53 @@ const y_axis_format: SharedControlConfig<'SelectControl', SelectDefaultOption> =
     },
   };
 
+// DODO added start 32933719 - copy from y_axis_format
+const x_axis_format: SharedControlConfig<'SelectControl', SelectDefaultOption> =
+  {
+    type: 'SelectControl',
+    freeForm: true,
+    label: t('X Axis Format'),
+    renderTrigger: true,
+    default: DEFAULT_NUMBER_FORMAT,
+    choices: D3_FORMAT_OPTIONS,
+    description: D3_FORMAT_DOCS,
+    tokenSeparators: ['\n', '\t', ';'],
+    filterOption: ({ data: option }, search) =>
+      option.label.includes(search) || option.value.includes(search),
+    mapStateToProps: state => {
+      const isPercentage =
+        state.controls?.comparison_type?.value === ComparisonType.Percentage;
+      return {
+        choices: isPercentage
+          ? D3_FORMAT_OPTIONS.filter(option => option[0].includes('%'))
+          : D3_FORMAT_OPTIONS,
+      };
+    },
+  };
+
+const size_format: SharedControlConfig<'SelectControl', SelectDefaultOption> = {
+  type: 'SelectControl',
+  freeForm: true,
+  label: t('Size Format'),
+  renderTrigger: true,
+  default: DEFAULT_NUMBER_FORMAT,
+  choices: D3_FORMAT_OPTIONS,
+  description: D3_FORMAT_DOCS,
+  tokenSeparators: ['\n', '\t', ';'],
+  filterOption: ({ data: option }, search) =>
+    option.label.includes(search) || option.value.includes(search),
+  mapStateToProps: state => {
+    const isPercentage =
+      state.controls?.comparison_type?.value === ComparisonType.Percentage;
+    return {
+      choices: isPercentage
+        ? D3_FORMAT_OPTIONS.filter(option => option[0].includes('%'))
+        : D3_FORMAT_OPTIONS,
+    };
+  },
+};
+// DODO added stop 32933719
+
 const currency_format: SharedControlConfig<'CurrencyControl'> = {
   type: 'CurrencyControl',
   label: t('Currency format'),
@@ -413,4 +460,6 @@ export default {
   show_empty_columns,
   temporal_columns_lookup,
   currency_format,
+  x_axis_format, // DODO added 32933719
+  size_format, // DODO added 32933719
 };

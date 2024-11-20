@@ -37,6 +37,7 @@ import SpatialControl from 'src/explore/components/controls/SpatialControl';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
+import NumberFormatControl from 'src/explore/components/controls/NumberFormatControl';
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
@@ -267,10 +268,20 @@ function ColumnCollectionTable({
             />
             <Field
               fieldKey="description"
-              label={t('Description')}
+              label={t('Description EN')}
               control={
                 <TextControl
                   controlId="description"
+                  placeholder={t('Description')}
+                />
+              }
+            />
+            <Field
+              fieldKey="description_RU"
+              label={t('Description RU')}
+              control={
+                <TextControl
+                  controlId="description_RU"
                   placeholder={t('Description')}
                 />
               }
@@ -677,6 +688,7 @@ class DatasourceEditor extends React.PureComponent {
       metrics: datasource.metrics.map(v => ({
         ...v,
         verbose_name_EN: v.verbose_name || null,
+        description_EN: v.description || null,
       })),
     };
 
@@ -709,6 +721,7 @@ class DatasourceEditor extends React.PureComponent {
         databaseColumns: alteredObj.databaseColumns.map(c => ({
           ...c,
           verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
         })),
       };
     }
@@ -718,6 +731,7 @@ class DatasourceEditor extends React.PureComponent {
         calculatedColumns: alteredObj.calculatedColumns.map(c => ({
           ...c,
           verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
         })),
       };
     }
@@ -930,6 +944,8 @@ class DatasourceEditor extends React.PureComponent {
               language="markdown"
               offerEditInModal={false}
               resize="vertical"
+              // DODO added 38456774
+              height={50}
             />
           }
         />
@@ -965,6 +981,8 @@ class DatasourceEditor extends React.PureComponent {
                 controlId="fetch_values_predicate"
                 minLines={5}
                 resize="vertical"
+                // DODO added 38456774
+                height={50}
               />
             }
           />
@@ -985,6 +1003,8 @@ class DatasourceEditor extends React.PureComponent {
                 language="json"
                 offerEditInModal={false}
                 resize="vertical"
+                // DODO added 38456774
+                height={50}
               />
             }
           />
@@ -1300,10 +1320,20 @@ class DatasourceEditor extends React.PureComponent {
             <Fieldset compact>
               <Field
                 fieldKey="description"
-                label={t('Description')}
+                label={t('Description EN')}
                 control={
                   <TextControl
                     controlId="description"
+                    placeholder={t('Description')}
+                  />
+                }
+              />
+              <Field
+                fieldKey="description_RU"
+                label={t('Description RU')}
+                control={
+                  <TextControl
+                    controlId="description_RU"
                     placeholder={t('Description')}
                   />
                 }
@@ -1328,6 +1358,11 @@ class DatasourceEditor extends React.PureComponent {
                     `}
                   />
                 }
+              />
+              <Field
+                fieldKey="number_format"
+                label={t('Number format')}
+                control={<NumberFormatControl />}
               />
               <Field
                 label={t('Certified by')}
@@ -1363,6 +1398,8 @@ class DatasourceEditor extends React.PureComponent {
                     language="markdown"
                     offerEditInModal={false}
                     resize="vertical"
+                    // DODO added 38456774
+                    height={50}
                   />
                 }
               />
@@ -1418,6 +1455,8 @@ class DatasourceEditor extends React.PureComponent {
               minLines={5}
               textAreaStyles={{ minWidth: '200px', maxWidth: '450px' }}
               resize="both"
+              // DODO added 38456774
+              height={100}
             />
           ),
           description: (v, onChange, label) => (

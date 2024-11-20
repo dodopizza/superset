@@ -19,18 +19,20 @@
 import moment from 'moment';
 import { t } from '@superset-ui/core';
 import {
-  SelectOptionType,
-  PreviousCalendarWeek,
-  PreviousCalendarMonth,
-  PreviousCalendarYear,
-  CommonRangeType,
   CalendarRangeType,
+  CommonRangeType,
+  PreviousCalendarMonth,
+  PreviousCalendarWeek,
+  PreviousCalendarYear,
+  SelectOptionType,
 } from 'src/explore/components/controls/DateFilterControl/types';
 
 export const FRAME_OPTIONS: SelectOptionType[] = [
   { value: 'Common', label: t('Last') },
   { value: 'Calendar', label: t('Previous') },
-  { value: 'Custom', label: t('Custom') },
+  // DODO changed 37762801
+  // { value: 'Custom', label: t('Custom') },
+  { value: 'CustomUntilInclude', label: t('Custom (until include)') }, // DODO added 18581845
   { value: 'Advanced', label: t('Advanced') },
   { value: 'No filter', label: t('No filter') },
 ];
@@ -108,6 +110,8 @@ export const CALENDAR_RANGE_SET: Set<CalendarRangeType> = new Set([
 ]);
 
 export const MOMENT_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
+// DODO added 38009528
+export const TODAY = moment().utc().startOf('day').format(MOMENT_FORMAT);
 export const SEVEN_DAYS_AGO = moment()
   .utc()
   .startOf('day')

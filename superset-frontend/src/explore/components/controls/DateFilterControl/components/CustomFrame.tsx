@@ -13,16 +13,16 @@ import { Radio } from 'src/components/Radio';
 import Select from 'src/components/Select/Select';
 import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls';
 import {
-  SINCE_GRAIN_OPTIONS,
-  SINCE_MODE_OPTIONS,
-  UNTIL_GRAIN_OPTIONS,
-  UNTIL_MODE_OPTIONS,
-  MOMENT_FORMAT,
-  MIDNIGHT,
   customTimeRangeDecode,
   customTimeRangeEncode,
   dttmToMoment,
   LOCALE_MAPPING,
+  MIDNIGHT,
+  MOMENT_FORMAT,
+  SINCE_GRAIN_OPTIONS,
+  SINCE_MODE_OPTIONS,
+  UNTIL_GRAIN_OPTIONS,
+  UNTIL_MODE_OPTIONS,
 } from 'src/explore/components/controls/DateFilterControl/utils';
 import {
   CustomRangeKey,
@@ -31,11 +31,38 @@ import {
 import { ExplorePageState } from 'src/explore/types';
 import { MOMENT_FORMAT_UI_DODO } from '../../../../../DodoExtensions/explore/components/controls/DateFilterControl/utils/constants';
 
-export function CustomFrame(props: FrameComponentProps) {
+export function CustomFrame(
+  // props: FrameComponentProps, // DODO commented
+  props: FrameComponentProps & { withTime?: boolean; untilInclude?: boolean }, // DODO added
+) {
+  const { withTime = true, untilInclude = false } = props; // DODO added
   const { customRange, matchedFlag } = customTimeRangeDecode(props.value);
+
+  // DODO added start 18581845
+  if (customRange.untilMode === 'specific' && customRange.untilDatetime) {
+    if (untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .endOf('date')
+        .format(MOMENT_FORMAT);
+    } else if (!untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .startOf('date')
+        .format(MOMENT_FORMAT);
+    }
+
+    props.onChange(
+      customTimeRangeEncode({
+        ...customRange,
+        untilDatetime: customRange.untilDatetime,
+      }),
+    );
+  }
+  // DODO added end 18581845
+
   if (!matchedFlag) {
     props.onChange(customTimeRangeEncode(customRange));
   }
+
   const {
     sinceDatetime,
     sinceMode,
@@ -141,16 +168,17 @@ export function CustomFrame(props: FrameComponentProps) {
           </div>
           <Select
             ariaLabel={t('START (INCLUSIVE)')}
-            options={retranslateConstants(SINCE_MODE_OPTIONS)}
+            // options={SINCE_MODE_OPTIONS} // DODO commented 35283569
+            options={retranslateConstants(SINCE_MODE_OPTIONS)} // DODO added 35283569
             value={sinceMode}
             onChange={(value: string) => onChange('sinceMode', value)}
           />
           {sinceMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                showTime={withTime} // DODO added #11681438
                 defaultValue={dttmToMoment(sinceDatetime)}
-                format={MOMENT_FORMAT_UI_DODO} // DODO added #11681438
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO added #11681438
                 onChange={(datetime: Moment) =>
                   onChange('sinceDatetime', datetime.format(MOMENT_FORMAT))
                 }
@@ -177,7 +205,11 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={SINCE_GRAIN_OPTIONS}
+                  // options={SINCE_GRAIN_OPTIONS} // DODO commented 35283569
+                  options={retranslateConstantsComposed(
+                    SINCE_GRAIN_OPTIONS,
+                    'Before',
+                  )} // DODO added 35283569
                   value={sinceGrain}
                   onChange={(value: string) => onChange('sinceGrain', value)}
                 />
@@ -187,27 +219,52 @@ export function CustomFrame(props: FrameComponentProps) {
         </Col>
         <Col span={12}>
           <div className="control-label">
-            {t('END (EXCLUSIVE)')}{' '}
-            <InfoTooltipWithTrigger
-              tooltip={t('End date excluded from time range')}
-              placement="right"
-            />
+            {
+              // DODO changed #11681438
+              untilInclude ? (
+                <>
+                  {t('END (INCLUSIVE)')}{' '}
+                  <InfoTooltipWithTrigger
+                    tooltip={t('End date include to time range')}
+                    placement="right"
+                  />
+                </>
+              ) : (
+                <>
+                  {t('END (EXCLUSIVE)')}{' '}
+                  <InfoTooltipWithTrigger
+                    tooltip={t('End date excluded from time range')}
+                    placement="right"
+                  />
+                </>
+              )
+              // DODO changed stop #11681438
+            }
           </div>
           <Select
             ariaLabel={t('END (EXCLUSIVE)')}
-            options={UNTIL_MODE_OPTIONS}
+            // options={UNTIL_MODE_OPTIONS} // DODO commented 35283569
+            options={retranslateConstants(UNTIL_MODE_OPTIONS)} // DODO added 35283569
             value={untilMode}
             onChange={(value: string) => onChange('untilMode', value)}
           />
           {untilMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                showTime={withTime} // DODO changed #11681438
                 defaultValue={dttmToMoment(untilDatetime)}
-                format={MOMENT_FORMAT_UI_DODO} // DODO added #11681438
-                onChange={(datetime: Moment) =>
-                  onChange('untilDatetime', datetime.format(MOMENT_FORMAT))
-                }
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO changed #11681438
+                onChange={(datetime: Moment) => {
+                  // onChange('untilDatetime', datetime.format(MOMENT_FORMAT)); // DODO commented #11681438
+                  // DODO added start #11681438
+                  onChange(
+                    'untilDatetime',
+                    untilInclude
+                      ? datetime.endOf('date').format(MOMENT_FORMAT)
+                      : datetime.format(MOMENT_FORMAT),
+                  );
+                  // DODO added stop #11681438
+                }}
                 allowClear={false}
                 locale={datePickerLocale}
               />

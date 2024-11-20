@@ -23,10 +23,10 @@ import {
   EXTRA_FORM_DATA_APPEND_KEYS,
   EXTRA_FORM_DATA_OVERRIDE_KEYS,
   ExtraFormData,
-  isFeatureEnabled,
   FeatureFlag,
   Filter,
   getChartMetadataRegistry,
+  isFeatureEnabled,
   QueryFormData,
 } from '@superset-ui/core';
 import { DashboardLayout } from 'src/dashboard/types';
@@ -46,6 +46,7 @@ export const getFormData = ({
   datasetId,
   dependencies = {},
   groupby,
+  groupbyid,
   defaultDataMask,
   controlValues,
   filterType,
@@ -61,12 +62,14 @@ export const getFormData = ({
   datasetId?: number;
   dependencies?: object;
   groupby?: string;
+  groupbyid?: string; // DODO added 29749076
   adhoc_filters?: AdhocFilter[];
   time_range?: string;
 }): Partial<QueryFormData> => {
   const otherProps: {
     datasource?: string;
     groupby?: string[];
+    groupbyid?: string[]; // DODO added 29749076
     sortMetric?: string;
   } = {};
   if (datasetId) {
@@ -75,6 +78,11 @@ export const getFormData = ({
   if (groupby) {
     otherProps.groupby = [groupby];
   }
+  // DODO added start 29749076
+  if (groupbyid) {
+    otherProps.groupbyid = [groupbyid];
+  }
+  // DODO added stop 29749076
   if (sortMetric) {
     otherProps.sortMetric = sortMetric;
   }

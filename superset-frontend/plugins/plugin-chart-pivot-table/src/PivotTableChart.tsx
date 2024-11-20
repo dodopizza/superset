@@ -35,7 +35,13 @@ import {
   t,
   useTheme,
 } from '@superset-ui/core';
-import { aggregatorTemplates, PivotTable, sortAs } from './react-pivottable';
+import {
+  aggregatorTemplates,
+  getMetricNumberFormat, // DODO added 30135470
+  filterColumnConfig, // DODO added 30154541
+  PivotTable,
+  sortAs,
+} from './react-pivottable';
 import {
   FilterType,
   MetricsLayoutEnum,
@@ -129,6 +135,8 @@ export default function PivotTableChart(props: PivotTableProps) {
     width,
     groupbyRows: groupbyRowsRaw,
     groupbyColumns: groupbyColumnsRaw,
+    pinnedColumns,
+    columnConfig, // DODO added 30154541
     metrics,
     colOrder,
     rowOrder,
@@ -154,6 +162,8 @@ export default function PivotTableChart(props: PivotTableProps) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceDescriptions, // DODO added 38403772
+    datasourceMetrics, // DODO added 30135470
   } = props;
 
   const theme = useTheme();
@@ -173,13 +183,29 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
+          ...Object.keys(filterColumnConfig(columnConfig || {})), // DODO added 33638561
+          // DODO added start 30135470
+          ...datasourceMetrics
+            .map(metric => (metric?.number_format ? metric.metric_name : ''))
+            .filter(Boolean),
+          // DODO added stop 30135470
         ]),
       ).map(metricName => [
         metricName,
-        columnFormats[metricName] || valueFormat,
+        columnConfig?.[metricName]?.d3NumberFormat || // DODO changed 33638561
+          getMetricNumberFormat(datasourceMetrics, metricName) || // DODO changed 30135470
+          columnFormats[metricName] ||
+          valueFormat,
         currencyFormats[metricName] || currencyFormat,
       ]),
-    [columnFormats, currencyFormat, currencyFormats, valueFormat],
+    [
+      columnFormats,
+      currencyFormat,
+      currencyFormats,
+      valueFormat,
+      columnConfig,
+      datasourceMetrics, // DODO added 30135470, 33638561
+    ],
   );
   const hasCustomMetricFormatters = customFormatsArray.length > 0;
   const metricFormatters = useMemo(
@@ -543,6 +569,11 @@ export default function PivotTableChart(props: PivotTableProps) {
           data={unpivotedData}
           rows={rows}
           cols={cols}
+          pinnedColumns={pinnedColumns}
+          // DODO added start 30154541
+          columnConfig={columnConfig}
+          combineMetric={combineMetric}
+          // DODO added stop 30154541
           aggregatorsFactory={aggregatorsFactory}
           defaultFormatter={defaultFormatter}
           customFormatters={metricFormatters}
@@ -555,6 +586,7 @@ export default function PivotTableChart(props: PivotTableProps) {
           subtotalOptions={subtotalOptions}
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
+          datasourceDescriptions={datasourceDescriptions} // DODO added 38403772
         />
       </PivotTableWrapper>
     </Styles>

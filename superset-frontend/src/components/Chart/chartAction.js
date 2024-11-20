@@ -5,25 +5,25 @@ import moment from 'moment';
 import {
   FeatureFlag,
   isDefined,
+  isFeatureEnabled,
   SupersetClient,
   t,
-  isFeatureEnabled,
 } from '@superset-ui/core';
 import { getControlsState } from 'src/explore/store';
 import {
+  buildV1ChartDataPayload,
   getAnnotationJsonUrl,
+  getChartDataUri,
   getExploreUrl,
   getLegacyEndpointType,
-  buildV1ChartDataPayload,
   getQuerySettings,
-  getChartDataUri,
   shouldUseLegacyApi,
 } from 'src/explore/exploreUtils';
 import { requiresQuery } from 'src/modules/AnnotationTypes';
 
 import { addDangerToast } from 'src/components/MessageToasts/actions';
 import { logEvent } from 'src/logger/actions';
-import { Logger, LOG_ACTIONS_LOAD_CHART } from 'src/logger/LogUtils';
+import { LOG_ACTIONS_LOAD_CHART, Logger } from 'src/logger/LogUtils';
 import { getClientErrorObject } from 'src/utils/getClientErrorObject';
 import { safeStringify } from 'src/utils/safeStringify';
 import { allowCrossDomain as domainShardingEnabled } from 'src/utils/hostNamesConfig';
@@ -246,6 +246,26 @@ const v1ChartDataRequest = async (
       ownState,
     });
 
+    // DODO added start 33901821
+    const timeGrainSqla = payload?.form_data?.time_grain_sqla;
+    payload.queries?.forEach(query => {
+      const timeFilter = query?.filters
+        ?.reverse()
+        .find(filter => filter.op === 'TEMPORAL_RANGE');
+      if (query.time_range === undefined && timeFilter) {
+        // set time range to enforce jinja work
+        query.time_range = timeFilter.val;
+      }
+      if (query.extras?.time_grain_sqla === undefined && timeGrainSqla) {
+        // to enforce jinja work
+        query.extras = {
+          ...(query?.extras ?? {}),
+          ...{ time_grain_sqla: timeGrainSqla },
+        };
+      }
+    });
+    // DODO added stop 33901821
+
     // The dashboard id is added to query params for tracking purposes
     const { slice_id: sliceId } = formData;
     const { dashboard_id: dashboardId } = requestParams;
@@ -281,6 +301,29 @@ const v1ChartDataRequest = async (
     setDataMask,
     ownState,
   });
+
+  // DODO added start 34420888
+  const timeGrainSqla = payload?.form_data?.time_grain_sqla;
+  payload.queries?.forEach(query => {
+    const timeFilter = query?.filters
+      ?.reverse()
+      .find(filter => filter.op === 'TEMPORAL_RANGE');
+    if (
+      (query.time_range === undefined || query.time_range === 'No filter') &&
+      timeFilter
+    ) {
+      // set time range to enforce jinja work
+      query.time_range = timeFilter.val;
+    }
+    if (query.extras?.time_grain_sqla === undefined && timeGrainSqla) {
+      // to enforce jinja work
+      query.extras = {
+        ...(query?.extras ?? {}),
+        ...{ time_grain_sqla: timeGrainSqla },
+      };
+    }
+  });
+  // DODO added stop 34420888
 
   // The dashboard id is added to query params for tracking purposes
   const { slice_id: sliceId } = formData;
@@ -451,6 +494,13 @@ export const RENDER_TRIGGERED = 'RENDER_TRIGGERED';
 export function renderTriggered(value, key) {
   return { type: RENDER_TRIGGERED, value, key };
 }
+
+// DODO added start 36195582
+export const ADD_TO_EXTRA_FORM_DATA = 'ADD_TO_EXTRA_FORM_DATA';
+export function addToExtraFormData(value, key) {
+  return { type: ADD_TO_EXTRA_FORM_DATA, value, key };
+}
+// DODO added stop 36195582
 
 export const UPDATE_QUERY_FORM_DATA = 'UPDATE_QUERY_FORM_DATA';
 export function updateQueryFormData(value, key) {

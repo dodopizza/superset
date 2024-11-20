@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -8,16 +9,15 @@ import Icons from 'src/components/Icons';
 import {
   GlobalError,
   Loading,
-  Version,
   ServiceNotAvailable,
+  Version,
 } from '../components';
 import {
-  MicrofrontendParams,
-  FullConfiguration,
-  Dashboard,
   AnnotationLayer,
-  SingleAnnotation,
-  InitializedResponse,
+  Dashboard,
+  MicrofrontendNavigation,
+  MicrofrontendParams,
+  RouteConfig,
 } from '../types/global';
 import { composeAPIConfig } from '../config';
 
@@ -28,42 +28,56 @@ import Main from '../components/Main/index';
 
 import setupClient from '../setupClient';
 import {
-  getLoginToken,
+  defineNavigation,
+  dirtyHackDodoIs,
+  getAnnotationLayersData,
   getCsrfToken,
   getDashboardsData,
-  getAnnotationLayersData,
+  getLoginToken,
   getSingleAnnotationLayerIdsData,
-  getSingleAnnotationData,
-  dirtyHackDodoIs,
-  defineNavigation,
   sortDashboards,
-  validCertifiedBy,
   validCertificationDetails,
+  validCertifiedBy,
 } from './utils';
 
 import {
-  RootComponentWrapper,
-  DashboardComponentWrapper,
   ContentWrapper,
+  DashboardComponentWrapper,
+  RootComponentWrapper,
 } from './styles';
 
-import { getNavigationConfig, APP_VERSION } from '../parseEnvFile';
+import { APP_VERSION } from '../parseEnvFile';
 import { serializeValue } from '../parseEnvFile/utils';
 import { addSlash, logConfigs } from './helpers';
 
 import '../../theme';
 import {
   MESSAGES,
+  SORTING_PREFIX,
   STYLES_DODOPIZZA,
   STYLES_DRINKIT,
-  STYLES_DONER42,
-  ALERT_PREFIX,
-  SORTING_PREFIX,
 } from '../constants';
+import { getDefaultDashboard } from '../utils/getDefaultDashboard';
+import {
+  handleAnnotationsRequest,
+  loadAnnotations,
+} from '../../DodoExtensions/utils/annotationUtils';
 
 setupClient();
 
+const StyledCollapseBtn = styled.button<{
+  isVisible: boolean;
+}>`
+  color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
+  background: none;
+  border: none;
+  position: relative;
+  padding-top: 8px;
+`;
+
 export const RootComponent = (incomingParams: MicrofrontendParams) => {
+  const businessId = incomingParams.businessId || 'dodopizza';
+
   // TODO: DODO: duplicated logic in src/Superstructure/store.ts
   function getPageLanguage(): string | null {
     if (!document) {
@@ -94,12 +108,19 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     title: '',
     stackTrace: '',
   });
-  const [FULL_CONFIG, setFullConfig] = useState({
-    navigation: { showNavigationMenu: false, routes: [] },
+  const [FULL_CONFIG, setFullConfig] = useState<{
+    showNavigationMenu: boolean;
+    routes: Array<RouteConfig>;
+    originUrl: string;
+    frontendLogger: boolean;
+    basename: string;
+  }>({
+    showNavigationMenu: false,
+    routes: [],
     originUrl: '',
     frontendLogger: false,
     basename: '',
-  } as FullConfiguration);
+  });
   const [isFullConfigReady, setFullConfigReady] = useState(false);
   const [stylesConfig, setStylesConfig] = useState(STYLES_DODOPIZZA);
   const [annotationsObjects, setAnnotationsObjects] = useState(null) as any;
@@ -159,43 +180,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     return csrfResponse;
   };
 
-  const handleAnnotationLayersRequest = async () => {
-    const annotationsResponse = await getAnnotationLayersData();
-
-    if (annotationsResponse.loaded && annotationsResponse.data) {
-      const filteredAnnotationLayers = annotationsResponse.data.filter(
-        (layer: AnnotationLayer) => layer.name.includes(ALERT_PREFIX),
-      );
-
-      const foundAnnotationLayer = filteredAnnotationLayers[0] || null;
-
-      if (foundAnnotationLayer) {
-        const idsResponse = await getSingleAnnotationLayerIdsData(
-          foundAnnotationLayer.id,
-        );
-
-        if (
-          idsResponse?.loaded &&
-          idsResponse.data?.ids &&
-          idsResponse.data?.ids.length
-        ) {
-          const dataWithIds = {
-            layerId: idsResponse.data.layerId,
-            ids: idsResponse.data.ids,
-          };
-
-          return dataWithIds;
-        }
-
-        return null;
-      }
-
-      return null;
-    }
-
-    return null;
-  };
-
   const handleAnnotationLayersRequestSorting = async () => {
     const annotationsResponse = await getAnnotationLayersData();
 
@@ -232,22 +216,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
     return null;
   };
-
-  const handleAnnotationsRequest = async ({
-    layerId,
-    ids,
-  }: {
-    layerId: number;
-    ids: number[];
-  }): Promise<InitializedResponse<{ result: SingleAnnotation } | null>[]> =>
-    Promise.all(
-      ids.map(
-        async (
-          id,
-        ): Promise<InitializedResponse<{ result: SingleAnnotation } | null>> =>
-          getSingleAnnotationData(layerId, id),
-      ),
-    );
 
   const handleDashboardsRequest = async (business: string) => {
     const dashboardsResponse = await getDashboardsData();
@@ -342,6 +310,8 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     basename: string;
     frontendLogger: boolean;
     business: string;
+    showNavigationMenu: boolean;
+    dashboards: MicrofrontendNavigation['dashboards'];
   } = useMemo(() => {
     const env = process.env.WEBPACK_MODE;
 
@@ -353,7 +323,9 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         ? addSlash(incomingParams.basename)
         : '/',
       frontendLogger: incomingParams.frontendLogger || true,
-      business: incomingParams.businessId || 'dodopizza',
+      business: businessId,
+      dashboards: incomingParams.navigation.dashboards,
+      showNavigationMenu: incomingParams.navigation.showNavigationMenu,
     };
 
     // Superset API works only with port 3000
@@ -361,7 +333,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       parameters = {
         ...parameters,
         basename: '/',
-        originUrl: 'https://superset.dodois.dev',
+        originUrl: 'https://superset.d.yandex.dodois.dev',
         frontendLogger: true,
       };
     }
@@ -369,7 +341,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     console.log('Checked and altered parameters: ', parameters);
 
     return parameters;
-  }, [incomingParams]);
+  }, [businessId, incomingParams]);
 
   const IS_UNAVAILABLE = serializeValue(process.env.isUnavailable) === 'true';
 
@@ -380,7 +352,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   useEffect(() => {
     composeAPIConfig(params);
     if (params.business === 'drinkit') setStylesConfig(STYLES_DRINKIT);
-    else if (params.business === 'doner42') setStylesConfig(STYLES_DONER42);
   }, [params]);
 
   useEffect(() => {
@@ -409,73 +380,99 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         const csrf = await handleCsrfRequest({ useAuth });
 
         if (csrf?.data?.result) {
-          const dashboards = await handleDashboardsRequest(params.business);
+          const hardcodedDashboard = params?.dashboards ?? {};
+          const hardcodedDashboardKeys = Object.keys(hardcodedDashboard ?? {});
+          if (hardcodedDashboardKeys.length > 0) {
+            const routes: Array<RouteConfig> = [];
 
-          const annotationIds = await handleAnnotationLayersRequest();
-          if (annotationIds) {
-            const annotations = await handleAnnotationsRequest(annotationIds);
-            if (annotations?.length) {
-              const filteredAnnotations = annotations.filter(annotation =>
-                annotation?.data?.result.short_descr.includes(ALERT_PREFIX),
-              );
-              setAnnotationsObjects(filteredAnnotations);
-            }
-          }
+            hardcodedDashboardKeys.forEach(key => {
+              const item = hardcodedDashboard[key];
 
-          if (dashboards?.data?.length) {
-            let SORTING_IDS = [] as any[];
+              routes.push({
+                idOrSlug: item.idOrSlug,
+                name: item.name,
+                nameRU: item.nameRU,
+                hidden: false,
+                location: '',
+              });
+            });
 
-            const sortingAnnotationIds =
-              await handleAnnotationLayersRequestSorting();
+            setLoaded(true);
 
-            if (sortingAnnotationIds) {
-              const annotations = await handleAnnotationsRequest(
-                sortingAnnotationIds,
-              );
+            const { basename, originUrl, frontendLogger, showNavigationMenu } =
+              params;
+            setFullConfig({
+              basename,
+              originUrl,
+              frontendLogger,
+              showNavigationMenu,
+              routes,
+            });
+            setFullConfigReady(true);
+          } else {
+            const dashboards = await handleDashboardsRequest(params.business);
 
-              if (annotations?.length) {
-                const filteredSortingAnnotations = annotations.filter(
-                  annotation =>
-                    annotation?.data?.result.short_descr.includes(
-                      SORTING_PREFIX,
-                    ),
+            setAnnotationsObjects(await loadAnnotations());
+
+            if (dashboards?.data?.length) {
+              let SORTING_IDS = [] as any[];
+
+              const sortingAnnotationIds =
+                await handleAnnotationLayersRequestSorting();
+
+              if (sortingAnnotationIds) {
+                const annotations = await handleAnnotationsRequest(
+                  sortingAnnotationIds,
                 );
-                const jsonObjectString = !filteredSortingAnnotations.length
-                  ? '{}'
-                  : filteredSortingAnnotations[0]?.data?.result.json_metadata;
 
-                if (jsonObjectString) {
-                  SORTING_IDS = JSON.parse(jsonObjectString)?.order || [];
+                if (annotations?.length) {
+                  const filteredSortingAnnotations = annotations.filter(
+                    annotation =>
+                      annotation?.data?.result.short_descr.includes(
+                        SORTING_PREFIX,
+                      ),
+                  );
+                  const jsonObjectString = !filteredSortingAnnotations.length
+                    ? '{}'
+                    : filteredSortingAnnotations[0]?.data?.result.json_metadata;
+
+                  if (jsonObjectString) {
+                    SORTING_IDS = JSON.parse(jsonObjectString)?.order || [];
+                  }
                 }
               }
-            }
 
-            const navConfigFull = getNavigationConfig(
-              sortDashboards(
+              const routes = sortDashboards(
                 defineNavigation(dashboards.data),
                 SORTING_IDS || [],
-              ),
-            );
+              );
 
-            if (navConfigFull?.navigation.routes.length) {
-              setLoaded(true);
+              if (routes.length) {
+                setLoaded(true);
 
-              const { basename, originUrl, frontendLogger } = params;
-              setFullConfig({
-                ...navConfigFull,
-                basename,
-                originUrl,
-                frontendLogger,
-              });
-              setFullConfigReady(true);
-            } else {
-              setLoaded(false);
-              setError(true);
-              setErrorObject({
-                msg: 'Что-то пошло не так c настройкой меню',
-                title: 'UNEXPECTED_ERROR',
-                stackTrace: 'UNKNOWN',
-              });
+                const {
+                  basename,
+                  originUrl,
+                  frontendLogger,
+                  showNavigationMenu,
+                } = params;
+                setFullConfig({
+                  basename,
+                  originUrl,
+                  frontendLogger,
+                  showNavigationMenu,
+                  routes,
+                });
+                setFullConfigReady(true);
+              } else {
+                setLoaded(false);
+                setError(true);
+                setErrorObject({
+                  msg: 'Что-то пошло не так c настройкой меню',
+                  title: 'UNEXPECTED_ERROR',
+                  stackTrace: 'UNKNOWN',
+                });
+              }
             }
           }
         }
@@ -500,15 +497,18 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       </>
     );
   }
-  const StyledCollapseBtn = styled.button<{
-    isVisible: boolean;
-  }>`
-    color: ${({ isVisible }) => (isVisible ? 'initial' : '#ff6900')};
-    background: none;
-    border: none;
-    position: relative;
-    padding-top: 8px;
-  `;
+
+  const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
+
+  const startDashboard = getDefaultDashboard({
+    businessId,
+    routes: FULL_CONFIG.routes,
+  });
+
+  const withNavigation = useMemo(
+    () => FULL_CONFIG.routes.length > 1 && FULL_CONFIG.showNavigationMenu,
+    [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
+  );
 
   const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
 
@@ -519,37 +519,38 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
         {!isLoaded || !isFullConfigReady ? (
           <Loading />
         ) : (
-          <RootComponentWrapper
-            withNavigation={FULL_CONFIG.navigation.showNavigationMenu}
-          >
+          <RootComponentWrapper withNavigation={withNavigation}>
             <Router>
-              <LeftNavigation
-                routesConfig={FULL_CONFIG.navigation.routes}
-                baseRoute={FULL_CONFIG.basename}
-                stylesConfig={stylesConfig}
-                language={userLanguage}
-                isVisible={isVisible}
-                onNavigate={closeLeftNavigation} // DODO added #33605679
-              />
-              <DashboardComponentWrapper
-                withNavigation={
-                  FULL_CONFIG.navigation.showNavigationMenu && isVisible
-                }
-              >
-                <StyledCollapseBtn
-                  type="button"
-                  onClick={() => setIsVisible(!isVisible)}
+              {withNavigation && (
+                <LeftNavigation
+                  routes={FULL_CONFIG.routes}
+                  baseRoute={FULL_CONFIG.basename}
+                  stylesConfig={stylesConfig}
+                  language={userLanguage}
                   isVisible={isVisible}
-                >
-                  {isVisible && <Icons.Expand />}
-                  {!isVisible && <Icons.Collapse />}
-                </StyledCollapseBtn>
+                  onNavigate={closeLeftNavigation} // DODO added #33605679
+                />
+              )}
+              <DashboardComponentWrapper
+                withNavigation={withNavigation && isVisible}
+              >
+                {withNavigation && (
+                  <StyledCollapseBtn
+                    type="button"
+                    onClick={() => setIsVisible(!isVisible)}
+                    isVisible={isVisible}
+                  >
+                    {isVisible && <Icons.Expand />}
+                    {!isVisible && <Icons.Collapse />}
+                  </StyledCollapseBtn>
+                )}
                 <Main
-                  navigation={FULL_CONFIG.navigation}
+                  routes={FULL_CONFIG.routes}
                   store={store}
                   basename={FULL_CONFIG.basename}
                   stylesConfig={stylesConfig}
                   annotationMessages={annotationsObjects}
+                  startDashboardId={startDashboard}
                 />
               </DashboardComponentWrapper>
             </Router>

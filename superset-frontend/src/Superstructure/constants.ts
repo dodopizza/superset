@@ -2,7 +2,6 @@
 const API_V1 = '/api/v1';
 const SUPERSET_ENDPOINT = '/superset';
 const PLUGIN_SELECTOR = 'single-spa-application:supersetDashboardPlugin';
-const ALERT_PREFIX = '[ALERT]';
 const SORTING_PREFIX = '[SORT]';
 
 const DODOPIZZA_THEME = {
@@ -46,16 +45,6 @@ const STYLES_DRINKIT = {
   colors: {
     primary: '#334cdb',
     secondary: '#f7f7f2',
-    light: '#efefef',
-    dark: '#141414',
-  },
-};
-
-const STYLES_DONER42 = {
-  businessId: 'doner42',
-  colors: {
-    primary: '#ff6900',
-    secondary: '#ffefe3',
     light: '#efefef',
     dark: '#141414',
   },
@@ -355,7 +344,6 @@ export {
   MESSAGES,
   STYLES_DODOPIZZA,
   STYLES_DRINKIT,
-  STYLES_DONER42,
   SUPERSET_ENDPOINT,
   PLUGIN_SELECTOR,
   DODOPIZZA_THEME,
@@ -364,6 +352,5 @@ export {
   DODOPIZZA_KNOWLEDGEBASE_URL,
   DODOPIZZA_ANALYTICS_URL,
   KNOWN_CERTIFICATAION_DETAILS,
-  ALERT_PREFIX,
   SORTING_PREFIX,
 };

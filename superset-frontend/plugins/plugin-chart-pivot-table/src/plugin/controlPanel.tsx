@@ -1,29 +1,15 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React from 'react';
 import {
+  ChartDataResponseResult,
   ensureIsArray,
   hasGenericChartAxes,
   isAdhocColumn,
   isPhysicalColumn,
   QueryFormMetric,
   smartDateFormatter,
+  // DODO added #34239342
+  smartDateFormatter_dot_ddmmyyyy,
   t,
   validateNonEmpty,
 } from '@superset-ui/core';
@@ -34,8 +20,25 @@ import {
   sharedControls,
   Dataset,
   getStandardizedControls,
+  AGGREGATE_FUNCTION_OPTIONS, // DODO added 30154541
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
+
+// DODO added start 35514397, 38087840, 30154541, 33638561
+const columnConfig = {
+  '0': [
+    ['d3NumberFormat'],
+    ['aggregation'],
+    ['hideValueInTotal'],
+    ['pinColumn'],
+    ['exportAsTime'],
+  ],
+  '1': [['pinColumn']],
+  '2': [['pinColumn']],
+  '3': [['pinColumn']],
+};
+const METRIC_KEY = 'Metric';
+// DODO start changes 35514397, 38087840, 30154541, 33638561
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -175,29 +178,7 @@ const config: ControlPanelConfig = {
               type: 'SelectControl',
               label: t('Aggregation function'),
               clearable: false,
-              choices: [
-                ['Count', t('Count')],
-                ['Count Unique Values', t('Count Unique Values')],
-                ['List Unique Values', t('List Unique Values')],
-                ['Sum', t('Sum')],
-                ['Average', t('Average')],
-                ['Median', t('Median')],
-                ['Sample Variance', t('Sample Variance')],
-                ['Sample Standard Deviation', t('Sample Standard Deviation')],
-                ['Minimum', t('Minimum')],
-                ['Maximum', t('Maximum')],
-                ['First', t('First')],
-                ['Last', t('Last')],
-                ['Sum as Fraction of Total', t('Sum as Fraction of Total')],
-                ['Sum as Fraction of Rows', t('Sum as Fraction of Rows')],
-                ['Sum as Fraction of Columns', t('Sum as Fraction of Columns')],
-                ['Count as Fraction of Total', t('Count as Fraction of Total')],
-                ['Count as Fraction of Rows', t('Count as Fraction of Rows')],
-                [
-                  'Count as Fraction of Columns',
-                  t('Count as Fraction of Columns'),
-                ],
-              ],
+              choices: AGGREGATE_FUNCTION_OPTIONS, // DODO changed 30154541
               default: 'Sum',
               description: t(
                 'Aggregate function to apply when pivoting and computing the total rows and columns',
@@ -306,7 +287,15 @@ const config: ControlPanelConfig = {
               label: t('Date format'),
               default: smartDateFormatter.id,
               renderTrigger: true,
-              choices: D3_TIME_FORMAT_OPTIONS,
+              // DODO start changes #34239342
+              choices: [
+                ...D3_TIME_FORMAT_OPTIONS,
+                [
+                  smartDateFormatter_dot_ddmmyyyy.id,
+                  t(smartDateFormatter_dot_ddmmyyyy.label),
+                ],
+              ],
+              // DODO stop changes #34239342
               description: t('D3 time format for datetime columns'),
             },
           },
@@ -401,6 +390,46 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added start 35514397, 38087840
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize columns'),
+              description: t('Further customize how to display each column'),
+              width: 400,
+              height: 340,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                const colnames = [
+                  METRIC_KEY,
+                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
+                ];
+                const coltypes = [
+                  1,
+                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
+                ];
+                const isRowsLayout =
+                  chart?.latestQueryFormData?.metricsLayout ===
+                  MetricsLayoutEnum.ROWS;
+                const newQueriesResponse = !isRowsLayout
+                  ? chart?.queriesResponse?.[0]
+                  : { ...chart?.queriesResponse?.[0], colnames, coltypes };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
+            },
+          },
+        ],
+        // DODO added stop 35514397, 38087840
         [
           {
             name: 'conditional_formatting',

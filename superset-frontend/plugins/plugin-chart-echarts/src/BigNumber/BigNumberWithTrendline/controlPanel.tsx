@@ -1,9 +1,15 @@
 // DODO was here
-import { hasGenericChartAxes, smartDateFormatter, t } from '@superset-ui/core';
+import {
+  ComparisonType, // DODO added 30135470
+  hasGenericChartAxes,
+  smartDateFormatter,
+  t,
+} from '@superset-ui/core';
 import {
   ControlPanelConfig,
   ControlSubSectionHeader,
   D3_FORMAT_DOCS,
+  D3_FORMAT_OPTIONS, // DODO added 30135470
   D3_TIME_FORMAT_OPTIONS,
   getStandardizedControls,
   sections,
@@ -18,6 +24,8 @@ import {
   ValueToShow,
 } from '../../DodoExtensions/BigNumber/sharedControls';
 import { controlPanelCommonChartDescription } from '../../DodoExtensions/BigNumber/controlPanelCommon';
+
+const yAxisFormatChoices = [['', t('Default')], ...D3_FORMAT_OPTIONS]; // DODO added 30135470
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -159,6 +167,20 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added start 33638561
+        [
+          {
+            name: 'exportAsTime',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Export as time'),
+              renderTrigger: false,
+              default: false,
+              description: t('Export a numeric value as number of days'),
+            },
+          },
+        ],
+        // DODO added stop 33638561
       ],
     },
     { ...bigNumberWithTrendlineControlPanelConditionalFormatting }, // DODO added
@@ -275,6 +297,19 @@ const config: ControlPanelConfig = {
   controlOverrides: {
     y_axis_format: {
       label: t('Number format'),
+      // DODO added start 30135470
+      choices: yAxisFormatChoices,
+      default: '',
+      mapStateToProps: state => {
+        const isPercentage =
+          state.controls?.comparison_type?.value === ComparisonType.Percentage;
+        return {
+          choices: isPercentage
+            ? yAxisFormatChoices.filter(option => option[0].includes('%'))
+            : yAxisFormatChoices,
+        };
+      },
+      // DODO added stop 30135470
     },
     x_axis: {
       label: t('TEMPORAL X-AXIS'),

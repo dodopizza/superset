@@ -1,7 +1,13 @@
 // DODO was here
 
 import React from 'react';
-import { ensureIsArray, hasGenericChartAxes, t } from '@superset-ui/core';
+import {
+  ChartDataResponseResult, // DODO added start 30135470
+  ensureIsArray,
+  hasGenericChartAxes,
+  isSavedMetric, // DODO added 30135470
+  t,
+} from '@superset-ui/core';
 import { cloneDeep } from 'lodash';
 import {
   ControlPanelConfig,
@@ -37,6 +43,15 @@ const {
   xAxisLabelRotation,
   yAxisIndex,
 } = DEFAULT_FORM_DATA;
+
+// DODO added start 33638561, 30135470
+const columnConfig = {
+  '0': [['d3NumberFormat'], ['exportAsTime']],
+  '1': [],
+  '2': [],
+  '3': [],
+};
+// DODO added stop 33638561, 30135470
 
 function createQuerySection(
   label: string,
@@ -447,6 +462,47 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added start 33638561
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize Metrics'),
+              width: 400,
+              height: 175,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                // Showing metrics instead of columns
+                const colnames = [
+                  ...(chart?.latestQueryFormData?.metrics ?? []),
+                  ...(chart?.latestQueryFormData?.metrics_b ?? []),
+                ].map(metric =>
+                  isSavedMetric(metric) ? metric : metric?.label,
+                );
+                const coltypes = Array.from(
+                  { length: colnames.length },
+                  () => 0,
+                );
+                const newQueriesResponse = {
+                  ...(chart?.queriesResponse?.[0] ?? {}),
+                  colnames,
+                  coltypes,
+                };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
+            },
+          },
+        ],
+        // DODO added stop 33638561
       ],
     },
   ],

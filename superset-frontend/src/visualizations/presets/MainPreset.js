@@ -1,5 +1,5 @@
 // DODO was here
-import { isFeatureEnabled, Preset, FeatureFlag } from '@superset-ui/core';
+import { FeatureFlag, isFeatureEnabled, Preset } from '@superset-ui/core';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
@@ -31,35 +31,37 @@ import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
-  EchartsPieChartPlugin,
-  EchartsBoxPlotChartPlugin,
+  EChartBubbleChartDodo,
   EchartsAreaChartPlugin,
-  EchartsTimeseriesChartPlugin,
+  EchartsBarChartPluginDodo,
+  EchartsBoxPlotChartPlugin,
+  EchartsFunnelChartPlugin,
+  EchartsGaugeChartPlugin,
+  EchartsGraphChartPlugin,
+  EchartsMixedTimeseriesChartPlugin,
+  EchartsPieChartPlugin,
+  EchartsRadarChartPlugin,
+  EchartsSunburstChartPlugin,
   EchartsTimeseriesBarChartPlugin,
+  EchartsTimeseriesChartPlugin,
   EchartsTimeseriesLineChartPlugin,
   EchartsTimeseriesScatterChartPlugin,
   EchartsTimeseriesSmoothLineChartPlugin,
   EchartsTimeseriesStepChartPlugin,
-  EchartsGraphChartPlugin,
-  EchartsGaugeChartPlugin,
-  EchartsRadarChartPlugin,
-  EchartsFunnelChartPlugin,
-  EchartsTreemapChartPlugin,
-  EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
-  EchartsSunburstChartPlugin,
-  EchartsPieChartPluginDodo,
+  EchartsTreemapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
-  SelectFilterPlugin,
-  RangeFilterPlugin,
-  TimeFilterPlugin,
-  TimeColumnFilterPlugin,
-  TimeGrainFilterPlugin,
   GroupByFilterPlugin,
+  RangeFilterPlugin,
+  SelectByIdFilterPlugin,
+  SelectFilterPlugin,
+  TimeColumnFilterPlugin,
+  TimeFilterPlugin,
+  TimeGrainFilterPlugin,
 } from 'src/filters/components';
 import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/plugin-chart-pivot-table';
-// import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
+import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
 import TimeTableChartPlugin from '../TimeTable';
 
@@ -143,12 +145,14 @@ export default class MainPreset extends Preset {
         new TimeGrainFilterPlugin().configure({ key: 'filter_timegrain' }),
         new EchartsTreeChartPlugin().configure({ key: 'tree_chart' }),
         new EchartsSunburstChartPlugin().configure({ key: 'sunburst_v2' }),
-        // new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
+        new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         ...experimentalplugins,
         // DODO added
-        new EchartsPieChartPluginDodo().configure({
-          key: 'echarts_bar',
+        new EchartsBarChartPluginDodo().configure({
+          key: 'echarts_bar_dodo',
         }),
+        new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
+        new SelectByIdFilterPlugin().configure({ key: 'filter_select_by_id' }), // DODO added 29749076
       ],
     });
   }

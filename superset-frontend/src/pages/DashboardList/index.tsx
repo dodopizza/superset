@@ -1,30 +1,30 @@
 // DODO was here
 import {
-  isFeatureEnabled,
   FeatureFlag,
+  isFeatureEnabled,
   styled,
   SupersetClient,
   t,
 } from '@superset-ui/core';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import rison from 'rison';
 import {
-  createFetchRelated,
   createErrorHandler,
+  createFetchRelated,
   handleDashboardDelete,
 } from 'src/views/CRUD/utils';
-import { useListViewResource, useFavoriteStatus } from 'src/views/CRUD/hooks';
+import { useFavoriteStatus, useListViewResource } from 'src/views/CRUD/hooks';
 import ConfirmStatusChange from 'src/components/ConfirmStatusChange';
 import { TagsList } from 'src/components/Tags';
 import handleResourceExport from 'src/utils/export';
 import Loading from 'src/components/Loading';
 import SubMenu, { SubMenuProps } from 'src/features/home/SubMenu';
 import ListView, {
-  ListViewProps,
   Filter,
-  Filters,
   FilterOperator,
+  Filters,
+  ListViewProps,
 } from 'src/components/ListView';
 import { dangerouslyGetItemDoNotUse } from 'src/utils/localStorageHelpers';
 import Owner from 'src/types/Owner';
@@ -92,6 +92,7 @@ interface Dashboard extends DashboardDodoExtended {
 // DODO added
 const FormattedCode = styled.code`
   color: ${({ theme }) => theme.colors.primary.base};
+  cursor: pointer;
 `;
 
 const Actions = styled.div`
@@ -282,8 +283,14 @@ function DashboardList(props: DashboardListProps) {
           row: {
             original: { id, slug },
           },
-        }: any) => <FormattedCode>{`${slug || ''} (${id})`}</FormattedCode>,
-        Header: 'Slug (id)',
+        }: any) => (
+          // DODO changed start - add tooltip
+          <Tooltip title={`Slug: ${slug ?? 'No slug'}`} placement="right">
+            <FormattedCode>{id}</FormattedCode>
+          </Tooltip>
+          // DODO changed start
+        ),
+        Header: 'id',
         accessor: 'slug',
         size: 'xs',
         disableSortBy: true,
@@ -383,31 +390,6 @@ function DashboardList(props: DashboardListProps) {
         size: 'xl',
       },
       {
-        Cell: ({
-          row: {
-            original: { tags = [] },
-          },
-        }: {
-          row: {
-            original: {
-              tags: Tag[];
-            };
-          };
-        }) => (
-          // Only show custom type tags
-          <TagsList
-            tags={tags.filter(
-              (tag: Tag) => tag.type === 'TagTypes.custom' || tag.type === 1,
-            )}
-            maxTags={3}
-          />
-        ),
-        Header: t('Tags'),
-        accessor: 'tags',
-        disableSortBy: true,
-        hidden: !isFeatureEnabled(FeatureFlag.TAGGING_SYSTEM),
-      },
-      {
         Cell: ({ row: { original } }: any) => {
           const handleDelete = () =>
             handleDashboardDelete(
@@ -489,6 +471,37 @@ function DashboardList(props: DashboardListProps) {
         id: 'actions',
         hidden: !canEdit && !canDelete && !canExport,
         disableSortBy: true,
+      },
+      {
+        Cell: ({
+          row: {
+            original: { tags = [] },
+          },
+        }: {
+          row: {
+            original: {
+              tags: Tag[];
+            };
+          };
+        }) => (
+          // Only show custom type tags
+          <TagsList
+            // DODO commented 35538076 - show only custom and team tags
+            tags={tags.filter((tag: Tag) =>
+              tag.type
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' ||
+                  tag.type === 5 ||
+                  tag.type === 'TagTypes.team'
+                : true,
+            )}
+            maxTags={3}
+          />
+        ),
+        Header: t('Tags'),
+        accessor: 'tags',
+        disableSortBy: true,
+        hidden: !isFeatureEnabled(FeatureFlag.TAGGING_SYSTEM),
       },
     ],
     [
@@ -668,14 +681,15 @@ function DashboardList(props: DashboardListProps) {
   );
 
   const subMenuButtons: SubMenuProps['buttons'] = [];
-  if (canDelete || canExport) {
-    subMenuButtons.push({
-      name: t('Bulk select'),
-      buttonStyle: 'secondary',
-      'data-test': 'bulk-select',
-      onClick: toggleBulkSelect,
-    });
-  }
+  // DODO commented out 39860371
+  // if (canDelete || canExport) {
+  //   subMenuButtons.push({
+  //     name: t('Bulk select'),
+  //     buttonStyle: 'secondary',
+  //     'data-test': 'bulk-select',
+  //     onClick: toggleBulkSelect,
+  //   });
+  // }
   if (canCreate) {
     subMenuButtons.push({
       name: (

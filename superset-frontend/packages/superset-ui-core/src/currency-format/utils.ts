@@ -1,27 +1,13 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   Currency,
   CurrencyFormatter,
   ensureIsArray,
   getNumberFormatter,
+  isAdhocMetricSimple, // DODO added 30135470
+  isAdhocMetricSQL, // DODO added 30135470
   isSavedMetric,
+  Metric, // DODO added 30135470
   QueryFormMetric,
   ValueFormatter,
 } from '@superset-ui/core';
@@ -32,11 +18,23 @@ export const buildCustomFormatters = (
   savedColumnFormats: Record<string, string>,
   d3Format: string | undefined,
   currencyFormat: Currency | undefined,
+  datasourceMetrics?: Metric[], // DODO added 30135470
+  columnConfig?: Record<string, any>, // DODO added 30135470
 ) => {
   const metricsArray = ensureIsArray(metrics);
   return metricsArray.reduce((acc, metric) => {
     if (isSavedMetric(metric)) {
-      const actualD3Format = d3Format ?? savedColumnFormats[metric];
+      // DODO added start 30135470
+      const configFormat = columnConfig?.[metric]?.d3NumberFormat;
+      const metricNumberFormat = datasourceMetrics?.find(
+        datasourceMetric => datasourceMetric.metric_name === metric,
+      )?.number_format;
+      // DODO added stop 30135470
+      const actualD3Format =
+        configFormat || // DODO added 30135470
+        metricNumberFormat || // DODO added 30135470
+        d3Format ||
+        savedColumnFormats[metric];
       const actualCurrencyFormat = currencyFormat?.symbol
         ? currencyFormat
         : savedCurrencyFormats[metric];
@@ -53,6 +51,17 @@ export const buildCustomFormatters = (
             [metric]: getNumberFormatter(actualD3Format),
           };
     }
+    // DODO added start 30135470
+    if (isAdhocMetricSimple(metric) || isAdhocMetricSQL(metric)) {
+      const label = metric?.label || '';
+      const configFormat = columnConfig?.[label]?.d3NumberFormat;
+      if (!configFormat) return acc;
+      return {
+        ...acc,
+        [label]: getNumberFormatter(configFormat),
+      };
+    }
+    // DODO added stop 30135470
     return acc;
   }, {});
 };
@@ -76,6 +85,8 @@ export const getValueFormatter = (
   d3Format: string | undefined,
   currencyFormat: Currency | undefined,
   key?: string,
+  datasourceMetrics?: Metric[], // DODO added 30135470
+  columnConfig?: Record<string, any>, // DODO added 30135470
 ) => {
   const customFormatter = getCustomFormatter(
     buildCustomFormatters(
@@ -84,6 +95,8 @@ export const getValueFormatter = (
       savedColumnFormats,
       d3Format,
       currencyFormat,
+      datasourceMetrics,
+      columnConfig, // DODO added 30135470
     ),
     metrics,
     key,

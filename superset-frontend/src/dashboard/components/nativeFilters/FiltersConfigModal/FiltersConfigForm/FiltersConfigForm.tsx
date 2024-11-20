@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   ColumnMeta,
@@ -27,11 +10,11 @@ import {
   Behavior,
   ChartDataResponseResult,
   Column,
-  isFeatureEnabled,
   FeatureFlag,
   Filter,
   GenericDataType,
   getChartMetadataRegistry,
+  isFeatureEnabled,
   JsonResponse,
   NativeFilterType,
   styled,
@@ -52,7 +35,7 @@ import { PluginFilterSelectCustomizeProps } from 'src/filters/components/Select/
 import { useSelector } from 'react-redux';
 import { getChartDataRequest } from 'src/components/Chart/chartAction';
 import { Input, TextArea } from 'src/components/Input';
-import { Select, FormInstance } from 'src/components';
+import { FormInstance, Select } from 'src/components';
 import Collapse from 'src/components/Collapse';
 import BasicErrorAlert from 'src/components/ErrorMessage/BasicErrorAlert';
 import ErrorMessageWithStackTrace from 'src/components/ErrorMessage/ErrorMessageWithStackTrace';
@@ -123,6 +106,7 @@ const StyledRowContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+  column-gap: 0.75rem; // DODO added 29749076
 `;
 
 type ControlKey = keyof PluginFilterSelectCustomizeProps;
@@ -258,6 +242,7 @@ const StyledAsterisk = styled.span`
   color: ${({ theme }) => theme.colors.error.base};
   font-size: ${({ theme }) => theme.typography.sizes.s}px;
   margin-left: ${({ theme }) => theme.gridUnit - 1}px;
+
   &:before {
     content: '*';
   }
@@ -315,7 +300,12 @@ export interface FiltersConfigFormProps {
   getDependencySuggestion: (filterId: string) => string;
 }
 
-const FILTERS_WITH_ADHOC_FILTERS = ['filter_select', 'filter_range'];
+// const FILTERS_WITH_ADHOC_FILTERS = ['filter_select', 'filter_range']; // DODO commented 29749076
+const FILTERS_WITH_ADHOC_FILTERS = [
+  'filter_select',
+  'filter_range',
+  'filter_select_by_id',
+]; // DODO added 29749076
 
 // TODO: Rename the filter plugins and remove this mapping
 const FILTER_TYPE_NAME_MAPPING = {
@@ -325,6 +315,8 @@ const FILTER_TYPE_NAME_MAPPING = {
   [t('Time column')]: t('Time column'),
   [t('Time grain')]: t('Time grain'),
   [t('Group By')]: t('Group by'),
+  // DODO added 29749076
+  [t('Select by id filter')]: t('Id'),
 };
 
 /**
@@ -483,6 +475,7 @@ const FiltersConfigForm = (
         datasetId: formFilter?.dataset?.value,
         dashboardId,
         groupby: formFilter?.column,
+        groupbyid: formFilter?.columnId, // DODO added 29749076
         ...formFilter,
       });
 
@@ -544,6 +537,7 @@ const FiltersConfigForm = (
   const newFormData = getFormData({
     datasetId,
     groupby: hasColumn ? formFilter?.column : undefined,
+    groupbyid: formFilter?.columnId, // DODO added 29749076
     ...formFilter,
   });
   newFormData.extra_form_data = dependenciesDefaultValues;
