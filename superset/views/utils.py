@@ -186,20 +186,22 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
 
 def get_language() -> str:  # DODO changed #33835937
     user_id = get_user_id()
-    try:
-        user_info = (
-            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
-        )
-        return user_info.language
-    except SQLAlchemyError:
-        logger.warning('Exception when select language from db')
-        return 'ru'
-    except AttributeError:
-        logger.warning(f"User id = {user_id} dont have language in database")
-        return 'ru'
-    except Exception:
-        logger.warning("Error get language ")
-        return 'ru'
+    if user_id:
+        try:
+            user_info = (
+                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+            )
+            return user_info.language
+        except SQLAlchemyError:
+            logger.warning("Exception when select language from db")
+            return "ru"
+        except AttributeError:
+            logger.warning(f"User id = {user_id} dont have language in database")
+            return "ru"
+        except Exception:
+            logger.warning("Error get language ")
+            return "ru"
+    return "ru"
 
 def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 
