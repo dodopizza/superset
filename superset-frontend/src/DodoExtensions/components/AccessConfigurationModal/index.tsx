@@ -96,6 +96,12 @@ const AccessConfigurationModal = ({
     ? `${t('Access')} - ${entityName}`
     : t('Access');
 
+  const handleClose = () => {
+    // reset changes
+    setNewAccessList(prevAccessListRef.current);
+    onHide();
+  };
+
   const handleSave = async () => {
     // removing deleted options, setting isNew to false
     const updatedAccessList = updateAccessList(newAccessList);
@@ -151,13 +157,14 @@ const AccessConfigurationModal = ({
 
   const footer = (
     <>
-      <Button buttonSize="small" onClick={onHide}>
+      <Button buttonSize="small" onClick={handleClose}>
         {t('Cancel')}
       </Button>
       <Button
         buttonSize="small"
         buttonStyle="primary"
         onClick={handleSave}
+        disabled={!userChangesCount && !teamChangesCount && !roleChangesCount}
         // tooltip="Изменение прав доступа будет возможно после создания датасета"
       >
         {t('Save')}
@@ -170,7 +177,7 @@ const AccessConfigurationModal = ({
       show={show}
       title={modalTitle}
       footer={footer}
-      onHide={onHide}
+      onHide={handleClose}
       width="700px"
       responsive
     >
