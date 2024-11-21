@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Maybe, styled, t } from '@superset-ui/core';
 import Modal from 'src/components/Modal';
 import Button from 'src/components/Button';
-import { List, Badge } from 'src/components';
+import { List } from 'src/components';
+import Badge from 'src/components/Badge';
 import Collapse from 'src/components/Collapse';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import {
@@ -32,14 +33,6 @@ import AccessOptionSearch from './components/AccessOptionSearch';
 const StyledCollapse = styled(Collapse)`
   .ant-collapse-content-box {
     padding: 0;
-  }
-`;
-
-const StyledBadge = styled(Badge)`
-  .ant-badge-count {
-    // right: unset;
-    // left: -35px;
-    background-color: ${({ theme }) => theme.colors.primary.base};
   }
 `;
 
@@ -166,7 +159,6 @@ const AccessConfigurationModal = ({
         buttonStyle="primary"
         onClick={handleSave}
         disabled={!userChangesCount && !teamChangesCount && !roleChangesCount}
-        // tooltip="Изменение прав доступа будет возможно после создания датасета"
       >
         {t('Save')}
       </Button>
@@ -187,10 +179,7 @@ const AccessConfigurationModal = ({
           header={`${t('Users with access')} (${users.length})`}
           key="1"
           extra={
-            <StyledBadge
-              count={userChangesCount}
-              title={t('Number of changes')}
-            />
+            <Badge count={userChangesCount} title={t('Number of changes')} />
           }
         >
           <AccessOptionSearch
@@ -228,10 +217,7 @@ const AccessConfigurationModal = ({
           header={`${t('Teams with access')} (${teams.length})`}
           key="2"
           extra={
-            <StyledBadge
-              count={teamChangesCount}
-              title={t('Number of changes')}
-            />
+            <Badge count={teamChangesCount} title={t('Number of changes')} />
           }
         >
           <AccessOptionSearch
@@ -269,10 +255,7 @@ const AccessConfigurationModal = ({
           header={`${t('Roles with access')} (${roles.length})`}
           key="3"
           extra={
-            <StyledBadge
-              count={roleChangesCount}
-              title={t('Number of changes')}
-            />
+            <Badge count={roleChangesCount} title={t('Number of changes')} />
           }
         >
           <AccessOptionSearch

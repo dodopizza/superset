@@ -33,7 +33,6 @@ export { default as AsyncSelect } from './Select/AsyncSelect';
 export {
   AutoComplete,
   Avatar,
-  Badge,
   Col,
   Divider,
   Empty,
