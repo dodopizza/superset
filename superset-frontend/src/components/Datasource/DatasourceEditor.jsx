@@ -41,7 +41,6 @@ import NumberFormatControl from 'src/explore/components/controls/NumberFormatCon
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
-import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
 
 const DatasourceContainer = styled.div`
   .change-warning {
@@ -1016,11 +1015,6 @@ class DatasourceEditor extends React.PureComponent {
             this.onDatasourceChange({ ...datasource, owners: newOwners });
           }}
         />
-        {/* <AccessConfigurationModal
-          entityName={datasource.table_name}
-          accessList={{ users: [], teams: [], roles: [] }}
-          setAccessList={() => {}}
-        /> */}
       </Fieldset>
     );
   }
