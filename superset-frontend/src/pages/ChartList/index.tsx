@@ -54,7 +54,7 @@ import Owner from 'src/types/Owner';
 import { loadTags } from 'src/components/Tags/utils';
 import ChartCard from 'src/features/charts/ChartCard';
 import Tag from 'src/types/TagType';
-import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
 
 const FlexRowContainer = styled.div`
   align-items: center;
@@ -176,9 +176,11 @@ function ChartList(props: ChartListProps) {
     closeChartEditModal,
   } = useChartEditModal(setCharts, charts);
 
+  // DODO added start 39843425
   const [chartToEditAccess, setChartToEditAccess] = useState<Chart | null>(
     null,
   );
+  // DODO added stop 39843425
   const [importingChart, showImportModal] = useState<boolean>(false);
   const [passwordFields, setPasswordFields] = useState<string[]>([]);
   const [preparingExport, setPreparingExport] = useState<boolean>(false);
@@ -472,7 +474,7 @@ function ChartList(props: ChartListProps) {
             );
           const openEditModal = () => openChartEditModal(original);
           const handleExport = () => handleBulkChartExport([original]);
-          const handleEditAccess = () => setChartToEditAccess(original);
+          const handleEditAccess = () => setChartToEditAccess(original); // DODO added 39843425
           if (!canEdit && !canDelete && !canExport) {
             return null;
           }
@@ -541,6 +543,7 @@ function ChartList(props: ChartListProps) {
                   </span>
                 </Tooltip>
               )}
+              {/* DODO added start 39843425 */}
               {canEdit && (
                 <Tooltip
                   id="edit-action-tooltip"
@@ -557,6 +560,7 @@ function ChartList(props: ChartListProps) {
                   </span>
                 </Tooltip>
               )}
+              {/* DODO added stop 39843425 */}
             </StyledActions>
           );
         },
@@ -906,6 +910,7 @@ function ChartList(props: ChartListProps) {
         }
       />
 
+      {/* DODO added start 39843425 */}
       {chartToEditAccess && (
         <AccessConfigurationModal
           entityName={chartToEditAccess?.slice_name}
@@ -915,6 +920,7 @@ function ChartList(props: ChartListProps) {
           onHide={() => setChartToEditAccess(null)}
         />
       )}
+      {/* DODO added stop 39843425 */}
 
       {preparingExport && <Loading />}
     </>

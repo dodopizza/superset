@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, {
   useEffect,
   SetStateAction,
@@ -35,15 +18,15 @@ import {
 } from 'src/features/datasets/AddDataset/types';
 import { Table } from 'src/hooks/apiResources';
 import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
-import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types';
-import Button from 'src/components/Button';
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import Button from 'src/components/Button'; // DODO added 39843425
 
 interface LeftPanelProps {
   setDataset: Dispatch<SetStateAction<object>>;
   dataset?: Partial<DatasetObject> | null;
   datasetNames?: (string | null | undefined)[] | undefined;
-  accessList: AccessList;
-  setAccessList: React.Dispatch<React.SetStateAction<AccessList>>;
+  accessList: AccessList; // DODO added 39843425
+  setAccessList: React.Dispatch<React.SetStateAction<AccessList>>; // DODO added 39843425
 }
 
 const LeftPanelStyle = styled.div`
@@ -131,15 +114,17 @@ export default function LeftPanel({
   setDataset,
   dataset,
   datasetNames,
-  accessList,
-  setAccessList,
+  accessList, // DODO added 39843425
+  setAccessList, // DODO added 39843425
 }: LeftPanelProps) {
   const { addDangerToast } = useToasts();
+  // DODO added start 39843425
   const [showAccessConfiguration, setShowAccessConfiguration] = useState(false);
-  const toggleModal = useCallback(
+  const toggleAccessConfigurationModal = useCallback(
     () => setShowAccessConfiguration(prev => !prev),
     [],
   );
+  // DODO added stop 39843425
 
   const setDatabase = useCallback(
     (db: Partial<DatabaseObject>) => {
@@ -202,10 +187,11 @@ export default function LeftPanel({
         customTableOptionLabelRenderer={customTableOptionLabelRenderer}
         {...(dataset?.schema && { schema: dataset.schema })}
       />
+      {/* DODO added start 39843425 */}
       <Button
         disabled={!dataset?.table_name}
         buttonStyle="tertiary"
-        onClick={toggleModal}
+        onClick={toggleAccessConfigurationModal}
         style={{ marginTop: '1.5rem' }}
       >
         {t('Access configuration')}
@@ -215,8 +201,9 @@ export default function LeftPanel({
         accessList={accessList}
         onSave={setAccessList}
         show={showAccessConfiguration}
-        onHide={toggleModal}
+        onHide={toggleAccessConfigurationModal}
       />
+      {/* DODO added stop 39843425 */}
     </LeftPanelStyle>
   );
 }

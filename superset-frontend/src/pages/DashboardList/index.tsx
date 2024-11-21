@@ -44,7 +44,7 @@ import CertifiedBadge from 'src/components/CertifiedBadge';
 import { loadTags } from 'src/components/Tags/utils';
 import DashboardCard from 'src/features/dashboards/DashboardCard';
 import { DashboardStatus } from 'src/features/dashboards/types';
-import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -134,8 +134,10 @@ function DashboardList(props: DashboardListProps) {
   const [dashboardToEdit, setDashboardToEdit] = useState<Dashboard | null>(
     null,
   );
+  // DODO added start 39843425
   const [dashboardToEditAccess, setDashboardToEditAccess] =
     useState<Dashboard | null>(null);
+  // DODO added stop 39843425
   const [dashboardToDelete, setDashboardToDelete] =
     useState<CRUDDashboard | null>(null);
 
@@ -181,9 +183,11 @@ function DashboardList(props: DashboardListProps) {
   function openDashboardEditModal(dashboard: Dashboard) {
     setDashboardToEdit(dashboard);
   }
+  // DODO added start 39843425
   function openDashboardAccessModal(dashboard: Dashboard) {
     setDashboardToEditAccess(dashboard);
   }
+  // DODO added stop 39843425
 
   function handleDashboardEdit(edits: Dashboard) {
     return SupersetClient.get({
@@ -406,7 +410,7 @@ function DashboardList(props: DashboardListProps) {
             );
           const handleEdit = () => openDashboardEditModal(original);
           const handleExport = () => handleBulkDashboardExport([original]);
-          const handleEditAccess = () => openDashboardAccessModal(original);
+          const handleEditAccess = () => openDashboardAccessModal(original); // DODO added 39843425
 
           return (
             <Actions className="actions">
@@ -471,6 +475,7 @@ function DashboardList(props: DashboardListProps) {
                   </span>
                 </Tooltip>
               )}
+              {/* DODO added start 39843425 */}
               {canEdit && (
                 <Tooltip
                   id="edit-action-tooltip"
@@ -487,6 +492,7 @@ function DashboardList(props: DashboardListProps) {
                   </span>
                 </Tooltip>
               )}
+              {/* DODO added stop 39843425 */}
             </Actions>
           );
         },
@@ -857,6 +863,7 @@ function DashboardList(props: DashboardListProps) {
         }
       />
 
+      {/* DODO added start 39843425 */}
       {dashboardToEditAccess && (
         <AccessConfigurationModal
           entityName={dashboardToEditAccess?.dashboard_title}
@@ -866,6 +873,7 @@ function DashboardList(props: DashboardListProps) {
           onHide={() => setDashboardToEditAccess(null)}
         />
       )}
+      {/* DODO added stop 39843425 */}
 
       {preparingExport && <Loading />}
     </>
