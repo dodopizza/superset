@@ -57,7 +57,8 @@ import {
 } from 'src/features/datasets/constants';
 import DuplicateDatasetModal from 'src/features/datasets/DuplicateDatasetModal';
 import { useSelector } from 'react-redux';
-import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
 
 const SQL_PREVIEW_MAX_LINES = 1;
 
@@ -124,6 +125,7 @@ type Dataset = {
   owners: Array<Owner>;
   schema: string;
   table_name: string;
+  access_list: AccessList; // DODO added 39843425
 };
 
 interface VirtualDataset extends Dataset {
@@ -167,8 +169,10 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   const [datasetCurrentlyEditing, setDatasetCurrentlyEditing] =
     useState<Dataset | null>(null);
 
+  // DODO added start 39843425
   const [datasetAccessCurrentlyEditing, setDatasetAccessCurrentlyEditing] =
     useState<Dataset | null>(null);
+  // DODO added stop 39843425
 
   const [datasetCurrentlyDuplicating, setDatasetCurrentlyDuplicating] =
     useState<VirtualDataset | null>(null);
@@ -247,6 +251,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
     [addDangerToast],
   );
 
+  // DODO added start 39843425
   const openDatasetAccessModal = useCallback(
     ({ id }: Dataset) => {
       SupersetClient.get({
@@ -263,6 +268,25 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
     },
     [addDangerToast],
   );
+  const handleSaveAccessConfiguration = (accessList: AccessList) => {
+    SupersetClient.put({
+      endpoint: `/api/v1/dataset/${datasetAccessCurrentlyEditing!.id}`,
+      jsonPayload: {
+        ...datasetAccessCurrentlyEditing,
+        access_list: accessList,
+      },
+    })
+      .then(() => {
+        addSuccessToast(t('The dataset has been saved'));
+        setDatasetAccessCurrentlyEditing(null);
+      })
+      .catch(() => {
+        addDangerToast(
+          t('An error occurred while saving access configuration'),
+        );
+      });
+  };
+  // DODO added stop 39843425
 
   const openDatasetDeleteModal = (dataset: Dataset) =>
     SupersetClient.get({
@@ -946,16 +970,20 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           setSSHTunnelPrivateKeyPasswordFields
         }
       />
-      {preparingExport && <Loading />}
+
+      {/* DODO added start 39843425 */}
       {datasetAccessCurrentlyEditing && (
         <AccessConfigurationModal
           entityName={datasetAccessCurrentlyEditing?.table_name}
-          accessList={{ users: [], teams: [], roles: [] }}
-          setAccessList={() => {}}
-          show
+          accessList={datasetAccessCurrentlyEditing?.access_list}
+          onSave={handleSaveAccessConfiguration}
           onHide={closeDatasetAccessModal}
+          show
         />
       )}
+      {/* DODO added stop 39843425 */}
+
+      {preparingExport && <Loading />}
     </>
   );
 };

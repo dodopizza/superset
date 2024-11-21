@@ -154,30 +154,16 @@ afterEach(() => {
 const mockFun = jest.fn();
 
 test('should render', async () => {
-  render(
-    <LeftPanel
-      setDataset={mockFun}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
-    />,
-    {
-      useRedux: true,
-    },
-  );
+  render(<LeftPanel setDataset={mockFun} />, {
+    useRedux: true,
+  });
   expect(
     await screen.findByText(/Select database or type to search databases/i),
   ).toBeInTheDocument();
 });
 
 test('should render schema selector, database selector container, and selects', async () => {
-  render(
-    <LeftPanel
-      setDataset={mockFun}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
-    />,
-    { useRedux: true },
-  );
+  render(<LeftPanel setDataset={mockFun} />, { useRedux: true });
 
   expect(
     await screen.findByText(/Select database or type to search databases/i),
@@ -194,14 +180,7 @@ test('should render schema selector, database selector container, and selects', 
 });
 
 test('does not render blank state if there is nothing selected', async () => {
-  render(
-    <LeftPanel
-      setDataset={mockFun}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
-    />,
-    { useRedux: true },
-  );
+  render(<LeftPanel setDataset={mockFun} />, { useRedux: true });
 
   expect(
     await screen.findByText(/Select database or type to search databases/i),
@@ -211,17 +190,9 @@ test('does not render blank state if there is nothing selected', async () => {
 });
 
 test('renders list of options when user clicks on schema', async () => {
-  render(
-    <LeftPanel
-      setDataset={mockFun}
-      dataset={exampleDataset[0]}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
-    />,
-    {
-      useRedux: true,
-    },
-  );
+  render(<LeftPanel setDataset={mockFun} dataset={exampleDataset[0]} />, {
+    useRedux: true,
+  });
 
   // Click 'test-postgres' database to access schemas
   const databaseSelect = screen.getByRole('combobox', {
@@ -241,17 +212,9 @@ test('renders list of options when user clicks on schema', async () => {
 });
 
 test('searches for a table name', async () => {
-  render(
-    <LeftPanel
-      setDataset={mockFun}
-      dataset={exampleDataset[0]}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
-    />,
-    {
-      useRedux: true,
-    },
-  );
+  render(<LeftPanel setDataset={mockFun} dataset={exampleDataset[0]} />, {
+    useRedux: true,
+  });
 
   // Click 'test-postgres' database to access schemas
   const databaseSelect = screen.getByRole('combobox', {
@@ -311,8 +274,6 @@ test('renders a warning icon when a table name has a pre-existing dataset', asyn
       setDataset={mockFun}
       dataset={exampleDataset[0]}
       datasetNames={['Sheet2']}
-      accessList={{ users: [], teams: [], roles: [] }}
-      setAccessList={() => {}}
     />,
     {
       useRedux: true,

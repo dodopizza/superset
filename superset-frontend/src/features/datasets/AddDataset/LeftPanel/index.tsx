@@ -25,8 +25,6 @@ interface LeftPanelProps {
   setDataset: Dispatch<SetStateAction<object>>;
   dataset?: Partial<DatasetObject> | null;
   datasetNames?: (string | null | undefined)[] | undefined;
-  accessList: AccessList; // DODO added 39843425
-  setAccessList: React.Dispatch<React.SetStateAction<AccessList>>; // DODO added 39843425
 }
 
 const LeftPanelStyle = styled.div`
@@ -114,16 +112,20 @@ export default function LeftPanel({
   setDataset,
   dataset,
   datasetNames,
-  accessList, // DODO added 39843425
-  setAccessList, // DODO added 39843425
 }: LeftPanelProps) {
   const { addDangerToast } = useToasts();
+
   // DODO added start 39843425
   const [showAccessConfiguration, setShowAccessConfiguration] = useState(false);
-  const toggleAccessConfigurationModal = useCallback(
-    () => setShowAccessConfiguration(prev => !prev),
-    [],
-  );
+  const toggleAccessConfigurationModal = () =>
+    setShowAccessConfiguration(prev => !prev);
+  const handleSaveAccessList = (accessList: AccessList) => {
+    setDataset({
+      type: DatasetActionType.setAccessList,
+      payload: { accessList },
+    });
+    toggleAccessConfigurationModal();
+  };
   // DODO added stop 39843425
 
   const setDatabase = useCallback(
@@ -198,8 +200,8 @@ export default function LeftPanel({
       </Button>
       <AccessConfigurationModal
         entityName={dataset?.table_name}
-        accessList={accessList}
-        onSave={setAccessList}
+        accessList={dataset?.access_list}
+        onSave={handleSaveAccessList}
         show={showAccessConfiguration}
         onHide={toggleAccessConfigurationModal}
       />

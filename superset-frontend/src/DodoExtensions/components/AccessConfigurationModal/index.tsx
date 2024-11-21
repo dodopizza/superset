@@ -30,6 +30,8 @@ import {
 import AccessOptionItem from './components/AccessOption';
 import AccessOptionSearch from './components/AccessOptionSearch';
 
+const DEFAULT_ACCESS_LIST: AccessList = { users: [], teams: [], roles: [] };
+
 const StyledCollapse = styled(Collapse)`
   .ant-collapse-content-box {
     padding: 0;
@@ -63,7 +65,7 @@ const StyledListItem = styled(List.Item)<{
 
 interface IProps {
   entityName: Maybe<string> | undefined;
-  accessList: AccessList;
+  accessList: AccessList | undefined;
   onSave: (accessList: AccessList) => Promise<void> | void;
   addDangerToast: (value: string) => void;
   show: boolean;
@@ -72,7 +74,7 @@ interface IProps {
 
 const AccessConfigurationModal = ({
   entityName,
-  accessList,
+  accessList = DEFAULT_ACCESS_LIST,
   onSave,
   addDangerToast,
   show,
@@ -104,8 +106,6 @@ const AccessConfigurationModal = ({
     prevAccessListRef.current = updatedAccessList;
 
     await onSave(diminishExtendedAccessList(updatedAccessList));
-
-    onHide();
   };
 
   const addNewAccessOption = (

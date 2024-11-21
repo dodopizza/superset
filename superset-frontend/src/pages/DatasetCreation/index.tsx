@@ -13,7 +13,6 @@ import {
   DSReducerActionType,
 } from 'src/features/datasets/AddDataset/types';
 import DatasetLayout from 'src/features/datasets/DatasetLayout';
-import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
 
 type Schema = {
   schema: string;
@@ -51,6 +50,13 @@ export function datasetReducer(
         ...trimmedState,
         [action.payload.name]: action.payload.value,
       };
+    // DODO added start 39843425
+    case DatasetActionType.setAccessList:
+      return {
+        ...trimmedState,
+        [action.payload.name]: action.payload.value,
+      };
+    // DODO added stop 39843425
     default:
       return null;
   }
@@ -59,15 +65,12 @@ export function datasetReducer(
 const prevUrl =
   '/tablemodelview/list/?pageIndex=0&sortColumn=changed_on_delta_humanized&sortOrder=desc';
 
-const DEFAULT_ACCESS_LIST: AccessList = { users: [], teams: [], roles: [] }; // DODO added 39843425
-
 export default function AddDataset() {
   const [dataset, setDataset] = useReducer<
     Reducer<Partial<DatasetObject> | null, DSReducerActionType>
   >(datasetReducer, null);
   const [hasColumns, setHasColumns] = useState(false);
   const [editPageIsVisible, setEditPageIsVisible] = useState(false);
-  const [accessList, setAccessList] = useState<AccessList>(DEFAULT_ACCESS_LIST); // DODO added 39843425
 
   const { datasets, datasetNames } = useDatasetsList(
     dataset?.db,
@@ -90,8 +93,6 @@ export default function AddDataset() {
       setDataset={setDataset}
       dataset={dataset}
       datasetNames={datasetNames}
-      accessList={accessList} // DODO added 39843425
-      setAccessList={setAccessList} // DODO added 39843425
     />
   );
 
@@ -113,7 +114,6 @@ export default function AddDataset() {
       datasetObject={dataset}
       hasColumns={hasColumns}
       datasets={datasetNames}
-      accessList={accessList} // DODO added 39843425
     />
   );
 

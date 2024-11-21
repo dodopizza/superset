@@ -13,7 +13,6 @@ import {
   LOG_ACTIONS_DATASET_CREATION_TABLE_CANCELLATION,
   LOG_ACTIONS_DATASET_CREATION_SUCCESS,
 } from 'src/logger/LogUtils';
-import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
 import { DatasetObject } from '../types';
 
 interface FooterProps {
@@ -23,7 +22,6 @@ interface FooterProps {
   onDatasetAdd?: (dataset: DatasetObject) => void;
   hasColumns?: boolean;
   datasets?: (string | null | undefined)[] | undefined;
-  accessList: AccessList; // DODO added 39843425
 }
 
 const INPUT_FIELDS = ['db', 'schema', 'table_name'];
@@ -39,7 +37,6 @@ function Footer({
   addDangerToast,
   hasColumns = false,
   datasets,
-  accessList, // DODO added 39843425
 }: FooterProps) {
   const history = useHistory();
   const { createResource } = useSingleViewResource<Partial<DatasetObject>>(
@@ -78,6 +75,7 @@ function Footer({
         database: datasetObject.db?.id,
         schema: datasetObject.schema,
         table_name: datasetObject.table_name,
+        access_list: datasetObject.access_list, // DODO added 39843425
       };
       createResource(data).then(response => {
         if (!response) {
