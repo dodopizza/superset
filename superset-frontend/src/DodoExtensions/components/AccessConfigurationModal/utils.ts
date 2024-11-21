@@ -52,6 +52,24 @@ export const extendAccessList = (
   };
 };
 
+export const diminishExtendedAccessList = (
+  extendedAccessList: ExtendedAccessList,
+): AccessList => {
+  const removeExtendedProps = <T>(
+    item: T & { isDeleted: boolean; isNew: boolean },
+  ): T => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { isDeleted, isNew, ...accessption } = item;
+    return accessption as T;
+  };
+
+  return {
+    users: extendedAccessList.users.map(removeExtendedProps),
+    teams: extendedAccessList.teams.map(removeExtendedProps),
+    roles: extendedAccessList.roles.map(removeExtendedProps),
+  };
+};
+
 export const addToAccessList = (
   accessList: ExtendedAccessList,
   accessOption: ExtendedAccessOption,

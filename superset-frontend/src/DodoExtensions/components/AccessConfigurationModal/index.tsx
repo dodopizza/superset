@@ -24,6 +24,7 @@ import {
   toggleDeletion,
   changePermission,
   getChangesCount,
+  diminishExtendedAccessList,
 } from './utils';
 import AccessOptionItem from './components/AccessOption';
 import AccessOptionSearch from './components/AccessOptionSearch';
@@ -109,7 +110,7 @@ const AccessConfigurationModal = ({
     setNewAccessList(updatedAccessList);
     prevAccessListRef.current = updatedAccessList;
 
-    await onSave(updatedAccessList);
+    await onSave(diminishExtendedAccessList(updatedAccessList));
 
     onHide();
   };
