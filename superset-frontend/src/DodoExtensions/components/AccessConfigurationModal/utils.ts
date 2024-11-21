@@ -59,8 +59,8 @@ export const diminishExtendedAccessList = (
     item: T & { isDeleted: boolean; isNew: boolean },
   ): T => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { isDeleted, isNew, ...accessption } = item;
-    return accessption as T;
+    const { isDeleted, isNew, ...accessOption } = item;
+    return accessOption as T;
   };
 
   return {
