@@ -55,12 +55,12 @@ export const extendAccessList = (
 export const diminishExtendedAccessList = (
   extendedAccessList: ExtendedAccessList,
 ): AccessList => {
-  const removeExtendedProps = <T>(
-    item: T & { isDeleted: boolean; isNew: boolean },
-  ): T => {
+  const removeExtendedProps = <T extends ExtendedAccessOption>(
+    item: T,
+  ): Omit<T, 'isDeleted' | 'isNew'> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isDeleted, isNew, ...accessOption } = item;
-    return accessOption as T;
+    return accessOption;
   };
 
   return {

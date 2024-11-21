@@ -54,7 +54,15 @@ describe('DatasetLayout', () => {
 
   it('renders a LeftPanel when passed in', async () => {
     render(
-      <DatasetLayout leftPanel={<LeftPanel setDataset={() => null} />} />,
+      <DatasetLayout
+        leftPanel={
+          <LeftPanel
+            setDataset={() => null}
+            accessList={{ users: [], teams: [], roles: [] }}
+            setAccessList={() => {}}
+          />
+        }
+      />,
       { useRedux: true },
     );
 
