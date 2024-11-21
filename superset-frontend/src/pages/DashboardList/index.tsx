@@ -44,6 +44,7 @@ import CertifiedBadge from 'src/components/CertifiedBadge';
 import { loadTags } from 'src/components/Tags/utils';
 import DashboardCard from 'src/features/dashboards/DashboardCard';
 import { DashboardStatus } from 'src/features/dashboards/types';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -133,6 +134,8 @@ function DashboardList(props: DashboardListProps) {
   const [dashboardToEdit, setDashboardToEdit] = useState<Dashboard | null>(
     null,
   );
+  const [dashboardToEditAccess, setDashboardToEditAccess] =
+    useState<Dashboard | null>(null);
   const [dashboardToDelete, setDashboardToDelete] =
     useState<CRUDDashboard | null>(null);
 
@@ -177,6 +180,9 @@ function DashboardList(props: DashboardListProps) {
 
   function openDashboardEditModal(dashboard: Dashboard) {
     setDashboardToEdit(dashboard);
+  }
+  function openDashboardAccessModal(dashboard: Dashboard) {
+    setDashboardToEditAccess(dashboard);
   }
 
   function handleDashboardEdit(edits: Dashboard) {
@@ -400,6 +406,7 @@ function DashboardList(props: DashboardListProps) {
             );
           const handleEdit = () => openDashboardEditModal(original);
           const handleExport = () => handleBulkDashboardExport([original]);
+          const handleEditAccess = () => openDashboardAccessModal(original);
 
           return (
             <Actions className="actions">
@@ -461,6 +468,22 @@ function DashboardList(props: DashboardListProps) {
                     onClick={handleEdit}
                   >
                     <Icons.EditAlt data-test="edit-alt" />
+                  </span>
+                </Tooltip>
+              )}
+              {canEdit && (
+                <Tooltip
+                  id="edit-action-tooltip"
+                  title={t('Access configuration')}
+                  placement="bottomRight"
+                >
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="action-button"
+                    onClick={handleEditAccess}
+                  >
+                    <Icons.SettingOutlined />
                   </span>
                 </Tooltip>
               )}
@@ -833,6 +856,16 @@ function DashboardList(props: DashboardListProps) {
           setSSHTunnelPrivateKeyPasswordFields
         }
       />
+
+      {dashboardToEditAccess && (
+        <AccessConfigurationModal
+          entityName={dashboardToEditAccess?.dashboard_title}
+          accessList={{ users: [], teams: [], roles: [] }}
+          setAccessList={() => {}}
+          show
+          onHide={() => setDashboardToEditAccess(null)}
+        />
+      )}
 
       {preparingExport && <Loading />}
     </>

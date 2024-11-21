@@ -54,6 +54,7 @@ import Owner from 'src/types/Owner';
 import { loadTags } from 'src/components/Tags/utils';
 import ChartCard from 'src/features/charts/ChartCard';
 import Tag from 'src/types/TagType';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
 
 const FlexRowContainer = styled.div`
   align-items: center;
@@ -175,6 +176,9 @@ function ChartList(props: ChartListProps) {
     closeChartEditModal,
   } = useChartEditModal(setCharts, charts);
 
+  const [chartToEditAccess, setChartToEditAccess] = useState<Chart | null>(
+    null,
+  );
   const [importingChart, showImportModal] = useState<boolean>(false);
   const [passwordFields, setPasswordFields] = useState<string[]>([]);
   const [preparingExport, setPreparingExport] = useState<boolean>(false);
@@ -468,6 +472,7 @@ function ChartList(props: ChartListProps) {
             );
           const openEditModal = () => openChartEditModal(original);
           const handleExport = () => handleBulkChartExport([original]);
+          const handleEditAccess = () => setChartToEditAccess(original);
           if (!canEdit && !canDelete && !canExport) {
             return null;
           }
@@ -533,6 +538,22 @@ function ChartList(props: ChartListProps) {
                     onClick={openEditModal}
                   >
                     <Icons.EditAlt data-test="edit-alt" />
+                  </span>
+                </Tooltip>
+              )}
+              {canEdit && (
+                <Tooltip
+                  id="edit-action-tooltip"
+                  title={t('Access configuration')}
+                  placement="bottomRight"
+                >
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="action-button"
+                    onClick={handleEditAccess}
+                  >
+                    <Icons.SettingOutlined />
                   </span>
                 </Tooltip>
               )}
@@ -884,6 +905,17 @@ function ChartList(props: ChartListProps) {
           setSSHTunnelPrivateKeyPasswordFields
         }
       />
+
+      {chartToEditAccess && (
+        <AccessConfigurationModal
+          entityName={chartToEditAccess?.slice_name}
+          accessList={{ users: [], teams: [], roles: [] }}
+          setAccessList={() => {}}
+          show
+          onHide={() => setChartToEditAccess(null)}
+        />
+      )}
+
       {preparingExport && <Loading />}
     </>
   );
