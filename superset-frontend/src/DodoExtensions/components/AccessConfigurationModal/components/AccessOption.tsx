@@ -12,7 +12,7 @@ import {
 
 const PERMISSION_OPTIONS: { value: Permission; label: string }[] = [
   { value: Permission.Read, label: t('Reader') },
-  { value: Permission.Write, label: t('Editer') },
+  { value: Permission.Write, label: t('Editor') },
 ];
 
 const AccessOptionWrapper = styled.div`
