@@ -60,19 +60,8 @@ class FilterSetFilter(BaseFilter):  # pylint: disable=too-few-public-methods)
 
 class FilterSetFilterByUser(BaseFilter):  # pylint: disable=too-few-public-methods)
     def apply(self, query: Query, value: Any) -> Query:
-        filter_set_ids_by_dashboard_owners = (  # pylint: disable=C0103
-            query.from_self(FilterSet.id)
-            .join(dashboard_user, FilterSet.owner_id == dashboard_user.c.dashboard_id)
-            .filter(
-                and_(
-                    FilterSet.owner_type == DASHBOARD_OWNER_TYPE
-                )
-            )
-        )
-
         return query.filter(
             and_(
                 FilterSet.user_id == get_user_id(),
-                FilterSet.id.in_(filter_set_ids_by_dashboard_owners),
             )
         )
