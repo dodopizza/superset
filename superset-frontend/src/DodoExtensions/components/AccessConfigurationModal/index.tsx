@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Maybe, styled, t } from '@superset-ui/core';
 import Modal from 'src/components/Modal';
 import Button from 'src/components/Button';
@@ -70,6 +70,7 @@ interface IProps {
   addDangerToast: (value: string) => void;
   show: boolean;
   onHide: () => void;
+  defaultActivePanel?: 'users' | 'teams' | 'roles';
 }
 
 const AccessConfigurationModal = ({
@@ -79,6 +80,7 @@ const AccessConfigurationModal = ({
   addDangerToast,
   show,
   onHide,
+  defaultActivePanel = 'users',
 }: IProps) => {
   const [newAccessList, setNewAccessList] = useState<ExtendedAccessList>(() =>
     extendAccessList(accessList),
@@ -87,6 +89,13 @@ const AccessConfigurationModal = ({
   const { users, teams, roles } = newAccessList;
   const { userChangesCount, teamChangesCount, roleChangesCount } =
     getChangesCount(prevAccessListRef.current, newAccessList);
+
+  // to sync prop and state
+  useEffect(() => {
+    const extendedAccessList = extendAccessList(accessList);
+    setNewAccessList(extendedAccessList);
+    prevAccessListRef.current = extendedAccessList;
+  }, [accessList]);
 
   const modalTitle = entityName
     ? `${t('Access')} - ${entityName}`
@@ -101,10 +110,6 @@ const AccessConfigurationModal = ({
   const handleSave = async () => {
     // removing deleted options, setting isNew to false
     const updatedAccessList = updateAccessList(newAccessList);
-
-    setNewAccessList(updatedAccessList);
-    prevAccessListRef.current = updatedAccessList;
-
     await onSave(diminishExtendedAccessList(updatedAccessList));
   };
 
@@ -174,10 +179,10 @@ const AccessConfigurationModal = ({
       width="700px"
       responsive
     >
-      <StyledCollapse defaultActiveKey="1" accordion>
+      <StyledCollapse defaultActiveKey={defaultActivePanel} accordion>
         <Collapse.Panel
           header={`${t('Users with access')} (${users.length})`}
-          key="1"
+          key="users"
           extra={
             <Badge count={userChangesCount} title={t('Number of changes')} />
           }
@@ -215,7 +220,7 @@ const AccessConfigurationModal = ({
 
         <Collapse.Panel
           header={`${t('Teams with access')} (${teams.length})`}
-          key="2"
+          key="teams"
           extra={
             <Badge count={teamChangesCount} title={t('Number of changes')} />
           }
@@ -253,7 +258,7 @@ const AccessConfigurationModal = ({
 
         <Collapse.Panel
           header={`${t('Roles with access')} (${roles.length})`}
-          key="3"
+          key="roles"
           extra={
             <Badge count={roleChangesCount} title={t('Number of changes')} />
           }

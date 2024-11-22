@@ -122,7 +122,7 @@ export default function LeftPanel({
   const handleSaveAccessList = (accessList: AccessList) => {
     setDataset({
       type: DatasetActionType.setAccessList,
-      payload: { accessList },
+      payload: { name: 'access_list', value: accessList },
     });
     toggleAccessConfigurationModal();
   };
@@ -204,6 +204,7 @@ export default function LeftPanel({
         onSave={handleSaveAccessList}
         show={showAccessConfiguration}
         onHide={toggleAccessConfigurationModal}
+        defaultActivePanel="roles"
       />
       {/* DODO added stop 39843425 */}
     </LeftPanelStyle>

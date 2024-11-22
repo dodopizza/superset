@@ -165,7 +165,7 @@ const AccessOptionItem = ({
   return (
     <AccessOptionWrapper>
       <StyledParagraph>
-        <StyledSpan>{t('Role')}:</StyledSpan> {accessOption.role}
+        <StyledSpan>{t('Role')}:</StyledSpan> {t(accessOption.role)}
       </StyledParagraph>
       <Space direction="horizontal">
         <PermissionSelect

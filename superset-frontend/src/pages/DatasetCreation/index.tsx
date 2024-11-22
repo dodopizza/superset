@@ -13,6 +13,18 @@ import {
   DSReducerActionType,
 } from 'src/features/datasets/AddDataset/types';
 import DatasetLayout from 'src/features/datasets/DatasetLayout';
+import {
+  AccessList,
+  Permission,
+} from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import { Role } from 'src/DodoExtensions/onBoarding/types'; // DODO added 39843425
+
+// DODO added 39843425
+const DEFAULT_ACCESS_LIST: AccessList = {
+  users: [],
+  teams: [],
+  roles: [{ id: 1, role: Role.CreateData, permission: Permission.Write }],
+};
 
 type Schema = {
   schema: string;
@@ -33,6 +45,7 @@ export function datasetReducer(
         ...action.payload,
         schema: null,
         table_name: null,
+        access_list: DEFAULT_ACCESS_LIST, // DODO added 39843425
       };
     case DatasetActionType.selectSchema:
       return {

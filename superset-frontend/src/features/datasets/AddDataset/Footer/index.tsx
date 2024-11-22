@@ -71,6 +71,7 @@ function Footer({
 
   const onSave = () => {
     if (datasetObject) {
+      console.log(datasetObject);
       const data = {
         database: datasetObject.db?.id,
         schema: datasetObject.schema,
