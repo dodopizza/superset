@@ -82,9 +82,7 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
       <Menu.Item onClick={onSetPrimary} disabled={isPrimary}>
         <Tooltip
           placement="right"
-          title={t(
-            'You can set the primary filter set to be applied automatically',
-          )}
+          title={t('The primary set of filters will be applied automatically')}
         >
           {t('Set as primary')}
         </Tooltip>
@@ -154,7 +152,7 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           hovered
           label={t('Set as primary')}
           description={t(
-            'You can set the primary filter set to be applied automatically',
+            'The primary set of filters will be applied automatically',
           )}
           value={isFilterSetPrimary}
           onChange={setIsFilterSetPrimary}
