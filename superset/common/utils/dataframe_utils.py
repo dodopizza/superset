@@ -48,6 +48,7 @@ def left_join_df(
 
 
 def convert_to_time(value):
+    logger.debug(value)
     if value and (isinstance(value, int) or isinstance(value, float)) and not math.isnan(value):
         dt = datetime.datetime.fromtimestamp(value / 1000.0, tz=datetime.timezone.utc) - datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc)
         return (
