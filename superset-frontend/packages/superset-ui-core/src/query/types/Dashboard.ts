@@ -120,7 +120,7 @@ export type PartialFilters = {
 
 export type NativeFiltersState = {
   filters: Filters;
-  filterSets: FilterSets;
+  filterSets: FilterSets | null; // DODO changed 38080573
   focusedFilterId?: string;
   hoveredFilterId?: string;
 };

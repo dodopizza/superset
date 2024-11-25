@@ -48,6 +48,7 @@ import {
   filterCardPopoverStyle,
   headerStyles,
 } from '../styles';
+import { usePrimaryFilterSetDataMask } from '../components/nativeFilters/FilterBar/state'; // DODO added 38080573
 
 export const DashboardPageIdContext = React.createContext('');
 
@@ -146,6 +147,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     idOrSlug,
     userLanguage,
   );
+  const primaryFilterSetDataMask = usePrimaryFilterSetDataMask(); // DODO added 38080573
 
   // DODO changed
   const {
@@ -156,7 +158,6 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;
-  const readyToRender = Boolean(dashboard && charts);
   // DODO changed
   const {
     dashboard_title,
@@ -171,6 +172,10 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const filterSetEnabled =
     isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS_SET) &&
     isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS);
+
+  const readyToRender = Boolean(
+    dashboard && charts && (!filterSetEnabled || primaryFilterSetDataMask), // DODO changed 38080573
+  );
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -195,6 +200,20 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     dispatch(setDatasetsStatus(status));
   }, [dispatch, status]);
 
+  // DODO added start 38080573
+  // Maybe to change way of fetching instead of useEffect, so api /filtersets should accept either id or slug:
+  // const { result: filterSets, error: filterSetsApiError } =
+  //   useDashboardFilterSets(id);
+  useEffect(() => {
+    const fetchFilterSets = () => {
+      if (filterSetEnabled && id && !isDashboardHydrated.current) {
+        dispatch(getFilterSets(id));
+      }
+    };
+    fetchFilterSets();
+  }, [dispatch, filterSetEnabled, id]);
+  // DODO added stop 38080573
+
   useEffect(() => {
     // eslint-disable-next-line consistent-return
     async function getDataMaskApplied() {
@@ -213,6 +232,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
         }
       } else if (nativeFilterKeyValue) {
         dataMask = await getFilterValue(id, nativeFilterKeyValue);
+        // DODO added 38080573
+      } else if (primaryFilterSetDataMask) {
+        dataMask = primaryFilterSetDataMask;
       }
       if (isOldRison) {
         dataMask = isOldRison;
@@ -221,10 +243,11 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       if (readyToRender) {
         if (!isDashboardHydrated.current) {
           isDashboardHydrated.current = true;
-          if (filterSetEnabled) {
-            // only initialize filterset once
-            dispatch(getFilterSets(id));
-          }
+          // DODO commented out 38080573
+          // if (filterSetEnabled) {
+          //   // only initialize filterset once
+          //   dispatch(getFilterSets(id));
+          // }
         }
         dispatch(
           hydrateDashboard({

@@ -77,6 +77,27 @@ export const useNativeFiltersDataMask = () => {
   );
 };
 
+// DODO added start 38080573
+export const usePrimaryFilterSetDataMask = () => {
+  const filterSets = useSelector<RootState, FilterSetsType | null>(
+    state => state.nativeFilters.filterSets,
+  );
+
+  const primaryFilterSet = Object.values(filterSets || {}).find(
+    filterSet => filterSet.isPrimary,
+  );
+
+  return useMemo(() => {
+    if (!filterSets) return null;
+    if (!primaryFilterSet) return {};
+    return Object.values(primaryFilterSet.dataMask).reduce(
+      (prev, next: DataMaskWithId) => ({ ...prev, [next.id]: next }),
+      {},
+    ) as DataMaskStateWithId;
+  }, [filterSets, primaryFilterSet]);
+};
+// DODO added stop 38080573
+
 export const useFilterUpdates = (
   dataMaskSelected: DataMaskState,
   setDataMaskSelected: (arg0: (arg0: DataMaskState) => void) => void,
