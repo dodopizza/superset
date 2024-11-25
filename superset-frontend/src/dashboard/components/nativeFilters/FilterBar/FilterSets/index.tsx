@@ -211,11 +211,12 @@ const FilterSets: React.FC<FilterSetsProps> = ({
         }),
         {},
       ),
-      isPrimary: isFilterSetPrimary,
+      isPrimary: isFilterSetPrimary, // DODO added 38080573
     };
     dispatch(createFilterSet(newFilterSet));
     setEditMode(false);
     setFilterSetName(DEFAULT_FILTER_SET_NAME);
+    setIsFilterSetPrimary(false); // DODO added 38080573
   };
 
   // DODO added start 38080573
