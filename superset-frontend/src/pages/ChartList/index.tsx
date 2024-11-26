@@ -1,4 +1,5 @@
 // DODO was here
+import { bootstrapData } from 'src/preamble'; // DODO added 39843425
 import {
   ensureIsArray,
   FeatureFlag,
@@ -55,6 +56,8 @@ import { loadTags } from 'src/components/Tags/utils';
 import ChartCard from 'src/features/charts/ChartCard';
 import Tag from 'src/types/TagType';
 import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import { getLocalisedSliceName } from 'src/DodoExtensions/explore/utils/getLocalisedSliceName';
 
 const FlexRowContainer = styled.div`
   align-items: center;
@@ -72,6 +75,7 @@ const FlexRowContainer = styled.div`
   }
 `;
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 39843425
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
   'The passwords for the databases below are needed in order to ' +
@@ -249,6 +253,28 @@ function ChartList(props: ChartListProps) {
       ),
     );
   }
+
+  // DODO added start 39843425
+  function handleSaveAccessConfiguration(accessList: AccessList) {
+    SupersetClient.put({
+      endpoint: `/api/v1/chart/${chartToEditAccess!.id}`,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...chartToEditAccess,
+        access_list: accessList,
+      }),
+    })
+      .then(() => {
+        addSuccessToast(t('The access configuration has been saved'));
+        setChartToEditAccess(null);
+      })
+      .catch(() => {
+        addDangerToast(
+          t('An error occurred while saving access configuration'),
+        );
+      });
+  }
+  // DODO added stop 39843425
 
   const fetchDashboards = async (
     filterValue = '',
@@ -913,11 +939,11 @@ function ChartList(props: ChartListProps) {
       {/* DODO added start 39843425 */}
       {chartToEditAccess && (
         <AccessConfigurationModal
-          entityName={chartToEditAccess?.slice_name}
-          accessList={{ users: [], teams: [], roles: [] }}
-          setAccessList={() => {}}
-          show
+          entityName={getLocalisedSliceName(chartToEditAccess, locale)}
+          accessList={chartToEditAccess?.access_list}
+          onSave={handleSaveAccessConfiguration}
           onHide={() => setChartToEditAccess(null)}
+          show
         />
       )}
       {/* DODO added stop 39843425 */}

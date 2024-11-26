@@ -1,4 +1,5 @@
 // DODO was here
+import { bootstrapData } from 'src/preamble'; // DODO added 39843425
 import {
   FeatureFlag,
   isFeatureEnabled,
@@ -45,7 +46,10 @@ import { loadTags } from 'src/components/Tags/utils';
 import DashboardCard from 'src/features/dashboards/DashboardCard';
 import { DashboardStatus } from 'src/features/dashboards/types';
 import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import { getLocalisedTitle } from 'src/DodoExtensions/dashboard/utils/getLocalisedTitle';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 39843425
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
   'The passwords for the databases below are needed in order to ' +
@@ -73,6 +77,7 @@ interface DashboardListProps {
 // DODO added
 interface DashboardDodoExtended {
   dashboard_title_RU: string;
+  access_list?: AccessList;
 }
 
 // DODO changed
@@ -186,6 +191,25 @@ function DashboardList(props: DashboardListProps) {
   // DODO added start 39843425
   function openDashboardAccessModal(dashboard: Dashboard) {
     setDashboardToEditAccess(dashboard);
+  }
+  function handleSaveAccessConfiguration(accessList: AccessList) {
+    SupersetClient.put({
+      endpoint: `/api/v1/dashboard/${dashboardToEditAccess!.id}`,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...dashboardToEditAccess,
+        access_list: accessList,
+      }),
+    })
+      .then(() => {
+        addSuccessToast(t('The access configuration has been saved'));
+        setDashboardToEditAccess(null);
+      })
+      .catch(() => {
+        addDangerToast(
+          t('An error occurred while saving access configuration'),
+        );
+      });
   }
   // DODO added stop 39843425
 
@@ -866,11 +890,11 @@ function DashboardList(props: DashboardListProps) {
       {/* DODO added start 39843425 */}
       {dashboardToEditAccess && (
         <AccessConfigurationModal
-          entityName={dashboardToEditAccess?.dashboard_title}
-          accessList={{ users: [], teams: [], roles: [] }}
-          setAccessList={() => {}}
-          show
+          entityName={getLocalisedTitle(dashboardToEditAccess, locale)}
+          accessList={dashboardToEditAccess?.access_list}
+          onSave={handleSaveAccessConfiguration}
           onHide={() => setDashboardToEditAccess(null)}
+          show
         />
       )}
       {/* DODO added stop 39843425 */}

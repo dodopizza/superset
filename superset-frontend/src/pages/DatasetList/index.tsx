@@ -277,7 +277,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       },
     })
       .then(() => {
-        addSuccessToast(t('The dataset has been saved'));
+        addSuccessToast(t('The access configuration has been saved'));
         setDatasetAccessCurrentlyEditing(null);
       })
       .catch(() => {
