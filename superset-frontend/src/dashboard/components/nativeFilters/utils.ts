@@ -47,6 +47,7 @@ export const getFormData = ({
   dependencies = {},
   groupby,
   groupbyid,
+  selectTopValue, // DODO added 38368947
   defaultDataMask,
   controlValues,
   filterType,
@@ -71,6 +72,7 @@ export const getFormData = ({
     groupby?: string[];
     groupbyid?: string[]; // DODO added 29749076
     sortMetric?: string;
+    select_top_value?: number; // DODO added 38368947
   } = {};
   if (datasetId) {
     otherProps.datasource = `${datasetId}__table`;
@@ -81,6 +83,7 @@ export const getFormData = ({
   // DODO added start 29749076
   if (groupbyid) {
     otherProps.groupbyid = [groupbyid];
+    otherProps.select_top_value = selectTopValue; // DODO added 38368947
   }
   // DODO added stop 29749076
   if (sortMetric) {
