@@ -5,7 +5,7 @@ mysqlclient==2.1.0
 prometheus-client==0.13.1
 psycopg2==2.8.5
 pybigquery==0.5.0
-# pymssql==2.1.5
+pymssql==2.1.5
 python-json-logger==2.0.2
 redis==4.6.0
 typing-extensions==4.9.0
