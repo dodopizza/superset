@@ -45,7 +45,7 @@ export type HandlebarsQueryFormData = QueryFormData &
     page_length?: string | number | null; // null means auto-paginate
     metrics?: QueryFormMetric[] | null;
     percent_metrics?: QueryFormMetric[] | null;
-    timeseries_limit_metric?: QueryFormMetric[] | QueryFormMetric | null;
+    series_limit_metric?: QueryFormMetric[] | QueryFormMetric | null;
     groupby?: QueryFormMetric[] | null;
     all_columns?: QueryFormMetric[] | null;
     order_desc?: boolean;

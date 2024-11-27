@@ -128,7 +128,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
     allowRearrangeColumns = false,
     onContextMenu,
     emitCrossFilters,
-    updateFormData, // DODO added 36195582
+    handleAddToExtraFormData, // DODO added 36195582
     datasourceDescriptions, // DODO added 38403772
   } = props;
 
@@ -370,6 +370,11 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
       // DODO stop fragment
       // DODO added start 38403772
       const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
+      const headerTitle = headerDescription
+        ? undefined
+        : t('Shift + Click to sort by multiple columns');
+      // DODO added stop 38403772
+
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -523,14 +528,15 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
 
           // DODO added start 36195582
           const handleClick = (e: React.MouseEvent<Element>) => {
-            const order = getTableSortOrder(label, col.isSortedDesc);
-            updateFormData({ table_order_by: order });
+            const order = getTableSortOrder(label, sortDesc, col.isSortedDesc);
+            handleAddToExtraFormData({ table_order_by: order });
             if (onClick) onClick(e);
           };
           // DODO added stop 36195582
           return (
             <th
-              title={t('Shift + Click to sort by multiple columns')}
+              // title={t('Shift + Click to sort by multiple columns')}
+              title={headerTitle} // DODO added 38403772
               className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
               style={{
                 ...sharedStyle,

@@ -79,7 +79,7 @@ class MigratePivotTable(MigrateViz):
         "number_format": "valueFormat",
         "pandas_aggfunc": "aggregateFunction",
         "row_limit": "series_limit",
-        "timeseries_limit_metric": "series_limit_metric",
+        "series_limit_metric": "series_limit_metric",
         "transpose_pivot": "transposePivot",
     }
     aggregation_mapping = {

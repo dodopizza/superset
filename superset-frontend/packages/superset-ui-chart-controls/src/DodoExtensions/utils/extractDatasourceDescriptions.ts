@@ -11,7 +11,7 @@ import {
 type Source = Metric | Column | AdhocMetricSimple['column'];
 
 export const extractDatasourceDescriptions = (
-  metrics: QueryFormMetric[], // Chart Metrics
+  queryFormMetrics: QueryFormMetric[], // Chart Metrics
   datasourceMetrics: Metric[],
   datasourceColumns: Column[],
   locale: string,
@@ -60,8 +60,8 @@ export const extractDatasourceDescriptions = (
     if (label) descriptions[label] = description;
   };
 
-  metrics.forEach(metric => {
-    addDescriptionToDictionary(metric);
+  queryFormMetrics.forEach(queryFormMetric => {
+    addDescriptionToDictionary(queryFormMetric);
   });
 
   return descriptions;

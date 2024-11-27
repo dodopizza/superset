@@ -10,6 +10,7 @@ import {
   DataRecordValue,
   GenericDataType,
   NumberFormatter,
+  PlainObject,
   QueryFormData,
   QueryFormMetric,
   QueryMode,
@@ -66,7 +67,7 @@ export type TableChartFormData = QueryFormData & {
   page_length?: string | number | null; // null means auto-paginate
   metrics?: QueryFormMetric[] | null;
   percent_metrics?: QueryFormMetric[] | null;
-  timeseries_limit_metric?: QueryFormMetric[] | QueryFormMetric | null;
+  series_limit_metric?: QueryFormMetric[] | QueryFormMetric | null;
   groupby?: QueryFormMetric[] | null;
   all_columns?: QueryFormMetric[] | null;
   order_desc?: boolean;
@@ -119,7 +120,7 @@ export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
     clientY: number,
     filters?: ContextMenuFilters,
   ) => void;
-  updateFormData: (field: Record<string, any>) => void; // DODO added 36195582
+  handleAddToExtraFormData: (value: PlainObject) => void; // DODO added 36195582
   datasourceDescriptions: Record<string, string>; // DODO added 38403772
 }
 

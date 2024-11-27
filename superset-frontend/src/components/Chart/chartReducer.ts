@@ -111,8 +111,11 @@ export default function chartReducer(
       return { ...state, lastRendered: action.value };
     },
     // DODO added start 36195582
-    [actions.UPDATE_FORM_DATA](state) {
-      return { ...state, form_data: action.value };
+    [actions.ADD_TO_EXTRA_FORM_DATA](state) {
+      return {
+        ...state,
+        extraFormData: { ...(state.extraFormData || {}), ...action.value },
+      };
     },
     // DODO added stop 36195582
     [actions.UPDATE_QUERY_FORM_DATA](state) {

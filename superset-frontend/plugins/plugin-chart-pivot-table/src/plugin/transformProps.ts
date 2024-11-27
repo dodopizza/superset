@@ -176,7 +176,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
   // DODO added stop 38087840
   // DODO added start 38403772
   const datasourceDescriptions = extractDatasourceDescriptions(
-    metrics,
+    [...metrics, ...groupbyRows, ...groupbyColumns],
     datasourceMetrics,
     datasourceColumns,
     locale,

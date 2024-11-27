@@ -28,7 +28,7 @@ export const FORM_DATA_DEFAULTS = {
   adhoc_filters: [],
   groupby: [],
   limit: null,
-  timeseries_limit_metric: null,
+  series_limit_metric: null,
   order_desc: false,
   contribution: false,
 };

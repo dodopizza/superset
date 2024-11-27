@@ -31,7 +31,7 @@ const config: ControlPanelConfig = {
         ['secondary_metric'],
         ['adhoc_filters'],
         ['limit', 'row_limit'],
-        ['timeseries_limit_metric'],
+        ['series_limit_metric'],
         ['order_desc'],
       ],
     },

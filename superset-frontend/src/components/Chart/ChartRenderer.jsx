@@ -114,9 +114,8 @@ class ChartRenderer extends React.Component {
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
       // DODO added start 36195582
-      setFormData: (queryFormData, sliceId) => {
-        this.props.actions?.updateFormData(queryFormData, sliceId);
-        this.props.actions?.updateQueryFormData(queryFormData, sliceId);
+      addToExtraFormData: (value, sliceId) => {
+        this.props.actions?.addToExtraFormData(value, sliceId);
       },
       // DODO added stop 36195582
     };

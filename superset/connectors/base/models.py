@@ -59,7 +59,7 @@ METRIC_FORM_DATA_PARAMS = [
     "percent_metrics",
     "secondary_metric",
     "size",
-    "timeseries_limit_metric",
+    "series_limit_metric",
     "x",
     "y",
 ]

@@ -1,23 +1,19 @@
 type SortOrder = 'asc' | 'desc';
 
 export const getTableSortOrder = (
-  label: string,
-  isSortedDesc: boolean | undefined,
+  label: string, // column label
+  sortDesc: boolean, // order_desc from controlPanel, it affects the order in which the sorting is switched
+  isSortedDesc: boolean | undefined, // sort order of specific column
 ): Record<string, SortOrder> | null => {
-  let order: Record<string, SortOrder> | null = null;
-  // setting the sort order value for the next render after clicking on the cell
-  switch (isSortedDesc) {
-    case undefined:
-      order = { [label]: 'desc' };
-      break;
-    case true:
-      order = { [label]: 'asc' };
-      break;
-    case false:
-      order = null;
-      break;
-    default:
-      order = null;
+  // sort order value is set for the next render after clicking on the cell
+
+  if (isSortedDesc === undefined) {
+    return { [label]: sortDesc ? 'desc' : 'asc' };
   }
-  return order;
+
+  if (isSortedDesc === sortDesc) {
+    return { [label]: sortDesc ? 'asc' : 'desc' };
+  }
+
+  return null;
 };

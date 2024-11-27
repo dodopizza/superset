@@ -32,7 +32,7 @@ const controlsWithoutXAxis: ControlSetRow[] = [
   [contributionModeControl],
   ['adhoc_filters'],
   ['limit'],
-  ['timeseries_limit_metric'],
+  ['series_limit_metric'],
   ['order_desc'],
   ['row_limit'],
   ['truncate_metric'],

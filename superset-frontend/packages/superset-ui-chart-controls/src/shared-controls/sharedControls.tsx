@@ -258,8 +258,8 @@ const order_desc: SharedControlConfig<'CheckboxControl'> = {
   description: t('Whether to sort descending or ascending'),
   visibility: ({ controls }) =>
     Boolean(
-      controls?.timeseries_limit_metric.value &&
-        !isEmpty(controls?.timeseries_limit_metric.value),
+      controls?.series_limit_metric.value &&
+        !isEmpty(controls?.series_limit_metric.value),
     ),
 };
 
@@ -439,7 +439,6 @@ export default {
   time_range,
   row_limit,
   limit,
-  timeseries_limit_metric: dndSortByControl,
   orderby: dndSortByControl,
   order_desc,
   series: dndSeriesControl,

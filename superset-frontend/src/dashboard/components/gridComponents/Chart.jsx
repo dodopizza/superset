@@ -341,10 +341,19 @@ class Chart extends React.Component {
       slice_id: this.props.slice.slice_id,
       is_cached: this.props.isCached,
     });
+    // DODO added start 36195582
+    const extraFormData = this.props.chart.extraFormData || {};
+    const formDataForExport = {
+      ...this.props.formData,
+      ...(isFullCSV && { row_limit: this.props.maxRows }),
+      ...extraFormData,
+    };
+    // DODO added stop 36195582
     exportChart({
-      formData: isFullCSV
-        ? { ...this.props.formData, row_limit: this.props.maxRows }
-        : this.props.formData,
+      // formData: isFullCSV
+      //  ? { ...this.props.formData, row_limit: this.props.maxRows }
+      //  : this.props.formData,
+      formData: formDataForExport, // DODO changed 36195582
       resultType: 'full',
       resultFormat: format,
       force: true,
@@ -352,6 +361,7 @@ class Chart extends React.Component {
       slice: this.props.slice,
       // DODO added
       language: userLanguage,
+      datasourceMetrics: this.props.datasource.metrics, // DODO added 33638561
     });
   }
 
