@@ -6953,6 +6953,12 @@
       "Remove cross-filter": [
         ""
       ],
+      "Set as primary": [
+        ""
+      ],
+      "The primary set of filters will be applied automatically": [
+        ""
+      ],
       "Remove invalid filters": [
         ""
       ],

@@ -39,6 +39,7 @@ export const nativeFiltersInfo: NativeFiltersState = {
       name: 'Set name',
       nativeFilters: {},
       dataMask: mockDataMaskInfo,
+      isPrimary: false,
     },
   },
   filters: {

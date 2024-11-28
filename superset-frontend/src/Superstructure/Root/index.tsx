@@ -497,7 +497,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     );
   }
 
-  const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
+  // const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
 
   const startDashboard = getDefaultDashboard({
     businessId,
@@ -525,7 +525,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                   stylesConfig={stylesConfig}
                   language={userLanguage}
                   isVisible={isVisible}
-                  onNavigate={closeLeftNavigation} // DODO added #33605679
+                  // onNavigate={closeLeftNavigation} // DODO added #33605679
                 />
               )}
               <DashboardComponentWrapper

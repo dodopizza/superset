@@ -46,7 +46,7 @@ export const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 export const hydrateDashboard =
   ({ history, dashboard, charts, dataMask, activeTabs }) =>
   (dispatch, getState) => {
-    const { user, common, dashboardState } = getState();
+    const { user, common, dashboardState, nativeFilters } = getState(); // DODO changed 38080573
     const { metadata, position_data: positionData } = dashboard;
     const regularUrlParams = extractUrlParams('regular');
     const reservedUrlParams = extractUrlParams('reserved');
@@ -289,8 +289,10 @@ export const hydrateDashboard =
       directPathToChild.push(directLinkComponentId);
     }
 
-    const nativeFilters = getInitialNativeFilterState({
+    // DODO changed 38080573
+    const updatedNativeFilters = getInitialNativeFilterState({
       filterConfig: metadata?.native_filter_configuration || [],
+      state: nativeFilters, // DODO added 38080573
     });
 
     if (isFeatureEnabled(FeatureFlag.DASHBOARD_CROSS_FILTERS)) {
@@ -353,7 +355,7 @@ export const hydrateDashboard =
         },
         dataMask,
         dashboardFilters,
-        nativeFilters,
+        nativeFilters: updatedNativeFilters, // DODO changed 38080573
         dashboardState: {
           preselectNativeFilters: getUrlParam(URL_PARAMS.nativeFilters),
           sliceIds: Array.from(sliceIds),

@@ -374,6 +374,7 @@ export default function TableChartDodo<D extends DataRecord = DataRecord>(
         ? undefined
         : t('Shift + Click to sort by multiple columns');
       // DODO added stop 38403772
+
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names

@@ -37,12 +37,16 @@ export type DataMaskState = { [id: string]: DataMask };
 export type DataMaskWithId = { id: string } & DataMask;
 export type DataMaskStateWithId = { [filterId: string]: DataMaskWithId };
 
+type FilterSetDodoExtended = {
+  isPrimary: boolean;
+};
+
 export type FilterSet = {
   id: number;
   name: string;
   nativeFilters: Filters;
   dataMask: DataMaskStateWithId;
-};
+} & FilterSetDodoExtended;
 
 export type FilterSets = {
   [filtersSetId: string]: FilterSet;
@@ -117,7 +121,7 @@ export type PartialFilters = {
 
 export type NativeFiltersState = {
   filters: Filters;
-  filterSets: FilterSets;
+  filterSets: FilterSets | null; // DODO changed 38080573
   focusedFilterId?: string;
   hoveredFilterId?: string;
 };

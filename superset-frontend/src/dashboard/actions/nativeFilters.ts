@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import {
   FilterConfiguration,
@@ -249,6 +232,7 @@ export const getFilterSets =
         ...response.result[i].params,
         id,
         name: response.result[i].name,
+        isPrimary: response.result[i].is_primary, // DODO added 38080573
       })),
     });
   };
@@ -273,17 +257,22 @@ export const createFilterSet =
       type: CREATE_FILTER_SET_BEGIN,
     });
 
-    const serverFilterSet: Omit<FilterSet, 'id' | 'name'> & { name?: string } =
-      {
-        ...filterSet,
-      };
+    // DODO changed 38080573
+    const serverFilterSet: Omit<FilterSet, 'id' | 'name' | 'isPrimary'> & {
+      name?: string;
+      isPrimary?: boolean; // DODO added 38080573
+    } = {
+      ...filterSet,
+    };
 
     delete serverFilterSet.name;
+    delete serverFilterSet.isPrimary; // DODO added 38080573
 
     await postFilterSets({
       name: filterSet.name,
       owner_type: 'Dashboard',
       owner_id: dashboardId,
+      is_primary: filterSet.isPrimary,
       json_metadata: JSON.stringify(serverFilterSet),
     });
 
@@ -309,18 +298,22 @@ export const updateFilterSet =
       type: UPDATE_FILTER_SET_BEGIN,
     });
 
-    const serverFilterSet: Omit<FilterSet, 'id' | 'name'> & {
+    // DODO changed 38080573
+    const serverFilterSet: Omit<FilterSet, 'id' | 'name' | 'isPrimary'> & {
       name?: string;
       id?: number;
+      isPrimary?: boolean; // DODO added 38080573
     } = {
       ...filterSet,
     };
 
     delete serverFilterSet.id;
     delete serverFilterSet.name;
+    delete serverFilterSet.isPrimary; // DODO added 38080573
 
     await postFilterSets({
       name: filterSet.name,
+      is_primary: filterSet.isPrimary, // DODO added 38080573
       json_metadata: JSON.stringify(serverFilterSet),
     });
 

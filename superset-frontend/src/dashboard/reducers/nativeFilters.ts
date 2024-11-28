@@ -64,7 +64,7 @@ export function getInitialState({
     });
     state.filterSets = filterSets;
   } else {
-    state.filterSets = prevState?.filterSets ?? {};
+    state.filterSets = prevState?.filterSets; // DODO changed 38080573
   }
   state.focusedFilterId = undefined;
   return state as NativeFiltersState;
@@ -73,7 +73,7 @@ export function getInitialState({
 export default function nativeFilterReducer(
   state: NativeFiltersState = {
     filters: {},
-    filterSets: {},
+    filterSets: null, // DODO changed 38080573
   },
   action: AnyFilterAction,
 ) {
