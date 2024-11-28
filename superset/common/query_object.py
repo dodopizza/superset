@@ -99,7 +99,6 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
     post_processing: list[dict[str, Any]]
     result_type: ChartDataResultType | None
     row_limit: int | None
-    select_top_value: int | None
     row_offset: int
     series_columns: list[Column]
     series_limit: int
@@ -127,7 +126,6 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         orderby: list[OrderBy] | None = None,
         post_processing: list[dict[str, Any] | None] | None = None,
         row_limit: int | None,
-        select_top_value: int | None,
         row_offset: int | None = None,
         series_columns: list[Column] | None = None,
         series_limit: int = 0,
@@ -150,7 +148,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         self.order_desc = order_desc
         self.orderby = orderby or []
         self._set_post_processing(post_processing)
-        self.row_limit = select_top_value or row_limit
+        self.row_limit = row_limit
         self.row_offset = row_offset or 0
         self._init_series_columns(series_columns, metrics, is_timeseries)
         self.series_limit = series_limit
