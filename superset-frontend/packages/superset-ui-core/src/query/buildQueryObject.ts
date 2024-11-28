@@ -63,7 +63,6 @@ export default function buildQueryObject<T extends QueryFormData>(
     series_columns,
     series_limit,
     series_limit_metric,
-    select_top_value, // DODO added 38368947
     ...residualFormData
   } = formData;
   const {
@@ -115,7 +114,6 @@ export default function buildQueryObject<T extends QueryFormData>(
     metrics,
     orderby,
     annotation_layers,
-    select_top_value, // DODO added 38368947
     row_limit:
       row_limit == null || Number.isNaN(numericRowLimit)
         ? undefined

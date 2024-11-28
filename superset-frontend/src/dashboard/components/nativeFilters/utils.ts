@@ -72,7 +72,6 @@ export const getFormData = ({
     groupby?: string[];
     groupbyid?: string[]; // DODO added 29749076
     sortMetric?: string;
-    select_top_value?: number; // DODO added 38368947
   } = {};
   if (datasetId) {
     otherProps.datasource = `${datasetId}__table`;
@@ -83,7 +82,6 @@ export const getFormData = ({
   // DODO added start 29749076
   if (groupbyid) {
     otherProps.groupbyid = [groupbyid];
-    otherProps.select_top_value = selectTopValue; // DODO added 38368947
   }
   // DODO added stop 29749076
   if (sortMetric) {
@@ -97,7 +95,7 @@ export const getFormData = ({
     extra_form_data: dependencies,
     granularity_sqla,
     metrics: ['count'],
-    row_limit: getDefaultRowLimit(),
+    row_limit: selectTopValue || getDefaultRowLimit(), // DODO changed 38368947
     showSearch: true,
     defaultValue: defaultDataMask?.filterState?.value,
     time_range,
