@@ -11172,6 +11172,12 @@
       "is expected to be an integer": [
         ""
       ],
+      "Not a valid integer": [
+        ""
+      ],
+      "Use it with caution": [
+        ""
+      ],
       "joined": [
         ""
       ],

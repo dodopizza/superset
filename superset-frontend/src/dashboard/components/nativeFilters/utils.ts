@@ -47,6 +47,7 @@ export const getFormData = ({
   dependencies = {},
   groupby,
   groupbyid,
+  selectTopValue, // DODO added 38368947
   defaultDataMask,
   controlValues,
   filterType,
@@ -94,7 +95,7 @@ export const getFormData = ({
     extra_form_data: dependencies,
     granularity_sqla,
     metrics: ['count'],
-    row_limit: getDefaultRowLimit(),
+    row_limit: selectTopValue || getDefaultRowLimit(), // DODO changed 38368947
     showSearch: true,
     defaultValue: defaultDataMask?.filterState?.value,
     time_range,

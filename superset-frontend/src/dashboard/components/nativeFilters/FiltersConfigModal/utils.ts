@@ -113,6 +113,12 @@ export const createHandleSave =
           }
           // DODO added stop 29749076
         }
+        // DODO added start 38368947
+        const selectTopValue =
+          formInputs.columnId && formInputs.selectTopValue
+            ? Number(formInputs.selectTopValue)
+            : undefined;
+        // DODO added stop 38368947
         return {
           id,
           adhoc_filters: formInputs.adhoc_filters,
@@ -132,6 +138,7 @@ export const createHandleSave =
           sortMetric: formInputs.sortMetric,
           type: formInputs.type,
           description: (formInputs.description || '').trim(),
+          selectTopValue, // DODO added 38368947
         };
       });
 
