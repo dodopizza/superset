@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
