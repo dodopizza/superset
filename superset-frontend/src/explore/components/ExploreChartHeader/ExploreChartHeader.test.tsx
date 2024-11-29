@@ -118,6 +118,7 @@ const createProps = (additionalProps = {}) => ({
   canOverwrite: false,
   canDownload: false,
   isStarred: false,
+  hasAccess: true,
   ...additionalProps,
 });
 

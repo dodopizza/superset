@@ -11819,6 +11819,21 @@
       ],
       "An error occurred while saving access configuration": [
         ""
+      ],
+      "Contact the owner for access": [
+        ""
+      ],
+      "I'm requesting access to this dashboard:": [
+        ""
+      ],
+      "I'm requesting access to this chart:": [
+        ""
+      ],
+      "You can copy a prepared message to send to the owner.": [
+        ""
+      ],
+      "The %(entity)s doesn't have an owner.": [
+        ""
       ]
     }
   }

@@ -15,20 +15,20 @@ export const formAccessOptionLabel = (
   option: Omit<AccessOption, 'permission'>,
 ): string => {
   if (isUserAccess(option)) {
-    const teams = option.teams.map(item => item.name).join(', ');
-    return `${option.first_name} ${option.last_name} ${
+    const teams = option.teams?.map(item => item.name).join(', ');
+    return `${option?.first_name} ${option?.last_name} ${
       teams ? `(${teams})` : '(no team)'
-    } ${option.email} (${
-      option.user_info[0]?.country_name?.toUpperCase() || 'no country'
+    } ${option?.email} (${
+      option?.user_info?.[0]?.country_name?.toUpperCase() || 'no country'
     })`;
   }
 
   if (isTeamAccess(option)) {
-    return `${t('Team')}: ${option.team}`;
+    return `${t('Team')}: ${option?.team}`;
   }
 
   if (isRoleAccess(option)) {
-    return `${t('Role')}: ${option.role}`;
+    return `${t('Role')}: ${option?.role}`;
   }
 
   return '';

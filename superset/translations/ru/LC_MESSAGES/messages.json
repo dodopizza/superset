@@ -11259,6 +11259,21 @@
       ],
       "An error occurred while saving access configuration": [
         "При сохранении настроек доступа произошла ошибка"
+      ],
+      "Contact the owner for access": [
+        "Свяжитесь с владельцем, чтобы получить доступ"
+      ],
+      "I'm requesting access to this dashboard:": [
+        "Здравсвтуйте! Прошу дать доступ к данному дашборду:"
+      ],
+      "I'm requesting access to this chart:": [
+        "Здравсвтуйте! Прошу дать доступ к данному графику:"
+      ],
+      "You can copy a prepared message to send to the owner.": [
+        "Вы можете скопировать заготовленное сообщение, чтобы отправить его владельцу."
+      ],
+      "The %(entity)s doesn't have an owner.": [
+        "Данный %(entity)s не имеет владельца."
       ]
     }
   }
