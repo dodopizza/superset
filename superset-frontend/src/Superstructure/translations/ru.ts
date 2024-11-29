@@ -745,6 +745,7 @@ const ru = {
       ],
       'Request Permissions': ['Запросить права доступа'],
       Cancel: ['Отменить'],
+      Create: ['Создать'],
       'Use the edit buttom to change this field': [
         'Используйте кнопку правки для изменения этого поля',
       ],
@@ -2750,10 +2751,10 @@ const ru = {
       'previous calendar month': ['Предыдущий календарный месяц'],
       'previous calendar year': ['Предыдущий календарный год'],
       'No filter': ['Без фильтра'],
-      'All filters (%(filterCount)d)': ['Фильтры (%(filterCount)d)'],
-      'Filter sets (%(filterSetCount)d)': ['Наборы (%(filterSetCount)d)'],
+      'All filters (%(filterCount)d)': ['Все фильтры (%(filterCount)d)'],
+      'Filter sets (%(filterSetCount)d)': ['Сохраненные (%(filterSetCount)d)'],
       'New filter set': ['Новый набор фильтров'],
-      'Create new filter set': ['Сохранить набор фильтров'],
+      'Create new filter set': ['Создать новый набор фильтров'],
       'Filters (%d)': ['Фильтры (%d)'],
       None: ['Пусто'],
       'Enter fullscreen': ['Полноэкранный режим'],
@@ -2866,6 +2867,10 @@ const ru = {
       'Custom (until include)': ['Выбор даты (конец включительно)'],
       'END (INCLUSIVE)': ['КОНЕЦ (ВКЛЮЧИТЕЛЬНО)'],
       'End date include to time range': ['Дата окончания включена в диапазон'],
+      'Set as primary': ['Установить основным'],
+      'The primary set of filters will be applied automatically': [
+        'Основной набор фильтров будет применяться автоматически',
+      ],
     },
   },
 };

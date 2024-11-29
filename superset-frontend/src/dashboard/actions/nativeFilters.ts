@@ -13,6 +13,7 @@ import {
   SET_DATA_MASK_FOR_FILTER_CONFIG_FAIL,
   setDataMaskForFilterConfigComplete,
 } from 'src/dataMask/actions';
+import { API_HANDLER } from 'src/Superstructure/api';
 import { HYDRATE_DASHBOARD } from './hydrate';
 import { dashboardInfoChanged } from './dashboardInfo';
 import { FilterSetFullData } from '../reducers/types';
@@ -208,23 +209,35 @@ export interface SetBootstrapData {
 
 export const getFilterSets =
   (dashboardId: number) => async (dispatch: Dispatch) => {
-    const fetchFilterSets = makeApi<
-      null,
-      {
-        count: number;
-        ids: number[];
-        result: FilterSetFullData[];
+    const fetchFilterSets = async () => {
+      if (process.env.type === undefined) {
+        return makeApi<
+          null,
+          {
+            count: number;
+            ids: number[];
+            result: FilterSetFullData[];
+          }
+        >({
+          method: 'GET',
+          endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
+        })(null);
       }
-    >({
-      method: 'GET',
-      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
-    });
+      return API_HANDLER.SupersetClient({
+        method: 'get',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets`,
+      });
+    };
 
     dispatch({
       type: SET_FILTER_SETS_BEGIN,
     });
 
-    const response = await fetchFilterSets(null);
+    const response: {
+      count: number;
+      ids: number[];
+      result: FilterSetFullData[];
+    } = await fetchFilterSets();
 
     dispatch({
       type: SET_FILTER_SETS_COMPLETE,
@@ -241,17 +254,28 @@ export const createFilterSet =
   (filterSet: Omit<FilterSet, 'id'>) =>
   async (dispatch: Function, getState: () => RootState) => {
     const dashboardId = getState().dashboardInfo.id;
-    const postFilterSets = makeApi<
-      Partial<FilterSetFullData & { json_metadata: any }>,
-      {
-        count: number;
-        ids: number[];
-        result: FilterSetFullData[];
+    const postFilterSets = (
+      data: Partial<FilterSetFullData & { json_metadata: any }>,
+    ) => {
+      if (process.env.type === undefined) {
+        return makeApi<
+          Partial<FilterSetFullData & { json_metadata: any }>,
+          {
+            count: number;
+            ids: number[];
+            result: FilterSetFullData[];
+          }
+        >({
+          method: 'POST',
+          endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
+        })(data);
       }
-    >({
-      method: 'POST',
-      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
-    });
+      return API_HANDLER.SupersetClient({
+        method: 'post',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets`,
+        body: data,
+      });
+    };
 
     dispatch({
       type: CREATE_FILTER_SET_BEGIN,
@@ -286,13 +310,23 @@ export const updateFilterSet =
   (filterSet: FilterSet) =>
   async (dispatch: Function, getState: () => RootState) => {
     const dashboardId = getState().dashboardInfo.id;
-    const postFilterSets = makeApi<
-      Partial<FilterSetFullData & { json_metadata: any }>,
-      {}
-    >({
-      method: 'PUT',
-      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
-    });
+    const postFilterSets = (
+      data: Partial<FilterSetFullData & { json_metadata: any }>,
+    ) => {
+      if (process.env.type === undefined) {
+        return makeApi<Partial<FilterSetFullData & { json_metadata: any }>, {}>(
+          {
+            method: 'PUT',
+            endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
+          },
+        )(data);
+      }
+      return API_HANDLER.SupersetClient({
+        method: 'put',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
+        body: data,
+      });
+    };
 
     dispatch({
       type: UPDATE_FILTER_SET_BEGIN,
@@ -327,16 +361,24 @@ export const deleteFilterSet =
   (filterSetId: number) =>
   async (dispatch: Function, getState: () => RootState) => {
     const dashboardId = getState().dashboardInfo.id;
-    const deleteFilterSets = makeApi<{}, {}>({
-      method: 'DELETE',
-      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
-    });
+    const deleteFilterSets = () => {
+      if (process.env.type === undefined) {
+        return makeApi<{}, {}>({
+          method: 'DELETE',
+          endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
+        })({});
+      }
+      return API_HANDLER.SupersetClient({
+        method: 'delete',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
+      });
+    };
 
     dispatch({
       type: DELETE_FILTER_SET_BEGIN,
     });
 
-    await deleteFilterSets({});
+    await deleteFilterSets();
 
     dispatch({
       type: DELETE_FILTER_SET_COMPLETE,

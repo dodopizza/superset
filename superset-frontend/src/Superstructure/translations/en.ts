@@ -483,6 +483,7 @@ const en = {
       ],
       'Request Permissions': [''],
       Cancel: [''],
+      Create: [''],
       'Use the edit buttom to change this field': [''],
       'Test Connection': [''],
       '[Superset] Access to the datasource %(name)s was granted': [''],
@@ -1910,6 +1911,8 @@ const en = {
       'Custom (until include)': ['Select date (until included)'],
       'END (INCLUSIVE)': [''],
       'End date include to time range': [''],
+      'Set as primary': [''],
+      'The primary set of filters will be applied automatically': [''],
     },
   },
 };
