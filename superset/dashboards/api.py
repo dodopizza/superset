@@ -86,6 +86,7 @@ from superset.models.embedded_dashboard import EmbeddedDashboard
 from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.utils.cache import etag_cache
+from superset.utils.pyroscope_utils import profile_route
 from superset.utils.screenshots import DashboardScreenshot
 from superset.utils.urls import get_url_path
 from superset.views.base import generate_download_headers
@@ -293,7 +294,8 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             self.appbuilder.app.config["VERSION_STRING"],
             self.appbuilder.app.config["VERSION_SHA"],
         )
-
+    
+    @profile_route("dashboard.get")
     @expose("/<id_or_slug>", methods=("GET",))
     @protect()
     @etag_cache(
@@ -354,6 +356,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         )
         return self.response(200, result=result)
 
+    @profile_route("dashboard.get_datasets")
     @expose("/<id_or_slug>/datasets", methods=("GET",))
     @protect()
     @etag_cache(
@@ -453,6 +456,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         except DashboardNotFoundError:
             return self.response_404()
 
+    @profile_route("dashboard.get_charts")
     @expose("/<id_or_slug>/charts", methods=("GET",))
     @protect()
     @etag_cache(
@@ -575,6 +579,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         except DashboardNotFoundError:
             return self.response_404()
 
+    @profile_route("dashboard.post")
     @expose("/", methods=("POST",))
     @protect()
     @safe
