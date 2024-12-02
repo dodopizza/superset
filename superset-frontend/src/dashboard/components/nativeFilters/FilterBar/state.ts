@@ -96,6 +96,11 @@ export const usePrimaryFilterSetDataMask = () => {
     ) as DataMaskStateWithId;
   }, [filterSets, primaryFilterSet]);
 };
+
+export const useFilterSetInPending = () =>
+  useSelector<any, number | undefined>(
+    state => state.nativeFilters.filterSetInPending,
+  );
 // DODO added stop 38080573
 
 export const useFilterUpdates = (

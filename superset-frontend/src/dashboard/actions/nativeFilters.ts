@@ -57,6 +57,7 @@ export interface SetFilterSetsFail {
 export const CREATE_FILTER_SET_BEGIN = 'CREATE_FILTER_SET_BEGIN';
 export interface CreateFilterSetBegin {
   type: typeof CREATE_FILTER_SET_BEGIN;
+  id: number;
 }
 export const CREATE_FILTER_SET_COMPLETE = 'CREATE_FILTER_SET_COMPLETE';
 export interface CreateFilterSetComplete {
@@ -71,6 +72,7 @@ export interface CreateFilterSetFail {
 export const DELETE_FILTER_SET_BEGIN = 'DELETE_FILTER_SET_BEGIN';
 export interface DeleteFilterSetBegin {
   type: typeof DELETE_FILTER_SET_BEGIN;
+  id: number;
 }
 export const DELETE_FILTER_SET_COMPLETE = 'DELETE_FILTER_SET_COMPLETE';
 export interface DeleteFilterSetComplete {
@@ -85,6 +87,7 @@ export interface DeleteFilterSetFail {
 export const UPDATE_FILTER_SET_BEGIN = 'UPDATE_FILTER_SET_BEGIN';
 export interface UpdateFilterSetBegin {
   type: typeof UPDATE_FILTER_SET_BEGIN;
+  id: number;
 }
 export const UPDATE_FILTER_SET_COMPLETE = 'UPDATE_FILTER_SET_COMPLETE';
 export interface UpdateFilterSetComplete {
@@ -279,6 +282,7 @@ export const createFilterSet =
 
     dispatch({
       type: CREATE_FILTER_SET_BEGIN,
+      id: -1, // -1 means the new filter set is being created
     });
 
     // DODO changed 38080573
@@ -330,6 +334,7 @@ export const updateFilterSet =
 
     dispatch({
       type: UPDATE_FILTER_SET_BEGIN,
+      id: filterSet.id,
     });
 
     // DODO changed 38080573
@@ -376,6 +381,7 @@ export const deleteFilterSet =
 
     dispatch({
       type: DELETE_FILTER_SET_BEGIN,
+      id: filterSetId,
     });
 
     await deleteFilterSets();

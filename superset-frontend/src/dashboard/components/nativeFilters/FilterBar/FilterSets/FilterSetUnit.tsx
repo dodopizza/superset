@@ -14,6 +14,7 @@ import Icons from 'src/components/Icons';
 import Button from 'src/components/Button';
 import { Tooltip } from 'src/components/Tooltip';
 import CheckboxControl from 'src/explore/components/controls/CheckboxControl';
+import Loading from 'src/components/Loading'; // DODO added 38080573
 import FiltersHeader from './FiltersHeader';
 import { getFilterBarTestId } from '../utils';
 
@@ -42,6 +43,7 @@ type FilterSetUnitPropsExtendedDodo = {
   isPrimary?: boolean;
   isFilterSetPrimary?: boolean;
   setIsFilterSetPrimary?: (value: boolean) => void;
+  isInPending?: boolean;
 };
 
 export type FilterSetUnitProps = {
@@ -71,6 +73,7 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
   onSetPrimary,
   isFilterSetPrimary,
   setIsFilterSetPrimary,
+  isInPending,
   // DODO added stop 38080573
 }) => {
   const theme = useTheme();
@@ -101,6 +104,9 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
 
   return (
     <>
+      {/* DODO added 38080573 */}
+      {isInPending && <Loading />}
+
       <TitleText>
         <Typography.Text
           strong

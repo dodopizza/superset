@@ -20,7 +20,12 @@ import {
 } from 'src/dashboard/actions/nativeFilters';
 import { areObjectsEqual } from 'src/reduxUtils';
 import { findExistingFilterSet } from './utils';
-import { useFilters, useNativeFiltersDataMask, useFilterSets } from '../state';
+import {
+  useFilters,
+  useNativeFiltersDataMask,
+  useFilterSets,
+  useFilterSetInPending,
+} from '../state';
 import Footer from './Footer';
 import FilterSetUnit from './FilterSetUnit';
 import { getFilterBarTestId } from '../utils';
@@ -47,6 +52,7 @@ const FilterSetUnitWrapper = styled.div<{
   'data-selected'?: boolean;
 }>`
   ${({ theme, 'data-selected': selected, onClick }) => `
+    position: relative;
     display: grid;
     align-items: center;
     justify-content: center;
@@ -71,6 +77,7 @@ export type FilterSetsProps = {
 };
 
 const DEFAULT_FILTER_SET_NAME = t('New filter set');
+const FILTER_SET_ID_TO_BE_CREATED = -1; // DODO added 38080573
 
 const FilterSets: React.FC<FilterSetsProps> = ({
   dataMaskSelected,
@@ -85,6 +92,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
   const [editMode, setEditMode] = useState(false);
   const dataMaskApplied = useNativeFiltersDataMask();
   const filterSets = useFilterSets();
+  const filterSetInPending = useFilterSetInPending(); // DODO added 38080573
   const filterSetFilterValues = Object.values(filterSets);
   const filters = useFilters();
   const filterValues = Object.values(filters) as Filter[];
@@ -237,6 +245,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
             filterSetName={filterSetName}
             isFilterSetPrimary={isFilterSetPrimary} // DODO added 38080573
             setIsFilterSetPrimary={setIsFilterSetPrimary} // DODO added 38080573
+            isInPending={filterSetInPending === FILTER_SET_ID_TO_BE_CREATED} // DODO added 38080573
           />
           <Footer
             filterSetName={filterSetName.trim()}
@@ -260,6 +269,7 @@ const FilterSets: React.FC<FilterSetsProps> = ({
           key={filterSet.id}
         >
           <FilterSetUnit
+            isInPending={filterSet.id === filterSetInPending} // DODO added 38080573
             isApplied={filterSet.id === selectedFiltersSetId && !disabled}
             isPrimary={filterSet.isPrimary} // DODO added 38080573
             onSetPrimary={() => handleSetPrimary(filterSet)} // DODO added 38080573

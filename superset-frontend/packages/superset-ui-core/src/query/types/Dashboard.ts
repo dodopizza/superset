@@ -124,6 +124,7 @@ export type NativeFiltersState = {
   filterSets: FilterSets | null; // DODO changed 38080573
   focusedFilterId?: string;
   hoveredFilterId?: string;
+  filterSetInPending?: number;
 };
 
 export type DashboardComponentMetadata = {
