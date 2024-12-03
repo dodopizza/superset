@@ -67,7 +67,7 @@ from superset.superset_typing import (
     VizData,
     VizPayload,
 )
-from superset.utils import core as utils, csv
+from superset.utils import core as utils, csv, excel
 from superset.utils.cache import set_and_log_cache
 from superset.utils.core import (
     apply_max_row_limit,
@@ -695,7 +695,7 @@ class BaseViz:  # pylint: disable=too-many-public-methods
             for column_df in df.columns:
                 df.rename(columns={column_df: mt_cl.get(column_df) or column_df},
                           inplace=True)
-        return csv.df_to_escaped_xlsx(df)
+        return excel.df_to_excel(df)
 
     @deprecated(deprecated_in="3.0")
     def get_data(self, df: pd.DataFrame) -> VizData:  # pylint: disable=no-self-use

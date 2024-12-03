@@ -416,6 +416,7 @@ class ChartDataRestApi(ChartRestApi):
 
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
+            
             exportAsTime = form_data.get('exportAsTime')
             column_config = form_data.get('column_config')
             table_order_by = form_data.get('table_order_by')
@@ -425,9 +426,6 @@ class ChartDataRestApi(ChartRestApi):
                     logger.warning("user doesnt have permission to export XLSX file",
                                    g.user)
                     return self.response_403()
-
-                if not result["queries"]:
-                    return self.response_400(_("Empty query result"))
 
                 if list_of_data := result["queries"]:
                     df = pd.DataFrame()
@@ -487,8 +485,6 @@ class ChartDataRestApi(ChartRestApi):
                                    g.user)
                     return self.response_403()
 
-                if not result["queries"]:
-                    return self.response_400(_("Empty query result"))
                 if list_of_data := result["queries"]:
                     df = pd.DataFrame()
                     for data in list_of_data:

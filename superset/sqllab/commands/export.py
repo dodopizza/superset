@@ -31,7 +31,7 @@ from superset.exceptions import SupersetErrorException, SupersetSecurityExceptio
 from superset.models.sql_lab import Query
 from superset.sql_parse import ParsedQuery
 from superset.sqllab.limiting_factor import LimitingFactor
-from superset.utils import core as utils, csv
+from superset.utils import core as utils, csv, excel
 from superset.views.utils import _deserialize_results_payload
 
 config = app.config
@@ -94,7 +94,7 @@ class SqlResultExportCommand(BaseCommand):
         blob = None
         if results_backend and self._query.results_key:
             logger.info(
-                "Fetching CSV from results backend [%s]", self._query.results_key
+                "Fetching %s from results backend [%s]", self.result_format, self._query.results_key
             )
             blob = results_backend.get(self._query.results_key)
         if blob:
@@ -112,9 +112,9 @@ class SqlResultExportCommand(BaseCommand):
                 columns=[c["name"] for c in obj["columns"]],
             )
 
-            logger.info("Using pandas to convert to CSV")
+            logger.info("Using pandas to convert to %s format", self.result_format)
         else:
-            logger.info("Running a query to turn into CSV")
+            logger.info("Running a query to turn into %s", self.result_format)
             if self._query.select_sql:
                 sql = self._query.select_sql
                 limit = None
@@ -129,13 +129,16 @@ class SqlResultExportCommand(BaseCommand):
                 # remove extra row from `increased_limit`
                 limit -= 1
             df = self._query.database.get_df(sql, self._query.schema)[:limit]
+
         if self.result_format == ChartDataResultFormat.XLSX:
-            xlsx_data = csv.df_to_escaped_xlsx(df)
-            return xlsx_data
-        csv_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"], from_sqllab=True)
+            data = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
+        elif self.result_format == ChartDataResultFormat.CSV:   
+            data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"], from_sqllab=True)
+        else:
+            raise ValueError(f"Unsupported result format: {self.result_format}")
 
         return {
             "query": self._query,
             "count": len(df.index),
-            "data": csv_data,
+            "data": data,
         }

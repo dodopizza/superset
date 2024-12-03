@@ -58,7 +58,7 @@ from superset.sqllab.sqllab_execution_context import SqlJsonExecutionContext
 from superset.sqllab.validators import CanAccessQueryValidatorImpl
 from superset.superset_typing import FlaskResponse
 from superset.utils import core as utils
-from superset.views.base import CsvResponse, generate_download_headers, json_success
+from superset.views.base import CsvResponse, XlsxResponse, generate_download_headers, json_success
 from superset.views.base_api import BaseSupersetApi, requires_json, statsd_metrics
 
 config = app.config
@@ -141,26 +141,35 @@ class SqlLabRestApi(BaseSupersetApi):
     @statsd_metrics
     @event_logger.log_this_with_context(
         action=lambda self, *args, **kwargs: f"{self.__class__.__name__}"
-        f".export_csv",
+        f".export_data",
         log_to_statsd=False,
     )
-    def export_csv(self, client_id: str) -> Union[CsvResponse, Response]:
-        """Exports the SQL query results to a CSV
+    def export_data(self, client_id: str) -> Union[CsvResponse, XlsxResponse]:
+        """Exports the SQL query results to a CSV or Excel file
         ---
         get:
           summary: >-
-            Exports the SQL query results to a CSV
+            Exports the SQL query results to a CSV or Excel file
           parameters:
           - in: path
             schema:
               type: integer
             name: client_id
             description: The SQL query result identifier
+          - in: query
+            name: result_format
+            schema:
+              type: string
+              enum: [csv, xlsx]
+            description: The output format (csv or xlsx)
           responses:
             200:
               description: SQL query results
               content:
                 text/csv:
+                  schema:
+                    type: string
+                application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
                   schema:
                     type: string
             400:
@@ -176,19 +185,22 @@ class SqlLabRestApi(BaseSupersetApi):
         """
         result_format = request.args.get('result_format')
         result = SqlResultExportCommand(client_id=client_id, result_format=result_format).run()
-        if result_format == ChartDataResultFormat.XLSX:
-            return send_file(path_or_file=result,
-                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                             as_attachment=True,
-                             download_name="data.xlsx"
-                             )
-
         query, data, row_count = result["query"], result["data"], result["count"]
+        quoted_name = parse.quote(query.name)
 
-        quoted_csv_name = parse.quote(query.name)
-        response = CsvResponse(
-            data, headers=generate_download_headers("csv", quoted_csv_name)
-        )
+        if result_format == ChartDataResultFormat.XLSX:
+            response = XlsxResponse(
+                data,
+                headers=generate_download_headers("xlsx", quoted_name)
+            )
+            event_format = "xlsx"
+        else:
+            response = CsvResponse(
+                data,
+                headers=generate_download_headers("csv", quoted_name)
+            )
+            event_format = "csv"
+
         event_info = {
             "event_type": "data_export",
             "client_id": client_id,
@@ -196,11 +208,11 @@ class SqlLabRestApi(BaseSupersetApi):
             "database": query.database.name,
             "schema": query.schema,
             "sql": query.sql,
-            "exported_format": "csv",
+            "exported_format": event_format,
         }
         event_rep = repr(event_info)
         logger.debug(
-            "CSV exported: %s", event_rep, extra={"superset_event": event_info}
+            "Data exported: %s", event_rep, extra={"superset_event": event_info}
         )
         return response
 
