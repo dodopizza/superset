@@ -118,10 +118,11 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
     def configure_pyroscope(self) -> None:
         application_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "superset")
-        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "https://pyroscope.l.yandex.dodois.dev:4040")
+        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.pyroscope.svc.cluster.local:4040")
         pyroscope.configure(
             application_name=application_name,
             server_address=server_addr,
+            enable_logging=True
         )
 
         # Настройка OpenTelemetry
