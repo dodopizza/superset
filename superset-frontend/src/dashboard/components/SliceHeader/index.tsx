@@ -24,6 +24,7 @@ import {
   LanguageIndicatorWrapper,
   LanguageIndicator,
 } from 'src/DodoExtensions/Common/index';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 38403772
 
 type SliceHeaderProps = SliceHeaderControlsProps & {
   innerRef?: string;
@@ -43,6 +44,7 @@ type SliceHeaderProps = SliceHeaderControlsProps & {
   height: number;
   // DODO added
   userLanguage: string;
+  metricDescription?: string; // DODO added 38403772
 };
 
 const annotationsLoading = t('Annotation layers are still loading.');
@@ -159,6 +161,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   height,
   // DODO added
   userLanguage,
+  metricDescription, // DODO added 38403772
 }) => {
   const uiConfig = useUiConfig();
   const dashboardPageId = useContext(DashboardPageIdContext);
@@ -240,6 +243,15 @@ const SliceHeader: FC<SliceHeaderProps> = ({
               </Tooltip>
             </LanguageIndicatorWrapper>
           </>
+        )}
+
+        {/* DODO added 38403772 */}
+        {!editMode && metricDescription && (
+          <InfoTooltipWithTrigger
+            tooltip={metricDescription}
+            placement="topLeft"
+            iconsStyle={{ marginRight: '2px', marginTop: '4px' }}
+          />
         )}
 
         {/* DODO added */}
