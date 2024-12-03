@@ -122,7 +122,6 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         pyroscope.configure(
             application_name=application_name,
             server_address=server_addr,
-            enable_logging=True
         )
 
         # Настройка OpenTelemetry
