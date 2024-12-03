@@ -132,10 +132,11 @@ class SqlResultExportCommand(BaseCommand):
 
         if self.result_format == ChartDataResultFormat.XLSX:
             data = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
-        elif self.result_format == ChartDataResultFormat.CSV:   
-            data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"], from_sqllab=True)
+        # elif self.result_format == ChartDataResultFormat.CSV:   
+        #     data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"], from_sqllab=True)
         else:
-            raise ValueError(f"Unsupported result format: {self.result_format}")
+            data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"], from_sqllab=True)
+            # raise ValueError(f"Unsupported result format: {self.result_format}")
 
         return {
             "query": self._query,

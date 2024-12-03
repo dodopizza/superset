@@ -47,7 +47,7 @@ def df_to_excel(df: pd.DataFrame, **kwargs: Any) -> Any:
     df = quote_formulas(df)
 
     # remove timezones from datetime columns
-    for col in df.select_dtypes(include=['datetime64[ns, UTC]', 'datetime64[ns, tzinfo]']).columns:
+    for col in df.select_dtypes(include=['datetimetz']).columns:
         df[col] = df[col].dt.tz_localize(None)
 
     # pylint: disable=abstract-class-instantiated
