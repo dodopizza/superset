@@ -389,7 +389,7 @@ class ChartDataRestApi(ChartRestApi):
                 logger.warning("user doesnt have permission to export file", g.user)
                 return self.response_403()
 
-            if not (list_of_data := result["queries"]):
+            if not (result_queries := result["queries"]):
                 return self.response_400(_("Empty query result"))
 
             export_as_time = form_data.get("exportAsTime")
@@ -397,10 +397,10 @@ class ChartDataRestApi(ChartRestApi):
             table_order_by = form_data.get("table_order_by")
 
             df = pd.DataFrame()
-            for data in list_of_data:
+            for query in result_queries:
                 try:
                     # return query results xlsx format
-                    new_df = delete_tz_from_df(data)
+                    new_df = delete_tz_from_df(query)
                     keys_of_new_df = new_df.keys()
                     exist_df = df.keys()
                     for key in keys_of_new_df:
@@ -442,10 +442,12 @@ class ChartDataRestApi(ChartRestApi):
                     if v == "asc":
                         df = df.sort_values(by=[k], ascending=True)
 
-            if len(list_of_data) == 1:
+            if len(result_queries) == 1:
                 if result_format == ChartDataResultFormat.XLSX:
-                    data = excel.df_to_excel(df, **current_app.config["XLSX_EXPORT"])
-                    return XlsxResponse(data, headers=generate_download_headers("xlsx"))
+                    return XlsxResponse(
+                        excel.df_to_excel(df, **current_app.config["XLSX_EXPORT"]),
+                        headers=generate_download_headers("xlsx"),
+                    )
 
                 if result_format == ChartDataResultFormat.CSV:
                     return CsvResponse(
@@ -461,7 +463,7 @@ class ChartDataRestApi(ChartRestApi):
 
             files = {
                 f"query_{idx + 1}.{result_format}": _process_data(query["data"])
-                for idx, query in enumerate(result["queries"])
+                for idx, query in enumerate(result_queries)
             }
             return Response(
                 create_zip(files),
