@@ -9,7 +9,7 @@ import ColumnConfigPopover, {
   ColumnConfigPopoverProps,
 } from './ColumnConfigPopover';
 
-// DODO added 41390650
+// DODO added start 41390650
 const InfoIcon = styled(Icons.InfoCircleOutlined)`
   ${({ theme }) => css`
     &.anticon {
@@ -23,6 +23,15 @@ const InfoIcon = styled(Icons.InfoCircleOutlined)`
     }
   `}
 `;
+
+const ColumnLabel = styled.span`
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+`;
+// DODO added stop 41390650
 
 export type ColumnConfigItemProps = ColumnConfigPopoverProps;
 
@@ -75,7 +84,7 @@ export default React.memo(function ColumnConfigItem({
         }}
       >
         <ColumnTypeLabel type={column.type} />
-        {column.name}
+        <ColumnLabel>{column.name}</ColumnLabel>
         {/* DODO added 41390650 */}
         {hasExportAsTime && (
           <Tooltip
