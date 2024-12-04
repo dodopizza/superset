@@ -124,9 +124,12 @@ const columnConfig = {
         ['d3NumberFormat'],
         ['d3SmallNumberFormat'],
         ['currencyFormat'],
-        // DODO added 33638561
-        ['exportAsTime'],
       ],
+    },
+    // DODO added 33638561
+    {
+      tab: 'Export',
+      children: [['exportAsTime']],
     },
   ],
   '1': [
@@ -555,8 +558,7 @@ const config: ControlPanelConfig = {
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
               width: 400,
-              // height: 320, //DODO commented 34122445
-              height: 370, // DODO added 34122445
+              height: 347, // DODO added 34122445
               renderTrigger: true,
               configFormLayout: columnConfig, // DODO added 34122445
               shouldMapStateToProps() {

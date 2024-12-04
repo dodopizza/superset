@@ -2597,6 +2597,9 @@
       "Export as time": [
         "Экспортировать как величину времени"
       ],
+      "This metric will be exported as time": [
+        "Данная мера будет экспортирована как величина времени"
+      ],
       "Export a numeric value as number of days": [
         "Экспорт числового значения в виде количества дней"
       ],
