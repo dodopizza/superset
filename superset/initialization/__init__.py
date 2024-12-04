@@ -118,18 +118,18 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
     def configure_pyroscope(self) -> None:
         application_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "superset")
-        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.pyroscope.svc.cluster.local:4040")
+        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.infra-monitoring.svc.cluster.local:4040")
         pyroscope.configure(
             application_name=application_name,
             server_address=server_addr,
         )
 
         # Настройка OpenTelemetry
-        # provider = TracerProvider()
-        # provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
-        # provider.add_span_processor(PyroscopeSpanProcessor())  # Интеграция с Pyroscope
-        # trace.set_tracer_provider(provider)
-        # FlaskInstrumentor().instrument_app(self.superset_app)
+        provider = TracerProvider()
+        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+        provider.add_span_processor(PyroscopeSpanProcessor())  # Интеграция с Pyroscope
+        trace.set_tracer_provider(provider)
+        FlaskInstrumentor().instrument_app(self.superset_app)
 
     def init_views(self) -> None:
         #
