@@ -72,10 +72,13 @@ def df_to_escaped_csv(df: pd.DataFrame, **kwargs: Any) -> Any:
     df = df.rename(columns=escape_values)
 
     # Escape csv values
-    if kwargs.get("from_sqllab"):
-        kwargs.pop("from_sqllab")
-        return df.to_csv(**kwargs)
-    return df.to_dict(orient="records")
+    for name, column in df.items():
+        if column.dtype == np.dtype(object):
+            for idx, value in enumerate(column.values):
+                if isinstance(value, str):
+                    df.at[idx, name] = escape_value(value)
+
+    return df.to_csv(**kwargs)
 
 
 def get_chart_csv_data(

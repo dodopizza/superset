@@ -32,7 +32,7 @@ from collections import defaultdict, OrderedDict
 from datetime import datetime, timedelta
 from io import BytesIO
 from itertools import product
-from typing import Any, cast, Optional, TYPE_CHECKING
+from typing import Any, Union, cast, Optional, TYPE_CHECKING
 
 import geohash
 import numpy as np
@@ -48,7 +48,6 @@ from pandas.tseries.frequencies import to_offset
 
 from superset import app
 from superset.common.db_query_status import QueryStatus
-from superset.common.utils.dataframe_utils import delete_tz_from_df
 from superset.constants import NULL_STRING
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import (
@@ -676,29 +675,31 @@ class BaseViz:  # pylint: disable=too-many-public-methods
         return content
 
     @deprecated(deprecated_in="3.0")
-    def get_csv(self, mt_cl: dict = None) -> Optional[str, BytesIO]:
-        df = self.get_df_payload()["df"]  # leverage caching logic
-        list_of_data = csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
-        if list_of_data:
-            df = pd.DataFrame(list_of_data)
-            if mt_cl:
-                for column_df in df.columns:
-                    df.rename(
-                        columns={column_df: mt_cl.get(column_df) or column_df},
-                        inplace=True,
-                    )
-            config_csv = config["CSV_EXPORT"]
-            return df.to_csv(**config_csv)
+    def get_csv(self, mt_cl: dict = None) -> Optional[str]:
+        df = self.get_df_payload().get("df")  # leverage caching logic
+        if not df:
+            return
+        
+        if mt_cl:
+            for column_df in df.columns:
+                df.rename(
+                    columns={column_df: mt_cl.get(column_df) or column_df},
+                    inplace=True,
+                )
+        return csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
 
     def get_xlsx(self, mt_cl: dict = None) -> BytesIO:
-        d = self.get_df_payload()
-        df = delete_tz_from_df(d)
+        payload = self.get_df_payload()
+        if not (df := payload.get("df")):
+            return
+        
+        df = excel.apply_column_types(df, payload["coltypes"])
         if mt_cl:
             for column_df in df.columns:
                 df.rename(
                     columns={column_df: mt_cl.get(column_df) or column_df}, inplace=True
                 )
-        return excel.df_to_excel(df, **config["XLSX_EXPORT"])
+        return excel.df_to_excel(df, **config["EXCEL_EXPORT"])
 
     @deprecated(deprecated_in="3.0")
     def get_data(self, df: pd.DataFrame) -> VizData:  # pylint: disable=no-self-use

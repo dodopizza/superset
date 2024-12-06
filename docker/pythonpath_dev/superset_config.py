@@ -137,7 +137,7 @@ SQLLAB_CTAS_NO_LIMIT = True
 
 CSV_EXPORT = {"index": False, "encoding": "utf-8", "sep": ";"}
 
-XLSX_EXPORT = {"encoding": "utf-8", "index": False}
+EXCEL_EXPORT = {"encoding": "utf-8", "index": False}
 
 SUPERSET_WEBSERVER_TIMEOUT = int(timedelta(minutes=2).total_seconds())
 PERMANENT_SESSION_LIFETIME = int(timedelta(hours=10).total_seconds())

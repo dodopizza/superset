@@ -181,6 +181,7 @@ Run the following commands inside the container
 apt update
 apt install -y gdb
 apt install -y net-tools
+apt install -y procps
 pip install debugpy
 ```
 

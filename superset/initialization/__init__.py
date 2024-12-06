@@ -124,12 +124,12 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             server_address=server_addr,
         )
 
-        # Настройка OpenTelemetry
-        provider = TracerProvider()
-        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
-        provider.add_span_processor(PyroscopeSpanProcessor())  # Интеграция с Pyroscope
-        trace.set_tracer_provider(provider)
-        FlaskInstrumentor().instrument_app(self.superset_app)
+        # # Настройка OpenTelemetry
+        # provider = TracerProvider()
+        # provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+        # provider.add_span_processor(PyroscopeSpanProcessor())  # Интеграция с Pyroscope
+        # trace.set_tracer_provider(provider)
+        # FlaskInstrumentor().instrument_app(self.superset_app)
 
     def init_views(self) -> None:
         #
