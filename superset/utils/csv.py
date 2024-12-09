@@ -14,11 +14,10 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-import io
 import logging
 import re
 import urllib.request
-from typing import Any, Optional
+from typing import Any, Optional, Union
 from urllib.error import URLError
 
 import numpy as np
@@ -66,33 +65,20 @@ def escape_value(value: str) -> str:
 
 
 def df_to_escaped_csv(df: pd.DataFrame, **kwargs: Any) -> Any:
-    escape_values = lambda v: escape_value(v) if isinstance(v, str) else v
+    def escape_values(v: Any) -> Union[str, Any]:
+        return escape_value(v) if isinstance(v, str) else v
 
     # Escape csv headers
     df = df.rename(columns=escape_values)
-    if kwargs.get("from_sqllab"):
-        kwargs.pop("from_sqllab")
-        return df.to_csv(**kwargs)
-    return df.to_dict(orient="records")
 
-
-def df_to_escaped_xlsx(df: pd.DataFrame, **kwargs: Any) -> io.BytesIO:
-    escape_values = lambda v: escape_value(v) if isinstance(v, str) else v
-
-    # Escape xslx headers
-    df = df.rename(columns=escape_values)
-
-    excel_writer = io.BytesIO()
-    # Escape xlsx values
+    # Escape csv values
     for name, column in df.items():
         if column.dtype == np.dtype(object):
             for idx, value in enumerate(column.values):
                 if isinstance(value, str):
                     df.at[idx, name] = escape_value(value)
-    df.to_excel(excel_writer, startrow=0, merge_cells=False,
-                sheet_name="Sheet_1", index_label=None, index=False)
-    excel_writer.seek(0)
-    return excel_writer
+
+    return df.to_csv(**kwargs)
 
 
 def get_chart_csv_data(

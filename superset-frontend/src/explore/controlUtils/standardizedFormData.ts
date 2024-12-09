@@ -63,7 +63,7 @@ export const publicControls = [
   // subquery limit(series limit)
   'limit', // via sharedControls
   // order by clause
-  'timeseries_limit_metric', // via sharedControls
+  'series_limit_metric', // via sharedControls
   'series_limit_metric', // via sharedControls
   // desc or asc in order by clause
   'order_desc', // via sharedControls

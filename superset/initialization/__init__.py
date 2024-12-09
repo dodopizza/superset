@@ -27,6 +27,13 @@ from flask import Flask, redirect
 from flask_appbuilder import expose, IndexView
 from flask_babel import gettext as __, lazy_gettext as _
 from flask_compress import Compress
+import pyroscope
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from pyroscope.otel import PyroscopeSpanProcessor
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from superset.constants import CHANGE_ME_SECRET_KEY
@@ -108,6 +115,21 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
                     return task_base.__call__(self, *args, **kwargs)
 
         celery_app.Task = AppContextTask
+
+    def configure_pyroscope(self) -> None:
+        application_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "superset")
+        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.infra-monitoring.svc.cluster.local:4040")
+        pyroscope.configure(
+            application_name=application_name,
+            server_address=server_addr,
+        )
+
+        # # Настройка OpenTelemetry
+        # provider = TracerProvider()
+        # provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+        # provider.add_span_processor(PyroscopeSpanProcessor())  # Интеграция с Pyroscope
+        # trace.set_tracer_provider(provider)
+        # FlaskInstrumentor().instrument_app(self.superset_app)
 
     def init_views(self) -> None:
         #
@@ -521,6 +543,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         self.configure_db_encrypt()
         self.setup_db()
         self.configure_celery()
+        self.configure_pyroscope()
         self.enable_profiling()
         self.setup_event_logger()
         self.setup_bundle_manifest()

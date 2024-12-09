@@ -48,9 +48,9 @@ import {
 const config: ControlPanelConfig = {
   controlOverrides: {
     limit: {
-      rerender: ['timeseries_limit_metric', 'order_desc'],
+      rerender: ['series_limit_metric', 'order_desc'],
     },
-    timeseries_limit_metric: {
+    series_limit_metric: {
       label: t('Series Limit Sort By'),
       description: t(
         'Metric used to order the limit if a series limit is present. ' +
@@ -59,7 +59,7 @@ const config: ControlPanelConfig = {
       visibility: ({ controls }) => Boolean(controls?.limit.value),
       mapStateToProps: (state, controlState) => {
         const timeserieslimitProps =
-          sharedControls.timeseries_limit_metric.mapStateToProps?.(
+          sharedControls.series_limit_metric.mapStateToProps?.(
             state,
             controlState,
           ) || {};

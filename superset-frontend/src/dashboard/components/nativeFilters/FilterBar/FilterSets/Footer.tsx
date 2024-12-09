@@ -108,7 +108,7 @@ const Footer: FC<FooterProps> = ({
               onClick={onEdit}
               {...getFilterBarTestId('new-filter-set-button')}
             >
-              {t('Create new filter set')}
+              {t('Create filter set')}
             </Button>
           </ActionButton>
         </Tooltip>

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { AntdDropdown, Typography } from 'src/components';
 import { Menu } from 'src/components/Menu';
 import React, { FC } from 'react';
@@ -30,6 +13,8 @@ import {
 import Icons from 'src/components/Icons';
 import Button from 'src/components/Button';
 import { Tooltip } from 'src/components/Tooltip';
+import CheckboxControl from 'src/explore/components/controls/CheckboxControl';
+import Loading from 'src/components/Loading'; // DODO added 38080573
 import FiltersHeader from './FiltersHeader';
 import { getFilterBarTestId } from '../utils';
 
@@ -53,6 +38,14 @@ const IconsBlock = styled.div`
   }
 `;
 
+type FilterSetUnitPropsExtendedDodo = {
+  onSetPrimary?: HandlerFunction;
+  isPrimary?: boolean;
+  isFilterSetPrimary?: boolean;
+  setIsFilterSetPrimary?: (value: boolean) => void;
+  isInPending?: boolean;
+};
+
 export type FilterSetUnitProps = {
   editMode?: boolean;
   isApplied?: boolean;
@@ -63,7 +56,7 @@ export type FilterSetUnitProps = {
   onDelete?: HandlerFunction;
   onEdit?: HandlerFunction;
   onRebuild?: HandlerFunction;
-};
+} & FilterSetUnitPropsExtendedDodo;
 
 const FilterSetUnit: FC<FilterSetUnitProps> = ({
   editMode,
@@ -75,12 +68,29 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
   filterSet,
   isApplied,
   onRebuild,
+  // DODO added start 38080573
+  isPrimary,
+  onSetPrimary,
+  isFilterSetPrimary,
+  setIsFilterSetPrimary,
+  isInPending,
+  // DODO added stop 38080573
 }) => {
   const theme = useTheme();
 
   const menu = (
     <Menu>
       <Menu.Item onClick={onEdit}>{t('Edit')}</Menu.Item>
+      {/* DODO added start 38080573 */}
+      <Menu.Item onClick={onSetPrimary} disabled={isPrimary}>
+        <Tooltip
+          placement="right"
+          title={t('The primary set of filters will be applied automatically')}
+        >
+          {t('Set as primary')}
+        </Tooltip>
+      </Menu.Item>
+      {/* DODO added stop 38080573 */}
       <Menu.Item onClick={onRebuild}>
         <Tooltip placement="right" title={t('Remove invalid filters')}>
           {t('Rebuild')}
@@ -94,6 +104,9 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
 
   return (
     <>
+      {/* DODO added 38080573 */}
+      {isInPending && <Loading />}
+
       <TitleText>
         <Typography.Text
           strong
@@ -106,6 +119,12 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           {filterSet?.name ?? filterSetName}
         </Typography.Text>
         <IconsBlock>
+          {isPrimary && (
+            <Icons.StarOutlined
+              iconSize="m"
+              iconColor={theme.colors.alert.dark1}
+            />
+          )}
           {isApplied && (
             <Icons.CheckOutlined
               iconSize="m"
@@ -133,6 +152,19 @@ const FilterSetUnit: FC<FilterSetUnitProps> = ({
           )}
         </IconsBlock>
       </TitleText>
+      {/* DODO added start 38080573 */}
+      {editMode && setIsFilterSetPrimary && (
+        <CheckboxControl
+          hovered
+          label={t('Set as primary')}
+          description={t(
+            'The primary set of filters will be applied automatically',
+          )}
+          value={isFilterSetPrimary}
+          onChange={setIsFilterSetPrimary}
+        />
+      )}
+      {/* DODO added stop 38080573 */}
       <FiltersHeader
         filterSet={filterSet}
         dataMask={filterSet?.dataMask ?? dataMaskSelected}

@@ -93,6 +93,7 @@ const EditSection: FC<EditSectionProps> = ({
         name: filterSetName,
         nativeFilters: filters,
         dataMask: { ...dataMaskApplied },
+        isPrimary: filterSets[filterSetId].isPrimary, // DODO added 38080573
       }),
     );
     onCancel();

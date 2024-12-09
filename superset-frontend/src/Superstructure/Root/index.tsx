@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -484,7 +484,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   logConfigs(FULL_CONFIG, incomingParams, params);
   const [isVisible, setIsVisible] = useState(true);
 
-  const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
+  // const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
 
   const startDashboard = getDefaultDashboard({
     businessId,
@@ -525,7 +525,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                   stylesConfig={stylesConfig}
                   language={userLanguage}
                   isVisible={isVisible}
-                  onNavigate={closeLeftNavigation} // DODO added #33605679
+                  // onNavigate={closeLeftNavigation} // DODO added #33605679
                 />
               )}
               <DashboardComponentWrapper

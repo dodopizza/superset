@@ -22,6 +22,7 @@ import logging
 from datetime import datetime
 from pprint import pformat
 from typing import Any, NamedTuple, TYPE_CHECKING
+import traceback
 
 from flask import g
 from flask_babel import gettext as _
@@ -214,33 +215,41 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
 
     def _rename_deprecated_fields(self, kwargs: dict[str, Any]) -> None:
         # rename deprecated fields
+        t = traceback.format_stack()
         for field in DEPRECATED_FIELDS:
             if field.old_name in kwargs:
                 logger.warning(
-                    "The field `%s` is deprecated, please use `%s` instead.",
+                    "The field `%s` is deprecated, please use `%s` instead. Traceback: %s, kwargs: %s",
                     field.old_name,
                     field.new_name,
+                    t,
+                    kwargs,
                 )
                 value = kwargs[field.old_name]
                 if value:
                     if hasattr(self, field.new_name):
                         logger.warning(
                             "The field `%s` is already populated, "
-                            "replacing value with contents from `%s`.",
+                            "replacing value with contents from `%s`. Traceback: %s, kwargs: %s",
                             field.new_name,
                             field.old_name,
+                            t,
+                            kwargs,
                         )
                     setattr(self, field.new_name, value)
 
     def _move_deprecated_extra_fields(self, kwargs: dict[str, Any]) -> None:
         # move deprecated extras fields to extras
+        t = traceback.format_stack()
         for field in DEPRECATED_EXTRAS_FIELDS:
             if field.old_name in kwargs:
                 logger.warning(
                     "The field `%s` is deprecated and should "
-                    "be passed to `extras` via the `%s` property.",
+                    "be passed to `extras` via the `%s` property. Traceback: %s, kwargs: %s",
                     field.old_name,
                     field.new_name,
+                    t,
+                    kwargs,
                 )
                 value = kwargs[field.old_name]
                 if value:
@@ -248,9 +257,11 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
                         logger.warning(
                             "The field `%s` is already populated in "
                             "`extras`, replacing value with contents "
-                            "from `%s`.",
+                            "from `%s`. Traceback: %s, kwargs: %s",
                             field.new_name,
                             field.old_name,
+                            t,
+                            kwargs,
                         )
                     self.extras[field.new_name] = value
 

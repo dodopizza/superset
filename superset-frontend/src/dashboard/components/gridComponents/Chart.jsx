@@ -21,6 +21,7 @@ import { URL_PARAMS } from 'src/constants';
 // DODO added
 import { bootstrapData } from 'src/preamble';
 
+import { getMetricDescription } from 'src/DodoExtensions/dashboard/utils/getMetricDescription'; // DODO added 38403772
 import SliceHeader from '../SliceHeader';
 import MissingChart from '../MissingChart';
 import { slicePropShape, chartPropShape } from '../../util/propShapes';
@@ -361,6 +362,7 @@ class Chart extends React.Component {
       slice: this.props.slice,
       // DODO added
       language: userLanguage,
+      datasourceMetrics: this.props.datasource.metrics, // DODO added 33638561
     });
   }
 
@@ -437,6 +439,13 @@ class Chart extends React.Component {
         })
       : {};
 
+    // DODO added 38403772
+    const metricDescription = getMetricDescription(
+      formData,
+      datasource,
+      userLanguage,
+    );
+
     return (
       <SliceContainer
         className="chart-slice"
@@ -484,6 +493,7 @@ class Chart extends React.Component {
           userLanguage={userLanguage}
           updateSliceNameRU={updateSliceNameRU}
           sliceNameRU={sliceNameRU}
+          metricDescription={metricDescription} // DODO added 38403772
         />
 
         {/*

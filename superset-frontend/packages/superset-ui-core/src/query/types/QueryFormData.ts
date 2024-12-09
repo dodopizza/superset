@@ -175,7 +175,7 @@ export interface BaseFormData extends TimeRange, FormDataResidual {
   row_offset?: string | number | null;
   /** The metric used to order timeseries for limiting
    *  deprecated - use series_limit_metric instead */
-  timeseries_limit_metric?: QueryFormMetric;
+  // timeseries_limit_metric?: QueryFormMetric;
   /** Force refresh */
   force?: boolean;
   result_format?: string;

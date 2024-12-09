@@ -30,7 +30,7 @@ SOURCE_FORM_DATA = {
     "pandas_aggfunc": "sum",
     "pivot_margins": True,
     "time_range": "100 years ago : now",
-    "timeseries_limit_metric": "count",
+    "series_limit_metric": "count",
     "transpose_pivot": True,
     "viz_type": "pivot_table",
 }

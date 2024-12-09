@@ -2607,7 +2607,7 @@
       "Create new chart": [
         ""
       ],
-      "Create new filter set": [
+      "Create filter set": [
         ""
       ],
       "Create or select schema...": [
@@ -2692,6 +2692,9 @@
         ""
       ],
       "Export as time": [
+        ""
+      ],
+      "This metric will be exported as time": [
         ""
       ],
       "Export a numeric value as number of days": [
@@ -6953,6 +6956,12 @@
       "Remove cross-filter": [
         ""
       ],
+      "Set as primary": [
+        ""
+      ],
+      "The primary set of filters will be applied automatically": [
+        ""
+      ],
       "Remove invalid filters": [
         ""
       ],
@@ -11170,6 +11179,12 @@
         ""
       ],
       "is expected to be an integer": [
+        ""
+      ],
+      "Not a valid integer": [
+        ""
+      ],
+      "Use it with caution": [
         ""
       ],
       "joined": [

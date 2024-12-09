@@ -374,7 +374,6 @@ LANGUAGES = {
     "ru": {"flag": "ru", "name": "Russian"},
 }
 
-XLSX_EXPORT = {"encoding": "utf-8", "index": False}
 # Override the default d3 locale format
 # Default values are equivalent to
 # D3_FORMAT = {
@@ -782,7 +781,7 @@ CSV_EXPORT = {"encoding": "utf-8"}
 # Excel Options: key/value pairs that will be passed as argument to DataFrame.to_excel
 # method.
 # note: index option should not be overridden
-EXCEL_EXPORT = {"encoding": "utf-8"}
+EXCEL_EXPORT = {"encoding": "utf-8", "index": False}
 
 # ---------------------------------------------------
 # Time grain configurations
