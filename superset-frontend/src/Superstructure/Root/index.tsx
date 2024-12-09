@@ -484,6 +484,18 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   logConfigs(FULL_CONFIG, incomingParams, params);
   const [isVisible, setIsVisible] = useState(true);
 
+  // const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
+
+  const startDashboard = getDefaultDashboard({
+    businessId,
+    routes: FULL_CONFIG.routes,
+  });
+
+  const withNavigation = useMemo(
+    () => FULL_CONFIG.routes.length > 1 && FULL_CONFIG.showNavigationMenu,
+    [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
+  );
+
   if (isError) {
     return (
       <>
@@ -496,18 +508,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       </>
     );
   }
-
-  // const closeLeftNavigation = useCallback(() => setIsVisible(false), []); // DODO added #33605679
-
-  const startDashboard = getDefaultDashboard({
-    businessId,
-    routes: FULL_CONFIG.routes,
-  });
-
-  const withNavigation = useMemo(
-    () => FULL_CONFIG.routes.length > 1 && FULL_CONFIG.showNavigationMenu,
-    [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
-  );
 
   return (
     <div>
