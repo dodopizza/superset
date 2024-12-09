@@ -19,6 +19,7 @@ export default function Main({
     DASHBOARD_NATIVE_FILTERS_SET: true,
     TAGGING_SYSTEM: false,
   };
+  window.htmlSanitization = false; // for handlebars viz
 
   return routes ? (
     <>
