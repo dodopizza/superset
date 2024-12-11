@@ -543,7 +543,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         self.configure_db_encrypt()
         self.setup_db()
         self.configure_celery()
-        self.configure_pyroscope()
+        # self.configure_pyroscope()
         self.enable_profiling()
         self.setup_event_logger()
         self.setup_bundle_manifest()
