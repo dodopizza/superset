@@ -116,13 +116,13 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
 
         celery_app.Task = AppContextTask
 
-    def configure_pyroscope(self) -> None:
-        application_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "superset")
-        server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.infra-monitoring.svc.cluster.local:4040")
-        pyroscope.configure(
-            application_name=application_name,
-            server_address=server_addr,
-        )
+    # def configure_pyroscope(self) -> None:
+    #     application_name = os.getenv("PYROSCOPE_APPLICATION_NAME", "superset")
+    #     server_addr = os.getenv("PYROSCOPE_SERVER_ADDRESS", "http://pyroscope.infra-monitoring.svc.cluster.local:4040")
+    #     pyroscope.configure(
+    #         application_name=application_name,
+    #         server_address=server_addr,
+    #     )
 
         # # Настройка OpenTelemetry
         # provider = TracerProvider()
