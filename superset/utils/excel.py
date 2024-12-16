@@ -40,7 +40,7 @@ def quote_formulas(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def df_to_excel(df: pd.DataFrame, **kwargs: Any) -> Any:
+def df_to_excel(df: pd.DataFrame, **kwargs: Any) -> bytes:
     output = io.BytesIO()
 
     # make sure formulas are quoted, to prevent malicious injections

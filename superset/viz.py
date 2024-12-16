@@ -676,9 +676,7 @@ class BaseViz:  # pylint: disable=too-many-public-methods
 
     @deprecated(deprecated_in="3.0")
     def get_csv(self, mt_cl: dict = None) -> Optional[str]:
-        df = self.get_df_payload().get("df")  # leverage caching logic
-        if not df:
-            return
+        df = self.get_df_payload()["df"]
         
         if mt_cl:
             for column_df in df.columns:
@@ -688,16 +686,15 @@ class BaseViz:  # pylint: disable=too-many-public-methods
                 )
         return csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
 
-    def get_xlsx(self, mt_cl: dict = None) -> BytesIO:
+    def get_xlsx(self, mt_cl: dict = None) -> Optional[bytes]:
         payload = self.get_df_payload()
-        if not (df := payload.get("df")):
-            return
-        
-        df = excel.apply_column_types(df, payload["coltypes"])
+
+        df = excel.apply_column_types(payload["df"], payload["coltypes"])
         if mt_cl:
             for column_df in df.columns:
                 df.rename(
-                    columns={column_df: mt_cl.get(column_df) or column_df}, inplace=True
+                    columns={column_df: mt_cl.get(column_df) or column_df},
+                    inplace=True,
                 )
         return excel.df_to_excel(df, **config["EXCEL_EXPORT"])
 
