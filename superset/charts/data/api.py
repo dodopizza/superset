@@ -485,7 +485,6 @@ class ChartDataRestApi(ChartRestApi):
                 if v == "asc":
                     result_df = result_df.sort_values(by=[k], ascending=True)
         if result_format == ChartDataResultFormat.XLSX:
-            result_df = excel.apply_column_types(result_df, query["coltypes"])
             result_data = excel.df_to_excel(
                         result_df, **current_app.config["EXCEL_EXPORT"]
                     )
