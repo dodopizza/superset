@@ -519,17 +519,19 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             if language == ChartDataResultLanguage.RU:
                 column_config_dict = {}
                 for chart in result:
-                    all_columns = chart.get("form_data").get("all_columns", [])
+                    form_data = chart.get("form_data", {})
+                    all_columns = form_data.get("all_columns", [])
                     for column in all_columns:
                         if isinstance(column, dict) and column.get("labelRU"):
                             column["label"] = column.get("labelRU")
 
-                    groupby = chart.get("form_data", {}).get("groupby", [])
-                    for column in groupby:
-                        if isinstance(column, dict) and column.get("labelRU"):
-                            column["label"] = column.get("labelRU")
+                    groupby = form_data.get("groupby", [])
+                    if groupby:
+                      for column in groupby:
+                          if isinstance(column, dict) and column.get("labelRU"):
+                              column["label"] = column.get("labelRU")
 
-                    metrics = chart.get("form_data").get("metrics")
+                    metrics = form_data.get("metrics")
                     if metrics:
                         for metric in metrics:
                             if isinstance(metric, dict) and metric.get("labelRU"):
@@ -543,16 +545,13 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                                         "verbose_name_RU")
 
                     conditional_formatting_message = (
-                        chart.get("form_data", {})
-                        .get("conditional_formatting_message", []))
+                        form_data.get("conditional_formatting_message", []))
                     if conditional_formatting_message:
                         for cfm in conditional_formatting_message:
                             if isinstance(cfm, dict) and cfm.get("messageRU"):
                                 cfm["message"] = cfm.get("messageRU")
 
-                    column_config = (
-                        chart.get("form_data", {})
-                        .get("column_config", {}))
+                    column_config = form_data.get("column_config", {})
                     d = {}
                     if column_config:
                         for k, v in column_config.items():
@@ -560,14 +559,11 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                     form_data_c = chart.get("form_data", {})
                     form_data_c["column_config"] = d
 
-                    conditional_formatting = (chart.get("form_data", {})
-                                              .get("conditional_formatting", []))
+                    conditional_formatting = form_data.get("conditional_formatting", [])
                     if conditional_formatting:
                         for item in conditional_formatting:
                             column = item.get("column")
                             item["column"] = column_config_dict.get(column, column)
-
-            # logger.debug(result)
 
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
