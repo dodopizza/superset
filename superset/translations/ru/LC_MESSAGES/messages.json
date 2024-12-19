@@ -3174,6 +3174,9 @@
       "Description text that shows up below your Big Number": [
         "Описание, отображаемое под Карточкой"
       ],
+      "Select All": [
+        "Выбрать всё"
+      ],
       "Deselect all": [
         "Снять выделение"
       ],
@@ -4378,8 +4381,14 @@
       "ISO 8601": [
         "ISO 8601"
       ],
-      "Id": [
-        "ID"
+      "Filter by ID": [
+        "Фильтр по ID"
+      ],
+      "Filter by ID with translation": [
+        "Фильтр по ID c переводом"
+      ],
+      "Value with translation": [
+        "Значение с переводом"
       ],
       "Id of root node of the tree.": [
         "Id корневой вершины дерева."

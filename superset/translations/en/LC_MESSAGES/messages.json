@@ -3287,6 +3287,9 @@
       "Description text that shows up below your Big Number": [
         ""
       ],
+      "Select All": [
+        ""
+      ],
       "Deselect all": [
         ""
       ],
@@ -4565,7 +4568,13 @@
       "ISO 8601": [
         ""
       ],
-      "Id": [
+      "Filter by ID": [
+        ""
+      ],
+      "Filter by ID with translation": [
+        ""
+      ],
+      "Value with translation": [
         ""
       ],
       "Id of root node of the tree.": [

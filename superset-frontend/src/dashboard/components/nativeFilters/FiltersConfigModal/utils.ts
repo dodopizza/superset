@@ -107,11 +107,14 @@ export const createHandleSave =
         }
         if (formInputs.dataset && formInputs.column) {
           target.column = { name: formInputs.column };
-          // DODO added start 29749076
+          // DODO added 29749076
           if (formInputs.columnId) {
             target.column.id = formInputs.columnId;
           }
-          // DODO added stop 29749076
+          // DODO added 30434273
+          if (formInputs.column_RU) {
+            target.column.name_RU = formInputs.column_RU;
+          }
         }
         // DODO added start 38368947
         const selectTopValue =
@@ -129,6 +132,7 @@ export const createHandleSave =
             rf => rf,
           ),
           name: formInputs.name,
+          name_RU: formInputs.name_RU, // DODO added 30434273
           filterType: formInputs.filterType,
           // for now there will only ever be one target
           targets: [target],
