@@ -26,6 +26,7 @@ from urllib import parse
 import simplejson as json
 from flask import abort, flash, g, redirect, render_template,\
     request, Response, send_file
+from flask_appbuilder.api import protect
 from flask_appbuilder import expose
 from flask_appbuilder.security.decorators import (
     has_access,
