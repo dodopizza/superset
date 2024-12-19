@@ -638,8 +638,11 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
     groupby = Column(Boolean, default=True)
     filterable = Column(Boolean, default=True)
     description = Column(MediumText())
+    #  добавили поля для описания колонок на двух языках
     description_EN = Column(MediumText(), nullable=True)
     description_RU = Column(MediumText(), nullable=True)
+    #  добавили поля для наименования колонок на двух языках
+    #  описание данных в туллтипе
     verbose_name_RU = Column(Text, nullable=True)
     verbose_name_EN = Column(Text, nullable=True, default=None)
     is_dttm = None
@@ -708,11 +711,11 @@ class BaseColumn(AuditMixinNullable, ImportExportMixin):
             "id",
             "column_name",
             "verbose_name",
-            "verbose_name_RU",
-            "verbose_name_EN",
+            "verbose_name_RU",  # описание данных в туллтипе
+            "verbose_name_EN",  # описание данных в туллтипе
             "description",
-            "description_EN",
-            "description_RU",
+            "description_EN",  # описание данных в туллтипе
+            "description_RU",  # описание данных в туллтипе
             "expression",
             "filterable",
             "groupby",
@@ -733,8 +736,11 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
     verbose_name = Column(String(1024))
     metric_type = Column(String(32))
     description = Column(MediumText())
+      # описание данных в туллтипе
+    # добавили поля для оптсания мер в датасете
     description_EN = Column(MediumText(), nullable=True)
     description_RU = Column(MediumText(), nullable=True)
+    # добавили поля для описания нарменовая мер в датасете
     verbose_name_RU = Column(Text, nullable=True)
     verbose_name_EN = Column(Text, nullable=True, default=None)
     number_format = Column(Text, nullable=True)
@@ -780,12 +786,12 @@ class BaseMetric(AuditMixinNullable, ImportExportMixin):
             "id",
             "metric_name",
             "verbose_name",
-            "verbose_name_RU",
-            "verbose_name_EN",
+            "verbose_name_RU",  # описание данных в туллтипе
+            "verbose_name_EN",  # описание данных в туллтипе
             "number_format",
             "description",
-            "description_EN",
-            "description_RU",
+            "description_EN",  # описание данных в туллтипе
+            "description_RU",  # описание данных в туллтипе
             "expression",
             "warning_text",
             "d3format",
