@@ -147,7 +147,6 @@ SqlResults = dict[str, Any]
 
 class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     """The base views for Superset!"""
-    allow_browser_login = True
     logger = logging.getLogger(__name__)
 
     @has_access
@@ -274,7 +273,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
         EXPLORE_JSON_METHODS.append("GET")
 
     @api
-    @has_access_api
+    @protect()
     @handle_api_exception
     @event_logger.log_this
     @expose(
