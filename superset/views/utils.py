@@ -74,7 +74,7 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
     return datasource_data
 
 
-def finish_onboarding():
+def finish_onboarding():   # записываем в бд, что пользователь прошел onboarding
     user_id = get_user_id()
     try:
         user_info = (
@@ -93,7 +93,7 @@ def finish_onboarding():
         }
 
 
-def get_onboarding() -> dict:
+def get_onboarding() -> dict:  # получаем информацию по onboarding из бд
     user_id = get_user_id()
     try:
         user_info = (
@@ -108,7 +108,7 @@ def get_onboarding() -> dict:
         }
 
 
-def get_team_by_user_id() -> Team:
+def get_team_by_user_id() -> Team:  # получаем команду пользователя по его id
     user_id = get_user_id()
     try:
         user = (
@@ -122,7 +122,7 @@ def get_team_by_user_id() -> Team:
         return None
 
 
-def get_statements_by_user_id() -> list[Statement]:
+def get_statements_by_user_id() -> list[Statement]:  # получаем все заявки пользователя по его id
     user_id = get_user_id()
     try:
         user = (
@@ -135,7 +135,7 @@ def get_statements_by_user_id() -> list[Statement]:
         return []
 
 
-def get_country_by_user_id() -> list[UserInfo]:
+def get_country_by_user_id() -> list[UserInfo]:  # получаем странну пользователя по его id
     user_id = get_user_id()
     try:
         user = (
@@ -148,7 +148,7 @@ def get_country_by_user_id() -> list[UserInfo]:
         return []
 
 
-def update_onboarding(dodo_role, started_time):
+def update_onboarding(dodo_role, started_time):  # обновляем данные по onboarding
     user_id = get_user_id()
     try:
         user_info = (
@@ -237,7 +237,7 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         logger.warning(e)
 
 
-def insert_country(country_iso_num: int, username: str):
+def insert_country(country_iso_num: int, username: str):  # пишем в бд страну пользователя
     try:
         import pycountry
         country_name = pycountry.countries.get(numeric=f"{country_iso_num}").name
@@ -267,7 +267,7 @@ def insert_country(country_iso_num: int, username: str):
         logger.warning("Error add to db country")
 
 
-def insert_data_auth(data_auth: str, username: str):
+def insert_data_auth(data_auth: str, username: str):  # пишем в бд информацию из додо ис
     try:
         user = (
             db.session.query(User).filter(
@@ -318,7 +318,7 @@ def update_user_roles(user_model: int, roles):  # DODO changed #33835937
     return user_model
 
 
-def find_team_by_slug(team_slug: str):
+def find_team_by_slug(team_slug: str):  # получаем команду по уникальному slug
     try:
         team = (
             db.session.query(Team).filter(Team.slug == team_slug).one_or_none()
