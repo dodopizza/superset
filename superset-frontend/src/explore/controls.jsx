@@ -391,7 +391,7 @@ export const controls = {
     ),
   },
 
-  timeseries_limit_metric: {
+  series_limit_metric: {
     type: 'MetricsControl',
     label: t('Sort by'),
     default: null,

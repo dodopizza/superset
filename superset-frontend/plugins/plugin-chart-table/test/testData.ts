@@ -37,7 +37,7 @@ const basicFormData: TableChartFormData = {
   page_length: 20,
   metrics: [],
   percent_metrics: null,
-  timeseries_limit_metric: '',
+  series_limit_metric: '',
   table_filter: false,
   table_timestamp_format: '%Y-%m-%d %H:%M:%S',
 };

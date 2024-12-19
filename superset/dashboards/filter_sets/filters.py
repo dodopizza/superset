@@ -56,3 +56,12 @@ class FilterSetFilter(BaseFilter):  # pylint: disable=too-few-public-methods)
                 FilterSet.id.in_(filter_set_ids_by_dashboard_owners),
             )
         )
+
+
+class FilterSetFilterByUser(BaseFilter):  # pylint: disable=too-few-public-methods)
+    def apply(self, query: Query, value: Any) -> Query:
+        return query.filter(
+            and_(
+                FilterSet.user_id == get_user_id(),
+            )
+        )

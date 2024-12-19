@@ -73,7 +73,6 @@ CACHE_CONFIG = {
     "CACHE_REDIS_DB": REDIS_RESULTS_DB,
 }
 DATA_CACHE_CONFIG = CACHE_CONFIG
-XLSX_EXPORT = {"encoding": "utf-8", "index": False}
 
 
 class CeleryConfig:
@@ -96,13 +95,55 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_RBAC": True,
+    "DYNAMIC_PLUGINS": True,
+    "ENABLE_TEMPLATE_PROCESSING": True,
+    "GLOBAL_ASYNC_QUERIES": False,
+    "SQLLAB_BACKEND_PERSISTENCE": True,
+    "ENABLE_JAVASCRIPT_CONTROLS": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "RLS_IN_SQLLAB": True,
+    "DRILL_TO_DETAIL": False,
+    "TAGGING_SYSTEM": True,
+    "DRILL_BY": False,
+    "ALLOW_FULL_CSV_EXPORT": False
+}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://superset:8088/"
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
-
+LANGUAGES = {
+    "ru": {"flag": "ru", "name": "Russian"},
+    "en": {"flag": "gb", "name": "English"},
+}
+TIME_GRAIN_DENYLIST: list[str] = [
+    'PT1S',
+    'PT5S',
+    'PT30S',
+    'PT1M',
+    'PT5M',
+    'PT10M',
+    'PT15M',
+    'PT30M',
+    'PT1H',
+    'PT6H',
+    'P1W',
+    "P1W/1970-01-03T00:00:00Z",
+    "P1W/1970-01-04T00:00:00Z"
+]
 SQLLAB_CTAS_NO_LIMIT = True
+
+CSV_EXPORT = {"index": False, "encoding": "utf-8", "sep": ";"}
+
+EXCEL_EXPORT = {"encoding": "utf-8", "index": False}
+
+SUPERSET_WEBSERVER_TIMEOUT = int(timedelta(minutes=2).total_seconds())
+PERMANENT_SESSION_LIFETIME = int(timedelta(hours=10).total_seconds())
+
+HTML_SANITIZATION = False
+
 
 #
 # Optionally import superset_config_docker.py (which will have been included on

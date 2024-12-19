@@ -54,8 +54,10 @@ from superset.dashboards.filter_sets.consts import (
     OWNER_OBJECT_FIELD,
     OWNER_TYPE_FIELD,
     PARAMS_PROPERTY,
+    OWNER_USER_ID,
+    IS_PRIMARY
 )
-from superset.dashboards.filter_sets.filters import FilterSetFilter
+from superset.dashboards.filter_sets.filters import FilterSetFilter, FilterSetFilterByUser
 from superset.dashboards.filter_sets.schemas import (
     FilterSetPostSchema,
     FilterSetPutSchema,
@@ -67,8 +69,18 @@ from superset.views.base_api import (
     requires_json,
     statsd_metrics,
 )
+from superset.views.utils import get_primary_filtersets
 
 logger = logging.getLogger(__name__)
+
+
+def unset_primary_filterset(item, dashboard_id):
+    if item.get(IS_PRIMARY):
+        primary_filtersets: list[FilterSet] = get_primary_filtersets(dashboard_id)
+        if primary_filtersets:
+            for filterset in primary_filtersets:
+                d = {"is_primary": False}
+                UpdateFilterSetCommand(dashboard_id, filterset.id, d).run()
 
 
 class FilterSetRestApi(BaseSupersetModelRestApi):
@@ -99,6 +111,8 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         "changed_on",
         "created_by_fk",
         "changed_by_fk",
+        "is_primary",
+        OWNER_USER_ID,
         NAME_FIELD,
         DESCRIPTION_FIELD,
         OWNER_TYPE_FIELD,
@@ -115,8 +129,8 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         DASHBOARD_ID_FIELD,
         PARAMS_PROPERTY,
     ]
-    search_columns = ["id", NAME_FIELD, OWNER_ID_FIELD, DASHBOARD_ID_FIELD]
-    base_filters = [[OWNER_ID_FIELD, FilterSetFilter, ""]]
+    search_columns = ["id", NAME_FIELD, OWNER_ID_FIELD, DASHBOARD_ID_FIELD, OWNER_USER_ID]
+    base_filters = [[OWNER_USER_ID, FilterSetFilterByUser, ""]]
 
     def __init__(self) -> None:
         self.datamodel.get_search_columns_list = lambda: []
@@ -243,6 +257,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         """
         try:
             item = self.add_model_schema.load(request.json)
+            unset_primary_filterset(item, dashboard_id)
             new_model = CreateFilterSetCommand(dashboard_id, item).run()
             return self.response(
                 201, **self.show_model_schema.dump(new_model, many=False)
@@ -314,6 +329,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         """
         try:
             item = self.edit_model_schema.load(request.json)
+            unset_primary_filterset(item, dashboard_id)
             changed_model = UpdateFilterSetCommand(dashboard_id, pk, item).run()
             return self.response(
                 200, **self.show_model_schema.dump(changed_model, many=False)

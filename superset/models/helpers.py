@@ -1436,8 +1436,6 @@ class ExploreMixin:  # pylint: disable=too-many-public-methods
         series_limit_metric: Optional[Metric] = None,
         row_limit: Optional[int] = None,
         row_offset: Optional[int] = None,
-        timeseries_limit: Optional[int] = None,
-        timeseries_limit_metric: Optional[Metric] = None,
         time_shift: Optional[str] = None,
     ) -> SqlaQuery:
         """Querying any sqla table from this common interface"""
@@ -1472,9 +1470,8 @@ class ExploreMixin:  # pylint: disable=too-many-public-methods
             )
         ]
         # deprecated, to be removed in 2.0
-        if is_timeseries and timeseries_limit:
-            series_limit = timeseries_limit
-        series_limit_metric = series_limit_metric or timeseries_limit_metric
+        series_limit = series_limit
+        series_limit_metric = series_limit_metric
         template_kwargs.update(self.template_params_dict)
         extra_cache_keys: list[Any] = []
         template_kwargs["extra_cache_keys"] = extra_cache_keys

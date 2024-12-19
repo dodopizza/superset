@@ -56,7 +56,6 @@ export default function buildQueryObject<T extends QueryFormData>(
     row_offset,
     order_desc,
     limit,
-    timeseries_limit_metric,
     granularity,
     url_params = {},
     custom_params = {},
@@ -126,7 +125,7 @@ export default function buildQueryObject<T extends QueryFormData>(
     series_limit: series_limit ?? (isDefined(limit) ? Number(limit) : 0),
     series_limit_metric:
       normalizeSeriesLimitMetric(series_limit_metric) ??
-      timeseries_limit_metric ??
+      series_limit_metric ??
       undefined,
     order_desc: typeof order_desc === 'undefined' ? true : order_desc,
     url_params: url_params || undefined,

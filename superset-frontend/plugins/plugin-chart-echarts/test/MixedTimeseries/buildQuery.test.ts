@@ -44,7 +44,7 @@ const formDataMixedChart = {
   ],
   limit: 5,
   row_limit: 10,
-  timeseries_limit_metric: 'count',
+  series_limit_metric: 'count',
   order_desc: true,
   truncate_metric: true,
   show_empty_columns: true,

@@ -2519,8 +2519,8 @@
       "Create new chart": [
         "Создать новый график"
       ],
-      "Create new filter set": [
-        "Создать новый набор фильтров"
+      "Create filter set": [
+        "Создать набор фильтров"
       ],
       "Create or select schema...": [
         "Создать или выбрать схему..."
@@ -2596,6 +2596,9 @@
       ],
       "Export as time": [
         "Экспортировать как величину времени"
+      ],
+      "This metric will be exported as time": [
+        "Данная мера будет экспортирована как величина времени"
       ],
       "Export a numeric value as number of days": [
         "Экспорт числового значения в виде количества дней"
@@ -4022,7 +4025,7 @@
         "Набор фильтров с этим именем уже существует"
       ],
       "Filter sets (%(filterSetCount)d)": [
-        "Наборы фильтров (%(filterSetCount)d)"
+        "Сохраненные (%(filterSetCount)d)"
       ],
       "Filter type": [
         "Тип фильтра"
@@ -6475,7 +6478,7 @@
         "Сырые записи"
       ],
       "Rebuild": [
-        ""
+        "Обновить"
       ],
       "Recent activity": [
         "Последние действия"
@@ -6581,6 +6584,12 @@
       ],
       "Remove": [
         "Удалить"
+      ],
+      "Set as primary": [
+        "Установить основным"
+      ],
+      "The primary set of filters will be applied automatically": [
+        "Основной набор фильтров будет применяться автоматически"
       ],
       "Remove invalid filters": [
         "Удалить недействующие фильтры"
@@ -10579,6 +10588,12 @@
       ],
       "is expected to be an integer": [
         "Ожидается целое число"
+      ],
+      "Not a valid integer": [
+        "Не целое число"
+      ],
+      "Use it with caution": [
+        "Используйте с осторожностью"
       ],
       "joined": [
         "Присоединился"

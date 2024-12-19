@@ -155,7 +155,7 @@ describe('Visualization > Table', () => {
       ...VIZ_DEFAULTS,
       metrics: [],
       groupby: ['name'],
-      timeseries_limit_metric: NUM_METRIC,
+      series_limit_metric: NUM_METRIC,
       order_desc: true,
     });
     // should contain only the group by column

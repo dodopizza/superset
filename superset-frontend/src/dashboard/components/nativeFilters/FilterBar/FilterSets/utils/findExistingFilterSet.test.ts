@@ -35,6 +35,7 @@ test('Should find correct filter', () => {
         filterId: { id: 'filterId', filterState: { value: 'value-1' } },
         filterId2: { id: 'filterId2', filterState: { value: 'value-2' } },
       } as any,
+      isPrimary: false,
     },
   ];
   const response = findExistingFilterSet({
@@ -62,6 +63,7 @@ test('Should return undefined when nativeFilters has less values', () => {
       dataMask: {
         filterId: { id: 'filterId', filterState: { value: 'value-1' } },
       } as any,
+      isPrimary: false,
     },
   ];
   const response = findExistingFilterSet({
@@ -82,6 +84,7 @@ test('Should return undefined when nativeFilters has different values', () => {
         filterId: { id: 'filterId', filterState: { value: 'value-1' } },
         filterId2: { id: 'filterId2', filterState: { value: 'value-1' } },
       },
+      isPrimary: false,
     },
   ];
   const response = findExistingFilterSet({
@@ -99,6 +102,7 @@ test('Should return undefined when dataMask:{}', () => {
       name: 'name-01',
       nativeFilters: {},
       dataMask: {},
+      isPrimary: false,
     },
   ];
   const response = findExistingFilterSet({
@@ -116,6 +120,7 @@ test('Should return undefined when dataMask is empty}', () => {
       name: 'name-01',
       nativeFilters: {},
       dataMask: {},
+      isPrimary: false,
     },
   ];
   const response = findExistingFilterSet({

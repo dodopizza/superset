@@ -167,35 +167,35 @@ const getHtmlTemplate = htmlWebpackPlugin => `<!DOCTYPE html>
               () => true,
               ${JSON.stringify({
                 // -- для вкладки "Найм"
-                token: '',
-                originUrl: '/superset',
-                businessId: 'dodopizza',
-                navigation: {
-                  showNavigationMenu: true,
-                  base: '/OfficeManager/HrMetrics/',
-                  dashboards: {
-                    HRMetrics: {
-                      idOrSlug: 67,
-                      name: 'HR-metrics Recruitment agencies',
-                      nameRU: 'HR-метрики Агентства по найму',
-                      route: 'HRMetrics',
-                    },
-                    HRMetricsDmitriev: {
-                      idOrSlug: 159,
-                      name: 'Dmitriev Метрики HR',
-                      nameRU: 'Dmitriev Метрики HR — услуги поддержки клиентов',
-                      route: 'HRMetricsDmitriev',
-                    },
-                  },
-                },
-                // -- для вкладки "Аналитика"
                 // token: '',
                 // originUrl: '/superset',
                 // businessId: 'dodopizza',
                 // navigation: {
                 //   showNavigationMenu: true,
-                //   base: '/OfficeManager/Analytics/',
+                //   base: '/OfficeManager/HrMetrics/',
+                //   dashboards: {
+                //     HRMetrics: {
+                //       idOrSlug: 67,
+                //       name: 'HR-metrics Recruitment agencies',
+                //       nameRU: 'HR-метрики Агентства по найму',
+                //       route: 'HRMetrics',
+                //     },
+                //     HRMetricsDmitriev: {
+                //       idOrSlug: 159,
+                //       name: 'Dmitriev Метрики HR',
+                //       nameRU: 'Dmitriev Метрики HR — услуги поддержки клиентов',
+                //       route: 'HRMetricsDmitriev',
+                //     },
+                //   },
                 // },
+                // -- для вкладки "Аналитика"
+                token: '',
+                originUrl: '/superset',
+                businessId: 'dodopizza',
+                navigation: {
+                  showNavigationMenu: true,
+                  base: '/OfficeManager/Analytics/',
+                },
               })}
             )
             singleSpa.start()

@@ -61,6 +61,7 @@ class FilterSetPostSchema(FilterSetSchema):
         required=True, validate=OneOf([USER_OWNER_TYPE, DASHBOARD_OWNER_TYPE])
     )
     owner_id = fields.Int(required=False)
+    is_primary = fields.Boolean(required=False)
 
     @post_load
     def validate(
@@ -81,6 +82,7 @@ class FilterSetPutSchema(FilterSetSchema):
     owner_type = fields.String(
         allow_none=False, required=False, validate=OneOf([DASHBOARD_OWNER_TYPE])
     )
+    is_primary = fields.Boolean(required=False)
 
     @post_load
     def validate(  # pylint: disable=unused-argument
