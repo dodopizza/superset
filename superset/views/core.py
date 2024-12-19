@@ -147,7 +147,7 @@ SqlResults = dict[str, Any]
 
 class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     """The base views for Superset!"""
-
+    allow_browser_login = True
     logger = logging.getLogger(__name__)
 
     @has_access
