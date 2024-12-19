@@ -1,3 +1,4 @@
+# это все нужно для вкладки на странице
 import logging
 
 from flask import g, redirect, request, Response
