@@ -1692,6 +1692,14 @@ const ru = {
       'The dashboard has been saved': ['Дашборд сохранен'],
       Apply: ['Применить'],
       'Dashboard properties': ['Свойства дашборда'],
+      'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter':
+        [
+          'Фильтры по интервалу времени применяются к временным столбцам в фильтрах графиков. Добавьте временные столбцы для применения фильтра',
+        ],
+      'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка':
+        [
+          'Данный фильтр используется, если существуют две колонки со значениями на разных языках. Например, Delivery и Доставка',
+        ],
       'Basic information': ['Основная информация'],
       'URL slug': ['Читаемый URL'],
       'A readable URL for your dashboard': ['Читаемый URL-адрес для дашборда'],

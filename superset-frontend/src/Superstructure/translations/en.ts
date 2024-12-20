@@ -1133,6 +1133,10 @@ const en = {
       'The dashboard has been saved': [''],
       Apply: [''],
       'Dashboard properties': [''],
+      'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter':
+        [''],
+      'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка':
+        [''],
       'Basic information': [''],
       'URL slug': [''],
       'A readable URL for your dashboard': [''],

@@ -260,7 +260,7 @@ const StyledAsterisk = styled.span`
 const FilterTypeInfo = styled.div`
   ${({ theme }) => `
     // margin-bottom: 16px;
-    width: 49%;
+    // width: 49%;
     font-size: ${theme.typography.sizes.s}px;
     color: ${theme.colors.grayscale.light1};
     // margin:
@@ -329,6 +329,18 @@ const FILTER_TYPE_NAME_MAPPING = {
   [t('Select by id filter')]: t('Filter by ID'),
   [t('Select with translation')]: t('Value with translation'), // DODO added 30434273
   [t('Select by id with translation')]: t('Filter by ID with translation'), // DODO added 30434273
+};
+
+const filterInfoMap: Record<string, string> = {
+  filter_select_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_select_by_id_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_time: t(
+    'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter',
+  ),
 };
 
 /**
@@ -814,7 +826,7 @@ const FiltersConfigForm = (
         key={FilterTabs.configuration.key}
         forceRender
       >
-        <StyledRowContainer>
+        <StyledGridContainer>
           <StyledFormItem
             name={['filters', filterId, 'type']}
             hidden
@@ -868,15 +880,15 @@ const FiltersConfigForm = (
                 forceUpdate();
               }}
             />
-            {/* DODO added 30434273 */}
           </StyledFormItem>
-
-          <FilterTypeInfo>
-            <Icons.InfoSolid iconSize="m" iconColor="#999999" /> Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit. Tempora, illo ut nobis
-            laborum sit possimus incidunt perspiciatis, maiores id
-          </FilterTypeInfo>
-        </StyledRowContainer>
+          {/* DODO added 30434273 */}
+          {filterInfoMap[formFilter?.filterType || ''] && (
+            <FilterTypeInfo>
+              <Icons.InfoSolid iconSize="m" iconColor="#999999" />{' '}
+              {filterInfoMap[formFilter?.filterType || '']}
+            </FilterTypeInfo>
+          )}
+        </StyledGridContainer>
 
         <StyledRowContainer>
           <StyledFormItem
