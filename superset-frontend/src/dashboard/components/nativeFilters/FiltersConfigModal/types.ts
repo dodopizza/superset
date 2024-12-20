@@ -8,8 +8,8 @@ import {
 
 interface NativeFiltersFormItemDodoExtended {
   columnId?: string; // DODO added 29749076
-  name_RU?: string; // DODO added 30434273
-  column_RU: string; // DODO added 30434273
+  nameRu?: string; // DODO added 30434273
+  columnRu: string; // DODO added 30434273
 }
 
 export interface NativeFiltersFormItem

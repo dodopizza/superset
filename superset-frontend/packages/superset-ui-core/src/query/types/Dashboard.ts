@@ -3,7 +3,7 @@ import { AdhocFilter, DataMask } from '@superset-ui/core';
 
 interface NativeFilterColumnDodoExtended {
   id?: string; // DODO added 29749076
-  name_RU?: string;
+  nameRu?: string; // DODO added 30434273
 }
 
 // DODO changed 30434273
@@ -58,7 +58,7 @@ export type FilterSets = {
 };
 
 type FilterDodoExtended = {
-  name_RU?: string;
+  nameRu?: string; // DODO added 30434273
   selectTopValue?: number; // DODO added 38368947
 };
 

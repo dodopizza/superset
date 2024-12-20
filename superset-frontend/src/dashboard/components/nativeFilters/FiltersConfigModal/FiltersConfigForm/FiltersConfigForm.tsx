@@ -488,7 +488,7 @@ const FiltersConfigForm = (
         dashboardId,
         groupby: formFilter?.column,
         groupbyid: formFilter?.columnId, // DODO added 29749076
-        groupbyRu: formFilter?.column_RU, // DODO added 30434273
+        groupbyRu: formFilter?.columnRu, // DODO added 30434273
         ...formFilter,
       });
 
@@ -551,7 +551,7 @@ const FiltersConfigForm = (
     datasetId,
     groupby: hasColumn ? formFilter?.column : undefined,
     groupbyid: formFilter?.columnId, // DODO added 29749076
-    groupbyRu: formFilter?.column_RU,
+    groupbyRu: formFilter?.columnRu, // DODO added 30434273
     ...formFilter,
   });
   newFormData.extra_form_data = dependenciesDefaultValues;
@@ -862,8 +862,8 @@ const FiltersConfigForm = (
                   filterType: value,
                   defaultDataMask: null,
                   column: null,
-                  column_RU: null, // DODO added 30434273
-                  selectTopValue: null,
+                  columnRu: null, // DODO added 30434273
+                  selectTopValue: null, // DODO added 38368947
                 });
                 forceUpdate();
               }}
@@ -888,9 +888,9 @@ const FiltersConfigForm = (
             <Input {...getFiltersConfigModalTestId('name-input')} />
           </StyledFormItem>
           <StyledFormItem
-            name={['filters', filterId, 'name_RU']}
+            name={['filters', filterId, 'nameRu']}
             label={<StyledLabel>{t('Filter name')} RU</StyledLabel>}
-            initialValue={filterToEdit?.name_RU}
+            initialValue={filterToEdit?.nameRu}
             rules={[{ required: !isRemoved, message: t('Name is required') }]}
           >
             <Input {...getFiltersConfigModalTestId('name-input')} />

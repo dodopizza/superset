@@ -112,8 +112,8 @@ export const createHandleSave =
             target.column.id = formInputs.columnId;
           }
           // DODO added 30434273
-          if (formInputs.column_RU) {
-            target.column.name_RU = formInputs.column_RU;
+          if (formInputs.columnRu) {
+            target.column.nameRu = formInputs.columnRu;
           }
         }
         // DODO added start 38368947
@@ -132,7 +132,7 @@ export const createHandleSave =
             rf => rf,
           ),
           name: formInputs.name,
-          name_RU: formInputs.name_RU, // DODO added 30434273
+          nameRu: formInputs.nameRu, // DODO added 30434273
           filterType: formInputs.filterType,
           // for now there will only ever be one target
           targets: [target],

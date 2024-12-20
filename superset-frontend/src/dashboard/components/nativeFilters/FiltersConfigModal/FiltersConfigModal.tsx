@@ -51,9 +51,9 @@ const MIN_WIDTH = 880;
 
 // DODO added start 30434273
 const locale = bootstrapData?.common?.locale || 'en';
-const localisedNameField = `name${locale === 'en' ? '' : '_RU'}` as
+const localisedNameField = `name${locale === 'en' ? '' : 'Ru'}` as
   | 'name'
-  | 'name_RU';
+  | 'nameRu';
 // DODO added stop 30434273
 
 const StyledModalWrapper = styled(StyledModal)<{ expanded: boolean }>`
@@ -314,13 +314,13 @@ function FiltersConfigModal({
           localisedNameField in formValue &&
           formValue[localisedNameField as keyof typeof formValue]) ||
         (formValue && 'name' in formValue && formValue.name) ||
-        (formValue && 'name_RU' in formValue && formValue.name_RU) ||
+        (formValue && 'nameRu' in formValue && formValue.nameRu) ||
         (formValue && 'title' in formValue && formValue.title) ||
         (config &&
           localisedNameField in config &&
           config[localisedNameField]) ||
         (config && 'name' in config && config.name) ||
-        (config && 'name_RU' in config && config.name_RU) ||
+        (config && 'nameRu' in config && config.nameRu) ||
         (config && 'title' in config && config.title) ||
         t('[untitled]')
       );
@@ -551,7 +551,7 @@ function FiltersConfigModal({
           Object.values(changes.filters).some(
             (filter: any) =>
               (filter.name && filter.name !== null) ||
-              (filter.name_RU && filter.name_RU !== null), // DODO added 30434273
+              (filter.nameRu && filter.nameRu !== null), // DODO added 30434273
           );
         const didChangeSectionTitle =
           changes.filters &&

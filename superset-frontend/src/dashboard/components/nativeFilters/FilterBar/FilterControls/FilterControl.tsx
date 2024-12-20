@@ -219,10 +219,10 @@ const FilterControl = ({
   const [isFilterActive, setIsFilterActive] = useState(false);
 
   // const { name = '<undefined>' } = filter;
-  const { name, name_RU } = filter; // DODO changed 30434273
+  const { name, nameRu } = filter; // DODO changed 30434273
   // DODO added 30434273
   const nameToShow =
-    (locale === 'en' ? name : name_RU) || name || name_RU || '<undefined>';
+    (locale === 'en' ? name : nameRu) || name || nameRu || '<undefined>';
 
   const isFilterInScope = useIsFilterInScope();
   const isMissingRequiredValue =

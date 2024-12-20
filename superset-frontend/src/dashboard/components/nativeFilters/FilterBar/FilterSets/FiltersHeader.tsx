@@ -19,9 +19,9 @@ import { getFilterBarTestId } from '../utils';
 
 // DODO added start 30434273
 const locale = bootstrapData?.common?.locale || 'en';
-const localisedNameField = `name${locale === 'en' ? '' : '_RU'}` as
+const localisedNameField = `name${locale === 'en' ? '' : 'Ru'}` as
   | 'name'
-  | 'name_RU';
+  | 'nameRu';
 // DODO added stop 30434273
 
 const FilterHeader = styled.div`
@@ -84,7 +84,7 @@ const FiltersHeader: FC<FiltersHeaderProps> = ({ dataMask, filterSet }) => {
 
   // const getFilterRow = ({ id, name }: { id: string; name: string }) => {
   const getFilterRow = (filter: Filter) => {
-    const { id, name, name_RU, filterType, targets } = filter;
+    const { id, name, nameRu, filterType, targets } = filter;
     const changedFilter =
       filterSet &&
       !areObjectsEqual(
@@ -97,7 +97,7 @@ const FiltersHeader: FC<FiltersHeaderProps> = ({ dataMask, filterSet }) => {
     const removedFilter = !Object.keys(filters).includes(id);
     const column =
       hasFilterTranslations(filterType) && locale === 'ru'
-        ? targets[0]?.column?.name_RU
+        ? targets[0]?.column?.nameRu
         : targets[0]?.column?.name;
 
     return (
@@ -115,7 +115,7 @@ const FiltersHeader: FC<FiltersHeaderProps> = ({ dataMask, filterSet }) => {
       >
         <StyledFilterRow data-test="filter-info">
           <Typography.Text strong delete={removedFilter} mark={changedFilter}>
-            {filter[localisedNameField] || name || name_RU}:&nbsp;
+            {filter[localisedNameField] || name || nameRu}:&nbsp;
           </Typography.Text>
           <Typography.Text delete={removedFilter} mark={changedFilter}>
             {getFilterValueForDisplay(

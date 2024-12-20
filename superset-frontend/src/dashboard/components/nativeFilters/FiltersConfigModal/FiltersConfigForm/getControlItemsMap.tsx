@@ -87,8 +87,8 @@ export default function getControlItemsMap({
       let label: string;
 
       if (isGroupbyRu) {
-        initColumn = filterToEdit?.targets[0]?.column?.name_RU;
-        formField = 'column_RU';
+        initColumn = filterToEdit?.targets[0]?.column?.nameRu;
+        formField = 'columnRu';
         label = `${t('Column')} RU`;
       } else if (byValue) {
         initColumn = filterToEdit?.targets[0]?.column?.name;
