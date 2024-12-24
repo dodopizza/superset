@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import contextlib
+import io
 import json
 import logging
 from typing import Any, TYPE_CHECKING
@@ -24,7 +25,7 @@ from typing import Any, TYPE_CHECKING
 import pandas as pd
 from pandas import Series
 import simplejson
-from flask import current_app, g, make_response, request, Response
+from flask import current_app, g, make_response, request, Response, send_file
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
@@ -51,7 +52,7 @@ from superset.extensions import event_logger
 from superset.models.sql_lab import Query
 from superset.utils import excel
 from superset.utils.async_query_manager import AsyncQueryTokenException
-from superset.utils.core import create_zip, get_user_id, json_int_dttm_ser
+from superset.utils.core import GenericDataType, create_zip, get_user_id, json_int_dttm_ser
 from superset.views.base import CsvResponse, generate_download_headers, XlsxResponse
 from superset.views.base_api import statsd_metrics
 
@@ -267,7 +268,24 @@ class ChartDataRestApi(ChartRestApi):
                     metric.verbose_name_EN = metric.verbose_name
                     metric.verbose_name = metric.verbose_name_RU
 
-            response = self._get_data_response(
+            if query_context.result_format == ChartDataResultFormat.XLSX:
+                bytes_stream = self._get_data_response(
+                    command, form_data=form_data, datasource=query_context.datasource
+                )
+
+                for column in query_context.datasource.columns:
+                    column.verbose_name = column.verbose_name_EN
+                for metric in query_context.datasource.metrics:
+                    metric.verbose_name = metric.verbose_name_EN
+
+                return send_file(
+                    path_or_file=bytes_stream,
+                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    as_attachment=True,
+                    download_name="data.xlsx",
+                )
+
+            response_csv = self._get_data_response(
                 command, form_data=form_data, datasource=query_context.datasource
             )
 
@@ -276,12 +294,21 @@ class ChartDataRestApi(ChartRestApi):
             for metric in query_context.datasource.metrics:
                 metric.verbose_name = metric.verbose_name_EN
 
-        else:
-            response = self._get_data_response(
+            return response_csv
+
+        if query_context.result_format == ChartDataResultFormat.XLSX:
+            bytes_stream = self._get_data_response(
                 command, form_data=form_data, datasource=query_context.datasource
             )
-
-        return response
+            return send_file(
+                path_or_file=bytes_stream,
+                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                as_attachment=True,
+                download_name="data.xlsx",
+            )
+        return self._get_data_response(
+            command, form_data=form_data, datasource=query_context.datasource
+        )
 
     @expose("/data/<cache_key>", methods=("GET",))
     @protect()
@@ -392,19 +419,141 @@ class ChartDataRestApi(ChartRestApi):
             if not (result_queries := result["queries"]):
                 return self.response_400(_("Empty query result"))
 
-            result_data = self._convert_data_response(result, form_data)
+            exportAsTime = form_data.get("exportAsTime")
+            column_config = form_data.get("column_config")
+            table_order_by = form_data.get("table_order_by")
 
             if result_format == ChartDataResultFormat.XLSX:
-                return XlsxResponse(
-                    result_data,
-                    headers=generate_download_headers("xlsx"),
-                )
+                # Verify user has permission to export XLSX file
+                if not security_manager.can_access("can_csv", "Superset"):
+                    logger.warning(
+                        "user doesnt have permission to export XLSX file", g.user
+                    )
+                    return self.response_403()
 
+                if not result["queries"]:
+                    return self.response_400(_("Empty query result"))
+
+                if list_of_data := result["queries"]:
+                    df = pd.DataFrame()
+                    for data in list_of_data:
+                        try:
+                            # return query results xlsx format
+                            new_df = self.delete_tz_from_df(data)
+                            keys_of_new_df = new_df.keys()
+                            exist_df = df.keys()
+                            for key in keys_of_new_df:
+                                if key in exist_df:
+                                    new_df.pop(key)
+                            if not new_df.empty:
+                                df = df.join(new_df, how="right", rsuffix="2")
+                        except IndexError:
+                            return self.response_500(
+                                _("Server error occurred while exporting the file")
+                            )
+                    if exportAsTime:
+                        key_column = df.keys()[0]
+                        df[key_column] = df[key_column].apply(convert_to_time)
+
+                    metric_map = dict()
+                    datasourceMetrics = form_data.get("datasourceMetrics")
+                    if datasourceMetrics:
+                        for datasource_metric in datasourceMetrics:
+                            metric_map[datasource_metric.get("metric_name")] = (
+                                datasource_metric.get("verbose_name")
+                            )
+                    if column_config:
+                        for k, v in column_config.items():
+                            if v.get("exportAsTime"):
+                                if isinstance(df.get(k), Series):
+                                    df[k] = df[k].apply(convert_to_time)
+                                if isinstance(df.get(metric_map.get(k)), Series):
+                                    df[metric_map.get(k)] = df[metric_map.get(k)].apply(
+                                        convert_to_time
+                                    )
+
+                    if table_order_by:
+                        for k, v in table_order_by.items():
+                            if v == "desc":
+                                df = df.sort_values(by=[k], ascending=False)
+                            if v == "asc":
+                                df = df.sort_values(by=[k], ascending=True)
+
+                    excel_writer = io.BytesIO()
+                    df.to_excel(
+                        excel_writer,
+                        startrow=0,
+                        merge_cells=False,
+                        sheet_name="Sheet_1",
+                        index_label=None,
+                        index=False,
+                    )
+                    excel_writer.seek(0)
+                    return excel_writer
+                
             if result_format == ChartDataResultFormat.CSV:
-                return CsvResponse(
-                    result_data,
-                    headers=generate_download_headers("csv"),
-                )
+                # Verify user has permission to export CSV file
+                if not security_manager.can_access("can_csv", "Superset"):
+                    logger.warning(
+                        "user doesnt have permission to export CSV file", g.user
+                    )
+                    return self.response_403()
+
+                if not result["queries"]:
+                    return self.response_400(_("Empty query result"))
+                if list_of_data := result["queries"]:
+                    logger.info("get data for prepare")
+                    df = pd.DataFrame()
+                    for data in list_of_data:
+                        try:
+                            # return query results csv format
+                            new_df = self.delete_tz_from_df(data)
+                            keys_of_new_df = new_df.keys()
+                            exist_df = df.keys()
+                            for key in keys_of_new_df:
+                                if key in exist_df:
+                                    new_df.pop(key)
+                            if not new_df.empty:
+                                df = df.join(new_df, how="right", rsuffix="2")
+                        except IndexError:
+                            return self.response_500(
+                                _("Server error occurred while exporting the file")
+                            )
+
+                    if exportAsTime:
+                        key_column = df.keys()[0]
+                        df[key_column] = df[key_column].apply(convert_to_time)
+
+                    metric_map = dict()
+                    datasourceMetrics = form_data.get("datasourceMetrics")
+                    if datasourceMetrics:
+                        for datasource_metric in datasourceMetrics:
+                            metric_map[datasource_metric.get("metric_name")] = (
+                                datasource_metric.get("verbose_name")
+                            )
+
+                    if column_config:
+                        for k, v in column_config.items():
+                            if v.get("exportAsTime"):
+                                if isinstance(df.get(k), Series):
+                                    df[k] = df[k].apply(convert_to_time)
+                                if isinstance(df.get(metric_map.get(k)), Series):
+                                    df[metric_map.get(k)] = df[metric_map.get(k)].apply(
+                                        convert_to_time
+                                    )
+
+                    if table_order_by:
+                        for k, v in table_order_by.items():
+                            if v == "desc":
+                                df = df.sort_values(by=[k], ascending=False)
+                            if v == "asc":
+                                df = df.sort_values(by=[k], ascending=True)
+
+                    config_csv = current_app.config["CSV_EXPORT"]
+                    return CsvResponse(
+                        df.to_csv(**config_csv),
+                        headers=generate_download_headers("csv"),
+                    )
 
             def _process_data(query_data: Any) -> Any:
                 if result_format == ChartDataResultFormat.CSV:
@@ -522,3 +671,26 @@ class ChartDataRestApi(ChartRestApi):
             raise ValidationError("Request is incorrect") from ex
         except ValidationError as error:
             raise error
+
+
+    def delete_tz_from_df(self, d: dict) -> pd.DataFrame:
+        coltypes = d.get('coltypes')
+        if isinstance(d.get('data'), pd.DataFrame):
+            data = d.get('data')
+        elif isinstance(d.get('df'), pd.DataFrame):
+            data = d.get('df')
+        else:
+            data = d.get('data') or d.get('df')
+        df = pd.DataFrame(data)
+        colnames = [colname for colname in df.columns]
+        if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
+            for k, type_col in enumerate(coltypes):
+                if type_col == GenericDataType.TEMPORAL:
+                    name_col = colnames[k]
+                    df[name_col] = pd.to_datetime(df[name_col], utc=True)
+                    df[name_col] = df[name_col].dt.tz_localize(None)
+                if type_col == GenericDataType.NUMERIC:
+                    name_col = colnames[k]
+                    df[name_col] = pd.to_numeric(df[name_col])
+            return df
+        return df
