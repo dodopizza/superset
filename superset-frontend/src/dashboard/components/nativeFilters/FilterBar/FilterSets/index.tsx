@@ -113,10 +113,6 @@ const FilterSets: React.FC<FilterSetsProps> = ({
       dataMaskSelected,
       filterSetFilterValues,
     });
-    console.groupCollapsed('filter');
-    console.log('dataMaskSelected', dataMaskSelected);
-    console.log('filterSetFilterValues', filterSetFilterValues);
-    console.groupEnd();
     setSelectedFiltersSetId(foundFilterSet?.id ?? null);
   }, [tab, dataMaskSelected, filterSetFilterValues]);
 
