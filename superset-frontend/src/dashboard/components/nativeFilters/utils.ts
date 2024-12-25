@@ -113,9 +113,10 @@ export function mergeExtraFormData(
       // DODO added start 30434273
       const localisedMergedValues = mergedValues.map(value => {
         // filter select and filter select by id cases
-        if (typeof value.val[0] === 'string') return value;
+        if (typeof value.val[0] !== 'object' || value.val[0] === null)
+          return value;
 
-        const columns = Object.keys(value.val[0] || {}); // [groupBy, groupbyRu, groupbyid]
+        const columns = Object.keys(value.val[0] || {}); // [groupBy, groupbyRu, groupbyid] | [groupBy, groupbyRu]
         let columnOrder = 0;
 
         // filter select by id with translation case
