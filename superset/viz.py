@@ -687,9 +687,8 @@ class BaseViz:  # pylint: disable=too-many-public-methods
         return csv.df_to_escaped_csv(df, **config["CSV_EXPORT"])
 
     def get_xlsx(self, mt_cl: dict = None) -> Optional[bytes]:
-        payload = self.get_df_payload()
-
-        df = excel.apply_column_types(payload["df"], payload["coltypes"])
+        df = self.get_df_payload()["df"]
+        
         if mt_cl:
             for column_df in df.columns:
                 df.rename(

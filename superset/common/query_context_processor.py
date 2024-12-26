@@ -561,7 +561,9 @@ class QueryContextProcessor:
 
         return row[column_index].strftime("%Y")
 
-    def get_data(self, df: pd.DataFrame, coltypes: list[GenericDataType]) -> str | list[dict[str, Any]]:
+    def get_data(
+        self, df: pd.DataFrame, coltypes: list[GenericDataType]
+    ) -> str | list[dict[str, Any]]:
         if self._query_context.result_format in ChartDataResultFormat.table_like():
             columns = list(df.columns)
             new_columns = []
