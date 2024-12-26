@@ -92,14 +92,14 @@ const TabPane = styled(Tabs.TabPane)`
   padding: ${({ theme }) => theme.gridUnit * 4}px 0px;
 `;
 
-const StyledContainer = styled.div`
-  ${({ theme }) => `
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding: 0px ${theme.gridUnit * 4}px;
-  `}
-`;
+// const StyledContainer = styled.div`
+//   ${({ theme }) => `
+//     display: flex;
+//     flex-direction: row-reverse;
+//     justify-content: space-between;
+//     padding: 0px ${theme.gridUnit * 4}px;
+//   `}
+// `;
 
 const StyledRowContainer = styled.div`
   display: flex;
@@ -107,6 +107,13 @@ const StyledRowContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+  column-gap: 0.75rem; // DODO added 29749076
+`;
+
+const StyledGridContainer = styled.div`
+  padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   column-gap: 0.75rem; // DODO added 29749076
 `;
 
@@ -120,11 +127,10 @@ const controlsOrder: ControlKey[] = [
   'inverseSelection',
 ];
 
-export const StyledFormItem = styled(FormItem)<{
-  width?: string; // DODO added 38368947
-}>`
-  width: ${({ width }) => width || '49%'};
+export const StyledFormItem = styled(FormItem)`
+  // width: 49%;
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
+  flex: 1; // DODO added 30434273
 
   & .ant-form-item-label {
     padding-bottom: 0;
@@ -253,14 +259,15 @@ const StyledAsterisk = styled.span`
 
 const FilterTypeInfo = styled.div`
   ${({ theme }) => `
-    width: 49%;
+    // margin-bottom: 16px;
+    // width: 49%;
     font-size: ${theme.typography.sizes.s}px;
     color: ${theme.colors.grayscale.light1};
-    margin:
-      ${-theme.gridUnit * 2}px
-      0px
-      ${theme.gridUnit * 4}px
-      ${theme.gridUnit * 4}px;
+    // margin:
+    //   ${-theme.gridUnit * 2}px
+    //   0px
+    //   ${theme.gridUnit * 4}px
+    //   ${theme.gridUnit * 4}px;
   `}
 `;
 
@@ -319,7 +326,21 @@ const FILTER_TYPE_NAME_MAPPING = {
   [t('Time grain')]: t('Time grain'),
   [t('Group By')]: t('Group by'),
   // DODO added 29749076
-  [t('Select by id filter')]: t('Id'),
+  [t('Select by id filter')]: t('Filter by ID'),
+  [t('Select with translation')]: t('Value with translation'), // DODO added 30434273
+  [t('Select by id with translation')]: t('Filter by ID with translation'), // DODO added 30434273
+};
+
+const filterInfoMap: Record<string, string> = {
+  filter_select_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_select_by_id_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_time: t(
+    'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter',
+  ),
 };
 
 /**
@@ -479,6 +500,7 @@ const FiltersConfigForm = (
         dashboardId,
         groupby: formFilter?.column,
         groupbyid: formFilter?.columnId, // DODO added 29749076
+        groupbyRu: formFilter?.columnRu, // DODO added 30434273
         ...formFilter,
       });
 
@@ -541,6 +563,7 @@ const FiltersConfigForm = (
     datasetId,
     groupby: hasColumn ? formFilter?.column : undefined,
     groupbyid: formFilter?.columnId, // DODO added 29749076
+    groupbyRu: formFilter?.columnRu, // DODO added 30434273
     ...formFilter,
   });
   newFormData.extra_form_data = dependenciesDefaultValues;
@@ -803,7 +826,7 @@ const FiltersConfigForm = (
         key={FilterTabs.configuration.key}
         forceRender
       >
-        <StyledContainer>
+        <StyledGridContainer>
           <StyledFormItem
             name={['filters', filterId, 'type']}
             hidden
@@ -811,14 +834,7 @@ const FiltersConfigForm = (
           >
             <Input />
           </StyledFormItem>
-          <StyledFormItem
-            name={['filters', filterId, 'name']}
-            label={<StyledLabel>{t('Filter name')}</StyledLabel>}
-            initialValue={filterToEdit?.name}
-            rules={[{ required: !isRemoved, message: t('Name is required') }]}
-          >
-            <Input {...getFiltersConfigModalTestId('name-input')} />
-          </StyledFormItem>
+
           <StyledFormItem
             name={['filters', filterId, 'filterType']}
             rules={[{ required: !isRemoved, message: t('Name is required') }]}
@@ -858,95 +874,132 @@ const FiltersConfigForm = (
                   filterType: value,
                   defaultDataMask: null,
                   column: null,
+                  columnRu: null, // DODO added 30434273
+                  selectTopValue: null, // DODO added 38368947
                 });
                 forceUpdate();
               }}
             />
           </StyledFormItem>
-        </StyledContainer>
-        {formFilter?.filterType === 'filter_time' && (
+          {/* DODO added 30434273 */}
+          {filterInfoMap[formFilter?.filterType || ''] && (
+            <FilterTypeInfo>
+              <Icons.InfoSolid iconSize="m" iconColor="#999999" />{' '}
+              {filterInfoMap[formFilter?.filterType || '']}
+            </FilterTypeInfo>
+          )}
+        </StyledGridContainer>
+
+        <StyledRowContainer>
+          <StyledFormItem
+            name={['filters', filterId, 'name']}
+            label={<StyledLabel>{t('Filter name')} EN</StyledLabel>}
+            initialValue={filterToEdit?.name}
+            rules={[{ required: !isRemoved, message: t('Name is required') }]}
+          >
+            <Input {...getFiltersConfigModalTestId('name-input')} />
+          </StyledFormItem>
+          <StyledFormItem
+            name={['filters', filterId, 'nameRu']}
+            label={<StyledLabel>{t('Filter name')} RU</StyledLabel>}
+            initialValue={filterToEdit?.nameRu}
+            rules={[{ required: !isRemoved, message: t('Name is required') }]}
+          >
+            <Input {...getFiltersConfigModalTestId('name-input')} />
+          </StyledFormItem>
+        </StyledRowContainer>
+
+        {hasDataset && (
+          <>
+            <StyledRowContainer>
+              {showDataset ? (
+                <StyledFormItem
+                  name={['filters', filterId, 'dataset']}
+                  label={<StyledLabel>{t('Dataset')}</StyledLabel>}
+                  initialValue={
+                    datasetDetails
+                      ? {
+                          label: datasetDetails.table_name,
+                          value: datasetDetails.id,
+                        }
+                      : undefined
+                  }
+                  rules={[
+                    { required: !isRemoved, message: t('Dataset is required') },
+                  ]}
+                  {...getFiltersConfigModalTestId('datasource-input')}
+                >
+                  <DatasetSelect
+                    onChange={(value: { label: string; value: number }) => {
+                      // We need to reset the column when the dataset has changed
+                      if (value.value !== datasetId) {
+                        setNativeFilterFieldValues(form, filterId, {
+                          dataset: value,
+                          defaultDataMask: null,
+                          column: null,
+                        });
+                      }
+                      forceUpdate();
+                    }}
+                  />
+                </StyledFormItem>
+              ) : (
+                <StyledFormItem
+                  label={<StyledLabel>{t('Dataset')}</StyledLabel>}
+                >
+                  <Loading position="inline-centered" />
+                </StyledFormItem>
+              )}
+            </StyledRowContainer>
+            <StyledGridContainer>
+              {Object.keys(mainControlItems).map(
+                key => mainControlItems[key].element,
+              )}
+              {/* DODO added start 38368947 */}
+              {hasDataset &&
+                (formFilter.filterType === 'filter_select_by_id' ||
+                  formFilter.filterType ===
+                    'filter_select_by_id_with_translation') && (
+                  <StyledFormItem
+                    name={['filters', filterId, 'selectTopValue']}
+                    label={
+                      <StyledLabel>
+                        Select Top Value{' '}
+                        <InfoTooltipWithTrigger
+                          tooltip={t('Use it with caution')}
+                        />
+                      </StyledLabel>
+                    }
+                    initialValue={filterToEdit?.selectTopValue}
+                    rules={[
+                      {
+                        validator: (_, value) => {
+                          if (!value) return Promise.resolve();
+                          if (!Number.isInteger(Number(value))) {
+                            return Promise.reject(
+                              new Error(t('Not a valid integer')),
+                            );
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                  >
+                    <TextControl placeholder="1000" />
+                  </StyledFormItem>
+                )}
+            </StyledGridContainer>
+          </>
+        )}
+
+        {/* DODO commented out 30434273 */}
+        {/* {formFilter?.filterType === 'filter_time' && (
           <FilterTypeInfo>
             {t(`Dashboard time range filters apply to temporal columns defined in
           the filter section of each chart. Add temporal columns to the chart
           filters to have this dashboard filter impact those charts.`)}
           </FilterTypeInfo>
-        )}
-        {hasDataset && (
-          <StyledRowContainer>
-            {showDataset ? (
-              <StyledFormItem
-                name={['filters', filterId, 'dataset']}
-                label={<StyledLabel>{t('Dataset')}</StyledLabel>}
-                initialValue={
-                  datasetDetails
-                    ? {
-                        label: datasetDetails.table_name,
-                        value: datasetDetails.id,
-                      }
-                    : undefined
-                }
-                rules={[
-                  { required: !isRemoved, message: t('Dataset is required') },
-                ]}
-                {...getFiltersConfigModalTestId('datasource-input')}
-              >
-                <DatasetSelect
-                  onChange={(value: { label: string; value: number }) => {
-                    // We need to reset the column when the dataset has changed
-                    if (value.value !== datasetId) {
-                      setNativeFilterFieldValues(form, filterId, {
-                        dataset: value,
-                        defaultDataMask: null,
-                        column: null,
-                      });
-                    }
-                    forceUpdate();
-                  }}
-                />
-              </StyledFormItem>
-            ) : (
-              <StyledFormItem label={<StyledLabel>{t('Dataset')}</StyledLabel>}>
-                <Loading position="inline-centered" />
-              </StyledFormItem>
-            )}
-            {hasDataset &&
-              Object.keys(mainControlItems).map(
-                key => mainControlItems[key].element,
-              )}
-          </StyledRowContainer>
-        )}
-        {/* DODO added start 38368947 */}
-        {hasDataset && formFilter.filterType === 'filter_select_by_id' && (
-          <StyledRowContainer>
-            <StyledFormItem
-              width="130px"
-              name={['filters', filterId, 'selectTopValue']}
-              label={
-                <StyledLabel>
-                  Select Top Value{' '}
-                  <InfoTooltipWithTrigger tooltip={t('Use it with caution')} />
-                </StyledLabel>
-              }
-              initialValue={filterToEdit?.selectTopValue}
-              rules={[
-                {
-                  validator: (_, value) => {
-                    if (!value) return Promise.resolve();
-                    if (!Number.isInteger(Number(value))) {
-                      return Promise.reject(
-                        new Error(t('Not a valid integer')),
-                      );
-                    }
-                    return Promise.resolve();
-                  },
-                },
-              ]}
-            >
-              <TextControl placeholder="1000" />
-            </StyledFormItem>
-          </StyledRowContainer>
-        )}
-        {/* DODO added stop 38368947 */}
+        )} */}
         <StyledCollapse
           defaultActiveKey={activeFilterPanelKeys}
           onChange={key => {

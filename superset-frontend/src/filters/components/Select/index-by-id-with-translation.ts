@@ -1,6 +1,4 @@
-// DODO was here
-// DODO added 29749076
-
+// DODO created 30434273
 import { Behavior, ChartMetadata, ChartPlugin, t } from '@superset-ui/core';
 import { cloneDeep } from 'lodash';
 import { sharedControls } from '@superset-ui/chart-controls';
@@ -13,9 +11,21 @@ const panel = cloneDeep(controlPanel);
 
 for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
   const section = panel.controlPanelSections.at(i);
+  const controlSetRow = section?.controlSetRows?.[0];
+  const controlSet = controlSetRow?.[0];
   // @ts-ignore
-  if (section?.controlSetRows.at(0)?.at(0)?.name === 'groupby') {
-    section?.controlSetRows?.at(0)?.push({
+  if (controlSet && controlSet.name === 'groupby') {
+    // @ts-ignore
+    controlSet.config.label = `${t('Column')} EN`;
+    controlSetRow.push({
+      name: 'groupbyRu',
+      config: {
+        ...sharedControls.groupby,
+        label: `${t('Column')} RU`,
+        required: true,
+      },
+    });
+    controlSetRow.push({
       name: 'groupbyid',
       config: {
         ...sharedControls.groupby,
@@ -29,8 +39,8 @@ for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
 export default class FilterSelectPlugin extends ChartPlugin {
   constructor() {
     const metadata = new ChartMetadata({
-      name: t('Select by id filter'),
-      description: t("Select by id filter plugin using AntD'"),
+      name: t('Select by id with translation'),
+      description: t("Select by id with translation filter plugin using AntD'"),
       behaviors: [Behavior.INTERACTIVE_CHART, Behavior.NATIVE_FILTER],
       enableNoResults: false,
       tags: [t('Experimental')],
@@ -40,7 +50,7 @@ export default class FilterSelectPlugin extends ChartPlugin {
     super({
       buildQuery,
       controlPanel: panel,
-      loadChart: () => import('./SelectFilterPlugin'),
+      loadChart: () => import('./SelectFilterPluginWithTranslations'),
       metadata,
       transformProps,
     });
