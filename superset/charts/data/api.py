@@ -419,9 +419,9 @@ class ChartDataRestApi(ChartRestApi):
             if not (result_queries := result["queries"]):
                 return self.response_400(_("Empty query result"))
 
-            exportAsTime = form_data.get("exportAsTime")
-            column_config = form_data.get("column_config")
-            table_order_by = form_data.get("table_order_by")
+            exportAsTime = form_data.get('exportAsTime')  # с фронтам приходит поле "exportAstime", если тип графика big number и значение нужно экспортнуть как время
+            column_config = form_data.get('column_config')  # с фронта приходит словарь, где лежат словари, в которых возможно есть поле "exportAsTime", если значение нужно экспортнуть как время, используется во всех остальных типах графиков
+            table_order_by = form_data.get('table_order_by')  # используем для сортировки данных, приходит словарь, где ключ это колонка, по которому отсортировали, а значение это в каком порядке было отсортировано
 
             if result_format == ChartDataResultFormat.XLSX:
                 # Verify user has permission to export XLSX file
@@ -451,18 +451,17 @@ class ChartDataRestApi(ChartRestApi):
                             return self.response_500(
                                 _("Server error occurred while exporting the file")
                             )
-                    if exportAsTime:
+                    if exportAsTime:  # экспорт в формате времени
                         key_column = df.keys()[0]
                         df[key_column] = df[key_column].apply(convert_to_time)
 
-                    metric_map = dict()
-                    datasourceMetrics = form_data.get("datasourceMetrics")
+                    metric_map = dict()  # получаем данные с фронта о метриках, чтобы корректно переводить колонки на русский язык при выгрузке
+                    datasourceMetrics = form_data.get('datasourceMetrics')
                     if datasourceMetrics:
                         for datasource_metric in datasourceMetrics:
-                            metric_map[datasource_metric.get("metric_name")] = (
-                                datasource_metric.get("verbose_name")
-                            )
-                    if column_config:
+                            metric_map[datasource_metric.get('metric_name')] = datasource_metric.get('verbose_name')
+                    if column_config:  # экспорт в формате времени
+
                         for k, v in column_config.items():
                             if v.get("exportAsTime"):
                                 if isinstance(df.get(k), Series):
@@ -472,7 +471,7 @@ class ChartDataRestApi(ChartRestApi):
                                         convert_to_time
                                     )
 
-                    if table_order_by:
+                    if table_order_by: # сортируем данные при выгрузке
                         for k, v in table_order_by.items():
                             if v == "desc":
                                 df = df.sort_values(by=[k], ascending=False)
@@ -532,7 +531,7 @@ class ChartDataRestApi(ChartRestApi):
                                 datasource_metric.get("verbose_name")
                             )
 
-                    if column_config:
+                    if column_config:  # экспорт в формате времени
                         for k, v in column_config.items():
                             if v.get("exportAsTime"):
                                 if isinstance(df.get(k), Series):
@@ -542,7 +541,7 @@ class ChartDataRestApi(ChartRestApi):
                                         convert_to_time
                                     )
 
-                    if table_order_by:
+                    if table_order_by:  # сортируем данные при выгрузке
                         for k, v in table_order_by.items():
                             if v == "desc":
                                 df = df.sort_values(by=[k], ascending=False)

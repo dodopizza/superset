@@ -156,8 +156,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.column_name",
         "columns.created_on",
         "columns.description",
-        "columns.description_RU",
-        "columns.description_EN",
+        "columns.description_RU",  # описание данных в туллтипе
+        "columns.description_EN",  # описание данных в туллтипе
         "columns.expression",
         "columns.filterable",
         "columns.groupby",
@@ -168,24 +168,24 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.python_date_format",
         "columns.type",
         "columns.uuid",
-        "columns.verbose_name_RU",
-        "columns.verbose_name_EN",
+        "columns.verbose_name_RU",  # описание данных в туллтипе
+        "columns.verbose_name_EN",  # описание данных в туллтипе
         "columns.verbose_name",
         "metrics.changed_on",
         "metrics.created_on",
         "metrics.d3format",
         "metrics.currency",
         "metrics.description",
-        "metrics.description_RU",
-        "metrics.description_EN",
+        "metrics.description_RU",  # описание данных в туллтипе
+        "metrics.description_EN",  # описание данных в туллтипе
         "metrics.expression",
         "metrics.extra",
         "metrics.id",
         "metrics.metric_name",
         "metrics.metric_type",
         "metrics.verbose_name",
-        "metrics.verbose_name_RU",
-        "metrics.verbose_name_EN",
+        "metrics.verbose_name_RU",  # описание данных в туллтипе
+        "metrics.verbose_name_EN",  # описание данных в туллтипе
         "metrics.number_format",
         "metrics.warning_text",
         "datasource_type",
