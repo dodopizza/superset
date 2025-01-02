@@ -41,7 +41,7 @@ const config: ControlPanelConfig = {
         ['adhoc_filters'],
         ['groupby'],
         ['limit'],
-        ['timeseries_limit_metric'],
+        ['series_limit_metric'],
         ['order_desc'],
         [
           {

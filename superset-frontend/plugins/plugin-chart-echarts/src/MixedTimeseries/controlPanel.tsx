@@ -87,8 +87,8 @@ function createQuerySection(
       ],
       [
         {
-          name: `timeseries_limit_metric${controlSuffix}`,
-          config: sharedControls.timeseries_limit_metric,
+          name: `series_limit_metric${controlSuffix}`,
+          config: sharedControls.series_limit_metric,
         },
       ],
       [

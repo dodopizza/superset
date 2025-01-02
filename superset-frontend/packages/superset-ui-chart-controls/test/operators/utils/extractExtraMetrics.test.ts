@@ -44,11 +44,11 @@ test('returns empty array if relevant controls missing', () => {
   ).toEqual([]);
 });
 
-test('returns empty array if x_axis_sort is not same as timeseries_limit_metric', () => {
+test('returns empty array if x_axis_sort is not same as series_limit_metric', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
-      timeseries_limit_metric: 'foo',
+      series_limit_metric: 'foo',
       x_axis_sort: 'bar',
     }),
   ).toEqual([]);
@@ -58,7 +58,7 @@ test('returns correct column if sort columns match', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
-      timeseries_limit_metric: 'foo',
+      series_limit_metric: 'foo',
       x_axis_sort: 'foo',
     }),
   ).toEqual(['foo']);
@@ -68,7 +68,7 @@ test('handles adhoc metrics correctly', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
-      timeseries_limit_metric: metric,
+      series_limit_metric: metric,
       x_axis_sort: 'foo',
     }),
   ).toEqual([metric]);
@@ -76,7 +76,7 @@ test('handles adhoc metrics correctly', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
-      timeseries_limit_metric: metric,
+      series_limit_metric: metric,
       x_axis_sort: 'bar',
     }),
   ).toEqual([]);
@@ -87,23 +87,23 @@ test('returns empty array if groupby populated', () => {
     extractExtraMetrics({
       ...baseFormData,
       groupby: ['bar'],
-      timeseries_limit_metric: 'foo',
+      series_limit_metric: 'foo',
       x_axis_sort: 'foo',
     }),
   ).toEqual([]);
 });
 
-test('returns empty array if timeseries_limit_metric and x_axis_sort are included in main metrics array', () => {
+test('returns empty array if series_limit_metric and x_axis_sort are included in main metrics array', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
-      timeseries_limit_metric: 'a',
+      series_limit_metric: 'a',
       x_axis_sort: 'a',
     }),
   ).toEqual([]);
 });
 
-test('returns empty array if timeseries_limit_metric and x_axis_sort are included in main metrics array with adhoc metrics', () => {
+test('returns empty array if series_limit_metric and x_axis_sort are included in main metrics array with adhoc metrics', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
@@ -115,7 +115,7 @@ test('returns empty array if timeseries_limit_metric and x_axis_sort are include
           column: { column_name: 'num' },
         },
       ],
-      timeseries_limit_metric: {
+      series_limit_metric: {
         expressionType: 'SIMPLE',
         aggregate: 'SUM',
         column: { column_name: 'num' },
@@ -125,12 +125,12 @@ test('returns empty array if timeseries_limit_metric and x_axis_sort are include
   ).toEqual([]);
 });
 
-test('returns emoty array if timeseries_limit_metric is an empty array', () => {
+test('returns emoty array if series_limit_metric is an empty array', () => {
   expect(
     extractExtraMetrics({
       ...baseFormData,
       // @ts-ignore
-      timeseries_limit_metric: [],
+      series_limit_metric: [],
     }),
   ).toEqual([]);
 });

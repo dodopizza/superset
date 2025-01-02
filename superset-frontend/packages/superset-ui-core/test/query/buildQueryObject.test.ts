@@ -149,7 +149,7 @@ describe('buildQueryObject', () => {
       datasource: '5__table',
       granularity_sqla: 'ds',
       viz_type: 'table',
-      timeseries_limit_metric: metric,
+      series_limit_metric: metric,
     });
     expect(query.series_limit_metric).toEqual(metric);
   });

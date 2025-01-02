@@ -129,7 +129,7 @@ const tableVizStore = {
     adhoc_filters: {
       value: [],
     },
-    timeseries_limit_metric: {},
+    series_limit_metric: {},
     order_by_cols: {
       value: [],
     },
@@ -196,7 +196,6 @@ describe('should collect control values and create SFD', () => {
     // subquery limit(series limit)
     limit: 5,
     // order by clause
-    timeseries_limit_metric: 'orderby_metric',
     series_limit_metric: 'orderby_metric',
     // desc or asc in order by clause
     order_desc: true,

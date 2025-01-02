@@ -16,6 +16,7 @@ export interface NativeFiltersFormItem {
   };
   column: string;
   columnId?: string; // DODO added 29749076
+  selectTopValue?: string; // DODO added 38368947
   controlValues: {
     [key: string]: any;
   };

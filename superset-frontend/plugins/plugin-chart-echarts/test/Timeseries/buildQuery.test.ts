@@ -36,7 +36,7 @@ describe('Timeseries buildQuery', () => {
   it('should order by timeseries limit if orderby unspecified', () => {
     const queryContext = buildQuery({
       ...formData,
-      timeseries_limit_metric: 'bar',
+      series_limit_metric: 'bar',
       order_desc: true,
     });
     const [query] = queryContext.queries;
@@ -49,7 +49,7 @@ describe('Timeseries buildQuery', () => {
   it('should not order by timeseries limit if orderby provided', () => {
     const queryContext = buildQuery({
       ...formData,
-      timeseries_limit_metric: 'bar',
+      series_limit_metric: 'bar',
       order_desc: true,
       orderby: [['foo', true]],
     });

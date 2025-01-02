@@ -120,7 +120,7 @@ describe('Visualization > Line', () => {
       metrics: [NUM_METRIC],
       limit: 10,
       groupby: ['name'],
-      timeseries_limit_metric: NUM_METRIC,
+      series_limit_metric: NUM_METRIC,
     };
     cy.visitChartByParams(formData);
     cy.verifySliceSuccess({ waitAlias: '@getJson', chartSelector: 'svg' });
@@ -132,7 +132,7 @@ describe('Visualization > Line', () => {
       metrics: [NUM_METRIC],
       limit: 10,
       groupby: ['name'],
-      timeseries_limit_metric: NUM_METRIC,
+      series_limit_metric: NUM_METRIC,
       order_desc: true,
     };
     cy.visitChartByParams(formData);

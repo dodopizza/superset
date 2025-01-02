@@ -38,7 +38,9 @@ export const HandlebarsViewer = ({
   const { common } = JSON.parse(
     appContainer?.getAttribute('data-bootstrap') || '{}',
   );
-  const htmlSanitization = common?.conf?.HTML_SANITIZATION ?? true;
+  // const htmlSanitization = common?.conf?.HTML_SANITIZATION ?? true;
+  const htmlSanitization =
+    common?.conf?.HTML_SANITIZATION ?? window.htmlSanitization ?? true; // DODO changed 28517086
   const htmlSchemaOverrides =
     common?.conf?.HTML_SANITIZATION_SCHEMA_EXTENSIONS || {};
 

@@ -1249,21 +1249,6 @@ class ChartDataQueryObjectSchema(Schema):
         },
         allow_none=True,
     )
-    timeseries_limit = fields.Integer(
-        metadata={
-            "description": "Maximum row count for timeseries queries. "
-            "This field is deprecated, use `series_limit` instead."
-            "Default: `0`"
-        },
-        allow_none=True,
-    )
-    timeseries_limit_metric = fields.Raw(
-        metadata={
-            "description": "Metric used to limit timeseries queries by. "
-            "This field is deprecated, use `series_limit_metric` instead."
-        },
-        allow_none=True,
-    )
     row_limit = fields.Integer(
         metadata={
             "description": "Maximum row count (0=disabled). "

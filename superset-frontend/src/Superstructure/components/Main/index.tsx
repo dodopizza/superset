@@ -16,9 +16,10 @@ export default function Main({
     // DYNAMIC_PLUGINS: true,
     DASHBOARD_NATIVE_FILTERS: true,
     DASHBOARD_CROSS_FILTERS: true,
-    DASHBOARD_NATIVE_FILTERS_SET: false,
+    DASHBOARD_NATIVE_FILTERS_SET: true,
     TAGGING_SYSTEM: false,
   };
+  window.htmlSanitization = false; // for handlebars viz
 
   return routes ? (
     <>

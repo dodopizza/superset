@@ -55,6 +55,7 @@ from superset.utils.core import (
     DatasourceType,
     DateColumn,
     DTTM_ALIAS,
+    GenericDataType,
     error_msg_from_exception,
     get_base_axis_labels,
     get_column_names_from_columns,
@@ -560,15 +561,30 @@ class QueryContextProcessor:
 
         return row[column_index].strftime("%Y")
 
-    def get_data(self, df: pd.DataFrame) -> str | list[dict[str, Any]]:
-        if self._query_context.result_format == ChartDataResultFormat.CSV or \
-                self._query_context.result_format == ChartDataResultFormat.XLSX:
+    def get_data(
+        self, df: pd.DataFrame, coltypes: list[GenericDataType]
+    ) -> str | list[dict[str, Any]]:
+        if self._query_context.result_format in ChartDataResultFormat.table_like():
             columns = list(df.columns)
+            new_columns = []
+            column_rename_indexes = {}
             verbose_map = self._qc_datasource.data.get("verbose_map", {})
+
             if verbose_map:
-                df.columns = [verbose_map.get(column, column) for column in columns]
-            result = csv.df_to_escaped_csv(df)
-            return result or ""
+                for column in columns:
+                    new_column_name = verbose_map.get(column, column)
+                    if columns.count(column) == 1:
+                        if new_column_name in new_columns:
+                            i = column_rename_indexes.get(new_column_name)
+                            new_columns.append(f"{new_column_name}_{i}")
+                            column_rename_indexes[new_column_name] += 1
+                        else:
+                            new_columns.append(new_column_name)                    
+                            column_rename_indexes[new_column_name] = 1
+                    else:
+                        new_columns.append(new_column_name)
+
+                df.columns = new_columns
 
         return df.to_dict(orient="records")
 

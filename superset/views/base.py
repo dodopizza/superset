@@ -687,10 +687,10 @@ class CsvResponse(Response):
 
 class XlsxResponse(Response):
     """
-    Override Response to use xlsx mimetype
+    Override Response to take into account xlsx encoding from config.py
     """
 
-    charset = "utf-8"
+    charset = conf["EXCEL_EXPORT"].get("encoding", "utf-8")
     default_mimetype = (
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )

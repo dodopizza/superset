@@ -55,30 +55,9 @@ def convert_to_time(value):  # экспорт в формате времени
             f"{(dt.seconds % 3600 // 60) if ((dt.seconds % 3600 // 60) and len(str(dt.seconds % 3600 // 60)) != 1)  else f'0{str(dt.seconds % 3600 // 60)}'}:"
             f"{dt.seconds % 60 if ((dt.seconds % 60) and len(str(dt.seconds % 60)) != 1) else f'0{str(dt.seconds % 60)}'}"
         )
+    elif isinstance(value, str):
+        return value
     return '00:00:00'
-
-
-def delete_tz_from_df(d: dict) -> pd.DataFrame:
-    coltypes = d.get('coltypes')
-    if isinstance(d.get('data'), pd.DataFrame):
-        data = d.get('data')
-    elif isinstance(d.get('df'), pd.DataFrame):
-        data = d.get('df')
-    else:
-        data = d.get('data') or d.get('df')
-    df = pd.DataFrame(data)
-    colnames = [colname for colname in df.columns]
-    if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
-        for k, type_col in enumerate(coltypes):
-            if type_col == GenericDataType.TEMPORAL:
-                name_col = colnames[k]
-                df[name_col] = pd.to_datetime(df[name_col], utc=True)
-                df[name_col] = df[name_col].dt.tz_localize(None)
-            if type_col == GenericDataType.NUMERIC:
-                name_col = colnames[k]
-                df[name_col] = pd.to_numeric(df[name_col])
-        return df
-    return df
 
 
 def df_metrics_to_num(df: pd.DataFrame, query_object: QueryObject) -> None:
