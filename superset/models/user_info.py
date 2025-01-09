@@ -25,7 +25,7 @@ class UserInfo(Model):
         backref="user_info"
     )
     data_auth_dodo = Column(utils.MediumText())
-    country_num = Column(Integer, nullable=True)
-    country_name = Column(String, nullable=True)
+    country_num = Column(Integer, nullable=True) # dodo add 34269608
+    country_name = Column(String, nullable=True) # dodo add 34269608
     dodo_role = Column(String(32), nullable=True)
 
