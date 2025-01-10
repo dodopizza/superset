@@ -2687,12 +2687,6 @@
       "Dashboard time range filters apply to temporal columns defined in\n          the filter section of each chart. Add temporal columns to the chart\n          filters to have this dashboard filter impact those charts.": [
         ""
       ],
-      "Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter": [
-        "Фильтры по интервалу времени применяются к временным столбцам в фильтрах графиков. Добавьте временные столбцы для применения фильтра"
-      ],
-      "This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка": [
-        "Данный фильтр используется, если существуют две колонки со значениями на разных языках. Например, Delivery и Доставка"
-      ],
       "Dashboard title": [
         "Название дашборда"
       ],
@@ -3179,9 +3173,6 @@
       ],
       "Description text that shows up below your Big Number": [
         "Описание, отображаемое под Карточкой"
-      ],
-      "Select All": [
-        "Выбрать всё"
       ],
       "Deselect all": [
         "Снять выделение"
@@ -4387,14 +4378,8 @@
       "ISO 8601": [
         "ISO 8601"
       ],
-      "Filter by ID": [
-        "Фильтр по ID"
-      ],
-      "Filter by ID with translation": [
-        "Фильтр по ID c переводом"
-      ],
-      "Value with translation": [
-        "Значение с переводом"
+      "Id": [
+        "ID"
       ],
       "Id of root node of the tree.": [
         "Id корневой вершины дерева."

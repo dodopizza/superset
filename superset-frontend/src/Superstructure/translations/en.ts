@@ -1077,7 +1077,6 @@ const en = {
       'Import %s': [''],
       'Last Updated %s': [''],
       '%s Selected': [''],
-      'Select All': [''],
       'Deselect all': [''],
       '%s-%s of %s': [''],
       Settings: [''],
@@ -1133,10 +1132,6 @@ const en = {
       'The dashboard has been saved': [''],
       Apply: [''],
       'Dashboard properties': [''],
-      'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter':
-        [''],
-      'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка':
-        [''],
       'Basic information': [''],
       'URL slug': [''],
       'A readable URL for your dashboard': [''],
@@ -1250,9 +1245,6 @@ const en = {
       'Python datetime string pattern': [''],
       ' expression which needs to adhere to the ': [''],
       'ISO 8601': [''],
-      'Filter by ID': [''],
-      'Filter by ID with translation': [''],
-      'Value with translation': [''],
       ' standard to ensure that the lexicographical ordering\n                      coincides with the chronological ordering. If the\n                      timestamp format does not adhere to the ISO 8601 standard\n                      you will need to define an expression and type for\n                      transforming the string into a date or timestamp. Note\n                      currently time zones are not supported. If time is stored\n                      in epoch format, put `epoch_s` or `epoch_ms`. If no pattern\n                      is specified we fall back to using the optional defaults on a per\n                      database/column name level via the extra parameter.':
         [''],
       'Is dimension': [''],

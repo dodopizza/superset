@@ -69,7 +69,6 @@ describe('getFormDataWithExtraFilters', () => {
       stack: 'Stacked',
     },
     allSliceIds: [chartId],
-    locale: 'en', // DODO added 30434273
   };
 
   it('should include filters from the passed filters', () => {

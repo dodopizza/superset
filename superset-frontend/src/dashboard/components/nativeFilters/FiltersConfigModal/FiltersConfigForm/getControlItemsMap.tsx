@@ -69,37 +69,18 @@ export default function getControlItemsMap({
     .filter(
       (mainControlItem: CustomControlItem) =>
         mainControlItem?.name === 'groupby' ||
-        mainControlItem?.name === 'groupbyid' || // DODO added 29749076
-        mainControlItem?.name === 'groupbyRu', // DODO added 30434273
+        mainControlItem?.name === 'groupbyid', // DODO added 29749076
     )
     .forEach(mainControlItem => {
       const byValue = mainControlItem?.name === 'groupby'; // DODO added 29749076
-      const isGroupbyRu = mainControlItem?.name === 'groupbyRu'; // DODO added 30434273
 
       const initialValue =
         filterToEdit?.controlValues?.[mainControlItem.name] ??
         mainControlItem?.config?.default;
       // const initColumn = filterToEdit?.targets[0]?.column?.name; // DODO commented 29749076
-
-      // DODO added start 30434273
-      let initColumn: string | undefined;
-      let formField: string;
-      let label: string;
-
-      if (isGroupbyRu) {
-        initColumn = filterToEdit?.targets[0]?.column?.nameRu;
-        formField = 'columnRu';
-        label = `${t('Column')} RU`;
-      } else if (byValue) {
-        initColumn = filterToEdit?.targets[0]?.column?.name;
-        formField = 'column';
-        label = `${t('Column')} EN`;
-      } else {
-        initColumn = filterToEdit?.targets[0]?.column?.id;
-        formField = 'columnId';
-        label = t('ColumnId');
-      }
-      // DODO added stop 30434273
+      const initColumn = byValue // DODO added 29749076
+        ? filterToEdit?.targets[0]?.column?.name
+        : filterToEdit?.targets[0]?.column?.id;
 
       const element = (
         <>
@@ -113,12 +94,14 @@ export default function getControlItemsMap({
           />
           <StyledFormItem
             // don't show the column select unless we have a dataset
-            name={['filters', filterId, formField]} // DODO changed 29749076
+            name={['filters', filterId, byValue ? 'column' : 'columnId']} // DODO changed 29749076
             initialValue={initColumn}
             label={
               <StyledLabel>
                 {
-                  mainControlItem.config?.label || label // DODO changed 29749076
+                  mainControlItem.config?.label ||
+                    t(byValue ? 'Column' : 'ColumnId')
+                  // DODO changed 29749076
                 }
               </StyledLabel>
             }
@@ -135,7 +118,7 @@ export default function getControlItemsMap({
               form={form}
               filterId={filterId}
               datasetId={datasetId}
-              formField={formField} // DODO added 29749076
+              formField={byValue ? undefined : 'columnId'} // DODO added 29749076
               filterValues={column =>
                 doesColumnMatchFilterType(formFilter?.filterType || '', column)
               }

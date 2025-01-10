@@ -39,9 +39,9 @@ export const FilterTitle = styled.div`
         }
       }
       &:hover {
-        color: ${theme.colors.primary.dark2};
+        color: ${theme.colors.primary.light1};
         span, .anticon {
-          color: ${theme.colors.primary.dark2};
+          color: ${theme.colors.primary.light1};
         }
       }
       &.errored div, &.errored .warning {
