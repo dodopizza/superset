@@ -43,6 +43,7 @@ const propTypes = {
   dashboardInfo: PropTypes.object.isRequired,
   dashboardId: PropTypes.number,
   dashboardTitle: PropTypes.string,
+  dashboardTitleRU: PropTypes.string,
   dataMask: PropTypes.object.isRequired,
   customCss: PropTypes.string,
   colorNamespace: PropTypes.string,
@@ -156,6 +157,7 @@ export class HeaderActionsDropdown extends PureComponent {
   render() {
     const {
       dashboardTitle,
+      dashboardTitleRU, // DODO added 44120742
       dashboardId,
       dashboardInfo,
       refreshFrequency,
@@ -248,6 +250,7 @@ export class HeaderActionsDropdown extends PureComponent {
               addDangerToast={this.props.addDangerToast}
               dashboardId={dashboardId}
               dashboardTitle={dashboardTitle}
+              dashboardTitleRU={dashboardTitleRU} // DODO added 44120742
               dashboardInfo={dashboardInfo}
               saveType={SAVE_TYPE_NEWDASHBOARD}
               layout={layout}

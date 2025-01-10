@@ -29,7 +29,10 @@ interface DashboardInfo {
   common?: { conf: Record<string, any> };
 }
 
-export interface HeaderDropdownProps {
+interface HeaderDropdownPropsDodoExtended {
+  dashboardTitleRU: string; // DODO added 44120742
+}
+export interface HeaderDropdownProps extends HeaderDropdownPropsDodoExtended {
   addSuccessToast: () => void;
   addDangerToast: () => void;
   customCss: string;
@@ -63,7 +66,10 @@ export interface HeaderDropdownProps {
   logEvent: () => void;
 }
 
-export interface HeaderProps {
+interface HeaderPropsDodoExtended {
+  dashboardTitleRU: string; // DODO added 44120742
+}
+export interface HeaderProps extends HeaderPropsDodoExtended {
   addSuccessToast: () => void;
   addDangerToast: () => void;
   addWarningToast: () => void;

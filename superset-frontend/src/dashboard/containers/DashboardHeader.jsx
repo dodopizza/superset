@@ -75,6 +75,10 @@ function mapStateToProps({
     dashboardTitle: (
       (undoableLayout.present[DASHBOARD_HEADER_ID] || {}).meta || {}
     ).text,
+    // DODO added 44120742
+    dashboardTitleRU: (
+      (undoableLayout.present[DASHBOARD_HEADER_ID] || {}).meta || {}
+    ).textRU,
     expandedSlices: dashboardState.expandedSlices,
     refreshFrequency: dashboardState.refreshFrequency,
     shouldPersistRefreshFrequency:

@@ -67,6 +67,10 @@ const StyledJsonEditor = styled(JsonEditor)`
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
 
+type PropertiesModalPropsDodoExtended = {
+  dashboardTitleRU?: string; // DODO added 44120742
+};
+
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
@@ -78,7 +82,7 @@ type PropertiesModalProps = {
   addSuccessToast: (message: string) => void;
   addDangerToast: (message: string) => void;
   onlyApply?: boolean;
-};
+} & PropertiesModalPropsDodoExtended;
 
 type Roles = { id: number; name: string }[];
 type Owners = {
@@ -87,6 +91,10 @@ type Owners = {
   first_name?: string;
   last_name?: string;
 }[];
+
+type DashboardInfoDodoExtended = {
+  titleRU: string; // DODO added 44120742
+};
 type DashboardInfo = {
   id: number;
   title: string;
@@ -95,7 +103,7 @@ type DashboardInfo = {
   certificationDetails: string;
   isManagedExternally: boolean;
   metadata: Record<string, any>;
-};
+} & DashboardInfoDodoExtended;
 
 const PropertiesModal = ({
   addSuccessToast,
@@ -180,6 +188,7 @@ const PropertiesModal = ({
       const {
         id,
         dashboard_title,
+        dashboard_title_RU, // DODO added 44120742
         slug,
         certified_by,
         certification_details,
@@ -191,6 +200,7 @@ const PropertiesModal = ({
       const dashboardInfo = {
         id,
         title: dashboard_title,
+        titleRU: dashboard_title_RU || '[ Безымянный Дашборд ]', // DODO added 44120742
         slug: slug || '',
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
@@ -318,8 +328,9 @@ const PropertiesModal = ({
   };
 
   const onFinish = () => {
-    const { title, slug, certifiedBy, certificationDetails } =
-      form.getFieldsValue();
+    // const { title, slug, certifiedBy, certificationDetails } =
+    const { title, titleRU, slug, certifiedBy, certificationDetails } =
+      form.getFieldsValue(); // DODO changed 44120742
     let currentJsonMetadata = jsonMetadata;
 
     // validate currentJsonMetadata
@@ -392,6 +403,7 @@ const PropertiesModal = ({
     const onSubmitProps = {
       id: dashboardId,
       title,
+      titleRU, // DODO added 44120742
       slug,
       jsonMetadata: currentJsonMetadata,
       owners,
@@ -411,6 +423,7 @@ const PropertiesModal = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
+          dashboard_title_RU: titleRU, // DODO added 44120742
           slug: slug || null,
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
@@ -644,7 +657,9 @@ const PropertiesModal = ({
         </Row>
         <Row gutter={16}>
           <Col xs={24} md={12}>
-            <FormItem label={t('Name')} name="title">
+            {/* <FormItem label={t('Name')} name="title"> */}
+            {/* DODO changed 44120742 */}
+            <FormItem label={`${t('Name')} EN`} name="title">
               <Input
                 data-test="dashboard-title-input"
                 type="text"
@@ -652,6 +667,17 @@ const PropertiesModal = ({
               />
             </FormItem>
           </Col>
+          {/* DODO added start 44120742 */}
+          <Col xs={24} md={12}>
+            <FormItem label={`${t('Name')} RU`} name="titleRU">
+              <Input
+                data-test="dashboard-title-ru-input"
+                type="text"
+                disabled={isLoading}
+              />
+            </FormItem>
+          </Col>
+          {/* DODO added stop 44120742 */}
           <Col xs={24} md={12}>
             <StyledFormItem label={t('URL slug')} name="slug">
               <Input type="text" disabled={isLoading} />

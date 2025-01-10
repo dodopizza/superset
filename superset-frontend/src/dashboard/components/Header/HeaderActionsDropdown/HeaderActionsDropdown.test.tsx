@@ -46,6 +46,7 @@ const createProps = (): HeaderDropdownProps => ({
     },
   },
   dashboardTitle: 'Title',
+  dashboardTitleRU: 'Title',
   editMode: false,
   expandedSlices: {},
   forceRefreshAllCharts: jest.fn(),

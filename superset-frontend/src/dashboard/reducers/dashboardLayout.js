@@ -300,6 +300,7 @@ const actionHandlers = {
         meta: {
           ...state[DASHBOARD_HEADER_ID].meta,
           text: action.text,
+          textRU: action.textRU, // DODO added 44120742
         },
       },
     };

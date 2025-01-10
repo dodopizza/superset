@@ -19,7 +19,10 @@
 import Owner from './Owner';
 import Role from './Role';
 
-export interface Dashboard {
+interface DashboardDodoExtended {
+  dashboard_title_RU: string; // DODO added 44120742
+}
+export interface Dashboard extends DashboardDodoExtended {
   id: number;
   slug?: string | null;
   url: string;

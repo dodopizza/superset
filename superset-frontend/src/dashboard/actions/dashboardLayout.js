@@ -93,10 +93,13 @@ export function updateDashboardTitle(text) {
 export const DASHBOARD_TITLE_CHANGED = 'DASHBOARD_TITLE_CHANGED';
 
 // call this one when it's not an undo-able action
-export function dashboardTitleChanged(text) {
+// export function dashboardTitleChanged(text) {
+// DODO changed 44120742
+export function dashboardTitleChanged(text, textRU) {
   return {
     type: DASHBOARD_TITLE_CHANGED,
     text,
+    textRU, // DODO added 44120742
   };
 }
 

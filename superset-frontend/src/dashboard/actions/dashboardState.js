@@ -286,6 +286,7 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details,
       css,
       dashboard_title,
+      dashboard_title_RU, // DODO added 44120742
       owners,
       roles,
       slug,
@@ -304,7 +305,9 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details:
         certified_by && certification_details ? certification_details : '',
       css: css || '',
-      dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
+      // dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
+      dashboard_title: dashboard_title || '[ untitled dashboard ]', // DODO changed 44120742
+      dashboard_title_RU: dashboard_title_RU || '[ безымянный дашборд ]', // DODO added 44120742
       owners: ensureIsArray(owners).map(o => (hasId(o) ? o.id : o)),
       roles: !isFeatureEnabled(FeatureFlag.DashboardRbac)
         ? undefined
@@ -445,6 +448,7 @@ export function saveDashboardRequest(data, id, saveType) {
               certification_details: cleanedData.certification_details,
               css: cleanedData.css,
               dashboard_title: cleanedData.dashboard_title,
+              dashboard_title_RU: cleanedData.dashboard_title_RU, // DODO added 44120742
               slug: cleanedData.slug,
               owners: cleanedData.owners,
               roles: cleanedData.roles,
@@ -519,6 +523,7 @@ export function saveDashboardRequest(data, id, saveType) {
     cleanedData.metadata.filter_scopes = serializedFilterScopes;
     const copyPayload = {
       dashboard_title: cleanedData.dashboard_title,
+      dashboard_title_RU: cleanedData.dashboard_title_RU, // DODO added 44120742
       css: cleanedData.css,
       duplicate_slices: cleanedData.duplicate_slices,
       json_metadata: JSON.stringify(cleanedData.metadata),

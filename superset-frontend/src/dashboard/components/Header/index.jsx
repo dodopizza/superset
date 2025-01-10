@@ -109,6 +109,9 @@ const propTypes = {
   setRefreshFrequency: PropTypes.func.isRequired,
   dashboardInfoChanged: PropTypes.func.isRequired,
   dashboardTitleChanged: PropTypes.func.isRequired,
+
+  // Dodo extended
+  dashboardTitleRU: PropTypes.string, // DODO added 44120742
 };
 
 const defaultProps = {
@@ -357,6 +360,7 @@ class Header extends PureComponent {
   overwriteDashboard() {
     const {
       dashboardTitle,
+      dashboardTitleRU, // DODO added 44120742
       layout: positions,
       colorScheme,
       colorNamespace,
@@ -383,6 +387,7 @@ class Header extends PureComponent {
       certification_details: dashboardInfo.certification_details,
       css: customCss,
       dashboard_title: dashboardTitle,
+      dashboard_title_RU: dashboardTitleRU, // DODO added 44120742
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -456,6 +461,7 @@ class Header extends PureComponent {
   render() {
     const {
       dashboardTitle,
+      dashboardTitleRU, // DODO added 44120742
       layout,
       expandedSlices,
       customCss,
@@ -509,7 +515,8 @@ class Header extends PureComponent {
         roles: updates.roles,
       });
       setUnsavedChanges(true);
-      dashboardTitleChanged(updates.title);
+      // dashboardTitleChanged(updates.title);
+      dashboardTitleChanged(updates.title, updates.titleRU); // DODO changed 44120742
     };
 
     const NavExtension = extensionsRegistry.get('dashboard.nav.right');
@@ -671,6 +678,7 @@ class Header extends PureComponent {
               addDangerToast={this.props.addDangerToast}
               dashboardId={dashboardInfo.id}
               dashboardTitle={dashboardTitle}
+              dashboardTitleRU={dashboardTitleRU} // DODO added 44120742
               dashboardInfo={dashboardInfo}
               dataMask={dataMask}
               layout={layout}
@@ -711,6 +719,7 @@ class Header extends PureComponent {
             dashboardId={dashboardInfo.id}
             dashboardInfo={dashboardInfo}
             dashboardTitle={dashboardTitle}
+            dashboardTitleRU={dashboardTitleRU} // DODO added 44120742
             show={this.state.showingPropertiesModal}
             onHide={this.hidePropertiesModal}
             colorScheme={this.props.colorScheme}
