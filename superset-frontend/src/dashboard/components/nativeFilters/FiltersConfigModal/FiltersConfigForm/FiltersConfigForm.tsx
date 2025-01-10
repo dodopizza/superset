@@ -903,7 +903,6 @@ const FiltersConfigForm = (
             name={['filters', filterId, 'nameRu']}
             label={<StyledLabel>{t('Filter name')} RU</StyledLabel>}
             initialValue={filterToEdit?.nameRu}
-            rules={[{ required: !isRemoved, message: t('Name is required') }]}
           >
             <Input {...getFiltersConfigModalTestId('name-input')} />
           </StyledFormItem>
