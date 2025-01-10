@@ -55,8 +55,6 @@ import {
   GroupByFilterPlugin,
   RangeFilterPlugin,
   SelectByIdFilterPlugin,
-  SelectWithTranslationFilterPlugin,
-  SelectByIdWithTranslationFilterPlugin,
   SelectFilterPlugin,
   TimeColumnFilterPlugin,
   TimeFilterPlugin,
@@ -141,10 +139,6 @@ export default class MainPreset extends Preset {
           key: 'echarts_timeseries_step',
         }),
         new SelectFilterPlugin().configure({ key: 'filter_select' }),
-        // DODO added 30434273
-        new SelectWithTranslationFilterPlugin().configure({
-          key: 'filter_select_with_translation',
-        }),
         new RangeFilterPlugin().configure({ key: 'filter_range' }),
         new TimeFilterPlugin().configure({ key: 'filter_time' }),
         new TimeColumnFilterPlugin().configure({ key: 'filter_timecolumn' }),
@@ -159,10 +153,6 @@ export default class MainPreset extends Preset {
         }),
         new EChartBubbleChartDodo().configure({ key: 'echarts_bubble_dodo' }),
         new SelectByIdFilterPlugin().configure({ key: 'filter_select_by_id' }), // DODO added 29749076
-        // DODO added 30434273
-        new SelectByIdWithTranslationFilterPlugin().configure({
-          key: 'filter_select_by_id_with_translation',
-        }),
       ],
     });
   }

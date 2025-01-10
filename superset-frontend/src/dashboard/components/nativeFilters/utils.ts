@@ -1,4 +1,21 @@
-//  DODO was here
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import {
   AdhocFilter,
   Behavior,
@@ -10,7 +27,6 @@ import {
   Filter,
   getChartMetadataRegistry,
   isFeatureEnabled,
-  PlainObject,
   QueryFormData,
 } from '@superset-ui/core';
 import { DashboardLayout } from 'src/dashboard/types';
@@ -32,7 +48,6 @@ export const getFormData = ({
   groupby,
   groupbyid,
   selectTopValue, // DODO added 38368947
-  groupbyRu,
   defaultDataMask,
   controlValues,
   filterType,
@@ -49,13 +64,13 @@ export const getFormData = ({
   dependencies?: object;
   groupby?: string;
   groupbyid?: string; // DODO added 29749076
-  groupbyRu?: string; // DODO added 30434273
   adhoc_filters?: AdhocFilter[];
   time_range?: string;
 }): Partial<QueryFormData> => {
   const otherProps: {
     datasource?: string;
     groupby?: string[];
+    groupbyid?: string[]; // DODO added 29749076
     sortMetric?: string;
   } = {};
   if (datasetId) {
@@ -64,14 +79,11 @@ export const getFormData = ({
   if (groupby) {
     otherProps.groupby = [groupby];
   }
-  // DODO added 30434273
-  if (groupbyRu) {
-    otherProps.groupby?.push(groupbyRu);
-  }
-  // DODO added 29749076
+  // DODO added start 29749076
   if (groupbyid) {
-    otherProps.groupby?.push(groupbyid);
+    otherProps.groupbyid = [groupbyid];
   }
+  // DODO added stop 29749076
   if (sortMetric) {
     otherProps.sortMetric = sortMetric;
   }
@@ -99,7 +111,6 @@ export const getFormData = ({
 export function mergeExtraFormData(
   originalExtra: ExtraFormData = {},
   newExtra: ExtraFormData = {},
-  locale?: string, // DODO added 30434273
 ): ExtraFormData {
   const mergedExtra: ExtraFormData = {};
   EXTRA_FORM_DATA_APPEND_KEYS.forEach((key: string) => {
@@ -108,31 +119,7 @@ export function mergeExtraFormData(
       ...(newExtra[key] || []),
     ];
     if (mergedValues.length) {
-      // mergedExtra[key] = mergedValues; // DODO commented out 30434273
-
-      // DODO added start 30434273
-      const localisedMergedValues = mergedValues.map(value => {
-        // filter select and filter select by id cases
-        if (typeof value.val[0] !== 'object' || value.val[0] === null)
-          return value;
-
-        const columns = Object.keys(value.val[0] || {}); // [groupBy, groupbyRu, groupbyid] | [groupBy, groupbyRu]
-        let columnOrder = 0;
-
-        // filter select by id with translation case
-        if (columns.length === 3) columnOrder = 2;
-        // filter select with translation case
-        else columnOrder = locale === 'en' ? 0 : 1;
-
-        const column = columns[columnOrder];
-        return {
-          ...value,
-          col: column,
-          val: value.val.map((val: PlainObject) => val[column]),
-        };
-      });
-      mergedExtra[key] = localisedMergedValues;
-      // DODO added stop 30434273
+      mergedExtra[key] = mergedValues;
     }
   });
   EXTRA_FORM_DATA_OVERRIDE_KEYS.forEach((key: string) => {
@@ -158,14 +145,12 @@ export function isCrossFilter(vizType: string) {
 export function getExtraFormData(
   dataMask: DataMaskStateWithId,
   filterIdsAppliedOnChart: string[],
-  locale: string, // DODO added 30434273
 ): ExtraFormData {
   let extraFormData: ExtraFormData = {};
   filterIdsAppliedOnChart.forEach(key => {
     extraFormData = mergeExtraFormData(
       extraFormData,
       dataMask[key]?.extraFormData ?? {},
-      locale, // DODO added 30434273
     );
   });
   return extraFormData;

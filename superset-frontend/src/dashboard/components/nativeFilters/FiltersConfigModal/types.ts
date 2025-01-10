@@ -6,14 +6,7 @@ import {
   NativeFilterType,
 } from '@superset-ui/core';
 
-interface NativeFiltersFormItemDodoExtended {
-  columnId?: string; // DODO added 29749076
-  nameRu?: string; // DODO added 30434273
-  columnRu: string; // DODO added 30434273
-}
-
-export interface NativeFiltersFormItem
-  extends NativeFiltersFormItemDodoExtended {
+export interface NativeFiltersFormItem {
   scope: NativeFilterScope;
   name: string;
   filterType: string;
