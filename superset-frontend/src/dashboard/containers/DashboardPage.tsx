@@ -88,13 +88,16 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const { addDangerToast } = useToasts();
   const { result: dashboard, error: dashboardApiError } =
     useDashboard(idOrSlug);
-  const { result: charts, error: chartsApiError } =
-    useDashboardCharts(idOrSlug);
+  const { result: charts, error: chartsApiError } = useDashboardCharts(
+    idOrSlug,
+    locale, // DODO added 44120742
+  );
   const {
     result: datasets,
     error: datasetsApiError,
     status,
-  } = useDashboardDatasets(idOrSlug);
+    // } = useDashboardDatasets(idOrSlug);
+  } = useDashboardDatasets(idOrSlug, locale); // DODO changed 44120742
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;

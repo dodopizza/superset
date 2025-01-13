@@ -40,13 +40,39 @@ function tryParsePayload(payload: Payload) {
 /**
  * Try appending search params to an URL if needed.
  */
+// function getFullUrl(partialUrl: string, params: CallApi['searchParams']) {
+//   if (params) {
+//     const url = new URL(partialUrl, window.location.href);
+//     const search =
+//       params instanceof URLSearchParams ? params : new URLSearchParams(params);
+//     // will completely override any existing search params
+//     url.search = search.toString();
+//     return url.href;
+//   }
+//   return partialUrl;
+// }
+// DODO changed 44120742
 function getFullUrl(partialUrl: string, params: CallApi['searchParams']) {
   if (params) {
+    const splitPartial = partialUrl.split('?language=');
+    let languageAddition = '';
+    if (splitPartial && splitPartial.length > 1) {
+      languageAddition = splitPartial[1];
+    }
+
     const url = new URL(partialUrl, window.location.href);
-    const search =
-      params instanceof URLSearchParams ? params : new URLSearchParams(params);
-    // will completely override any existing search params
-    url.search = search.toString();
+
+    if (languageAddition) {
+      url.searchParams.set('language', languageAddition);
+    } else {
+      const search =
+        params instanceof URLSearchParams
+          ? params
+          : new URLSearchParams(params);
+
+      // will completely override any existing search params
+      url.search = search.toString();
+    }
     return url.href;
   }
   return partialUrl;
