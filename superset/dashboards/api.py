@@ -209,6 +209,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "created_by.id",
         "created_by.last_name",
         "dashboard_title",
+        "dashboard_title_RU",
         "owners.id",
         "owners.first_name",
         "owners.last_name",
