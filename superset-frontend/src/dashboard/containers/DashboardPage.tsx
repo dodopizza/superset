@@ -21,6 +21,7 @@ import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
 import { t, useTheme } from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Loading from 'src/components/Loading';
 import {
@@ -55,6 +56,8 @@ import SyncDashboardState, {
   getDashboardContextLocalStorage,
 } from '../components/SyncDashboardState';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
+
 export const DashboardPageIdContext = createContext('');
 
 const DashboardBuilder = lazy(
@@ -67,6 +70,7 @@ const DashboardBuilder = lazy(
 );
 
 const originalDocumentTitle = document.title;
+const fallBackPageTitle = 'Superset dashboard'; // DODO added 44120742
 
 type PageProps = {
   idOrSlug: string;
@@ -95,7 +99,8 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
 
   const error = dashboardApiError || chartsApiError;
   const readyToRender = Boolean(dashboard && charts);
-  const { dashboard_title, css, id = 0 } = dashboard || {};
+  // const { dashboard_title, css, id = 0 } = dashboard || {};
+  const { dashboard_title, dashboard_title_RU, css, id = 0 } = dashboard || {}; // DODO changed 44120742
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -163,14 +168,30 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readyToRender]);
 
+  // useEffect(() => {
+  //   if (dashboard_title) {
+  //     document.title = dashboard_title;
+  //   }
+  //   return () => {
+  //     document.title = originalDocumentTitle;
+  //   };
+  // }, [dashboard_title]);
+
+  // DODO changed 44120742
   useEffect(() => {
-    if (dashboard_title) {
-      document.title = dashboard_title;
-    }
+    const localisedTitle =
+      locale === 'ru' ? dashboard_title_RU : dashboard_title;
+
+    document.title =
+      localisedTitle ||
+      dashboard_title ||
+      dashboard_title_RU ||
+      fallBackPageTitle;
+
     return () => {
       document.title = originalDocumentTitle;
     };
-  }, [dashboard_title]);
+  }, [dashboard_title, dashboard_title_RU]);
 
   useEffect(() => {
     if (typeof css === 'string') {
