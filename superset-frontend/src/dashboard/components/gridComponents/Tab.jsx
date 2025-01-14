@@ -33,6 +33,13 @@ import DragDroppable, {
 } from 'src/dashboard/components/dnd/DragDroppable';
 import { componentShape } from 'src/dashboard/util/propShapes';
 import { TAB_TYPE } from 'src/dashboard/util/componentTypes';
+import {
+  LanguageIndicator,
+  LanguageIndicatorWrapper,
+  StyledFlag,
+  TitleLabel,
+  TitleWrapper,
+} from 'src/DodoExtensions/Common';
 
 export const RENDER_TAB = 'RENDER_TAB';
 export const RENDER_TAB_CONTENT = 'RENDER_TAB_CONTENT';
@@ -103,15 +110,29 @@ class Tab extends PureComponent {
     this.props.setDirectPathToChild(pathToTabIndex);
   }
 
-  handleChangeText(nextTabText) {
+  // handleChangeText(nextTabText) {
+  //   const { updateComponents, component } = this.props;
+  //   if (nextTabText && nextTabText !== component.meta.text) {
+  //     updateComponents({
+  //       [component.id]: {
+  //         ...component,
+  //         meta: {
+  //           ...component.meta,
+  //           text: nextTabText,
+  //         },
+  //       },
+  //     });
+  //   }
+  // }
+  handleChangeText(nextTabText, property) {
     const { updateComponents, component } = this.props;
-    if (nextTabText && nextTabText !== component.meta.text) {
+    if (nextTabText && nextTabText !== component.meta[property]) {
       updateComponents({
         [component.id]: {
           ...component,
           meta: {
             ...component.meta,
-            text: nextTabText,
+            [property]: nextTabText,
           },
         },
       });
@@ -268,6 +289,7 @@ class Tab extends PureComponent {
       editMode,
       isFocused,
       isHighlighted,
+      locale,
     } = this.props;
 
     return (
@@ -288,15 +310,58 @@ class Tab extends PureComponent {
             className="dragdroppable-tab"
             ref={dragSourceRef}
           >
-            <EditableTitle
-              title={component.meta.text}
-              defaultTitle={component.meta.defaultText}
-              placeholder={component.meta.placeholder}
-              canEdit={editMode && isFocused}
-              onSaveTitle={this.handleChangeText}
-              showTooltip={false}
-              editing={editMode && isFocused}
-            />
+            {/* DODO changed 44120742 */}
+            {editMode && (
+              <LanguageIndicatorWrapper>
+                <LanguageIndicator language="gb" canEdit />
+                <EditableTitle
+                  title={component.meta.text}
+                  defaultTitle={component.meta.defaultText}
+                  placeholder={component.meta.placeholder}
+                  canEdit={editMode && isFocused}
+                  onSaveTitle={nextTabText =>
+                    this.handleChangeText(nextTabText, 'text')
+                  }
+                  showTooltip={false}
+                  editing={editMode && isFocused}
+                />
+              </LanguageIndicatorWrapper>
+            )}
+            {/* DODO added 44120742 */}
+            {editMode && (
+              <LanguageIndicatorWrapper>
+                <LanguageIndicator language="ru" canEdit />
+                <EditableTitle
+                  title={component.meta.textRU || component.meta.text}
+                  defaultTitle={component.meta.defaultText}
+                  placeholder={component.meta.placeholder}
+                  canEdit={editMode && isFocused}
+                  onSaveTitle={nextTabText =>
+                    this.handleChangeText(nextTabText, 'textRU')
+                  }
+                  showTooltip={false}
+                  editing={editMode && isFocused}
+                />
+              </LanguageIndicatorWrapper>
+            )}
+            {!editMode && (
+              <EditableTitle
+                // DODO changed 44120742
+                title={
+                  locale === 'ru'
+                    ? component.meta.textRU || component.meta.text
+                    : component.meta.text
+                }
+                defaultTitle={component.meta.defaultText}
+                placeholder={component.meta.placeholder}
+                canEdit={editMode && isFocused}
+                onSaveTitle={nextTabText =>
+                  this.handleChangeText(nextTabText, 'text')
+                }
+                showTooltip={false}
+                editing={editMode && isFocused}
+              />
+            )}
             {!editMode && (
               <AnchorLink
                 id={component.id}
