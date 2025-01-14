@@ -18,6 +18,7 @@
  */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import {
   toggleExpandSlice,
   setFocusedFilterField,
@@ -39,6 +40,8 @@ import getFormDataWithExtraFilters from 'src/dashboard/util/charts/getFormDataWi
 import Chart from 'src/dashboard/components/gridComponents/Chart';
 import { PLACEHOLDER_DATASOURCE } from 'src/dashboard/constants';
 import { enforceSharedLabelsColorsArray } from 'src/utils/colorScheme';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
 
 const EMPTY_OBJECT = {};
 
@@ -112,6 +115,7 @@ function mapStateToProps(
     setControlValue,
     datasetsStatus,
     emitCrossFilters: !!dashboardInfo.crossFiltersEnabled,
+    locale, // DODO added 44120742
   };
 }
 

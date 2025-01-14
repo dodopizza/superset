@@ -83,6 +83,9 @@ const propTypes = {
   datasetsStatus: PropTypes.oneOf(['loading', 'error', 'complete']),
   isInView: PropTypes.bool,
   emitCrossFilters: PropTypes.bool,
+
+  // DODO extended
+  updateSliceNameRU: PropTypes.func.isRequired, // DODO added 44120742
 };
 
 const defaultProps = {
@@ -398,7 +401,9 @@ class Chart extends Component {
       labelsColor,
       labelsColorMap,
       updateSliceName,
+      updateSliceNameRU, // DODO added 44120742
       sliceName,
+      sliceNameRU, // DODO added 44120742
       toggleExpandSlice,
       timeout,
       supersetCanExplore,
@@ -416,6 +421,7 @@ class Chart extends Component {
       isInView,
       emitCrossFilters,
       logEvent,
+      locale, // DODO added 44120742
     } = this.props;
 
     const { width } = this.state;
@@ -462,7 +468,9 @@ class Chart extends Component {
           exportFullCSV={this.exportFullCSV}
           exportFullXLSX={this.exportFullXLSX}
           updateSliceName={updateSliceName}
+          updateSliceNameRU={updateSliceNameRU} // DODO added 44120742
           sliceName={sliceName}
+          sliceNameRU={sliceNameRU} // DODO added 44120742
           supersetCanExplore={supersetCanExplore}
           supersetCanShare={supersetCanShare}
           supersetCanCSV={supersetCanCSV}
@@ -477,6 +485,7 @@ class Chart extends Component {
           formData={formData}
           width={width}
           height={this.getHeaderHeight()}
+          locale={locale} // DODO added 44120742
         />
 
         {/*

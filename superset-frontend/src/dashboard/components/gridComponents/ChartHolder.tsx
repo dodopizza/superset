@@ -233,6 +233,22 @@ const ChartHolder: React.FC<ChartHolderProps> = ({
     [component, updateComponents],
   );
 
+  // DODO added 44120742
+  const handleUpdateSliceNameRU = useCallback(
+    (nextName: string) => {
+      updateComponents({
+        [component.id]: {
+          ...component,
+          meta: {
+            ...component.meta,
+            sliceNameOverrideRU: nextName,
+          },
+        },
+      });
+    },
+    [component, updateComponents],
+  );
+
   const handleToggleFullSize = useCallback(() => {
     setFullSizeChartId(isFullSize ? null : chartId);
   }, [chartId, isFullSize, setFullSizeChartId]);
@@ -308,9 +324,17 @@ const ChartHolder: React.FC<ChartHolderProps> = ({
               sliceName={
                 component.meta.sliceNameOverride ||
                 component.meta.sliceName ||
-                ''
+                '--' // DODO changed 44120742
+              }
+              // DODO added 44120742
+              sliceNameRU={
+                component.meta.sliceNameOverrideRU ||
+                component.meta.sliceNameRU ||
+                component.meta.sliceName ||
+                '--'
               }
               updateSliceName={handleUpdateSliceName}
+              updateSliceNameRU={handleUpdateSliceNameRU} // DODO added 44120742
               isComponentVisible={isComponentVisible}
               handleToggleFullSize={handleToggleFullSize}
               isFullSize={isFullSize}

@@ -123,6 +123,11 @@ export const ChartsScopingListPanel = ({
             chartLayoutItem?.meta.sliceNameOverride ||
             chartLayoutItem?.meta.sliceName ||
             '',
+          // DODO added 44120742
+          labelRU:
+            chartLayoutItem?.meta.sliceNameOverrideRU ||
+            chartLayoutItem?.meta.sliceNameRU ||
+            '',
         };
       });
   }, [chartConfigs, layout]);
