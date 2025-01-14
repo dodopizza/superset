@@ -30,6 +30,12 @@ import Icons from 'src/components/Icons';
 import { RootState } from 'src/dashboard/types';
 import { getSliceHeaderTooltip } from 'src/dashboard/util/getSliceHeaderTooltip';
 import { DashboardPageIdContext } from 'src/dashboard/containers/DashboardPage';
+// DODO added 44120742
+import {
+  StyledFlag,
+  TitleLabel,
+  TitleWrapper,
+} from 'src/DodoExtensions/Common';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -128,30 +134,6 @@ const ChartHeaderStyles = styled.div`
     }
   `}
 `;
-
-// DODO added start 44120742
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: row;
-  margin-bottom: 8px;
-  min-height: 31px;
-  span {
-    margin-left: 12px;
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-`;
-const TitleLabel = styled.span`
-  display: inline-block;
-  padding: 0;
-`;
-const StyledFlag = styled.i`
-  margin-top: 2px;
-`;
-// DODO added stop 44120742
 
 const SliceHeader: FC<SliceHeaderProps> = ({
   innerRef = null,
