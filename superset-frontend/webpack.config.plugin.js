@@ -125,7 +125,7 @@ const plugins = [
   }),
 
   new CopyPlugin({
-    patterns: ['package.json', { from: 'src/assets/images', to: 'images' }],
+    patterns: ['package.json', { from: 'src/assets/images', to: 'static/assets/images' }],
   }),
 
   new HtmlWebpackPlugin({
@@ -383,6 +383,10 @@ const config = {
             },
           },
         ],
+        type: 'asset/resource',
+        generator: {
+          filename: '[name].[contenthash:8].[ext]',
+        },
       },
       {
         test: /\.(jpg|gif)$/,
