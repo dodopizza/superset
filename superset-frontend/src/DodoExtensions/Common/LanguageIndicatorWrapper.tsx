@@ -6,22 +6,25 @@ const LanguageIndicatorWrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: row;
-  margin-bottom: 8px;
-  min-height: 32px;
+  margin-bottom: 4px;
+  min-height: 26px;
+  font-size: ${({ theme }) => theme.typography.sizes.s}px;
+  color: ${({ theme }) => theme.colors.grayscale.dark1};
 
   span {
-    margin-left: 12px;
-
-    &:first-child {
-      margin-left: 0;
+    &:nth-child(n + 1) {
+      margin-left: 12px;
     }
+  }
+  .editable-title--editing {
+    color: ${({ theme }) => theme.colors.primary.base};
   }
   &:hover {
     .editable-title {
-      border-bottom: 1px solid ${({ theme }) => theme.colors.primary.base};
+      color: ${({ theme }) => theme.colors.grayscale.base};
     }
     .editable-title--editing {
-      border-bottom: 0;
+      color: ${({ theme }) => theme.colors.primary.base};
     }
   }
 `;
