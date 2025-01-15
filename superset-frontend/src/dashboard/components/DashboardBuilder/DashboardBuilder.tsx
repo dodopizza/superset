@@ -586,7 +586,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               renderTabContent={false}
               renderHoverMenu={false}
               onChangeTab={handleChangeTab}
-              userLanguage={locale} // DODO added 44120742
+              locale={locale} // DODO added 44120742
             />
           </WithPopoverMenu>
         )}

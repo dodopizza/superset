@@ -20,6 +20,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { logEvent } from 'src/logger/actions';
 import { addDangerToast } from 'src/components/MessageToasts/actions';
 import { componentLookup } from 'src/dashboard/components/gridComponents';
@@ -38,6 +39,8 @@ import {
   setActiveTab,
   setFullSizeChartId,
 } from 'src/dashboard/actions/dashboardState';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
 
 const propTypes = {
   id: PropTypes.string,
@@ -58,6 +61,9 @@ const propTypes = {
   directPathLastUpdated: PropTypes.number,
   dashboardId: PropTypes.number.isRequired,
   isComponentVisible: PropTypes.bool,
+
+  // DODO extended
+  locale: PropTypes.string, // DODO added 44120742
 };
 
 const defaultProps = {
@@ -121,7 +127,7 @@ class DashboardComponent extends PureComponent {
   render() {
     const { component } = this.props;
     const Component = component ? componentLookup[component.type] : null;
-    return Component ? <Component {...this.props} /> : null;
+    return Component ? <Component locale={locale} {...this.props} /> : null;
   }
 }
 

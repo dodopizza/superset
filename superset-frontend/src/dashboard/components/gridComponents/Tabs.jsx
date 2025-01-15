@@ -327,6 +327,7 @@ export class Tabs extends PureComponent {
       isComponentVisible: isCurrentTabVisible,
       editMode,
       nativeFilters,
+      locale,
     } = this.props;
 
     const { children: tabIds } = tabsComponent;
@@ -388,6 +389,7 @@ export class Tabs extends PureComponent {
                       isHighlighted={
                         activeKey !== tabId && tabsToHighlight?.includes(tabId)
                       }
+                      locale={locale}
                     />
                   }
                 >
