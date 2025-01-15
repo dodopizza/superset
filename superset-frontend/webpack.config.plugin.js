@@ -386,10 +386,6 @@ const config = {
             },
           },
         ],
-        type: 'asset/resource',
-        generator: {
-          filename: '[name].[contenthash:8].[ext]',
-        },
       },
       {
         test: /\.(jpg|gif)$/,
