@@ -228,7 +228,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             <TitleWrapper>
               <TitleLabel>
                 <div className="f16">
-                  <StyledFlag className="flag gb" />
+                  <StyledFlag language="gb" />
                 </div>
               </TitleLabel>
               <Tooltip title={headerTooltip}>
@@ -249,7 +249,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             <TitleWrapper>
               <TitleLabel>
                 <div className="f16">
-                  <StyledFlag className="flag ru" />
+                  <StyledFlag language="ru" />
                 </div>
               </TitleLabel>
               <Tooltip title={headerTooltip}>

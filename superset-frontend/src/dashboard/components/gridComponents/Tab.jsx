@@ -36,9 +36,6 @@ import { TAB_TYPE } from 'src/dashboard/util/componentTypes';
 import {
   LanguageIndicator,
   LanguageIndicatorWrapper,
-  StyledFlag,
-  TitleLabel,
-  TitleWrapper,
 } from 'src/DodoExtensions/Common';
 
 export const RENDER_TAB = 'RENDER_TAB';

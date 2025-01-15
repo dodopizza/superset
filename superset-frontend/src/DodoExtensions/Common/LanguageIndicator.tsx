@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledPencil } from './StyledPencil';
 import { StyledFlag } from './StyledFlag';
 import { TitleLabel } from './TitleLabel';

@@ -1,6 +1,6 @@
 // DODO added
 import { styled } from '@superset-ui/core';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 const Flag = styled.i<{ $pressToTheBottom: boolean }>`
   margin-top: ${props => props.$pressToTheBottom ?? '2px'};
