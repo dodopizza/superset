@@ -659,7 +659,7 @@ const PropertiesModal = ({
           <Col xs={24} md={12}>
             {/* <FormItem label={t('Name')} name="title"> */}
             {/* DODO changed 44120742 */}
-            <FormItem label={`${t('Name')} EN`} name="title">
+            <FormItem label={t('Title')} name="title">
               <Input
                 data-test="dashboard-title-input"
                 type="text"
@@ -669,7 +669,7 @@ const PropertiesModal = ({
           </Col>
           {/* DODO added start 44120742 */}
           <Col xs={24} md={12}>
-            <FormItem label={`${t('Name')} RU`} name="titleRU">
+            <FormItem label={t('Title (Rus)')} name="titleRU">
               <Input
                 data-test="dashboard-title-ru-input"
                 type="text"
