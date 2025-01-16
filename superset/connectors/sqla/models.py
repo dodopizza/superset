@@ -834,8 +834,6 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
     expression = Column(utils.MediumText())
     python_date_format = Column(String(255))
     extra = Column(Text)
-    description_EN = Column(utils.MediumText(), nullable=True)
-    description_RU = Column(utils.MediumText(), nullable=True)
     verbose_name_RU = Column(String(1024), nullable=True)
     verbose_name_EN = Column(String(1024), nullable=True, default=None)
 
@@ -1026,8 +1024,6 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
             "type_generic",
             "verbose_name",
             "warning_markdown",
-            "description_EN",
-            "description_RU",
             "verbose_name_RU",
             "verbose_name_EN",
         )
@@ -1052,8 +1048,6 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
     table_id = Column(Integer, ForeignKey("tables.id", ondelete="CASCADE"))
     expression = Column(utils.MediumText(), nullable=False)
     extra = Column(Text)
-    description_EN = Column(utils.MediumText(), nullable=True)
-    description_RU = Column(utils.MediumText(), nullable=True)
     verbose_name_RU = Column(String(1024), nullable=True)
     verbose_name_EN = Column(String(1024), nullable=True, default=None)
 
@@ -1131,8 +1125,6 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
             "warning_markdown",
             "warning_text",
             "verbose_name",
-            "description_EN",
-            "description_RU",
             "verbose_name_RU",
             "verbose_name_EN",
         )
