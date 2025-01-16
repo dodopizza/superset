@@ -7,7 +7,7 @@ const LanguageIndicator = ({
   canEdit,
 }: {
   language: 'gb' | 'ru';
-  canEdit: boolean;
+  canEdit?: boolean;
 }) => (
   <TitleLabel>
     <StyledFlag language={language} />

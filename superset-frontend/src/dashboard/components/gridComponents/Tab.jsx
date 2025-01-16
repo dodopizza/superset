@@ -310,7 +310,7 @@ class Tab extends PureComponent {
             {/* DODO changed 44120742 */}
             {editMode && (
               <LanguageIndicatorWrapper>
-                <LanguageIndicator language="gb" canEdit />
+                <LanguageIndicator language="gb" />
                 <EditableTitle
                   title={component.meta.text}
                   defaultTitle={component.meta.defaultText}
@@ -327,7 +327,7 @@ class Tab extends PureComponent {
             {/* DODO added 44120742 */}
             {editMode && (
               <LanguageIndicatorWrapper>
-                <LanguageIndicator language="ru" canEdit />
+                <LanguageIndicator language="ru" />
                 <EditableTitle
                   title={component.meta.textRU || component.meta.text}
                   defaultTitle={component.meta.defaultText}

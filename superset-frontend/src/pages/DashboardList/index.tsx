@@ -342,7 +342,7 @@ function DashboardList(props: DashboardListProps) {
           </Link>
         ),
         // Header: t('Name'),
-        Header: `${t('Name')} EN`, // DODO changed 44120742
+        Header: t('Title'), // DODO changed 44120742
         accessor: 'dashboard_title',
       },
       // DODO added start 44120742
@@ -354,7 +354,7 @@ function DashboardList(props: DashboardListProps) {
         }: any) => (
           <Link to={url}>{dashboardTitleRU ? `${dashboardTitleRU}` : '-'}</Link>
         ),
-        Header: `${t('Name')} RU`,
+        Header: t('Title (Rus)'),
         accessor: 'dashboard_title_RU',
       },
       // DODO added stop 44120742

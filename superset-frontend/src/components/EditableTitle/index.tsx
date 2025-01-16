@@ -226,9 +226,6 @@ export default function EditableTitle({
         css={(theme: SupersetTheme) => css`
           color: ${theme.colors.grayscale.dark1};
           text-decoration: none;
-          :hover {
-            text-decoration: underline;
-          }
           display: inline-block;
         `}
       >
