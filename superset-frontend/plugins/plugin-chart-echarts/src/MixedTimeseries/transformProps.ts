@@ -79,6 +79,7 @@ import { getDefaultTooltip } from '../utils/tooltip';
 import { getYAxisFormatter } from '../utils/getYAxisFormatter';
 import { LabelPositionDoDo } from '../DodoExtensions/types';
 import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 38403772
+import InfoIcon from '../DodoExtensions/common/InfoIcon'; // DODO added 38403772
 
 const locale = bootstrapData?.common?.locale || 'en'; // DODO added 38403772
 
@@ -653,7 +654,7 @@ export default function transformProps(
               icon: {
                 height: 14,
                 backgroundColor: {
-                  image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                  image: InfoIcon,
                 },
               },
             },
