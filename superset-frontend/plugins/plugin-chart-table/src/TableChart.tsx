@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   CSSProperties,
   useCallback,
@@ -79,6 +62,7 @@ import { formatColumnValue } from './utils/formatValue';
 import { PAGE_SIZE_OPTIONS } from './consts';
 import { updateExternalFormData } from './DataTable/utils/externalAPIs';
 import getScrollBarSize from './DataTable/utils/getScrollBarSize';
+import { getTableSortOrder } from './DodoExtensions/utils/getTableSortOrder'; // DODO added 44136746
 
 type ValueRange = [number, number];
 
@@ -264,6 +248,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     isUsingTimeComparison,
     basicColorFormatters,
     basicColorColumnFormatters,
+    handleAddToExtraFormData, // DODO added 44136746
   } = props;
   const comparisonColumns = [
     { key: 'all', label: t('Display all') },
@@ -919,55 +904,65 @@ export default function TableChart<D extends DataRecord = DataRecord>(
             </StyledCell>
           );
         },
-        Header: ({ column: col, onClick, style, onDragStart, onDrop }) => (
-          <th
-            id={`header-${column.key}`}
-            title={t('Shift + Click to sort by multiple columns')}
-            className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
-            style={{
-              ...sharedStyle,
-              ...style,
-            }}
-            onKeyDown={(e: ReactKeyboardEvent<HTMLElement>) => {
-              // programatically sort column on keypress
-              if (Object.values(ACTION_KEYS).includes(e.key)) {
-                col.toggleSortBy();
-              }
-            }}
-            role="columnheader button"
-            onClick={onClick}
-            data-column-name={col.id}
-            {...(allowRearrangeColumns && {
-              draggable: 'true',
-              onDragStart,
-              onDragOver: e => e.preventDefault(),
-              onDragEnter: e => e.preventDefault(),
-              onDrop,
-            })}
-            tabIndex={0}
-          >
-            {/* can't use `columnWidth &&` because it may also be zero */}
-            {config.columnWidth ? (
-              // column width hint
-              <div
-                style={{
-                  width: columnWidth,
-                  height: 0.01,
-                }}
-              />
-            ) : null}
-            <div
-              data-column-name={col.id}
-              css={{
-                display: 'inline-flex',
-                alignItems: 'flex-end',
+        Header: ({ column: col, onClick, style, onDragStart, onDrop }) => {
+          // DODO added start 44136746
+          const handleClick = (e: React.MouseEvent<Element>) => {
+            const order = getTableSortOrder(label, sortDesc, col.isSortedDesc);
+            handleAddToExtraFormData({ table_order_by: order });
+            if (onClick) onClick(e);
+          };
+          // DODO added stop 44136746
+          return (
+            <th
+              id={`header-${column.key}`}
+              title={t('Shift + Click to sort by multiple columns')}
+              className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
+              style={{
+                ...sharedStyle,
+                ...style,
               }}
+              onKeyDown={(e: ReactKeyboardEvent<HTMLElement>) => {
+                // programatically sort column on keypress
+                if (Object.values(ACTION_KEYS).includes(e.key)) {
+                  col.toggleSortBy();
+                }
+              }}
+              role="columnheader button"
+              // onClick={onClick}
+              onClick={handleClick} // DODO changed 44136746
+              data-column-name={col.id}
+              {...(allowRearrangeColumns && {
+                draggable: 'true',
+                onDragStart,
+                onDragOver: e => e.preventDefault(),
+                onDragEnter: e => e.preventDefault(),
+                onDrop,
+              })}
+              tabIndex={0}
             >
-              <span data-column-name={col.id}>{label}</span>
-              <SortIcon column={col} />
-            </div>
-          </th>
-        ),
+              {/* can't use `columnWidth &&` because it may also be zero */}
+              {config.columnWidth ? (
+                // column width hint
+                <div
+                  style={{
+                    width: columnWidth,
+                    height: 0.01,
+                  }}
+                />
+              ) : null}
+              <div
+                data-column-name={col.id}
+                css={{
+                  display: 'inline-flex',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <span data-column-name={col.id}>{label}</span>
+                <SortIcon column={col} />
+              </div>
+            </th>
+          );
+        },
         Footer: totals ? (
           i === 0 ? (
             <th>

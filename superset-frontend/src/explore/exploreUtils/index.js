@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import { useCallback, useEffect } from 'react';
 /* eslint camelcase: 0 */
@@ -209,6 +192,7 @@ export const buildV1ChartDataPayload = ({
   resultType,
   setDataMask,
   ownState,
+  datasourceMetrics, // DODO added 44136746
 }) => {
   const buildQuery =
     getChartBuildQueryRegistry().get(formData.viz_type) ??
@@ -218,7 +202,8 @@ export const buildV1ChartDataPayload = ({
           ...baseQueryObject,
         },
       ]));
-  return buildQuery(
+  // DODO changed 44136746
+  const builtQueryFunc = buildQuery(
     {
       ...formData,
       force,
@@ -232,6 +217,17 @@ export const buildV1ChartDataPayload = ({
       },
     },
   );
+
+  return {
+    ...builtQueryFunc,
+    // DODO added 44136746
+    form_data: {
+      ...builtQueryFunc.form_data,
+      ...(datasourceMetrics && {
+        datasourceMetrics,
+      }),
+    },
+  };
 };
 
 export const getLegacyEndpointType = ({ resultType, resultFormat }) =>
@@ -243,6 +239,7 @@ export const exportChart = ({
   resultType = 'full',
   force = false,
   ownState = {},
+  datasourceMetrics = [], // DODO added 44136746
 }) => {
   let url;
   let payload;
@@ -264,6 +261,7 @@ export const exportChart = ({
       resultType,
       ownState,
       parseMethod,
+      datasourceMetrics, // DODO added 44136746
     });
   }
 
