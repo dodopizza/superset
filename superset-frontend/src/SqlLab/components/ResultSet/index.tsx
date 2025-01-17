@@ -92,7 +92,10 @@ enum LimitingFactor {
   NotLimited = 'NOT_LIMITED',
 }
 
-export interface ResultSetProps {
+interface ResultSetPropsDodoExtended {
+  xlsx?: boolean; // DODO added 44136746
+}
+export interface ResultSetProps extends ResultSetPropsDodoExtended {
   cache?: boolean;
   csv?: boolean;
   database?: Record<string, any>;
@@ -157,6 +160,7 @@ const extensionsRegistry = getExtensionsRegistry();
 const ResultSet = ({
   cache = false,
   csv = true,
+  xlsx = true, // DODO added 44136746
   database = {},
   displayLimit,
   height,
@@ -293,8 +297,13 @@ const ResultSet = ({
   const getExportCsvUrl = (clientId: string) =>
     `/api/v1/sqllab/export/${clientId}/`;
 
+  // DODO added 44136746
+  const getExportXLSXUrl = () =>
+    `/api/v1/sqllab/export/${query.id}/?result_format=xlsx`;
+
   const renderControls = () => {
-    if (search || visualize || csv) {
+    // if (search || visualize || csv) {
+    if (search || visualize || csv || xlsx) {
       let { data } = query.results;
       if (cache && query.cached) {
         data = cachedData;
@@ -344,6 +353,12 @@ const ResultSet = ({
                 onClick={() => logAction(LOG_ACTIONS_SQLLAB_DOWNLOAD_CSV, {})}
               >
                 <i className="fa fa-file-text-o" /> {t('Download to CSV')}
+              </Button>
+            )}
+            {/* DODO added 44136746 */}
+            {xlsx && canExportData && (
+              <Button buttonSize="small" href={getExportXLSXUrl()}>
+                <i className="fa fa-file-text-o" /> {t('Download to XLSX')}
               </Button>
             )}
 
