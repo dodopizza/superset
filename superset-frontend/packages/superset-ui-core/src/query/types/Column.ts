@@ -21,7 +21,11 @@
 import { GenericDataType } from './QueryResponse';
 import { QueryFormColumn } from './QueryFormData';
 
-export interface AdhocColumn {
+interface AdhocColumnDodoExtended {
+  labelEN?: string; // DODO added 44120742
+  labelRU?: string; // DODO added 44120742
+}
+export interface AdhocColumn extends AdhocColumnDodoExtended {
   hasCustomLabel?: boolean;
   label?: string;
   optionName?: string;
@@ -40,7 +44,11 @@ export type PhysicalColumn = string;
 /**
  * Column information defined in datasource.
  */
-export interface Column {
+interface ColumnDodoExtended {
+  verbose_name_RU?: string | null; // DODO added 44120742
+  verbose_name_EN?: string | null; // DODO added 44120742
+}
+export interface Column extends ColumnDodoExtended {
   id?: number;
   type?: string;
   type_generic?: GenericDataType;

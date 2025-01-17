@@ -39,7 +39,9 @@ const setup = (props: Partial<AdhocMetricEditPopoverTitleProps> = {}) => {
   const { container } = render(
     <AdhocMetricEditPopoverTitle
       title={titleProps}
-      onChange={onChange}
+      // onChange={onChange}
+      onChangeEN={onChange} // DODO added 44120742
+      onChangeRU={onChange} // DODO added 44120742
       {...props}
     />,
   );

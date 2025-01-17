@@ -80,6 +80,14 @@ export default class AdhocMetric {
     this.label = this.hasCustomLabel
       ? adhocMetric.label
       : this.getDefaultLabel();
+    // DODO added 44120742
+    this.labelEN = this.hasCustomLabel
+      ? adhocMetric.labelEN
+      : this.getDefaultLabel();
+    // DODO added 44120742
+    this.labelRU = this.hasCustomLabel
+      ? adhocMetric.labelRU
+      : this.getDefaultLabelRU();
 
     this.optionName =
       adhocMetric.optionName ||
@@ -89,7 +97,17 @@ export default class AdhocMetric {
   }
 
   getDefaultLabel() {
-    return this.translateToSql({ useVerboseName: true });
+    // return this.translateToSql({ useVerboseName: true });
+    // DODO changed start 44120742
+    const label = this.translateToSql({ useVerboseName: true });
+    return label.length < 43 ? label : `${label.substring(0, 40)}...`;
+    // DODO changed stop 44120742
+  }
+
+  // DODO added 44120742
+  getDefaultLabelRU() {
+    const labelRU = `RU_${this.translateToSql({ useVerboseName: true })}`;
+    return labelRU.length < 43 ? labelRU : `${labelRU.substring(0, 40)}...`;
   }
 
   translateToSql(
@@ -123,6 +141,9 @@ export default class AdhocMetric {
   duplicateWith(nextFields) {
     return new AdhocMetric({
       ...this,
+      // all duplicate metrics are not considered new by default
+      isNew: false,
+      // but still overriddable by nextFields
       ...nextFields,
     });
   }
@@ -130,6 +151,8 @@ export default class AdhocMetric {
   equals(adhocMetric) {
     return (
       adhocMetric.label === this.label &&
+      adhocMetric.labelEN === this.labelEN && // DODO added 44120742
+      adhocMetric.labelRU === this.labelRU && // DODO added 44120742
       adhocMetric.expressionType === this.expressionType &&
       adhocMetric.sqlExpression === this.sqlExpression &&
       adhocMetric.aggregate === this.aggregate &&

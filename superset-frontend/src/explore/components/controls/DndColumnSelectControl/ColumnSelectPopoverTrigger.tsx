@@ -23,8 +23,9 @@ import { AdhocColumn, t, isAdhocColumn } from '@superset-ui/core';
 import { ColumnMeta, isColumnMeta } from '@superset-ui/chart-controls';
 import { ExplorePopoverContent } from 'src/explore/components/ExploreContentPopover';
 import { SaveDatasetModal } from 'src/SqlLab/components/SaveDatasetModal';
+import { ControlPopoverTitle } from 'src/DodoExtensions/ColumnSelectPopoverTrigger';
 import ColumnSelectPopover from './ColumnSelectPopover';
-import { DndColumnSelectPopoverTitle } from './DndColumnSelectPopoverTitle';
+// import { DndColumnSelectPopoverTitle } from './DndColumnSelectPopoverTitle';
 import ControlPopover from '../ControlPopover/ControlPopover';
 
 interface ColumnSelectPopoverTriggerProps {
@@ -41,6 +42,7 @@ interface ColumnSelectPopoverTriggerProps {
 }
 
 const defaultPopoverLabel = t('My column');
+const defaultPopoverLabelRU = 'Моя колонка'; // DODO added 44120742
 const editableTitleTab = 'sqlExpression';
 
 const ColumnSelectPopoverTrigger = ({
@@ -56,21 +58,46 @@ const ColumnSelectPopoverTrigger = ({
   // @ts-ignore
   const datasource = useSelector(state => state.explore.datasource);
   const [popoverLabel, setPopoverLabel] = useState(defaultPopoverLabel);
+  const [popoverLabelEN, setPopoverLabelEN] = useState(defaultPopoverLabel); // DODO added 44120742
+  const [popoverLabelRU, setPopoverLabelRU] = useState(defaultPopoverLabel); // DODO added 44120742
   const [popoverVisible, setPopoverVisible] = useState(false);
-  const [isTitleEditDisabled, setIsTitleEditDisabled] = useState(true);
-  const [hasCustomLabel, setHasCustomLabel] = useState(false);
+  const [, setIsTitleEditDisabled] = useState(true);
+  const [hasCustomLabel] = useState(false);
   const [showDatasetModal, setDatasetModal] = useState(false);
+  const [canHaveCustomLabel, setCanHaveCustomLabel] = useState(false); // DODO added 44120742
 
   let initialPopoverLabel = defaultPopoverLabel;
+  let initialPopoverLabelEN = defaultPopoverLabel; // DODO added 44120742
+  let initialPopoverLabelRU = defaultPopoverLabelRU; // DODO added 44120742
   if (editedColumn && isColumnMeta(editedColumn)) {
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
+    // DODO added 44120742
+    initialPopoverLabelEN =
+      editedColumn.verbose_name_EN || editedColumn.column_name;
+    // DODO added 44120742
+    initialPopoverLabelRU =
+      editedColumn.verbose_name_RU || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
+    initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel; // DODO added 44120742
+    initialPopoverLabelRU = editedColumn.labelRU || defaultPopoverLabelRU; // DODO added 44120742
   }
+
+  // DODO added 44120742
+  useEffect(() => {
+    if (editedColumn && isColumnMeta(editedColumn)) {
+      setCanHaveCustomLabel(false);
+    } else if (editedColumn && isAdhocColumn(editedColumn)) {
+      setCanHaveCustomLabel(true);
+    }
+  }, [editedColumn]);
 
   useEffect(() => {
     setPopoverLabel(initialPopoverLabel);
-  }, [initialPopoverLabel, popoverVisible]);
+    setPopoverLabelEN(initialPopoverLabelEN); // DODO added 44120742
+    setPopoverLabelRU(initialPopoverLabelRU); // DODO added 44120742
+    // }, [initialPopoverLabel, popoverVisible]);
+  }, [initialPopoverLabel, initialPopoverLabelEN, initialPopoverLabelRU]); // DODO changed 44120742
 
   const togglePopover = useCallback((visible: boolean) => {
     setPopoverVisible(visible);
@@ -108,10 +135,23 @@ const ColumnSelectPopoverTrigger = ({
           onChange={onColumnEdit}
           hasCustomLabel={hasCustomLabel}
           label={popoverLabel}
-          setLabel={setPopoverLabel}
+          // setLabel={setPopoverLabel} // DODO commented out 44120742
           getCurrentTab={getCurrentTab}
           isTemporal={isTemporal}
           disabledTabs={disabledTabs}
+          // DODO added start 44120742
+          setLabel={(value: string) => {
+            setPopoverLabel(value);
+            setPopoverLabelEN(value);
+          }}
+          labelEN={popoverLabelEN}
+          labelRU={popoverLabelRU}
+          setLabelEN={(value: string) => {
+            setPopoverLabel(value);
+            setPopoverLabelEN(value);
+          }}
+          setLabelRU={setPopoverLabelRU}
+          // DODO added stop 44120742
         />
       </ExplorePopoverContent>
     ),
@@ -124,29 +164,32 @@ const ColumnSelectPopoverTrigger = ({
       isTemporal,
       onColumnEdit,
       popoverLabel,
+      popoverLabelEN,
+      popoverLabelRU,
       disabledTabs,
     ],
   );
 
-  const onLabelChange = useCallback(
-    (e: any) => {
-      setPopoverLabel(e.target.value);
-      setHasCustomLabel(true);
-    },
-    [setPopoverLabel, setHasCustomLabel],
-  );
+  // DODO commented out 44120742
+  // const onLabelChange = useCallback(
+  //   (e: any) => {
+  //     setPopoverLabel(e.target.value);
+  //     setHasCustomLabel(true);
+  //   },
+  //   [setPopoverLabel, setHasCustomLabel],
+  // );
 
-  const popoverTitle = useMemo(
-    () => (
-      <DndColumnSelectPopoverTitle
-        title={popoverLabel}
-        onChange={onLabelChange}
-        isEditDisabled={isTitleEditDisabled}
-        hasCustomLabel={hasCustomLabel}
-      />
-    ),
-    [hasCustomLabel, isTitleEditDisabled, onLabelChange, popoverLabel],
-  );
+  // const popoverTitle = useMemo(
+  //   () => (
+  //     <DndColumnSelectPopoverTitle
+  //       title={popoverLabel}
+  //       onChange={onLabelChange}
+  //       isEditDisabled={isTitleEditDisabled}
+  //       hasCustomLabel={hasCustomLabel}
+  //     />
+  //   ),
+  //   [hasCustomLabel, isTitleEditDisabled, onLabelChange, popoverLabel],
+  // );
 
   return (
     <>
@@ -168,7 +211,19 @@ const ColumnSelectPopoverTrigger = ({
         defaultVisible={visible}
         visible={visible}
         onVisibleChange={handleTogglePopover}
-        title={popoverTitle}
+        // title={popoverTitle}
+        // DODO changed 44120742
+        title={() => (
+          <ControlPopoverTitle
+            canHaveCustomLabel={canHaveCustomLabel}
+            popoverLabel={popoverLabel}
+            popoverLabelRU={popoverLabelRU}
+            onLabelChange={(value: string) => {
+              setPopoverLabel(value);
+            }}
+            onLabelRUChange={(value: string) => setPopoverLabelRU(value)}
+          />
+        )}
         destroyTooltipOnHide
       >
         {children}

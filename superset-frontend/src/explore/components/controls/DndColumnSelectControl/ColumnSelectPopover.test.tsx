@@ -45,9 +45,13 @@ const renderPopover = (
           hasCustomLabel
           isTemporal
           label="Custom Label"
+          labelEN="Custom Label"
+          labelRU="Custom Label"
           onClose={jest.fn()}
           setDatasetModal={jest.fn()}
           setLabel={jest.fn()}
+          setLabelEN={jest.fn()}
+          setLabelRU={jest.fn()}
           {...props}
         />
       </ThemeProvider>

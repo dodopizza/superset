@@ -321,13 +321,6 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
           opr: 'ct',
           value: search,
         },
-        // DODO added start 44120742
-        {
-          col: 'dashboard_title_RU',
-          opr: 'ct',
-          value: search,
-        },
-        // DODO added stop 44120742
         {
           col: 'owners',
           opr: 'rel_m_m',
