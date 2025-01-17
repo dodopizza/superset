@@ -278,7 +278,8 @@ const ResultSet = ({
   };
 
   const getExportCsvUrl = (clientId: string) =>
-    `/api/v1/sqllab/export/${clientId}/`;
+    // `/api/v1/sqllab/export/${clientId}/`;
+    `/api/v1/sqllab/export/${clientId}/?result_format=csv`; // DODO changed 44136746
 
   // DODO added 44136746
   const getExportXLSXUrl = () =>
