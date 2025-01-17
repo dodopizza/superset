@@ -48,6 +48,8 @@ class DashboardTitleOrSlugFilter(BaseFilter):  # pylint: disable=too-few-public-
             or_(
                 Dashboard.dashboard_title.ilike(ilike_value),
                 Dashboard.slug.ilike(ilike_value),
+                Dashboard.dashboard_title_RU.ilike(ilike_value),
+                Dashboard.id(ilike_value),
             )
         )
 

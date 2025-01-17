@@ -14,42 +14,25 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from superset.utils.backports import StrEnum
+"""empty message
+
+Revision ID: 687e66be3a9d
+Revises: a18f4c261e8b
+Create Date: 2023-11-17 13:24:09.629107
+
+"""
+
+# revision identifiers, used by Alembic.
+revision = '687e66be3a9d'
+down_revision = 'a18f4c261e8b'
+
+from alembic import op
+import sqlalchemy as sa
 
 
-class ChartDataResultFormat(StrEnum):
-    """
-    Chart data response format
-    """
-
-    CSV = "csv"
-    JSON = "json"
-    XLSX = "xlsx"
-
-    @classmethod
-    def table_like(cls) -> set["ChartDataResultFormat"]:
-        return {cls.CSV} | {cls.XLSX}
+def upgrade():
+    pass
 
 
-class ChartDataResultType(StrEnum):
-    """
-    Chart data response type
-    """
-
-    COLUMNS = "columns"
-    FULL = "full"
-    QUERY = "query"
-    RESULTS = "results"
-    SAMPLES = "samples"
-    TIMEGRAINS = "timegrains"
-    POST_PROCESSED = "post_processed"
-    DRILL_DETAIL = "drill_detail"
-
-
-class ChartDataResultLanguage(StrEnum):
-    """
-    Chart data response language
-    """
-
-    RU = "ru"
-    EN = "en"
+def downgrade():
+    pass
