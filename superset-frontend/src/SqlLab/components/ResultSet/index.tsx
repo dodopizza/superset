@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   useCallback,
   useEffect,
@@ -92,7 +75,10 @@ enum LimitingFactor {
   NotLimited = 'NOT_LIMITED',
 }
 
-export interface ResultSetProps {
+interface ResultSetPropsDodoExtended {
+  xlsx?: boolean; // DODO added 44136746
+}
+export interface ResultSetProps extends ResultSetPropsDodoExtended {
   cache?: boolean;
   csv?: boolean;
   database?: Record<string, any>;
@@ -157,6 +143,7 @@ const extensionsRegistry = getExtensionsRegistry();
 const ResultSet = ({
   cache = false,
   csv = true,
+  xlsx = true, // DODO added 44136746
   database = {},
   displayLimit,
   height,
@@ -291,10 +278,16 @@ const ResultSet = ({
   };
 
   const getExportCsvUrl = (clientId: string) =>
-    `/api/v1/sqllab/export/${clientId}/`;
+    // `/api/v1/sqllab/export/${clientId}/`;
+    `/api/v1/sqllab/export/${clientId}/?result_format=csv`; // DODO changed 44136746
+
+  // DODO added 44136746
+  const getExportXLSXUrl = () =>
+    `/api/v1/sqllab/export/${query.id}/?result_format=xlsx`;
 
   const renderControls = () => {
-    if (search || visualize || csv) {
+    // if (search || visualize || csv) {
+    if (search || visualize || csv || xlsx) {
       let { data } = query.results;
       if (cache && query.cached) {
         data = cachedData;
@@ -344,6 +337,12 @@ const ResultSet = ({
                 onClick={() => logAction(LOG_ACTIONS_SQLLAB_DOWNLOAD_CSV, {})}
               >
                 <i className="fa fa-file-text-o" /> {t('Download to CSV')}
+              </Button>
+            )}
+            {/* DODO added 44136746 */}
+            {xlsx && canExportData && (
+              <Button buttonSize="small" href={getExportXLSXUrl()}>
+                <i className="fa fa-file-text-o" /> {t('Download to XLSX')}
               </Button>
             )}
 

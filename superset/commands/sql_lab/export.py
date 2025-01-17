@@ -24,12 +24,13 @@ from flask_babel import gettext as __
 
 from superset import app, db, results_backend, results_backend_use_msgpack
 from superset.commands.base import BaseCommand
+from superset.common.chart_data import ChartDataResultFormat
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import SupersetErrorException, SupersetSecurityException
 from superset.models.sql_lab import Query
 from superset.sql_parse import ParsedQuery
 from superset.sqllab.limiting_factor import LimitingFactor
-from superset.utils import core as utils, csv
+from superset.utils import core as utils, csv, excel
 from superset.views.utils import _deserialize_results_payload
 
 config = app.config
@@ -46,12 +47,11 @@ class SqlExportResult(TypedDict):
 class SqlResultExportCommand(BaseCommand):
     _client_id: str
     _query: Query
+    _result_format: str
 
-    def __init__(
-        self,
-        client_id: str,
-    ) -> None:
+    def __init__(self, client_id: str, result_format: str) -> None:
         self._client_id = client_id
+        self._result_format = result_format
 
     def validate(self) -> None:
         self._query = (
@@ -131,11 +131,15 @@ class SqlResultExportCommand(BaseCommand):
                 self._query.catalog,
                 self._query.schema,
             )[:limit]
-
-        csv_data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        if self._result_format == ChartDataResultFormat.XLSX:
+            data = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
+        elif self._result_format == ChartDataResultFormat.CSV:
+            data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        else:
+            raise ValueError(f"Unsupported result format: {self._result_format}")
 
         return {
             "query": self._query,
             "count": len(df.index),
-            "data": csv_data,
+            "data": data,
         }

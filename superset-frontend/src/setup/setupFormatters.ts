@@ -31,6 +31,7 @@ import {
 } from '@superset-ui/core';
 import { FormatLocaleDefinition } from 'd3-format';
 import { TimeLocaleDefinition } from 'd3-time-format';
+import { formatDurationHMMSS } from 'src/DodoExtensions/utils/formatDurationHMMSS'; // DODO added 44136746
 
 export default function setupFormatters(
   d3NumberFormat: Partial<FormatLocaleDefinition>,
@@ -76,6 +77,11 @@ export default function setupFormatters(
     .registerValue(
       'DURATION_SUB',
       createDurationFormatter({ formatSubMilliseconds: true }),
+    )
+    // DODO added 44136746
+    .registerValue(
+      'DURATION_HMMSS',
+      createDurationFormatter({ formatFunc: formatDurationHMMSS }),
     );
 
   const timeFormatterRegistry = getTimeFormatterRegistry();
