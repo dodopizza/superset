@@ -224,7 +224,7 @@ export const buildV1ChartDataPayload = ({
     form_data: {
       ...builtQueryFunc.form_data,
       ...(datasourceMetrics && {
-        datasourceMetrics,
+        datasource_metrics: datasourceMetrics,
       }),
     },
   };
