@@ -1,28 +1,36 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { memo } from 'react';
-import { useTheme } from '@superset-ui/core';
+import { css, styled, t, useTheme } from '@superset-ui/core'; // DODO changed 44136746
 import Popover from 'src/components/Popover';
-import { ColumnTypeLabel } from '@superset-ui/chart-controls';
+import { ColumnTypeLabel, Tooltip } from '@superset-ui/chart-controls'; // DODO changed 44136746
+import Icons from 'src/components/Icons'; // DODO added 44136746
 import ColumnConfigPopover, {
   ColumnConfigPopoverProps,
 } from './ColumnConfigPopover';
+
+// DODO added start 44136746
+const InfoIcon = styled(Icons.InfoCircleOutlined)`
+  ${({ theme }) => css`
+    &.anticon {
+      font-size: unset;
+      .anticon {
+        margin-left: 4px;
+        line-height: unset;
+        vertical-align: unset;
+        color: ${theme.colors.grayscale.base};
+      }
+    }
+  `}
+`;
+
+const ColumnLabel = styled.span`
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+`;
+// DODO added stop 44136746
 
 export type ColumnConfigItemProps = ColumnConfigPopoverProps;
 
@@ -35,6 +43,7 @@ export default memo(function ColumnConfigItem({
 }: ColumnConfigItemProps) {
   const { colors, gridUnit } = useTheme();
   const caretWidth = gridUnit * 6;
+  const hasExportAsTime = column.config?.exportAsTime;
   return (
     <Popover
       title={column.name}
@@ -74,7 +83,17 @@ export default memo(function ColumnConfigItem({
         }}
       >
         <ColumnTypeLabel type={column.type} />
-        {column.name}
+        {/* {column.name} */}
+        <ColumnLabel>{column.name}</ColumnLabel> {/* DODO changed 44136746 */}
+        {/* DODO added 44136746 */}
+        {hasExportAsTime && (
+          <Tooltip
+            title={t('This metric will be exported as time')}
+            placement="top"
+          >
+            <InfoIcon />
+          </Tooltip>
+        )}
         <i
           className="fa fa-caret-right"
           css={{
