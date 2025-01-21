@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable camelcase */
 import { FeatureFlag, isFeatureEnabled } from '@superset-ui/core';
 import { chart } from 'src/components/Chart/chartReducer';
@@ -59,7 +42,8 @@ export const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 export const hydrateDashboard =
   ({ history, dashboard, charts, dataMask, activeTabs }) =>
   (dispatch, getState) => {
-    const { user, common, dashboardState } = getState();
+    // const { user, common, dashboardState } = getState();
+    const { user, common, dashboardState, nativeFilters } = getState(); // DODO changed 44211751
     const { metadata, position_data: positionData } = dashboard;
     const regularUrlParams = extractUrlParams('regular');
     const reservedUrlParams = extractUrlParams('reserved');
@@ -226,8 +210,13 @@ export const hydrateDashboard =
       directPathToChild.push(directLinkComponentId);
     }
 
-    const nativeFilters = getInitialNativeFilterState({
+    // const nativeFilters = getInitialNativeFilterState({
+    //   filterConfig: metadata?.native_filter_configuration || [],
+    // });
+    // DODO changed 44211751
+    const updatedNativeFilters = getInitialNativeFilterState({
       filterConfig: metadata?.native_filter_configuration || [],
+      state: nativeFilters, // DODO added 38080573
     });
 
     if (isFeatureEnabled(FeatureFlag.DashboardCrossFilters)) {
@@ -288,7 +277,8 @@ export const hydrateDashboard =
         },
         dataMask,
         dashboardFilters,
-        nativeFilters,
+        // nativeFilters,
+        nativeFilters: updatedNativeFilters, // DODO changed 44211751
         dashboardState: {
           preselectNativeFilters: getUrlParam(URL_PARAMS.nativeFilters),
           sliceIds: Array.from(sliceIds),
