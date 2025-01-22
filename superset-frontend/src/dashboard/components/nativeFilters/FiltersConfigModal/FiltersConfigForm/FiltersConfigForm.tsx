@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   ColumnMeta,
@@ -83,6 +66,7 @@ import {
   mergeExtraFormData,
 } from 'src/dashboard/components/nativeFilters/utils';
 import { DatasetSelectLabel } from 'src/features/datasets/DatasetSelectLabel';
+import TextControl from 'src/explore/components/controls/TextControl'; // DODO added 44211759
 import {
   ALLOW_DEPENDENCIES as TYPES_SUPPORT_DEPENDENCIES,
   getFiltersConfigModalTestId,
@@ -111,22 +95,33 @@ const TabPane = styled(Tabs.TabPane)`
   padding: ${({ theme }) => theme.gridUnit * 4}px 0px;
 `;
 
-const StyledContainer = styled.div`
-  ${({ theme }) => `
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding: 0px ${theme.gridUnit * 4}px;
-  `}
+// DODO commented out 44211759
+// const StyledContainer = styled.div`
+//   ${({ theme }) => `
+//     display: flex;
+//     flex-direction: row-reverse;
+//     justify-content: space-between;
+//     padding: 0px ${theme.gridUnit * 4}px;
+//   `}
+// `;
+
+// DODO added 44211759
+const StyledGridContainer = styled.div`
+  padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  column-gap: 1rem;
 `;
 
-const StyledRowContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
-`;
+// DODO commented out 44211759
+// const StyledRowContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   width: 100%;
+//   padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+// `;
 
 type ControlKey = keyof PluginFilterSelectCustomizeProps;
 
@@ -139,7 +134,7 @@ const controlsOrder: ControlKey[] = [
 ];
 
 export const StyledFormItem = styled(FormItem)<{ expanded: boolean }>`
-  width: ${({ expanded }) => (expanded ? '49%' : `${FORM_ITEM_WIDTH}px`)};
+  // width: ${({ expanded }) => (expanded ? '49%' : `${FORM_ITEM_WIDTH}px`)};
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
 
   & .ant-form-item-label {
@@ -319,7 +314,12 @@ export interface FiltersConfigFormProps {
   getDependencySuggestion: (filterId: string) => string;
 }
 
-const FILTERS_WITH_ADHOC_FILTERS = ['filter_select', 'filter_range'];
+// const FILTERS_WITH_ADHOC_FILTERS = ['filter_select', 'filter_range'];
+const FILTERS_WITH_ADHOC_FILTERS = [
+  'filter_select',
+  'filter_range',
+  'filter_select_by_id', // DODO added 44211759
+];
 
 // TODO: Rename the filter plugins and remove this mapping
 const FILTER_TYPE_NAME_MAPPING = {
@@ -329,6 +329,7 @@ const FILTER_TYPE_NAME_MAPPING = {
   [t('Time column')]: t('Time column'),
   [t('Time grain')]: t('Time grain'),
   [t('Group By')]: t('Group by'),
+  [t('Select by id filter')]: t('Filter by ID'), // DODO added 44211759
 };
 
 /**
@@ -487,6 +488,7 @@ const FiltersConfigForm = (
         datasetId: formFilter?.dataset?.value,
         dashboardId,
         groupby: formFilter?.column,
+        groupbyid: formFilter?.columnId, // DODO added 44211759
         ...formFilter,
       });
 
@@ -548,6 +550,7 @@ const FiltersConfigForm = (
   const newFormData = getFormData({
     datasetId,
     groupby: hasColumn ? formFilter?.column : undefined,
+    groupbyid: formFilter?.columnId, // DODO added 44211759
     ...formFilter,
   });
   newFormData.extra_form_data = dependenciesDefaultValues;
@@ -811,7 +814,8 @@ const FiltersConfigForm = (
         key={FilterTabs.configuration.key}
         forceRender
       >
-        <StyledContainer>
+        <StyledGridContainer>
+          {/* DODO changed 44211759 */}
           <StyledFormItem
             expanded={expanded}
             name={['filters', filterId, 'type']}
@@ -819,15 +823,6 @@ const FiltersConfigForm = (
             initialValue={NativeFilterType.NativeFilter}
           >
             <Input />
-          </StyledFormItem>
-          <StyledFormItem
-            expanded={expanded}
-            name={['filters', filterId, 'name']}
-            label={<StyledLabel>{t('Filter name')}</StyledLabel>}
-            initialValue={filterToEdit?.name}
-            rules={[{ required: !isRemoved, message: t('Name is required') }]}
-          >
-            <Input {...getFiltersConfigModalTestId('name-input')} />
           </StyledFormItem>
           <StyledFormItem
             expanded={expanded}
@@ -874,7 +869,16 @@ const FiltersConfigForm = (
               }}
             />
           </StyledFormItem>
-        </StyledContainer>
+          <StyledFormItem
+            expanded={expanded}
+            name={['filters', filterId, 'name']}
+            label={<StyledLabel>{t('Filter name')}</StyledLabel>}
+            initialValue={filterToEdit?.name}
+            rules={[{ required: !isRemoved, message: t('Name is required') }]}
+          >
+            <Input {...getFiltersConfigModalTestId('name-input')} />
+          </StyledFormItem>
+        </StyledGridContainer>
         {formFilter?.filterType === 'filter_time' && (
           <FilterTypeInfo expanded={expanded}>
             {t(`Dashboard time range filters apply to temporal columns defined in
@@ -883,7 +887,8 @@ const FiltersConfigForm = (
           </FilterTypeInfo>
         )}
         {hasDataset && (
-          <StyledRowContainer>
+          // DODO changed 44211759
+          <StyledGridContainer>
             {showDataset ? (
               <StyledFormItem
                 expanded={expanded}
@@ -936,7 +941,38 @@ const FiltersConfigForm = (
               Object.keys(mainControlItems).map(
                 key => mainControlItems[key].element,
               )}
-          </StyledRowContainer>
+            {/* DODO added 44211759 */}
+            {formFilter.filterType === 'filter_select_by_id' && (
+              <StyledFormItem
+                expanded={expanded}
+                name={['filters', filterId, 'selectTopValue']}
+                label={
+                  <StyledLabel>
+                    Select Top Value{' '}
+                    <InfoTooltipWithTrigger
+                      tooltip={t('Use it with caution')}
+                    />
+                  </StyledLabel>
+                }
+                initialValue={filterToEdit?.selectTopValue}
+                rules={[
+                  {
+                    validator: (_, value) => {
+                      if (!value) return Promise.resolve();
+                      if (!Number.isInteger(Number(value))) {
+                        return Promise.reject(
+                          new Error(t('Not a valid integer')),
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+              >
+                <TextControl placeholder="1000" />
+              </StyledFormItem>
+            )}
+          </StyledGridContainer>
         )}
         <StyledCollapse
           defaultActiveKey={activeFilterPanelKeys}
