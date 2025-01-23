@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { ReactNode, useState, useEffect, useMemo } from 'react';
 import {
   css,
@@ -82,7 +65,7 @@ const ContentStyleWrapper = styled.div`
     .control-label {
       font-size: 11px;
       font-weight: ${theme.typography.weights.medium};
-      color: ${theme.colors.grayscale.light2};
+      color: ${theme.colors.grayscale.base}; // DODO changed 44211759
       line-height: 16px;
       text-transform: uppercase;
       margin: 8px 0;
@@ -309,6 +292,15 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       )}
       {frame === 'Custom' && (
         <CustomFrame value={timeRangeValue} onChange={setTimeRangeValue} />
+      )}
+      {/* DODO added 44211759 */}
+      {frame === 'CustomUntilInclude' && (
+        <CustomFrame
+          value={timeRangeValue}
+          onChange={setTimeRangeValue}
+          withTime={false}
+          untilInclude
+        />
       )}
       {frame === 'No filter' && <div data-test={DateFilterTestKey.NoFilter} />}
       <Divider />
