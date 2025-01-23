@@ -172,7 +172,7 @@ class CurrentUserRestApi(BaseSupersetApi):
         }
         return self.response(200, result=user_response_schema.dump(result))
 
-    @expose("/team", ("GET",))
+    @expose("/team", ("GET",))  # текущая команда пользователя
     def my_team(self):
         try:
             user = g.user
@@ -197,7 +197,7 @@ class CurrentUserRestApi(BaseSupersetApi):
             result["team"] = None
         return self.response(200, result=user_response_schema.dump(result))
 
-    @expose("/statements", ("GET",))
+    @expose("/statements", ("GET",))  # все заявки пользователя
     def my_statements(self):
         try:
             user = g.user
@@ -220,7 +220,7 @@ class CurrentUserRestApi(BaseSupersetApi):
             result["statements"] = None
         return self.response(200, result=user_response_schema.dump(result))
 
-    @expose("/country", ("GET",))
+    @expose("/country", ("GET",))  # страна пользователя, получаем в профиле
     def my_country(self):
         try:
             user = g.user
