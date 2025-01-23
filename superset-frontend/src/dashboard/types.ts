@@ -119,6 +119,14 @@ export type DashboardInfo = {
   };
   crossFiltersEnabled: boolean;
   filterBarOrientation: FilterBarOrientation;
+  owners: {
+    id: number;
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+    teams?: Array<{ name: string }>;
+    user_info?: Array<{ country_name: string | null }>;
+  }[];
 };
 
 export type ChartsState = { [key: string]: Chart };

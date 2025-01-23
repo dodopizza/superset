@@ -1,4 +1,5 @@
 // DODO was here
+import { bootstrapData } from 'src/preamble'; // DODO added 39843425
 import {
   FeatureFlag,
   isFeatureEnabled,
@@ -44,7 +45,11 @@ import CertifiedBadge from 'src/components/CertifiedBadge';
 import { loadTags } from 'src/components/Tags/utils';
 import DashboardCard from 'src/features/dashboards/DashboardCard';
 import { DashboardStatus } from 'src/features/dashboards/types';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import { getLocalisedTitle } from 'src/DodoExtensions/dashboard/utils/getLocalisedTitle';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 39843425
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
   'The passwords for the databases below are needed in order to ' +
@@ -72,6 +77,7 @@ interface DashboardListProps {
 // DODO added
 interface DashboardDodoExtended {
   dashboard_title_RU: string;
+  access_list?: AccessList;
 }
 
 // DODO changed
@@ -133,6 +139,10 @@ function DashboardList(props: DashboardListProps) {
   const [dashboardToEdit, setDashboardToEdit] = useState<Dashboard | null>(
     null,
   );
+  // DODO added start 39843425
+  const [dashboardToEditAccess, setDashboardToEditAccess] =
+    useState<Dashboard | null>(null);
+  // DODO added stop 39843425
   const [dashboardToDelete, setDashboardToDelete] =
     useState<CRUDDashboard | null>(null);
 
@@ -178,6 +188,30 @@ function DashboardList(props: DashboardListProps) {
   function openDashboardEditModal(dashboard: Dashboard) {
     setDashboardToEdit(dashboard);
   }
+  // DODO added start 39843425
+  function openDashboardAccessModal(dashboard: Dashboard) {
+    setDashboardToEditAccess(dashboard);
+  }
+  function handleSaveAccessConfiguration(accessList: AccessList) {
+    SupersetClient.put({
+      endpoint: `/api/v1/dashboard/${dashboardToEditAccess!.id}`,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...dashboardToEditAccess,
+        access_list: accessList,
+      }),
+    })
+      .then(() => {
+        addSuccessToast(t('The access configuration has been saved'));
+        setDashboardToEditAccess(null);
+      })
+      .catch(() => {
+        addDangerToast(
+          t('An error occurred while saving access configuration'),
+        );
+      });
+  }
+  // DODO added stop 39843425
 
   function handleDashboardEdit(edits: Dashboard) {
     return SupersetClient.get({
@@ -400,6 +434,7 @@ function DashboardList(props: DashboardListProps) {
             );
           const handleEdit = () => openDashboardEditModal(original);
           const handleExport = () => handleBulkDashboardExport([original]);
+          const handleEditAccess = () => openDashboardAccessModal(original); // DODO added 39843425
 
           return (
             <Actions className="actions">
@@ -464,6 +499,24 @@ function DashboardList(props: DashboardListProps) {
                   </span>
                 </Tooltip>
               )}
+              {/* DODO added start 39843425 */}
+              {canEdit && (
+                <Tooltip
+                  id="edit-action-tooltip"
+                  title={t('Access configuration')}
+                  placement="bottomRight"
+                >
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className="action-button"
+                    onClick={handleEditAccess}
+                  >
+                    <Icons.SettingOutlined />
+                  </span>
+                </Tooltip>
+              )}
+              {/* DODO added stop 39843425 */}
             </Actions>
           );
         },
@@ -833,6 +886,18 @@ function DashboardList(props: DashboardListProps) {
           setSSHTunnelPrivateKeyPasswordFields
         }
       />
+
+      {/* DODO added start 39843425 */}
+      {dashboardToEditAccess && (
+        <AccessConfigurationModal
+          entityName={getLocalisedTitle(dashboardToEditAccess, locale)}
+          accessList={dashboardToEditAccess?.access_list}
+          onSave={handleSaveAccessConfiguration}
+          onHide={() => setDashboardToEditAccess(null)}
+          show
+        />
+      )}
+      {/* DODO added stop 39843425 */}
 
       {preparingExport && <Loading />}
     </>

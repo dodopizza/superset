@@ -27,6 +27,7 @@ const createProps = () => ({
         ],
       },
     },
+    owners: [],
   },
   user: {
     createdOn: '2021-04-27T18:12:38.952304',

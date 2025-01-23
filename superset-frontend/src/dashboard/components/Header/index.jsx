@@ -172,6 +172,7 @@ class Header extends React.PureComponent {
       showingPropertiesModal: false,
       isDropdownVisible: false,
     };
+    this.hasAccess = true;
 
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleCtrlZ = this.handleCtrlZ.bind(this);
@@ -504,6 +505,7 @@ class Header extends React.PureComponent {
       >
         {/* DODO changed */}
         <PageHeaderWithActions
+          showRightPanel={this.hasAccess} // DODO added 39843425
           editableTitleProps={{
             title:
               userLanguage === 'ru'
@@ -527,16 +529,17 @@ class Header extends React.PureComponent {
             showTooltip: true,
           }}
           titlePanelAdditionalItems={[
-            !editMode && (
-              <PublishedStatus
-                dashboardId={dashboardInfo.id}
-                isPublished={isPublished}
-                savePublished={this.props.savePublished}
-                canEdit={userCanEdit}
-                canSave={userCanSaveAs}
-                visible={!editMode}
-              />
-            ),
+            this.hasAccess &&
+              !editMode && ( // DODO changed 39843425
+                <PublishedStatus
+                  dashboardId={dashboardInfo.id}
+                  isPublished={isPublished}
+                  savePublished={this.props.savePublished}
+                  canEdit={userCanEdit}
+                  canSave={userCanSaveAs}
+                  visible={!editMode}
+                />
+              ),
           ]}
           rightPanelAdditionalItems={
             <div className="button-container">
@@ -685,8 +688,8 @@ class Header extends React.PureComponent {
               dashboardTitleRU={dashboardTitleRU}
             />
           }
-          showFaveStar={user?.userId && dashboardInfo?.id}
-          showTitlePanelItems
+          showFaveStar={this.hasAccess && user?.userId && dashboardInfo?.id} // DODO changed 39843425
+          showTitlePanelItems={this.hasAccess} // DODO changed 39843425
         />
         {this.state.showingPropertiesModal && (
           // DODO changed

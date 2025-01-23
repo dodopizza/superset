@@ -32,6 +32,7 @@ const createProps = () => ({
         ],
       },
     },
+    owners: [],
   },
   dashboardTitle: 'Title',
   // DODO added

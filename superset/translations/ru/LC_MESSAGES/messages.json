@@ -11226,6 +11226,69 @@
       ],
       "End date include to time range": [
         "Дата окончания включена в диапазон"
+      ],
+      "Access configuration": [
+        "Настройка доступа"
+      ],
+      "Search for users": [
+        "Поиск пользователей"
+      ],
+      "Search for teams": [
+        "Поиск команд"
+      ],
+      "Search for roles": [
+        "Поиск ролей"
+      ],
+      "Reader": [
+        "Читатель"
+      ],
+      "Editor": [
+        "Редактор"
+      ],
+      "Permission is changed": [
+        "Разрешение изменено"
+      ],
+      "This user has already been added to the access list": [
+        "Этот пользователь уже добавлен в список доступа"
+      ],
+      "This team has already been added to the access list": [
+        "Эта команда уже добавлена в список доступа"
+      ],
+      "This role has already been added to the access list": [
+        "Эта роль уже добавлена в список доступа"
+      ],
+      "Users with access": [
+        "Пользователи с доступом"
+      ],
+      "Teams with access": [
+        "Команды с доступом"
+      ],
+      "Roles with access": [
+        "Роли с доступом"
+      ],
+      "Number of changes": [
+        "Количество изменений"
+      ],
+      "The access configuration has been saved": [
+        "Настройки доступа сохранены"
+      ],
+      "An error occurred while saving access configuration": [
+        "При сохранении настроек доступа произошла ошибка"
+      ],
+      "Contact the owner for access": [
+        "Свяжитесь с владельцем, чтобы получить доступ"
+      ],
+      "I'm requesting access to this dashboard:": [
+        "Здравсвтуйте! Прошу дать доступ к данному дашборду:"
+      ],
+      "I'm requesting access to this chart:": [
+        "Здравсвтуйте! Прошу дать доступ к данному графику:"
+      ],
+      "You can copy a prepared message to send to the owner.": [
+        "Вы можете скопировать заготовленное сообщение, чтобы отправить его владельцу."
+      ],
+      "The %(entity)s doesn't have an owner.": [
+        "Данный %(entity)s не имеет владельца."
       ]
     }
   }

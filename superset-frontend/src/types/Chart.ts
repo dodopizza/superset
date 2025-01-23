@@ -5,6 +5,7 @@
  */
 
 import { QueryFormData } from '@superset-ui/core';
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
 import Owner from './Owner';
 import Tag from './TagType';
 
@@ -41,6 +42,7 @@ export interface Chart {
     viz_type: string;
   };
   is_managed_externally: boolean;
+  access_list?: AccessList; // DODO added 39843425
 
   // TODO: Update API spec to describe `dashboards` key
   dashboards: ChartLinkedDashboard[];

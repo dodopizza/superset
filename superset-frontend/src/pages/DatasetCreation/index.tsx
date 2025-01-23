@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, { useReducer, Reducer, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useDatasetsList from 'src/features/datasets/hooks/useDatasetLists';
@@ -30,6 +13,18 @@ import {
   DSReducerActionType,
 } from 'src/features/datasets/AddDataset/types';
 import DatasetLayout from 'src/features/datasets/DatasetLayout';
+import {
+  AccessList,
+  Permission,
+} from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import { Role } from 'src/DodoExtensions/onBoarding/types'; // DODO added 39843425
+
+// DODO added 39843425
+const DEFAULT_ACCESS_LIST: AccessList = {
+  users: [],
+  teams: [],
+  roles: [{ id: 1, role: Role.CreateData, permission: Permission.Write }],
+};
 
 type Schema = {
   schema: string;
@@ -50,6 +45,7 @@ export function datasetReducer(
         ...action.payload,
         schema: null,
         table_name: null,
+        access_list: DEFAULT_ACCESS_LIST, // DODO added 39843425
       };
     case DatasetActionType.selectSchema:
       return {
@@ -67,6 +63,13 @@ export function datasetReducer(
         ...trimmedState,
         [action.payload.name]: action.payload.value,
       };
+    // DODO added start 39843425
+    case DatasetActionType.setAccessList:
+      return {
+        ...trimmedState,
+        [action.payload.name]: action.payload.value,
+      };
+    // DODO added stop 39843425
     default:
       return null;
   }

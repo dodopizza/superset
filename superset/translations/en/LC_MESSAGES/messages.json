@@ -11786,6 +11786,69 @@
       ],
       "End date include to time range": [
         ""
+      ],
+      "Access configuration": [
+        ""
+      ],
+      "Search for users": [
+        ""
+      ],
+      "Search for teams": [
+        ""
+      ],
+      "Search for roles": [
+        ""
+      ],
+      "Reader": [
+        ""
+      ],
+      "Editor": [
+        ""
+      ],
+      "Permission is changed": [
+        ""
+      ],
+      "This user has already been added to the access list": [
+        ""
+      ],
+      "This team has already been added to the access list": [
+        ""
+      ],
+      "This role has already been added to the access list": [
+        ""
+      ],
+      "Users with access": [
+        ""
+      ],
+      "Team with access": [
+        ""
+      ],
+      "Roles with access": [
+        ""
+      ],
+      "Number of changes": [
+        ""
+      ],
+      "The access configuration has been saved": [
+        ""
+      ],
+      "An error occurred while saving access configuration": [
+        ""
+      ],
+      "Contact the owner for access": [
+        ""
+      ],
+      "I'm requesting access to this dashboard:": [
+        ""
+      ],
+      "I'm requesting access to this chart:": [
+        ""
+      ],
+      "You can copy a prepared message to send to the owner.": [
+        ""
+      ],
+      "The %(entity)s doesn't have an owner.": [
+        ""
       ]
     }
   }

@@ -68,6 +68,7 @@ import {
   OPEN_FILTER_BAR_WIDTH,
 } from 'src/dashboard/constants';
 import { bootstrapData } from 'src/preamble';
+import AccessWarning from 'src/DodoExtensions/components/AccessWarning'; // DODO added 39843425
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -145,11 +146,20 @@ const StyledDiv = styled.div`
 
 // @z-index-above-dashboard-charts + 1 = 11
 const FiltersPanel = styled.div<{ width: number; hidden: boolean }>`
+  position: relative;
   grid-column: 1;
   grid-row: 1 / span 2;
   z-index: 11;
   width: ${({ width }) => width}px;
   ${({ hidden }) => hidden && `display: none;`}
+  .curtain {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0 2px;
+    background-color: rgba(255, 255, 255, 25%);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+  }
 `;
 
 const StickyPanel = styled.div<{ width: number }>`
@@ -419,6 +429,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const dispatch = useDispatch();
   const uiConfig = useUiConfig();
   const theme = useTheme();
+  const hasAccess = true;
 
   const dashboardId = useSelector<RootState, string>(
     ({ dashboardInfo }) => `${dashboardInfo.id}`,
@@ -438,6 +449,11 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const fullSizeChartId = useSelector<RootState, number | null>(
     state => state.dashboardState.fullSizeChartId,
   );
+  // DODO added 39843425
+  const dashboardOwners = useSelector<
+    RootState,
+    RootState['dashboardInfo']['owners']
+  >(({ dashboardInfo }) => dashboardInfo.owners);
   const crossFiltersEnabled = isFeatureEnabled(
     FeatureFlag.DASHBOARD_CROSS_FILTERS,
   );
@@ -522,7 +538,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS);
 
   const showFilterBar =
-    (crossFiltersEnabled || nativeFiltersEnabled) && !editMode;
+    (crossFiltersEnabled || nativeFiltersEnabled) && !editMode && hasAccess; // DODO changed 39843425
 
   const offset =
     FILTER_BAR_HEADER_HEIGHT +
@@ -538,7 +554,8 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
         dashboardFiltersOpen ||
         editMode ||
         !nativeFiltersEnabled ||
-        filterBarOrientation === FilterBarOrientation.HORIZONTAL
+        filterBarOrientation === FilterBarOrientation.HORIZONTAL ||
+        !hasAccess // DODO added 39843425
           ? 0
           : -32,
     }),
@@ -547,6 +564,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
       editMode,
       filterBarOrientation,
       nativeFiltersEnabled,
+      hasAccess, // DODO added 39843425
     ],
   );
 
@@ -585,31 +603,34 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             />
           )}
         {dropIndicatorProps && <div {...dropIndicatorProps} />}
-        {!isReport && topLevelTabs && !uiConfig.hideNav && (
-          <WithPopoverMenu
-            shouldFocus={shouldFocusTabs}
-            menuItems={[
-              <IconButton
-                icon={<Icons.FallOutlined iconSize="xl" />}
-                label={t('Collapse tab content')}
-                onClick={handleDeleteTopLevelTabs}
-              />,
-            ]}
-            editMode={editMode}
-          >
-            <DashboardComponent
-              id={topLevelTabs?.id}
-              parentId={DASHBOARD_ROOT_ID}
-              depth={DASHBOARD_ROOT_DEPTH + 1}
-              index={0}
-              renderTabContent={false}
-              renderHoverMenu={false}
-              onChangeTab={handleChangeTab}
-              // DODO added
-              userLanguage={userLanguage}
-            />
-          </WithPopoverMenu>
-        )}
+        {hasAccess && // DODO added 39843425
+          !isReport &&
+          topLevelTabs &&
+          !uiConfig.hideNav && (
+            <WithPopoverMenu
+              shouldFocus={shouldFocusTabs}
+              menuItems={[
+                <IconButton
+                  icon={<Icons.FallOutlined iconSize="xl" />}
+                  label={t('Collapse tab content')}
+                  onClick={handleDeleteTopLevelTabs}
+                />,
+              ]}
+              editMode={editMode}
+            >
+              <DashboardComponent
+                id={topLevelTabs?.id}
+                parentId={DASHBOARD_ROOT_ID}
+                depth={DASHBOARD_ROOT_DEPTH + 1}
+                index={0}
+                renderTabContent={false}
+                renderHoverMenu={false}
+                onChangeTab={handleChangeTab}
+                // DODO added
+                userLanguage={userLanguage}
+              />
+            </WithPopoverMenu>
+          )}
       </div>
     ),
     [
@@ -702,7 +723,8 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             `div > .filterStatusPopover.ant-popover{z-index: 101}`}
           `}
         />
-        {!editMode &&
+        {hasAccess && // DODO added 39843425
+          !editMode &&
           !topLevelTabs &&
           dashboardLayout[DASHBOARD_GRID_ID]?.children?.length === 0 && (
             <EmptyStateBig
@@ -718,23 +740,30 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               image="dashboard.svg"
             />
           )}
-        <DashboardContentWrapper
-          data-test="dashboard-content-wrapper"
-          className={cx('dashboard', editMode && 'dashboard--editing')}
-        >
-          <StyledDashboardContent
-            className="dashboard-content"
-            editMode={editMode}
-            marginLeft={dashboardContentMarginLeft}
+        {hasAccess && ( // DODO added 39843425
+          <DashboardContentWrapper
+            data-test="dashboard-content-wrapper"
+            className={cx('dashboard', editMode && 'dashboard--editing')}
           >
-            {showDashboard ? (
-              <DashboardContainer topLevelTabs={topLevelTabs} />
-            ) : (
-              <Loading />
-            )}
-            {editMode && <BuilderComponentPane topOffset={barTopOffset} />}
-          </StyledDashboardContent>
-        </DashboardContentWrapper>
+            <StyledDashboardContent
+              className="dashboard-content"
+              editMode={editMode}
+              marginLeft={dashboardContentMarginLeft}
+            >
+              {showDashboard ? (
+                <DashboardContainer topLevelTabs={topLevelTabs} />
+              ) : (
+                <Loading />
+              )}
+              {editMode && <BuilderComponentPane topOffset={barTopOffset} />}
+            </StyledDashboardContent>
+          </DashboardContentWrapper>
+        )}
+        {/* DODO added start 39843425 */}
+        {!hasAccess && (
+          <AccessWarning entity="dashboard" owners={dashboardOwners} />
+        )}
+        {/* DODO added stop 39843425 */}
       </StyledContent>
       {dashboardIsSaving && (
         <Loading

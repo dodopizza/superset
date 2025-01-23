@@ -54,6 +54,7 @@ from superset.extensions import cache_manager
 from superset.models.filter_set import FilterSet
 from superset.models.helpers import AuditMixinNullable, ImportExportMixin
 from superset.models.slice import Slice
+from superset.models.team import Team
 from superset.models.user_attributes import UserAttribute
 from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
@@ -139,6 +140,32 @@ DashboardRoles = Table(
         ForeignKey("ab_role.id", ondelete="CASCADE"),
         nullable=False,
     ),
+    Column(
+        "access_level",
+        Integer,
+        nullable=False,
+        default=1
+    )
+)
+
+
+DashboardTeams = Table(
+    "dashboard_teams",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column(
+        "dashboard_id",
+        Integer,
+        ForeignKey("dashboards.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    Column(
+        "team_id",
+        Integer,
+        ForeignKey("teams.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    Column("access_level", Integer, nullable=False, default=1),
 )
 
 
@@ -177,6 +204,7 @@ class Dashboard(Model, AuditMixinNullable, ImportExportMixin):
     is_managed_externally = Column(Boolean, nullable=False, default=False)
     external_url = Column(Text, nullable=True)
     roles = relationship(security_manager.role_model, secondary=DashboardRoles)
+    teams = relationship(Team, secondary=DashboardTeams)
     embedded = relationship(
         "EmbeddedDashboard",
         back_populates="dashboard",

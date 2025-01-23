@@ -10,6 +10,7 @@ interface DashboardInfo {
   dash_save_perm: boolean;
   metadata?: Record<string, any>;
   common?: { conf: Record<string, any> };
+  owners: string[];
 }
 
 // DODO added

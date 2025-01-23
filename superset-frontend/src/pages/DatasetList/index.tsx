@@ -57,6 +57,8 @@ import {
 } from 'src/features/datasets/constants';
 import DuplicateDatasetModal from 'src/features/datasets/DuplicateDatasetModal';
 import { useSelector } from 'react-redux';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal'; // DODO added 39843425
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
 
 const SQL_PREVIEW_MAX_LINES = 1;
 
@@ -123,6 +125,7 @@ type Dataset = {
   owners: Array<Owner>;
   schema: string;
   table_name: string;
+  access_list: AccessList; // DODO added 39843425
 };
 
 interface VirtualDataset extends Dataset {
@@ -165,6 +168,11 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
 
   const [datasetCurrentlyEditing, setDatasetCurrentlyEditing] =
     useState<Dataset | null>(null);
+
+  // DODO added start 39843425
+  const [datasetAccessCurrentlyEditing, setDatasetAccessCurrentlyEditing] =
+    useState<Dataset | null>(null);
+  // DODO added stop 39843425
 
   const [datasetCurrentlyDuplicating, setDatasetCurrentlyDuplicating] =
     useState<VirtualDataset | null>(null);
@@ -242,6 +250,43 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
     },
     [addDangerToast],
   );
+
+  // DODO added start 39843425
+  const openDatasetAccessModal = useCallback(
+    ({ id }: Dataset) => {
+      SupersetClient.get({
+        endpoint: `/api/v1/dataset/${id}`,
+      })
+        .then(({ json = {} }) => {
+          setDatasetAccessCurrentlyEditing(json.result);
+        })
+        .catch(() => {
+          addDangerToast(
+            t('An error occurred while fetching dataset related data'),
+          );
+        });
+    },
+    [addDangerToast],
+  );
+  const handleSaveAccessConfiguration = (accessList: AccessList) => {
+    SupersetClient.put({
+      endpoint: `/api/v1/dataset/${datasetAccessCurrentlyEditing!.id}`,
+      jsonPayload: {
+        ...datasetAccessCurrentlyEditing,
+        access_list: accessList,
+      },
+    })
+      .then(() => {
+        addSuccessToast(t('The access configuration has been saved'));
+        setDatasetAccessCurrentlyEditing(null);
+      })
+      .catch(() => {
+        addDangerToast(
+          t('An error occurred while saving access configuration'),
+        );
+      });
+  };
+  // DODO added stop 39843425
 
   const openDatasetDeleteModal = (dataset: Dataset) =>
     SupersetClient.get({
@@ -460,6 +505,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           const handleDelete = () => openDatasetDeleteModal(original);
           const handleExport = () => handleBulkDatasetExport([original]);
           const handleDuplicate = () => openDatasetDuplicateModal(original);
+          const handleEditAccess = () => openDatasetAccessModal(original);
           if (!canEdit && !canDelete && !canExport && !canDuplicate) {
             return null;
           }
@@ -532,6 +578,28 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
                     onClick={handleDuplicate}
                   >
                     <Icons.Copy />
+                  </span>
+                </Tooltip>
+              )}
+              {canEdit && (
+                <Tooltip
+                  id="edit-action-tooltip"
+                  title={
+                    allowEdit
+                      ? t('Access configuration')
+                      : t(
+                          'You must be a dataset owner in order to edit. Please reach out to a dataset owner to request modifications or edit access.',
+                        )
+                  }
+                  placement="bottomRight"
+                >
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    className={allowEdit ? 'action-button' : 'disabled'}
+                    onClick={allowEdit ? handleEditAccess : undefined}
+                  >
+                    <Icons.SettingOutlined />
                   </span>
                 </Tooltip>
               )}
@@ -686,6 +754,10 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
 
   const closeDatasetEditModal = () => {
     setDatasetCurrentlyEditing(null);
+  };
+
+  const closeDatasetAccessModal = () => {
+    setDatasetAccessCurrentlyEditing(null);
   };
 
   const closeDatasetDuplicateModal = () => {
@@ -898,6 +970,19 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           setSSHTunnelPrivateKeyPasswordFields
         }
       />
+
+      {/* DODO added start 39843425 */}
+      {datasetAccessCurrentlyEditing && (
+        <AccessConfigurationModal
+          entityName={datasetAccessCurrentlyEditing?.table_name}
+          accessList={datasetAccessCurrentlyEditing?.access_list}
+          onSave={handleSaveAccessConfiguration}
+          onHide={closeDatasetAccessModal}
+          show
+        />
+      )}
+      {/* DODO added stop 39843425 */}
+
       {preparingExport && <Loading />}
     </>
   );

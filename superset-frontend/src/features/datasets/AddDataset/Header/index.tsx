@@ -98,6 +98,7 @@ export default function Header({
             disabled: true,
           }}
           tooltipProps={tooltipProps}
+          showRightPanel // DODO added 39843425
         />
       ) : (
         <StyledCreateDatasetTitle>
