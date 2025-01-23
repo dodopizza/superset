@@ -50,9 +50,7 @@ function mapStateToProps(
 
   // DODO added
   // ENRTYPOINT DASHBOARD LANGUAGE
-  const userLanguage =
-    (bootstrapData && bootstrapData.common && bootstrapData.common.locale) ||
-    'en';
+  const locale = bootstrapData?.common?.locale || 'en';
 
   const datasource =
     (chart && chart.form_data && datasources[chart.form_data.datasource]) ||
@@ -91,6 +89,7 @@ function mapStateToProps(
     extraControls,
     labelColors,
     sharedLabelColors,
+    locale, // DODO added 30434273
   });
 
   formData.dashboardId = dashboardInfo.id;
@@ -116,7 +115,7 @@ function mapStateToProps(
     datasetsStatus,
     emitCrossFilters: !!dashboardInfo.crossFiltersEnabled,
     // DODO added
-    userLanguage,
+    userLanguage: locale,
   };
 }
 

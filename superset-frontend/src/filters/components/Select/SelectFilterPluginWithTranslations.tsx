@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO created 30434273
 /* eslint-disable no-param-reassign */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -27,20 +10,25 @@ import {
   GenericDataType,
   getColumnLabel,
   JsonObject,
+  PlainObject,
   t,
   tn,
 } from '@superset-ui/core';
 import { LabeledValue as AntdLabeledValue } from 'antd/lib/select';
 import debounce from 'lodash/debounce';
 import { useImmerReducer } from 'use-immer';
+import { bootstrapData } from 'src/preamble'; // DODO added 30434273
 import { Select } from 'src/components';
 import { SLOW_DEBOUNCE } from 'src/constants';
 import { hasOption, propertyComparator } from 'src/components/Select/utils';
 import { FilterBarOrientation } from 'src/dashboard/types';
 import { isEqual, uniqWith } from 'lodash';
+import { hasFilterTranslations } from 'src/dashboard/components/nativeFilters/FilterBar/FilterSets/utils';
 import { PluginFilterSelectProps, SelectValue } from './types';
 import { FilterPluginStyle, StatusMessage, StyledFormItem } from '../common';
 import { getDataRecordFormatter, getSelectExtraFormData } from '../../utils';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 30434273
 
 type DataMaskAction =
   | { type: 'ownState'; ownState: JsonObject }
@@ -73,6 +61,23 @@ function reducer(
   }
 }
 
+const flattenValues = (
+  values: PlainObject[] | string[] | number[],
+  groupby: string,
+): (string | number)[] => {
+  if (typeof values[0] === 'object') {
+    return (values as PlainObject[])
+      .map(value => {
+        if (value && typeof value === 'object' && groupby in value) {
+          return value[groupby];
+        }
+        return undefined;
+      })
+      .filter(value => value !== undefined);
+  }
+  return values as (string | number)[];
+};
+
 export default function PluginFilterSelect(props: PluginFilterSelectProps) {
   const {
     coltypeMap,
@@ -103,27 +108,30 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     searchAllOptions,
   } = formData;
 
+  // formData.groupby = [groupby, groupbyRu, groupbyid] || [groupby, groupbyRu]
   const groupby = useMemo(
-    // () => ensureIsArray(formData.groupby).map(getColumnLabel),
-    () => ensureIsArray(formData.groupby?.[0]).map(getColumnLabel), // DODO changed 30434273
+    () => ensureIsArray(formData.groupby?.[0]).map(getColumnLabel),
     [formData.groupby],
   );
-  // DODO added start 29749076
-  const groupbyid = useMemo(
+  const groupbyRu = useMemo(
     () => ensureIsArray(formData.groupby?.[1]).map(getColumnLabel),
     [formData.groupby],
   );
-  // DODO added stop 29749076
+
+  const localisedGroupby =
+    hasFilterTranslations(formData.vizType) && locale === 'ru'
+      ? groupbyRu
+      : groupby;
 
   const [col] = groupby;
-  const [colid] = formData.vizType === 'filter_select_by_id' ? groupbyid : []; // DODO added 29749076
+  const [localisedCol] = localisedGroupby;
   const [initialColtypeMap] = useState(coltypeMap);
   const [search, setSearch] = useState('');
   const [dataMask, dispatchDataMask] = useImmerReducer(reducer, {
     extraFormData: {},
     filterState,
   });
-  const datatype: GenericDataType = coltypeMap[col];
+  const datatype: GenericDataType = coltypeMap[localisedCol];
   const labelFormatter = useMemo(
     () =>
       getDataRecordFormatter({
@@ -132,18 +140,13 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     [data],
   );
 
-  // DODO added start 29749076
   const OptionsKeyByValue = useMemo(() => {
     const map = new Map();
-
-    // DODO added start 29749076
     // make list of value for one label in case same label with different id column
-    // console.log(`uniqueOptions data`, data);
-    if (formData.vizType === 'filter_select_by_id') {
-      const [valueField] = groupbyid;
-      const [labelField] = groupby;
+    if (formData.vizType === 'filter_select_by_id_with_translation') {
+      const [labelField] = localisedGroupby;
       data.forEach(row => {
-        const value = row[valueField];
+        const value = row;
         const label = row[labelField];
 
         if (!map.has(label)) {
@@ -153,10 +156,22 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
         map.get(label).push(value);
       });
     }
-    // DODO added stop 29749076
+
+    if (formData.vizType === 'filter_select_with_translation') {
+      const [labelField] = localisedGroupby;
+      data.forEach(row => {
+        const value = row;
+        const label = row[labelField];
+
+        if (!map.has(label)) {
+          map.set(label, []);
+        }
+
+        map.get(label).push(value);
+      });
+    }
     return map;
-  }, [data, formData.vizType, groupby, groupbyid]);
-  // DODO stop start 29749076
+  }, [data, formData.vizType, localisedGroupby]);
 
   const updateDataMask = useCallback(
     (values: SelectValue) => {
@@ -165,33 +180,35 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
 
       const suffix = inverseSelection && values?.length ? t(' (excluded)') : '';
 
-      // DODO added start 29749076
-      let valuesToFilter:
+      const valuesToFilter:
         | null
         | undefined
         | (string | number | boolean | null)[] = [];
-      if (
-        formData.vizType === 'filter_select_by_id' &&
-        values &&
-        values?.length > 0
-      ) {
+
+      if (values) {
         values.forEach(value => {
-          if (OptionsKeyByValue.has(value)) {
-            valuesToFilter?.push(...OptionsKeyByValue.get(value));
+          const valueEn =
+            typeof value === 'object' && value !== null
+              ? value[groupby[0]]
+              : value;
+          const valueRu =
+            typeof value === 'object' && value !== null
+              ? value[groupbyRu[0]]
+              : value;
+          if (OptionsKeyByValue.has(valueEn)) {
+            valuesToFilter?.push(...OptionsKeyByValue.get(valueEn));
+          } else if (OptionsKeyByValue.has(valueRu)) {
+            valuesToFilter?.push(...OptionsKeyByValue.get(valueRu));
           }
         });
-      } else {
-        valuesToFilter = values;
       }
-      // DODO added stop 29749076
 
       // debugger;
       dispatchDataMask({
         type: 'filterState',
         __cache: filterState,
         extraFormData: getSelectExtraFormData(
-          // col, // DODO commented 29749076
-          colid ?? col, // DODO added 29749076
+          col,
           // values, // DODO commented 29749076
           valuesToFilter, // DODO changed 29749076
           emptyFilter,
@@ -199,15 +216,19 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
         ),
         filterState: {
           ...filterState,
-          label: values?.length
-            ? `${(values || [])
-                .map(value => labelFormatter(value, datatype))
+          label: valuesToFilter?.length
+            ? `${(valuesToFilter || [])
+                .map(value => {
+                  if (typeof value === 'object' && value !== null)
+                    return labelFormatter(value[col], datatype);
+                  return labelFormatter(value, datatype);
+                })
                 .join(', ')}${suffix}`
             : undefined,
           value:
             appSection === AppSection.FILTER_CONFIG_MODAL && defaultToFirstItem
               ? undefined
-              : values,
+              : (valuesToFilter as SelectValue),
         },
       });
     },
@@ -280,27 +301,24 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
 
   const uniqueOptions = useMemo(() => {
     let allOptions = [...data];
-    // DODO added start 29749076
-    if (formData.vizType === 'filter_select_by_id') {
-      const [labelField] = groupby;
+    if (formData.vizType === 'filter_select_by_id_with_translation') {
+      const [labelField] = localisedGroupby;
       allOptions = [
         ...data.map(el => ({
           [labelField]: el[labelField],
         })),
       ];
     }
-    // DODO added stop 29749076
 
     return uniqWith(allOptions, isEqual).map(row => {
-      const [value] = groupby.map(col => row[col]);
-
+      const [value] = localisedGroupby.map(col => row[col]);
       return {
-        label: labelFormatter(value, datatype), // DODO commented 29749076
+        label: labelFormatter(value, datatype),
         value,
         isNewOption: false,
       };
     });
-  }, [data, datatype, formData.vizType, groupby, groupbyid, labelFormatter]);
+  }, [data, datatype, formData.vizType, localisedGroupby, labelFormatter]);
 
   const options = useMemo(() => {
     if (search && !multiSelect && !hasOption(search, uniqueOptions, true)) {
@@ -328,7 +346,7 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
     if (defaultToFirstItem && filterState.value === undefined) {
       // initialize to first value if set to default to first item
       const firstItem: SelectValue = data[0]
-        ? (groupby.map(col => data[0][col]) as string[])
+        ? (groupby.map(col => data[0][col]) as string[]) // DODO changed 30434273
         : null;
       // firstItem[0] !== undefined for a case when groupby changed but new data still not fetched
       // TODO: still need repopulate default value in config modal when column changed
@@ -369,7 +387,7 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
           allowNewOptions
           allowSelectAll={!searchAllOptions}
           // @ts-ignore
-          value={filterState.value || []}
+          value={flattenValues(filterState.value || [], localisedCol)}
           disabled={isDisabled}
           getPopupContainer={
             showOverflow

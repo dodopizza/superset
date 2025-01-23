@@ -100,10 +100,12 @@ const FilterValue: React.FC<FilterControlProps> = ({
     datasetId,
     column = {},
   }: // }: Partial<{ datasetId: number; column: { name?: string } }> = target; // DODO commented 29749076
-  Partial<{ datasetId: number; column: { name?: string; id?: string } }> =
-    target; // DODO added 29749076
+  Partial<{
+    datasetId: number;
+    column: { name?: string; id?: string; nameRu?: string };
+  }> = target; // DODO added 29749076
   // const { name: groupby} = column; // // DODO commented 29749076
-  const { name: groupby, id: groupbyid } = column; // // DODO added 29749076
+  const { name: groupby, id: groupbyid, nameRu: groupbyRu } = column; // // DODO changed 29749076, 30434273
   const hasDataSource = !!datasetId;
   const [isLoading, setIsLoading] = useState<boolean>(hasDataSource);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -136,6 +138,7 @@ const FilterValue: React.FC<FilterControlProps> = ({
       dependencies,
       groupby,
       groupbyid, // DODO added 29749076
+      groupbyRu, // DODO added 30434273
       adhoc_filters,
       time_range,
       dashboardId,

@@ -29,6 +29,7 @@ export interface GetFormDataWithExtraFiltersArguments {
   labelColors?: Record<string, string>;
   sharedLabelColors?: Record<string, string>;
   allSliceIds: number[];
+  locale: string; // DODO added 30434273
 }
 
 // this function merge chart's formData with dashboard filters value,
@@ -47,6 +48,7 @@ export default function getFormDataWithExtraFilters({
   labelColors,
   sharedLabelColors,
   allSliceIds,
+  locale, // DODO added 30434273
 }: GetFormDataWithExtraFiltersArguments) {
   // if dashboard metadata + filters have not changed, use cache if possible
   const cachedFormData = cachedFormdataByChart[sliceId];
@@ -97,7 +99,11 @@ export default function getFormDataWithExtraFilters({
     .map(([filterId]) => filterId);
   if (filterIdsAppliedOnChart.length) {
     extraData = {
-      extra_form_data: getExtraFormData(dataMask, filterIdsAppliedOnChart),
+      extra_form_data: getExtraFormData(
+        dataMask,
+        filterIdsAppliedOnChart,
+        locale, // DODO added 30434273
+      ),
     };
   }
 

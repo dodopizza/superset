@@ -6,6 +6,7 @@ import {
   OutPortal,
 } from 'react-reverse-portal';
 import { styled, SupersetTheme, truncationCSS } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble'; // DODO added 30434273
 import { FormItem as StyledFormItem, Form } from 'src/components/Form';
 import { Tooltip } from 'src/components/Tooltip';
 import { FilterBarOrientation } from 'src/dashboard/types';
@@ -16,6 +17,8 @@ import { FilterBarScrollContext } from '../Vertical';
 import { FilterControlProps } from './types';
 import { FilterCardPlacement } from '../../FilterCard/types';
 import { useIsFilterInScope } from '../../state';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 30434273
 
 const StyledIcon = styled.div`
   position: absolute;
@@ -215,7 +218,11 @@ const FilterControl = ({
   const portalNode = useMemo(() => createHtmlPortalNode(), []);
   const [isFilterActive, setIsFilterActive] = useState(false);
 
-  const { name = '<undefined>' } = filter;
+  // const { name = '<undefined>' } = filter;
+  const { name, nameRu } = filter; // DODO changed 30434273
+  // DODO added 30434273
+  const nameToShow =
+    (locale === 'en' ? name : nameRu) || name || nameRu || '<undefined>';
 
   const isFilterInScope = useIsFilterInScope();
   const isMissingRequiredValue =
@@ -235,7 +242,7 @@ const FilterControl = ({
     () => (
       <FilterControlTitleBox>
         <FilterControlTitle data-test="filter-control-name">
-          {name}
+          {nameToShow} {/* DODO changed 30434273 */}
         </FilterControlTitle>
         {isRequired && <RequiredFieldIndicator />}
         {filter.description?.trim() && (
@@ -247,7 +254,7 @@ const FilterControl = ({
     [
       FilterControlTitleBox,
       FilterControlTitle,
-      name,
+      nameToShow, // DODO changed 30434273
       isRequired,
       filter.description,
       icon,
