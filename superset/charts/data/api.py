@@ -24,6 +24,7 @@ from flask import current_app, g, make_response, request, Response
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
+import pandas as pd
 
 from superset import is_feature_enabled, security_manager
 from superset.async_events.async_query_manager import AsyncQueryTokenException
@@ -361,10 +362,131 @@ class ChartDataRestApi(ChartRestApi):
         if result_format in ChartDataResultFormat.table_like():
             # Verify user has permission to export file
             if not security_manager.can_access("can_csv", "Superset"):
+                logger.warning("user doesnt have permission to export file", g.user)
                 return self.response_403()
 
-            if not result["queries"]:
+            if not (result_queries := result["queries"]):
                 return self.response_400(_("Empty query result"))
+            
+            # export_as_time = form_data.get(
+            #     "export_as_time"
+            # )  # с фронта приходит поле "export_as_time", если тип графика big number и значение нужно экспортнуть как время
+            # column_config = form_data.get(
+            #     "column_config"
+            # )  # с фронта приходит словарь, где лежат словари, в которых возможно есть поле "export_as_time", если значение нужно экспортнуть как время, используется во всех остальных типах графиков
+            # table_order_by = form_data.get(
+            #     "table_order_by"
+            # )  # используем для сортировки данных, приходит словарь, где ключ это колонка, по которому отсортировали, а значение это в каком порядке было отсортировано
+
+            # if result_format == ChartDataResultFormat.XLSX:
+            #     df = pd.DataFrame()
+            #     for data in result_queries:
+            #         try:
+            #             # return query results xlsx format
+            #             new_df = self.delete_tz_from_df(data)
+            #             keys_of_new_df = new_df.keys()
+            #             exist_df = df.keys()
+            #             for key in keys_of_new_df:
+            #                 if key in exist_df:
+            #                     new_df.pop(key)
+            #             if not new_df.empty:
+            #                 df = df.join(new_df, how="right", rsuffix="2")
+            #         except IndexError:
+            #             return self.response_500(
+            #                 _("Server error occurred while exporting the file")
+            #             )
+            #     if export_as_time:  # экспорт в формате времени
+            #         key_column = df.keys()[0]
+            #         df[key_column] = df[key_column].apply(convert_to_time)
+
+            #     metric_map = dict()  # получаем данные с фронта о метриках, чтобы корректно переводить колонки на русский язык при выгрузке
+            #     datasourceMetrics = form_data.get("datasource_metrics")
+            #     if datasourceMetrics:
+            #         for datasource_metric in datasourceMetrics:
+            #             metric_map[datasource_metric.get("metric_name")] = (
+            #                 datasource_metric.get("verbose_name")
+            #             )
+            #     if column_config:  # экспорт в формате времени
+            #         for k, v in column_config.items():
+            #             if v.get("exportAsTime"):
+            #                 if isinstance(df.get(k), pd.Series):
+            #                     df[k] = df[k].apply(convert_to_time)
+            #                 if isinstance(df.get(metric_map.get(k)), pd.Series):
+            #                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(
+            #                         convert_to_time
+            #                     )
+
+            #     if table_order_by:  # сортируем данные при выгрузке
+            #         for k, v in table_order_by.items():
+            #             if v == "desc":
+            #                 df = df.sort_values(by=[k], ascending=False)
+            #             if v == "asc":
+            #                 df = df.sort_values(by=[k], ascending=True)
+
+            #     excel_writer = io.BytesIO()
+            #     df.to_excel(
+            #         excel_writer,
+            #         startrow=0,
+            #         merge_cells=False,
+            #         sheet_name="Sheet_1",
+            #         index_label=None,
+            #         index=False,
+            #     )
+            #     excel_writer.seek(0)
+            #     return excel_writer
+
+            # if result_format == ChartDataResultFormat.CSV:
+            #     df = pd.DataFrame()
+            #     for data in result_queries:
+            #         try:
+            #             # return query results csv format
+            #             new_df = self.delete_tz_from_df(data)
+            #             keys_of_new_df = new_df.keys()
+            #             exist_df = df.keys()
+            #             for key in keys_of_new_df:
+            #                 if key in exist_df:
+            #                     new_df.pop(key)
+            #             if not new_df.empty:
+            #                 df = df.join(new_df, how="right", rsuffix="2")
+            #         except IndexError:
+            #             return self.response_500(
+            #                 _("Server error occurred while exporting the file")
+            #             )
+
+            #     if export_as_time:
+            #         key_column = df.keys()[0]
+            #         df[key_column] = df[key_column].apply(convert_to_time)
+
+            #     metric_map = dict()
+            #     datasourceMetrics = form_data.get("datasourceMetrics")
+            #     if datasourceMetrics:
+            #         for datasource_metric in datasourceMetrics:
+            #             metric_map[datasource_metric.get("metric_name")] = (
+            #                 datasource_metric.get("verbose_name")
+            #             )
+
+            #     if column_config:  # экспорт в формате времени
+            #         for k, v in column_config.items():
+            #             if v.get("exportAsTime"):
+            #                 if isinstance(df.get(k), pd.Series):
+            #                     df[k] = df[k].apply(convert_to_time)
+            #                 if isinstance(df.get(metric_map.get(k)), pd.Series):
+            #                     df[metric_map.get(k)] = df[metric_map.get(k)].apply(
+            #                         convert_to_time
+            #                     )
+
+            #     if table_order_by:  # сортируем данные при выгрузке
+            #         for k, v in table_order_by.items():
+            #             if v == "desc":
+            #                 df = df.sort_values(by=[k], ascending=False)
+            #             if v == "asc":
+            #                 df = df.sort_values(by=[k], ascending=True)
+
+            #     config_csv = current_app.config["CSV_EXPORT"]
+            #     return CsvResponse(
+            #         df.to_csv(**config_csv),
+            #         headers=generate_download_headers("csv"),
+            #     )
 
             is_csv_format = result_format == ChartDataResultFormat.CSV
 
