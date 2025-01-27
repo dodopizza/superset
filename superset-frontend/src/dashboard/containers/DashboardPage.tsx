@@ -1,25 +1,8 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { createContext, lazy, FC, useEffect, useMemo, useRef } from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import { t, useTheme } from '@superset-ui/core';
+import { FeatureFlag, isFeatureEnabled, t, useTheme } from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Loading from 'src/components/Loading';
@@ -54,6 +37,8 @@ import {
 import SyncDashboardState, {
   getDashboardContextLocalStorage,
 } from '../components/SyncDashboardState';
+import { usePrimaryFilterSetDataMask } from '../components/nativeFilters/FilterBar/state'; // DODO added 44211751
+import { getFilterSets } from '../actions/nativeFilters'; // DODO added 44211751
 
 export const DashboardPageIdContext = createContext('');
 
@@ -91,10 +76,21 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     error: datasetsApiError,
     status,
   } = useDashboardDatasets(idOrSlug);
+  const primaryFilterSetDataMask = usePrimaryFilterSetDataMask(); // DODO added 44211751
   const isDashboardHydrated = useRef(false);
 
+  // DODO added 44211751
+  const filterSetEnabled = isFeatureEnabled(
+    FeatureFlag.DashboardNativeFiltersSet,
+  );
+
   const error = dashboardApiError || chartsApiError;
-  const readyToRender = Boolean(dashboard && charts);
+
+  // const readyToRender = Boolean(dashboard && charts);
+  // DODO changed 44211751
+  const readyToRender = Boolean(
+    dashboard && charts && (!filterSetEnabled || primaryFilterSetDataMask),
+  );
   const { dashboard_title, css, id = 0 } = dashboard || {};
 
   useEffect(() => {
@@ -120,6 +116,19 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     dispatch(setDatasetsStatus(status));
   }, [dispatch, status]);
 
+  // DODO added 44211751
+  // Maybe to change way of fetching instead of useEffect, so api /filtersets should accept either id or slug:
+  // const { result: filterSets, error: filterSetsApiError } =
+  //   useDashboardFilterSets(id);
+  useEffect(() => {
+    const fetchFilterSets = () => {
+      if (filterSetEnabled && id && !isDashboardHydrated.current) {
+        dispatch(getFilterSets(id));
+      }
+    };
+    fetchFilterSets();
+  }, [dispatch, filterSetEnabled, id]);
+
   useEffect(() => {
     // eslint-disable-next-line consistent-return
     async function getDataMaskApplied() {
@@ -138,6 +147,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
         }
       } else if (nativeFilterKeyValue) {
         dataMask = await getFilterValue(id, nativeFilterKeyValue);
+        // DODO added 44211751
+      } else if (primaryFilterSetDataMask) {
+        dataMask = primaryFilterSetDataMask;
       }
       if (isOldRison) {
         dataMask = isOldRison;

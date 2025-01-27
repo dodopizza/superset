@@ -21,7 +21,9 @@ from datetime import datetime
 from typing import Any
 
 from flask import g
+from flask_appbuilder.models.sqla import Model
 from flask_appbuilder.models.sqla.interface import SQLAInterface
+from sqlalchemy.exc import SQLAlchemyError
 
 from superset import is_feature_enabled, security_manager
 from superset.commands.dashboard.exceptions import (
@@ -30,12 +32,24 @@ from superset.commands.dashboard.exceptions import (
     DashboardNotFoundError,
 )
 from superset.daos.base import BaseDAO
+from superset.daos.exceptions import DAOConfigError, DAOCreateFailedError
+from superset.dashboards.filter_sets.consts import (
+    DASHBOARD_ID_FIELD,
+    DESCRIPTION_FIELD,
+    IS_PRIMARY,
+    JSON_METADATA_FIELD,
+    NAME_FIELD,
+    OWNER_ID_FIELD,
+    OWNER_TYPE_FIELD,
+    OWNER_USER_ID,
+)
 from superset.dashboards.filters import DashboardAccessFilter, is_uuid
 from superset.exceptions import SupersetSecurityException
 from superset.extensions import db
 from superset.models.core import FavStar, FavStarClassName
 from superset.models.dashboard import Dashboard, id_or_slug_filter
 from superset.models.embedded_dashboard import EmbeddedDashboard
+from superset.models.filter_set import FilterSet
 from superset.models.slice import Slice
 from superset.utils import json
 from superset.utils.core import get_user_id
@@ -375,3 +389,31 @@ class EmbeddedDashboardDAO(BaseDAO[EmbeddedDashboard]):
         At least, until we are ok with more than one embedded item per dashboard.
         """
         raise NotImplementedError("Use EmbeddedDashboardDAO.upsert() instead.")
+
+
+class FilterSetDAO(BaseDAO[FilterSet]):
+    @classmethod
+    def create(cls, properties: dict[str, Any], commit: bool = True) -> Model:
+        if cls.model_cls is None:
+            raise DAOConfigError()
+        model = FilterSet()
+        setattr(model, NAME_FIELD, properties[NAME_FIELD])
+        setattr(model, JSON_METADATA_FIELD, properties[JSON_METADATA_FIELD])
+        setattr(model, DESCRIPTION_FIELD, properties.get(DESCRIPTION_FIELD, None))
+        setattr(
+            model,
+            OWNER_ID_FIELD,
+            properties.get(OWNER_ID_FIELD, properties[DASHBOARD_ID_FIELD]),
+        )
+        setattr(model, OWNER_TYPE_FIELD, properties[OWNER_TYPE_FIELD])
+        setattr(model, DASHBOARD_ID_FIELD, properties[DASHBOARD_ID_FIELD])
+        setattr(model, IS_PRIMARY, properties[IS_PRIMARY])
+        setattr(model, OWNER_USER_ID, get_user_id())
+        try:
+            db.session.add(model)
+            if commit:
+                db.session.commit()
+        except SQLAlchemyError as ex:  # pragma: no cover
+            db.session.rollback()
+            raise DAOCreateFailedError() from ex
+        return model
