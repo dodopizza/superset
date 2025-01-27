@@ -180,6 +180,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "metrics.expression",
         "metrics.extra",
         "metrics.id",
+        "metrics.number_format",
         "metrics.metric_name",
         "metrics.metric_type",
         "metrics.verbose_name",

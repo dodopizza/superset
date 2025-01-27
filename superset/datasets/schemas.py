@@ -62,6 +62,7 @@ class DatasetColumnsPutSchema(Schema):
         validate=Length(1, 255),
     )
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    number_format = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     description = fields.String(allow_none=True)
     expression = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
