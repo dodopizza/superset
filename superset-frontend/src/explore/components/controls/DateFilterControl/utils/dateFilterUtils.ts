@@ -1,6 +1,11 @@
 // DODO was here
 import rison from 'rison';
-import { JsonObject, NO_TIME_RANGE, SupersetClient } from '@superset-ui/core';
+import {
+  JsonObject,
+  NO_TIME_RANGE,
+  SupersetClient,
+  TimeRangeEndType,
+} from '@superset-ui/core';
 import { getClientErrorObject } from 'src/utils/getClientErrorObject';
 import { useSelector } from 'react-redux';
 import { API_HANDLER } from 'src/Superstructure/api';
@@ -23,14 +28,18 @@ const formatDateEndpoint = (dttm: string, isStart?: boolean): string =>
 
 export const formatTimeRange = (
   timeRange: string,
+  timeRangeEndType: TimeRangeEndType,
   columnPlaceholder = 'col',
 ) => {
   const splitDateRange = timeRange.split(SEPARATOR);
   if (splitDateRange.length === 1) return timeRange;
+  const endInclusion = timeRangeEndType === 'included' ? '≤' : '<';
   return `${formatDateEndpoint(
     splitDateRange[0],
     true,
-  )} ≤ ${columnPlaceholder} < ${formatDateEndpoint(splitDateRange[1])}`;
+  )} ≤ ${columnPlaceholder} ${endInclusion} ${formatDateEndpoint(
+    splitDateRange[1],
+  )}`;
 };
 
 export const guessFrame = (timeRange: string): FrameType => {
@@ -72,6 +81,7 @@ export const guessFrame = (timeRange: string): FrameType => {
 
 export const fetchTimeRange = async (
   timeRange: string,
+  timeRangeEndType: TimeRangeEndType,
   columnPlaceholder = 'col',
 ) => {
   const query = rison.encode_uri(timeRange);
@@ -90,7 +100,11 @@ export const fetchTimeRange = async (
       const timeRangeString = buildTimeRangeString(since, until); // DODO changed #11681438
 
       return {
-        value: formatTimeRange(timeRangeString, columnPlaceholder),
+        value: formatTimeRange(
+          timeRangeString,
+          timeRangeEndType,
+          columnPlaceholder,
+        ),
       };
     }
     const response = await API_HANDLER.SupersetClient({
@@ -108,7 +122,11 @@ export const fetchTimeRange = async (
     const timeRangeString = buildTimeRangeString(since, until); // DODO changed #11681438
 
     return {
-      value: formatTimeRange(timeRangeString, columnPlaceholder),
+      value: formatTimeRange(
+        timeRangeString,
+        timeRangeEndType,
+        columnPlaceholder,
+      ),
     };
   } catch (response) {
     const clientError = await getClientErrorObject(response);
