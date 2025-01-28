@@ -161,6 +161,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.column_name",
         "columns.created_on",
         "columns.description",
+        "columns.description_EN",  # описание данных в туллтипе
+        "columns.description_RU",  # описание данных в туллтипе
         "columns.expression",
         "columns.filterable",
         "columns.groupby",
@@ -177,6 +179,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "metrics.d3format",
         "metrics.currency",
         "metrics.description",
+        "metrics.description_EN",  # описание данных в туллтипе
+        "metrics.description_RU",  # описание данных в туллтипе
         "metrics.expression",
         "metrics.extra",
         "metrics.id",
