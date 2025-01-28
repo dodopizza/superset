@@ -62,7 +62,6 @@ class DatasetColumnsPutSchema(Schema):
         validate=Length(1, 255),
     )
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
-    number_format = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     description = fields.String(allow_none=True)
     expression = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
@@ -83,6 +82,7 @@ class DatasetMetricsPutSchema(Schema):
     extra = fields.String(allow_none=True)
     metric_name = fields.String(required=True, validate=Length(1, 255))
     metric_type = fields.String(allow_none=True, validate=Length(1, 32))
+    number_format = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     d3format = fields.String(allow_none=True, validate=Length(1, 128))
     currency = fields.String(allow_none=True, required=False, validate=Length(1, 128))
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
