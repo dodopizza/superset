@@ -384,46 +384,6 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added 44211769
-        [
-          {
-            name: 'column_config',
-            config: {
-              type: 'ColumnConfigControl',
-              label: t('Customize Metrics'),
-              width: 400,
-              height: 175,
-              renderTrigger: true,
-              configFormLayout: columnConfig,
-              shouldMapStateToProps() {
-                return true;
-              },
-              mapStateToProps(explore, _, chart) {
-                // Showing metrics instead of columns
-                const colnames = [
-                  ...(chart?.latestQueryFormData?.metrics ?? []),
-                  ...(chart?.latestQueryFormData?.metrics_b ?? []),
-                ].map(metric =>
-                  isSavedMetric(metric) ? metric : metric?.label,
-                );
-                const coltypes = Array.from(
-                  { length: colnames.length },
-                  () => 0,
-                );
-                const newQueriesResponse = {
-                  ...(chart?.queriesResponse?.[0] ?? {}),
-                  colnames,
-                  coltypes,
-                };
-                return {
-                  queryResponse: newQueriesResponse as
-                    | ChartDataResponseResult
-                    | undefined,
-                };
-              },
-            },
-          },
-        ],
         [
           {
             name: 'y_axis_bounds_secondary',
@@ -480,6 +440,46 @@ const config: ControlPanelConfig = {
               renderTrigger: true,
               default: logAxis,
               description: t('Logarithmic scale on secondary y-axis'),
+            },
+          },
+        ],
+        // DODO added 44211769
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize Metrics'),
+              width: 400,
+              height: 175,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                // Showing metrics instead of columns
+                const colnames = [
+                  ...(chart?.latestQueryFormData?.metrics ?? []),
+                  ...(chart?.latestQueryFormData?.metrics_b ?? []),
+                ].map(metric =>
+                  isSavedMetric(metric) ? metric : metric?.label,
+                );
+                const coltypes = Array.from(
+                  { length: colnames.length },
+                  () => 0,
+                );
+                const newQueriesResponse = {
+                  ...(chart?.queriesResponse?.[0] ?? {}),
+                  colnames,
+                  coltypes,
+                };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
             },
           },
         ],
