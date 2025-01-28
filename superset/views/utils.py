@@ -250,7 +250,7 @@ def create_userinfo(lang: str):   # DODO changed #33835937
     except Exception as e:
         logger.warning(e)
 
-
+# dodo add 34269608
 def insert_country(country_iso_num: int, username: str):  # пишем в бд страну пользователя
     try:
         import pycountry

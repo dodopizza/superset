@@ -333,12 +333,14 @@ class ChartRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             new_model = CreateChartCommand(item).run()
+            # { dodo add 35337314
             team = get_team_by_user_id()
             if team:
                 team_slug = team.slug
                 object_type = ObjectTypes.chart
                 object_id = new_model.id
                 CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
+            # }
             return self.response(201, id=new_model.id, result=item)
         except DashboardsForbiddenError as ex:
             return self.response(ex.status, message=ex.message)

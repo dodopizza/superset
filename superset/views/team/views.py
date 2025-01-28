@@ -1,4 +1,5 @@
 # это все нужно для вкладки на странице
+# dodo add 32839688
 import logging
 
 from flask import request
