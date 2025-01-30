@@ -158,12 +158,12 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
     def _init_properties(self) -> None:
         super(BaseSupersetModelRestApi, self)._init_properties()
 
-    @expose("/<int:dashboard_id>/filtersets", methods=("GET",))
+    @expose("/<id_or_slug>/filtersets", methods=("GET",))
     @protect()
     @safe
     @permission_name("get")
     @rison(get_list_schema)
-    def get_list(self, dashboard_id: int, **kwargs: Any) -> Response:
+    def get_list(self, id_or_slug: str, **kwargs: Any) -> Response:
         """Get a dashboard's list of filter sets.
         ---
         get:
@@ -171,9 +171,8 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
           parameters:
           - in: path
             schema:
-              type: integer
-            name: dashboard_id
-            description: The id of the dashboard
+              type: string
+            name: id_or_slug
           responses:
             200:
               description: FilterSets
@@ -210,12 +209,14 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
-        if not DashboardDAO.find_by_id(cast(int, dashboard_id)):
-            return self.response(404, message=f"dashboard '{dashboard_id}' not found")
+        try:
+          dashboard = DashboardDAO.get_by_id_or_slug(id_or_slug)
+        except DashboardNotFoundError:
+            return self.response(404, message=f"dashboard '{id_or_slug}' not found")
         rison_data = kwargs.setdefault("rison", {})
         rison_data.setdefault("filters", [])
         rison_data["filters"].append(
-            {"col": "dashboard_id", "opr": "eq", "value": str(dashboard_id)}
+            {"col": "dashboard_id", "opr": "eq", "value": str(dashboard.id)}
         )
         return self.get_list_headless(**kwargs)
 
