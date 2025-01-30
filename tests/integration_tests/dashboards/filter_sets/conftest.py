@@ -48,7 +48,6 @@ from tests.integration_tests.dashboards.superset_factory_util import (
 from tests.integration_tests.test_app import app
 
 if TYPE_CHECKING:
-    from flask.ctx import AppContext
     from flask.testing import FlaskClient
     from flask_appbuilder.security.manager import BaseSecurityManager
     from flask_appbuilder.security.sqla.models import (
@@ -57,11 +56,6 @@ if TYPE_CHECKING:
         User,
         ViewMenu,
     )
-    from sqlalchemy.orm import Session
-
-    from superset.connectors.sqla.models import SqlaTable
-    from superset.models.core import Database
-    from superset.models.slice import Slice
 
 
 security_manager: BaseSecurityManager = sm

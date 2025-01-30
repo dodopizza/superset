@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
-from typing import Any, cast
+from typing import Any
 
 from flask import request, Response
 from flask_appbuilder.api import (
@@ -210,7 +210,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
               $ref: '#/components/responses/404'
         """
         try:
-          dashboard = DashboardDAO.get_by_id_or_slug(id_or_slug)
+            dashboard = DashboardDAO.get_by_id_or_slug(id_or_slug)
         except DashboardNotFoundError:
             return self.response(404, message=f"dashboard '{id_or_slug}' not found")
         rison_data = kwargs.setdefault("rison", {})

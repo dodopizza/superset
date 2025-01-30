@@ -83,5 +83,3 @@ class BaseFilterSetCommand:
                 str(self._filter_set_id),
                 "user not authorized to access the filterset",
             ) from err
-        except FilterSetForbiddenError:
-            raise
