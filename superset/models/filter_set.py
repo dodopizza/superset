@@ -16,17 +16,17 @@
 # under the License.
 from __future__ import annotations
 
-import json
 import logging
 from typing import Any
 
 from flask_appbuilder import Model
-from sqlalchemy import Column, ForeignKey, Integer, MetaData, String, Text, Boolean
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, MetaData, String, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import generic_relationship
 
 from superset import app, db
 from superset.models.helpers import AuditMixinNullable
+from superset.utils import json
 
 metadata = Model.metadata  # pylint: disable=no-member
 config = app.config
@@ -80,20 +80,20 @@ class FilterSet(Model, AuditMixinNullable):
 
     @classmethod
     def get(cls, _id: int) -> FilterSet:
-        session = db.session()
-        qry = session.query(FilterSet).filter(_id)
+        db_session = db.session()
+        qry = db_session.query(FilterSet).filter(_id)
         return qry.one_or_none()
 
     @classmethod
     def get_by_name(cls, name: str) -> FilterSet:
-        session = db.session()
-        qry = session.query(FilterSet).filter(FilterSet.name == name)
+        db_session = db.session()
+        qry = db_session.query(FilterSet).filter(FilterSet.name == name)
         return qry.one_or_none()
 
     @classmethod
     def get_by_dashboard_id(cls, dashboard_id: int) -> FilterSet:
-        session = db.session()
-        qry = session.query(FilterSet).filter(FilterSet.dashboard_id == dashboard_id)
+        db_session = db.session()
+        qry = db_session.query(FilterSet).filter(FilterSet.dashboard_id == dashboard_id)
         return qry.all()
 
     @property

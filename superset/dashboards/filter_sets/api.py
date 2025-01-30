@@ -27,14 +27,13 @@ from flask_appbuilder.api import (
     safe,
 )
 from flask_appbuilder.models.sqla.interface import SQLAInterface
-from marshmallow import ValidationError
+from marshmallow import Schema, ValidationError
 
-from superset.commands.exceptions import ObjectNotFoundError
-from superset.daos.dashboard import DashboardDAO
-from superset.dashboards.commands.exceptions import DashboardNotFoundError
-from superset.dashboards.filter_sets.commands.create import CreateFilterSetCommand
-from superset.dashboards.filter_sets.commands.delete import DeleteFilterSetCommand
-from superset.dashboards.filter_sets.commands.exceptions import (
+from superset import db
+from superset.commands.dashboard.exceptions import DashboardNotFoundError
+from superset.commands.dashboard.filter_set.create import CreateFilterSetCommand
+from superset.commands.dashboard.filter_set.delete import DeleteFilterSetCommand
+from superset.commands.dashboard.filter_set.exceptions import (
     FilterSetCreateFailedError,
     FilterSetDeleteFailedError,
     FilterSetForbiddenError,
@@ -42,47 +41,59 @@ from superset.dashboards.filter_sets.commands.exceptions import (
     FilterSetUpdateFailedError,
     UserIsNotDashboardOwnerError,
 )
-from superset.dashboards.filter_sets.commands.update import UpdateFilterSetCommand
+from superset.commands.dashboard.filter_set.update import UpdateFilterSetCommand
+from superset.commands.exceptions import ObjectNotFoundError
+from superset.daos.dashboard import DashboardDAO
 from superset.dashboards.filter_sets.consts import (
     DASHBOARD_FIELD,
     DASHBOARD_ID_FIELD,
     DESCRIPTION_FIELD,
     FILTER_SET_API_PERMISSIONS_NAME,
+    IS_PRIMARY,
     JSON_METADATA_FIELD,
     NAME_FIELD,
     OWNER_ID_FIELD,
     OWNER_OBJECT_FIELD,
     OWNER_TYPE_FIELD,
-    PARAMS_PROPERTY,
     OWNER_USER_ID,
-    IS_PRIMARY,
+    PARAMS_PROPERTY,
 )
-from superset.dashboards.filter_sets.filters import (
-    FilterSetFilterByUser,
-)
+from superset.dashboards.filter_sets.filters import FilterSetFilter
 from superset.dashboards.filter_sets.schemas import (
     FilterSetPostSchema,
     FilterSetPutSchema,
 )
 from superset.extensions import event_logger
 from superset.models.filter_set import FilterSet
+from superset.utils.core import get_user_id
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
     requires_json,
     statsd_metrics,
 )
-from superset.views.utils import get_primary_filtersets
 
 logger = logging.getLogger(__name__)
 
 
-def unset_primary_filterset(item, dashboard_id):
+def get_primary_filtersets(dashboard_id: int) -> list[FilterSet] | None:
+    if user_id := get_user_id():
+        primary_filtersets = (
+            db.session.query(FilterSet)
+            .filter(FilterSet.user_id == user_id)
+            .filter(FilterSet.dashboard_id == dashboard_id)
+            .all()
+        )
+        return primary_filtersets
+    return None
+
+
+def unset_primary_filterset(item: Schema, dashboard_id: int) -> None:
     if item.get(IS_PRIMARY):
-        primary_filtersets: list[FilterSet] = get_primary_filtersets(dashboard_id)
+        primary_filtersets = get_primary_filtersets(dashboard_id)
         if primary_filtersets:
             for filterset in primary_filtersets:
-                d = {"is_primary": False}
-                UpdateFilterSetCommand(dashboard_id, filterset.id, d).run()
+                query = {"is_primary": False}
+                UpdateFilterSetCommand(dashboard_id, filterset.id, query).run()
 
 
 class FilterSetRestApi(BaseSupersetModelRestApi):
@@ -138,14 +149,13 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         DASHBOARD_ID_FIELD,
         OWNER_USER_ID,
     ]
-    base_filters = [[OWNER_USER_ID, FilterSetFilterByUser, ""]]
+    base_filters = [[OWNER_ID_FIELD, FilterSetFilter, ""]]
 
     def __init__(self) -> None:
         self.datamodel.get_search_columns_list = lambda: []
         super().__init__()
 
     def _init_properties(self) -> None:
-        # pylint: disable=bad-super-call
         super(BaseSupersetModelRestApi, self)._init_properties()
 
     @expose("/<int:dashboard_id>/filtersets", methods=("GET",))
@@ -154,12 +164,10 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
     @permission_name("get")
     @rison(get_list_schema)
     def get_list(self, dashboard_id: int, **kwargs: Any) -> Response:
-        """
-            Gets a dashboard's Filter sets
-         ---
+        """Get a dashboard's list of filter sets.
+        ---
         get:
-          description: >-
-            Get a dashboard's list of filter sets
+          summary: Get a dashboard's list of filter sets
           parameters:
           - in: path
             schema:
@@ -203,7 +211,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
               $ref: '#/components/responses/404'
         """
         if not DashboardDAO.find_by_id(cast(int, dashboard_id)):
-            return self.response(404, message="dashboard '%s' not found" % dashboard_id)
+            return self.response(404, message=f"dashboard '{dashboard_id}' not found")
         rison_data = kwargs.setdefault("rison", {})
         rison_data.setdefault("filters", [])
         rison_data["filters"].append(
@@ -221,12 +229,10 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
     )
     @requires_json
     def post(self, dashboard_id: int) -> Response:
-        """
-            Creates a new Dashboard's Filter Set
+        """Create a new dashboard's filter set.
         ---
         post:
-          description: >-
-            Create a new Dashboard's Filter Set.
+          summary: Create a new dashboard's filter set
           parameters:
           - in: path
             schema:
@@ -289,11 +295,10 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
     )
     @requires_json
     def put(self, dashboard_id: int, pk: int) -> Response:
-        """Changes a Dashboard's Filter set
+        """Update a dashboard's filter set.
         ---
         put:
-          description: >-
-            Changes a Dashboard's Filter set.
+          summary: Update a dashboard's filter set
           parameters:
           - in: path
             schema:
@@ -361,12 +366,10 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         log_to_statsd=False,
     )
     def delete(self, dashboard_id: int, pk: int) -> Response:
-        """
-            Deletes a Dashboard's FilterSet
+        """Delete a dashboard's filter set.
         ---
         delete:
-          description: >-
-            Deletes a Dashboard.
+          summary: Delete a dashboard's filter set
           parameters:
           - in: path
             schema:

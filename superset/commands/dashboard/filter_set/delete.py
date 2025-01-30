@@ -16,8 +16,8 @@
 # under the License.
 import logging
 
-from superset.commands.dashboard.filter_sets.base import BaseFilterSetCommand
-from superset.commands.dashboard.filter_sets.exceptions import (
+from superset.commands.dashboard.filter_set.base import BaseFilterSetCommand
+from superset.commands.dashboard.filter_set.exceptions import (
     FilterSetDeleteFailedError,
     FilterSetForbiddenError,
     FilterSetNotFoundError,
@@ -31,14 +31,14 @@ logger = logging.getLogger(__name__)
 class DeleteFilterSetCommand(BaseFilterSetCommand):
     def __init__(self, dashboard_id: int, filter_set_id: int):
         super().__init__(dashboard_id)
-        self._filter_set_id = filter_set_id
+        self._filter_set_id: int = filter_set_id
 
     def run(self) -> None:
         self.validate()
         assert self._filter_set
 
         try:
-            FilterSetDAO.delete(self._filter_set)
+            FilterSetDAO.delete([self._filter_set])
         except DAODeleteFailedError as err:
             raise FilterSetDeleteFailedError(str(self._filter_set_id), "") from err
 
@@ -47,9 +47,8 @@ class DeleteFilterSetCommand(BaseFilterSetCommand):
         try:
             self.validate_exist_filter_use_cases_set()
         except FilterSetNotFoundError as err:
-            if FilterSetDAO.find_by_id(self._filter_set_id):  # type: ignore
+            if FilterSetDAO.find_by_id(self._filter_set_id):
                 raise FilterSetForbiddenError(
-                    'the filter-set does not related to dashboard "%s"'
-                    % str(self._dashboard_id)
+                    f"the filter-set does not related to dashboard {self._dashboard_id}"
                 ) from err
-            raise err
+            raise

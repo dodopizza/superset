@@ -21,7 +21,7 @@ from flask_appbuilder.models.sqla import Model
 
 from superset import security_manager
 from superset.commands.dashboard.exceptions import DashboardNotFoundError
-from superset.commands.dashboard.filter_sets.exceptions import (
+from superset.commands.dashboard.filter_set.exceptions import (
     FilterSetForbiddenError,
     FilterSetNotFoundError,
 )
@@ -83,5 +83,5 @@ class BaseFilterSetCommand:
                 str(self._filter_set_id),
                 "user not authorized to access the filterset",
             ) from err
-        except FilterSetForbiddenError as err:
-            raise err
+        except FilterSetForbiddenError:
+            raise

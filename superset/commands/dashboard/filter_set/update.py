@@ -19,10 +19,8 @@ from typing import Any
 
 from flask_appbuilder.models.sqla import Model
 
-from superset.commands.dashboard.filter_sets.base import BaseFilterSetCommand
-from superset.commands.dashboard.filter_sets.exceptions import (
-    FilterSetUpdateFailedError,
-)
+from superset.commands.dashboard.filter_set.base import BaseFilterSetCommand
+from superset.commands.dashboard.filter_set.exceptions import FilterSetUpdateFailedError
 from superset.daos.dashboard import FilterSetDAO
 from superset.daos.exceptions import DAOUpdateFailedError
 from superset.dashboards.filter_sets.consts import OWNER_ID_FIELD, OWNER_TYPE_FIELD
@@ -46,7 +44,7 @@ class UpdateFilterSetCommand(BaseFilterSetCommand):
                 and self._properties[OWNER_TYPE_FIELD] == "Dashboard"
             ):
                 self._properties[OWNER_ID_FIELD] = self._dashboard_id
-            return FilterSetDAO.update(self._filter_set, self._properties, commit=True)
+            return FilterSetDAO.update(self._filter_set, self._properties)
         except DAOUpdateFailedError as err:
             raise FilterSetUpdateFailedError(str(self._filter_set_id), "") from err
 

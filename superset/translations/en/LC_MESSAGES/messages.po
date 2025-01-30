@@ -3016,6 +3016,9 @@ msgstr ""
 msgid "Create dataset and create chart"
 msgstr ""
 
+msgid "Create filter set"
+msgstr ""
+
 msgid "Create new chart"
 msgstr ""
 
@@ -4874,6 +4877,15 @@ msgid "Filter only displays values relevant to selections made in other filters.
 msgstr ""
 
 msgid "Filter results"
+msgstr ""
+
+msgid "Filter set already exists"
+msgstr ""
+
+msgid "Filter set with this name already exists"
+msgstr ""
+
+msgid "Filter sets (%(filterSetCount)d)"
 msgstr ""
 
 msgid "Filter type"
@@ -8930,6 +8942,9 @@ msgstr ""
 msgid "Service Account"
 msgstr ""
 
+msgid "Set as primary"
+msgstr ""
+
 msgid "Set auto-refresh interval"
 msgstr ""
 
@@ -10294,6 +10309,9 @@ msgid "The port number is invalid."
 msgstr ""
 
 msgid "The primary metric is used to define the arc segment sizes"
+msgstr ""
+
+msgid "The primary set of filters will be applied automatically"
 msgstr ""
 
 msgid "The provided table was not found in the provided database"

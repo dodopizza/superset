@@ -14,28 +14,9 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-"""drop_filter_sets_table
+FILTER_SET_URI = "api/v1/dashboard/{dashboard_id}/filtersets"
 
-Revision ID: 59a1450b3c10
-Revises: 65a167d4c62e
-Create Date: 2023-12-27 13:14:27.268232
-
-"""
-
-# revision identifiers, used by Alembic.
-revision = "59a1450b3c10"
-down_revision = "65a167d4c62e"
-
-from importlib import import_module  # noqa: E402
-
-module = import_module(
-    "superset.migrations.versions.2021-03-29_11-15_3ebe0993c770_filterset_table"
-)
-
-
-def upgrade():
-    module.downgrade()
-
-
-def downgrade():
-    module.upgrade()
+ADMIN_USERNAME_FOR_TEST = "admin@filterset.com"
+DASHBOARD_OWNER_USERNAME = "dash_owner_user@filterset.com"
+FILTER_SET_OWNER_USERNAME = "fs_owner_user@filterset.com"
+REGULAR_USER = "regular_user@filterset.com"

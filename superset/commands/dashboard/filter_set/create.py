@@ -20,8 +20,8 @@ from typing import Any
 from flask_appbuilder.models.sqla import Model
 
 from superset import security_manager
-from superset.commands.dashboard.filter_sets.base import BaseFilterSetCommand
-from superset.commands.dashboard.filter_sets.exceptions import (
+from superset.commands.dashboard.filter_set.base import BaseFilterSetCommand
+from superset.commands.dashboard.filter_set.exceptions import (
     DashboardIdInconsistencyError,
     FilterSetCreateFailedError,
     UserIsNotDashboardOwnerError,
@@ -47,8 +47,7 @@ class CreateFilterSetCommand(BaseFilterSetCommand):
     def run(self) -> Model:
         self.validate()
         self._properties[DASHBOARD_ID_FIELD] = self._dashboard.id
-        filter_set = FilterSetDAO.create(self._properties, commit=True)
-        return filter_set
+        return FilterSetDAO.create(attributes=self._properties)
 
     def validate(self) -> None:
         self._validate_filterset_dashboard_exists()
