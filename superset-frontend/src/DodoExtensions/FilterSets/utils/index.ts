@@ -1,8 +1,16 @@
 // DODO was here
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import shortid from 'shortid';
-import { DataMaskState, FilterSet, t } from '@superset-ui/core';
+import {
+  DataMaskState,
+  DataMaskStateWithId,
+  DataMaskWithId,
+  FilterSet,
+  t,
+} from '@superset-ui/core';
 import { areObjectsEqual } from 'src/reduxUtils';
+import { FilterSetFullData } from '../types';
 
 export const generateFiltersSetId = () => `FILTERS_SET-${shortid.generate()}`;
 
@@ -51,3 +59,31 @@ export const findExistingFilterSet = ({
       return isEqual && hasSamePropsNumber;
     });
   });
+
+export const getPrimaryFilterSetDataMask = (
+  filterSets: FilterSet[] | null,
+): DataMaskStateWithId | null => {
+  if (!filterSets) return null;
+
+  const primaryFilterSet = Object.values(filterSets).find(
+    filterSet => filterSet.isPrimary,
+  );
+  if (!primaryFilterSet) return {};
+
+  return Object.values(primaryFilterSet.dataMask).reduce(
+    (prev, next: DataMaskWithId) => ({ ...prev, [next.id]: next }),
+    {},
+  ) as DataMaskStateWithId;
+};
+
+export const transformFilterSetFullData = (
+  filterSets: FilterSetFullData[] | null,
+): FilterSet[] | null =>
+  filterSets
+    ? filterSets.map(filterSet => ({
+        ...filterSet.params,
+        id: filterSet.id,
+        name: filterSet.name,
+        isPrimary: filterSet.is_primary,
+      }))
+    : null;

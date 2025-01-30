@@ -17,7 +17,7 @@
  * under the License.
  */
 import { useMemo } from 'react';
-import { useFilterSets } from '../state';
+import { useFilterSets } from 'src/dashboard/components/nativeFilters/FilterBar/state';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useFilterSetNameDuplicated = (

@@ -40,10 +40,10 @@ import { FilterBarOrientation } from '../types';
 export const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 
 export const hydrateDashboard =
-  ({ history, dashboard, charts, dataMask, activeTabs }) =>
+// ({ history, dashboard, charts, dataMask, activeTabs }) =>  
+({ history, dashboard, charts, dataMask, activeTabs, filterSets }) => // DODO changed 44211751
   (dispatch, getState) => {
-    // const { user, common, dashboardState } = getState();
-    const { user, common, dashboardState, nativeFilters } = getState(); // DODO changed 44211751
+    const { user, common, dashboardState } = getState();
     const { metadata, position_data: positionData } = dashboard;
     const regularUrlParams = extractUrlParams('regular');
     const reservedUrlParams = extractUrlParams('reserved');
@@ -210,13 +210,9 @@ export const hydrateDashboard =
       directPathToChild.push(directLinkComponentId);
     }
 
-    // const nativeFilters = getInitialNativeFilterState({
-    //   filterConfig: metadata?.native_filter_configuration || [],
-    // });
-    // DODO changed 44211751
-    const updatedNativeFilters = getInitialNativeFilterState({
+    const nativeFilters = getInitialNativeFilterState({
       filterConfig: metadata?.native_filter_configuration || [],
-      state: nativeFilters, // DODO added 38080573
+      filterSetsConfig: filterSets || [], // DODO added 44211751
     });
 
     if (isFeatureEnabled(FeatureFlag.DashboardCrossFilters)) {
@@ -277,8 +273,7 @@ export const hydrateDashboard =
         },
         dataMask,
         dashboardFilters,
-        // nativeFilters,
-        nativeFilters: updatedNativeFilters, // DODO changed 44211751
+        nativeFilters,
         dashboardState: {
           preselectNativeFilters: getUrlParam(URL_PARAMS.nativeFilters),
           sliceIds: Array.from(sliceIds),

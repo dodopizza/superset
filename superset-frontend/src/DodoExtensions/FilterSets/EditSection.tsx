@@ -23,11 +23,15 @@ import { useDispatch } from 'react-redux';
 import Button from 'src/components/Button';
 import { updateFilterSet } from 'src/dashboard/actions/nativeFilters';
 import Icons from 'src/components/Icons';
+import {
+  useNativeFiltersDataMask,
+  useFilters,
+  useFilterSets,
+} from 'src/dashboard/components/nativeFilters/FilterBar/state';
+import { getFilterBarTestId } from 'src/dashboard/components/nativeFilters/FilterBar/utils';
 import { ActionButtons } from './Footer';
-import { useNativeFiltersDataMask, useFilters, useFilterSets } from '../state';
 import { APPLY_FILTERS_HINT, findExistingFilterSet } from './utils';
 import { useFilterSetNameDuplicated } from './state';
-import { getFilterBarTestId } from '../utils';
 
 const Wrapper = styled.div`
   display: grid;

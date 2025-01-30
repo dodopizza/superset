@@ -20,9 +20,9 @@ import { t, styled } from '@superset-ui/core';
 import { FC } from 'react';
 import Button from 'src/components/Button';
 import { Tooltip } from 'src/components/Tooltip';
+import { getFilterBarTestId } from 'src/dashboard/components/nativeFilters/FilterBar/utils';
 import { APPLY_FILTERS_HINT } from './utils';
 import { useFilterSetNameDuplicated } from './state';
-import { getFilterBarTestId } from '../utils';
 
 export type FooterProps = {
   filterSetName: string;

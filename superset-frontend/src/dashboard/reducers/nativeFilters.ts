@@ -25,9 +25,12 @@ import {
   SET_HOVERED_NATIVE_FILTER,
   UNSET_HOVERED_NATIVE_FILTER,
   UPDATE_CASCADE_PARENT_IDS,
-  CREATE_FILTER_SET_BEGIN, // DODO added 44211751
-  UPDATE_FILTER_SET_BEGIN, // DODO added 44211751
-  DELETE_FILTER_SET_BEGIN, // DODO added 44211751
+  // DODO added start 44211751
+  SET_FILTER_SETS_COMPLETE,
+  CREATE_FILTER_SET_BEGIN,
+  UPDATE_FILTER_SET_BEGIN,
+  DELETE_FILTER_SET_BEGIN,
+  // DODO added stop 44211751
 } from 'src/dashboard/actions/nativeFilters';
 import {
   FilterConfiguration,
@@ -76,7 +79,7 @@ export function getInitialState({
 export default function nativeFilterReducer(
   state: NativeFiltersState = {
     filters: {},
-    filterSets: null, // DODO added 44211751
+    filterSets: {}, // DODO added 44211751
   },
   action: AnyFilterAction,
 ) {
@@ -126,6 +129,11 @@ export default function nativeFilterReducer(
         },
       };
     // DODO added start 44211751
+    case SET_FILTER_SETS_COMPLETE:
+      return getInitialState({
+        filterSetsConfig: action.filterSets,
+        state,
+      });
     case CREATE_FILTER_SET_BEGIN:
       return {
         ...state,

@@ -19,17 +19,17 @@ import {
   updateFilterSet,
 } from 'src/dashboard/actions/nativeFilters';
 import { areObjectsEqual } from 'src/reduxUtils';
-import { findExistingFilterSet } from './utils';
 import {
   useFilters,
   useNativeFiltersDataMask,
   useFilterSets,
   usePendingFilterSetId,
-} from '../state';
+} from 'src/dashboard/components/nativeFilters/FilterBar/state';
+import { getFilterBarTestId } from 'src/dashboard/components/nativeFilters/FilterBar/utils';
+import { TabIds } from 'src/dashboard/components/nativeFilters/FilterBar/types';
+import { findExistingFilterSet } from './utils';
 import Footer from './Footer';
 import FilterSetUnit from './FilterSetUnit';
-import { getFilterBarTestId } from '../utils';
-import { TabIds } from '../types';
 
 const FilterSetsWrapper = styled.div`
   display: grid;

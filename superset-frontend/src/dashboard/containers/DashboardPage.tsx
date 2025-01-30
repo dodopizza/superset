@@ -10,6 +10,7 @@ import {
   useDashboard,
   useDashboardCharts,
   useDashboardDatasets,
+  useDashboardFilterSets, // DODO added 44211751
 } from 'src/hooks/apiResources';
 import { hydrateDashboard } from 'src/dashboard/actions/hydrate';
 import { setDatasources } from 'src/dashboard/actions/datasources';
@@ -26,6 +27,11 @@ import {
 import DashboardContainer from 'src/dashboard/containers/Dashboard';
 
 import { nanoid } from 'nanoid';
+// DODO added 44211751
+import {
+  getPrimaryFilterSetDataMask,
+  transformFilterSetFullData,
+} from 'src/DodoExtensions/FilterSets/utils';
 import { RootState } from '../types';
 import {
   chartContextMenuStyles,
@@ -37,8 +43,6 @@ import {
 import SyncDashboardState, {
   getDashboardContextLocalStorage,
 } from '../components/SyncDashboardState';
-import { usePrimaryFilterSetDataMask } from '../components/nativeFilters/FilterBar/state'; // DODO added 44211751
-import { getFilterSets } from '../actions/nativeFilters'; // DODO added 44211751
 
 export const DashboardPageIdContext = createContext('');
 
@@ -76,7 +80,14 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     error: datasetsApiError,
     status,
   } = useDashboardDatasets(idOrSlug);
-  const primaryFilterSetDataMask = usePrimaryFilterSetDataMask(); // DODO added 44211751
+
+  // DODO added start 44211751
+  const { result: filterSetsFullData, error: filterSetsApiError } =
+    useDashboardFilterSets(idOrSlug);
+  const filterSets = transformFilterSetFullData(filterSetsFullData);
+  const primaryFilterSetDataMask = getPrimaryFilterSetDataMask(filterSets);
+  // DODO added stop 44211751
+
   const isDashboardHydrated = useRef(false);
 
   // DODO added 44211751
@@ -89,7 +100,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   // const readyToRender = Boolean(dashboard && charts);
   // DODO changed 44211751
   const readyToRender = Boolean(
-    dashboard && charts && (!filterSetEnabled || primaryFilterSetDataMask),
+    dashboard &&
+      charts &&
+      (!filterSetEnabled || filterSetsApiError || primaryFilterSetDataMask),
   );
   const { dashboard_title, css, id = 0 } = dashboard || {};
 
@@ -115,19 +128,6 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   useEffect(() => {
     dispatch(setDatasetsStatus(status));
   }, [dispatch, status]);
-
-  // DODO added 44211751
-  // Maybe to change way of fetching instead of useEffect, so api /filtersets should accept either id or slug:
-  // const { result: filterSets, error: filterSetsApiError } =
-  //   useDashboardFilterSets(id);
-  useEffect(() => {
-    const fetchFilterSets = () => {
-      if (filterSetEnabled && id && !isDashboardHydrated.current) {
-        dispatch(getFilterSets(id));
-      }
-    };
-    fetchFilterSets();
-  }, [dispatch, filterSetEnabled, id]);
 
   useEffect(() => {
     // eslint-disable-next-line consistent-return
@@ -166,6 +166,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
             charts,
             activeTabs,
             dataMask,
+            filterSets, // DODO added 44211751
           }),
         );
       }
@@ -202,6 +203,17 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       dispatch(setDatasources(datasets));
     }
   }, [addDangerToast, datasets, datasetsApiError, dispatch]);
+
+  // DODO added 44211751
+  useEffect(() => {
+    if (filterSetEnabled && filterSetsApiError) {
+      addDangerToast(
+        t(
+          "Error loading chart filter sets. Primary filter set won't be applied.",
+        ),
+      );
+    }
+  }, [addDangerToast, filterSetsApiError, filterSetEnabled, dispatch]);
 
   if (error) throw error; // caught in error boundary
   if (!readyToRender || !hasDashboardInfoInitiated) return <Loading />;

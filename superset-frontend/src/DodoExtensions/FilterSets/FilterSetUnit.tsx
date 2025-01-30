@@ -15,8 +15,8 @@ import Button from 'src/components/Button';
 import { Tooltip } from 'src/components/Tooltip';
 import CheckboxControl from 'src/explore/components/controls/CheckboxControl';
 import Loading from 'src/components/Loading';
+import { getFilterBarTestId } from 'src/dashboard/components/nativeFilters/FilterBar/utils';
 import FiltersHeader from './FiltersHeader';
-import { getFilterBarTestId } from '../utils';
 
 const HeaderButton = styled(Button)`
   padding: 0;

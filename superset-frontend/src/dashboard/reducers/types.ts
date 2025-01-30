@@ -1,6 +1,6 @@
 // DODO was here
 
-import { JsonObject } from '@superset-ui/core'; // DODO added 44211751
+import { DataMaskStateWithId, Filters } from '@superset-ui/core'; // DODO added 44211751
 import componentTypes from 'src/dashboard/util/componentTypes';
 
 export enum Scoping {
@@ -62,19 +62,4 @@ export type LayoutItem = {
     uuid: string;
     width: number;
   };
-};
-
-// DODO added 44211751
-export type FilterSetFullData = {
-  changed_by_fk: string | null;
-  changed_on: string | null;
-  created_by_fk: string | null;
-  created_on: string | null;
-  dashboard_id: number;
-  description: string | null;
-  name: string;
-  owner_id: number;
-  owner_type: string;
-  params: JsonObject;
-  is_primary: boolean;
 };

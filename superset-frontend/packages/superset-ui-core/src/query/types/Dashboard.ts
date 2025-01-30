@@ -157,7 +157,7 @@ export type PartialFilters = {
 };
 
 type NativeFiltersStateDodoExtended = {
-  filterSets: FilterSets | null; // DODO added 44211751
+  filterSets: FilterSets; // DODO added 44211751
   pendingFilterSetId?: number; // DODO added 44211751
 };
 export type NativeFiltersState = {

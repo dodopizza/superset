@@ -11,10 +11,10 @@ import {
   SET_DATA_MASK_FOR_FILTER_CONFIG_FAIL,
   setDataMaskForFilterConfigComplete,
 } from 'src/dataMask/actions';
+import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types'; // DODO added 44211751
 import { HYDRATE_DASHBOARD } from './hydrate';
 import { dashboardInfoChanged } from './dashboardInfo';
 import { DashboardInfo, RootState } from '../types';
-import { FilterSetFullData } from '../reducers/types'; // DODO added 44211751
 
 export const SET_FILTER_CONFIG_BEGIN = 'SET_FILTER_CONFIG_BEGIN';
 export interface SetFilterConfigBegin {

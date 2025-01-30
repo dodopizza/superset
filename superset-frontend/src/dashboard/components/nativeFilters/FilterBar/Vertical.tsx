@@ -42,14 +42,14 @@ import Icons from 'src/components/Icons';
 import Loading from 'src/components/Loading';
 import { EmptyStateSmall } from 'src/components/EmptyState';
 import { AntdTabs } from 'src/components';
+import FilterSets from 'src/DodoExtensions/FilterSets'; // DODO added 44211751
+import EditSection from 'src/DodoExtensions/FilterSets/EditSection'; // DODO added 44211751
 import { getFilterBarTestId } from './utils';
 import { TabIds, VerticalBarProps } from './types';
 import Header from './Header';
 import FilterControls from './FilterControls/FilterControls';
 import CrossFiltersVertical from './CrossFilters/Vertical';
-import EditSection from './FilterSets/EditSection'; // DODO added 44211751
 import { useFilterSets } from './state'; // DODO added 44211751
-import FilterSets from './FilterSets'; // DODO added 44211751
 
 const BarWrapper = styled.div<{ width: number }>`
   width: ${({ theme }) => theme.gridUnit * 8}px;
