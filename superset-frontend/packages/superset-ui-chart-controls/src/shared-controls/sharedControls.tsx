@@ -344,7 +344,7 @@ const x_axis_format: SharedControlConfig<'SelectControl', SelectDefaultOption> =
 const size_format: SharedControlConfig<'SelectControl', SelectDefaultOption> = {
   type: 'SelectControl',
   freeForm: true,
-  label: t('Size Format'),
+  label: t('Size format'),
   renderTrigger: true,
   default: DEFAULT_NUMBER_FORMAT,
   choices: D3_FORMAT_OPTIONS,

@@ -5,6 +5,7 @@ import {
   QueryFormData,
   ValueFormatter,
 } from '@superset-ui/core';
+import { Refs } from '../../types';
 
 type BubbleDodoFormData = QueryFormData & {
   maxBubbleSize: string;
@@ -19,12 +20,16 @@ type BubbleDodoFormData = QueryFormData & {
   xNameLocation: string;
   xNameGapInPixel: string;
   xAxisFormat: string;
+  xForceTimestampFormatting: boolean;
+  xTimeFormat: string;
 
   yLogScale: boolean;
   yAxisName: string;
   yNameLocation: string;
   yNameGapInPixel: string;
   yAxisFormat: string;
+  yForceTimestampFormatting: boolean;
+  yTimeFormat: string;
 
   sizeFormat: string;
   labelLocation: string;
@@ -66,4 +71,5 @@ export type BubbleDodoComponentProps = {
   labelFontSize: string;
   labelColor?: string;
   tooltipLabels: { x: string; y: string; size: string };
+  refs: Refs;
 };
