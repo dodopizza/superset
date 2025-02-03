@@ -13,7 +13,7 @@ setupApp();
 
 const App = ({ store, dashboardIdOrSlug }) => (
   <Provider store={store}>
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={HTML5Backend} context={window}>
       <ThemeProvider theme={theme}>
         <DynamicPluginProvider>
           <DashboardPage store={store} idOrSlug={dashboardIdOrSlug} />
