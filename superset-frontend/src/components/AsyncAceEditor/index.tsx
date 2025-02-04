@@ -86,9 +86,12 @@ const aceModuleLoaders = {
 
 export type AceModule = keyof typeof aceModuleLoaders;
 
+type AsyncAceEditorPropsDodoExtended = {
+  hasVerticalResize?: boolean;
+};
 export type AsyncAceEditorProps = IAceEditorProps & {
   keywords?: AceCompleterKeyword[];
-};
+} & AsyncAceEditorPropsDodoExtended;
 
 export type AceEditorMode = 'sql';
 export type AceEditorTheme = 'textmate' | 'github';
@@ -135,6 +138,8 @@ export default function AsyncAceEditor(
           theme = inferredTheme,
           tabSize = defaultTabSize,
           defaultValue = '',
+          maxLines,
+          hasVerticalResize,
           ...props
         },
         ref,
@@ -229,6 +234,7 @@ export default function AsyncAceEditor(
               tabSize={tabSize}
               defaultValue={defaultValue}
               setOptions={{ fontFamily }}
+              maxLines={hasVerticalResize ? undefined : maxLines}
               {...props}
             />
           </>
