@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { styled, NO_TIME_RANGE } from '@superset-ui/core';
+import { styled, NO_TIME_RANGE, TimeRangeEndType } from '@superset-ui/core';
 import React, { useCallback, useEffect } from 'react';
 import DateFilterControl from 'src/explore/components/controls/DateFilterControl';
 import { PluginFilterTimeProps } from './types';
@@ -62,16 +62,19 @@ export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
   } = props;
 
   const handleTimeRangeChange = useCallback(
-    (timeRange?: string): void => {
+    (timeRange?: string, timeRangeEndType?: TimeRangeEndType): void => {
       const isSet = timeRange && timeRange !== NO_TIME_RANGE;
+
       setDataMask({
         extraFormData: isSet
           ? {
               time_range: timeRange,
+              time_range_end_type: timeRangeEndType,
             }
           : {},
         filterState: {
           value: isSet ? timeRange : undefined,
+          timeRangeEndType,
         },
       });
     },
@@ -79,8 +82,8 @@ export default function TimeFilterPlugin(props: PluginFilterTimeProps) {
   );
 
   useEffect(() => {
-    handleTimeRangeChange(filterState.value);
-  }, [filterState.value]);
+    handleTimeRangeChange(filterState.value, filterState?.timeRangeEndType);
+  }, [filterState.value, filterState?.timeRangeEndType]);
 
   return props.formData?.inView ? (
     <TimeFilterStyles width={width} height={height}>

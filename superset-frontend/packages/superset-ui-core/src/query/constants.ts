@@ -48,6 +48,7 @@ export const EXTRA_FORM_DATA_OVERRIDE_REGULAR_MAPPINGS: Record<
   time_column: 'time_column',
   time_grain: 'time_grain',
   time_range: 'time_range',
+  time_range_end_type: 'time_range_end_type',
 };
 
 export const EXTRA_FORM_DATA_OVERRIDE_REGULAR_KEYS = Object.keys(
