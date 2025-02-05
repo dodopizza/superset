@@ -22,15 +22,6 @@ const parseMetricValue = (metricValue: number | string | null) => {
   return metricValue;
 };
 
-const getDateFormatter = (
-  timeFormat: string,
-  granularity?: TimeGranularity,
-  fallbackFormat?: string | null,
-) =>
-  timeFormat === smartDateFormatter.id
-    ? getTimeFormatterForGranularity(granularity)
-    : getTimeFormatter(timeFormat ?? fallbackFormat);
-
 const calculateColor = (
   className: string | undefined,
   positiveColor: string | undefined,
@@ -166,4 +157,4 @@ const getColors = (
   return parsedColors;
 };
 
-export { calculateColor, getDateFormatter, parseMetricValue, getColors };
+export { calculateColor, parseMetricValue, getColors };

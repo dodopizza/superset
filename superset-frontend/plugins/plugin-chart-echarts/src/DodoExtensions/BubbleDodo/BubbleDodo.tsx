@@ -37,7 +37,6 @@ export default function BubbleDodo({
   labelFontSize,
   labelColor,
   tooltipLabels,
-  // @ts-ignore
   refs,
 }: BubbleDodoComponentProps) {
   const grid = useMemo(
@@ -60,6 +59,7 @@ export default function BubbleDodo({
 
   const tooltip = useMemo(
     () => ({
+      appendToBody: true,
       show: true,
       formatter(param: { data: Array<number | string> }) {
         const x = getNumber(param.data[X_INDEX]);
@@ -72,7 +72,14 @@ export default function BubbleDodo({
       },
       position: 'top',
     }),
-    [sizeFormatter, xAxisFormatter, yAxisFormatter, tooltipLabels],
+    [
+      tooltipLabels.x,
+      tooltipLabels.y,
+      tooltipLabels.size,
+      xAxisFormatter,
+      yAxisFormatter,
+      sizeFormatter,
+    ],
   );
 
   const xAxis = useMemo(
@@ -85,8 +92,12 @@ export default function BubbleDodo({
       nameTextStyle: {
         fontWeight: 'bold',
       },
+      axisLabel: {
+        hideOverlap: true,
+        formatter: xAxisFormatter,
+      },
     }),
-    [xAxisName, xLogScale, xNameGap, xNameLocation],
+    [xAxisFormatter, xAxisName, xLogScale, xNameGap, xNameLocation],
   );
 
   const yAxis = useMemo(
@@ -99,8 +110,12 @@ export default function BubbleDodo({
       nameTextStyle: {
         fontWeight: 'bold',
       },
+      axisLabel: {
+        hideOverlap: true,
+        formatter: yAxisFormatter,
+      },
     }),
-    [yAxisName, yLogScale, yNameGap, yNameLocation],
+    [yAxisFormatter, yAxisName, yLogScale, yNameGap, yNameLocation],
   );
 
   const series = useMemo(

@@ -2,10 +2,14 @@ import { bootstrapData } from 'src/preamble';
 import {
   DataRecord,
   DataRecordValue,
+  extractTimegrain,
   getValueFormatter,
   Metric,
+  QueryFormData,
 } from '@superset-ui/core';
 import { BubbleDodoTransformProps, BubbleDodoComponentProps } from './types';
+import { Refs } from '../../types';
+import { getDateFormatter } from '../../utils/getDateFormatter';
 
 const locale = bootstrapData?.common?.locale || 'en';
 
@@ -78,6 +82,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     width,
     queriesData,
     datasource: { metrics },
+    rawFormData,
     formData: {
       series, // dimension on form
       entity, // entity on form
@@ -103,6 +108,10 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       labelLocation,
       labelFontSize,
       labelColor,
+      xForceTimestampFormatting,
+      yForceTimestampFormatting,
+      xTimeFormat,
+      yTimeFormat,
     },
   } = chartProps;
 
@@ -179,8 +188,35 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
   const marginTop = getIntPositive(marginTopInPixel);
   const xNameGap = getIntPositive(xNameGapInPixel);
   const yNameGap = getIntPositive(yNameGapInPixel);
-  const xAxisFormatter = getFormatter(xAxisFormat);
-  const yAxisFormatter = getFormatter(yAxisFormat);
+
+  let xMetricEntry: Metric | undefined;
+  let yMetricEntry: Metric | undefined;
+  if (chartProps.datasource?.metrics) {
+    xMetricEntry = chartProps.datasource.metrics.find(
+      metricItem => metricItem.metric_name === axisXInfo,
+    );
+    yMetricEntry = chartProps.datasource.metrics.find(
+      metricItem => metricItem.metric_name === axisYInfo,
+    );
+  }
+  const granularity = extractTimegrain(rawFormData as QueryFormData);
+  const xFormatTime = getDateFormatter(
+    xTimeFormat,
+    granularity,
+    xMetricEntry?.d3format,
+  );
+  const yFormatTime = getDateFormatter(
+    yTimeFormat,
+    granularity,
+    yMetricEntry?.d3format,
+  );
+
+  const xAxisFormatter = xForceTimestampFormatting
+    ? xFormatTime
+    : getFormatter(xAxisFormat);
+  const yAxisFormatter = yForceTimestampFormatting
+    ? yFormatTime
+    : getFormatter(yAxisFormat);
   const sizeFormatter = getFormatter(sizeFormat);
 
   const tooltipLabels: BubbleDodoComponentProps['tooltipLabels'] = {
@@ -188,6 +224,8 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     y: getTooltipLabel(axisYInfo, metrics, 'y'),
     size: getTooltipLabel(bubbleSizeInfo, metrics, 'size'),
   };
+
+  const refs: Refs = {};
 
   return {
     height,
@@ -213,5 +251,6 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     labelFontSize,
     labelColor: labelColorHEX,
     tooltipLabels,
+    refs,
   };
 }
