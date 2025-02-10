@@ -103,7 +103,7 @@ from superset.views.filters import (
     BaseFilterRelatedUsers,
     FilterRelatedOwners,
 )
-from superset.common.chart_data import ChartDataResultLanguage
+from superset.common.chart_data import ChartDataResultLanguage  # dodo added 44120742
 
 logger = logging.getLogger(__name__)
 
@@ -193,7 +193,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "created_by.id",
         "created_by.last_name",
         "dashboard_title",
-        "dashboard_title_RU",  # dodo added 44120746
+        "dashboard_title_RU",  # dodo added 44120742
         "owners.id",
         "owners.first_name",
         "owners.last_name",
@@ -401,12 +401,13 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
-        language = request.args.get('language')
+        language = request.args.get('language')  # dodo added 44120742
         try:
             datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
             result = [
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
+            # dodo added 44120742
             if language == ChartDataResultLanguage.RU:
                 for dataset in result:
                     verbose_map = dataset.get("verbose_map")
@@ -543,11 +544,12 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
-        language = request.args.get('language')
+        language = request.args.get('language')  # dodo added 44120742
         try:
             charts = DashboardDAO.get_charts_for_dashboard(id_or_slug)
             result = [self.chart_entity_response_schema.dump(chart) for chart in charts]
 
+            # dodo added 44120742
             if language == ChartDataResultLanguage.RU:
                 column_config_dict = {}
                 for chart in result:

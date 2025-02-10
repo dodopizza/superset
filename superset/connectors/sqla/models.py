@@ -834,8 +834,8 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
     expression = Column(utils.MediumText())
     python_date_format = Column(String(255))
     extra = Column(Text)
-    verbose_name_RU = Column(String(1024), nullable=True)
-    verbose_name_EN = Column(String(1024), nullable=True, default=None)
+    verbose_name_RU = Column(String(1024), nullable=True)  # dodo added 44120742
+    verbose_name_EN = Column(String(1024), nullable=True, default=None)  # dodo added 44120742
 
     table: Mapped[SqlaTable] = relationship(
         "SqlaTable",
@@ -1024,8 +1024,8 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
             "type_generic",
             "verbose_name",
             "warning_markdown",
-            "verbose_name_RU",
-            "verbose_name_EN",
+            "verbose_name_RU",  # dodo added 44120742
+            "verbose_name_EN",  # dodo added 44120742
         )
 
         return {s: getattr(self, s) for s in attrs if hasattr(self, s)}
@@ -1048,8 +1048,8 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
     table_id = Column(Integer, ForeignKey("tables.id", ondelete="CASCADE"))
     expression = Column(utils.MediumText(), nullable=False)
     extra = Column(Text)
-    verbose_name_RU = Column(String(1024), nullable=True)
-    verbose_name_EN = Column(String(1024), nullable=True, default=None)
+    verbose_name_RU = Column(String(1024), nullable=True)  # dodo added 44120742
+    verbose_name_EN = Column(String(1024), nullable=True, default=None)  # dodo added 44120742
 
     table: Mapped[SqlaTable] = relationship(
         "SqlaTable",
@@ -1125,8 +1125,8 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
             "warning_markdown",
             "warning_text",
             "verbose_name",
-            "verbose_name_RU",
-            "verbose_name_EN",
+            "verbose_name_RU",  # dodo added 44120742
+            "verbose_name_EN",  # dodo added 44120742
         )
 
         return {s: getattr(self, s) for s in attrs}

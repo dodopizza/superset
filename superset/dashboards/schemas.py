@@ -45,7 +45,7 @@ screenshot_query_schema = {
     },
 }
 dashboard_title_description = "A title for the dashboard."
-dashboard_title_ru_description = "A title RU for the dashboard."
+dashboard_title_ru_description = "A title RU for the dashboard."  # dodo added 44120742
 slug_description = "Unique identifying part for the web address of the dashboard."
 owners_description = (
     "Owner are users ids allowed to delete or change this dashboard. "
@@ -213,6 +213,7 @@ class DashboardGetResponseSchema(Schema):
     dashboard_title = fields.String(
         metadata={"description": dashboard_title_description}
     )
+    # dodo added 44120742
     dashboard_title_RU = fields.String(
         metadata={"description": dashboard_title_ru_description}
     )
@@ -387,6 +388,7 @@ class DashboardPutSchema(BaseDashboardSchema):
         allow_none=True,
         validate=Length(0, 500),
     )
+    # dodo added 44120742
     dashboard_title_RU = fields.String(
         metadata={"description": dashboard_title_ru_description},
         allow_none=True,

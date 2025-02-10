@@ -52,7 +52,7 @@ from superset.commands.explore.form_data.create import CreateFormDataCommand
 from superset.commands.explore.form_data.get import GetFormDataCommand
 from superset.commands.explore.form_data.parameters import CommandParameters
 from superset.commands.explore.permalink.get import GetExplorePermalinkCommand
-from superset.common.chart_data import (
+from superset.common.chart_data import (  # dodo changed 44120742
     ChartDataResultFormat,
     ChartDataResultType,
     ChartDataResultLanguage
@@ -283,7 +283,7 @@ class Superset(BaseSupersetView):
             if request.args.get(response_option) == "true":
                 response_type = response_option
                 break
-        language = request.args.get("language")
+        language = request.args.get("language")  # dodo added 44120742
 
         # Verify user has permission to export CSV file
         if (
@@ -342,8 +342,9 @@ class Superset(BaseSupersetView):
                 form_data=form_data,
                 force=force,
             )
-
+            # dodo added 44120742
             column_and_metric_names = dict()
+            # dodo added 44120742
             if language == ChartDataResultLanguage.RU:
                 for column in viz_obj.datasource.columns:
                     if column.verbose_name_RU:
