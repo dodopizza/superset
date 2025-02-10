@@ -44,3 +44,12 @@ class ChartDataResultType(StrEnum):
     TIMEGRAINS = "timegrains"
     POST_PROCESSED = "post_processed"
     DRILL_DETAIL = "drill_detail"
+
+  # dodo added 44120742
+class ChartDataResultLanguage(StrEnum):
+    """
+    Chart data response language
+    """
+
+    RU = "ru"
+    EN = "en"

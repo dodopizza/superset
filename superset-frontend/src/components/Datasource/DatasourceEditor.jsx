@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import rison from 'rison';
 import { PureComponent, useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -254,11 +237,32 @@ function ColumnCollectionTable({
             )}
             <Field
               fieldKey="verbose_name"
-              label={t('Label')}
+              // label={t('Label')}
+              // DODO changed 44120742
+              label={
+                <div className="f16">
+                  {t('Label (Eng)')} <i className="flag gb" />
+                </div>
+              }
               control={
                 <TextControl
                   controlId="verbose_name"
-                  placeholder={t('Label')}
+                  placeholder={t('Label (Eng)')} // DODO changed 44120742
+                />
+              }
+            />
+            {/* DODO added 44120742 */}
+            <Field
+              fieldKey="verbose_name_RU"
+              label={
+                <div className="f16">
+                  {t('Label (Rus)')} <i className="flag ru" />
+                </div>
+              }
+              control={
+                <TextControl
+                  controlId="verbose_name_RU"
+                  placeholder={t('Label (Rus)')}
                 />
               }
             />
@@ -664,13 +668,28 @@ class DatasourceEditor extends PureComponent {
   onDatasourcePropChange(attr, value) {
     if (value === undefined) return; // if value is undefined do not update state
     const datasource = { ...this.state.datasource, [attr]: value };
+    // DODO added 44120742
+    const alteredDatasource = {
+      ...datasource,
+      metrics: datasource.metrics.map(v => ({
+        ...v,
+        verbose_name_EN: v.verbose_name || null,
+      })),
+    };
     this.setState(
       prevState => ({
         datasource: { ...prevState.datasource, [attr]: value },
       }),
       attr === 'table_name'
-        ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
-        : this.onDatasourceChange(datasource, this.validateAndChange),
+        ? // ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
+          // : this.onDatasourceChange(datasource, this.validateAndChange),
+          // DODO changed start 44120742
+          this.onDatasourceChange(
+            alteredDatasource,
+            this.tableChangeAndSyncMetadata,
+          )
+        : this.onDatasourceChange(alteredDatasource, this.validateAndChange),
+      // DODO changed stop 44120742
     );
   }
 
@@ -680,7 +699,32 @@ class DatasourceEditor extends PureComponent {
 
   setColumns(obj) {
     // update calculatedColumns or databaseColumns
-    this.setState(obj, this.validateAndChange);
+    // this.setState(obj, this.validateAndChange);
+    let alteredObj = {
+      ...obj,
+    };
+    if (alteredObj && alteredObj.databaseColumns) {
+      alteredObj = {
+        ...alteredObj,
+        databaseColumns: alteredObj.databaseColumns.map(c => ({
+          ...c,
+          verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
+        })),
+      };
+    }
+    if (alteredObj && alteredObj.calculatedColumns) {
+      alteredObj = {
+        ...alteredObj,
+        calculatedColumns: alteredObj.calculatedColumns.map(c => ({
+          ...c,
+          verbose_name_EN: c.verbose_name || null,
+          description_EN: c.description || null,
+        })),
+      };
+    }
+
+    this.setState(alteredObj, this.validateAndChange);
   }
 
   validateAndChange() {
@@ -1244,11 +1288,22 @@ class DatasourceEditor extends PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
-        tableColumns={['metric_name', 'verbose_name', 'expression']}
-        sortColumns={['metric_name', 'verbose_name', 'expression']}
+        tableColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_RU', // DODO added 44120742
+          'expression',
+        ]}
+        sortColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_RU', // DODO added 44120742
+          'expression',
+        ]}
         columnLabels={{
-          metric_name: t('Metric Key'),
-          verbose_name: t('Label'),
+          metric_name: t('Metric'),
+          verbose_name: t('Label (Eng)'), // DODO changed 44120742
+          verbose_name_RU: t('Label (Rus)'), // DODO added 44120742
           expression: t('SQL expression'),
         }}
         columnLabelTooltips={{
@@ -1338,6 +1393,7 @@ class DatasourceEditor extends PureComponent {
         itemGenerator={() => ({
           metric_name: t('<new metric>'),
           verbose_name: '',
+          verbose_name_RU: '', // DODO added 44120742
           expression: '',
         })}
         itemCellProps={{
@@ -1363,6 +1419,10 @@ class DatasourceEditor extends PureComponent {
             </FlexRowContainer>
           ),
           verbose_name: (v, onChange) => (
+            <TextControl canEdit value={v} onChange={onChange} />
+          ),
+          // DODO added 44120742
+          verbose_name_RU: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           expression: (v, onChange) => (
