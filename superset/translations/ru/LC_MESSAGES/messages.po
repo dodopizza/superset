@@ -3264,6 +3264,9 @@ msgstr "Создать датасет"
 msgid "Create dataset and create chart"
 msgstr "Создать датасет и диаграмму"
 
+msgid "Create filter set"
+msgstr "Создать набор фильтров"
+
 msgid "Create new chart"
 msgstr "Создать диаграмму"
 
@@ -5263,6 +5266,15 @@ msgstr ""
 
 msgid "Filter results"
 msgstr "Фильтровать результаты"
+
+msgid "Filter set already exists"
+msgstr "Набор фильтров уже существует"
+
+msgid "Filter set with this name already exists"
+msgstr "Набор фильтров с этим именем уже существует"
+
+msgid "Filter sets (%(filterSetCount)d)"
+msgstr "Сохраненные (%(filterSetCount)d)"
 
 msgid "Filter type"
 msgstr "Тип фильтра"
@@ -9608,6 +9620,9 @@ msgstr "Серверная пагинация"
 msgid "Service Account"
 msgstr "Сервисный аккаунт"
 
+msgid "Set as primary"
+msgstr "Установить основным"
+
 msgid "Set auto-refresh interval"
 msgstr "Задать интервал обновления"
 
@@ -11130,6 +11145,9 @@ msgstr "Неверный порт"
 
 msgid "The primary metric is used to define the arc segment sizes"
 msgstr "Основная мера используется для определения размера сегмента"
+
+msgid "The primary set of filters will be applied automatically"
+msgstr "Основной набор фильтров будет применяться автоматически"
 
 msgid "The provided table was not found in the provided database"
 msgstr "Таблица не найдена в базе данных"
