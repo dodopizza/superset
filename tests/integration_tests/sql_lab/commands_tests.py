@@ -23,7 +23,7 @@ from flask_babel import gettext as __
 
 from superset import app, db, sql_lab
 from superset.commands.sql_lab import estimate, export, results
-from superset.common.chart_data import ChartDataResultFormat
+from superset.common.chart_data import ChartDataResultFormat    # dodo added 44136746
 from superset.common.db_query_status import QueryStatus
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import (
@@ -140,6 +140,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
             db.session.delete(query_obj)
             db.session.commit()
 
+    # dodo added 44136746
     @pytest.mark.usefixtures("create_database_and_query")
     def test_validation_query_not_found(self) -> None:
         command = export.SqlResultExportCommand("asdf", ChartDataResultFormat.CSV)
@@ -150,7 +151,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
 
     @pytest.mark.usefixtures("create_database_and_query")
     def test_validation_invalid_access(self) -> None:
-        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)
+        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)    # dodo added 44136746
 
         with mock.patch(
             "superset.security_manager.raise_for_access",
@@ -173,7 +174,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
     @patch("superset.models.sql_lab.Query.raise_for_access", lambda _: None)
     @patch("superset.models.core.Database.get_df")
     def test_run_no_results_backend_select_sql(self, get_df_mock: Mock) -> None:
-        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)
+        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)    # dodo added 44136746
 
         get_df_mock.return_value = pd.DataFrame({"foo": [1, 2, 3]})
         result = command.run()
@@ -191,7 +192,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
         query_obj.select_sql = None
         db.session.commit()
 
-        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)
+        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)    # dodo added 44136746
 
         get_df_mock.return_value = pd.DataFrame({"foo": [1, 2, 3]})
         result = command.run()
@@ -212,7 +213,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
         query_obj.limiting_factor = LimitingFactor.DROPDOWN
         db.session.commit()
 
-        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)
+        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)    # dodo added 44136746
 
         get_df_mock.return_value = pd.DataFrame({"foo": [1, 2, 3]})
 
@@ -226,7 +227,7 @@ class TestSqlResultExportCommand(SupersetTestCase):
     @patch("superset.models.sql_lab.Query.raise_for_access", lambda _: None)
     @patch("superset.commands.sql_lab.export.results_backend_use_msgpack", False)
     def test_run_with_results_backend(self) -> None:
-        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)
+        command = export.SqlResultExportCommand("test", ChartDataResultFormat.CSV)    # dodo added 44136746
 
         data = [{"foo": i} for i in range(5)]
         payload = {
