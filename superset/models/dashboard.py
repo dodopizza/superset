@@ -44,7 +44,7 @@ from sqlalchemy.sql.elements import BinaryExpression
 from superset import app, db, is_feature_enabled, security_manager
 from superset.connectors.sqla.models import BaseDatasource, SqlaTable
 from superset.daos.datasource import DatasourceDAO
-from superset.models.filter_set import FilterSet
+from superset.models.filter_set import FilterSet  # dodo added 44211751
 from superset.models.helpers import AuditMixinNullable, ImportExportMixin
 from superset.models.slice import Slice
 from superset.models.user_attributes import UserAttribute
@@ -52,7 +52,7 @@ from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.thumbnails.digest import get_dashboard_digest
 from superset.utils import core as utils, json
-from superset.utils.core import get_user_id
+from superset.utils.core import get_user_id  # dodo added 44211751
 
 metadata = Model.metadata  # pylint: disable=no-member
 config = app.config
@@ -168,6 +168,7 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
         back_populates="dashboard",
         cascade="all, delete-orphan",
     )
+    # dodo added 44211751
     _filter_sets = relationship(
         "FilterSet", back_populates="dashboard", cascade="all, delete"
     )
@@ -214,10 +215,12 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
             .all()
         }
 
+    # dodo added 44211751
     @property
     def filter_sets(self) -> dict[int, FilterSet]:
         return {fs.id: fs for fs in self._filter_sets}
 
+    # dodo added 44211751
     @property
     def filter_sets_lst(self) -> dict[int, FilterSet]:
         if security_manager.is_admin():
