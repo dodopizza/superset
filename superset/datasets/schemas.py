@@ -63,7 +63,7 @@ class DatasetColumnsPutSchema(Schema):
     )
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     description = fields.String(allow_none=True)
-    # описание данных в туллтипе
+    # dodo added 44728914
     description_RU = fields.String(allow_none=True)
     description_EN = fields.String(allow_none=True)
     expression = fields.String(allow_none=True)
@@ -82,7 +82,7 @@ class DatasetMetricsPutSchema(Schema):
     id = fields.Integer()
     expression = fields.String(required=True)
     description = fields.String(allow_none=True)
-    # описание данных в туллтипе
+    # dodo added 44728914
     description_RU = fields.String(allow_none=True)
     description_EN = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)

@@ -835,7 +835,7 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
     python_date_format = Column(String(255))
     extra = Column(Text)
 
-    # описание данных в туллтипе
+    # dodo added 44728914
     description_EN = Column(utils.MediumText(), nullable=True)
     description_RU = Column(utils.MediumText(), nullable=True)
 
@@ -1015,8 +1015,8 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
             "certified_by",
             "column_name",
             "description",
-            "description_EN",  # описание данных в туллтипе
-            "description_RU",  # описание данных в туллтипе
+            "description_EN",  # dodo added 44728914
+            "description_RU",  # dodo added 44728914
             "expression",
             "filterable",
             "groupby",
@@ -1051,7 +1051,7 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
     expression = Column(utils.MediumText(), nullable=False)
     extra = Column(Text)
 
-    # описание данных в туллтипе
+    # dodo added 44728914
     description_EN = Column(utils.MediumText(), nullable=True)
     description_RU = Column(utils.MediumText(), nullable=True)
 
@@ -1122,8 +1122,8 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
             "currency",
             "d3format",
             "description",
-            "description_EN",  # описание данных в туллтипе
-            "description_RU",  # описание данных в туллтипе
+            "description_EN",  # dodo added 44728914
+            "description_RU",  # dodo added 44728914
             "expression",
             "id",
             "is_certified",
