@@ -16,6 +16,7 @@
 # under the License.
 import contextlib
 import logging
+import datetime
 from collections import defaultdict
 from functools import wraps
 from typing import Any, Callable, DefaultDict, Optional, Union
@@ -26,7 +27,7 @@ from flask import flash, g, has_request_context, redirect, request
 from flask_appbuilder.security.sqla import models as ab_models
 from flask_appbuilder.security.sqla.models import User
 from flask_babel import _
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from werkzeug.wrappers.response import Response
 
 from superset import app, dataframe, db, result_set, viz
@@ -43,11 +44,14 @@ from superset.extensions import cache_manager, feature_flag_manager, security_ma
 from superset.legacy import update_time_range
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
+from superset.models.user_info import UserInfo
+from superset.models.team import Team
+from superset.models.statement import Statement
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
 from superset.superset_typing import FormData
 from superset.utils import json
-from superset.utils.core import DatasourceType
+from superset.utils.core import DatasourceType, get_user_id
 from superset.utils.decorators import stats_timing
 from superset.viz import BaseViz
 
@@ -66,6 +70,146 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
             datasource_database["parameters"] = {}
 
     return datasource_data
+
+
+def get_team_by_user_id() -> Team:  # получаем команду пользователя по его id
+    user_id = get_user_id()
+    try:
+        user = (
+            db.session.query(security_manager.user_model).filter(
+                security_manager.user_model.id == user_id
+            ).one_or_none()
+        )
+
+        return user.teams[0]
+    except Exception:
+        return None
+
+
+def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO changed #33835937
+    try:
+        user_id = get_user_id()
+        if not user_id:
+            raise Exception
+        model = UserInfo()
+        setattr(model, 'user_id', user_id)
+        setattr(model, 'dodo_role', dodo_role)
+        setattr(model, 'onboardingStartedTime', started_time)
+        try:
+            db.session.add(model)
+            db.session.commit()
+        except SQLAlchemyError as ex:
+            db.session.rollback()
+        return True
+    except Exception as e:
+        logger.warning(e)
+
+
+def get_statements_by_user_id() -> list[Statement]:  # получаем все заявки пользователя по его id
+    user_id = get_user_id()
+    try:
+        user = (
+            db.session.query(security_manager.user_model).filter(
+                security_manager.user_model.id == user_id
+            ).one_or_none()
+        )
+        return user.statements
+    except Exception:
+        return []
+
+
+def get_country_by_user_id() -> list[UserInfo]:  # получаем странну пользователя по его id
+    user_id = get_user_id()
+    try:
+        user = (
+            db.session.query(security_manager.user_model).filter(
+                security_manager.user_model.id == user_id
+            ).one_or_none()
+        )
+        return user.user_info
+    except Exception or AttributeError:
+        return []
+
+
+def finish_onboarding():   # записываем в бд, что пользователь прошел onboarding
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        setattr(user_info, 'isOnboardingFinished', True)
+        db.session.merge(user_info)
+        db.session.commit()
+        return {
+            "isOnboardingFinished": True,
+        }
+    except Exception:
+        db.session.rollback()
+        return {
+            "isOnboardingFinished": False,
+        }
+
+
+def get_onboarding() -> dict:  # получаем информацию по onboarding из бд
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        return user_info.__dict__
+    except Exception:
+        logger.warning(f"User id = {user_id} dont have onboarding info in database")
+        return {
+            "onboardingStartedTime": None,
+            "isOnboardingFinished": False
+        }
+
+
+def create_userinfo(lang: str):   # DODO changed #33835937
+    try:
+        user_id = get_user_id()
+        if not user_id:
+            raise Exception
+        model = UserInfo()
+        setattr(model, 'language', lang)
+        setattr(model, 'user_id', user_id)
+        try:
+            db.session.add(model)
+            db.session.commit()
+        except SQLAlchemyError as ex:
+            db.session.rollback()
+        return True
+    except Exception as e:
+        logger.warning(e)
+
+
+def update_language(lang: str):  # DODO changed #33835937
+    try:
+        user_id = get_user_id()
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.language = lang
+        db.session.commit()
+    except AttributeError:
+        create_userinfo(lang)
+
+
+def update_onboarding(dodo_role, started_time):  # обновляем данные по onboarding
+    user_id = get_user_id()
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+        user_info.dodo_role = dodo_role
+        user_info.onboardingStartedTime = started_time
+        db.session.commit()
+        return {
+            "dodo_role": dodo_role,
+            "onboardingStartedTime": started_time
+        }
+    except AttributeError:
+        create_onboarding(dodo_role, started_time)
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:

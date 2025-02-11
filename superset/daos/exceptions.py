@@ -23,6 +23,20 @@ class DAOException(SupersetException):
     """
 
 
+class DAOCreateFailedError(DAOException):
+    """
+    DAO Create failed
+    """
+
+    message = "Create failed"
+
+
+class DAOException(SupersetException):
+    """
+    Base DAO exception class
+    """
+
+
 class DatasourceTypeNotSupportedError(DAOException):
     """
     DAO datasource query source type is not supported
