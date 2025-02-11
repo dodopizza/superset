@@ -17,6 +17,8 @@ import setupFormatters from './setup/setupFormatters';
 import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
+// import { FirebaseService } from './firebase/firebaseService';
+// import { firebaseConfig } from './firebase/firebaseConfig';
 
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
@@ -53,6 +55,9 @@ if (typeof window !== 'undefined') {
       locale: bootstrapData?.common?.locale || 'ru',
     },
   };
+
+  // FirebaseService.init(firebaseConfig);
+
   // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
   if (bootstrapData.common && bootstrapData.common.language_pack) {
     const languagePack = bootstrapData.common.language_pack;
