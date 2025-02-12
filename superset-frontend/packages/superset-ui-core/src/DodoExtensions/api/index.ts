@@ -132,7 +132,7 @@ class ApiHandler {
     }
   }
 
-  async sendRequest(
+  private async sendRequest(
     originUrl: string,
     url: AxiosRequestConfig['url'],
     method: AxiosRequestConfig['method'],
@@ -242,24 +242,6 @@ class ApiHandler {
     );
 
     return { result: [initialResponse] };
-  }
-
-  async postForm(url: string, payload: Record<string, any>) {
-    if (url) {
-      const { Authorization } = this.auth;
-      const { ORIGIN_URL } = this.config;
-
-      const response = await this.sendRequest(
-        ORIGIN_URL,
-        url,
-        'post',
-        payload,
-        new AxiosHeaders({
-          'Content-Type': 'application/json',
-          Authorization,
-        }),
-      );
-    }
   }
 }
 
