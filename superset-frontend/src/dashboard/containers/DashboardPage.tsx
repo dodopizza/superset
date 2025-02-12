@@ -1,22 +1,13 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { createContext, lazy, FC, useEffect, useMemo, useRef } from 'react';
+// DODO was here
+import {
+  createContext,
+  lazy,
+  FC,
+  useEffect,
+  useMemo,
+  useRef,
+  Suspense, // DODO added 44611022
+} from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
 import { t, useTheme } from '@superset-ui/core';
@@ -28,6 +19,12 @@ import {
   useDashboardCharts,
   useDashboardDatasets,
 } from 'src/hooks/apiResources';
+import {
+  useDashboard as useDashboardPlugin,
+  useDashboardCharts as useDashboardChartsPlugin,
+  useDashboardDatasets as useDashboardDatasetsPlugin,
+} from 'src/Superstructure/hooks/apiResources';
+// } from 'src/hooks/apiResources';
 import { hydrateDashboard } from 'src/dashboard/actions/hydrate';
 import { setDatasources } from 'src/dashboard/actions/datasources';
 import injectCustomCss from 'src/dashboard/util/injectCustomCss';
@@ -54,6 +51,8 @@ import {
 import SyncDashboardState, {
   getDashboardContextLocalStorage,
 } from '../components/SyncDashboardState';
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 export const DashboardPageIdContext = createContext('');
 
@@ -82,15 +81,19 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       dashboardInfo && Object.keys(dashboardInfo).length > 0,
   );
   const { addDangerToast } = useToasts();
-  const { result: dashboard, error: dashboardApiError } =
-    useDashboard(idOrSlug);
-  const { result: charts, error: chartsApiError } =
-    useDashboardCharts(idOrSlug);
+  const { result: dashboard, error: dashboardApiError } = (
+    isStandalone ? useDashboard : useDashboardPlugin
+  )(idOrSlug);
+  const { result: charts, error: chartsApiError } = (
+    isStandalone ? useDashboardCharts : useDashboardChartsPlugin
+  )(idOrSlug);
   const {
     result: datasets,
     error: datasetsApiError,
     status,
-  } = useDashboardDatasets(idOrSlug);
+  } = (isStandalone ? useDashboardDatasets : useDashboardDatasetsPlugin)(
+    idOrSlug,
+  );
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;
@@ -195,7 +198,8 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   if (!readyToRender || !hasDashboardInfoInitiated) return <Loading />;
 
   return (
-    <>
+    // DODO changed 44611022
+    <Suspense fallback={<Loading />}>
       <Global
         styles={[
           filterCardPopoverStyle(theme),
@@ -211,7 +215,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
           <DashboardBuilder />
         </DashboardContainer>
       </DashboardPageIdContext.Provider>
-    </>
+    </Suspense>
   );
 };
 
