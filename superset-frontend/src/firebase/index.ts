@@ -11,11 +11,12 @@ import { UAParser } from 'ua-parser-js';
 import { APP_VERSION } from '../constants';
 
 interface IGenericData {
+  deviceType: string;
+  platform: string;
+  app_version: string;
+  deployment_mode: 'standalone' | 'plugin';
   currency?: string;
-  deviceType?: string;
-  platform?: string;
   location?: string;
-  app_version?: string;
 }
 
 interface IFirebaseConfig {
@@ -36,6 +37,8 @@ interface IFirebaseService {
   logError: (errorDetails: object) => void; // New method for error logging
 }
 
+const isStandalone = process.env.type === undefined;
+
 export const FirebaseService: IFirebaseService = (() => {
   let analytics: Analytics;
   let firestore: any; // Firestore instance
@@ -44,17 +47,12 @@ export const FirebaseService: IFirebaseService = (() => {
   const device = uaParser.getDevice();
   const os = uaParser.getOS();
 
-  let genericData: IGenericData = !device.type
-    ? {
-        platform: 'desktop',
-        deviceType: '',
-        app_version: APP_VERSION,
-      }
-    : {
-        platform: os.name?.toLowerCase(),
-        deviceType: `${device.vendor} ${device.model}`,
-        app_version: APP_VERSION,
-      };
+  let genericData: IGenericData = {
+    platform: !device.type ? 'desktop' : os.name?.toLowerCase(),
+    deviceType: !device.type ? '' : `${device.vendor} ${device.model}`,
+    app_version: APP_VERSION,
+    deployment_mode: isStandalone ? 'standalone' : 'plugin',
+  };
 
   const locationData = window
     ? {
@@ -62,7 +60,7 @@ export const FirebaseService: IFirebaseService = (() => {
         pathname: window.location.pathname,
         search: window.location.search || '',
       }
-    : null;
+    : {};
 
   return {
     init: (config: IFirebaseConfig) => {
@@ -73,7 +71,7 @@ export const FirebaseService: IFirebaseService = (() => {
     logEvent: (eventName: string, params: object) => {
       logEvent(analytics, eventName, params);
     },
-    updateGenericData: (data: IGenericData = {}) => {
+    updateGenericData: (data: Partial<IGenericData> = {}) => {
       genericData = { ...genericData, ...data };
     },
     get genericData() {
@@ -93,7 +91,7 @@ export const FirebaseService: IFirebaseService = (() => {
         .then(() => {
           console.log('Error logged successfully:', errorDetails);
         })
-        .catch(err => {
+        .catch((err: any) => {
           console.error('Failed to log error:', err);
         });
     },
