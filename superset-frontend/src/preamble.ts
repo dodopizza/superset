@@ -17,8 +17,8 @@ import setupFormatters from './setup/setupFormatters';
 import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
-// import { FirebaseService } from './firebase/firebaseService';
-// import { firebaseConfig } from './firebase/firebaseConfig';
+import { FirebaseService } from './firebase';
+import { firebaseConfig } from './firebase/constants';
 
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
@@ -47,6 +47,9 @@ if (typeof window !== 'undefined') {
     ? JSON.parse(root.getAttribute('data-bootstrap') || '{}')
     : {};
 
+  // Setup Firebase
+  FirebaseService.init(firebaseConfig);
+
   // DODO changed
   bootstrapData = {
     ...dataBootstrap,
@@ -55,8 +58,6 @@ if (typeof window !== 'undefined') {
       locale: bootstrapData?.common?.locale || 'ru',
     },
   };
-
-  // FirebaseService.init(firebaseConfig);
 
   // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
   if (bootstrapData.common && bootstrapData.common.language_pack) {
@@ -141,7 +142,8 @@ if (bootstrapData.user?.isActive) {
     // we only care about the tab becoming visible, not vice versa
     if (document.visibilityState !== 'visible') return;
 
-    getMe().catch(() => {
+    getMe().catch(e => {
+      FirebaseService.logError(e);
       // ignore error, SupersetClient will redirect to login on a 401
     });
   });

@@ -44,7 +44,6 @@ import CertifiedBadge from 'src/components/CertifiedBadge';
 import { loadTags } from 'src/components/Tags/utils';
 import DashboardCard from 'src/features/dashboards/DashboardCard';
 import { DashboardStatus } from 'src/features/dashboards/types';
-import { logAnalyticsEvent } from 'src/firebase';
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -649,10 +648,6 @@ function DashboardList(props: DashboardListProps) {
       value: 'least_recently_modified',
     },
   ];
-
-  useEffect(() => {
-    logAnalyticsEvent('temp_dashboard_list', {});
-  }, []);
 
   const renderCard = useCallback(
     (dashboard: Dashboard) => (

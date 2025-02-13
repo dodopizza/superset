@@ -1,54 +1,101 @@
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import type { Analytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  Timestamp,
+} from 'firebase/firestore';
 import { UAParser } from 'ua-parser-js';
-import { firebaseConfig } from './constants';
+import { APP_VERSION } from '../constants';
 
-export interface IGenericData {
+interface IGenericData {
   currency?: string;
   deviceType?: string;
   platform?: string;
   location?: string;
+  app_version?: string;
 }
 
-const app = initializeApp(firebaseConfig);
-
-// Declare the analytics variable with the correct type
-let analytics: Analytics | null = null;
-
-// Check if we are in a browser environment before initializing analytics
-if (typeof window !== 'undefined') {
-  // Initialize Firebase Analytics only on the client side
-  analytics = getAnalytics(app);
+interface IFirebaseConfig {
+  apiKey: string | undefined;
+  authDomain: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+  appId: string;
+  measurementId: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const logAnalyticsEvent = (
-  eventName: string,
-  params?: Record<string, any>,
-) => {
-  const APP_VERSION = '1.0.1';
+interface IFirebaseService {
+  init: (config: IFirebaseConfig) => void;
+  logEvent: (eventName: string, params?: object) => void;
+  updateGenericData: (genericData?: IGenericData) => void;
+  genericData: IGenericData;
+  logError: (errorDetails: object) => void; // New method for error logging
+}
+
+export const FirebaseService: IFirebaseService = (() => {
+  let analytics: Analytics;
+  let firestore: any; // Firestore instance
+
   const uaParser = new UAParser();
   const device = uaParser.getDevice();
   const os = uaParser.getOS();
-  const genericData: IGenericData = !device.type
+
+  let genericData: IGenericData = !device.type
     ? {
         platform: 'desktop',
         deviceType: '',
+        app_version: APP_VERSION,
       }
     : {
         platform: os.name?.toLowerCase(),
         deviceType: `${device.vendor} ${device.model}`,
+        app_version: APP_VERSION,
       };
 
-  const fullParams = { ...params, ...genericData, app_version: APP_VERSION };
+  const locationData = window
+    ? {
+        origin: window.location.origin,
+        pathname: window.location.pathname,
+        search: window.location.search || '',
+      }
+    : null;
 
-  if (analytics) {
-    logEvent(analytics, eventName, fullParams);
-  } else {
-    console.warn(
-      'Analytics is not initialized (likely running on the server).',
-    );
-  }
-  console.warn('Finished Logging event');
-};
+  return {
+    init: (config: IFirebaseConfig) => {
+      const app = initializeApp(config);
+      analytics = getAnalytics(app);
+      firestore = getFirestore(app); // Initialize Firestore
+    },
+    logEvent: (eventName: string, params: object) => {
+      logEvent(analytics, eventName, params);
+    },
+    updateGenericData: (data: IGenericData = {}) => {
+      genericData = { ...genericData, ...data };
+    },
+    get genericData() {
+      return genericData;
+    },
+    logError: (errorDetails: object) => {
+      const errorLog = {
+        ...errorDetails,
+        timestamp: Timestamp.now(), // Add a Firestore timestamp
+        userAgent: navigator.userAgent, // Add user agent for context
+        ...genericData, // Include generic data like device type, platform, etc.
+        ...locationData,
+      };
+
+      // Write the error log to Firestore
+      addDoc(collection(firestore, 'frontend-errors'), errorLog)
+        .then(() => {
+          console.log('Error logged successfully:', errorDetails);
+        })
+        .catch(err => {
+          console.error('Failed to log error:', err);
+        });
+    },
+  };
+})();
