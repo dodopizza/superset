@@ -1,25 +1,9 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React from 'react';
 import PropTypes from 'prop-types';
 import { t } from '@superset-ui/core';
 import ErrorMessageWithStackTrace from 'src/components/ErrorMessage/ErrorMessageWithStackTrace';
+import { FirebaseService } from 'src/firebase'; // Import FirebaseService
 
 const propTypes = {
   children: PropTypes.node.isRequired,
@@ -39,6 +23,20 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     if (this.props.onError) this.props.onError(error, info);
+
+    const erroredFile = this.props?.children?._source ? this.props?.children?._source?.fileName : null;
+
+    // Log the error to Firestore
+    const errorDetails = {
+      message: error.message || 'No message available',
+      stack: error.stack || 'No stack trace available',
+      componentStack: info.componentStack || 'No component stack available',
+      erroredFile: erroredFile || 'Errored File is unknown'
+    };
+
+    FirebaseService.logError(errorDetails); // Log the error to Firestore
+
+    // Update the state with the error and info for rendering
     this.setState({ error, info });
   }
 
