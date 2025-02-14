@@ -17,7 +17,7 @@
 """replay 317970b4400c
 
 Revision ID: b7851ee5522f
-Revises: 864745c0a17d
+Revises: 24505e69a987
 Create Date: 2023-12-01 12:03:27.538945
 
 """

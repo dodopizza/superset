@@ -9,7 +9,7 @@ Create Date: 2025-01-27 17:25:12.629299
 revision = "24505e69a987"
 down_revision = "864745c0a17d"
 
-from alembic import op
+from alembic import op  # noqa: E402
 
 
 def upgrade():
