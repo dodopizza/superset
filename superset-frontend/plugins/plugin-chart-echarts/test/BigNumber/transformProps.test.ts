@@ -1,26 +1,14 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   DatasourceType,
   supersetTheme,
   TimeGranularity,
 } from '@superset-ui/core';
+// DODO added 45525377
+import {
+  AlignmentValue,
+  ValueToShowEnum,
+} from 'plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/types';
 import transformProps from '../../src/BigNumber/BigNumberWithTrendline/transformProps';
 import {
   BigNumberDatum,
@@ -43,6 +31,12 @@ const formData = {
   viz_type: 'big_number',
   yAxisFormat: '.3s',
   datasource: 'test_datasource',
+  // DODO added start 45525377
+  conditionalFormattingMessage: [],
+  conditionalMessageFontSize: 10,
+  alignment: AlignmentValue.LEFT,
+  valueToShow: ValueToShowEnum.AVERAGE,
+  // DODO added stop 45525377
 };
 
 const rawFormData: BigNumberWithTrendlineFormData = {
@@ -61,6 +55,12 @@ const rawFormData: BigNumberWithTrendlineFormData = {
   compare_suffix: 'over last quarter',
   viz_type: 'big_number',
   y_axis_format: '.3s',
+  // DODO added start 45525377
+  conditionalFormattingMessage: [],
+  conditionalMessageFontSize: 10,
+  alignment: AlignmentValue.LEFT,
+  valueToShow: ValueToShowEnum.AVERAGE,
+  // DODO added stop 45525377
 };
 
 function generateProps(
