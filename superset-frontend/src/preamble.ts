@@ -48,7 +48,7 @@ if (typeof window !== 'undefined') {
     : {};
 
   // Setup Firebase
-  FirebaseService.init(firebaseConfig);
+  if (firebaseConfig) FirebaseService.init(firebaseConfig);
 
   // DODO changed
   bootstrapData = {

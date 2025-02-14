@@ -9,24 +9,15 @@ import {
 } from 'firebase/firestore';
 import { UAParser } from 'ua-parser-js';
 import { APP_VERSION } from '../constants';
+import { IFirebaseConfig } from './constants';
 
 interface IGenericData {
-  deviceType: string;
-  platform: string;
   app_version: string;
   deployment_mode: 'standalone' | 'plugin';
-  currency?: string;
-  location?: string;
-}
-
-interface IFirebaseConfig {
-  apiKey: string | undefined;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-  measurementId: string;
+  deviceType: string;
+  platform: string;
+  timestamp: Timestamp;
+  userAgent: string;
 }
 
 interface IFirebaseService {
@@ -48,10 +39,12 @@ export const FirebaseService: IFirebaseService = (() => {
   const os = uaParser.getOS();
 
   let genericData: IGenericData = {
-    platform: !device.type ? 'desktop' : os.name?.toLowerCase(),
-    deviceType: !device.type ? '' : `${device.vendor} ${device.model}`,
     app_version: APP_VERSION,
     deployment_mode: isStandalone ? 'standalone' : 'plugin',
+    deviceType: !device.type ? '' : `${device.vendor} ${device.model}`,
+    platform: !device.type ? 'desktop' : (os.name ?? '').toLowerCase(),
+    timestamp: Timestamp.now(), // Add a Firestore timestamp
+    userAgent: navigator.userAgent, // Add user agent for context
   };
 
   const locationData = window
@@ -80,8 +73,6 @@ export const FirebaseService: IFirebaseService = (() => {
     logError: (errorDetails: object) => {
       const errorLog = {
         ...errorDetails,
-        timestamp: Timestamp.now(), // Add a Firestore timestamp
-        userAgent: navigator.userAgent, // Add user agent for context
         ...genericData, // Include generic data like device type, platform, etc.
         ...locationData,
       };

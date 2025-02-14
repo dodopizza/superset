@@ -6,7 +6,7 @@ import {
   SupersetClient,
   t,
 } from '@superset-ui/core';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import rison from 'rison';
 import {
