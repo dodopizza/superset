@@ -1,5 +1,5 @@
 // DODO was here
-import { ChartDataResponseResult, t } from '@superset-ui/core'; // DODO changed 44136746
+import { t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   ControlPanelsContainerProps,
@@ -12,6 +12,7 @@ import {
 
 import { EchartsTimeseriesSeriesType } from '../../types';
 import {
+  CONTROL_PANEL_COLUMN_CONFIG, // DODO added 44136746
   DEFAULT_FORM_DATA,
   TIME_SERIES_DESCRIPTION_TEXT,
 } from '../../constants';
@@ -39,14 +40,6 @@ const {
   yAxisBounds,
   zoomable,
 } = DEFAULT_FORM_DATA;
-
-// DODO added
-const columnConfig = {
-  '0': [['exportAsTime']],
-  '1': [],
-  '2': [],
-  '3': [],
-};
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -238,45 +231,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added 44136746
-        [
-          {
-            name: 'column_config',
-            config: {
-              type: 'ColumnConfigControl',
-              label: t('Customize Metrics'),
-              width: 400,
-              height: 100,
-              renderTrigger: true,
-              configFormLayout: columnConfig,
-              shouldMapStateToProps() {
-                return true;
-              },
-              mapStateToProps(explore, _, chart) {
-                // Showing metrics instead of columns
-                const colnames = [
-                  ...(chart?.latestQueryFormData?.metrics ?? []),
-                ].map(metric =>
-                  typeof metric === 'string' ? metric : metric?.label,
-                );
-                const coltypes = Array.from(
-                  { length: colnames.length },
-                  () => 0,
-                );
-                const newQueriesResponse = {
-                  ...(chart?.queriesResponse?.[0] ?? {}),
-                  colnames,
-                  coltypes,
-                };
-                return {
-                  queryResponse: newQueriesResponse as
-                    | ChartDataResponseResult
-                    | undefined,
-                };
-              },
-            },
-          },
-        ],
+        [CONTROL_PANEL_COLUMN_CONFIG], // DODO added 44136746
       ],
     },
   ],
