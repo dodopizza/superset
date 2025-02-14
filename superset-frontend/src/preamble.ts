@@ -17,8 +17,8 @@ import setupFormatters from './setup/setupFormatters';
 import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
+import setupFirebase from './firebase/setupFirebase';
 import { FirebaseService } from './firebase';
-import { firebaseConfig } from './firebase/constants';
 
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
@@ -46,9 +46,6 @@ if (typeof window !== 'undefined') {
   const dataBootstrap = root
     ? JSON.parse(root.getAttribute('data-bootstrap') || '{}')
     : {};
-
-  // Setup Firebase
-  if (firebaseConfig) FirebaseService.init(firebaseConfig);
 
   // DODO changed
   bootstrapData = {
@@ -91,6 +88,9 @@ setupColors(
 setupFormatters(bootstrapData?.common?.d3_format);
 
 setupDashboardComponents();
+
+// Setup Firebase
+setupFirebase();
 
 // DODO added
 const dodoTheme = {

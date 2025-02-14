@@ -1,5 +1,6 @@
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import type { Analytics } from 'firebase/analytics';
+import type { Firestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
@@ -32,7 +33,7 @@ const isStandalone = process.env.type === undefined;
 
 export const FirebaseService: IFirebaseService = (() => {
   let analytics: Analytics;
-  let firestore: any; // Firestore instance
+  let firestore: Firestore; // Firestore instance
 
   const uaParser = new UAParser();
   const device = uaParser.getDevice();
