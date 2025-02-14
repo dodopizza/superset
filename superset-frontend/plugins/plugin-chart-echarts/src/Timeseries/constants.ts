@@ -17,10 +17,11 @@
  * under the License.
  */
 import {
+  CustomControlItem,
   DEFAULT_SORT_SERIES_DATA,
   sections,
 } from '@superset-ui/chart-controls';
-import { t } from '@superset-ui/core';
+import { ChartDataResponseResult, isSavedMetric, t } from '@superset-ui/core';
 import { LegendOrientation, LegendType } from '../types';
 import {
   OrientationType,
@@ -90,3 +91,40 @@ export const DEFAULT_FORM_DATA: EchartsTimeseriesFormData = {
 export const TIME_SERIES_DESCRIPTION_TEXT: string = t(
   'When using other than adaptive formatting, labels may overlap',
 );
+
+export const CONTROL_PANEL_COLUMN_CONFIG: CustomControlItem = {
+  name: 'column_config',
+  config: {
+    type: 'ColumnConfigControl',
+    label: t('Customize Metrics'),
+    width: 400,
+    height: 175,
+    renderTrigger: true,
+    configFormLayout: {
+      '0': [['exportAsTime']],
+      '1': [],
+      '2': [],
+      '3': [],
+    },
+    shouldMapStateToProps() {
+      return true;
+    },
+    mapStateToProps(explore, _, chart) {
+      // Showing metrics instead of columns
+      const colnames = [...(chart?.latestQueryFormData?.metrics ?? [])].map(
+        metric => (isSavedMetric(metric) ? metric : metric?.label),
+      );
+      const coltypes = Array.from({ length: colnames.length }, () => 0);
+      const newQueriesResponse = {
+        ...(chart?.queriesResponse?.[0] ?? {}),
+        colnames,
+        coltypes,
+      };
+      return {
+        queryResponse: newQueriesResponse as
+          | ChartDataResponseResult
+          | undefined,
+      };
+    },
+  },
+};

@@ -152,6 +152,15 @@ const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   ),
   debounceDelay: 200,
 };
+
+// DODO added 44136746
+const exportAsTime: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Export as time'),
+  description: t('Export a numeric value as number of days'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
 /**
  * All configurable column formatting properties.
  */
@@ -174,6 +183,7 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
+  exportAsTime, // DODO added 44136746
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
