@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable camelcase */
 import { invert } from 'lodash';
 import {
@@ -96,6 +79,7 @@ import {
   getXAxisFormatter,
   getYAxisFormatter,
 } from '../utils/formatters';
+import { LabelPositionDodo } from '../DodoExtensions/types'; // DODO added 45525377
 
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,
@@ -204,6 +188,8 @@ export default function transformProps(
     percentageThreshold,
     metrics = [],
     metricsB = [],
+    valueAlign = LabelPositionDodo.Top, // DODO added 45525377
+    valueAlignB = LabelPositionDodo.Top, // DODO added 45525377
   }: EchartsMixedTimeseriesFormData = { ...DEFAULT_FORM_DATA, ...formData };
 
   const refs: Refs = {};
@@ -407,6 +393,7 @@ export default function transformProps(
         showValueIndexes: showValueIndexesA,
         totalStackedValues,
         thresholdValues,
+        valueAlign, // DODO added 45525377
       },
     );
     if (transformedSeries) series.push(transformedSeries);
@@ -456,6 +443,7 @@ export default function transformProps(
         showValueIndexes: showValueIndexesB,
         totalStackedValues: totalStackedValuesB,
         thresholdValues: thresholdValuesB,
+        valueAlign: valueAlignB, // DODO added 45525377
       },
     );
     if (transformedSeries) series.push(transformedSeries);
