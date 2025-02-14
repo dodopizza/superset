@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   extractTimegrain,
   getNumberFormatter,
@@ -29,6 +12,7 @@ import {
   tooltipHtml,
 } from '@superset-ui/core';
 import { EChartsCoreOption, graphic } from 'echarts/core';
+import { getColorFormattersWithConditionalMessage } from '@superset-ui/chart-controls'; // DODO added 45525377
 import {
   BigNumberVizProps,
   BigNumberDatum,
@@ -38,6 +22,8 @@ import {
 import { getDateFormatter, parseMetricValue } from '../utils';
 import { getDefaultTooltip } from '../../utils/tooltip';
 import { Refs } from '../../types';
+import { ValueToShowEnum } from '../../DodoExtensions/BigNumber/types'; // DODO added 45525377
+import { BigNumberWithTrendLineTransformPropsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo'; // DODO added 45525377
 
 const formatPercentChange = getNumberFormatter(
   NumberFormats.PERCENT_SIGNED_1_POINT,
@@ -73,6 +59,12 @@ export default function transformProps(
     yAxisFormat,
     currencyFormat,
     timeRangeFixed,
+    // DODO added start 45525377
+    valueToShow,
+    conditionalFormattingMessage,
+    conditionalMessageFontSize,
+    alignment,
+    // DODO added stop 45525377
   } = formData;
   const granularity = extractTimegrain(rawFormData);
   const {
@@ -109,6 +101,17 @@ export default function transformProps(
 
     bigNumber = sortedData[0][1];
     timestamp = sortedData[0][0];
+
+    // DODO added 45525377
+    if (valueToShow === ValueToShowEnum.AVERAGE) {
+      bigNumber =
+        sortedData.reduce((acc, item) => acc + (item.at(1) ?? 0), 0) /
+        sortedData.length;
+      timestamp = null;
+    } else if (valueToShow === ValueToShowEnum.OLDEST) {
+      bigNumber = sortedData[sortedData.length - 1][1];
+      timestamp = sortedData[sortedData.length - 1][0];
+    }
 
     if (bigNumber === null) {
       bigNumberFallback = sortedData.find(d => d[1] !== null);
@@ -253,6 +256,22 @@ export default function transformProps(
 
   const { onContextMenu } = hooks;
 
+  // DODO added start 45525377
+  const {
+    percentChangeFormatter,
+    colorThresholdFormatters,
+    percentChangeNumber,
+  } = BigNumberWithTrendLineTransformPropsDodo({
+    formData,
+    data,
+    percentChange,
+    formatPercentChange,
+  });
+  const conditionalMessageColorFormatters =
+    getColorFormattersWithConditionalMessage(conditionalFormattingMessage) ??
+    [];
+  // DODO added stop 45525377
+
   return {
     width,
     height,
@@ -276,5 +295,13 @@ export default function transformProps(
     onContextMenu,
     xValueFormatter: formatTime,
     refs,
+    // DODO added start 45525377
+    colorThresholdFormatters,
+    percentChange: percentChangeNumber,
+    percentChangeFormatter,
+    conditionalMessageColorFormatters,
+    conditionalMessageFontSize,
+    alignment,
+    // DODO added stop 45525377
   };
 }

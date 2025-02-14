@@ -17,6 +17,9 @@
  * under the License.
  */
 import { sharedControlComponents } from '@superset-ui/chart-controls';
+import ConditionalFormattingControlDodo from 'src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo';
+import ConditionalFormattingControlNoGradient from 'src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient';
+import ConditionalFormattingMessageControl from 'src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl';
 import AnnotationLayerControl from './AnnotationLayerControl';
 import BoundsControl from './BoundsControl';
 import CheckboxControl from './CheckboxControl';
@@ -85,5 +88,8 @@ const controlMap = {
   ComparisonRangeLabel,
   TimeOffsetControl,
   ...sharedControlComponents,
+  ConditionalFormattingControlDodo,
+  ConditionalFormattingControlNoGradient,
+  ConditionalFormattingMessageControl,
 };
 export default controlMap;
