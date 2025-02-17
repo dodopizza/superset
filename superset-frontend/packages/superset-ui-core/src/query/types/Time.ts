@@ -19,12 +19,16 @@
 
 import { QueryObject } from './Query';
 
+export type TimeRangeEndType = 'included' | 'excluded';
+type TimeRangeDodoExtended = {
+  time_range_end_type?: TimeRangeEndType;
+};
 export type TimeRange = {
   /** Time range of the query [from, to] */
   time_range?: string;
   since?: string;
   until?: string;
-};
+} & TimeRangeDodoExtended;
 
 export type TimeColumnConfigKey =
   | '__time_col'

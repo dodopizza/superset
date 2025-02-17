@@ -30,7 +30,7 @@ import {
   QueryObjectExtras,
   QueryObjectFilterClause,
 } from './Query';
-import { TimeRange } from './Time';
+import { TimeRange, TimeRangeEndType } from './Time';
 import { TimeGranularity } from '../../time-format';
 import { JsonObject } from '../../connection';
 import { AdhocColumn, PhysicalColumn } from './Column';
@@ -130,14 +130,20 @@ export type ExtraFormDataOverrideRegular = Partial<
   Pick<SqlaFormData, 'granularity_sqla'>
 > &
   Partial<Pick<SqlaFormData, 'granularity'>> &
-  Partial<Pick<BaseFormData, 'time_range'>> &
+  Partial<Pick<BaseFormData, 'time_range' | 'time_range_end_type'>> &
   Partial<Pick<QueryObject, 'time_column' | 'time_grain'>>;
 
 /** These parameters override those already present in the form data/query object */
 export type ExtraFormDataOverride = ExtraFormDataOverrideRegular &
   ExtraFormDataOverrideExtras;
 
-export type ExtraFormData = ExtraFormDataAppend & ExtraFormDataOverride;
+type ExtraFormDataDodoExtended = {
+  time_range_end_type?: TimeRangeEndType;
+};
+
+export type ExtraFormData = ExtraFormDataAppend &
+  ExtraFormDataOverride &
+  ExtraFormDataDodoExtended;
 
 // Type signature for formData shared by all viz types
 // It will be gradually filled out as we build out the query object
