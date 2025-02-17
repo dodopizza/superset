@@ -1,7 +1,7 @@
 # DODO added #32839641
 
 import logging
-from flask import request, Response, g
+from flask import request, Response
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder.api import expose, protect, safe
 from marshmallow import ValidationError
@@ -34,8 +34,7 @@ from superset.views.base_api import (
     BaseSupersetModelRestApi,
     statsd_metrics,
 )
-from superset.views.utils import (finish_onboarding, get_dodo_role, find_team_by_slug,
-                                  update_user_roles)
+from superset.views.utils import update_user_roles
 
 logger = logging.getLogger(__name__)
 

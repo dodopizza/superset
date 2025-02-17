@@ -70,6 +70,7 @@ export const ExploreChartHeader = ({
   saveDisabled,
   metadata,
   datasourceMetrics, // DODO added 33638561
+  hasAccess, // DODO added 39843425
 }) => {
   const dispatch = useDispatch();
   const { latestQueryFormData, sliceFormData } = chart;
@@ -149,7 +150,8 @@ export const ExploreChartHeader = ({
     );
 
   const metadataBar = useMemo(() => {
-    if (!metadata) {
+    // if (!metadata) {
+    if (!hasAccess || !metadata) { // DODO changed 39843425
       return null;
     }
     const items = [];
@@ -195,6 +197,7 @@ export const ExploreChartHeader = ({
   return (
     <>
       <PageHeaderWithActions
+        showRightPanel={hasAccess} // DODO added 39843425
         editableTitleProps={{
           title: sliceName,
           canEdit:
@@ -205,12 +208,12 @@ export const ExploreChartHeader = ({
           placeholder: t('Add the name of the chart'),
           label: t('Chart title'),
         }}
-        showTitlePanelItems={!!slice}
+        showTitlePanelItems={!!slice && hasAccess} // DODO changed 39843425
         certificatiedBadgeProps={{
           certifiedBy: slice?.certified_by,
           details: slice?.certification_details,
         }}
-        showFaveStar={!!user?.userId}
+        showFaveStar={hasAccess && !!user?.userId} // DODO changed 39843425
         faveStarProps={{
           itemId: slice?.slice_id,
           fetchFaveStar: actions.fetchFaveStar,

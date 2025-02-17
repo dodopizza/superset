@@ -46,6 +46,7 @@ import * as exploreActions from 'src/explore/actions/exploreActions';
 import * as saveModalActions from 'src/explore/actions/saveModalActions';
 import { useTabId } from 'src/hooks/useTabId';
 import withToasts from 'src/components/MessageToasts/withToasts';
+import AccessWarning from 'src/DodoExtensions/components/AccessWarning'; // DODO added 39843425
 import ExploreChartPanel from '../ExploreChartPanel';
 import ConnectedControlPanelsContainer from '../ControlPanelsContainer';
 import SaveModal from '../SaveModal';
@@ -93,10 +94,18 @@ const ExplorePanelContainer = styled.div`
     flex-wrap: nowrap;
     border-top: 1px solid ${theme.colors.grayscale.light2};
     .explore-column {
+      position: relative;
       display: flex;
       flex-direction: column;
       padding: ${theme.gridUnit * 2}px 0;
       max-height: 100%;
+    }
+    .curtain {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 25%);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
     }
     .data-source-selection {
       background-color: ${theme.colors.grayscale.light5};
@@ -234,6 +243,8 @@ function ExploreViewContainer(props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [shouldForceUpdate, setShouldForceUpdate] = useState(-1);
   const tabId = useTabId();
+  const chartOwners = props.slice.owners; // DODO added 39843425
+  const hasAccess = true;
 
   const theme = useTheme();
 
@@ -376,7 +387,8 @@ function ExploreViewContainer(props) {
       control =>
         control.validationErrors && control.validationErrors.length > 0,
     );
-    if (!hasError) {
+    if (!hasError && hasAccess) {
+      // DODO changed 39843425
       props.actions.triggerQuery(true, props.chart.id);
     }
   }, []);
@@ -558,6 +570,7 @@ function ExploreViewContainer(props) {
         // DODO added
         sliceNameRU={props.sliceNameRU}
         datasourceMetrics={props.datasource.metrics} // DODO added 33638561
+        hasAccess={hasAccess} // DODO added 39843425
       />
       <ExplorePanelContainer id="explore-container">
         <Global
@@ -623,6 +636,8 @@ function ExploreViewContainer(props) {
             shouldForceUpdate={shouldForceUpdate}
             user={props.user}
           />
+          {!hasAccess && <div className="curtain" />}{' '}
+          {/* DODO added 39843425 */}
         </Resizable>
         {isCollapsed ? (
           <div
@@ -669,7 +684,10 @@ function ExploreViewContainer(props) {
             canStopQuery={props.can_add || props.can_overwrite}
             errorMessage={errorMessage}
             chartIsStale={chartIsStale}
+            hasAccess={hasAccess} // DODO added 39843425
           />
+          {!hasAccess && <div className="curtain" />}{' '}
+          {/* DODO added 39843425 */}
         </Resizable>
         <div
           className={cx(
@@ -677,7 +695,11 @@ function ExploreViewContainer(props) {
             isCollapsed ? 'col-sm-9' : 'col-sm-7',
           )}
         >
-          {renderChartContainer()}
+          {hasAccess && renderChartContainer()} {/* DODO changed 39843425 */}
+          {!hasAccess && (
+            <AccessWarning entity="chart" owners={chartOwners} />
+          )}{' '}
+          {/* DODO added 39843425 */}
         </div>
       </ExplorePanelContainer>
       {props.isSaveModalVisible && (

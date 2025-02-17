@@ -86,6 +86,10 @@ const additionalActionsContainerStyles = (theme: SupersetTheme) => css`
   margin-left: ${theme.gridUnit * 2}px;
 `;
 
+type PageHeaderWithActionsPropsDodoExtended = {
+  showRightPanel: boolean;
+};
+
 export type PageHeaderWithActionsProps = {
   editableTitleProps: DynamicEditableTitleProps;
   showTitlePanelItems: boolean;
@@ -100,7 +104,7 @@ export type PageHeaderWithActionsProps = {
     text?: string;
     placement?: TooltipPlacement;
   };
-};
+} & PageHeaderWithActionsPropsDodoExtended; // DODO added 39843425
 
 export const PageHeaderWithActions = ({
   editableTitleProps,
@@ -113,6 +117,7 @@ export const PageHeaderWithActions = ({
   additionalActionsMenu,
   menuDropdownProps,
   tooltipProps,
+  showRightPanel, // DODO added 39843425
 }: PageHeaderWithActionsProps) => {
   const theme = useTheme();
   return (
@@ -130,7 +135,7 @@ export const PageHeaderWithActions = ({
         )}
       </div>
       {/* DODO changed */}
-      {process.env.type === undefined && (
+      {process.env.type === undefined && showRightPanel && (
         <div className="right-button-panel">
           {rightPanelAdditionalItems}
           <div css={additionalActionsContainerStyles}>

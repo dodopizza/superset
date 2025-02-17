@@ -14,6 +14,7 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+import enum
 import json
 import re
 from typing import Any, Union
@@ -44,6 +45,12 @@ roles_description = (
     "These roles are always applied in addition to restrictions on dataset "
     "level access. "
     "If no roles defined then the dashboard is available to all roles."
+)
+teams_description = (
+    "Teams is a list which defines access to the dashboard. "
+    "These teams are always applied in addition to restrictions on dataset "
+    "level access. "
+    "If no teams defined then the dashboard is available to all teams."
 )
 position_json_description = (
     "This json object describes the positioning of the widgets "
@@ -158,6 +165,18 @@ class DashboardJSONMetadataSchema(Schema):
         return data
 
 
+class AccessLevel(enum.Enum):
+
+    """
+    Access level for dashboard.
+
+    Can be setted for user, role and team
+    """
+
+    read = 1
+    edit = 2
+
+    
 class UserSchema(Schema):
     id = fields.Int()
     username = fields.String()
@@ -168,7 +187,13 @@ class UserSchema(Schema):
 class RolesSchema(Schema):
     id = fields.Int()
     name = fields.String()
+    access_level = fields.Enum(AccessLevel, by_value=True)
 
+
+class TeamSchema(Schema):
+    id = fields.Int()
+    name = fields.String()
+    access_level = fields.Enum(AccessLevel, by_value=True)
 
 class TagSchema(Schema):
     id = fields.Int()
@@ -198,6 +223,7 @@ class DashboardGetResponseSchema(Schema):
     charts = fields.List(fields.String(metadata={"description": charts_description}))
     owners = fields.List(fields.Nested(UserSchema(exclude=(["username"]))))
     roles = fields.List(fields.Nested(RolesSchema))
+    teams = fields.List(fields.Nested(TeamSchema))
     tags = fields.Nested(TagSchema, many=True)
     changed_on_humanized = fields.String(data_key="changed_on_delta_humanized")
     is_managed_externally = fields.Boolean(allow_none=True, dump_default=False)
@@ -276,6 +302,7 @@ class DashboardPostSchema(BaseDashboardSchema):
     )
     owners = fields.List(fields.Integer(metadata={"description": owners_description}))
     roles = fields.List(fields.Integer(metadata={"description": roles_description}))
+    teams = fields.List(fields.Integer(metadata={"description": teams_description}))
     position_json = fields.String(
         metadata={"description": position_json_description}, validate=validate_json
     )
@@ -332,6 +359,7 @@ class DashboardPutSchema(BaseDashboardSchema):
     roles = fields.List(
         fields.Integer(metadata={"description": roles_description}, allow_none=True)
     )
+    teams = fields.List(fields.Integer(metadata={"description": teams_description}, allow_none=True))
     position_json = fields.String(
         metadata={"description": position_json_description},
         allow_none=True,

@@ -1,22 +1,11 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import React, { useEffect, SetStateAction, Dispatch, useCallback } from 'react';
+// DODO was here
+import React, {
+  useEffect,
+  SetStateAction,
+  Dispatch,
+  useCallback,
+  useState,
+} from 'react';
 import { styled, t } from '@superset-ui/core';
 import TableSelector, { TableOption } from 'src/components/TableSelector';
 import { DatabaseObject } from 'src/components/DatabaseSelector';
@@ -28,6 +17,9 @@ import {
   DatasetObject,
 } from 'src/features/datasets/AddDataset/types';
 import { Table } from 'src/hooks/apiResources';
+import AccessConfigurationModal from 'src/DodoExtensions/components/AccessConfigurationModal';
+import { AccessList } from 'src/DodoExtensions/components/AccessConfigurationModal/types'; // DODO added 39843425
+import Button from 'src/components/Button'; // DODO added 39843425
 
 interface LeftPanelProps {
   setDataset: Dispatch<SetStateAction<object>>;
@@ -123,6 +115,19 @@ export default function LeftPanel({
 }: LeftPanelProps) {
   const { addDangerToast } = useToasts();
 
+  // DODO added start 39843425
+  const [showAccessConfiguration, setShowAccessConfiguration] = useState(false);
+  const toggleAccessConfigurationModal = () =>
+    setShowAccessConfiguration(prev => !prev);
+  const handleSaveAccessList = (accessList: AccessList) => {
+    setDataset({
+      type: DatasetActionType.setAccessList,
+      payload: { name: 'access_list', value: accessList },
+    });
+    toggleAccessConfigurationModal();
+  };
+  // DODO added stop 39843425
+
   const setDatabase = useCallback(
     (db: Partial<DatabaseObject>) => {
       setDataset({ type: DatasetActionType.selectDatabase, payload: { db } });
@@ -184,6 +189,24 @@ export default function LeftPanel({
         customTableOptionLabelRenderer={customTableOptionLabelRenderer}
         {...(dataset?.schema && { schema: dataset.schema })}
       />
+      {/* DODO added start 39843425 */}
+      <Button
+        disabled={!dataset?.table_name}
+        buttonStyle="tertiary"
+        onClick={toggleAccessConfigurationModal}
+        style={{ marginTop: '1.5rem' }}
+      >
+        {t('Access configuration')}
+      </Button>
+      <AccessConfigurationModal
+        entityName={dataset?.table_name}
+        accessList={dataset?.access_list}
+        onSave={handleSaveAccessList}
+        show={showAccessConfiguration}
+        onHide={toggleAccessConfigurationModal}
+        defaultActivePanel="roles"
+      />
+      {/* DODO added stop 39843425 */}
     </LeftPanelStyle>
   );
 }
