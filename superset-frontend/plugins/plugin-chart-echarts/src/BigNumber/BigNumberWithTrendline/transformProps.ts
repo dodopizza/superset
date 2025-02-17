@@ -19,7 +19,8 @@ import {
   BigNumberWithTrendlineChartProps,
   TimeSeriesDatum,
 } from '../types';
-import { getDateFormatter, parseMetricValue } from '../utils';
+import { parseMetricValue } from '../utils';
+import { getDateFormatter } from '../../utils/getDateFormatter'; // DODO added 45525377
 import { getDefaultTooltip } from '../../utils/tooltip';
 import { Refs } from '../../types';
 import { ValueToShowEnum } from '../../DodoExtensions/BigNumber/types'; // DODO added 45525377

@@ -13,7 +13,8 @@ import {
   getValueFormatter,
 } from '@superset-ui/core';
 import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
-import { getDateFormatter, parseMetricValue } from '../utils';
+import { parseMetricValue } from '../utils';
+import { getDateFormatter } from '../../utils/getDateFormatter'; // DODO added 45525377
 import { Refs } from '../../types';
 
 export default function transformProps(
