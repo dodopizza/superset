@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -144,13 +144,13 @@ const plugins = [
     // 'process.env.SCARF_ANALYTICS': JSON.stringify(process.env.SCARF_ANALYTICS),
   }),
 
-  new CopyPlugin({
-    patterns: [
-      'package.json',
-      { from: 'src/assets/images', to: 'images' },
-      { from: 'src/assets/stylesheets', to: 'stylesheets' },
-    ],
-  }),
+  // new CopyPlugin({
+  //   patterns: [
+  //     'package.json',
+  //     { from: 'src/assets/images', to: 'images' },
+  //     { from: 'src/assets/stylesheets', to: 'stylesheets' },
+  //   ],
+  // }),
 
   // static pages
   // new HtmlWebpackPlugin({
