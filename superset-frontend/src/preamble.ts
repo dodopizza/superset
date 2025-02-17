@@ -18,6 +18,10 @@ import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
 
+// TODO: delete
+// eslint-disable-next-line no-console
+console.log('');
+
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
 }
