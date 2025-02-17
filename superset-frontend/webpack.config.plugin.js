@@ -124,12 +124,12 @@ const plugins = [
     'process.env.WEBPACK_MODE': JSON.stringify(mode),
   }),
 
-  new CopyPlugin({
-    patterns: [
-      'package.json',
-      { from: 'src/assets/images', to: 'static/assets/images' },
-    ],
-  }),
+  // new CopyPlugin({
+  //   patterns: [
+  //     'package.json',
+  //     { from: 'src/assets/images', to: 'static/assets/images' },
+  //   ],
+  // }),
 
   new HtmlWebpackPlugin({
     title: 'Superset dashboard plugin',
