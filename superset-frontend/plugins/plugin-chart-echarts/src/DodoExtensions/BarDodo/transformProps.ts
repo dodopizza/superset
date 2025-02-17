@@ -1,4 +1,4 @@
-// DODO added
+// DODO created 45525377
 // @ts-nocheck
 import {
   CategoricalColorNamespace,
@@ -14,9 +14,8 @@ import {
   EchartsBarFormData,
   BarChartTransformedProps,
 } from './types';
-import { BAR_CHART_CONSTANTS } from '../../constants';
-import { DEFAULT_LEGEND_FORM_DATA } from '../../types';
-import { parseYAxisBound } from '../../utils/controls';
+import { BAR_CHART_CONSTANTS, DEFAULT_LEGEND_FORM_DATA } from '../../constants';
+import { parseAxisBound } from '../../utils/controls';
 import { createTooltipElement } from '../../utils/tooltipGeneration';
 
 export default function transformProps(
@@ -464,7 +463,7 @@ export default function transformProps(
   const series: any[] = getSeries(sorted);
 
   // yAxisBounds need to be parsed to replace incompatible values with undefined
-  let [min, max] = (yAxisBounds || []).map(parseYAxisBound);
+  let [min, max] = (yAxisBounds || []).map(parseAxisBound);
 
   // default to 0-100% range when doing row-level contribution chart
   if (contribution && stack) {
