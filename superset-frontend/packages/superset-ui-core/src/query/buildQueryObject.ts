@@ -68,6 +68,7 @@ export default function buildQueryObject<T extends QueryFormData>(
     adhoc_filters: appendAdhocFilters = [],
     filters: appendFilters = [],
     custom_form_data = {},
+    time_range_end_type,
     ...overrides
   } = extra_form_data || {};
 
@@ -104,6 +105,7 @@ export default function buildQueryObject<T extends QueryFormData>(
     // fallback `null` to `undefined` so they won't be sent to the backend
     // (JSON.stringify will ignore `undefined`.)
     time_range: time_range || undefined,
+    time_range_end_type,
     since: since || undefined,
     until: until || undefined,
     granularity: granularity || undefined,
