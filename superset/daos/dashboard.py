@@ -387,7 +387,8 @@ class EmbeddedDashboardDAO(BaseDAO[EmbeddedDashboard]):
         """
         raise NotImplementedError("Use EmbeddedDashboardDAO.upsert() instead.")
 
-  # dodo added 44211751
+
+# dodo added 44211751
 class FilterSetDAO(BaseDAO[FilterSet]):
     @classmethod
     def create(

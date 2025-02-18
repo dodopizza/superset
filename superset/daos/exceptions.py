@@ -7,7 +7,8 @@ class DAOException(SupersetException):
     Base DAO exception class
     """
 
-  # dodo added 44211751
+
+# dodo added 44211751
 class DAOCreateFailedError(DAOException):
     """
     DAO Create failed
@@ -15,7 +16,8 @@ class DAOCreateFailedError(DAOException):
 
     message = "Create failed"
 
-  # dodo added 44211751
+
+# dodo added 44211751
 class DAOUpdateFailedError(DAOException):
     """
     DAO Update failed
@@ -23,7 +25,8 @@ class DAOUpdateFailedError(DAOException):
 
     message = "Update failed"
 
-  # dodo added 44211751
+
+# dodo added 44211751
 class DAODeleteFailedError(DAOException):
     """
     DAO Delete failed
