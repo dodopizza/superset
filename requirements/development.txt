@@ -186,7 +186,7 @@ pyee==11.0.1
     # via playwright
 pyfakefs==5.3.5
     # via apache-superset
-pyhive[hive_pure_sasl]==0.7.0
+pyhive[presto]==0.7.0
     # via apache-superset
 pyinstrument==4.4.0
     # via apache-superset
@@ -233,9 +233,7 @@ thrift==0.16.0
     #   pyhive
     #   thrift-sasl
 thrift-sasl==0.4.3
-    # via
-    #   apache-superset
-    #   pyhive
+    # via apache-superset
 tomli==2.2.1
     # via
     #   build
