@@ -167,7 +167,6 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         self._rename_deprecated_fields(kwargs)
         self._move_deprecated_extra_fields(kwargs)
 
-
     def _set_annotation_layers(
         self, annotation_layers: list[dict[str, Any]] | None
     ) -> None:
