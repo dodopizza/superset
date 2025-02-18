@@ -47,7 +47,11 @@
     /* Interop Constraints */
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": false,
-    "forceConsistentCasingInFileNames": true,  
+    "forceConsistentCasingInFileNames": true,
+
+    /* Backwards Compatibility */
+    "suppressImplicitAnyIndexErrors": true,
+
     /* Language and Environment */
     "target": "esnext",
     "jsx": "preserve",

@@ -24,14 +24,18 @@ export default class ErrorBoundary extends React.Component {
   componentDidCatch(error, info) {
     if (this.props.onError) this.props.onError(error, info);
 
-    const erroredFile = this.props?.children?._source ? this.props?.children?._source?.fileName : null;
+    // eslint-disable-next-line no-underscore-dangle
+    const erroredFile = this.props?.children?._source
+      ? // eslint-disable-next-line no-underscore-dangle
+        this.props?.children?._source?.fileName
+      : null;
 
     // Log the error to Firestore
     const errorDetails = {
       message: error.message || 'No message available',
       stack: error.stack || 'No stack trace available',
       componentStack: info.componentStack || 'No component stack available',
-      erroredFile: erroredFile || 'Errored File is unknown'
+      erroredFile: erroredFile || 'Errored File is unknown',
     };
 
     FirebaseService.logError(errorDetails); // Log the error to Firestore

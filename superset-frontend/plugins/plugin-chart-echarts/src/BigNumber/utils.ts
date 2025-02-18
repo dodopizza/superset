@@ -1,12 +1,12 @@
 // DODO was here
 
 import moment from 'moment';
-import {
-  getTimeFormatter,
-  getTimeFormatterForGranularity,
-  smartDateFormatter,
-  TimeGranularity,
-} from '@superset-ui/core';
+// import {
+//   getTimeFormatter,
+//   getTimeFormatterForGranularity,
+//   smartDateFormatter,
+//   TimeGranularity,
+// } from '@superset-ui/core';
 
 import { ConditionalFormattingConfig, COMPARATOR } from './types';
 import { MULTIPLE_VALUE_COMPARATORS, DEFAULT_COLOR } from './constants';
