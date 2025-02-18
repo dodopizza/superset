@@ -4280,6 +4280,9 @@ msgstr ""
 msgid "Editing 1 filter:"
 msgstr ""
 
+msgid "Editing filter set:"
+msgstr ""
+
 msgid "Either the database is spelled incorrectly or does not exist."
 msgstr ""
 
@@ -4870,6 +4873,9 @@ msgstr ""
 msgid "Filter menu"
 msgstr ""
 
+msgid "Filter metadata changed in dashboard. It will not be applied."
+msgstr ""
+
 msgid "Filter name"
 msgstr ""
 
@@ -4885,6 +4891,7 @@ msgstr ""
 msgid "Filter set with this name already exists"
 msgstr ""
 
+#, python-format
 msgid "Filter sets (%(filterSetCount)d)"
 msgstr ""
 
@@ -4907,6 +4914,10 @@ msgid "Filterable"
 msgstr ""
 
 msgid "Filters"
+msgstr ""
+
+#, python-format
+msgid "Filters (%d)"
 msgstr ""
 
 msgid "Filters by columns"
@@ -6585,6 +6596,9 @@ msgstr ""
 msgid "New dataset name"
 msgstr ""
 
+msgid "New filter set"
+msgstr ""
+
 msgid "New header"
 msgstr ""
 
@@ -7409,6 +7423,9 @@ msgstr ""
 msgid "Please DO NOT overwrite the \"filter_scopes\" key."
 msgstr ""
 
+msgid "Please apply filter changes"
+msgstr ""
+
 msgid ""
 "Please check your query and confirm that all template parameters are "
 "surround by double braces, for example, \"{{ ds }}\". Then, try running "
@@ -7446,6 +7463,9 @@ msgid "Please enter a SQLAlchemy URI to test"
 msgstr ""
 
 msgid "Please enter valid text. Spaces alone are not permitted."
+msgstr ""
+
+msgid "Please filter set name"
 msgstr ""
 
 msgid "Please re-enter the password."
@@ -7813,6 +7833,9 @@ msgstr ""
 msgid "Raw records"
 msgstr ""
 
+msgid "Rebuild"
+msgstr ""
+
 msgid "Recently created charts, dashboards, and saved queries will appear here"
 msgstr ""
 
@@ -7924,6 +7947,9 @@ msgid "Remove"
 msgstr ""
 
 msgid "Remove cross-filter"
+msgstr ""
+
+msgid "Remove invalid filters"
 msgstr ""
 
 msgid "Remove item"
@@ -10838,7 +10864,14 @@ msgid ""
 "against this string as a subquery."
 msgstr ""
 
+msgid "This filter doesn't exist in dashboard. It will not be applied."
+msgstr ""
+
 msgid "This filter might be incompatible with current dataset"
+msgstr ""
+
+#, python-format
+msgid "This filter set is identical to: \"%s\""
 msgstr ""
 
 msgid "This functionality is disabled in your environment for security reasons."
