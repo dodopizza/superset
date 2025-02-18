@@ -27,7 +27,7 @@ revision = "2684073d82a4"
 down_revision = "48cbb571fa3a"
 
 from importlib import import_module  # noqa: E402
-
+import sqlalchemy as sa  # noqa: E402
 from alembic import op  # noqa: E402
 
 module1 = import_module(
@@ -48,86 +48,140 @@ def upgrade():
         "sql_metrics",
         "verbose_name_2nd_lang",
         new_column_name="verbose_name_second_lang",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "verbose_name_2nd_lang",
         new_column_name="verbose_name_second_lang",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "sql_metrics",
         "description_2nd_lang",
         new_column_name="description_second_lang",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "description_2nd_lang",
         new_column_name="description_second_lang",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
 
     op.alter_column(
         "dashboards",
         "dashboard_title_RU",
         new_column_name="dashboard_title_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "slices",
         "slice_name_RU",
         new_column_name="slice_name_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "sql_metrics",
         "verbose_name_RU",
         new_column_name="verbose_name_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "sql_metrics",
         "description_RU",
         new_column_name="description_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "verbose_name_RU",
         new_column_name="verbose_name_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "description_RU",
         new_column_name="description_ru",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
 
     op.alter_column(
         "sql_metrics",
         "verbose_name_EN",
         new_column_name="verbose_name_en",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "sql_metrics",
         "description_EN",
         new_column_name="description_en",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "verbose_name_EN",
         new_column_name="verbose_name_en",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
     op.alter_column(
         "table_columns",
         "description_EN",
         new_column_name="description_en",
+        existing_type=sa.Text(),
+        existing_nullable=True,
     )
 
     op.alter_column(
-        "user_info", "isOnboardingFinished", new_column_name="is_onboarding_finished"
+        "user_info",
+        "isOnboardingFinished",
+        new_column_name="is_onboarding_finished",
+        existing_type=sa.Boolean(),
+        existing_nullable=True,
     )
     op.alter_column(
-        "user_info", "onboardingStartedTime", new_column_name="onboarding_started_time"
+        "user_info",
+        "onboardingStartedTime",
+        new_column_name="onboarding_started_time",
+        existing_type=sa.DateTime(),
+        existing_nullable=True,
     )
 
-    op.alter_column("teams", "isExternal", new_column_name="is_external")
+    op.alter_column(
+        "teams",
+        "isExternal",
+        new_column_name="is_external",
+        existing_type=sa.Boolean(),
+        existing_nullable=False,
+    )
 
-    op.alter_column("statements", "isNewTeam", new_column_name="is_new_team")
-    op.alter_column("statements", "isExternal", new_column_name="is_external")
+    op.alter_column(
+        "statements",
+        "isNewTeam",
+        new_column_name="is_new_team",
+        existing_type=sa.Boolean(),
+        existing_nullable=False,
+    )
+    op.alter_column(
+        "statements",
+        "isExternal",
+        new_column_name="is_external",
+        existing_type=sa.Boolean(),
+        existing_nullable=False,
+    )
     # ### end Alembic commands ###
 
 
