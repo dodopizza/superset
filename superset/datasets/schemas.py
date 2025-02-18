@@ -64,8 +64,8 @@ class DatasetColumnsPutSchema(Schema):
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     description = fields.String(allow_none=True)
     # dodo added 44728914
-    description_RU = fields.String(allow_none=True)
-    description_EN = fields.String(allow_none=True)
+    description_ru = fields.String(allow_none=True)
+    description_en = fields.String(allow_none=True)
     expression = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
     filterable = fields.Boolean()
@@ -83,8 +83,8 @@ class DatasetMetricsPutSchema(Schema):
     expression = fields.String(required=True)
     description = fields.String(allow_none=True)
     # dodo added 44728914
-    description_RU = fields.String(allow_none=True)
-    description_EN = fields.String(allow_none=True)
+    description_ru = fields.String(allow_none=True)
+    description_en = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
     metric_name = fields.String(required=True, validate=Length(1, 255))
     metric_type = fields.String(allow_none=True, validate=Length(1, 32))
