@@ -30,6 +30,7 @@ from importlib import import_module  # noqa: E402
 
 import sqlalchemy as sa  # noqa: E402
 from alembic import op  # noqa: E402
+
 from superset.migrations.shared.utils import (  # noqa: E402
     has_table,
 )
