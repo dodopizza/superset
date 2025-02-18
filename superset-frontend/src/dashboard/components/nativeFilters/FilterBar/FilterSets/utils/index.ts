@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 import shortid from 'shortid';
 import { DataMaskState, FilterSet, t } from '@superset-ui/core';
@@ -26,7 +9,8 @@ export const generateFiltersSetId = () => `FILTERS_SET-${shortid.generate()}`;
 export const APPLY_FILTERS_HINT = t('Please apply filter changes');
 
 export const getFilterValueForDisplay = (
-  value?: string[] | null | string | number | object,
+  value?: string[] | null | string | number | Record<string, any>,
+  column?: string, // DODO added 30434273
 ): string => {
   if (value === null || value === undefined) {
     return '';
@@ -35,6 +19,11 @@ export const getFilterValueForDisplay = (
     return `${value}`;
   }
   if (Array.isArray(value)) {
+    // DODO added start 30434273
+    if (typeof value[0] === 'object' && column && column in value[0]) {
+      return value.map(val => val[column]).join(', ');
+    }
+    // DODO added stop 30434273
     return value.join(', ');
   }
   if (typeof value === 'object') {
@@ -56,7 +45,11 @@ export const findExistingFilterSet = ({
       const isEqual = areObjectsEqual(
         filterFromSelectedFilters.filterState,
         dataMaskFromFilterSet?.[id]?.filterState,
-        { ignoreUndefined: true, ignoreNull: true },
+        {
+          ignoreUndefined: true,
+          ignoreNull: true,
+          ignoreFields: ['validateStatus'], // DODO added 30434273
+        },
       );
       const hasSamePropsNumber =
         dataMaskSelectedEntries.length ===
@@ -64,3 +57,8 @@ export const findExistingFilterSet = ({
       return isEqual && hasSamePropsNumber;
     });
   });
+
+// DODO added 30434273
+export const hasFilterTranslations = (filterType: string): boolean =>
+  filterType === 'filter_select_with_translation' ||
+  filterType === 'filter_select_by_id_with_translation';
