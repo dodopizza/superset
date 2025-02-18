@@ -175,9 +175,7 @@ protobuf==4.23.0
 psycopg2-binary==2.9.6
     # via apache-superset
 pure-sasl==0.6.2
-    # via
-    #   pyhive
-    #   thrift-sasl
+    # via thrift-sasl
 pydata-google-auth==1.7.0
     # via pandas-gbq
 pydruid==0.6.9
@@ -230,7 +228,6 @@ tableschema==1.20.10
 thrift==0.16.0
     # via
     #   apache-superset
-    #   pyhive
     #   thrift-sasl
 thrift-sasl==0.4.3
     # via apache-superset
