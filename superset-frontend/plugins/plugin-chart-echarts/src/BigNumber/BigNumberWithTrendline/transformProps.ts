@@ -23,7 +23,8 @@ import {
   TimeSeriesDatum,
   BigNumberVizProps,
 } from '../types';
-import { getDateFormatter, parseMetricValue } from '../utils';
+import { parseMetricValue } from '../utils';
+import { getDateFormatter } from '../../utils/getDateFormatter'; // DODO added 45025582
 import { getDefaultTooltip } from '../../utils/tooltip';
 import { Refs } from '../../types';
 import { BigNumberWithTrendLineTransformPropsDodo } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo';

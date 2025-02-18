@@ -1,6 +1,8 @@
-import { t } from '@superset-ui/core';
+import { smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
+  D3_FORMAT_DOCS,
+  D3_TIME_FORMAT_OPTIONS,
   formatSelectOptions,
 } from '@superset-ui/chart-controls';
 
@@ -20,6 +22,35 @@ const xAxis = {
         },
       },
     ],
+    [
+      {
+        name: 'x_force_timestamp_formatting',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Force date format'),
+          renderTrigger: true,
+          default: false,
+          description: t(
+            'Use date formatting even when metric value is not a timestamp',
+          ),
+        },
+      },
+    ],
+    [
+      {
+        name: 'x_time_format',
+        config: {
+          type: 'SelectControl',
+          freeForm: true,
+          label: t('Date format'),
+          renderTrigger: true,
+          choices: D3_TIME_FORMAT_OPTIONS,
+          description: D3_FORMAT_DOCS,
+          default: smartDateFormatter.id,
+        },
+      },
+    ],
+    ['x_axis_format'],
     [
       {
         name: 'x_axis_name',
@@ -73,6 +104,35 @@ const yAxis = {
         },
       },
     ],
+    [
+      {
+        name: 'y_force_timestamp_formatting',
+        config: {
+          type: 'CheckboxControl',
+          label: t('Force date format'),
+          renderTrigger: true,
+          default: false,
+          description: t(
+            'Use date formatting even when metric value is not a timestamp',
+          ),
+        },
+      },
+    ],
+    [
+      {
+        name: 'y_time_format',
+        config: {
+          type: 'SelectControl',
+          freeForm: true,
+          label: t('Date format'),
+          renderTrigger: true,
+          choices: D3_TIME_FORMAT_OPTIONS,
+          description: D3_FORMAT_DOCS,
+          default: smartDateFormatter.id,
+        },
+      },
+    ],
+    ['y_axis_format'],
     [
       {
         name: 'y_axis_name',
@@ -255,12 +315,14 @@ const config: ControlPanelConfig = {
     },
     { ...labels },
     { ...dimentions },
+    // @ts-ignore
     { ...xAxis },
+    // @ts-ignore
     { ...yAxis },
     {
-      label: t('Tooltip'),
+      label: t('Size'),
       expanded: false,
-      controlSetRows: [['x_axis_format'], ['y_axis_format'], ['size_format']],
+      controlSetRows: [['size_format']],
     },
   ],
 };
