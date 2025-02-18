@@ -107,6 +107,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
     time_shift: str | None
     time_range: str | None
     to_dttm: datetime | None
+    time_range_end_type: str | None
 
     def __init__(  # pylint: disable=too-many-locals
         self,
@@ -132,6 +133,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         series_limit_metric: Metric | None = None,
         time_range: str | None = None,
         time_shift: str | None = None,
+        time_range_end_type: str | None = None,
         **kwargs: Any,
     ):
         self._set_annotation_layers(annotation_layers)
@@ -155,6 +157,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         self.series_limit_metric = series_limit_metric
         self.time_range = time_range
         self.time_shift = time_shift
+        self.time_range_end_type = time_range_end_type
         self.from_dttm = kwargs.get("from_dttm")
         self.to_dttm = kwargs.get("to_dttm")
         self.result_type = kwargs.get("result_type")
@@ -163,6 +166,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
         self.inner_to_dttm = kwargs.get("inner_to_dttm")
         self._rename_deprecated_fields(kwargs)
         self._move_deprecated_extra_fields(kwargs)
+
 
     def _set_annotation_layers(
         self, annotation_layers: list[dict[str, Any]] | None
