@@ -1428,12 +1428,22 @@ TALISMAN_ENABLED = utils.cast_to_boolean(os.environ.get("TALISMAN_ENABLED", True
 TALISMAN_CONFIG = {
     "content_security_policy": {
         "default-src": ["'self'"],
-        "img-src": ["'self'", "data:"],
+        "img-src": ["'self'", "data:", "https://www.googletagmanager.com"],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://firebase.googleapis.com",
+            "https://firestore.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://www.googleapis.com",
+            "https://firebaseinstallations.googleapis.com",
+            "https://www.googletagmanager.com",
+            "https://www.google-analytics.com",  # Added Google Analytics
+            "https://*.firebaseapp.com",
+            "https://firebasedatabase.googleapis.com",
+            "https://identitytoolkit.googleapis.com",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1441,21 +1451,43 @@ TALISMAN_CONFIG = {
             "'unsafe-inline'",
             "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css",
         ],
-        "script-src": ["'self'", "'strict-dynamic'", "'unsafe-eval'"],
+        "script-src": [
+            "'self'",
+            "'strict-dynamic'",
+            "'unsafe-eval'",
+            "https://apis.google.com",
+            "https://www.gstatic.com",
+            "https://www.firebase.com",
+            "https://www.firebaseapp.com",
+            "https://www.googleapis.com",
+            "https://cdn.firebase.com",
+            "https://www.googletagmanager.com",  # Google Tag Manager script
+        ],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
 }
+
 # React requires `eval` to work correctly in dev mode
 TALISMAN_DEV_CONFIG = {
     "content_security_policy": {
         "default-src": ["'self'"],
-        "img-src": ["'self'", "data:"],
+        "img-src": ["'self'", "data:", "https://www.googletagmanager.com"],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://firebase.googleapis.com",
+            "https://firestore.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://www.googleapis.com",
+            "https://firebaseinstallations.googleapis.com",
+            "https://www.googletagmanager.com",
+            "https://www.google-analytics.com",  # Added Google Analytics
+            "https://*.firebaseapp.com",
+            "https://firebasedatabase.googleapis.com",
+            "https://identitytoolkit.googleapis.com",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1463,11 +1495,17 @@ TALISMAN_DEV_CONFIG = {
             "'unsafe-inline'",
             "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css",
         ],
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "script-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "https://www.googletagmanager.com",  # Google Tag Manager script
+        ],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
 }
+
 
 #
 # Flask session cookie options
@@ -1690,3 +1728,37 @@ elif importlib.util.find_spec("superset_config") and not is_test():
     except Exception:
         logger.exception("Found but failed to import local superset_config")
         raise
+CONTENT_SECURITY_POLICY = {
+    "default-src": ["'self'"],
+    "script-src": [
+        "'self'",
+        "'unsafe-inline'",  # Required for analytics initialization
+        "'unsafe-eval'",  # Required for some Firebase JS libraries
+        "https://apis.google.com",
+        "https://www.googletagmanager.com",  # For GTM/Analytics
+        "https://www.gstatic.com",  # Firebase scripts
+        "https://www.firebase.com",  # Firebase core JS
+        "https://www.firebaseapp.com",  # Firebase app
+        "https://www.googleapis.com",  # Firebase APIs
+        "https://cdn.firebase.com",  # Firebase CDN
+    ],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    "img-src": ["'self'", "data:", "https://www.gstatic.com"],
+    "connect-src": [
+        "'self'",
+        "https://api.mapbox.com",
+        "https://events.mapbox.com",
+        "https://firebase.googleapis.com",  # Firebase API
+        "https://firestore.googleapis.com",  # Firestore API
+        "https://securetoken.googleapis.com",  # Firebase authentication
+        "https://www.googleapis.com",  # General Google API
+        "https://firebaseinstallations.googleapis.com",  # Firebase installations
+        "https://www.googletagmanager.com",  # Google Tag Manager for analytics
+        "https://*.firebaseapp.com",  # Firebase app URL
+        "https://firebasedatabase.googleapis.com",  # Firebase Realtime Database API (if using Realtime DB)
+        "https://identitytoolkit.googleapis.com",  # Firebase Auth API
+    ],
+    "font-src": ["'self'", "data:"],
+    "frame-src": ["'self'", "https://*.firebaseapp.com"],  # Allow Firebase-related frames
+}
+

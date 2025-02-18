@@ -17,6 +17,8 @@ import setupFormatters from './setup/setupFormatters';
 import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
+import setupFirebase from './firebase/setupFirebase';
+import { FirebaseService } from './firebase';
 
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
@@ -53,6 +55,7 @@ if (typeof window !== 'undefined') {
       locale: bootstrapData?.common?.locale || 'ru',
     },
   };
+
   // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
   if (bootstrapData.common && bootstrapData.common.language_pack) {
     const languagePack = bootstrapData.common.language_pack;
@@ -85,6 +88,9 @@ setupColors(
 setupFormatters(bootstrapData?.common?.d3_format);
 
 setupDashboardComponents();
+
+// Setup Firebase
+setupFirebase();
 
 // DODO added
 const dodoTheme = {
@@ -136,7 +142,8 @@ if (bootstrapData.user?.isActive) {
     // we only care about the tab becoming visible, not vice versa
     if (document.visibilityState !== 'visible') return;
 
-    getMe().catch(() => {
+    getMe().catch(e => {
+      FirebaseService.logError(e);
       // ignore error, SupersetClient will redirect to login on a 401
     });
   });
