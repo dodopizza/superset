@@ -43,7 +43,7 @@ from superset.dashboards.filter_sets.consts import (
     OWNER_USER_ID,
     PARAMS_PROPERTY,
 )
-from superset.dashboards.filter_sets.filters import FilterSetFilter
+from superset.dashboards.filter_sets.filters import FilterSetFilterByUser
 from superset.dashboards.filter_sets.schemas import (
     FilterSetPostSchema,
     FilterSetPutSchema,
@@ -134,7 +134,7 @@ class FilterSetRestApi(BaseSupersetModelRestApi):
         DASHBOARD_ID_FIELD,
         OWNER_USER_ID,
     ]
-    base_filters = [[OWNER_ID_FIELD, FilterSetFilter, ""]]
+    base_filters = [[OWNER_USER_ID, FilterSetFilterByUser, ""]]
 
     def __init__(self) -> None:
         self.datamodel.get_search_columns_list = lambda: []
