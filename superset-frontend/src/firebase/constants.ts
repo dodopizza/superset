@@ -50,7 +50,12 @@ const getConfig = (): IFirebaseConfig | undefined => {
   }
   const mainDomain = `${domainParts.join('.')}.`;
 
-  return CONFIG_MAP[mainDomain];
+  const config = CONFIG_MAP[mainDomain];
+
+  if (config) console.log(`Firebase project ID: ${config.projectId}`);
+  else console.error(`Firebase config is not found for domain: ${mainDomain}`);
+
+  return config;
 };
 
 export const firebaseConfig = getConfig();

@@ -59,8 +59,11 @@ export const FirebaseService: IFirebaseService = (() => {
   return {
     init: (config: IFirebaseConfig) => {
       const app = initializeApp(config);
+      if (!app) console.error(`Firebase app is not initialised`);
       analytics = getAnalytics(app);
+      if (!analytics) console.error(`Firebase analytics is not initialised`);
       firestore = getFirestore(app); // Initialize Firestore
+      if (!firestore) console.error(`Firebase store is not initialised`);
     },
     logEvent: (eventName: string, params: object) => {
       logEvent(analytics, eventName, params);
