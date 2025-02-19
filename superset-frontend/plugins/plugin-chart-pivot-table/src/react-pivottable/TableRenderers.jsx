@@ -58,7 +58,7 @@ export class TableRenderer extends Component {
     this.state = {
       collapsedRows: {},
       collapsedCols: {},
-      pinnedColumns: this.props.pinnedColumns, // DODO added 45525377
+      pinnedColumns: [], // DODO added 45525377
     };
 
     this.clickHeaderHandler = this.clickHeaderHandler.bind(this);
@@ -71,6 +71,10 @@ export class TableRenderer extends Component {
   }
 
   // DODO added 45525377
+  componentDidMount() {
+    this.setState({ pinnedColumns: this.props.pinnedColumns });
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.pinnedColumns !== this.props.pinnedColumns) {
       // eslint-disable-next-line react/no-did-update-set-state
