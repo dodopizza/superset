@@ -369,7 +369,7 @@ class Header extends PureComponent {
       certification_details: dashboardInfo.certification_details,
       css: customCss,
       dashboard_title: dashboardTitle,
-      dashboard_title_RU: dashboardTitleRU, // DODO added 44120742
+      dashboard_title_ru: dashboardTitleRU, // DODO added 44120742
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,

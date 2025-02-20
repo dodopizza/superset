@@ -77,7 +77,7 @@ interface DashboardListProps {
 }
 
 interface DashboardDodoExtended {
-  dashboard_title_RU: string; // DODO added 44120742
+  dashboard_title_ru: string; // DODO added 44120742
 }
 export interface Dashboard extends DashboardDodoExtended {
   changed_by_name: string;
@@ -100,7 +100,7 @@ const Actions = styled.div`
 const DASHBOARD_COLUMNS_TO_FETCH = [
   'id',
   'dashboard_title',
-  'dashboard_title_RU', // DODO added 44120742
+  'dashboard_title_ru', // DODO added 44120742
   'published',
   'url',
   'slug',
@@ -216,7 +216,7 @@ function DashboardList(props: DashboardListProps) {
                 changed_by_name,
                 changed_by,
                 dashboard_title = '',
-                dashboard_title_RU = '', // DODO added 44120742
+                dashboard_title_ru = '', // DODO added 44120742
                 slug = '',
                 json_metadata = '',
                 changed_on_delta_humanized,
@@ -231,7 +231,7 @@ function DashboardList(props: DashboardListProps) {
                 changed_by_name,
                 changed_by,
                 dashboard_title,
-                dashboard_title_RU, // DODO added 44120742
+                dashboard_title_ru, // DODO added 44120742
                 slug,
                 json_metadata,
                 changed_on_delta_humanized,
@@ -332,13 +332,13 @@ function DashboardList(props: DashboardListProps) {
       {
         Cell: ({
           row: {
-            original: { url, dashboard_title_RU: dashboardTitleRU },
+            original: { url, dashboard_title_ru: dashboardTitleRU },
           },
         }: any) => (
           <Link to={url}>{dashboardTitleRU ? `${dashboardTitleRU}` : '-'}</Link>
         ),
         Header: t('Title (Rus)'),
-        accessor: 'dashboard_title_RU',
+        accessor: 'dashboard_title_ru',
       },
       // DODO added stop 44120742
       {

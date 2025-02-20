@@ -175,6 +175,7 @@ export const getCrossFilterIndicator = (
       dashboardLayoutItem?.meta?.sliceNameOverride ||
       dashboardLayoutItem?.meta?.sliceName ||
       '',
+    // DODO added 44120742
     nameRU:
       dashboardLayoutItem?.meta?.sliceNameOverrideRU ||
       dashboardLayoutItem?.meta?.sliceNameRU ||

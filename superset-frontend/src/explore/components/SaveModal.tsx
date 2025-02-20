@@ -116,7 +116,7 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
           this.setState({
             dashboard: {
               label: result.dashboard_title,
-              labelRU: result.dashboard_title_RU, // DODO added 44120742
+              labelRU: result.dashboard_title_ru, // DODO added 44120742
               value: result.id,
             },
           });
@@ -171,7 +171,7 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
 
     //  Create or retrieve dashboard
     type DashboardGetResponseDodoExtended = {
-      dashboard_title_RU: string; // DODO added 44120742
+      dashboard_title_ru: string; // DODO added 44120742
     };
     type DashboardGetResponse = {
       id: number;
@@ -242,7 +242,7 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
           dashboard
             ? {
                 title: dashboard.dashboard_title,
-                titleRU: dashboard.dashboard_title_RU, // DODO added 44120742
+                titleRU: dashboard.dashboard_title_ru, // DODO added 44120742
                 new: this.isNewDashboard(),
               }
             : null,
@@ -254,7 +254,7 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
           dashboard
             ? {
                 title: dashboard.dashboard_title,
-                titleRU: dashboard.dashboard_title_RU, // DODO added 44120742
+                titleRU: dashboard.dashboard_title_ru, // DODO added 44120742
                 new: this.isNewDashboard(),
               }
             : null,
@@ -297,7 +297,7 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
   loadDashboards = async (search: string, page: number, pageSize: number) => {
     const queryParams = rison.encode({
       // columns: ['id', 'dashboard_title'],
-      columns: ['id', 'dashboard_title', 'dashboard_title_RU'], // DODO changed 44120742
+      columns: ['id', 'dashboard_title', 'dashboard_title_ru'], // DODO changed 44120742
       filters: [
         {
           col: 'dashboard_title',
@@ -324,11 +324,11 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
         (dashboard: {
           id: number;
           dashboard_title: string;
-          dashboard_title_RU: string; // DODO added 44120742
+          dashboard_title_ru: string; // DODO added 44120742
         }) => ({
           value: dashboard.id,
           label: dashboard.dashboard_title,
-          labelRU: dashboard.dashboard_title_RU, // DODO added 44120742
+          labelRU: dashboard.dashboard_title_ru, // DODO added 44120742
         }),
       ),
       totalCount: count,

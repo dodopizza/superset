@@ -253,7 +253,7 @@ function ColumnCollectionTable({
             />
             {/* DODO added 44120742 */}
             <Field
-              fieldKey="verbose_name_RU"
+              fieldKey="verbose_name_ru"
               label={
                 <div className="f16">
                   {t('Label (Rus)')} <i className="flag ru" />
@@ -261,7 +261,7 @@ function ColumnCollectionTable({
               }
               control={
                 <TextControl
-                  controlId="verbose_name_RU"
+                  controlId="verbose_name_ru"
                   placeholder={t('Label (Rus)')}
                 />
               }
@@ -673,7 +673,7 @@ class DatasourceEditor extends PureComponent {
       ...datasource,
       metrics: datasource.metrics.map(v => ({
         ...v,
-        verbose_name_EN: v.verbose_name || null,
+        verbose_name_en: v.verbose_name || null,
       })),
     };
     this.setState(
@@ -708,8 +708,7 @@ class DatasourceEditor extends PureComponent {
         ...alteredObj,
         databaseColumns: alteredObj.databaseColumns.map(c => ({
           ...c,
-          verbose_name_EN: c.verbose_name || null,
-          description_EN: c.description || null,
+          verbose_name_en: c.verbose_name || null,
         })),
       };
     }
@@ -718,8 +717,7 @@ class DatasourceEditor extends PureComponent {
         ...alteredObj,
         calculatedColumns: alteredObj.calculatedColumns.map(c => ({
           ...c,
-          verbose_name_EN: c.verbose_name || null,
-          description_EN: c.description || null,
+          verbose_name_en: c.verbose_name || null,
         })),
       };
     }
@@ -1291,19 +1289,19 @@ class DatasourceEditor extends PureComponent {
         tableColumns={[
           'metric_name',
           'verbose_name',
-          'verbose_name_RU', // DODO added 44120742
+          'verbose_name_ru', // DODO added 44120742
           'expression',
         ]}
         sortColumns={[
           'metric_name',
           'verbose_name',
-          'verbose_name_RU', // DODO added 44120742
+          'verbose_name_ru', // DODO added 44120742
           'expression',
         ]}
         columnLabels={{
           metric_name: t('Metric'),
           verbose_name: t('Label (Eng)'), // DODO changed 44120742
-          verbose_name_RU: t('Label (Rus)'), // DODO added 44120742
+          verbose_name_ru: t('Label (Rus)'), // DODO added 44120742
           expression: t('SQL expression'),
         }}
         columnLabelTooltips={{
@@ -1393,7 +1391,7 @@ class DatasourceEditor extends PureComponent {
         itemGenerator={() => ({
           metric_name: t('<new metric>'),
           verbose_name: '',
-          verbose_name_RU: '', // DODO added 44120742
+          verbose_name_ru: '', // DODO added 44120742
           expression: '',
         })}
         itemCellProps={{
@@ -1422,7 +1420,7 @@ class DatasourceEditor extends PureComponent {
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           // DODO added 44120742
-          verbose_name_RU: (v, onChange) => (
+          verbose_name_ru: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           expression: (v, onChange) => (

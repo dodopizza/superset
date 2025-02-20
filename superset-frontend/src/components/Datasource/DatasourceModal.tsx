@@ -138,8 +138,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
                 ? null
                 : JSON.stringify(metric.currency),
               verbose_name: metric.verbose_name,
-              verbose_name_EN: metric.verbose_name, // DODO added 44120742
-              verbose_name_RU: metric.verbose_name_RU, // DODO added 44120742
+              verbose_name_en: metric.verbose_name, // DODO added 44120742
+              verbose_name_ru: metric.verbose_name_ru, // DODO added 44120742
               warning_text: metric.warning_text,
               uuid: metric.uuid,
               extra: buildExtraJsonObject(metric),
@@ -157,8 +157,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
             type: column.type,
             advanced_data_type: column.advanced_data_type,
             verbose_name: column.verbose_name,
-            verbose_name_EN: column.verbose_name_EN, // DODO added 44120742
-            verbose_name_RU: column.verbose_name_RU, // DODO added 44120742
+            verbose_name_en: column.verbose_name_en, // DODO added 44120742
+            verbose_name_ru: column.verbose_name_ru, // DODO added 44120742
             description: column.description,
             expression: column.expression,
             filterable: column.filterable,

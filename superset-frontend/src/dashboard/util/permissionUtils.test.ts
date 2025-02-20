@@ -68,7 +68,7 @@ const undefinedUser: UndefinedUser = {};
 const dashboard: Dashboard = {
   id: 1,
   dashboard_title: 'Test Dash',
-  dashboard_title_RU: 'Test Dash',
+  dashboard_title_ru: 'Test Dash', // DODO added 44120742
   url: 'https://dashboard.example.com/1',
   thumbnail_url: 'https://dashboard.example.com/1/thumbnail.png',
   published: true,

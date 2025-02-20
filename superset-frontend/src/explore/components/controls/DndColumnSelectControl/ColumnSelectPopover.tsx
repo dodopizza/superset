@@ -172,7 +172,7 @@ const ColumnSelectPopover = ({
       const alteredSelectedColumn = selectedColumn
         ? {
             ...selectedColumn,
-            verbose_name_EN: selectedColumn?.verbose_name,
+            verbose_name_en: selectedColumn?.verbose_name,
           }
         : undefined;
       setSelectedCalculatedColumn(selectedColumn);
@@ -190,7 +190,7 @@ const ColumnSelectPopover = ({
           '',
       );
       setLabelRU(
-        alteredSelectedColumn?.verbose_name_RU ||
+        alteredSelectedColumn?.verbose_name_ru ||
           alteredSelectedColumn?.column_name ||
           '',
       );
@@ -208,7 +208,7 @@ const ColumnSelectPopover = ({
       const alteredSelectedColumn = selectedColumn
         ? {
             ...selectedColumn,
-            verbose_name_EN: selectedColumn?.verbose_name,
+            verbose_name_en: selectedColumn?.verbose_name,
           }
         : undefined;
       setSelectedCalculatedColumn(undefined);
@@ -226,7 +226,7 @@ const ColumnSelectPopover = ({
           '',
       );
       setLabelRU(
-        alteredSelectedColumn?.verbose_name_RU ||
+        alteredSelectedColumn?.verbose_name_ru ||
           alteredSelectedColumn?.column_name ||
           '',
       );

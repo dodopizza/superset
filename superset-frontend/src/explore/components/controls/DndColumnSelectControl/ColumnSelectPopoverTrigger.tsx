@@ -56,10 +56,10 @@ const ColumnSelectPopoverTrigger = ({
     initialPopoverLabel = editedColumn.verbose_name || editedColumn.column_name;
     // DODO added 44120742
     initialPopoverLabelEN =
-      editedColumn.verbose_name_EN || editedColumn.column_name;
+      editedColumn.verbose_name_en || editedColumn.column_name;
     // DODO added 44120742
     initialPopoverLabelRU =
-      editedColumn.verbose_name_RU || editedColumn.column_name;
+      editedColumn.verbose_name_ru || editedColumn.column_name;
   } else if (editedColumn && isAdhocColumn(editedColumn)) {
     initialPopoverLabel = editedColumn.label || defaultPopoverLabel;
     initialPopoverLabelEN = editedColumn.labelEN || defaultPopoverLabel; // DODO added 44120742

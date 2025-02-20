@@ -28,8 +28,8 @@ export type PhysicalColumn = string;
  * Column information defined in datasource.
  */
 interface ColumnDodoExtended {
-  verbose_name_RU?: string | null; // DODO added 44120742
-  verbose_name_EN?: string | null; // DODO added 44120742
+  verbose_name_ru?: string | null; // DODO added 44120742
+  verbose_name_en?: string | null; // DODO added 44120742
 }
 export interface Column extends ColumnDodoExtended {
   id?: number;

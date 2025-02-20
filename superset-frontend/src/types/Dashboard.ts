@@ -3,7 +3,7 @@ import Owner from './Owner';
 import Role from './Role';
 
 interface DashboardDodoExtended {
-  dashboard_title_RU: string; // DODO added 44120742
+  dashboard_title_ru: string; // DODO added 44120742
 }
 export interface Dashboard extends DashboardDodoExtended {
   id: number;

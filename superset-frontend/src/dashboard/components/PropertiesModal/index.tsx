@@ -171,7 +171,7 @@ const PropertiesModal = ({
       const {
         id,
         dashboard_title,
-        dashboard_title_RU, // DODO added 44120742
+        dashboard_title_ru, // DODO added 44120742
         slug,
         certified_by,
         certification_details,
@@ -183,7 +183,7 @@ const PropertiesModal = ({
       const dashboardInfo = {
         id,
         title: dashboard_title,
-        titleRU: dashboard_title_RU || '[ Безымянный Дашборд ]', // DODO added 44120742
+        titleRU: dashboard_title_ru || '[ Безымянный Дашборд ]', // DODO added 44120742
         slug: slug || '',
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
@@ -406,7 +406,7 @@ const PropertiesModal = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
-          dashboard_title_RU: titleRU, // DODO added 44120742
+          dashboard_title_ru: titleRU, // DODO added 44120742
           slug: slug || null,
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),

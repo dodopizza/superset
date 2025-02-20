@@ -86,7 +86,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const error = dashboardApiError || chartsApiError;
   const readyToRender = Boolean(dashboard && charts);
   // const { dashboard_title, css, id = 0 } = dashboard || {};
-  const { dashboard_title, dashboard_title_RU, css, id = 0 } = dashboard || {}; // DODO changed 44120742
+  const { dashboard_title, dashboard_title_ru, css, id = 0 } = dashboard || {}; // DODO changed 44120742
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -166,18 +166,18 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   // DODO changed 44120742
   useEffect(() => {
     const localisedTitle =
-      locale === 'ru' ? dashboard_title_RU : dashboard_title;
+      locale === 'ru' ? dashboard_title_ru : dashboard_title;
 
     document.title =
       localisedTitle ||
       dashboard_title ||
-      dashboard_title_RU ||
+      dashboard_title_ru ||
       fallBackPageTitle;
 
     return () => {
       document.title = originalDocumentTitle;
     };
-  }, [dashboard_title, dashboard_title_RU]);
+  }, [dashboard_title, dashboard_title_ru]);
 
   useEffect(() => {
     if (typeof css === 'string') {
