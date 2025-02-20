@@ -1,26 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { createContext, lazy, FC, useEffect, useMemo, useRef } from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
 import { t, useTheme } from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Loading from 'src/components/Loading';
 import {
@@ -55,6 +39,8 @@ import SyncDashboardState, {
   getDashboardContextLocalStorage,
 } from '../components/SyncDashboardState';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
+
 export const DashboardPageIdContext = createContext('');
 
 const DashboardBuilder = lazy(
@@ -67,6 +53,7 @@ const DashboardBuilder = lazy(
 );
 
 const originalDocumentTitle = document.title;
+const fallBackPageTitle = 'Superset dashboard'; // DODO added 44120742
 
 type PageProps = {
   idOrSlug: string;
@@ -84,18 +71,22 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const { addDangerToast } = useToasts();
   const { result: dashboard, error: dashboardApiError } =
     useDashboard(idOrSlug);
-  const { result: charts, error: chartsApiError } =
-    useDashboardCharts(idOrSlug);
+  const { result: charts, error: chartsApiError } = useDashboardCharts(
+    idOrSlug,
+    locale, // DODO added 44120742
+  );
   const {
     result: datasets,
     error: datasetsApiError,
     status,
-  } = useDashboardDatasets(idOrSlug);
+    // } = useDashboardDatasets(idOrSlug);
+  } = useDashboardDatasets(idOrSlug, locale); // DODO changed 44120742
   const isDashboardHydrated = useRef(false);
 
   const error = dashboardApiError || chartsApiError;
   const readyToRender = Boolean(dashboard && charts);
-  const { dashboard_title, css, id = 0 } = dashboard || {};
+  // const { dashboard_title, css, id = 0 } = dashboard || {};
+  const { dashboard_title, dashboard_title_ru, css, id = 0 } = dashboard || {}; // DODO changed 44120742
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -163,14 +154,30 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readyToRender]);
 
+  // useEffect(() => {
+  //   if (dashboard_title) {
+  //     document.title = dashboard_title;
+  //   }
+  //   return () => {
+  //     document.title = originalDocumentTitle;
+  //   };
+  // }, [dashboard_title]);
+
+  // DODO changed 44120742
   useEffect(() => {
-    if (dashboard_title) {
-      document.title = dashboard_title;
-    }
+    const localisedTitle =
+      locale === 'ru' ? dashboard_title_ru : dashboard_title;
+
+    document.title =
+      localisedTitle ||
+      dashboard_title ||
+      dashboard_title_ru ||
+      fallBackPageTitle;
+
     return () => {
       document.title = originalDocumentTitle;
     };
-  }, [dashboard_title]);
+  }, [dashboard_title, dashboard_title_ru]);
 
   useEffect(() => {
     if (typeof css === 'string') {

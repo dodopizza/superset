@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { omit } from 'lodash';
 import { Input } from 'src/components/Input';
@@ -67,6 +50,10 @@ const StyledJsonEditor = styled(JsonEditor)`
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
 
+type PropertiesModalPropsDodoExtended = {
+  dashboardTitleRU?: string; // DODO added 44120742
+};
+
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
@@ -78,7 +65,7 @@ type PropertiesModalProps = {
   addSuccessToast: (message: string) => void;
   addDangerToast: (message: string) => void;
   onlyApply?: boolean;
-};
+} & PropertiesModalPropsDodoExtended;
 
 type Roles = { id: number; name: string }[];
 type Owners = {
@@ -87,6 +74,10 @@ type Owners = {
   first_name?: string;
   last_name?: string;
 }[];
+
+type DashboardInfoDodoExtended = {
+  titleRU: string; // DODO added 44120742
+};
 type DashboardInfo = {
   id: number;
   title: string;
@@ -95,7 +86,7 @@ type DashboardInfo = {
   certificationDetails: string;
   isManagedExternally: boolean;
   metadata: Record<string, any>;
-};
+} & DashboardInfoDodoExtended;
 
 const PropertiesModal = ({
   addSuccessToast,
@@ -180,6 +171,7 @@ const PropertiesModal = ({
       const {
         id,
         dashboard_title,
+        dashboard_title_ru, // DODO added 44120742
         slug,
         certified_by,
         certification_details,
@@ -191,6 +183,7 @@ const PropertiesModal = ({
       const dashboardInfo = {
         id,
         title: dashboard_title,
+        titleRU: dashboard_title_ru || '[ Безымянный Дашборд ]', // DODO added 44120742
         slug: slug || '',
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
@@ -318,8 +311,9 @@ const PropertiesModal = ({
   };
 
   const onFinish = () => {
-    const { title, slug, certifiedBy, certificationDetails } =
-      form.getFieldsValue();
+    // const { title, slug, certifiedBy, certificationDetails } =
+    const { title, titleRU, slug, certifiedBy, certificationDetails } =
+      form.getFieldsValue(); // DODO changed 44120742
     let currentJsonMetadata = jsonMetadata;
 
     // validate currentJsonMetadata
@@ -392,6 +386,7 @@ const PropertiesModal = ({
     const onSubmitProps = {
       id: dashboardId,
       title,
+      titleRU, // DODO added 44120742
       slug,
       jsonMetadata: currentJsonMetadata,
       owners,
@@ -411,6 +406,7 @@ const PropertiesModal = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
+          dashboard_title_ru: titleRU, // DODO added 44120742
           slug: slug || null,
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
@@ -644,7 +640,9 @@ const PropertiesModal = ({
         </Row>
         <Row gutter={16}>
           <Col xs={24} md={12}>
-            <FormItem label={t('Name')} name="title">
+            {/* <FormItem label={t('Name')} name="title"> */}
+            {/* DODO changed 44120742 */}
+            <FormItem label={t('Title')} name="title">
               <Input
                 data-test="dashboard-title-input"
                 type="text"
@@ -652,6 +650,17 @@ const PropertiesModal = ({
               />
             </FormItem>
           </Col>
+          {/* DODO added start 44120742 */}
+          <Col xs={24} md={12}>
+            <FormItem label={t('Title (Rus)')} name="titleRU">
+              <Input
+                data-test="dashboard-title-ru-input"
+                type="text"
+                disabled={isLoading}
+              />
+            </FormItem>
+          </Col>
+          {/* DODO added stop 44120742 */}
           <Col xs={24} md={12}>
             <StyledFormItem label={t('URL slug')} name="slug">
               <Input type="text" disabled={isLoading} />
