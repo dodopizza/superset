@@ -3,6 +3,7 @@ import {
   FilterConfiguration,
   Filters,
   FilterSet, // DODO added 44211751
+  FilterSets, // DODO added 44211751
   makeApi,
 } from '@superset-ui/core';
 import { Dispatch } from 'redux';
@@ -136,11 +137,14 @@ export const setInScopeStatusOfFilters =
     );
   };
 
+type NativeFiltersDodoExtended = {
+  filterSets: FilterSets; // DODO added 44211751
+};
 type BootstrapData = {
   nativeFilters: {
     filters: Filters;
     filtersState: object;
-  };
+  } & NativeFiltersDodoExtended;
 };
 
 export interface SetBootstrapData {
@@ -269,46 +273,45 @@ export interface UpdateFilterSetFail {
   type: typeof UPDATE_FILTER_SET_FAIL;
 }
 
-export const getFilterSets =
-  (dashboardId: number) => async (dispatch: Dispatch) => {
-    const fetchFilterSets = async () =>
-      // if (process.env.type === undefined) {
-      makeApi<
-        null,
-        {
-          count: number;
-          ids: number[];
-          result: FilterSetFullData[];
-        }
-      >({
-        method: 'GET',
-        endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
-      })(null);
-    // }
-    // return API_HANDLER.SupersetClient({
-    //   method: 'get',
-    //   url: `/api/v1/dashboard/${dashboardId}/filtersets`,
-    // });
-    dispatch({
-      type: SET_FILTER_SETS_BEGIN,
-    });
+const getFilterSets = (dashboardId: number) => async (dispatch: Dispatch) => {
+  const fetchFilterSets = async () =>
+    // if (process.env.type === undefined) {
+    makeApi<
+      null,
+      {
+        count: number;
+        ids: number[];
+        result: FilterSetFullData[];
+      }
+    >({
+      method: 'GET',
+      endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
+    })(null);
+  // }
+  // return API_HANDLER.SupersetClient({
+  //   method: 'get',
+  //   url: `/api/v1/dashboard/${dashboardId}/filtersets`,
+  // });
+  dispatch({
+    type: SET_FILTER_SETS_BEGIN,
+  });
 
-    const response: {
-      count: number;
-      ids: number[];
-      result: FilterSetFullData[];
-    } = await fetchFilterSets();
+  const response: {
+    count: number;
+    ids: number[];
+    result: FilterSetFullData[];
+  } = await fetchFilterSets();
 
-    dispatch({
-      type: SET_FILTER_SETS_COMPLETE,
-      filterSets: response.ids.map((id, i) => ({
-        ...response.result[i].params,
-        id,
-        name: response.result[i].name,
-        isPrimary: response.result[i].is_primary,
-      })),
-    });
-  };
+  dispatch({
+    type: SET_FILTER_SETS_COMPLETE,
+    filterSets: response.ids.map((id, i) => ({
+      ...response.result[i].params,
+      id,
+      name: response.result[i].name,
+      isPrimary: response.result[i].is_primary,
+    })),
+  });
+};
 
 export const createFilterSet =
   (filterSet: Omit<FilterSet, 'id'>) =>
