@@ -29,17 +29,16 @@ export const getMetricDescription = (
   const metricName = isMetricSaved ? metric : metric?.column.column_name;
   if (!metricName) return undefined;
 
-  const formattedLocale = locale.toLocaleUpperCase();
-  const localizedKey = `description_${formattedLocale}` as
-    | 'description_EN'
-    | 'description_RU';
+  const localizedKey = `description_${locale}` as
+    | 'description_en'
+    | 'description_ru';
 
   const getDescription = (
     source: Source | undefined,
   ): Maybe<string> | undefined =>
     source?.[localizedKey] ||
-    source?.description_RU ||
-    source?.description_EN ||
+    source?.description_ru ||
+    source?.description_en ||
     source?.description;
 
   const { metrics: datasourceMetrics, columns } = datasource;

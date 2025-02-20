@@ -20,10 +20,9 @@ export const extractDatasourceDescriptions = (
 ): Record<string, string> => {
   const descriptions: Record<string, string> = {};
 
-  const formattedLocale = locale.toLocaleUpperCase();
-  const localizedKey = `description_${formattedLocale}` as
-    | 'description_EN'
-    | 'description_RU';
+  const localizedKey = `description_${locale}` as
+    | 'description_en'
+    | 'description_ru';
 
   const datasource = [...datasourceMetrics, ...datasourceColumns];
   const datasourceMap = datasource.reduce(
@@ -38,8 +37,8 @@ export const extractDatasourceDescriptions = (
 
   const getDescription = (source: Source): Maybe<string> | undefined =>
     source[localizedKey] ||
-    source.description_RU ||
-    source.description_EN ||
+    source.description_ru ||
+    source.description_en ||
     source.description;
 
   const addDescriptionToDictionary = (metric: QueryFormMetric) => {

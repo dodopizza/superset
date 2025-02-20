@@ -257,11 +257,11 @@ function ColumnCollectionTable({
             />
             {/* DODO added 44728892 */}
             <Field
-              fieldKey="description_RU"
+              fieldKey="description_ru"
               label={`${t('Description')} (Rus)`}
               control={
                 <TextControl
-                  controlId="description_RU"
+                  controlId="description_ru"
                   placeholder={`${t('Description')} (Rus)`}
                 />
               }
@@ -1267,11 +1267,11 @@ class DatasourceEditor extends PureComponent {
               />
               {/* DODO added 44728892 */}
               <Field
-                fieldKey="description_RU"
+                fieldKey="description_ru"
                 label={`${t('Description')} (Rus)`}
                 control={
                   <TextControl
-                    controlId="description_RU"
+                    controlId="description_ru"
                     placeholder={`${t('Description')} (Rus)`}
                   />
                 }

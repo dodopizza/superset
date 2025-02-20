@@ -42,8 +42,8 @@ export type SavedMetric = string;
  * Metric definition stored in datasource metadata.
  */
 interface MetricDodoExtended {
-  description_RU?: Maybe<string>; // DODO added 44728892
-  description_EN?: Maybe<string>; // DODO added 44728892
+  description_ru?: Maybe<string>; // DODO added 44728892
+  description_en?: Maybe<string>; // DODO added 44728892
 }
 export interface Metric extends MetricDodoExtended {
   id?: number;
