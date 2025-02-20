@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   CSSProperties,
   useCallback,
@@ -24,13 +7,15 @@ import {
   useState,
   MouseEvent,
   KeyboardEvent as ReactKeyboardEvent,
+  useEffect, // DODO added 45525377
 } from 'react';
 
 import {
+  CellProps, // DODO added 45525377
   ColumnInstance,
   ColumnWithLooseAccessor,
   DefaultSortTypes,
-  Row,
+  // Row, // DODO commented out 45525377
 } from 'react-table';
 import { extent as d3Extent, max as d3Max } from 'd3-array';
 import { FaSort } from '@react-icons/all-files/fa/FaSort';
@@ -52,7 +37,7 @@ import {
   tn,
   useTheme,
 } from '@superset-ui/core';
-import { Dropdown, Menu, Tooltip } from '@superset-ui/chart-controls';
+import { Dropdown, Menu, PinIcon, Tooltip } from '@superset-ui/chart-controls';
 import {
   CheckOutlined,
   InfoCircleOutlined,
@@ -79,6 +64,16 @@ import { formatColumnValue } from './utils/formatValue';
 import { PAGE_SIZE_OPTIONS } from './consts';
 import { updateExternalFormData } from './DataTable/utils/externalAPIs';
 import getScrollBarSize from './DataTable/utils/getScrollBarSize';
+// DODO added 45525377
+import {
+  getDefaultPinColumns,
+  getPinnedWidth,
+} from './DodoExtensions/utils/columnPinning';
+
+// DODO added 45525377
+type CustomCellProps<D extends object> = CellProps<D, any> & {
+  colWidths: number[];
+};
 
 type ValueRange = [number, number];
 
@@ -231,6 +226,13 @@ function SelectPageSize({
 const getNoResultsMessage = (filter: string) =>
   filter ? t('No matching records found') : t('No records found');
 
+const comparisonColumns = [
+  { key: 'all', label: t('Display all') },
+  { key: '#', label: '#' },
+  { key: '△', label: '△' },
+  { key: '%', label: '%' },
+];
+
 export default function TableChart<D extends DataRecord = DataRecord>(
   props: TableChartTransformedProps<D> & {
     sticky?: DataTableProps<D>['sticky'];
@@ -265,12 +267,21 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     basicColorFormatters,
     basicColorColumnFormatters,
   } = props;
-  const comparisonColumns = [
-    { key: 'all', label: t('Display all') },
-    { key: '#', label: '#' },
-    { key: '△', label: '△' },
-    { key: '%', label: '%' },
-  ];
+  // DODO added start 45525377
+  const [pinnedColumns, setPinnedColumns] = useState<number[]>(
+    getDefaultPinColumns(columnsMeta),
+  );
+  const toggleColumnPin = (isPinned: boolean, columnIndex: number) => {
+    setPinnedColumns(prev => {
+      if (isPinned) return prev.filter(item => item !== columnIndex).sort();
+      return [...prev, columnIndex].sort();
+    });
+  };
+  useEffect(() => {
+    setPinnedColumns(getDefaultPinColumns(columnsMeta));
+  }, [columnsMeta]);
+  // DODO added stop 45525377
+
   const timestampFormatter = useCallback(
     value => getTimeFormatterForGranularity(timeGrain)(value),
     [timeGrain],
@@ -726,15 +737,18 @@ export default function TableChart<D extends DataRecord = DataRecord>(
         className += ' dt-is-filter';
       }
 
-      if (!isMetric && !isPercentMetric) {
-        className += ' right-border-only';
-      } else if (comparisonLabels.includes(label)) {
-        const groupinHeader = key.substring(label.length);
-        const columnsUnderHeader = groupHeaderColumns[groupinHeader] || [];
-        if (i === columnsUnderHeader[columnsUnderHeader.length - 1]) {
-          className += ' right-border-only';
-        }
-      }
+      const isColumnPinned = pinnedColumns.includes(i); // DODO added 45525377
+
+      // DODO commented out 45525377
+      // if (!isMetric && !isPercentMetric) {
+      //   className += ' right-border-only';
+      // } else if (comparisonLabels.includes(label)) {
+      //   const groupinHeader = key.substring(label.length);
+      //   const columnsUnderHeader = groupHeaderColumns[groupinHeader] || [];
+      //   if (i === columnsUnderHeader[columnsUnderHeader.length - 1]) {
+      //     className += ' right-border-only';
+      //   }
+      // }
 
       return {
         id: String(i), // to allow duplicate column keys
@@ -742,11 +756,12 @@ export default function TableChart<D extends DataRecord = DataRecord>(
         // typing is incorrect in current version of `@types/react-table`
         // so we ask TS not to check.
         accessor: ((datum: D) => datum[key]) as never,
-        Cell: ({ value, row }: { value: DataRecordValue; row: Row<D> }) => {
+        // DODO changed 45525377
+        Cell: ({ value, row, colWidths }: CustomCellProps<D>) => {
           const [isHtml, text] = formatColumnValue(column, value);
           const html = isHtml && allowRenderHtml ? { __html: text } : undefined;
 
-          let backgroundColor;
+          let backgroundColor: string | undefined; // DODO changed 45525377
           let arrow = '';
           const originKey = column.key.substring(column.label.length).trim();
           if (!hasColumnColorFormatters && hasBasicColorFormatters) {
@@ -790,6 +805,18 @@ export default function TableChart<D extends DataRecord = DataRecord>(
             white-space: ${value instanceof Date ? 'nowrap' : undefined};
             position: relative;
             background: ${backgroundColor || undefined};
+            // DODO added 45525377
+            ${() => {
+              if (isColumnPinned) {
+                return css`
+                  position: sticky;
+                  z-index: 4;
+                  left: ${getPinnedWidth(colWidths, pinnedColumns, i)}px;
+                  background: ${backgroundColor ?? 'white'};
+                `;
+              }
+              return undefined;
+            }}
           `;
 
           const cellBarStyles = css`
@@ -919,7 +946,14 @@ export default function TableChart<D extends DataRecord = DataRecord>(
             </StyledCell>
           );
         },
-        Header: ({ column: col, onClick, style, onDragStart, onDrop }) => (
+        Header: ({
+          column: col,
+          onClick,
+          style,
+          onDragStart,
+          onDrop,
+          colWidths, // DODO added 45525377
+        }) => (
           <th
             id={`header-${column.key}`}
             title={t('Shift + Click to sort by multiple columns')}
@@ -927,6 +961,14 @@ export default function TableChart<D extends DataRecord = DataRecord>(
             style={{
               ...sharedStyle,
               ...style,
+              // DODO added 45525377
+              ...(isColumnPinned
+                ? {
+                    position: 'sticky',
+                    zIndex: 4,
+                    left: getPinnedWidth(colWidths, pinnedColumns, i),
+                  }
+                : {}),
             }}
             onKeyDown={(e: ReactKeyboardEvent<HTMLElement>) => {
               // programatically sort column on keypress
@@ -963,6 +1005,11 @@ export default function TableChart<D extends DataRecord = DataRecord>(
                 alignItems: 'flex-end',
               }}
             >
+              {/* DODO added 45525377 */}
+              <PinIcon
+                isPinned={isColumnPinned}
+                handlePinning={() => toggleColumnPin(isColumnPinned, i)}
+              />
               <span data-column-name={col.id}>{label}</span>
               <SortIcon column={col} />
             </div>
