@@ -55,9 +55,9 @@ const getTooltipLabel = (
   if (isSavedMetric(metric)) {
     const foundMetric = metrics.find(item => item.metric_name === metric);
     if (foundMetric) {
-      const key = `verbose_name_${upperCasedLocale}` as
-        | 'verbose_name_EN'
-        | 'verbose_name_RU';
+      const key = `verbose_name_${locale}` as
+        | 'verbose_name_en'
+        | 'verbose_name_ru';
       const label = foundMetric[key] ?? foundMetric.verbose_name;
       if (label) return label as string;
     }
