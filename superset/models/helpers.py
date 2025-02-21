@@ -1325,7 +1325,6 @@ class ExploreMixin:  # pylint: disable=too-many-public-methods
                     self.dttm_sql_literal(start_dttm, time_col)
                 )
             )
-        logger.error(time_range_end_type)
         if end_dttm:
             if  time_range_end_type == "included":
                 l.append(
