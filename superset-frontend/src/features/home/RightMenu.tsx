@@ -32,6 +32,8 @@ import DatabaseModal from 'src/features/databases/DatabaseModal';
 import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import TelemetryPixel from 'src/components/TelemetryPixel';
+import { Version } from 'src/DodoExtensions/components/Version'; // DODO added 45047288
+import { APP_VERSION } from 'src/constants'; // DODO added 45047288
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -342,6 +344,7 @@ const RightMenu = ({
 
   return (
     <StyledDiv align={align}>
+      <Version appVersion={APP_VERSION} /> {/* DODO added 45047288 */}
       {canDatabase && (
         <DatabaseModal
           onHide={handleOnHideModal}
@@ -520,6 +523,12 @@ const RightMenu = ({
                   {navbarRight.version_string && (
                     <div css={versionInfoStyles}>
                       {t('Version')}: {navbarRight.version_string}
+                    </div>
+                  )}
+                  {/* DODO added 45047288 */}
+                  {APP_VERSION && (
+                    <div css={versionInfoStyles}>
+                      DODO Version: {APP_VERSION}
                     </div>
                   )}
                   {navbarRight.version_sha && (
