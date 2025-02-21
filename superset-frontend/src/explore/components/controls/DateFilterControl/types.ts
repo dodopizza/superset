@@ -1,4 +1,6 @@
 // DODO was here
+import { TimeRangeEndType } from '@superset-ui/core'; // DODO added 44211759
+
 export type SelectOptionType = {
   value: string;
   label: string;
@@ -93,7 +95,7 @@ export type FrameComponentProps = {
 
 export interface DateFilterControlProps {
   name: string;
-  onChange: (timeRange: string) => void;
+  onChange: (timeRange: string, timeRangeEndType: TimeRangeEndType) => void; // DODO changed 44211759
   value?: string;
   onOpenPopover?: () => void;
   onClosePopover?: () => void;

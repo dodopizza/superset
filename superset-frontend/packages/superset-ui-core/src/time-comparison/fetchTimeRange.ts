@@ -7,6 +7,7 @@ import {
   ensureIsArray,
   dttmToMoment, // DODO added 44211759
   MOMENT_FORMAT_UI_DODO, // DODO added 44211759
+  TimeRangeEndType, // DODO added 44211759
 } from '@superset-ui/core';
 
 export const SEPARATOR = ' : ';
@@ -19,14 +20,21 @@ const formatDateEndpoint = (dttm: string, isStart?: boolean): string =>
 
 export const formatTimeRange = (
   timeRange: string,
+  timeRangeEndType: TimeRangeEndType, // DODO added 44211759
   columnPlaceholder = 'col',
 ) => {
   const splitDateRange = timeRange.split(SEPARATOR);
   if (splitDateRange.length === 1) return timeRange;
+  // DODO added 44211759
+  const endInclusion =
+    timeRangeEndType === TimeRangeEndType.Included ? '≤' : '<';
   return `${formatDateEndpoint(
     splitDateRange[0],
     true,
-  )} ≤ ${columnPlaceholder} < ${formatDateEndpoint(splitDateRange[1])}`;
+    // DODO changed 44211759
+  )} ≤ ${columnPlaceholder} ${endInclusion} ${formatDateEndpoint(
+    splitDateRange[1],
+  )}`;
 };
 
 export const formatTimeRangeComparison = (
@@ -47,6 +55,7 @@ export const formatTimeRangeComparison = (
 
 export const fetchTimeRange = async (
   timeRange: string,
+  timeRangeEndType: TimeRangeEndType, // DODO added 44211759
   columnPlaceholder = 'col',
   shifts?: string[],
 ) => {
@@ -79,7 +88,11 @@ export const fetchTimeRange = async (
       // response?.json?.result[0]?.until || '',
       // );
       return {
-        value: formatTimeRange(timeRangeString, columnPlaceholder),
+        value: formatTimeRange(
+          timeRangeString,
+          timeRangeEndType, // DODO added 44211759
+          columnPlaceholder,
+        ),
       };
     }
     const timeRanges = response?.json?.result.map((result: any) =>
