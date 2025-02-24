@@ -6,6 +6,7 @@ import { styled, t, logging } from '@superset-ui/core';
 import { debounce, isEqual } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
+import { bootstrapData } from 'src/preamble'; // DODO added 44136746
 import { exportChart, mountExploreUrl } from 'src/explore/exploreUtils';
 import ChartContainer from 'src/components/Chart/ChartContainer';
 import {
@@ -22,6 +23,8 @@ import { URL_PARAMS } from 'src/constants';
 import SliceHeader from '../SliceHeader';
 import MissingChart from '../MissingChart';
 import { slicePropShape, chartPropShape } from '../../util/propShapes';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44136746
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -360,6 +363,7 @@ class Chart extends Component {
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
+      language: locale, // DODO added 44136746
       datasourceMetrics: this.props.datasource.metrics, // DODO added 44136746
     });
   }

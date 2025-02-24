@@ -239,6 +239,8 @@ export const exportChart = ({
   resultType = 'full',
   force = false,
   ownState = {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  language = 'en', // DODO added 44136746
   datasourceMetrics = [], // DODO added 44136746
 }) => {
   let url;
