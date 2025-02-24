@@ -4,8 +4,8 @@ import type { Firestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
-  collection,
-  addDoc,
+  // collection,
+  // addDoc,
   Timestamp,
 } from 'firebase/firestore';
 import { UAParser } from 'ua-parser-js';
@@ -48,13 +48,13 @@ export const FirebaseService: IFirebaseService = (() => {
     userAgent: navigator.userAgent, // Add user agent for context
   };
 
-  const locationData = window
-    ? {
-        origin: window.location.origin,
-        pathname: window.location.pathname,
-        search: window.location.search || '',
-      }
-    : {};
+  // const locationData = window
+  //   ? {
+  //       origin: window.location.origin,
+  //       pathname: window.location.pathname,
+  //       search: window.location.search || '',
+  //     }
+  //   : {};
 
   return {
     init: (config: IFirebaseConfig) => {
@@ -75,20 +75,19 @@ export const FirebaseService: IFirebaseService = (() => {
       return genericData;
     },
     logError: (errorDetails: object) => {
-      const errorLog = {
-        ...errorDetails,
-        ...genericData, // Include generic data like device type, platform, etc.
-        ...locationData,
-      };
-
+      // const errorLog = {
+      //   ...errorDetails,
+      //   ...genericData, // Include generic data like device type, platform, etc.
+      //   ...locationData,
+      // };
       // Write the error log to Firestore
-      addDoc(collection(firestore, 'frontend-errors'), errorLog)
-        .then(() => {
-          console.log('Error logged successfully:', errorDetails);
-        })
-        .catch((err: any) => {
-          console.error('Failed to log error:', err);
-        });
+      // addDoc(collection(firestore, 'frontend-errors'), errorLog)
+      //   .then(() => {
+      //     console.log('Error logged successfully:', errorDetails);
+      //   })
+      //   .catch((err: any) => {
+      //     console.error('Failed to log error:', err);
+      //   });
     },
   };
 })();

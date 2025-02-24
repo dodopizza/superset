@@ -1444,6 +1444,7 @@ TALISMAN_CONFIG = {
             "https://*.firebaseapp.com",
             "https://firebasedatabase.googleapis.com",
             "https://identitytoolkit.googleapis.com",
+            "https://api.rollbar.com",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1488,6 +1489,7 @@ TALISMAN_DEV_CONFIG = {
             "https://*.firebaseapp.com",
             "https://firebasedatabase.googleapis.com",
             "https://identitytoolkit.googleapis.com",
+            "https://api.rollbar.com",
         ],
         "object-src": "'none'",
         "style-src": [

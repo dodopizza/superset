@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import React, { Suspense, useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
@@ -25,6 +8,11 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+// DODO added
+import {
+  Provider as RollbarProvider,
+  ErrorBoundary as RollbarErrorBoundary,
+} from '@rollbar/react';
 import { GlobalStyles } from 'src/GlobalStyles';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import Loading from 'src/components/Loading';
@@ -38,6 +26,7 @@ import { LOG_ACTIONS_SPA_NAVIGATION, Logger } from 'src/logger/LogUtils';
 import setupExtensions from 'src/setup/setupExtensions';
 import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
+import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
 import { OnBoardingEntryPoint } from '../DodoExtensions/onBoarding'; // DODO added #32839638
@@ -70,33 +59,39 @@ const LocationPathnameLogger = () => {
 };
 
 const App = () => (
-  <Router>
-    <ScrollToTop />
-    <LocationPathnameLogger />
-    <RootContextProviders>
-      <GlobalStyles />
-      <Menu
-        data={bootstrapData.common.menu_data}
-        isFrontendRoute={isFrontendRoute}
-      />
-      <Switch>
-        {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-          <Route path={path} key={path}>
-            <Suspense fallback={<Fallback />}>
-              <ErrorBoundary>
-                <Component user={bootstrapData.user} {...props} />
-              </ErrorBoundary>
-            </Suspense>
-          </Route>
-        ))}
-      </Switch>
+  <RollbarProvider config={ROLLBAR_CONFIG}>
+    <RollbarErrorBoundary>
+      <Router>
+        <ScrollToTop />
+        <LocationPathnameLogger />
+        <RootContextProviders>
+          <GlobalStyles />
+          <Menu
+            data={bootstrapData.common.menu_data}
+            isFrontendRoute={isFrontendRoute}
+          />
+          <Switch>
+            {routes.map(
+              ({ path, Component, props = {}, Fallback = Loading }) => (
+                <Route path={path} key={path}>
+                  <Suspense fallback={<Fallback />}>
+                    <ErrorBoundary>
+                      <Component user={bootstrapData.user} {...props} />
+                    </ErrorBoundary>
+                  </Suspense>
+                </Route>
+              ),
+            )}
+          </Switch>
 
-      {/* DODO added #32839638 */}
-      <OnBoardingEntryPoint />
+          {/* DODO added #32839638 */}
+          <OnBoardingEntryPoint />
 
-      <ToastContainer />
-    </RootContextProviders>
-  </Router>
+          <ToastContainer />
+        </RootContextProviders>
+      </Router>
+    </RollbarErrorBoundary>
+  </RollbarProvider>
 );
 
 export default hot(App);
