@@ -40,6 +40,23 @@ export type DataMaskState = { [id: string]: DataMask };
 export type DataMaskWithId = { id: string } & DataMask;
 export type DataMaskStateWithId = { [filterId: string]: DataMaskWithId };
 
+// DODO added start 44211751
+type FilterSetDodoExtended = {
+  isPrimary: boolean;
+};
+
+export type FilterSet = {
+  id: number;
+  name: string;
+  nativeFilters: Filters;
+  dataMask: DataMaskStateWithId;
+} & FilterSetDodoExtended;
+
+export type FilterSets = {
+  [filtersSetId: string]: FilterSet;
+};
+// DODO added stop 44211751
+
 type FilterDodoExtended = {
   selectTopValue?: number; // DODO added 44211759
 };
@@ -145,11 +162,15 @@ export type PartialFilters = {
   [filterId: string]: Partial<Filters[keyof Filters]>;
 };
 
+type NativeFiltersStateDodoExtended = {
+  filterSets: FilterSets; // DODO added 44211751
+  pendingFilterSetId?: number; // DODO added 44211751
+};
 export type NativeFiltersState = {
   filters: Filters;
   focusedFilterId?: string;
   hoveredFilterId?: string;
-};
+} & NativeFiltersStateDodoExtended;
 
 export type DashboardComponentMetadata = {
   nativeFilters: NativeFiltersState;
