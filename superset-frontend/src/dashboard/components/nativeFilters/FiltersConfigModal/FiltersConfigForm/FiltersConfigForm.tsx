@@ -114,14 +114,13 @@ const StyledGridContainer = styled.div`
   column-gap: 1rem;
 `;
 
-// DODO commented out 44211759
-// const StyledRowContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   width: 100%;
-//   padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
-// `;
+const StyledRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px ${({ theme }) => theme.gridUnit * 4}px;
+`;
 
 type ControlKey = keyof PluginFilterSelectCustomizeProps;
 
@@ -136,6 +135,7 @@ const controlsOrder: ControlKey[] = [
 export const StyledFormItem = styled(FormItem)<{ expanded: boolean }>`
   // width: ${({ expanded }) => (expanded ? '49%' : `${FORM_ITEM_WIDTH}px`)};
   margin-bottom: ${({ theme }) => theme.gridUnit * 4}px;
+  flex: 1;
 
   & .ant-form-item-label {
     padding-bottom: 0;
@@ -261,16 +261,17 @@ const StyledAsterisk = styled.span`
   }
 `;
 
+// DODO changed 44211759
 const FilterTypeInfo = styled.div<{ expanded: boolean }>`
   ${({ theme, expanded }) => `
-    width: ${expanded ? '49%' : `${FORM_ITEM_WIDTH}px`};
+    // width: ${expanded ? '49%' : `${FORM_ITEM_WIDTH}px`};
     font-size: ${theme.typography.sizes.s}px;
     color: ${theme.colors.grayscale.light1};
-    margin:
-      ${-theme.gridUnit * 2}px
-      0px
-      ${theme.gridUnit * 4}px
-      ${theme.gridUnit * 4}px;
+    // margin:
+    //   ${-theme.gridUnit * 2}px
+    //   0px
+    //   ${theme.gridUnit * 4}px
+    //   ${theme.gridUnit * 4}px;
   `}
 `;
 
@@ -330,6 +331,21 @@ const FILTER_TYPE_NAME_MAPPING = {
   [t('Time grain')]: t('Time grain'),
   [t('Group By')]: t('Group by'),
   [t('Select by id filter')]: t('Filter by ID'), // DODO added 44211759
+  [t('Select with translation')]: t('Value with translation'), // DODO added 44211759
+  [t('Select by id with translation')]: t('Filter by ID with translation'), // DODO added 44211759
+};
+
+// DODO added 44211759
+const FILTER_INFO_MAP: Record<string, string> = {
+  filter_select_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_select_by_id_with_translation: t(
+    'This filter is used if there are two columns with values in different languages. For example, Delivery and Доставка',
+  ),
+  filter_time: t(
+    'Dashboard time range filters apply to temporal columns in chart filters. Add temporal columns to apply the dashboard filter',
+  ),
 };
 
 /**
@@ -489,6 +505,7 @@ const FiltersConfigForm = (
         dashboardId,
         groupby: formFilter?.column,
         groupbyid: formFilter?.columnId, // DODO added 44211759
+        groupbyRu: formFilter?.columnRu, // DODO added 44211759
         ...formFilter,
       });
 
@@ -551,6 +568,7 @@ const FiltersConfigForm = (
     datasetId,
     groupby: hasColumn ? formFilter?.column : undefined,
     groupbyid: formFilter?.columnId, // DODO added 44211759
+    groupbyRu: formFilter?.columnRu, // DODO added 44211759
     ...formFilter,
   });
   newFormData.extra_form_data = dependenciesDefaultValues;
@@ -864,11 +882,24 @@ const FiltersConfigForm = (
                   filterType: value,
                   defaultDataMask: null,
                   column: null,
+                  // DODO added start 44211759
+                  columnRu: null,
+                  columnId: null,
+                  selectTopValue: null,
+                  // DODO added stop 44211759
                 });
                 forceUpdate();
               }}
             />
           </StyledFormItem>
+          {FILTER_INFO_MAP[formFilter?.filterType || ''] && (
+            <FilterTypeInfo expanded={expanded}>
+              <Icons.InfoSolid iconSize="m" iconColor="#999999" />{' '}
+              {FILTER_INFO_MAP[formFilter?.filterType || '']}
+            </FilterTypeInfo>
+          )}
+        </StyledGridContainer>
+        <StyledGridContainer>
           <StyledFormItem
             expanded={expanded}
             name={['filters', filterId, 'name']}
@@ -878,101 +909,115 @@ const FiltersConfigForm = (
           >
             <Input {...getFiltersConfigModalTestId('name-input')} />
           </StyledFormItem>
+          {/* DODO added 44211759 */}
+          <StyledFormItem
+            expanded={expanded}
+            name={['filters', filterId, 'nameRu']}
+            label={<StyledLabel>{t('Filter name')} RU</StyledLabel>}
+            initialValue={filterToEdit?.nameRu}
+          >
+            <Input {...getFiltersConfigModalTestId('name-input')} />
+          </StyledFormItem>
         </StyledGridContainer>
-        {formFilter?.filterType === 'filter_time' && (
+        {/* {formFilter?.filterType === 'filter_time' && (
           <FilterTypeInfo expanded={expanded}>
             {t(`Dashboard time range filters apply to temporal columns defined in
           the filter section of each chart. Add temporal columns to the chart
           filters to have this dashboard filter impact those charts.`)}
           </FilterTypeInfo>
-        )}
+        )} */}
+        {/* DODO changed 44211759 */}
         {hasDataset && (
-          // DODO changed 44211759
-          <StyledGridContainer>
-            {showDataset ? (
-              <StyledFormItem
-                expanded={expanded}
-                name={['filters', filterId, 'dataset']}
-                label={<StyledLabel>{t('Dataset')}</StyledLabel>}
-                initialValue={
-                  datasetDetails
-                    ? {
-                        label: DatasetSelectLabel({
-                          id: datasetDetails.id,
-                          table_name: datasetDetails.table_name,
-                          schema: datasetDetails.schema,
-                          database: {
-                            database_name:
-                              datasetDetails.database.database_name,
-                          },
-                        }),
-                        value: datasetDetails.id,
+          <>
+            <StyledRowContainer>
+              {showDataset ? (
+                <StyledFormItem
+                  expanded={expanded}
+                  name={['filters', filterId, 'dataset']}
+                  label={<StyledLabel>{t('Dataset')}</StyledLabel>}
+                  initialValue={
+                    datasetDetails
+                      ? {
+                          label: DatasetSelectLabel({
+                            id: datasetDetails.id,
+                            table_name: datasetDetails.table_name,
+                            schema: datasetDetails.schema,
+                            database: {
+                              database_name:
+                                datasetDetails.database.database_name,
+                            },
+                          }),
+                          value: datasetDetails.id,
+                        }
+                      : undefined
+                  }
+                  rules={[
+                    { required: !isRemoved, message: t('Dataset is required') },
+                  ]}
+                  {...getFiltersConfigModalTestId('datasource-input')}
+                >
+                  <DatasetSelect
+                    onChange={(value: { label: string; value: number }) => {
+                      // We need to reset the column when the dataset has changed
+                      if (value.value !== datasetId) {
+                        setNativeFilterFieldValues(form, filterId, {
+                          dataset: value,
+                          defaultDataMask: null,
+                          column: null,
+                        });
                       }
-                    : undefined
-                }
-                rules={[
-                  { required: !isRemoved, message: t('Dataset is required') },
-                ]}
-                {...getFiltersConfigModalTestId('datasource-input')}
-              >
-                <DatasetSelect
-                  onChange={(value: { label: string; value: number }) => {
-                    // We need to reset the column when the dataset has changed
-                    if (value.value !== datasetId) {
-                      setNativeFilterFieldValues(form, filterId, {
-                        dataset: value,
-                        defaultDataMask: null,
-                        column: null,
-                      });
-                    }
-                    forceUpdate();
-                  }}
-                />
-              </StyledFormItem>
-            ) : (
-              <StyledFormItem
-                expanded={expanded}
-                label={<StyledLabel>{t('Dataset')}</StyledLabel>}
-              >
-                <Loading position="inline-centered" />
-              </StyledFormItem>
-            )}
-            {hasDataset &&
-              Object.keys(mainControlItems).map(
+                      forceUpdate();
+                    }}
+                  />
+                </StyledFormItem>
+              ) : (
+                <StyledFormItem
+                  expanded={expanded}
+                  label={<StyledLabel>{t('Dataset')}</StyledLabel>}
+                >
+                  <Loading position="inline-centered" />
+                </StyledFormItem>
+              )}
+            </StyledRowContainer>
+            <StyledGridContainer>
+              {Object.keys(mainControlItems).map(
                 key => mainControlItems[key].element,
               )}
-            {/* DODO added 44211759 */}
-            {formFilter.filterType === 'filter_select_by_id' && (
-              <StyledFormItem
-                expanded={expanded}
-                name={['filters', filterId, 'selectTopValue']}
-                label={
-                  <StyledLabel>
-                    Select Top Value{' '}
-                    <InfoTooltipWithTrigger
-                      tooltip={t('Use it with caution')}
-                    />
-                  </StyledLabel>
-                }
-                initialValue={filterToEdit?.selectTopValue}
-                rules={[
-                  {
-                    validator: (_, value) => {
-                      if (!value) return Promise.resolve();
-                      if (!Number.isInteger(Number(value))) {
-                        return Promise.reject(
-                          new Error(t('Not a valid integer')),
-                        );
-                      }
-                      return Promise.resolve();
+              {/* DODO added 44211759 */}
+              {(formFilter.filterType === 'filter_select_by_id' ||
+                formFilter.filterType ===
+                  'filter_select_by_id_with_translation') && (
+                <StyledFormItem
+                  expanded={expanded}
+                  name={['filters', filterId, 'selectTopValue']}
+                  label={
+                    <StyledLabel>
+                      Select Top Value{' '}
+                      <InfoTooltipWithTrigger
+                        tooltip={t('Use it with caution')}
+                      />
+                    </StyledLabel>
+                  }
+                  initialValue={filterToEdit?.selectTopValue}
+                  rules={[
+                    {
+                      validator: (_, value) => {
+                        if (!value) return Promise.resolve();
+                        if (!Number.isInteger(Number(value))) {
+                          return Promise.reject(
+                            new Error(t('Not a valid integer')),
+                          );
+                        }
+                        return Promise.resolve();
+                      },
                     },
-                  },
-                ]}
-              >
-                <TextControl placeholder="1000" />
-              </StyledFormItem>
-            )}
-          </StyledGridContainer>
+                  ]}
+                >
+                  <TextControl placeholder="1000" />
+                </StyledFormItem>
+              )}
+            </StyledGridContainer>
+          </>
         )}
         <StyledCollapse
           defaultActiveKey={activeFilterPanelKeys}

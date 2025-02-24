@@ -185,4 +185,6 @@ export enum FilterPlugins {
   TimeColumn = 'filter_timecolumn',
   TimeGrain = 'filter_timegrain',
   SelectById = 'filter_select_by_id', // DODO added 44211759
+  SelectWithTranslation = 'filter_select_with_translation', // DODO added 44211759
+  SelectByIdWithTranslation = 'filter_select_by_id_with_translation', // DODO added 44211759
 }

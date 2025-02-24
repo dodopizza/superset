@@ -13,6 +13,7 @@ import {
 import { debounce, isEmpty, isEqual, sortBy, uniq } from 'lodash';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { bootstrapData } from 'src/preamble'; // DODO added 44211759
 import { AntdForm } from 'src/components';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import Icons from 'src/components/Icons';
@@ -41,6 +42,13 @@ import {
 
 const MODAL_MARGIN = 16;
 const MIN_WIDTH = 880;
+
+// DODO added start 44211759
+const locale = bootstrapData?.common?.locale || 'en';
+const localisedNameField = `name${locale === 'en' ? '' : 'Ru'}` as
+  | 'name'
+  | 'nameRu';
+// DODO added stop 44211759
 
 const StyledModalWrapper = styled(StyledModal)<{ expanded: boolean }>`
   min-width: ${MIN_WIDTH}px;
@@ -272,14 +280,38 @@ function FiltersConfigModal({
     form.setFieldsValue({ changed: false });
   };
 
+  // DODO commented out 44211759
+  // const getFilterTitle = useCallback(
+  //   (id: string) => {
+  //     const formValue = formValues.filters[id];
+  //     const config = filterConfigMap[id];
+  //     return (
+  //       (formValue && 'name' in formValue && formValue.name) ||
+  //       (formValue && 'title' in formValue && formValue.title) ||
+  //       (config && 'name' in config && config.name) ||
+  //       (config && 'title' in config && config.title) ||
+  //       t('[untitled]')
+  //     );
+  //   },
+  //   [filterConfigMap, formValues.filters],
+  // );
+  // DODO added 44211759
   const getFilterTitle = useCallback(
     (id: string) => {
       const formValue = formValues.filters[id];
       const config = filterConfigMap[id];
       return (
+        (formValue &&
+          localisedNameField in formValue &&
+          formValue[localisedNameField as keyof typeof formValue]) ||
         (formValue && 'name' in formValue && formValue.name) ||
+        (formValue && 'nameRu' in formValue && formValue.nameRu) ||
         (formValue && 'title' in formValue && formValue.title) ||
+        (config &&
+          localisedNameField in config &&
+          config[localisedNameField]) ||
         (config && 'name' in config && config.name) ||
+        (config && 'nameRu' in config && config.nameRu) ||
         (config && 'title' in config && config.title) ||
         t('[untitled]')
       );
@@ -508,7 +540,9 @@ function FiltersConfigModal({
         const didChangeFilterName =
           changes.filters &&
           Object.values(changes.filters).some(
-            (filter: any) => filter.name && filter.name !== null,
+            (filter: any) =>
+              (filter.name && filter.name !== null) ||
+              (filter.nameRu && filter.nameRu !== null), // DODO added 44211759
           );
         const didChangeSectionTitle =
           changes.filters &&

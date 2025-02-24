@@ -71,10 +71,12 @@ export default function getControlItemsMap({
     .filter(
       (mainControlItem: CustomControlItem) =>
         mainControlItem?.name === 'groupby' ||
+        mainControlItem?.name === 'groupbyRu' || // DODO added 44211759
         mainControlItem?.name === 'groupbyid', // DODO added 44211759
     )
     .forEach(mainControlItem => {
       const isGroupby = mainControlItem?.name === 'groupby'; // DODO added 44211759
+      const isGroupbyRu = mainControlItem?.name === 'groupbyRu'; // DODO added 44211759
       const initialValue =
         filterToEdit?.controlValues?.[mainControlItem.name] ??
         mainControlItem?.config?.default;
@@ -85,7 +87,11 @@ export default function getControlItemsMap({
       let formField: string;
       let label: string;
 
-      if (isGroupby) {
+      if (isGroupbyRu) {
+        initColumn = filterToEdit?.targets[0]?.column?.nameRu;
+        formField = 'columnRu';
+        label = `${t('Column')} RU`;
+      } else if (isGroupby) {
         initColumn = filterToEdit?.targets[0]?.column?.name;
         formField = 'column';
         label = `${t('Column')} EN`;

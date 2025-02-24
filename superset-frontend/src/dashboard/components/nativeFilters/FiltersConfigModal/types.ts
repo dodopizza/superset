@@ -6,10 +6,14 @@ import {
   NativeFilterScope,
 } from '@superset-ui/core';
 
+// DODO added start 44211759
 interface NativeFiltersFormItemDodoExtended {
-  columnId?: string; // DODO added 44211759
-  selectTopValue?: string; // DODO added 44211759
+  columnId?: string;
+  selectTopValue?: string;
+  nameRu?: string;
+  columnRu: string;
 }
+// DODO added stop 44211759
 export interface NativeFiltersFormItem
   extends NativeFiltersFormItemDodoExtended {
   scope: NativeFilterScope;

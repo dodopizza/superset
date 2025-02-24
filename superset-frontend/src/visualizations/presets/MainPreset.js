@@ -56,7 +56,9 @@ import {
 } from '@superset-ui/plugin-chart-echarts';
 import {
   SelectByIdFilterPlugin, // DODO added 44211759
+  SelectByIdWithTranslationFilterPlugin, // DODO added 44211759
   SelectFilterPlugin,
+  SelectWithTranslationFilterPlugin, // DODO added 44211759
   RangeFilterPlugin,
   TimeFilterPlugin,
   TimeColumnFilterPlugin,
@@ -149,6 +151,10 @@ export default class MainPreset extends Preset {
         new EchartsHeatmapChartPlugin().configure({ key: 'heatmap_v2' }),
         new EchartsHistogramChartPlugin().configure({ key: 'histogram_v2' }),
         new SelectFilterPlugin().configure({ key: FilterPlugins.Select }),
+        // DODO added 44211759
+        new SelectWithTranslationFilterPlugin().configure({
+          key: FilterPlugins.SelectWithTranslation,
+        }),
         new RangeFilterPlugin().configure({ key: FilterPlugins.Range }),
         new TimeFilterPlugin().configure({ key: FilterPlugins.Time }),
         new TimeColumnFilterPlugin().configure({
@@ -164,6 +170,10 @@ export default class MainPreset extends Preset {
         // DODO added 44211759
         new SelectByIdFilterPlugin().configure({
           key: FilterPlugins.SelectById,
+        }),
+        // DODO added 44211759
+        new SelectByIdWithTranslationFilterPlugin().configure({
+          key: 'filter_select_by_id_with_translation',
         }),
         ...experimentalPlugins,
       ],

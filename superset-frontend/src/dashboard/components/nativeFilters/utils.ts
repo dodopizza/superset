@@ -12,6 +12,7 @@ import {
   getChartMetadataRegistry,
   QueryFormData,
   t,
+  PlainObject, // DODO added 44211759
 } from '@superset-ui/core';
 import { DashboardLayout } from 'src/dashboard/types';
 import extractUrlParams from 'src/dashboard/util/extractUrlParams';
@@ -31,6 +32,7 @@ export const getFormData = ({
   dependencies = {},
   groupby,
   groupbyid, // DODO added 44211759
+  groupbyRu, // DODO added 44211759
   selectTopValue, // DODO added 44211759
   defaultDataMask,
   controlValues,
@@ -48,6 +50,7 @@ export const getFormData = ({
   dependencies?: object;
   groupby?: string;
   groupbyid?: string; // DODO added 44211759
+  groupbyRu?: string; // DODO added 44211759
   adhoc_filters?: AdhocFilter[];
   time_range?: string;
 }): Partial<QueryFormData> => {
@@ -62,10 +65,14 @@ export const getFormData = ({
   if (groupby) {
     otherProps.groupby = [groupby];
   }
-  // DODO added 44211759
+  // DODO added start 44211759
+  if (groupbyRu) {
+    otherProps.groupby?.push(groupbyRu);
+  }
   if (groupbyid) {
     otherProps.groupby?.push(groupbyid);
   }
+  // DODO added stop 44211759
   if (sortMetric) {
     otherProps.sortMetric = sortMetric;
   }
@@ -94,6 +101,7 @@ export const getFormData = ({
 export function mergeExtraFormData(
   originalExtra: ExtraFormData = {},
   newExtra: ExtraFormData = {},
+  locale?: string, // DODO added 44211759
 ): ExtraFormData {
   const mergedExtra: ExtraFormData = {};
   EXTRA_FORM_DATA_APPEND_KEYS.forEach((key: string) => {
@@ -102,7 +110,31 @@ export function mergeExtraFormData(
       ...(newExtra[key] || []),
     ];
     if (mergedValues.length) {
-      mergedExtra[key] = mergedValues;
+      // mergedExtra[key] = mergedValues; // DODO commented out 44211759
+      // DODO added start 44211759
+      const localisedMergedValues = mergedValues.map(value => {
+        // filter select and filter select by id cases
+        if (typeof value.val[0] !== 'object' || value.val[0] === null)
+          return value;
+
+        const columns = Object.keys(value.val[0] || {}); // [groupBy, groupbyRu, groupbyid] | [groupBy, groupbyRu]
+        let columnOrder = 0;
+
+        // filter select by id with translation case
+        if (columns.length === 3) columnOrder = 2;
+        // filter select with translation case
+        else columnOrder = locale === 'en' ? 0 : 1;
+
+        const column = columns[columnOrder];
+
+        return {
+          ...value,
+          col: column,
+          val: value.val.map((val: PlainObject) => val[column]),
+        };
+      });
+      mergedExtra[key] = localisedMergedValues;
+      // DODO added stop 44211759
     }
   });
   EXTRA_FORM_DATA_OVERRIDE_KEYS.forEach((key: string) => {
@@ -128,12 +160,14 @@ export function isCrossFilter(vizType: string) {
 export function getExtraFormData(
   dataMask: DataMaskStateWithId,
   filterIdsAppliedOnChart: string[],
+  locale: string, // DODO added 44211759
 ): ExtraFormData {
   let extraFormData: ExtraFormData = {};
   filterIdsAppliedOnChart.forEach(key => {
     extraFormData = mergeExtraFormData(
       extraFormData,
       dataMask[key]?.extraFormData ?? {},
+      locale, // DODO added 44211759
     );
   });
   return extraFormData;
