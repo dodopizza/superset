@@ -75,7 +75,7 @@ export default {
         // DODO added 44136746
         [
           {
-            name: 'exportAsTime',
+            name: 'export_as_time',
             config: {
               type: 'CheckboxControl',
               label: t('Export as time'),
