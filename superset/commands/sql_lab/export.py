@@ -24,13 +24,13 @@ from flask_babel import gettext as __
 
 from superset import app, db, results_backend, results_backend_use_msgpack
 from superset.commands.base import BaseCommand
-from superset.common.chart_data import ChartDataResultFormat    # dodo added 44136746
+from superset.common.chart_data import ChartDataResultFormat  # dodo added 44136746
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import SupersetErrorException, SupersetSecurityException
 from superset.models.sql_lab import Query
 from superset.sql_parse import ParsedQuery
 from superset.sqllab.limiting_factor import LimitingFactor
-from superset.utils import core as utils, csv, excel    # dodo added 44136746
+from superset.utils import core as utils, csv, excel  # dodo added 44136746
 from superset.views.utils import _deserialize_results_payload
 
 config = app.config
@@ -47,11 +47,13 @@ class SqlExportResult(TypedDict):
 class SqlResultExportCommand(BaseCommand):
     _client_id: str
     _query: Query
-    _result_format: str    # dodo added 44136746
+    _result_format: str  # dodo added 44136746
 
-    def __init__(self, client_id: str, result_format: str) -> None:    # dodo changed 44136746
+    def __init__(
+        self, client_id: str, result_format: str
+    ) -> None:  # dodo changed 44136746
         self._client_id = client_id
-        self._result_format = result_format    # dodo added 44136746
+        self._result_format = result_format  # dodo added 44136746
 
     def validate(self) -> None:
         self._query = (
@@ -142,5 +144,5 @@ class SqlResultExportCommand(BaseCommand):
         return {
             "query": self._query,
             "count": len(df.index),
-            "data": data,    # dodo added 44136746
+            "data": data,  # dodo added 44136746
         }

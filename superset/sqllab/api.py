@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
-from typing import Any, cast, Optional, Union    # dodo changed 44136746
+from typing import Any, cast, Optional, Union  # dodo changed 44136746
 from urllib import parse
 
 from flask import request, Response
@@ -29,7 +29,7 @@ from superset.commands.sql_lab.estimate import QueryEstimationCommand
 from superset.commands.sql_lab.execute import CommandResult, ExecuteSqlCommand
 from superset.commands.sql_lab.export import SqlResultExportCommand
 from superset.commands.sql_lab.results import SqlExecutionResultsCommand
-from superset.common.chart_data import ChartDataResultFormat    # dodo added 44136746
+from superset.common.chart_data import ChartDataResultFormat  # dodo added 44136746
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP
 from superset.daos.database import DatabaseDAO
 from superset.daos.query import QueryDAO
@@ -63,7 +63,7 @@ from superset.sqllab.utils import bootstrap_sqllab_data
 from superset.sqllab.validators import CanAccessQueryValidatorImpl
 from superset.superset_typing import FlaskResponse
 from superset.utils import core as utils, json
-from superset.views.base import (    # dodo changed 44136746
+from superset.views.base import (  # dodo changed 44136746
     CsvResponse,
     generate_download_headers,
     json_success,
@@ -305,7 +305,7 @@ class SqlLabRestApi(BaseSupersetApi):
             "catalog": query.catalog,
             "schema": query.schema,
             "sql": query.sql,
-            "exported_format": event_format,    # dodo added 44136746
+            "exported_format": event_format,  # dodo added 44136746
         }
         event_rep = repr(event_info)
         logger.debug(
