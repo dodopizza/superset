@@ -14,6 +14,7 @@ const ENV_MAP: Record<string, Env> = {
 
 const ERROR_WHITE_LIST: Record<string, string> = {
   'ResizeObserver loop completed with undelivered notifications.': 'true',
+  'ResizeObserver loop limit exceeded': 'true',
   'ajax is not defined': 'true',
   "Can't find variable: ajax": 'true',
   "ReferenceError: Can't find variable: ajax": 'true',
