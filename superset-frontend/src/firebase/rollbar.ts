@@ -15,6 +15,8 @@ const ENV_MAP: Record<string, Env> = {
 const ERROR_WHITE_LIST: Record<string, string> = {
   'ResizeObserver loop completed with undelivered notifications.': 'true',
   'ajax is not defined': 'true',
+  "Can't find variable: ajax": 'true',
+  "ReferenceError: Can't find variable: ajax": 'true',
 };
 
 const isPlugin = process.env.type !== undefined;
