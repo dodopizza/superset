@@ -16,6 +16,9 @@ import setupFormatters from './setup/setupFormatters';
 import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
+import { DODOPIZZA_THEME_OVERRIDES } from './Superstructure/constants'; // DODO added 44611022
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 if (process.env.WEBPACK_MODE === 'development') {
   setHotLoaderConfig({ logLevel: 'debug', trackTailUpdates: false });
@@ -83,7 +86,10 @@ setupDashboardComponents();
 
 export const theme = merge(
   supersetTheme,
-  bootstrapData.common.theme_overrides ?? {},
+  // DODO changed 44611022
+  isStandalone
+    ? bootstrapData.common.theme_overrides ?? {}
+    : DODOPIZZA_THEME_OVERRIDES,
 );
 
 const getMe = makeApi<void, User>({

@@ -4,28 +4,46 @@ import { API_V1, SUPERSET_ENDPOINT } from '@superset-ui/core';
 const PLUGIN_SELECTOR = 'single-spa-application:supersetDashboardPlugin';
 const SORTING_PREFIX = '[SORT]';
 
-const DODOPIZZA_THEME = {
+const DODOPIZZA_THEME_OVERRIDES = {
   colors: {
     primary: {
       base: '#ff6900',
       dark1: '#e86100',
       dark2: '#d15700',
-      light1: '#ffa05d',
-      light2: '#fa9349',
-      light3: '#d2edf4',
-      light4: '#fff5ed',
-      light5: '#f3f8fa',
+      light1: '#fa9349',
+      light2: '#ffcdb0',
+      light3: '#ffe1cd',
+      light4: '#fff0e5',
+      light5: '#fff0eb',
     },
     secondary: {
       base: '#000',
-      dark1: '#363636',
-      dark2: '#555555',
-      dark3: '#1B1F31',
-      light1: '#8E94B0',
-      light2: '#B4B8CA',
-      light3: '#D9DBE4',
-      light4: '#ffefe3',
-      light5: '#F5F5F8',
+      dark2: '#3f220d',
+      dark3: '#3e130e',
+      light4: '#fff0e6',
+    },
+    grayscale: {
+      base: '#454545',
+      dark1: '#171717',
+      light1: '#b9b9b9',
+    },
+    error: {
+      base: '#ff6262',
+      dark1: '#d33f45',
+      dark2: '#3e130e',
+      light1: '#ff6262',
+      light2: '#fbafa5',
+    },
+    alert: {
+      light1: '#fff5a0',
+      light2: '#fffce3',
+    },
+    success: {
+      base: '#65d46b',
+      dark1: '#409a5c',
+      dark2: '#27523b',
+      light1: '#a2dcb2',
+      light2: '#ebfaf0',
     },
   },
 };
@@ -346,7 +364,7 @@ export {
   STYLES_DRINKIT,
   SUPERSET_ENDPOINT,
   PLUGIN_SELECTOR,
-  DODOPIZZA_THEME,
+  DODOPIZZA_THEME_OVERRIDES,
   USER_ROLES,
   SUPERSET_WEBSERVER_TIMEOUT,
   DODOPIZZA_KNOWLEDGEBASE_URL,
