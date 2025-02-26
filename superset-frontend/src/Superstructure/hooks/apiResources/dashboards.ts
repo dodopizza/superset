@@ -5,6 +5,7 @@ import {
   useApiV1Resource,
   useTransformedResource,
 } from 'src/Superstructure/hooks/apiResources/apiResources';
+import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types';
 
 export const useDashboard = (idOrSlug: string | number) =>
   useTransformedResource(
@@ -50,3 +51,8 @@ export const useDashboardDatasets = (
 
 export const useEmbeddedDashboard = (idOrSlug: string | number) =>
   useApiV1Resource<EmbeddedDashboard>(`/api/v1/dashboard/${idOrSlug}/embedded`);
+
+export const useDashboardFilterSets = (idOrSlug: string | number) =>
+  useApiV1Resource<FilterSetFullData[]>(
+    `/api/v1/dashboard/${idOrSlug}/filtersets`,
+  );

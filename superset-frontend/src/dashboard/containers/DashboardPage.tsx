@@ -20,12 +20,13 @@ import {
   useDashboardDatasets,
   useDashboardFilterSets, // DODO added 44211751
 } from 'src/hooks/apiResources';
+// DODO added 44611022
 import {
   useDashboard as useDashboardPlugin,
   useDashboardCharts as useDashboardChartsPlugin,
   useDashboardDatasets as useDashboardDatasetsPlugin,
+  useDashboardFilterSets as useDashboardFilterSetsPlugin,
 } from 'src/Superstructure/hooks/apiResources';
-// } from 'src/hooks/apiResources';
 import { hydrateDashboard } from 'src/dashboard/actions/hydrate';
 import { setDatasources } from 'src/dashboard/actions/datasources';
 import injectCustomCss from 'src/dashboard/util/injectCustomCss';
@@ -87,23 +88,29 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       dashboardInfo && Object.keys(dashboardInfo).length > 0,
   );
   const { addDangerToast } = useToasts();
-  const { result: dashboard, error: dashboardApiError } = (
-    isStandalone ? useDashboard : useDashboardPlugin
-  )(idOrSlug);
-  const { result: charts, error: chartsApiError } = (
-    isStandalone ? useDashboardCharts : useDashboardChartsPlugin
-  )(idOrSlug);
+  const { result: dashboard, error: dashboardApiError } =
+    // DODO changed 44611022
+    (isStandalone ? useDashboard : useDashboardPlugin)(idOrSlug);
+  const {
+    result: charts,
+    error: chartsApiError,
+  } = // DODO changed 44611022
+    (isStandalone ? useDashboardCharts : useDashboardChartsPlugin)(idOrSlug);
   const {
     result: datasets,
     error: datasetsApiError,
     status,
+    // DODO changed 44611022
   } = (isStandalone ? useDashboardDatasets : useDashboardDatasetsPlugin)(
     idOrSlug,
   );
 
   // DODO added start 44211751
   const { result: filterSetsFullData, error: filterSetsApiError } =
-    useDashboardFilterSets(idOrSlug);
+    // DODO changed 44611022
+    (isStandalone ? useDashboardFilterSets : useDashboardFilterSetsPlugin)(
+      idOrSlug,
+    );
   const filterSets = transformFilterSetFullData(filterSetsFullData);
   const primaryFilterSetDataMask = getPrimaryFilterSetDataMask(filterSets);
   // DODO added stop 44211751
