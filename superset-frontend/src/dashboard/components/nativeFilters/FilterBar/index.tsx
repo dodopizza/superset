@@ -296,6 +296,7 @@ const FilterBar: FC<FiltersBarProps> = ({
         filtersOpen={verticalConfig.filtersOpen}
         filterValues={filterValues}
         isInitialized={isInitialized}
+        isDisabled={isApplyDisabled} // DODO added 44211751
         height={verticalConfig.height}
         offset={verticalConfig.offset}
         onSelectionChange={handleFilterSelectionChange}

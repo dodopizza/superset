@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import { t, useTheme } from '@superset-ui/core';
+import { FeatureFlag, isFeatureEnabled, t, useTheme } from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Loading from 'src/components/Loading';
@@ -18,6 +18,7 @@ import {
   useDashboard,
   useDashboardCharts,
   useDashboardDatasets,
+  useDashboardFilterSets, // DODO added 44211751
 } from 'src/hooks/apiResources';
 import {
   useDashboard as useDashboardPlugin,
@@ -40,6 +41,11 @@ import {
 import DashboardContainer from 'src/dashboard/containers/Dashboard';
 
 import { nanoid } from 'nanoid';
+// DODO added 44211751
+import {
+  getPrimaryFilterSetDataMask,
+  transformFilterSetFullData,
+} from 'src/DodoExtensions/FilterSets/utils';
 import { RootState } from '../types';
 import {
   chartContextMenuStyles,
@@ -94,10 +100,30 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   } = (isStandalone ? useDashboardDatasets : useDashboardDatasetsPlugin)(
     idOrSlug,
   );
+
+  // DODO added start 44211751
+  const { result: filterSetsFullData, error: filterSetsApiError } =
+    useDashboardFilterSets(idOrSlug);
+  const filterSets = transformFilterSetFullData(filterSetsFullData);
+  const primaryFilterSetDataMask = getPrimaryFilterSetDataMask(filterSets);
+  // DODO added stop 44211751
+
   const isDashboardHydrated = useRef(false);
 
+  // DODO added 44211751
+  const filterSetEnabled = isFeatureEnabled(
+    FeatureFlag.DashboardNativeFiltersSet,
+  );
+
   const error = dashboardApiError || chartsApiError;
-  const readyToRender = Boolean(dashboard && charts);
+
+  // const readyToRender = Boolean(dashboard && charts);
+  // DODO changed 44211751
+  const readyToRender = Boolean(
+    dashboard &&
+      charts &&
+      (!filterSetEnabled || filterSetsApiError || primaryFilterSetDataMask),
+  );
   const { dashboard_title, css, id = 0 } = dashboard || {};
 
   useEffect(() => {
@@ -141,6 +167,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
         }
       } else if (nativeFilterKeyValue) {
         dataMask = await getFilterValue(id, nativeFilterKeyValue);
+        // DODO added 44211751
+      } else if (primaryFilterSetDataMask) {
+        dataMask = primaryFilterSetDataMask;
       }
       if (isOldRison) {
         dataMask = isOldRison;
@@ -157,6 +186,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
             charts,
             activeTabs,
             dataMask,
+            filterSets, // DODO added 44211751
           }),
         );
       }
@@ -193,6 +223,17 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
       dispatch(setDatasources(datasets));
     }
   }, [addDangerToast, datasets, datasetsApiError, dispatch]);
+
+  // DODO added 44211751
+  useEffect(() => {
+    if (filterSetEnabled && filterSetsApiError) {
+      addDangerToast(
+        t(
+          "Error loading chart filter sets. Primary filter set won't be applied.",
+        ),
+      );
+    }
+  }, [addDangerToast, filterSetsApiError, filterSetEnabled, dispatch]);
 
   if (error) throw error; // caught in error boundary
   if (!readyToRender || !hasDashboardInfoInitiated) return <Loading />;
