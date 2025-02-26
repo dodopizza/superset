@@ -113,7 +113,7 @@ def get_onboarding() -> dict:  # получаем информацию по onbo
         )
         return user_info.__dict__
     except Exception:
-        logger.warning(f"User id = {user_id} dont have onboarding info in database")
+        logger.warning(f"User id = {user_id} dont have onboarding info in database", exc_info=True)
         return {
             "onboardingStartedTime": None,
             "isOnboardingFinished": False
@@ -189,11 +189,11 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
         try:
             db.session.add(model)
             db.session.commit()
-        except SQLAlchemyError as ex:
+        except SQLAlchemyError:
             db.session.rollback()
         return True
-    except Exception as e:
-        logger.warning(e)
+    except Exception:
+        logger.exception("Ошибка при создании онбординга")
 
 
 def get_language() -> str:  # DODO changed #33835937
@@ -211,7 +211,7 @@ def get_language() -> str:  # DODO changed #33835937
             logger.warning(f"User id = {user_id} dont have language in database")
             return "ru"
         except Exception:
-            logger.warning("Error get language ")
+            logger.exception("Error get language")
             return "ru"
     return "ru"
 
@@ -229,7 +229,7 @@ def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
         logger.warning(f"User id = {user_id} dont have dodo_role in database")
         return ''
     except Exception:
-        logger.warning("Error get dodo_role ")
+        logger.exception("Error get dodo_role ")
         return ''
 
 
@@ -244,11 +244,11 @@ def create_userinfo(lang: str):   # DODO changed #33835937
         try:
             db.session.add(model)
             db.session.commit()
-        except SQLAlchemyError as ex:
+        except SQLAlchemyError:
             db.session.rollback()
         return True
     except Exception as e:
-        logger.warning(e)
+        logger.exception(e)
 
 
 def insert_country(country_iso_num: int, username: str):  # пишем в бд страну пользователя
@@ -306,7 +306,7 @@ def insert_data_auth(data_auth: str, username: str):  # пишем в бд ин�
     except AttributeError:
         logger.warning("Error add to db data_auth_dodo")
     except Exception as e:
-        logger.warning(e)
+        logger.exception(e)
 
 
 def update_language(lang: str):  # DODO changed #33835937
@@ -339,7 +339,7 @@ def find_team_by_slug(team_slug: str):  # получаем команду по �
         )
         return team
     except Exception:
-        logger.warning("Cant find team by slug")
+        logger.exception("Cant find team by slug")
 
 
 def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:
