@@ -313,18 +313,18 @@ describe('buildTimeRangeString', () => {
 
 describe('formatTimeRange', () => {
   it('generates a readable time range', () => {
-    expect(formatTimeRange('Last 7 days')).toBe('Last 7 days');
-    expect(formatTimeRange('No filter')).toBe('No filter');
-    expect(formatTimeRange('Yesterday : Tomorrow')).toBe(
+    expect(formatTimeRange('Last 7 days', 'excluded')).toBe('Last 7 days');
+    expect(formatTimeRange('No filter', 'excluded')).toBe('No filter');
+    expect(formatTimeRange('Yesterday : Tomorrow', 'excluded')).toBe(
       'Yesterday ≤ col < Tomorrow',
     );
-    expect(formatTimeRange('2010-07-30T00:00:00 : 2020-07-30T00:00:00')).toBe(
-      '2010-07-30 ≤ col < 2020-07-30',
-    );
-    expect(formatTimeRange('2010-07-30T01:00:00 : ')).toBe(
+    expect(
+      formatTimeRange('2010-07-30T00:00:00 : 2020-07-30T00:00:00', 'included'),
+    ).toBe('2010-07-30 ≤ col < 2020-07-30');
+    expect(formatTimeRange('2010-07-30T01:00:00 : ', 'excluded')).toBe(
       '2010-07-30T01:00:00 ≤ col < ∞',
     );
-    expect(formatTimeRange(' : 2020-07-30T00:00:00')).toBe(
+    expect(formatTimeRange(' : 2020-07-30T00:00:00', 'excluded')).toBe(
       '-∞ ≤ col < 2020-07-30',
     );
   });

@@ -104,13 +104,14 @@ export default function PluginFilterSelect(props: PluginFilterSelectProps) {
   } = formData;
 
   const groupby = useMemo(
-    () => ensureIsArray(formData.groupby).map(getColumnLabel),
+    // () => ensureIsArray(formData.groupby).map(getColumnLabel),
+    () => ensureIsArray(formData.groupby?.[0]).map(getColumnLabel), // DODO changed 30434273
     [formData.groupby],
   );
   // DODO added start 29749076
   const groupbyid = useMemo(
-    () => ensureIsArray(formData.groupbyid).map(getColumnLabel),
-    [formData.groupbyid],
+    () => ensureIsArray(formData.groupby?.[1]).map(getColumnLabel),
+    [formData.groupby],
   );
   // DODO added stop 29749076
 

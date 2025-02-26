@@ -1,12 +1,12 @@
 // DODO was here
 
 import moment from 'moment';
-import {
-  getTimeFormatter,
-  getTimeFormatterForGranularity,
-  smartDateFormatter,
-  TimeGranularity,
-} from '@superset-ui/core';
+// import {
+//   getTimeFormatter,
+//   getTimeFormatterForGranularity,
+//   smartDateFormatter,
+//   TimeGranularity,
+// } from '@superset-ui/core';
 
 import { ConditionalFormattingConfig, COMPARATOR } from './types';
 import { MULTIPLE_VALUE_COMPARATORS, DEFAULT_COLOR } from './constants';
@@ -21,15 +21,6 @@ const parseMetricValue = (metricValue: number | string | null) => {
   }
   return metricValue;
 };
-
-const getDateFormatter = (
-  timeFormat: string,
-  granularity?: TimeGranularity,
-  fallbackFormat?: string | null,
-) =>
-  timeFormat === smartDateFormatter.id
-    ? getTimeFormatterForGranularity(granularity)
-    : getTimeFormatter(timeFormat ?? fallbackFormat);
 
 const calculateColor = (
   className: string | undefined,
@@ -166,4 +157,4 @@ const getColors = (
   return parsedColors;
 };
 
-export { calculateColor, getDateFormatter, parseMetricValue, getColors };
+export { calculateColor, parseMetricValue, getColors };

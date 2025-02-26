@@ -7,6 +7,7 @@ import {
   styled,
   SupersetTheme,
   t,
+  TimeRangeEndType,
   useCSSTextTruncation,
   useTheme,
 } from '@superset-ui/core';
@@ -172,6 +173,9 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
   const theme = useTheme();
   const [labelRef, labelIsTruncated] = useCSSTextTruncation<HTMLSpanElement>();
 
+  const timeRangeEndType: TimeRangeEndType =
+    frame === 'CustomUntilInclude' ? 'included' : 'excluded';
+
   useEffect(() => {
     if (value === NO_TIME_RANGE) {
       setActualTimeRange(NO_TIME_RANGE);
@@ -179,13 +183,14 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       setValidTimeRange(true);
       return;
     }
-    fetchTimeRange(value).then(({ value: actualRange, error }) => {
-      if (error) {
-        setEvalResponse(error || '');
-        setValidTimeRange(false);
-        setTooltipTitle(value || null);
-      } else {
-        /*
+    fetchTimeRange(value, timeRangeEndType).then(
+      ({ value: actualRange, error }) => {
+        if (error) {
+          setEvalResponse(error || '');
+          setValidTimeRange(false);
+          setTooltipTitle(value || null);
+        } else {
+          /*
           HRT == human readable text
           ADR == actual datetime range
           +--------------+------+----------+--------+----------+-----------+
@@ -196,27 +201,28 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
           | tooltip      | ADR  | ADR      | HRT    | HRT      |   ADR     |
           +--------------+------+----------+--------+----------+-----------+
         */
-        if (
-          guessedFrame === 'Common' ||
-          guessedFrame === 'Calendar' ||
-          guessedFrame === 'No filter'
-        ) {
-          setActualTimeRange(value);
-          setTooltipTitle(
-            getTooltipTitle(labelIsTruncated, value, actualRange),
-          );
-        } else {
-          setActualTimeRange(actualRange || '');
-          setTooltipTitle(
-            getTooltipTitle(labelIsTruncated, actualRange, value),
-          );
+          if (
+            guessedFrame === 'Common' ||
+            guessedFrame === 'Calendar' ||
+            guessedFrame === 'No filter'
+          ) {
+            setActualTimeRange(value);
+            setTooltipTitle(
+              getTooltipTitle(labelIsTruncated, value, actualRange),
+            );
+          } else {
+            setActualTimeRange(actualRange || '');
+            setTooltipTitle(
+              getTooltipTitle(labelIsTruncated, actualRange, value),
+            );
+          }
+          setValidTimeRange(true);
         }
-        setValidTimeRange(true);
-      }
-      setLastFetchedTimeRange(value);
-      setEvalResponse(actualRange || value);
-    });
-  }, [guessedFrame, labelIsTruncated, labelRef, value]);
+        setLastFetchedTimeRange(value);
+        setEvalResponse(actualRange || value);
+      },
+    );
+  }, [guessedFrame, labelIsTruncated, labelRef, timeRangeEndType, value]);
 
   useDebouncedEffect(
     () => {
@@ -227,16 +233,18 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
         return;
       }
       if (lastFetchedTimeRange !== timeRangeValue) {
-        fetchTimeRange(timeRangeValue).then(({ value: actualRange, error }) => {
-          if (error) {
-            setEvalResponse(error || '');
-            setValidTimeRange(false);
-          } else {
-            setEvalResponse(actualRange || '');
-            setValidTimeRange(true);
-          }
-          setLastFetchedTimeRange(timeRangeValue);
-        });
+        fetchTimeRange(timeRangeValue, timeRangeEndType).then(
+          ({ value: actualRange, error }) => {
+            if (error) {
+              setEvalResponse(error || '');
+              setValidTimeRange(false);
+            } else {
+              setEvalResponse(actualRange || '');
+              setValidTimeRange(true);
+            }
+            setLastFetchedTimeRange(timeRangeValue);
+          },
+        );
       }
     },
     SLOW_DEBOUNCE,
@@ -244,7 +252,7 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
   );
 
   function onSave() {
-    onChange(timeRangeValue);
+    onChange(timeRangeValue, timeRangeEndType);
     setShow(false);
     onClosePopover();
   }

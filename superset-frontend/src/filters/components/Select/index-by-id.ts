@@ -19,7 +19,7 @@ for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
       name: 'groupbyid',
       config: {
         ...sharedControls.groupby,
-        label: t('Column Id'),
+        label: `${t('Column')} ID`,
         required: true,
       },
     });

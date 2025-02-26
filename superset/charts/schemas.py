@@ -1335,6 +1335,9 @@ class ChartDataQueryObjectSchema(Schema):
         fields.String(),
         allow_none=True,
     )
+    time_range_end_type = fields.String(
+        allow_none=True,
+    )
 
 
 class ChartDataQueryContextSchema(Schema):
