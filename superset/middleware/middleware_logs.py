@@ -16,7 +16,8 @@ class LogRoutersMiddleware(BaseHTTPMiddleware):
             logger.error(
                 f"Error response - status: {response.status_code}, "
                 f"url: {request.url}, "
-                f"is_authenticated: {current_user.is_authenticated}"
+                f"is_authenticated: {current_user.is_authenticated}", 
+                exc_info=True
             )
         
         return response

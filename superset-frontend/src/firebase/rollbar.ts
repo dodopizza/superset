@@ -12,12 +12,15 @@ const ENV_MAP: Record<string, Env> = {
   'localhost.': 'local',
 };
 
-const ERROR_WHITE_LIST: Record<string, string> = {
+const ERROR_WHITE_LIST: Record<string, 'true'> = {
   'ResizeObserver loop completed with undelivered notifications.': 'true',
   'ResizeObserver loop limit exceeded': 'true',
   'ajax is not defined': 'true',
   "Can't find variable: ajax": 'true',
   "ReferenceError: Can't find variable: ajax": 'true',
+  'Script error.': 'true',
+  'SyntaxError: Unexpected EOF': 'true',
+  '{}': 'true',
 };
 
 const isPlugin = process.env.type !== undefined;
