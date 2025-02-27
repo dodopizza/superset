@@ -138,6 +138,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.explore.form_data.api import ExploreFormDataRestApi
         from superset.explore.permalink.api import ExplorePermalinkRestApi
         from superset.importexport.api import ImportExportRestApi
+        from superset.onboarding.api import OnboardingRestApi
         from superset.queries.api import QueryRestApi
         from superset.queries.saved_queries.api import SavedQueryRestApi
         from superset.reports.api import ReportScheduleRestApi
@@ -145,7 +146,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.row_level_security.api import RLSRestApi
         from superset.security.api import SecurityRestApi
         from superset.sqllab.api import SqlLabRestApi
+        from superset.statement.api import StatementRestApi
         from superset.tags.api import TagRestApi
+        from superset.team.api import TeamRestApi
+        from superset.user.api import DodoUserRestApi
         from superset.views.alerts import AlertView, ReportView
         from superset.views.all_entities import TaggedObjectsModelView
         from superset.views.annotations import AnnotationLayerView
@@ -216,6 +220,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_api(SavedQueryRestApi)
         appbuilder.add_api(TagRestApi)
         appbuilder.add_api(SqlLabRestApi)
+        appbuilder.add_api(OnboardingRestApi)
+        appbuilder.add_api(TeamRestApi)
+        appbuilder.add_api(DodoUserRestApi)
+        appbuilder.add_api(StatementRestApi)
         #
         # Setup regular views
         #
