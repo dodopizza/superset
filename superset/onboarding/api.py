@@ -1,28 +1,27 @@
 # DODO added #32839641
-import logging
 import datetime
+import logging
 
-
-from flask import request, Response, g
+from flask import g, request, Response
 from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
-from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
-from superset.onboarding.commands.exceptions import (
+from superset.commands.onboarding.exceptions import (
     OnboardingAccessDeniedError,
     OnboardingForbiddenError,
     OnboardingInvalidError,
     OnboardingNotFoundError,
     OnboardingUpdateFailedError,
 )
-from superset.daos.onboarding import OnboardingDAO
-from superset.onboarding.commands.update import UpdateOnboardingCommand
-from superset.onboarding.schemas import (
-    OnboardingPutSchema,
-    OnboardingGetResponseSchema,
-)
+from superset.commands.onboarding.update import UpdateOnboardingCommand
+from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
+from superset.daos.user_info import UserInfoDAO
 from superset.models.user_info import UserInfo
+from superset.onboarding.schemas import (
+    OnboardingGetResponseSchema,
+    OnboardingPutSchema,
+)
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
     statsd_metrics,
@@ -43,8 +42,8 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
 
     list_columns = [
         "id",
-        "isOnboardingFinished",
-        "onboardingStartedTime",
+        "is_onboarding_finished",
+        "onboarding_started_time",
         "language",
         "user_id",
         "dodo_role",
@@ -57,9 +56,7 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
-    def get(
-        self
-    ) -> Response:
+    def get(self) -> Response:
         """Gets onboarding information
         ---
         get:
@@ -92,7 +89,7 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
         """
         try:
             user_id = g.user.id
-            user_info = OnboardingDAO.get_by_user_id(user_id)
+            user_info = UserInfoDAO.get_by_user_id(user_id)
         except OnboardingAccessDeniedError:
             return self.response_403()
         except OnboardingNotFoundError:
@@ -102,7 +99,7 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
             **result,
             "email": g.user.email,
             "last_name": g.user.last_name,
-            "first_name": g.user.first_name
+            "first_name": g.user.first_name,
         }
         return self.response(200, result=result)
 
@@ -162,10 +159,10 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             user_id = g.user.id
-            id_model = OnboardingDAO.get_by_user_id(user_id).id
-            onboardingStartedTime = datetime.datetime.utcnow().isoformat()
-            item["onboardingStartedTime"] = onboardingStartedTime
-            changed_model = UpdateOnboardingCommand(id_model, item).run()
+            id_model = UserInfoDAO.get_by_user_id(user_id).id
+            onboarding_started_time = datetime.datetime.utcnow().isoformat()
+            item["onboarding_started_time"] = onboarding_started_time
+            UpdateOnboardingCommand(id_model, item).run()
             response = self.response(200, result=item)
         except OnboardingNotFoundError:
             response = self.response_404()
@@ -182,5 +179,3 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
             )
             response = self.response_422(message=str(ex))
         return response
-
-

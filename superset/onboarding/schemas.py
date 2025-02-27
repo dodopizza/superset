@@ -8,8 +8,8 @@ class OnboardingGetResponseSchema(Schema):
     first_name = fields.String()
     last_name = fields.String()
     email = fields.String()
-    isOnboardingFinished = fields.Boolean()
-    onboardingStartedTime = fields.DateTime(missing=True)
+    is_onboarding_finished = fields.Boolean()
+    onboarding_started_time = fields.DateTime(missing=True)
 
 
 class OnboardingPutSchema(Schema):

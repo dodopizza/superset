@@ -1,6 +1,6 @@
 # DODO was here
-from typing import Any, Optional
 import logging
+from typing import Any
 
 from flask_babel import lazy_gettext as _
 from sqlalchemy.orm.query import Query
@@ -11,7 +11,7 @@ from superset.views.base import BaseFilter
 logger = logging.getLogger(__name__)
 
 
-class StatementFinishedFilter(BaseFilter):
+class StatementFinishedFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     name = _("finished")
     arg_name = "eq"
 
@@ -20,8 +20,7 @@ class StatementFinishedFilter(BaseFilter):
             if not value:
                 return query
         is_finished = bool(int(value))
-        return query.filter(
-                Statement.finished.is_(is_finished))
+        return query.filter(Statement.finished.is_(is_finished))
 
 
 class StatementIDFilter(BaseFilter):  # pylint: disable=too-few-public-methods
@@ -30,17 +29,13 @@ class StatementIDFilter(BaseFilter):  # pylint: disable=too-few-public-methods
 
     def apply(self, query: Query, value: Any) -> Query:
         if value:
-            return query.filter(
-                Statement.id == int(value)
-            )
+            return query.filter(Statement.id == int(value))
         return query
 
 
-class StatementUserFirstNameFilter(BaseFilter):
+class StatementUserFirstNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     name = _("first_name")
     arg_name = "ct"
 
     def apply(self, query: Query, value: Any) -> Query:
-        return query.filter(
-            Statement.user.first_name.ilike(value)
-        )
+        return query.filter(Statement.user.first_name.ilike(value))

@@ -23,7 +23,6 @@ from superset.commands.base import BaseCommand, CreateMixin
 from superset.commands.tag.exceptions import TagCreateFailedError, TagInvalidError
 from superset.commands.tag.utils import to_object_model, to_object_type
 from superset.daos.tag import TagDAO
-from superset.daos.exceptions import DAOCreateFailedError
 from superset.exceptions import SupersetSecurityException
 from superset.tags.models import ObjectType, TagType
 from superset.utils.decorators import on_error, transaction
@@ -121,20 +120,18 @@ class CreateTeamTagCommand(CreateMixin, BaseCommand):
         self._object_id = object_id
         self._tags = tags
 
+    @transaction(on_error=partial(on_error, reraise=TagCreateFailedError))
     def run(self) -> None:
         self.validate()
-        try:
-            object_type = to_object_type(self._object_type)
-            if object_type is None:
-                raise TagCreateFailedError(f"invalid object type {self._object_type}")
-            TagDAO.create_team_tagged_objects(
-                object_type=object_type,
-                object_id=self._object_id,
-                tag_names=self._tags,
-            )
-        except DAOCreateFailedError as ex:
-            logger.exception(ex.exception)
-            raise TagCreateFailedError() from ex
+        object_type = to_object_type(self._object_type)
+        if object_type is None:
+            raise TagCreateFailedError(f"invalid object type {self._object_type}")
+
+        TagDAO.create_team_tagged_objects(
+            object_type=object_type,
+            object_id=self._object_id,
+            tag_names=self._tags,
+        )
 
     def validate(self) -> None:
         exceptions = []

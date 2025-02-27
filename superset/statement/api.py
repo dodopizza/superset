@@ -1,55 +1,49 @@
 # DODO added #32839641
 
-import logging
 import datetime
+import logging
 
-from flask import request, Response, g, redirect
+from flask import g, request, Response
 from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
-from superset import security_manager
-from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
-from superset.statement.commands.exceptions import (
+from superset.commands.statement.create import CreateStatementCommand
+from superset.commands.statement.exceptions import (
     StatementAccessDeniedError,
+    StatementCreateFailedError,
     StatementForbiddenError,
     StatementInvalidError,
     StatementNotFoundError,
     StatementUpdateFailedError,
-    StatementCreateFailedError
 )
+from superset.commands.statement.update import UpdateStatementCommand
+from superset.commands.team.update import UpdateTeamCommand
+from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.statement import StatementDAO
-from superset.statement.commands.update import UpdateStatementCommand
-from superset.statement.commands.create import CreateStatementCommand
+from superset.daos.team import TeamDAO
+from superset.daos.user import UserDAO
+from superset.daos.user_info import UserInfoDAO
+from superset.models.statement import Statement
+from superset.statement.filters import (
+    StatementIDFilter,
+    StatementUserFirstNameFilter,
+)
 from superset.statement.schemas import (
     StatementGetResponseSchema,
     StatementGetSchema,
+    StatementPostSchema,
     StatementPutSchema,
-    StatementPostSchema
 )
-from superset.teams.commands.update import UpdateTeamCommand
-from superset.teams.commands.delete import DeleteTeamCommand
-from superset.models.statement import Statement
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
     RelatedFieldFilter,
-    requires_form_data,
-    requires_json,
     statsd_metrics,
 )
-from superset.statement.filters import (
-    StatementIDFilter,
-    StatementFinishedFilter,
-    StatementUserFirstNameFilter
-)
 from superset.views.filters import (
-    BaseFilterRelatedRoles,
     BaseFilterRelatedUsers,
-    FilterRelatedOwners,
-    BaseFilterRelatedUsersFirstName
+    BaseFilterRelatedUsersFirstName,
 )
-from superset.views.utils import (finish_onboarding, get_dodo_role, find_team_by_slug,
-                                  update_user_roles)
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +51,7 @@ logger = logging.getLogger(__name__)
 class StatementRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(Statement)
 
-    include_route_methods = RouteMethod.REST_MODEL_VIEW_CRUD_SET.add(RouteMethod.RELATED)
+    RouteMethod.REST_MODEL_VIEW_CRUD_SET.add(RouteMethod.RELATED)
     resource_name = "statement"
     allow_browser_login = True
 
@@ -72,21 +66,16 @@ class StatementRestApi(BaseSupersetModelRestApi):
         "user.email",
         "finished",
         "team",
-        "isNewTeam",
+        "is_new_team",
         "team_slug",
-        "isExternal",
+        "is_external",
         "created_datetime",
         "request_roles.name",
         "request_roles.id",
-        "last_changed_datetime"
+        "last_changed_datetime",
     ]
 
-    search_columns = (
-        "id",
-        "user",
-        "finished",
-        "team"
-    )
+    search_columns = ("id", "user", "finished", "team")
 
     order_columns = [
         "id",
@@ -101,14 +90,9 @@ class StatementRestApi(BaseSupersetModelRestApi):
     # ]
 
     list_select_columns = list_columns
-    search_filters = {
-        "user": [StatementUserFirstNameFilter],
-        "id": [StatementIDFilter]
-    }
+    search_filters = {"user": [StatementUserFirstNameFilter], "id": [StatementIDFilter]}
 
-    base_related_field_filters = {
-        "user": [["id", BaseFilterRelatedUsers, lambda: []]]
-    }
+    base_related_field_filters = {"user": [["id", BaseFilterRelatedUsers, lambda: []]]}
 
     related_field_filters = {
         "user": RelatedFieldFilter("first_name", BaseFilterRelatedUsersFirstName)
@@ -123,10 +107,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
-    def get(
-        self,
-        pk: int
-    ) -> Response:
+    def get(self, pk: int) -> Response:
         """Gets Teams
         ---
         get:
@@ -160,7 +141,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
         try:
             statement = StatementDAO.get_by_id(pk)
             user = statement.user[0]
-            dodo_role = get_dodo_role(user.id)
+            dodo_role = UserInfoDAO.get_dodo_role(user.id)
         except StatementAccessDeniedError:
             return self.response_403()
         except StatementNotFoundError:
@@ -218,8 +199,8 @@ class StatementRestApi(BaseSupersetModelRestApi):
             item["user"] = [user_id]
             item["finished"] = False
             item["created_datetime"] = datetime.datetime.utcnow().isoformat()
-            new_model = CreateStatementCommand(item).run()
-            finished_onboarding = finish_onboarding()
+            CreateStatementCommand(item).run()
+            finished_onboarding = UserInfoDAO.finish_onboarding()
             return self.response(201, result=finished_onboarding)
         except StatementInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
@@ -236,7 +217,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
-    def put(self, pk: int) -> Response:
+    def put(self, pk: int) -> Response:  # pylint: disable=too-many-locals
         """Changes a Statement
         ---
         put:
@@ -289,27 +270,28 @@ class StatementRestApi(BaseSupersetModelRestApi):
         try:
             change_fields_for_statement = {
                 "finished": True,
-                "last_changed_datetime": datetime.datetime.utcnow().isoformat()
+                "last_changed_datetime": datetime.datetime.utcnow().isoformat(),
             }
             changed_statement = UpdateStatementCommand(
-                pk,
-                change_fields_for_statement).run()
+                pk, change_fields_for_statement
+            ).run()
             if item.get("is_approved"):
                 team_slug = item.get("team_slug")
-                team_model = find_team_by_slug(team_slug)
+                team_model = TeamDAO.find_team_by_slug(team_slug)
                 team_id = team_model.id
                 user = changed_statement.user[0]
 
                 #  ищем в какой команде пользователь и удаляем его оттуда
-                current_teams: list = user.teams
+                current_teams = user.teams
                 if current_teams and len(current_teams) > 0:
                     for current_team in current_teams:
-                        participants = [participant for participant in current_team.participants if participant.id != user.id]
-                        updated_participants = {
-                            "participants": participants
-                        }
-                        changed_team = UpdateTeamCommand(current_team.id,
-                                                         updated_participants).run()
+                        participants = [
+                            participant
+                            for participant in current_team.participants
+                            if participant.id != user.id
+                        ]
+                        updated_participants = {"participants": participants}
+                        UpdateTeamCommand(current_team.id, updated_participants).run()
                 participants = team_model.participants
                 if participants:
                     participants.append(user)
@@ -317,11 +299,11 @@ class StatementRestApi(BaseSupersetModelRestApi):
                     participants = [user]
                 updated_participants = {"participants": participants}
                 #  записываем пользователя в новую команду
-                changed_team = UpdateTeamCommand(team_id, updated_participants).run()
+                UpdateTeamCommand(team_id, updated_participants).run()
                 request_roles = changed_statement.request_roles
                 current_roles = user.roles
                 roles = request_roles + current_roles
-                changed_user = update_user_roles(user, roles)
+                UserDAO.update_user_roles(user, roles)
             response = self.response(
                 200,
                 id=changed_statement.id,

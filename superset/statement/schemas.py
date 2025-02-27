@@ -1,13 +1,14 @@
 # DODO added #32839641
 
-import enum
+from enum import Enum
+
 from marshmallow import fields, Schema
 
 
-class CustomDodoRoles(enum.Enum):
-    Check_Data = "readonly"
-    Create_Data = "Create data"
-    Vizualize_Data = "Vizualize data"
+class CustomDodoRoles(Enum):
+    CHECK_DATA = "readonly"
+    CREATE_DATA = "Create data"
+    VIZUALIZE_DATA = "Vizualize data"
 
 
 class RolesSchema(Schema):
@@ -29,16 +30,16 @@ class StatementGetResponseSchema(Schema):
     user = fields.List(fields.Nested(UserSchema()))
     finished = fields.Boolean()
     team = fields.String()
-    isNewTeam = fields.Boolean()
+    is_new_team = fields.Boolean()
     team_slug = fields.String()
-    isExternal = fields.Boolean()
+    is_external = fields.Boolean()
     created_datetime = fields.DateTime()
     request_roles = fields.List(fields.String(validate=CustomDodoRoles))
     last_changed_datetime = fields.DateTime()
 
 
 class StatementGetSchema(Schema):
-    isExternal = fields.Boolean()
+    is_external = fields.Boolean()
     query = fields.String()
 
 
@@ -49,8 +50,8 @@ class StatementPutSchema(Schema):
 
 
 class StatementPostSchema(Schema):
-    isNewTeam = fields.Boolean()
+    is_new_team = fields.Boolean()
     team = fields.String()
     team_slug = fields.String()
-    isExternal = fields.Boolean()
+    is_external = fields.Boolean()
     request_roles = fields.List(fields.String(validate=CustomDodoRoles))

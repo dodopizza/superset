@@ -1,4 +1,5 @@
 # dodo was here
+# pylint: disable=too-many-lines
 import functools
 import logging
 from datetime import datetime
@@ -43,8 +44,10 @@ from superset.commands.dashboard.update import UpdateDashboardCommand
 from superset.commands.exceptions import TagForbiddenError
 from superset.commands.importers.exceptions import NoValidFilesFoundError
 from superset.commands.importers.v1.utils import get_contents_from_bundle
+from superset.commands.tag.create import CreateTeamTagCommand
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.dashboard import DashboardDAO, EmbeddedDashboardDAO
+from superset.daos.team import TeamDAO
 from superset.dashboards.filters import (
     DashboardAccessFilter,
     DashboardCertifiedFilter,
@@ -56,8 +59,6 @@ from superset.dashboards.filters import (
     DashboardTitleOrSlugFilter,
     FilterRelatedRoles,
 )
-from superset.commands.tag.create import CreateTeamTagCommand
-from superset.tags.models import ObjectType
 from superset.dashboards.permalink.types import DashboardPermalinkState
 from superset.dashboards.schemas import (
     CacheScreenshotSchema,
@@ -82,6 +83,7 @@ from superset.extensions import event_logger
 from superset.models.dashboard import Dashboard
 from superset.models.embedded_dashboard import EmbeddedDashboard
 from superset.security.guest_token import GuestUser
+from superset.tags.models import ObjectType
 from superset.tasks.thumbnails import (
     cache_dashboard_screenshot,
     cache_dashboard_thumbnail,
@@ -106,7 +108,6 @@ from superset.views.filters import (
     BaseFilterRelatedUsers,
     FilterRelatedOwners,
 )
-from superset.views.utils import get_team_by_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -576,7 +577,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         try:
             new_model = CreateDashboardCommand(item).run()
             # dodo add 35337314
-            team = get_team_by_user_id()
+            team = TeamDAO.get_team_by_user_id()
             if team:
                 team_slug = team.slug
                 object_type = ObjectType.dashboard

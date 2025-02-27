@@ -1,4 +1,5 @@
 # dodo was here
+# pylint: disable=too-many-lines
 import logging
 from datetime import datetime
 from io import BytesIO
@@ -61,10 +62,13 @@ from superset.commands.importers.exceptions import (
     NoValidFilesFoundError,
 )
 from superset.commands.importers.v1.utils import get_contents_from_bundle
+from superset.commands.tag.create import CreateTeamTagCommand
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.chart import ChartDAO
+from superset.daos.team import TeamDAO
 from superset.extensions import event_logger
 from superset.models.slice import Slice
+from superset.tags.models import ObjectType
 from superset.tasks.thumbnails import cache_chart_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.utils import json
@@ -77,9 +81,6 @@ from superset.views.base_api import (
     requires_json,
     statsd_metrics,
 )
-from superset.commands.tag.create import CreateTeamTagCommand
-from superset.tags.models import ObjectType
-from superset.views.utils import get_team_by_user_id
 from superset.views.filters import BaseFilterRelatedUsers, FilterRelatedOwners
 
 logger = logging.getLogger(__name__)
@@ -320,7 +321,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         try:
             new_model = CreateChartCommand(item).run()
             # dodo add 35337314
-            team = get_team_by_user_id()
+            team = TeamDAO.get_team_by_user_id()
             if team:
                 team_slug = team.slug
                 object_type = ObjectType.chart

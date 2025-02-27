@@ -11,17 +11,17 @@ class StatementMixin:  # pylint: disable=too-few-public-methods
         "user",
         "finished",
         "team",
-        "isNewTeam",
+        "is_new_team",
         "team_slug",
-        "isExternal",
+        "is_external",
         "created_datetime",
         "request_roles",
-        "last_changed_datetime"
+        "last_changed_datetime",
     ]
     label_columns = {
-        "isExternal": _("isExternal"),
+        "is_external": _("is_external"),
         "team": _("Team"),
-        "isNewTeam": _("isNewTeam"),
+        "is_new_team": _("is_new_team"),
         "team_slug": _("Team slug"),
         "finished": _("Finished"),
         "user": _("User"),

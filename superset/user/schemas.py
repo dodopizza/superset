@@ -1,6 +1,5 @@
 # DODO added #32839638
 
-import enum
 from marshmallow import fields, Schema
 
 

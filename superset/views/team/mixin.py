@@ -7,19 +7,12 @@ class TeamMixin:  # pylint: disable=too-few-public-methods
     add_title = _("Add Team")
     edit_title = _("Edit Team")
 
-    list_columns = [
-        "id",
-        "name",
-        "isExternal",
-        "slug",
-        "roles",
-        "participants"
-    ]
+    list_columns = ["id", "name", "is_external", "slug", "roles", "participants"]
     label_columns = {
         "id": _("Id"),
         "name": _("Name"),
-        "isExternal": _("IsExternal"),
+        "is_external": _("is_external"),
         "slug": _("Slug"),
         "roles": _("Roles"),
-        "participants": _("Participants")
+        "participants": _("Participants"),
     }
