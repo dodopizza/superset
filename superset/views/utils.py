@@ -156,7 +156,7 @@ def get_country_by_user_id() -> list[UserInfo]:  # получаем странн
             ).one_or_none()
         )
         return user.user_info
-    except Exception or AttributeError:
+    except Exception:
         return []
 
 
@@ -234,21 +234,50 @@ def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 
 
 def create_userinfo(lang: str):   # DODO changed #33835937
+    user_id = get_user_id()
+    if not user_id:
+        logger.error(
+            "Failed to create user info: user_id is empty",
+            extra={
+                "language": lang,
+                "user_id": user_id,
+                "action": "create_userinfo"
+            }
+        )
+        raise ValueError("User ID is required to create user info")
+
     try:
-        user_id = get_user_id()
-        if not user_id:
-            raise Exception
         model = UserInfo()
         setattr(model, 'language', lang)
         setattr(model, 'user_id', user_id)
-        try:
-            db.session.add(model)
-            db.session.commit()
-        except SQLAlchemyError:
-            db.session.rollback()
+        db.session.add(model)
+        db.session.commit()
         return True
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        logger.error(
+            f"Database error while creating user info: {str(e)}",
+            extra={
+                "language": lang,
+                "user_id": user_id,
+                "action": "create_userinfo",
+                "error_type": e.__class__.__name__
+            },
+            exc_info=True
+        )
+        raise
     except Exception as e:
-        logger.exception(e)
+        logger.error(
+            f"Unexpected error in create_userinfo: {str(e)}",
+            extra={
+                "language": lang,
+                "user_id": user_id,
+                "action": "create_userinfo",
+                "error_type": e.__class__.__name__
+            },
+            exc_info=True
+        )
+        raise
 
 
 def insert_country(country_iso_num: int, username: str):  # пишем в бд страну пользователя
