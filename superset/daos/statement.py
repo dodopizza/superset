@@ -3,15 +3,13 @@ from __future__ import annotations
 
 import logging
 
-from superset.daos.base import BaseDAO
 from superset.commands.statement.exceptions import (
     StatementNotFoundError,
 )
-from superset.extensions import db
+from superset.daos.base import BaseDAO
+from superset.extensions import db, security_manager
 from superset.models.statement import Statement
-from superset.extensions import security_manager
 from superset.utils.core import get_user_id
-
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +23,8 @@ class StatementDAO(BaseDAO[Statement]):
 
             if not statement:
                 raise StatementNotFoundError()
-        except AttributeError as e:
-            raise StatementNotFoundError()
+        except AttributeError as ex:
+            raise StatementNotFoundError() from ex
         return statement
 
     @staticmethod
@@ -41,5 +39,5 @@ class StatementDAO(BaseDAO[Statement]):
                 .one_or_none()
             )
             return user.statements
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             return []

@@ -1,20 +1,19 @@
 # DODO added #32839638
 
-from functools import partial
 import logging
+from functools import partial
 from typing import Any, Optional
 
 from flask_appbuilder.models.sqla import Model
 
 from superset.commands.base import BaseCommand, UpdateMixin
-from superset.daos.team import TeamDAO
-from superset.models.team import Team
 from superset.commands.team.exceptions import (
     TeamNotFoundError,
     TeamUpdateFailedError,
 )
+from superset.daos.team import TeamDAO
+from superset.models.team import Team
 from superset.utils.decorators import on_error, transaction
-
 
 logger = logging.getLogger(__name__)
 
@@ -44,5 +43,5 @@ class UpdateTeamCommand(UpdateMixin, BaseCommand):
                 self._properties.get("participants", []).append(user)
 
         if self.command == "remove_user":
-            self._model.participants.remove(self._properties.get("participants")[0])
+            self._model.participants.remove(self._properties.get("participants", {})[0])
             self._properties["participants"] = self._model.participants.copy()

@@ -22,7 +22,7 @@ class TeamIDFilter(BaseFilter):  # pylint: disable=too-few-public-methods
         return query
 
 
-class TeamNameFilter(BaseFilter):
+class TeamNameFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     name = _("Name")
     arg_name = "ct_name"
 
@@ -33,7 +33,7 @@ class TeamNameFilter(BaseFilter):
         return query.filter(Team.name.ilike(ilike_value))
 
 
-class TeamSlugFilter(BaseFilter):
+class TeamSlugFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     name = _("Slug")
     arg_name = "ct_slug"
 
@@ -44,7 +44,7 @@ class TeamSlugFilter(BaseFilter):
         return query.filter(Team.slug.ilike(ilike_value))
 
 
-class TeamExternalFilter(BaseFilter):
+class TeamExternalFilter(BaseFilter):  # pylint: disable=too-few-public-methods
     name = _("External")
     arg_name = "eq_external"
 

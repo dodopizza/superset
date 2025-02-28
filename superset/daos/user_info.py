@@ -1,17 +1,16 @@
 # DODO added #32839641
 from __future__ import annotations
+
+import logging
+from datetime import datetime
 from typing import Any
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from datetime import datetime
-import logging
 from superset.daos.base import BaseDAO
-from superset.extensions import db
+from superset.extensions import db, security_manager
 from superset.models.user_info import UserInfo
 from superset.utils.core import get_user_id
-from superset.extensions import security_manager
-
 
 logger = logging.getLogger(__name__)
 
@@ -19,17 +18,21 @@ logger = logging.getLogger(__name__)
 class UserInfoDAO(BaseDAO[UserInfo]):
     # base_filter = DashboardAccessFilter
     @staticmethod
-    def get_onboarding() -> dict[str, Any]:  # получаем информацию по onboarding из бд
+    def get_onboarding() -> dict[str, Any]:
         user_id = get_user_id()
         try:
             user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+                db.session.query(UserInfo)
+                .filter(UserInfo.user_id == user_id)
+                .one_or_none()
             )
             return user_info.__dict__
-        except Exception:
-            logger.warning(f"User id = {user_id} dont have onboarding info in database")
+        except Exception:  # pylint: disable=broad-except
+            logger.warning(
+                "User id = %s dont have onboarding info in database", user_id
+            )
             return {"onboarding_started_time": None, "is_onboarding_finished": False}
-    
+
     @classmethod
     def get_by_user_id(cls, user_id: int) -> UserInfo:
         try:
@@ -42,17 +45,17 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             UserInfoDAO.create_userinfo("ru")
             cls.get_by_user_id(user_id)
         return user_info
-    
+
     @staticmethod
     def create_onboarding(
         dodo_role: str, started_time: datetime
     ) -> bool:  # DODO changed #33835937
         """Create onboarding record for user.
-        
+
         Args:
             dodo_role (str): User's role in Dodo
             started_time (datetime.datetime): Onboarding start time
-            
+
         Returns:
             bool: True if successful, False otherwise
         """
@@ -61,7 +64,7 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             if not user_id:
                 logger.warning("Cannot create onboarding - user ID not found")
                 return False
-                
+
             model = UserInfo()
             setattr(model, "user_id", user_id)
             setattr(model, "dodo_role", dodo_role)
@@ -83,7 +86,9 @@ class UserInfoDAO(BaseDAO[UserInfo]):
         user_id = get_user_id()
         try:
             user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+                db.session.query(UserInfo)
+                .filter(UserInfo.user_id == user_id)
+                .one_or_none()
             )
             user_info.dodo_role = dodo_role
             user_info.onboarding_started_time = started_time
@@ -96,7 +101,7 @@ class UserInfoDAO(BaseDAO[UserInfo]):
     @staticmethod
     def finish_onboarding() -> dict[str, bool]:
         """Mark user's onboarding as finished.
-        
+
         Returns:
             dict[str, bool]: Status of onboarding completion
         """
@@ -104,21 +109,23 @@ class UserInfoDAO(BaseDAO[UserInfo]):
         if not user_id:
             logger.warning("Cannot finish onboarding - user ID not found")
             return {"is_onboarding_finished": False}
-            
+
         try:
             user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+                db.session.query(UserInfo)
+                .filter(UserInfo.user_id == user_id)
+                .one_or_none()
             )
             if not user_info:
                 logger.warning("User info not found for user %s", user_id)
                 return {"is_onboarding_finished": False}
-                
+
             setattr(user_info, "is_onboarding_finished", True)
             db.session.merge(user_info)
             db.session.commit()
             return {"is_onboarding_finished": True}
-        except SQLAlchemyError as e:
-            logger.error("Database error finishing onboarding: %s", str(e))
+        except SQLAlchemyError as ex:
+            logger.error("Database error finishing onboarding: %s", str(ex))
             db.session.rollback()
             return {"is_onboarding_finished": False}
 
@@ -145,12 +152,12 @@ class UserInfoDAO(BaseDAO[UserInfo]):
                 db.session.add(model)
                 db.session.commit()
                 return True
-            except SQLAlchemyError as e:
-                logger.error("Database error creating user info: %s", str(e))
+            except SQLAlchemyError as ex:
+                logger.error("Database error creating user info: %s", str(ex))
                 db.session.rollback()
                 return False
-        except Exception as e:
-            logger.error("Failed to create user info: %s", str(e))
+        except Exception as ex:  # pylint: disable=broad-except
+            logger.error("Failed to create user info: %s", str(ex))
             return False
 
     @staticmethod
@@ -158,7 +165,9 @@ class UserInfoDAO(BaseDAO[UserInfo]):
         try:
             user_id = get_user_id()
             user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+                db.session.query(UserInfo)
+                .filter(UserInfo.user_id == user_id)
+                .one_or_none()
             )
             user_info.language = lang
             db.session.commit()
@@ -175,23 +184,23 @@ class UserInfoDAO(BaseDAO[UserInfo]):
                 .one_or_none()
             )
             return user.user_info
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             return []
-    
+
     @staticmethod
     def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
-
         try:
             user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+                db.session.query(UserInfo)
+                .filter(UserInfo.user_id == user_id)
+                .one_or_none()
             )
             return user_info.dodo_role
         except SQLAlchemyError:
-            logger.warning('Exception when select dodo_role from db')
-            return ''
+            logger.warning("Exception when select dodo_role from db")
         except AttributeError:
-            logger.warning(f"User id = {user_id} dont have dodo_role in database")
-            return ''
-        except Exception:
+            logger.warning("User id = %s dont have dodo_role in database", user_id)
+        except Exception:  # pylint: disable=broad-except
             logger.exception("Error get dodo_role ")
-            return ''
+        finally:
+            return ""

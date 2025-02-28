@@ -3,15 +3,13 @@ from __future__ import annotations
 
 import logging
 from typing import Optional
+
 from sqlalchemy.exc import SQLAlchemyError
 
 from superset.daos.base import BaseDAO
-
-from superset.utils.core import get_user_id
-from superset.extensions import db
+from superset.extensions import db, security_manager
 from superset.models.team import Team
-from superset.extensions import security_manager
-
+from superset.utils.core import get_user_id
 
 logger = logging.getLogger(__name__)
 
@@ -25,17 +23,18 @@ class TeamDAO(BaseDAO[Team]):
         return not db.session.query(team_query.exists()).scalar()
 
     @staticmethod
-    def find_team_by_slug(team_slug: str) -> Optional[Team]:
+    def find_team_by_slug(team_slug: str) -> Team:
         try:
             team = db.session.query(Team).filter(Team.slug == team_slug).one_or_none()
             return team
         except Exception:
             logger.warning("Cant find team by slug")
+            raise
 
     @staticmethod
     def get_team_by_user_id() -> Optional[Team]:
         """Get user's team by user ID.
-        
+
         Returns:
             Optional[Team]: The user's team or None if not found
         """
@@ -49,6 +48,6 @@ class TeamDAO(BaseDAO[Team]):
             if not user or not user.teams:
                 return None
             return user.teams[0]
-        except SQLAlchemyError as e:
-            logger.error("Failed to get team for user %s: %s", user_id, str(e))
+        except SQLAlchemyError as ex:
+            logger.error("Failed to get team for user %s: %s", user_id, str(ex))
             return None

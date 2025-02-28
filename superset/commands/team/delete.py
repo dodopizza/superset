@@ -14,19 +14,18 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from functools import partial
 import logging
+from functools import partial
 from typing import Optional
 
 from superset.commands.base import BaseCommand
-from superset.daos.team import TeamDAO
-from superset.models.team import Team
 from superset.commands.team.exceptions import (
     TeamDeleteFailedError,
     TeamNotFoundError,
 )
+from superset.daos.team import TeamDAO
+from superset.models.team import Team
 from superset.utils.decorators import on_error, transaction
-
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +41,6 @@ class DeleteTeamCommand(BaseCommand):
         assert self._models
 
         return TeamDAO.delete(self._models)
-
 
     def validate(self) -> None:
         # Validate/populate model exists

@@ -1,21 +1,20 @@
 # DODO added #32839641
 
-from functools import partial
 import logging
+from functools import partial
 from typing import Any, Optional
 
 from flask_appbuilder.models.sqla import Model
 from marshmallow import ValidationError
 
 from superset.commands.base import BaseCommand, CreateMixin
-from superset.commands.utils import get_ids_roles_by_name
-from superset.daos.statement import StatementDAO
 from superset.commands.statement.exceptions import (
     StatementCreateFailedError,
     StatementInvalidError,
 )
+from superset.commands.utils import get_ids_roles_by_name
+from superset.daos.statement import StatementDAO
 from superset.utils.decorators import on_error, transaction
-
 
 logger = logging.getLogger(__name__)
 

@@ -7,6 +7,9 @@ from flask_appbuilder.api import expose, protect, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from marshmallow import ValidationError
 
+from superset.commands.team.create import CreateTeamCommand
+from superset.commands.team.exceptions import TeamCreateFailedError, TeamInvalidError
+from superset.commands.team.update import UpdateTeamCommand
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.team import TeamDAO
 from superset.daos.user import UserDAO
@@ -14,9 +17,6 @@ from superset.extensions import (
     security_manager,
 )
 from superset.models.team import Team
-from superset.commands.team.create import CreateTeamCommand
-from superset.commands.team.exceptions import TeamCreateFailedError, TeamInvalidError
-from superset.commands.team.update import UpdateTeamCommand
 from superset.team.filters import (
     TeamExternalFilter,
     TeamIDFilter,

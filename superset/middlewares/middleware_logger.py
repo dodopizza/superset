@@ -1,36 +1,41 @@
+# pylint: disable=too-few-public-methods
 import logging
-import json
+from typing import Any, Callable
+
+from flask import Request, Response
 from flask_http_middleware import BaseHTTPMiddleware
 from flask_login import current_user
-from typing import Any
+
+from superset.utils import json
 
 logger = logging.getLogger(__name__)
 
 
-class LogRoutersMiddleware(BaseHTTPMiddleware):
-    def __init__(self):
+class LoggerMiddleware(BaseHTTPMiddleware):
+    def __init__(self) -> None:
         super().__init__()
 
-    def _get_request_body(self, request) -> dict[str, Any]:
+    def _get_request_body(self, request: Request) -> dict[str, Any]:
         """Extract request body safely."""
         try:
             return request.get_json(silent=True) or {}
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             return {}
 
-    def _get_response_body(self, response) -> dict[str, Any]:
+    def _get_response_body(self, response: Response) -> dict[str, Any]:
         """Extract response body safely."""
         try:
             return json.loads(response.get_data(as_text=True)) or {}
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             return {}
 
-    def dispatch(self, request, call_next):
+    def dispatch(self, request: Request, call_next: Callable[[Request], Response]) -> Response:
         response = call_next(request)
 
         if 400 <= response.status_code < 600:
             logger.error(
-                f"Error response - status: {response.status_code}",
+                "Error response - status: %s",
+                response.status_code,
                 extra={
                     "method": request.method,
                     "url": request.url,

@@ -1,18 +1,18 @@
 # DODO added #32839641
 
-from functools import partial
 import logging
+from functools import partial
 from typing import Any, Optional
 
 from flask_appbuilder.models.sqla import Model
 
 from superset.commands.base import BaseCommand, UpdateMixin
-from superset.daos.statement import StatementDAO
-from superset.models.statement import Statement
 from superset.commands.statement.exceptions import (
     StatementNotFoundError,
     StatementUpdateFailedError,
 )
+from superset.daos.statement import StatementDAO
+from superset.models.statement import Statement
 from superset.utils.decorators import on_error, transaction
 
 logger = logging.getLogger(__name__)
