@@ -1,26 +1,9 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { Fragment, useState, useEffect, FC, PureComponent } from 'react';
 
 import rison from 'rison';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useQueryParams, BooleanParam } from 'use-query-params';
 import { isEmpty } from 'lodash';
 
@@ -49,6 +32,11 @@ import DatabaseModal from 'src/features/databases/DatabaseModal';
 import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import TelemetryPixel from 'src/components/TelemetryPixel';
+// DOOD added start 44211792
+import { useHasUserTeam } from 'src/DodoExtensions/onBoarding/hooks/useHasUserTeam';
+import { getIsOnboardingFinished } from 'src/DodoExtensions/onBoarding/model/selectors/getIsOnboardingFinished';
+import { setInitByUserStorageInfo } from 'src/DodoExtensions/onBoarding/utils/localStorageUtils';
+// DOOD added stop 44211792
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -156,6 +144,8 @@ const RightMenu = ({
   const canChart = findPermission('can_write', 'Chart', roles);
   const canDatabase = findPermission('can_write', 'Database', roles);
   const canDataset = findPermission('can_write', 'Dataset', roles);
+  const location = useLocation(); // DOOD added 44211792
+  const isLoginPage = location.pathname.startsWith('/login'); // DOOD added 44211792
 
   const { canUploadData, canUploadCSV, canUploadColumnar, canUploadExcel } =
     uploadUserPerms(
@@ -354,6 +344,12 @@ const RightMenu = ({
 
   const theme = useTheme();
 
+  // DOOD added start 44211792
+  const hasTeam = useHasUserTeam(String(user?.userId ?? ''), !isLoginPage);
+  const isOnboardingFinished = useSelector(getIsOnboardingFinished);
+  const isOnBoardingVisible = !isOnboardingFinished || !hasTeam;
+  // DOOD added stop 44211792
+
   return (
     <StyledDiv align={align}>
       {canDatabase && (
@@ -511,6 +507,20 @@ const RightMenu = ({
           {!navbarRight.user_is_anonymous && [
             <Menu.Divider key="user-divider" />,
             <Menu.ItemGroup key="user-section" title={t('User')}>
+              {/* DOOD added 44211792 */}
+              {isOnBoardingVisible && (
+                <Menu.Item key="errer">
+                  <a
+                    href="/"
+                    onClick={() => {
+                      // e.preventDefault();
+                      setInitByUserStorageInfo();
+                    }}
+                  >
+                    {t('Onboarding')}
+                  </a>
+                </Menu.Item>
+              )}
               {navbarRight.user_info_url && (
                 <Menu.Item key="info">
                   <a href={navbarRight.user_info_url}>{t('Info')}</a>
