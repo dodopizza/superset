@@ -226,3 +226,12 @@ def update_chart_config_dataset(
             config["query_context"] = None
 
     return config
+
+
+def get_ids_roles_by_name(role_names: Optional[list[str]]) -> list[Role]:
+    roles: list[Role] = []
+    if role_names:
+        roles = security_manager.find_roles_by_name(role_names)
+        if len(roles) != len(role_names):
+            raise RolesNotFoundValidationError()
+    return roles

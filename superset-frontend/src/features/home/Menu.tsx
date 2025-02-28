@@ -1,23 +1,6 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useState, useEffect } from 'react';
-import { styled, css, useTheme, SupersetTheme } from '@superset-ui/core';
+import { styled, css, useTheme, SupersetTheme, t } from '@superset-ui/core';
 import { debounce } from 'lodash';
 import { Global } from '@emotion/react';
 import { getUrlParam } from 'src/utils/urlUtils';
@@ -34,6 +17,15 @@ import {
   MenuObjectProps,
   MenuData,
 } from 'src/types/bootstrapTypes';
+// DOOD added start 44211792
+import { useSelector } from 'react-redux';
+import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo';
+import { onboardingMenuAdminItems } from 'src/DodoExtensions/onBoarding';
+import {
+  REQUEST_PAGE_LIST_URL,
+  TEAM_PAGE_LIST_URL,
+} from 'src/DodoExtensions/onBoarding/consts';
+// DOOD added stop 44211792
 import RightMenu from './RightMenu';
 
 interface MenuProps {
@@ -382,35 +374,55 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   // Cycle through menu.menu to build out cleanedMenu and settings
   const cleanedMenu: MenuObjectProps[] = [];
   const settings: MenuObjectProps[] = [];
-  newMenuData.menu.forEach((item: any) => {
-    if (!item) {
-      return;
-    }
+  newMenuData.menu
+    // DOOD added 44211792
+    .filter(
+      item =>
+        item.url !== REQUEST_PAGE_LIST_URL && item.url !== TEAM_PAGE_LIST_URL,
+    )
+    .forEach((item: any) => {
+      if (!item) {
+        return;
+      }
 
-    const children: (MenuObjectProps | string)[] = [];
-    const newItem = {
-      ...item,
-    };
+      const children: (MenuObjectProps | string)[] = [];
+      const newItem = {
+        ...item,
+      };
 
-    // Filter childs
-    if (item.childs) {
-      item.childs.forEach((child: MenuObjectChildProps | string) => {
-        if (typeof child === 'string') {
-          children.push(child);
-        } else if ((child as MenuObjectChildProps).label) {
-          children.push(child);
-        }
+      // Filter childs
+      if (item.childs) {
+        item.childs.forEach((child: MenuObjectChildProps | string) => {
+          if (typeof child === 'string') {
+            children.push(child);
+          } else if ((child as MenuObjectChildProps).label) {
+            children.push(child);
+          }
+        });
+
+        newItem.childs = children;
+      }
+
+      if (!settingsMenus.hasOwnProperty(item.name)) {
+        cleanedMenu.push(newItem);
+      } else {
+        settings.push(newItem);
+      }
+    });
+
+  // DOOD added start 44211792
+  const user = useSelector(getUserInfo);
+  if (user.roles) {
+    if (user.roles.Admin) {
+      cleanedMenu.push(...onboardingMenuAdminItems());
+      cleanedMenu.push({
+        label: t('Tags'),
+        name: 'tags',
+        url: '/superset/tags/',
       });
-
-      newItem.childs = children;
     }
-
-    if (!settingsMenus.hasOwnProperty(item.name)) {
-      cleanedMenu.push(newItem);
-    } else {
-      settings.push(newItem);
-    }
-  });
+  }
+  // DOOD added stop 44211792
 
   newMenuData.menu = cleanedMenu;
   newMenuData.settings = settings;
