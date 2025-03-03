@@ -99,6 +99,7 @@ function generateProps(
     filterState: {},
     behaviors: [],
     theme: supersetTheme,
+    locale: 'en', // DODO added 44728892
   };
 }
 

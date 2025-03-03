@@ -42,7 +42,11 @@ interface ColumnConfigProps {
 export type ColumnConfig = Record<string, Partial<ColumnConfigProps>>;
 // DODO added stop 45525377
 
-interface PivotTableCustomizeProps {
+interface PivotTableCustomizePropsDodoExtended {
+  datasourceDescriptions: Record<string, string>; // DODO added 44728892
+}
+interface PivotTableCustomizeProps
+  extends PivotTableCustomizePropsDodoExtended {
   groupbyRows: QueryFormColumn[];
   groupbyColumns: QueryFormColumn[];
   metrics: QueryFormMetric[];

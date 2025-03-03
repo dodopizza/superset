@@ -4,6 +4,7 @@ import { Component, createRef } from 'react';
 import { t } from '@superset-ui/core';
 import { PinIcon, Tooltip } from '@superset-ui/chart-controls'; // DODO added 45525377
 import PropTypes from 'prop-types';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 44728892
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
 
@@ -24,8 +25,26 @@ function displayHeaderCell(
   onArrowClick,
   value,
   namesMapping,
+  datasourceDescriptions, // DODO added 44728892
 ) {
   const name = namesMapping[value] || value;
+
+  // DODO added start 44728892
+  const datasourceDescription = datasourceDescriptions?.[value];
+  const cellValue = (
+    <>
+      {datasourceDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={datasourceDescription}
+          placement="top"
+          iconsStyle={{ marginRight: '4px' }}
+        />
+      )}
+      {parseLabel(name)}
+    </>
+  );
+  // DODO added stop 44728892
+
   return needToggle ? (
     <span className="toggle-wrapper">
       <span
@@ -36,10 +55,13 @@ function displayHeaderCell(
       >
         {ArrowIcon}
       </span>
-      <span className="toggle-val">{parseLabel(name)}</span>
+      {/* <span className="toggle-val">{parseLabel(name)}</span> */}
+      {/* DODO changed 44728892 */}
+      <span className="toggle-val">{cellValue}</span>
     </span>
   ) : (
-    parseLabel(name)
+    // parseLabel(name)
+    cellValue // DODO changed 44728892
   );
 }
 
@@ -88,6 +110,7 @@ export class TableRenderer extends Component {
     const { props } = this;
     const colAttrs = props.cols;
     const rowAttrs = props.rows;
+    const { datasourceDescriptions } = props; // DODO added 44728892
 
     const tableOptions = {
       rowTotals: true,
@@ -189,6 +212,7 @@ export class TableRenderer extends Component {
       colTotalCallbacks,
       grandTotalCallback,
       namesMapping,
+      datasourceDescriptions, // DODO added 44728892
     };
   }
 
@@ -401,6 +425,7 @@ export class TableRenderer extends Component {
       pivotData,
       namesMapping,
       pinnedColumns, // DODO added 45525377
+      datasourceDescriptions, // DODO added 44728892
     } = pivotSettings;
     const {
       highlightHeaderCellsOnHover,
@@ -459,6 +484,7 @@ export class TableRenderer extends Component {
           arrowClickHandle,
           attrName,
           namesMapping,
+          datasourceDescriptions, // DODO added 44728892
         )}
       </th>
     );
@@ -595,6 +621,7 @@ export class TableRenderer extends Component {
       pivotData,
       namesMapping,
       pinnedColumns, // DODO added 45525377
+      datasourceDescriptions, // DODO added 44728892
     } = pivotSettings;
     const isAllColumnsPinned = pinnedColumns.length === rowAttrs.length; // DODO added 45525377
     return (
@@ -651,6 +678,7 @@ export class TableRenderer extends Component {
                 arrowClickHandle,
                 r,
                 namesMapping,
+                datasourceDescriptions, // DODO added 44728892
               )}
             </th>
           );
@@ -710,6 +738,7 @@ export class TableRenderer extends Component {
       rowTotalCallbacks,
       namesMapping,
       pinnedColumns, // DODO added 45525377
+      datasourceDescriptions, // DODO added 44728892
     } = pivotSettings;
 
     const {
@@ -793,6 +822,7 @@ export class TableRenderer extends Component {
               onArrowClick,
               headerCellFormattedValue,
               namesMapping,
+              datasourceDescriptions, // DODO added 44728892
             )}
           </th>
         );

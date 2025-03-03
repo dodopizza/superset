@@ -25,7 +25,10 @@ import {
   tooltipHtml,
   ValueFormatter,
 } from '@superset-ui/core';
-import { getOriginalSeries } from '@superset-ui/chart-controls';
+import {
+  getOriginalSeries,
+  extractDatasourceDescriptions, // DODO added 44728892
+} from '@superset-ui/chart-controls';
 import type { EChartsCoreOption } from 'echarts/core';
 import type { SeriesOption } from 'echarts';
 import {
@@ -80,6 +83,8 @@ import {
   getYAxisFormatter,
 } from '../utils/formatters';
 import { LabelPositionDodo } from '../DodoExtensions/types'; // DODO added 45525377
+import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 44728892
+import InfoIcon from '../DodoExtensions/common/InfoIcon'; // DODO added 44728892
 
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,
@@ -111,6 +116,7 @@ export default function transformProps(
     theme,
     inContextMenu,
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
 
   let focusedSeries: string | null = null;
@@ -119,6 +125,8 @@ export default function transformProps(
     verboseMap = {},
     currencyFormats = {},
     columnFormats = {},
+    metrics: datasourceMetrics = [], // DODO added 44728892
+    columns: datasourceColumns = [], // DODO added 44728892
   } = datasource;
   const { label_map: labelMap } =
     queriesData[0] as TimeseriesChartDataResponseResult;
@@ -484,6 +492,20 @@ export default function transformProps(
   const { setDataMask = () => {}, onContextMenu } = hooks;
   const alignTicks = yAxisIndex !== yAxisIndexB;
 
+  // DODO added start 44728892
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...metricsB],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  const extendedDatasourceDescriptions = extendDatasourceDescriptions(
+    datasourceDescriptions,
+    [...groupby, ...groupbyB],
+    series,
+  );
+  // DODO added stop 44728892
+
   const echartOptions: EChartsCoreOption = {
     useUTC: true,
     grid: {
@@ -634,6 +656,8 @@ export default function transformProps(
         showLegend,
         theme,
         zoomable,
+        undefined, // DODO added 44728892
+        extendedDatasourceDescriptions, // DODO added 44728892
       ),
       // @ts-ignore
       data: rawSeriesA
@@ -644,7 +668,21 @@ export default function transformProps(
             ForecastSeriesEnum.Observation,
         )
         .map(entry => entry.name || '')
-        .concat(extractAnnotationLabels(annotationLayers, annotationData)),
+        .concat(extractAnnotationLabels(annotationLayers, annotationData))
+        // DODO added 44728892
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: InfoIcon,
+                },
+              },
+            },
+          },
+        })),
     },
     series: dedupSeries(series),
     toolbox: {

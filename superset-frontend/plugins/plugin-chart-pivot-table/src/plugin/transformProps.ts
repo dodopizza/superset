@@ -11,7 +11,10 @@ import {
   SMART_DATE_ID,
   TimeFormats,
 } from '@superset-ui/core';
-import { getColorFormatters } from '@superset-ui/chart-controls';
+import {
+  extractDatasourceDescriptions, // DODO added 44728892
+  getColorFormatters,
+} from '@superset-ui/chart-controls';
 import { DateFormatter } from '../types';
 import { getPinnedColumnIndexes } from '../DodoExtensions/utils/getPinnedColumnIndexes'; // DODO added 45525377
 
@@ -64,8 +67,15 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     rawFormData,
     hooks: { setDataMask = () => {}, onContextMenu },
     filterState,
-    datasource: { verboseMap = {}, columnFormats = {}, currencyFormats = {} },
+    datasource: {
+      verboseMap = {},
+      columnFormats = {},
+      currencyFormats = {},
+      metrics: datasourceMetrics = [], // DODO added 44728892
+      columns: datasourceColumns = [], // DODO added 44728892
+    },
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
   const { data, colnames, coltypes } = queriesData[0];
   const {
@@ -143,6 +153,14 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     transposePivot,
   });
 
+  // DODO added 44728892
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...groupbyRows, ...groupbyColumns],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+
   return {
     width,
     height,
@@ -177,5 +195,6 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     timeGrainSqla,
     columnConfig, // DODO added 45525377
     pinnedColumns, // DODO added 45525377
+    datasourceDescriptions, // DODO added 44728892
   };
 }

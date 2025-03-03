@@ -94,7 +94,11 @@ export type BasicColorFormatterType = {
   mainArrow: string;
 };
 
-export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
+interface TableChartTransformedPropsDodoExtended {
+  datasourceDescriptions: Record<string, string>; // DODO added 44728892
+}
+export interface TableChartTransformedProps<D extends DataRecord = DataRecord>
+  extends TableChartTransformedPropsDodoExtended {
   timeGrain?: TimeGranularity;
   height: number;
   width: number;

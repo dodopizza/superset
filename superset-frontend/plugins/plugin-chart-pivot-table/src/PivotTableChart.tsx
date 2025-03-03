@@ -138,6 +138,7 @@ export default function PivotTableChart(props: PivotTableProps) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceDescriptions, // DODO added 44728892
     columnConfig, // DODO added 45525377
     pinnedColumns, // DODO added 45525377
   } = props;
@@ -541,6 +542,7 @@ export default function PivotTableChart(props: PivotTableProps) {
           subtotalOptions={subtotalOptions}
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
+          datasourceDescriptions={datasourceDescriptions} // DODO added 44728892
           // DODO added start 45525377
           columnConfig={columnConfig}
           combineMetric={combineMetric}

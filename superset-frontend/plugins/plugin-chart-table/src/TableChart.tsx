@@ -37,7 +37,13 @@ import {
   tn,
   useTheme,
 } from '@superset-ui/core';
-import { Dropdown, Menu, PinIcon, Tooltip } from '@superset-ui/chart-controls';
+import {
+  Dropdown,
+  InfoTooltipWithTrigger, // DODO added 44728892
+  Menu,
+  PinIcon, // DODO added 45525377
+  Tooltip,
+} from '@superset-ui/chart-controls';
 import {
   CheckOutlined,
   InfoCircleOutlined,
@@ -266,6 +272,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     isUsingTimeComparison,
     basicColorFormatters,
     basicColorColumnFormatters,
+    datasourceDescriptions, // DODO added 44728892
   } = props;
   // DODO added start 45525377
   const [pinnedColumns, setPinnedColumns] = useState<number[]>(
@@ -750,6 +757,13 @@ export default function TableChart<D extends DataRecord = DataRecord>(
       //   }
       // }
 
+      // DODO added start 44728892
+      const headerDescription = datasourceDescriptions[key.replace(/^%/, '')];
+      const headerTitle = headerDescription
+        ? undefined
+        : t('Shift + Click to sort by multiple columns');
+      // DODO added stop 44728892
+
       return {
         id: String(i), // to allow duplicate column keys
         // must use custom accessor to allow `.` in column names
@@ -956,7 +970,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
         }) => (
           <th
             id={`header-${column.key}`}
-            title={t('Shift + Click to sort by multiple columns')}
+            title={headerTitle} // DODO changed 44728892
             className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
             style={{
               ...sharedStyle,
@@ -1010,6 +1024,14 @@ export default function TableChart<D extends DataRecord = DataRecord>(
                 isPinned={isColumnPinned}
                 handlePinning={() => toggleColumnPin(isColumnPinned, i)}
               />
+              {/* DODO added 44728892 */}
+              {headerDescription && (
+                <InfoTooltipWithTrigger
+                  tooltip={headerDescription}
+                  placement="top"
+                  iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                />
+              )}
               <span data-column-name={col.id}>{label}</span>
               <SortIcon column={col} />
             </div>
