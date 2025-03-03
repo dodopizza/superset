@@ -710,7 +710,7 @@ THEME_OVERRIDES: dict[str, Any] = {
             "dark2": "#27523b",
             "light1": "#a2dcb2",
             "light2": "#ebfaf0",
-        }
+        },
     },
 }
 
