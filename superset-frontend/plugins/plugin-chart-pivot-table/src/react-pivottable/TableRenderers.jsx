@@ -385,7 +385,7 @@ export class TableRenderer extends Component {
   }
 
   getStickyCellLeft(columnIndex) {
-    const pinnedColumns = this.state.pinnedColumns;
+    const { pinnedColumns } = this.state;
     if (columnIndex === 0 || pinnedColumns.length === 1) return 0;
 
     let left = 0;
@@ -1012,7 +1012,7 @@ export class TableRenderer extends Component {
         >
           {/* {agg.format(aggValue)} */}
           {/* DODO changed 45525377 */}
-          {getCellValue()} 
+          {getCellValue()}
         </td>
       );
     });
