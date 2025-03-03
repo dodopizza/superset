@@ -94,6 +94,7 @@ const Actions = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.base};
 `;
 
+// DODO added 45047288
 const FormattedCode = styled.code`
   color: ${({ theme }) => theme.colors.primary.base};
   cursor: pointer;
@@ -300,17 +301,16 @@ function DashboardList(props: DashboardListProps) {
         size: 'xs',
         hidden: !user?.userId,
       },
+      // DODO added 45047288
       {
         Cell: ({
           row: {
             original: { id, slug },
           },
         }: any) => (
-          // DODO changed start - add tooltip
           <Tooltip title={`Slug: ${slug ?? 'No slug'}`} placement="right">
             <FormattedCode>{id}</FormattedCode>
           </Tooltip>
-          // DODO changed start
         ),
         Header: 'id',
         accessor: 'slug',
