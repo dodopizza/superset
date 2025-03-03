@@ -225,7 +225,7 @@ const getHtmlTemplate = htmlWebpackPlugin => `<!DOCTYPE html>
 	.selectLanguage {
 		width: 150px;
 		display: inline-block;
-		vertical-align: middle;		
+		vertical-align: middle;
 	}
 
 	.selectLanguage_lang {

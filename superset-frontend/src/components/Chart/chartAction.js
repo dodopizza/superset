@@ -185,7 +185,8 @@ const v1ChartDataRequest = async (
   const allowDomainSharding =
     // eslint-disable-next-line camelcase
     domainShardingEnabled && requestParams?.dashboard_id;
-  const url = (isStandalone ? getChartDataUri : getChartDataUriPlugin)({ // DODO changed 44611022
+  // DODO changed 44611022
+  const url = (isStandalone ? getChartDataUri : getChartDataUriPlugin)({
     path: '/api/v1/chart/data',
     qs,
     allowDomainSharding,
@@ -440,12 +441,13 @@ export function exploreJSON(
     const chartDataRequestCaught = chartDataRequest
       .then(resp => {
         // DODO changed 44611022
-        if (isStandalone)
+        if (isStandalone) {
           return handleChartDataResponse(
             resp.response,
             resp.json,
             useLegacyApi,
           );
+        }
         // DODO added 44611022
         return resp.result;
       })
