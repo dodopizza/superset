@@ -691,7 +691,7 @@ THEME_OVERRIDES: dict[str, Any] = {
         "grayscale": {
             "base": '#454545',
             "dark1": '#171717',
-            "light1": "#b9b9b9",
+            "light1": '#b9b9b9',
         },
         "error": {
             "base": '#ff6262',
