@@ -94,6 +94,11 @@ const Actions = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.base};
 `;
 
+const FormattedCode = styled.code`
+  color: ${({ theme }) => theme.colors.primary.base};
+  cursor: pointer;
+`;
+
 const DASHBOARD_COLUMNS_TO_FETCH = [
   'id',
   'dashboard_title',
@@ -294,6 +299,23 @@ function DashboardList(props: DashboardListProps) {
         disableSortBy: true,
         size: 'xs',
         hidden: !user?.userId,
+      },
+      {
+        Cell: ({
+          row: {
+            original: { id, slug },
+          },
+        }: any) => (
+          // DODO changed start - add tooltip
+          <Tooltip title={`Slug: ${slug ?? 'No slug'}`} placement="right">
+            <FormattedCode>{id}</FormattedCode>
+          </Tooltip>
+          // DODO changed start
+        ),
+        Header: 'id',
+        accessor: 'slug',
+        size: 'xs',
+        disableSortBy: true,
       },
       {
         Cell: ({
