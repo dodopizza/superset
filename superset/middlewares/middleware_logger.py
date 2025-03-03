@@ -29,7 +29,9 @@ class LoggerMiddleware(BaseHTTPMiddleware):
         except Exception:  # pylint: disable=broad-except
             return {}
 
-    def dispatch(self, request: Request, call_next: Callable[[Request], Response]) -> Response:
+    def dispatch(
+        self, request: Request, call_next: Callable[[Request], Response]
+    ) -> Response:
         response = call_next(request)
 
         if 400 <= response.status_code < 600:

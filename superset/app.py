@@ -25,7 +25,6 @@ from flask_http_middleware import MiddlewareManager
 from superset.initialization import SupersetAppInitializer
 from superset.middlewares.middleware_logger import LoggerMiddleware
 
-
 logger = logging.getLogger(__name__)
 
 
