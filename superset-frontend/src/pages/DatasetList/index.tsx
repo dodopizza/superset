@@ -12,6 +12,7 @@ import {
   createFetchRelated,
   createFetchDistinct,
   createErrorHandler,
+  shortenSQL, // DODO added 45047288
 } from 'src/views/CRUD/utils';
 import { ColumnObject } from 'src/features/datasets/types';
 import { useListViewResource } from 'src/views/CRUD/hooks';
@@ -48,6 +49,13 @@ import DuplicateDatasetModal from 'src/features/datasets/DuplicateDatasetModal';
 import { useSelector } from 'react-redux';
 import { ModifiedInfo } from 'src/components/AuditInfo';
 import { QueryObjectColumns } from 'src/views/CRUD/types';
+// DODO added start 45047288
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/light';
+import sql from 'react-syntax-highlighter/dist/esm/languages/hljs/sql';
+import idea from 'react-syntax-highlighter/dist/esm/styles/hljs/idea';
+// DODO added stop 45047288
+
+const SQL_PREVIEW_MAX_LINES = 1; // DODO added 45047288
 
 const extensionsRegistry = getExtensionsRegistry();
 const DatasetDeleteRelatedExtension = extensionsRegistry.get(
@@ -85,6 +93,19 @@ const Actions = styled.div`
     }
   }
 `;
+
+// DODO added start 45047288
+SyntaxHighlighter.registerLanguage('sql', sql);
+const StyledSyntaxHighlighter = styled(SyntaxHighlighter)`
+  height: 36px;
+  overflow: hidden !important; /* needed to override inline styles */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 0 0 0 !important;
+  line-height: 1.4 !important;
+  padding-bottom: 0 !important;
+`;
+// DODO added stop 45047288
 
 type Dataset = {
   changed_by_name: string;
@@ -344,6 +365,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         accessor: 'kind',
         disableSortBy: true,
         size: 'md',
+        hidden: true, // DODO added 45047288
       },
       {
         Header: t('Database'),
@@ -386,8 +408,35 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
       },
       {
         accessor: 'sql',
-        hidden: true,
+        // hidden: true, // DODO commented out 45047288
+        Header: t('SQL'), // DODO added 45047288
         disableSortBy: true,
+        // DODO added 45047288
+        Cell: ({ row: { original } }: any) =>
+          original?.sql ? (
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={() => {
+                const allowEdit =
+                  original.owners
+                    .map((o: Owner) => o.id)
+                    .includes(user.userId) || isUserAdmin(user);
+
+                const handleEdit = () => openDatasetEditModal(original);
+
+                if (allowEdit) handleEdit();
+              }}
+            >
+              <StyledSyntaxHighlighter language="sql" style={idea}>
+                {shortenSQL(original.sql, SQL_PREVIEW_MAX_LINES)}
+              </StyledSyntaxHighlighter>
+            </div>
+          ) : (
+            <StyledSyntaxHighlighter language="sql" style={idea}>
+              {shortenSQL('-', SQL_PREVIEW_MAX_LINES)}
+            </StyledSyntaxHighlighter>
+          ),
       },
       {
         Cell: ({ row: { original } }: any) => {
@@ -511,6 +560,14 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           { label: t('Virtual'), value: false },
           { label: t('Physical'), value: true },
         ],
+      },
+      // DODO added 45047288
+      {
+        Header: t('Search by query text'),
+        key: 'sql',
+        id: 'sql',
+        input: 'search',
+        operator: FilterOperator.Contains,
       },
       {
         Header: t('Database'),
