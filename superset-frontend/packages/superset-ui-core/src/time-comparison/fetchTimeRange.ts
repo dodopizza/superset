@@ -76,12 +76,12 @@ export const fetchTimeRange = async (
     const response = await SupersetClient.get({ endpoint });
     if (isEmpty(shifts)) {
       // DODO added start 44211759
-      const since = dttmToMoment(response?.json?.result?.since || '').format(
-        MOMENT_FORMAT_UI_DODO,
-      );
-      const until = dttmToMoment(response?.json?.result?.until || '').format(
-        MOMENT_FORMAT_UI_DODO,
-      );
+      const since = dttmToMoment(
+        response?.json?.result?.[0].since || '',
+      ).format(MOMENT_FORMAT_UI_DODO);
+      const until = dttmToMoment(
+        response?.json?.result?.[0].until || '',
+      ).format(MOMENT_FORMAT_UI_DODO);
       // DODO added stop 44211759
       const timeRangeString = buildTimeRangeString(since, until); // DODO changed 44211759
       // response?.json?.result[0]?.since || '',
