@@ -2,9 +2,12 @@
 
 import { Component, createRef } from 'react';
 import { t } from '@superset-ui/core';
-import { PinIcon, Tooltip } from '@superset-ui/chart-controls'; // DODO added 45525377
+import {
+  InfoTooltipWithTrigger,
+  PinIcon,
+  Tooltip,
+} from '@superset-ui/chart-controls'; // DODO added 45525377, 44728892
 import PropTypes from 'prop-types';
-import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 44728892
 import { PivotData, flatKey } from './utilities';
 import { Styles } from './Styles';
 
