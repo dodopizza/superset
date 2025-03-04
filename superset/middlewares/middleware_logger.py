@@ -1,4 +1,3 @@
-# pylint: disable=too-few-public-methods
 import logging
 from typing import Any, Callable
 
@@ -12,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class LoggerMiddleware(BaseHTTPMiddleware):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self):
+        pass
 
     def _get_request_body(self, request: Request) -> dict[str, Any]:
         """Extract request body safely."""

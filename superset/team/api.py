@@ -80,22 +80,22 @@ class TeamRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
+    # pylint: disable=arguments-differ
     def get(self, pk: int) -> Response:
-        """Creates a new Dashboard
+        """Get a Team by id
         ---
-        post:
+        get:
           description: >-
-            Get a Team.
-          requestBody:
-            description: Dashboard schema
-            required: true
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+            Get a Team by id.
+          parameters:
+            - in: path
+              schema:
+                type: integer
+              name: pk
+              description: The team id
           responses:
-            201:
-              description: Dashboard added
+            200:
+              description: Team information
               content:
                 application/json:
                   schema:
@@ -104,7 +104,7 @@ class TeamRestApi(BaseSupersetModelRestApi):
                       id:
                         type: number
                       result:
-                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                        $ref: '#/components/schemas/{{self.__class__.__name__}}.get'
             400:
               $ref: '#/components/responses/400'
             401:
@@ -133,13 +133,13 @@ class TeamRestApi(BaseSupersetModelRestApi):
     @safe
     @statsd_metrics
     def post(self) -> Response:
-        """Creates a new Dashboard
+        """Create a new Team
         ---
         post:
           description: >-
-            Create a new Dashboard.
+            Create a new Team.
           requestBody:
-            description: Dashboard schema
+            description: Team schema
             required: true
             content:
               application/json:
@@ -147,7 +147,7 @@ class TeamRestApi(BaseSupersetModelRestApi):
                   $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
           responses:
             201:
-              description: Dashboard added
+              description: Team added
               content:
                 application/json:
                   schema:
@@ -191,30 +191,33 @@ class TeamRestApi(BaseSupersetModelRestApi):
     @safe
     @statsd_metrics
     def add_user(self) -> Response:
-        """Creates a new Dashboard
+        """Add a user to a Team
         ---
         post:
           description: >-
-            Create a new Dashboard.
+            Add a user to an existing Team.
           requestBody:
-            description: Dashboard schema
+            description: Team and user information
             required: true
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                  type: object
+                  properties:
+                    team_id:
+                      type: integer
+                    user_id:
+                      type: integer
           responses:
             201:
-              description: Dashboard added
+              description: User added to team
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
-                      id:
-                        type: number
-                      result:
-                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                      status:
+                        type: string
             400:
               $ref: '#/components/responses/400'
             401:
@@ -257,30 +260,33 @@ class TeamRestApi(BaseSupersetModelRestApi):
     @safe
     @statsd_metrics
     def remove_user(self) -> Response:
-        """Creates a new Dashboard
+        """Remove a user from a Team
         ---
         post:
           description: >-
-            Create a new Dashboard.
+            Remove a user from an existing Team.
           requestBody:
-            description: Dashboard schema
+            description: Team and user information
             required: true
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                  type: object
+                  properties:
+                    team_id:
+                      type: integer
+                    user_id:
+                      type: integer
           responses:
             201:
-              description: Dashboard added
+              description: User removed from team
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
-                      id:
-                        type: number
-                      result:
-                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                      status:
+                        type: string
             400:
               $ref: '#/components/responses/400'
             401:

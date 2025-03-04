@@ -59,26 +59,27 @@ class UserInfoDAO(BaseDAO[UserInfo]):
         Returns:
             bool: True if successful, False otherwise
         """
-        try:
-            user_id = get_user_id()
-            if not user_id:
-                logger.warning("Cannot create onboarding - user ID not found")
-                return False
+        user_id = get_user_id()
+        if not user_id:
+            logger.warning("Cannot create onboarding - user ID not found")
+            return False
 
-            model = UserInfo()
-            setattr(model, "user_id", user_id)
-            setattr(model, "dodo_role", dodo_role)
-            setattr(model, "onboarding_started_time", started_time)
-            try:
-                db.session.add(model)
-                db.session.commit()
-                return True
-            except SQLAlchemyError as e:
-                logger.error("Database error creating onboarding: %s", str(e))
-                db.session.rollback()
-                return False
-        except Exception as e:
-            logger.error("Failed to create onboarding: %s", str(e))
+        try:
+            user_info = UserInfo(
+                user_id=user_id,
+                dodo_role=dodo_role,
+                onboarding_started_time=started_time,
+            )
+            db.session.add(user_info)
+            db.session.commit()
+            return True
+
+        except SQLAlchemyError as ex:
+            logger.error("Database error creating onboarding: %s", str(ex))
+            db.session.rollback()
+            return False
+        except Exception as ex:
+            logger.error("Failed to create onboarding: %s", str(ex))
             return False
 
     @staticmethod
@@ -189,18 +190,28 @@ class UserInfoDAO(BaseDAO[UserInfo]):
 
     @staticmethod
     def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
+        """Get dodo role for a user by their ID.
+
+        Args:
+            user_id: The ID of the user
+
+        Returns:
+            str: The dodo role of the user or empty string if not found/error
+        """
+        dodo_role = ""
         try:
             user_info = (
                 db.session.query(UserInfo)
                 .filter(UserInfo.user_id == user_id)
                 .one_or_none()
             )
-            return user_info.dodo_role
+            if user_info and user_info.dodo_role:
+                dodo_role = user_info.dodo_role
         except SQLAlchemyError:
             logger.warning("Exception when select dodo_role from db")
         except AttributeError:
             logger.warning("User id = %s dont have dodo_role in database", user_id)
         except Exception:  # pylint: disable=broad-except
-            logger.exception("Error get dodo_role ")
-        finally:
-            return ""
+            logger.exception("Error get dodo_role")
+
+        return dodo_role

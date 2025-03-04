@@ -107,6 +107,7 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
+    # pylint: disable=arguments-differ
     def get(self, pk: int) -> Response:
         """Gets Teams
         ---

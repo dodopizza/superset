@@ -56,28 +56,29 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
+    # pylint: disable=arguments-differ
     def get(self) -> Response:
-        """Gets onboarding information
+        """Get user onboarding information
         ---
         get:
           description: >-
-            Get a dashboard
-          parameters:
-          - in: path
-            schema:
-              type: string
-            name: id_or_slug
-            description: Either the id of the dashboard, or its slug
+            Get onboarding information for the current user
           responses:
             200:
-              description: Dashboard
+              description: Onboarding information
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
                       result:
-                        $ref: '#/components/schemas/DashboardGetResponseSchema'
+                        $ref: '#/components/schemas/OnboardingGetResponseSchema'
+                      email:
+                        type: string
+                      last_name:
+                        type: string
+                      first_name:
+                        type: string
             400:
               $ref: '#/components/responses/400'
             401:
@@ -107,19 +108,15 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
     @protect()
     @safe
     @statsd_metrics
+    # pylint: disable=arguments-differ
     def put(self) -> Response:
-        """Changes Onboarding
+        """Update user onboarding information
         ---
         put:
           description: >-
-            Changes a Dashboard.
-          parameters:
-          - in: path
-            schema:
-              type: integer
-            name: pk
+            Update onboarding information for the current user
           requestBody:
-            description: Dashboard schema
+            description: Onboarding information
             required: true
             content:
               application/json:
@@ -127,18 +124,17 @@ class OnboardingRestApi(BaseSupersetModelRestApi):
                   $ref: '#/components/schemas/{{self.__class__.__name__}}.put'
           responses:
             200:
-              description: Onboarding changed
+              description: Onboarding information updated
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
-                      id:
-                        type: number
                       result:
                         $ref: '#/components/schemas/{{self.__class__.__name__}}.put'
-                      last_modified_time:
-                        type: number
+                      onboarding_started_time:
+                        type: string
+                        format: date-time
             400:
               $ref: '#/components/responses/400'
             401:
