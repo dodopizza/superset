@@ -264,6 +264,10 @@ export default function transformProps(
     columnConfig, // DODO added 44211769
   );
 
+  // DODO added 44211769
+  const rawSeriesASet = new Set(
+    rawSeriesA.map(seriesOption => seriesOption.id),
+  );
   const primarySeries = new Set<string>();
   const secondarySeries = new Set<string>();
   const mapSeriesIdToAxis = (
@@ -618,7 +622,9 @@ export default function transformProps(
             // if there are no dimensions, key is a verbose name of a metric,
             // otherwise it is a comma separated string where the first part is metric name
             let formatterKey;
-            if (primarySeries.has(key)) {
+            // if (primarySeries.has(key)) {
+            // DODO changed 44211769
+            if (rawSeriesASet.has(key)) {
               formatterKey =
                 // groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
                 // DODO changed 44211769
@@ -646,7 +652,8 @@ export default function transformProps(
             const row = formatForecastTooltipSeries({
               ...value,
               seriesName: key,
-              formatter: primarySeries.has(key)
+              // formatter: primarySeries.has(key)
+              formatter: rawSeriesASet.has(key)
                 ? tooltipFormatter
                 : tooltipFormatterSecondary,
             });

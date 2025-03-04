@@ -49,8 +49,9 @@ export const buildCustomFormatters = (
           };
     }
 
-    // return acc;
+    // return acc; // DODO commented out 44211769
 
+    // DODO added 44211769
     // for AdhocMetricSimple and isAdhocMetricSQL
     const label = metric?.label || '';
     const configFormat = columnConfig?.[label]?.d3NumberFormat;
