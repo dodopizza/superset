@@ -166,10 +166,10 @@ const FilterValue: FC<FilterControlProps> = ({
         .then(resp => {
           // DODO changed 44611022
           if (isStandalone) {
+            const { json, response } = resp; // DODO added 44611022
             if (isFeatureEnabled(FeatureFlag.GlobalAsyncQueries)) {
               // deal with getChartDataRequest transforming the response data
-              const result =
-                'result' in resp.json ? resp.json.result[0] : resp.json;
+              const result = 'result' in json ? json.result[0] : json;
 
               if (resp.response.status === 200) {
                 setState([result]);
@@ -188,20 +188,20 @@ const FilterValue: FC<FilterControlProps> = ({
                   });
               } else {
                 throw new Error(
-                  `Received unexpected response status (${resp.response.status}) while fetching chart data`,
+                  `Received unexpected response status (${response.status}) while fetching chart data`,
                 );
               }
             } else {
-              setState(resp.json.result); // DODO changed 44611022
+              setState(json.result);
               setError(undefined);
               handleFilterLoadFinish();
             }
+            // DODO added 44611022
+          } else {
+            setState(resp.result);
+            setError(undefined);
+            handleFilterLoadFinish();
           }
-          // DODO added start 44611022
-          setState(resp.result);
-          setError(undefined);
-          handleFilterLoadFinish();
-          // DODO added stop 44611022
         })
         .catch((error: Response) => {
           getClientErrorObject(error).then(clientErrorObject => {
