@@ -23,8 +23,6 @@ import {
 } from 'src/explore/constants';
 import { DashboardStandaloneMode } from 'src/dashboard/util/constants';
 
-const isStandalone = process.env.type === undefined; // DODO added 44611022
-
 export function getChartKey(explore) {
   const { slice, form_data } = explore;
   return slice?.slice_id ?? form_data?.slice_id ?? UNSAVED_CHART_ID;
