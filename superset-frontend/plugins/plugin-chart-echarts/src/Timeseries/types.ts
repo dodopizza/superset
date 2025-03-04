@@ -19,6 +19,7 @@ import {
   StackType,
   TitleFormData,
 } from '../types';
+import { LabelPositionDodo } from '../DodoExtensions/types';
 
 export enum OrientationType {
   Vertical = 'vertical',
@@ -37,6 +38,7 @@ export enum EchartsTimeseriesSeriesType {
 
 type EchartsTimeseriesFormDataDodoExtended = {
   columnConfig: Record<string, EchartsSharedColumnConfigProp>; // DODO added 44211769
+  valueAlign: LabelPositionDodo; // DODO added 45525377
 };
 export type EchartsTimeseriesFormData = QueryFormData & {
   annotationLayers: AnnotationLayer[];

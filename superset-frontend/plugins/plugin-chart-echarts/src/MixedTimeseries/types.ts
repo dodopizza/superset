@@ -24,9 +24,12 @@ import {
   DEFAULT_TITLE_FORM_DATA,
   DEFAULT_FORM_DATA as TIMESERIES_DEFAULTS,
 } from '../constants';
+import { LabelPositionDodo } from '../DodoExtensions/types'; // DODO added 45525377
 
 type EchartsMixedTimeseriesFormDataDodoExtended = {
   columnConfig: Record<string, EchartsSharedColumnConfigProp>; // DODO added 44211769
+  valueAlign: LabelPositionDodo; // DODO added 45525377
+  valueAlignB: LabelPositionDodo; // DODO added 45525377
 };
 export type EchartsMixedTimeseriesFormData = QueryFormData & {
   annotationLayers: AnnotationLayer[];

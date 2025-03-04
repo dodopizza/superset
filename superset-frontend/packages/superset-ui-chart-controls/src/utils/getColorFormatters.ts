@@ -205,3 +205,63 @@ export const getColorFormatters = memoizeOne(
       [],
     ) ?? [],
 );
+
+// DODO added 45525377
+// Add function that based on getColorFormatters
+// and customized for percentChange
+export const getColorFormattersDodoPercentChange = memoizeOne(
+  (
+    columnConfig: ConditionalFormattingConfig[] | undefined,
+    percentChange: number,
+  ) =>
+    columnConfig?.reduce(
+      (acc: ColorFormatters, config: ConditionalFormattingConfig) => {
+        if (
+          config?.operator === Comparator.None ||
+          (config?.operator !== undefined &&
+            (MultipleValueComparators.includes(config?.operator)
+              ? config?.targetValueLeft !== undefined &&
+                config?.targetValueRight !== undefined
+              : config?.targetValue !== undefined))
+        ) {
+          acc.push({
+            column: '',
+            getColorFromValue: getColorFunction(config, [percentChange], false),
+          });
+        }
+        return acc;
+      },
+      [],
+    ) ?? [],
+);
+
+// DODO added 45525377
+// Add function that based on getColorFormatters
+// and customized for conditional message
+export const getColorFormattersWithConditionalMessage = memoizeOne(
+  (columnConfig: ConditionalFormattingConfig[] | undefined) =>
+    columnConfig?.reduce(
+      (acc: ColorFormatters, config: ConditionalFormattingConfig) => {
+        if (
+          config?.column !== undefined &&
+          (config?.operator === Comparator.None ||
+            (config?.operator !== undefined &&
+              (MultipleValueComparators.includes(config?.operator)
+                ? config?.targetValueLeft !== undefined &&
+                  config?.targetValueRight !== undefined
+                : config?.targetValue !== undefined)))
+        ) {
+          acc.push({
+            column: config?.column,
+            getColorFromValue: getColorFunction(config, [], false),
+            // @ts-ignore
+            message: config?.message,
+            messageRU: config?.messageRU,
+            messageEN: config?.messageEN,
+          });
+        }
+        return acc;
+      },
+      [],
+    ) ?? [],
+);

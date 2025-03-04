@@ -248,11 +248,22 @@ function ColumnCollectionTable({
             />
             <Field
               fieldKey="description"
-              label={t('Description')}
+              label={`${t('Description')} (Eng)`} // DODO changed 44728892
               control={
                 <TextControl
                   controlId="description"
                   placeholder={t('Description')}
+                />
+              }
+            />
+            {/* DODO added 44728892 */}
+            <Field
+              fieldKey="description_ru"
+              label={`${t('Description')} (Rus)`}
+              control={
+                <TextControl
+                  controlId="description_ru"
+                  placeholder={`${t('Description')} (Rus)`}
                 />
               }
             />
@@ -872,6 +883,7 @@ class DatasourceEditor extends PureComponent {
               language="markdown"
               offerEditInModal={false}
               resize="vertical"
+              height={50} // DODO added 45047288
             />
           }
         />
@@ -907,6 +919,7 @@ class DatasourceEditor extends PureComponent {
                 controlId="fetch_values_predicate"
                 minLines={5}
                 resize="vertical"
+                height={50} // DODO added 45047288
               />
             }
           />
@@ -927,6 +940,7 @@ class DatasourceEditor extends PureComponent {
                 language="json"
                 offerEditInModal={false}
                 resize="vertical"
+                height={50} // DODO added 45047288
               />
             }
           />
@@ -1247,11 +1261,22 @@ class DatasourceEditor extends PureComponent {
             <Fieldset compact>
               <Field
                 fieldKey="description"
-                label={t('Description')}
+                label={`${t('Description')} (Eng)`} // DODO changed 44728892
                 control={
                   <TextControl
                     controlId="description"
-                    placeholder={t('Description')}
+                    placeholder={`${t('Description')} (Eng)`} // DODO changed 44728892
+                  />
+                }
+              />
+              {/* DODO added 44728892 */}
+              <Field
+                fieldKey="description_ru"
+                label={`${t('Description')} (Rus)`}
+                control={
+                  <TextControl
+                    controlId="description_ru"
+                    placeholder={`${t('Description')} (Rus)`}
                   />
                 }
               />
@@ -1316,6 +1341,7 @@ class DatasourceEditor extends PureComponent {
                     language="markdown"
                     offerEditInModal={false}
                     resize="vertical"
+                    height={50} // DODO added 45047288
                   />
                 }
               />
@@ -1366,6 +1392,7 @@ class DatasourceEditor extends PureComponent {
               minLines={5}
               textAreaStyles={{ minWidth: '200px', maxWidth: '450px' }}
               resize="both"
+              height={100} // DODO added 45047288
             />
           ),
           description: (v, onChange, label) => (

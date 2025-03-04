@@ -39,6 +39,7 @@ const formData: PivotTableQueryFormData = {
   currencyFormat: { symbol: 'USD', symbolPosition: 'prefix' },
   datasourceMetrics: [], // DODO added 44211769
   columnConfig: {}, // DODO added 44211769
+  datasourceDescriptions: {}, // DODO added 44728892
 };
 
 test('should build groupby with series in form data', () => {

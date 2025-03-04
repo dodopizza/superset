@@ -2,6 +2,7 @@
 import {
   ColorFormatters,
   getColorFormatters,
+  getColorFormattersWithConditionalMessage, // DODO added 45525377
   Metric,
 } from '@superset-ui/chart-controls';
 import {
@@ -13,7 +14,8 @@ import {
   isSavedMetric, // DODO added 44211769
 } from '@superset-ui/core';
 import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
-import { getDateFormatter, parseMetricValue } from '../utils';
+import { parseMetricValue } from '../utils';
+import { getDateFormatter } from '../../utils/getDateFormatter'; // DODO added 45525377
 import { Refs } from '../../types';
 
 export default function transformProps(
@@ -42,6 +44,9 @@ export default function transformProps(
     yAxisFormat,
     conditionalFormatting,
     currencyFormat,
+    conditionalFormattingMessage, // DODO added 45525377
+    conditionalMessageFontSize, // DODO added 45525377
+    alignment, // DODO added 45525377
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -97,6 +102,11 @@ export default function transformProps(
     getColorFormatters(conditionalFormatting, data, false) ??
     defaultColorFormatters;
 
+  // DODO added 45525377
+  const conditionalMessageColorFormatters =
+    getColorFormattersWithConditionalMessage(conditionalFormattingMessage) ??
+    defaultColorFormatters;
+
   return {
     width,
     height,
@@ -108,5 +118,8 @@ export default function transformProps(
     onContextMenu,
     refs,
     colorThresholdFormatters,
+    conditionalMessageColorFormatters, // DODO added 45525377
+    conditionalMessageFontSize, // DODO added 45525377
+    alignment, // DODO added 45525377
   };
 }

@@ -24,6 +24,7 @@ import {
 import {
   ColorFormatters,
   ConditionalFormattingConfig,
+  extractDatasourceDescriptions, // DODO added 44728892
   getColorFormatters,
 } from '@superset-ui/chart-controls';
 
@@ -369,6 +370,7 @@ const transformProps = (
   const {
     height,
     width,
+    datasource: { metrics: datasourceMetrics, columns: datasourceColumns }, // DODO added 44728892
     rawFormData: formData,
     queriesData = [],
     filterState,
@@ -379,6 +381,7 @@ const transformProps = (
       onContextMenu,
     },
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
 
   const {
@@ -603,6 +606,23 @@ const transformProps = (
   );
 
   const startDateOffset = chartProps.rawFormData?.start_date_offset;
+
+  // DODO added start 44728892
+  const chartMetricsCollection =
+    queryMode === QueryMode.Raw
+      ? columns.map(column => column.key)
+      : [
+          ...(formData?.metrics ?? []),
+          ...(formData?.percent_metrics ?? []),
+          ...(formData?.groupby ?? []),
+        ];
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    chartMetricsCollection,
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  // DODO added stop 44728892
   return {
     height,
     width,
@@ -638,6 +658,7 @@ const transformProps = (
     basicColorFormatters,
     startDateOffset,
     basicColorColumnFormatters,
+    datasourceDescriptions, // DODO added 44728892
   };
 };
 

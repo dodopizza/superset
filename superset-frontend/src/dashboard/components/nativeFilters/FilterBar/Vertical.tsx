@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 /* eslint-disable no-param-reassign */
 import { throttle } from 'lodash';
@@ -30,15 +13,26 @@ import {
   FC,
 } from 'react';
 import cx from 'classnames';
-import { FeatureFlag, isFeatureEnabled, styled, t } from '@superset-ui/core';
+import {
+  FeatureFlag,
+  HandlerFunction, // DODO added 44211751
+  isFeatureEnabled,
+  isNativeFilter, // DODO added 44211751
+  styled,
+  t, // DODO added 44211751
+} from '@superset-ui/core';
 import Icons from 'src/components/Icons';
 import Loading from 'src/components/Loading';
 import { EmptyStateSmall } from 'src/components/EmptyState';
+import { AntdTabs } from 'src/components';
+import FilterSets from 'src/DodoExtensions/FilterSets'; // DODO added 44211751
+import EditSection from 'src/DodoExtensions/FilterSets/EditSection'; // DODO added 44211751
 import { getFilterBarTestId } from './utils';
-import { VerticalBarProps } from './types';
+import { TabIds, VerticalBarProps } from './types';
 import Header from './Header';
 import FilterControls from './FilterControls/FilterControls';
 import CrossFiltersVertical from './CrossFilters/Vertical';
+import { useFilterSets } from './state'; // DODO added 44211751
 
 const BarWrapper = styled.div<{ width: number }>`
   width: ${({ theme }) => theme.gridUnit * 8}px;
@@ -108,6 +102,23 @@ const StyledFilterIcon = styled(Icons.Filter)`
   color: ${({ theme }) => theme.colors.grayscale.base};
 `;
 
+// DODO added 44211751
+const StyledTabs = styled(AntdTabs)`
+  & .ant-tabs-nav-list {
+    width: 100%;
+  }
+  & .ant-tabs-tab {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    flex: 1;
+  }
+
+  & > .ant-tabs-nav .ant-tabs-nav-operations {
+    display: none;
+  }
+`;
+
 const FilterBarEmptyStateContainer = styled.div`
   margin-top: ${({ theme }) => theme.gridUnit * 8}px;
 `;
@@ -126,12 +137,20 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
   filtersOpen,
   filterValues,
   height,
+  isDisabled, // DODO added 44211751
   isInitialized,
   offset,
   onSelectionChange,
   toggleFiltersBar,
   width,
 }) => {
+  // DODO added start 44211751
+  const [editFilterSetId, setEditFilterSetId] = useState<number | null>(null);
+  const filterSets = useFilterSets();
+  const filterSetFilterValues = Object.values(filterSets);
+  const [tab, setTab] = useState(TabIds.AllFilters);
+  const nativeFilterValues = filterValues.filter(isNativeFilter);
+  // DODO added stop 44211751
   const [isScrolling, setIsScrolling] = useState(false);
   const timeout = useRef<any>();
 
@@ -164,6 +183,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
     [height],
   );
 
+  const numberOfFilters = nativeFilterValues.length; // DODO added 44211751
+
   const filterControls = useMemo(
     () =>
       filterValues.length === 0 ? (
@@ -190,12 +211,75 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
     [canEdit, dataMaskSelected, filterValues.length, onSelectionChange],
   );
 
+  // DODO added 44211751
+  const filterSetsTabs = useMemo(
+    () => (
+      <StyledTabs
+        centered
+        onChange={setTab as HandlerFunction}
+        defaultActiveKey={TabIds.AllFilters}
+        activeKey={editFilterSetId ? TabIds.AllFilters : undefined}
+      >
+        <AntdTabs.TabPane
+          tab={t('All filters (%(filterCount)d)', {
+            filterCount: numberOfFilters,
+          })}
+          key={TabIds.AllFilters}
+          css={tabPaneStyle}
+        >
+          {editFilterSetId && (
+            <EditSection
+              dataMaskSelected={dataMaskSelected}
+              disabled={!isDisabled}
+              onCancel={() => setEditFilterSetId(null)}
+              filterSetId={editFilterSetId}
+            />
+          )}
+          {filterControls}
+        </AntdTabs.TabPane>
+        <AntdTabs.TabPane
+          disabled={!!editFilterSetId}
+          tab={t('Filter sets (%(filterSetCount)d)', {
+            filterSetCount: filterSetFilterValues.length,
+          })}
+          key={TabIds.FilterSets}
+          css={tabPaneStyle}
+        >
+          <FilterSets
+            onEditFilterSet={setEditFilterSetId}
+            disabled={!isDisabled}
+            dataMaskSelected={dataMaskSelected}
+            tab={tab}
+            onFilterSelectionChange={onSelectionChange}
+          />
+        </AntdTabs.TabPane>
+      </StyledTabs>
+    ),
+    [
+      dataMaskSelected,
+      editFilterSetId,
+      filterControls,
+      filterSetFilterValues.length,
+      isDisabled,
+      numberOfFilters,
+      onSelectionChange,
+      tab,
+      tabPaneStyle,
+    ],
+  );
+
   const crossFilters = useMemo(
     () =>
       isFeatureEnabled(FeatureFlag.DashboardCrossFilters) ? (
         <CrossFiltersVertical />
       ) : null,
     [],
+  );
+
+  // DODO added 44211751
+  // Filter sets depend on native filters
+  const filterSetEnabled = isFeatureEnabled(
+    FeatureFlag.DashboardNativeFiltersSet,
   );
 
   return (
@@ -223,11 +307,20 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
         </CollapsedBar>
         <Bar className={cx({ open: filtersOpen })} width={width}>
           <Header toggleFiltersBar={toggleFiltersBar} />
+          {/* DODO added 45047288 */}
+          {actions}
           {!isInitialized ? (
             <div css={{ height }}>
               <Loading />
             </div>
+          ) : // DODO added start 44211751
+          filterSetEnabled ? (
+            <>
+              {crossFilters}
+              {filterSetsTabs}
+            </>
           ) : (
+            // DODO added stop 44211751
             <div css={tabPaneStyle} onScroll={onScroll}>
               <>
                 {crossFilters}
@@ -235,7 +328,7 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
               </>
             </div>
           )}
-          {actions}
+          {/* {actions} DODO commented out 45047288 */}
         </Bar>
       </BarWrapper>
     </FilterBarScrollContext.Provider>

@@ -13,6 +13,12 @@ import {
   subheaderFontSize,
   yAxisFormatOverrides, // DODO added 44211769
 } from '../sharedControls';
+// DODO added 45525377
+import {
+  Alignment,
+  ValueToShow,
+} from '../../DodoExtensions/BigNumber/sharedControls';
+import { bigNumberWithTrendlineControlPanelConditionalFormatting } from '../../DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo'; // DODO added 45525377
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -31,6 +37,7 @@ const config: ControlPanelConfig = {
       tabOverride: 'data',
       expanded: true,
       controlSetRows: [
+        [ValueToShow], // DODO added 45525377
         [
           {
             name: 'compare_lag',
@@ -116,6 +123,7 @@ const config: ControlPanelConfig = {
       label: t('Chart Options'),
       expanded: true,
       controlSetRows: [
+        [Alignment], // DODO added 45525377
         ['color_picker', null],
         [headerFontSize],
         [subheaderFontSize],
@@ -151,6 +159,7 @@ const config: ControlPanelConfig = {
         ],
       ],
     },
+    { ...bigNumberWithTrendlineControlPanelConditionalFormatting }, // DODO added 45525377
     {
       label: t('Advanced Analytics'),
       expanded: false,

@@ -27,6 +27,7 @@ import {
   xAxisBounds,
   xAxisLabelRotation,
 } from '../controls';
+import { chartOptionValuePositionDodo } from '../DodoExtensions/controlPanelCommon'; // DODO added 45525377
 
 const {
   area,
@@ -192,6 +193,7 @@ function createCustomizeSection(
         },
       },
     ],
+    [{ ...chartOptionValuePositionDodo(controlSuffix) }], // DODO added 45525377
     [
       {
         name: `opacity${controlSuffix}`,

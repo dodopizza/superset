@@ -43,6 +43,8 @@ export type SavedMetric = string;
  */
 interface MetricDodoExtended {
   number_format?: string; // DODO added 44211769
+  description_ru?: Maybe<string>; // DODO added 44728892
+  description_en?: Maybe<string>; // DODO added 44728892
 }
 export interface Metric extends MetricDodoExtended {
   id?: number;

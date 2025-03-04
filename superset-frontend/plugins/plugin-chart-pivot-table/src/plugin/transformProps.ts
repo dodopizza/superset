@@ -5,13 +5,18 @@ import {
   extractTimegrain,
   GenericDataType,
   getTimeFormatter,
-  getTimeFormatterForGranularity,
+  // getTimeFormatterForGranularity, // DODO commented out 45525377
   QueryFormData,
+  SMART_DATE_DOT_DDMMYYYY_ID, // DODO added 45525377
   SMART_DATE_ID,
   TimeFormats,
 } from '@superset-ui/core';
-import { getColorFormatters } from '@superset-ui/chart-controls';
+import {
+  extractDatasourceDescriptions, // DODO added 44728892
+  getColorFormatters,
+} from '@superset-ui/chart-controls';
 import { DateFormatter } from '../types';
+import { getPinnedColumnIndexes } from '../DodoExtensions/utils/getPinnedColumnIndexes'; // DODO added 45525377
 
 const { DATABASE_DATETIME } = TimeFormats;
 
@@ -66,9 +71,11 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       verboseMap = {},
       columnFormats = {},
       currencyFormats = {},
-      metrics: datasourceMetrics = [], // DODO added 44211769
+      metrics: datasourceMetrics = [], // DODO added 44728892
+      columns: datasourceColumns = [], // DODO added 44728892
     },
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
   const { data, colnames, coltypes } = queriesData[0];
   const {
@@ -93,7 +100,7 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     conditionalFormatting,
     timeGrainSqla,
     currencyFormat,
-    columnConfig, // DODO added 44211769
+    columnConfig, // DODO added 45525377
   } = formData;
   const { selectedFilters } = filterState;
   const granularity = extractTimegrain(rawFormData);
@@ -109,10 +116,15 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
         temporalColname: string,
       ) => {
         let formatter: DateFormatter | undefined;
-        if (dateFormat === SMART_DATE_ID) {
+        if (
+          dateFormat === SMART_DATE_ID ||
+          dateFormat === SMART_DATE_DOT_DDMMYYYY_ID // DODO added 45525377
+        ) {
           if (granularity) {
             // time column use formats based on granularity
-            formatter = getTimeFormatterForGranularity(granularity);
+            // formatter = getTimeFormatterForGranularity(granularity);
+            // DODO changed 45525377
+            formatter = getTimeFormatter(dateFormat, granularity);
           } else if (isNumeric(temporalColname, data)) {
             formatter = getTimeFormatter(DATABASE_DATETIME);
           } else {
@@ -130,6 +142,24 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
       {},
     );
   const metricColorFormatters = getColorFormatters(conditionalFormatting, data);
+
+  // DODO added 45525377
+  const pinnedColumns = getPinnedColumnIndexes({
+    columnConfig,
+    combineMetric,
+    groupbyColumns,
+    groupbyRows,
+    metricsLayout,
+    transposePivot,
+  });
+
+  // DODO added 44728892
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...groupbyRows, ...groupbyColumns],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
 
   return {
     width,
@@ -163,7 +193,9 @@ export default function transformProps(chartProps: ChartProps<QueryFormData>) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
-    columnConfig, // DODO added 44211769
     datasourceMetrics, // DODO added 44211769
+    columnConfig, // DODO added 45525377
+    pinnedColumns, // DODO added 45525377
+    datasourceDescriptions, // DODO added 44728892
   };
 }

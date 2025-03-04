@@ -630,9 +630,18 @@ class PivotData {
     PivotData.forEachRecord(this.props.data, this.processRecord);
   }
 
-  getFormattedAggregator(record, totalsKeys) {
+  // DODO changed 45525377
+  getFormattedAggregator(record, totalsKeys, aggregation) {
+    // DODO added start 45525377
+    const aggregator = aggregation
+      ? this.props
+          .aggregatorsFactory(this.props.defaultFormatter)
+          [aggregation](this.props.vals)
+      : this.aggregator;
+    // DODO added stop 45525377
     if (!this.formattedAggregators) {
-      return this.aggregator;
+      // return this.aggregator;
+      return aggregator; // DODO changed 45525377
     }
     const [groupName, groupValue] =
       Object.entries(record).find(
@@ -645,9 +654,11 @@ class PivotData {
       !groupValue ||
       (totalsKeys && !totalsKeys.includes(groupValue))
     ) {
-      return this.aggregator;
+      // return this.aggregator;
+      return aggregator; // DODO changed 45525377
     }
-    return this.formattedAggregators[groupName][groupValue] || this.aggregator;
+    // return this.formattedAggregators[groupName][groupValue] || this.aggregator;
+    return this.formattedAggregators[groupName][groupValue] || aggregator; // DODO changed 45525377
   }
 
   arrSort(attrs, partialOnTop, reverse = false) {
@@ -751,6 +762,8 @@ class PivotData {
 
     for (let ci = colStart; ci <= colKey.length; ci += 1) {
       isColSubtotal = ci < colKey.length;
+      const metric = colKey[this.props.combineMetric ? colKey.length - 1 : 0]; // DODO added 45525377
+      const metricAggregation = this.props.columnConfig?.[metric]?.aggregation; // DODO added 45525377
       const fColKey = colKey.slice(0, ci);
       const flatColKey = flatKey(fColKey);
       if (!this.colTotals[flatColKey]) {
@@ -758,6 +771,7 @@ class PivotData {
         this.colTotals[flatColKey] = this.getFormattedAggregator(
           record,
           colKey,
+          metricAggregation, // DODO added 45525377
         )(this, [], fColKey);
       }
       this.colTotals[flatColKey].push(record);

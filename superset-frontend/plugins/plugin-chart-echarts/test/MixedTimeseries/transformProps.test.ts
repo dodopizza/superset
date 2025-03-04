@@ -5,6 +5,7 @@ import {
   LegendType,
   EchartsTimeseriesSeriesType,
 } from '@superset-ui/plugin-chart-echarts';
+import { LabelPositionDodo } from '../../src/DodoExtensions/types'; // DODO added 45525377
 import transformProps from '../../src/MixedTimeseries/transformProps';
 import {
   EchartsMixedTimeseriesFormData,
@@ -65,6 +66,8 @@ const formData: EchartsMixedTimeseriesFormData = {
   forecastInterval: 0,
   forecastSeasonalityDaily: 0,
   columnConfig: {}, // DODO added 44211769
+  valueAlign: LabelPositionDodo.Top, // DODO added 45525377
+  valueAlignB: LabelPositionDodo.Top, // DODO added 45525377
 };
 
 const queriesData = [
