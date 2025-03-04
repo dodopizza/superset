@@ -518,7 +518,7 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
   const [openScopingModal, scopingModal] = useCrossFiltersScopingModal(
     props.slice.slice_id,
   );
-  const history = useHistory();
+  // const history = useHistory(); // DODO commented out 45047288
 
   const queryMenuRef: RefObject<any> = useRef(null);
   const menuRef: RefObject<any> = useRef(null);
@@ -587,7 +587,8 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           domEvent.preventDefault();
           window.open(props.exploreUrl, '_blank');
         } else {
-          history.push(props.exploreUrl);
+          // history.push(props.exploreUrl); // DODO commented out 45047288
+          window.open(props.exploreUrl, '_blank'); // DODO added 45047288
         }
         break;
       case MenuKeys.ExportCsv:

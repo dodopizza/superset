@@ -310,6 +310,8 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
         </CollapsedBar>
         <Bar className={cx({ open: filtersOpen })} width={width}>
           <Header toggleFiltersBar={toggleFiltersBar} />
+          {/* DODO added 45047288 */}
+          {actions}
           {!isInitialized ? (
             <div css={{ height }}>
               <Loading />
@@ -329,7 +331,7 @@ const VerticalFilterBar: FC<VerticalBarProps> = ({
               </>
             </div>
           )}
-          {actions}
+          {/* {actions} DODO commented out 45047288 */}
         </Bar>
       </BarWrapper>
     </FilterBarScrollContext.Provider>

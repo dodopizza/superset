@@ -18,7 +18,13 @@ import {
   t,
   useTheme,
 } from '@superset-ui/core';
-import { aggregatorTemplates, PivotTable, sortAs } from './react-pivottable';
+import {
+  aggregatorTemplates,
+  filterColumnConfigByd3NumberFormat, // DODO added 44211769
+  getMetricNumberFormat, // DODO added 44211769
+  PivotTable,
+  sortAs,
+} from './react-pivottable';
 import {
   FilterType,
   MetricsLayoutEnum,
@@ -138,7 +144,10 @@ export default function PivotTableChart(props: PivotTableProps) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceMetrics, // DODO added 44211769
     datasourceDescriptions, // DODO added 44728892
+    columnConfig, // DODO added 45525377
+    pinnedColumns, // DODO added 45525377
   } = props;
 
   const theme = useTheme();
@@ -158,13 +167,30 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
+          ...Object.keys(filterColumnConfigByd3NumberFormat(columnConfig)), // DODO added 44211769
+          // DODO added 44211769
+          ...datasourceMetrics
+            .map(metric => (metric?.number_format ? metric.metric_name : ''))
+            .filter(Boolean),
         ]),
       ).map(metricName => [
         metricName,
-        columnFormats[metricName] || valueFormat,
+        // columnFormats[metricName] || valueFormat,
+        // DODO changed 44211769
+        columnConfig?.[metricName]?.d3NumberFormat ||
+          getMetricNumberFormat(datasourceMetrics, metricName) ||
+          columnFormats[metricName] ||
+          valueFormat,
         currencyFormats[metricName] || currencyFormat,
       ]),
-    [columnFormats, currencyFormat, currencyFormats, valueFormat],
+    [
+      columnConfig, // DODO added 44211769
+      columnFormats,
+      currencyFormat,
+      currencyFormats,
+      datasourceMetrics, // DODO added 44211769
+      valueFormat,
+    ],
   );
   const hasCustomMetricFormatters = customFormatsArray.length > 0;
   const metricFormatters = useMemo(
@@ -541,6 +567,11 @@ export default function PivotTableChart(props: PivotTableProps) {
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
           datasourceDescriptions={datasourceDescriptions} // DODO added 44728892
+          // DODO added start 45525377
+          columnConfig={columnConfig}
+          combineMetric={combineMetric}
+          pinnedColumns={pinnedColumns}
+          // DODO added stop 45525377
         />
       </PivotTableWrapper>
     </Styles>
