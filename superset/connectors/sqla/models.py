@@ -1184,6 +1184,10 @@ class SqlaTable(
         status = QueryStatus.SUCCESS
         errors = None
         error_message = None
+        # Log the contents of query_obj
+        logger.info("Starting query execution with query_obj: %s", query_obj)
+        # Log the entire self object
+        logger.info("Self details: %s", self.__dict__)
 
         def assign_column_label(df: pd.DataFrame) -> pd.DataFrame | None:
             """
@@ -1215,7 +1219,7 @@ class SqlaTable(
         except Exception as ex:  # pylint: disable=broad-except
             df = pd.DataFrame()
             status = QueryStatus.FAILED
-            logger.warning(
+            logger.error(
                 "Query %s on schema %s failed", sql, self.schema, exc_info=True
             )
             db_engine_spec = self.db_engine_spec

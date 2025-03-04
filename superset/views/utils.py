@@ -1,39 +1,24 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
+# DODO was here
+# Standard Library Imports
 import datetime
-import logging
 from collections import defaultdict
 from functools import wraps
 from typing import Any, Callable, DefaultDict, Optional, Union
 from urllib import parse
 
+# Third-Party Imports
 import msgpack
 import pyarrow as pa
 import simplejson as json
 from flask import flash, g, has_request_context, redirect, request
-from flask_appbuilder.security.sqla import models as ab_models
-from flask_appbuilder.security.sqla.models import User
 from flask_babel import _
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 from werkzeug.wrappers.response import Response
 
+# Superset Application Imports
 import superset.models.core as models
-from superset import app, dataframe, db, result_set, viz
+from superset import app, db, security_manager
 from superset.common.db_query_status import QueryStatus
 from superset.daos.datasource import DatasourceDAO
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
@@ -43,20 +28,24 @@ from superset.exceptions import (
     SupersetException,
     SupersetSecurityException,
 )
-from superset.extensions import cache_manager, feature_flag_manager, security_manager
-from superset.legacy import update_time_range
+from superset.extensions import cache_manager, feature_flag_manager
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
-from superset.models.user_info import UserInfo
-from superset.models.team import Team
-from superset.models.statement import Statement
 from superset.models.slice import Slice
 from superset.models.sql_lab import Query
 from superset.models.filter_set import FilterSet
-from superset.superset_typing import FormData
+from superset.models.user_info import UserInfo  # Ensure this is used in the code
+from superset.models.team import Team  # Ensure this is used in the code
+from superset.models.statement import Statement  # Ensure this is used in the code
 from superset.utils.core import DatasourceType, get_user_id
 from superset.utils.decorators import stats_timing
 from superset.viz import BaseViz
+
+# Flask AppBuilder Security Models (Used for User and Role Management)
+from flask_appbuilder.security.sqla.models import User
+
+# Logging
+import logging
 
 logger = logging.getLogger(__name__)
 stats_logger = app.config["STATS_LOGGER"]
@@ -196,24 +185,32 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
         logger.exception("Ошибка при создании онбординга")
 
 
-def get_language() -> str:  # DODO changed #33835937
+def get_language() -> str:
     user_id = get_user_id()
-    if user_id:
-        try:
-            user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+    if not user_id:
+        logger.info("User ID is not available. Defaulting to 'ru'.")
+        return "ru"
+
+    try:
+        # Query the database for user information
+        with Session(db.engine) as session:  # Use a context manager for the session
+            user_info: Optional[UserInfo] = (
+                session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
             )
-            return user_info.language
-        except SQLAlchemyError:
-            logger.warning("Exception when select language from db")
+
+        if user_info and hasattr(user_info, "language"):
+            return user_info.language  # Return the user's language if available
+        else:
+            logger.info(f"User ID = {user_id} does not have a language set in the database. Defaulting to 'ru'.")
             return "ru"
-        except AttributeError:
-            logger.warning(f"User id = {user_id} dont have language in database")
-            return "ru"
-        except Exception:
-            logger.exception("Error get language")
-            return "ru"
-    return "ru"
+
+    except SQLAlchemyError as e:
+        logger.exception(f"Database error occurred while retrieving language for user ID = {user_id}: {e}")
+        return "ru"
+
+    except Exception as e:
+        logger.exception(f"An unexpected error occurred while retrieving language for user ID = {user_id}: {e}")
+        return "ru"
 
 def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 
