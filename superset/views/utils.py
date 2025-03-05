@@ -1,19 +1,4 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
+# DODO was here
 import datetime
 import logging
 from collections import defaultdict
@@ -57,6 +42,7 @@ from superset.superset_typing import FormData
 from superset.utils.core import DatasourceType, get_user_id
 from superset.utils.decorators import stats_timing
 from superset.viz import BaseViz
+
 
 logger = logging.getLogger(__name__)
 stats_logger = app.config["STATS_LOGGER"]
@@ -196,24 +182,30 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
         logger.exception("Ошибка при создании онбординга")
 
 
-def get_language() -> str:  # DODO changed #33835937
+def get_language() -> str:
     user_id = get_user_id()
-    if user_id:
-        try:
-            user_info = (
-                db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
-            )
-            return user_info.language
-        except SQLAlchemyError:
-            logger.warning("Exception when select language from db")
+    if not user_id:
+        logger.info("User ID is not available. Defaulting to 'ru'.")
+        return "ru"
+
+    try:
+        user_info = (
+            db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
+        )
+
+        if user_info and hasattr(user_info, "language"):
+            return user_info.language  # Return the user's language if available
+        else:
+            logger.info(f"User ID = {user_id} does not have a language set in the database. Defaulting to 'ru'.")
             return "ru"
-        except AttributeError:
-            logger.warning(f"User id = {user_id} dont have language in database")
-            return "ru"
-        except Exception:
-            logger.exception("Error get language")
-            return "ru"
-    return "ru"
+
+    except SQLAlchemyError as e:
+        logger.exception(f"Database error occurred while retrieving language for user ID = {user_id}: {e}")
+        return "ru"
+
+    except Exception as e:
+        logger.exception(f"An unexpected error occurred while retrieving language for user ID = {user_id}: {e}")
+        return "ru"
 
 def get_dodo_role(user_id: int) -> str:  # DODO changed #33835937
 

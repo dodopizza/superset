@@ -1215,8 +1215,12 @@ class SqlaTable(
         except Exception as ex:  # pylint: disable=broad-except
             df = pd.DataFrame()
             status = QueryStatus.FAILED
-            logger.warning(
-                "Query %s on schema %s failed", sql, self.schema, exc_info=True
+            logger.error(
+                "%s => Query %s on schema %s failed",
+                self.full_name, 
+                sql,
+                self.schema,
+                exc_info=True,
             )
             db_engine_spec = self.db_engine_spec
             errors = [
