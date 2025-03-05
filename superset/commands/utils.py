@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import logging
 from typing import Any, Optional, TYPE_CHECKING
 
 from flask import g
@@ -39,6 +40,8 @@ from superset.utils.core import DatasourceType, get_user_id
 
 if TYPE_CHECKING:
     from superset.connectors.sqla.models import BaseDatasource
+
+logger = logging.getLogger(__name__)
 
 
 def populate_owner_list(
@@ -233,5 +236,6 @@ def get_ids_roles_by_name(role_names: Optional[list[str]]) -> list[Role]:
     if role_names:
         roles = security_manager.find_roles_by_name(role_names)
         if len(roles) != len(role_names):
+            logger.error("Roles not found %s", role_names)
             raise RolesNotFoundValidationError()
     return roles
