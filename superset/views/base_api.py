@@ -415,7 +415,10 @@ class BaseSupersetModelRestApi(ModelRestApi, BaseSupersetApiMixin):
             model_column_names = self.extra_fields_rel_fields.get(column_name)
             if model_column_names:
                 for key in model_column_names:
-                    ret[key] = getattr(model, key)
+                    field = model
+                    for attr in key.split("."):
+                        field = getattr(field, attr)
+                    ret[attr] = field
         return ret
 
     def _get_result_from_rows(
