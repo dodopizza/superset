@@ -142,7 +142,7 @@ export const DynamicEditableTitle = ({
     if (!canEdit) {
       return;
     }
-    const formattedTitle = currentTitle.trim();
+    const formattedTitle = (currentTitle || '').trim();
     setCurrentTitle(formattedTitle);
     if (title !== formattedTitle) {
       onSave(formattedTitle);

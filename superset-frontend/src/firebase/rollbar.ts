@@ -22,6 +22,9 @@ const ERROR_WHITE_LIST: Record<string, 'true'> = {
   'Script error.': 'true',
   'SyntaxError: Unexpected EOF': 'true',
   '{}': 'true',
+  'Uncaught SyntaxError: Invalid or unexpected token': 'true',
+  'Possible source map configuration error: line and column number combination not found in source map':
+    'true',
 };
 
 const isPlugin = process.env.type !== undefined;
@@ -57,9 +60,14 @@ export const ROLLBAR_CONFIG: Configuration = {
   version: APP_VERSION,
   checkIgnore: (isUncaught, args, payload: RollbarPayload) => {
     const description = payload?.body?.trace?.exception?.description || '';
-    const message = payload?.body?.trace?.exception?.message || '';
+    const traceMessage = payload?.body?.trace?.exception?.message || '';
+    const message = payload?.body?.message?.body?.message || '';
 
-    return Boolean(ERROR_WHITE_LIST[description] || ERROR_WHITE_LIST[message]);
+    return Boolean(
+      ERROR_WHITE_LIST[description] ||
+        ERROR_WHITE_LIST[traceMessage] ||
+        ERROR_WHITE_LIST[message],
+    );
   },
 };
 
@@ -74,6 +82,11 @@ interface RollbarTrace {
 
 interface RollbarBody {
   trace?: RollbarTrace;
+  message?: {
+    body?: {
+      message?: string;
+    };
+  };
 }
 
 interface RollbarPayload {
