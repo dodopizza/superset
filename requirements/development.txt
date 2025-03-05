@@ -184,7 +184,7 @@ pyee==11.0.1
     # via playwright
 pyfakefs==5.3.5
     # via apache-superset
-pyhive[presto]==0.7.0
+pyhive[hive]==0.7.0
     # via apache-superset
 pyinstrument==4.4.0
     # via apache-superset
@@ -217,6 +217,8 @@ ruff==0.4.5
     # via apache-superset
 s3transfer==0.10.1
     # via boto3
+sasl==0.3.1
+    # via pyhive
 sqlalchemy-bigquery==1.11.0
     # via apache-superset
 sqloxide==0.1.43
@@ -228,9 +230,12 @@ tableschema==1.20.10
 thrift==0.16.0
     # via
     #   apache-superset
+    #   pyhive
     #   thrift-sasl
 thrift-sasl==0.4.3
-    # via apache-superset
+    # via
+    #   apache-superset
+    #   pyhive
 tomli==2.2.1
     # via
     #   build

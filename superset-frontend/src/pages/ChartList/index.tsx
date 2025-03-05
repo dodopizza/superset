@@ -388,7 +388,10 @@ function ChartList(props: ChartListProps) {
           <TagsList
             tags={tags.filter((tag: Tag) =>
               tag.type
-                ? tag.type === 1 || tag.type === 'TagTypes.custom'
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' || // DOOD added 44211792
+                  tag.type === 5 || // DOOD added 44211792
+                  tag.type === 'TagTypes.team' // DOOD added 44211792
                 : true,
             )}
             maxTags={3}
