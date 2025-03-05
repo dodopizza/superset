@@ -418,7 +418,7 @@ class BaseSupersetModelRestApi(ModelRestApi, BaseSupersetApiMixin):
                     field = model
                     for attr in key.split("."):
                         field = getattr(field, attr)
-                    ret[key] = field
+                    ret[attr] = field
         return ret
 
     def _get_result_from_rows(
