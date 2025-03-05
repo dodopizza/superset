@@ -182,7 +182,7 @@ def create_onboarding(dodo_role: str, started_time: datetime.datetime):   # DODO
         logger.exception("Ошибка при создании онбординга")
 
 
-def get_language() -> str:
+def get_language() -> str:  # DODO changed #33835937
     user_id = get_user_id()
     if not user_id:
         logger.info("User ID is not available. Defaulting to 'ru'.")
