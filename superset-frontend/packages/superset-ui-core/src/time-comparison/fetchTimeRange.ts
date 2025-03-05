@@ -84,15 +84,20 @@ export const fetchTimeRange = async (
           url: endpoint,
         });
     if (isEmpty(shifts)) {
+      // DODO added start 44211759
+      const since = dttmToMoment(
+        (isStandalone ? response?.json : response)?.result?.[0].since || '',
+      ).format(MOMENT_FORMAT_UI_DODO);
+      const until = dttmToMoment(
+        (isStandalone ? response?.json : response)?.result?.[0].until || '',
+      ).format(MOMENT_FORMAT_UI_DODO);
+      // DODO added stop 44211759
       // const timeRangeString = buildTimeRangeString(
       //   response?.json?.result[0]?.since || '',
       //   response?.json?.result[0]?.until || '',
       // );
       // DODO changed 44211759
-      const timeRangeString = buildTimeRangeString(
-        (isStandalone ? response?.json : response)?.result?.[0]?.since || '', // DODO changed 44611022
-        (isStandalone ? response?.json : response)?.result?.[0]?.until || '', // DODO changed 44611022
-      );
+      const timeRangeString = buildTimeRangeString(since, until);
       return {
         value: formatTimeRange(
           timeRangeString,
