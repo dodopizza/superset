@@ -202,7 +202,9 @@ class StatementRestApi(BaseSupersetModelRestApi):
             item["created_datetime"] = datetime.datetime.utcnow().isoformat()
             CreateStatementCommand(item).run()
             finished_onboarding = UserInfoDAO.finish_onboarding()
-            return self.response(201, result=finished_onboarding)
+            return self.response(
+                201, result={"is_onboarding_finished": finished_onboarding}
+            )
         except StatementInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())
         except StatementCreateFailedError as ex:

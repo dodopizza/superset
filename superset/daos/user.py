@@ -46,7 +46,7 @@ class UserDAO(BaseDAO[User]):
     def update_user_roles(
         user: User, roles: list[str]
     ) -> User:  # DODO changed #33835937
-        setattr(user, "roles", roles)
+        user.roles = roles
         try:
             db.session.merge(user)
             db.session.commit()

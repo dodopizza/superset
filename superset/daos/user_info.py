@@ -78,7 +78,7 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             logger.error("Database error creating onboarding: %s", str(ex))
             db.session.rollback()
             return False
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-except
             logger.error("Failed to create onboarding: %s", str(ex))
             return False
 
@@ -100,16 +100,16 @@ class UserInfoDAO(BaseDAO[UserInfo]):
         return {"dodo_role": dodo_role, "onboarding_started_time": started_time}
 
     @staticmethod
-    def finish_onboarding() -> dict[str, bool]:
+    def finish_onboarding() -> bool:
         """Mark user's onboarding as finished.
 
         Returns:
-            dict[str, bool]: Status of onboarding completion
+            bool: Status of onboarding completion
         """
         user_id = get_user_id()
         if not user_id:
             logger.warning("Cannot finish onboarding - user ID not found")
-            return {"is_onboarding_finished": False}
+            return False
 
         try:
             user_info = (
@@ -119,16 +119,15 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             )
             if not user_info:
                 logger.warning("User info not found for user %s", user_id)
-                return {"is_onboarding_finished": False}
+                return False
 
-            setattr(user_info, "is_onboarding_finished", True)
+            user_info.is_onboarding_finished = True
             db.session.merge(user_info)
-            db.session.commit()
-            return {"is_onboarding_finished": True}
+            return True
         except SQLAlchemyError as ex:
             logger.error("Database error finishing onboarding: %s", str(ex))
             db.session.rollback()
-            return {"is_onboarding_finished": False}
+            return False
 
     @staticmethod
     def create_userinfo(lang: str) -> bool:  # DODO changed #33835937
@@ -147,8 +146,8 @@ class UserInfoDAO(BaseDAO[UserInfo]):
                 return False
 
             model = UserInfo()
-            setattr(model, "language", lang)
-            setattr(model, "user_id", user_id)
+            model.language = lang
+            model.user_id = user_id
             try:
                 db.session.add(model)
                 db.session.commit()
@@ -171,7 +170,6 @@ class UserInfoDAO(BaseDAO[UserInfo]):
                 .one_or_none()
             )
             user_info.language = lang
-            db.session.commit()
         except AttributeError:
             UserInfoDAO.create_userinfo(lang)
 

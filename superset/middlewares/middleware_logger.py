@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class LoggerMiddleware(BaseHTTPMiddleware):
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def _get_request_body(self, request: Request) -> dict[str, Any]:
