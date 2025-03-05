@@ -461,7 +461,7 @@ def show_superset_errors(ex: SupersetErrorsException) -> FlaskResponse:
 # Redirect to login if the CSRF token is expired
 @superset_app.errorhandler(CSRFError)
 def refresh_csrf_token(ex: CSRFError) -> FlaskResponse:
-    logger.warning("Refresh CSRF token error", exc_info=True)
+    logger.error("Refresh CSRF token error", exc_info=True)
 
     if request.is_json:
         return show_http_exception(ex)
@@ -471,7 +471,7 @@ def refresh_csrf_token(ex: CSRFError) -> FlaskResponse:
 
 @superset_app.errorhandler(HTTPException)
 def show_http_exception(ex: HTTPException) -> FlaskResponse:
-    logger.warning("HTTPException", exc_info=True)
+    logger.error("HTTPException", exc_info=True)
     if (
         "text/html" in request.accept_mimetypes
         and not config["DEBUG"]

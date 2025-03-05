@@ -334,7 +334,7 @@ const RightMenu = ({
   const theme = useTheme();
 
   // DODO added start
-  const hasTeam = useHasUserTeam(String(user?.userId ?? ''));
+  const hasTeam = useHasUserTeam(user?.userId, !isLoginPage);
   const isOnboardingFinished = useSelector(getIsOnboardingFinished);
   const isOnBoardingVisible = !isOnboardingFinished || !hasTeam;
   // DODO added stop
