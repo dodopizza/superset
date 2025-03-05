@@ -12,6 +12,7 @@ import {
   TimeGranularity,
   ContextMenuFilters,
   Currency,
+  Metric, // DODO added 44211769
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -33,8 +34,27 @@ export enum MetricsLayoutEnum {
   COLUMNS = 'COLUMNS',
 }
 
+export type PivotTableSharedColumnConfigProp = {
+  d3NumberFormat: string; // DODO added 44211769
+  aggregate: string; // DODO added 45525377
+  hideValueInTotal: boolean; // DODO added 45525377
+  pinColumn: boolean; // DODO added 45525377
+};
+
+interface PivotTableCustomizePropsDodoExtended {
+  columnConfig: Record<string, PivotTableSharedColumnConfigProp>;
+  datasourceMetrics: Metric[];
+}
+// DODO added 45525377
+export type ColumnConfig = Record<
+  string,
+  Partial<PivotTableSharedColumnConfigProp>
+>;
+
 interface PivotTableCustomizePropsDodoExtended {
   datasourceDescriptions: Record<string, string>; // DODO added 44728892
+  columnConfig: Record<string, PivotTableSharedColumnConfigProp>; // DODO added 45525377
+  datasourceMetrics: Metric[]; // DODO added 45525377
 }
 interface PivotTableCustomizeProps
   extends PivotTableCustomizePropsDodoExtended {
@@ -80,7 +100,12 @@ export type PivotTableQueryFormData = QueryFormData &
   PivotTableStylesProps &
   PivotTableCustomizeProps;
 
+// DODO added 45525377
+type PivotTablePropsDodoExtended = {
+  columnConfig: ColumnConfig;
+  pinnedColumns: number[];
+};
 export type PivotTableProps = PivotTableStylesProps &
   PivotTableCustomizeProps & {
     data: DataRecord[];
-  };
+  } & PivotTablePropsDodoExtended;

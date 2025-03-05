@@ -18,6 +18,7 @@ export { default as createMultiFormatter } from './factories/createMultiFormatte
 
 export {
   SMART_DATE_ID,
+  SMART_DATE_DOT_DDMMYYYY_ID, // DODO added 45525377
   createSmartDateFormatter,
 } from './formatters/smartDate';
 export {

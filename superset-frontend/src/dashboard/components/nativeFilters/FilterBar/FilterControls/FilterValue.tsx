@@ -44,6 +44,8 @@ import { getFormData } from '../../utils';
 import { useFilterDependencies } from './state';
 import { useFilterOutlined } from '../useFilterOutlined';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const HEIGHT = 32;
 
 // Overrides superset-ui height with min-height
@@ -168,33 +170,42 @@ const FilterValue: FC<FilterControlProps> = ({
         force: shouldRefresh,
         ownState: filterOwnState,
       })
-        .then(({ response, json }) => {
-          if (isFeatureEnabled(FeatureFlag.GlobalAsyncQueries)) {
-            // deal with getChartDataRequest transforming the response data
-            const result = 'result' in json ? json.result[0] : json;
+        .then(resp => {
+          // DODO changed 44611022
+          if (isStandalone) {
+            const { json, response } = resp; // DODO added 44611022
+            if (isFeatureEnabled(FeatureFlag.GlobalAsyncQueries)) {
+              // deal with getChartDataRequest transforming the response data
+              const result = 'result' in json ? json.result[0] : json;
 
-            if (response.status === 200) {
-              setState([result]);
-              handleFilterLoadFinish();
-            } else if (response.status === 202) {
-              waitForAsyncData(result)
-                .then((asyncResult: ChartDataResponseResult[]) => {
-                  setState(asyncResult);
-                  handleFilterLoadFinish();
-                })
-                .catch((error: Response) => {
-                  getClientErrorObject(error).then(clientErrorObject => {
-                    setError(clientErrorObject);
+              if (resp.response.status === 200) {
+                setState([result]);
+                handleFilterLoadFinish();
+              } else if (resp.response.status === 202) {
+                waitForAsyncData(result)
+                  .then((asyncResult: ChartDataResponseResult[]) => {
+                    setState(asyncResult);
                     handleFilterLoadFinish();
+                  })
+                  .catch((error: Response) => {
+                    getClientErrorObject(error).then(clientErrorObject => {
+                      setError(clientErrorObject);
+                      handleFilterLoadFinish();
+                    });
                   });
-                });
+              } else {
+                throw new Error(
+                  `Received unexpected response status (${response.status}) while fetching chart data`,
+                );
+              }
             } else {
-              throw new Error(
-                `Received unexpected response status (${response.status}) while fetching chart data`,
-              );
+              setState(json.result);
+              setError(undefined);
+              handleFilterLoadFinish();
             }
+            // DODO added 44611022
           } else {
-            setState(json.result);
+            setState(resp.result);
             setError(undefined);
             handleFilterLoadFinish();
           }

@@ -177,6 +177,8 @@ export default function transformProps(
     yAxisTitleMargin,
     yAxisTitlePosition,
     zoomable,
+    columnConfig, // DODO added 44211769
+    valueAlign, // DODO added 45525377
   }: EchartsTimeseriesFormData = { ...DEFAULT_FORM_DATA, ...formData };
   const refs: Refs = {};
   const groupBy = ensureIsArray(groupby);
@@ -262,6 +264,8 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    datasourceMetrics, // DODO added 44211769
+    columnConfig, // DODO added 44211769
   );
 
   const array = ensureIsArray(chartProps.rawFormData?.time_compare);
@@ -320,6 +324,7 @@ export default function transformProps(
         isHorizontal,
         lineStyle,
         timeCompare: array,
+        valueAlign, // DODO added 45525377
       },
     );
     if (transformedSeries) {

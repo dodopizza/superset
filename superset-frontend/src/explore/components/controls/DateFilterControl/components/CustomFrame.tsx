@@ -29,6 +29,33 @@ import {
 import { ExplorePageState } from 'src/explore/types';
 import { MOMENT_FORMAT_UI_DODO } from 'src/explore/constants'; // DODO added 44211759
 
+// DODO added start 44611022
+const isStandalone = process.env.type === undefined;
+
+// For superset dashboard plugin we need to retranslate the labels
+const retranslateConstants = (opts: { value: string; label: string }[]) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => ({
+        value: opt.value,
+        label: t(opt.label),
+      }));
+
+const retranslateConstantsComposed = (
+  opts: { value: string; label: string }[],
+  splitWord: string,
+) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => {
+        const mainString = `${opt.label.split(splitWord)[0].trim()} %s`;
+        return {
+          ...opt,
+          label: `${t(mainString)} ${t(splitWord)}`.split(' %s').join(''),
+        };
+      });
+// DODO added stop 44611022
+
 export function CustomFrame(props: FrameComponentProps) {
   const { withTime = true, untilInclude = false } = props; // DODO added 44211759
   const { customRange, matchedFlag } = customTimeRangeDecode(props.value);
@@ -138,7 +165,8 @@ export function CustomFrame(props: FrameComponentProps) {
           </div>
           <Select
             ariaLabel={t('START (INCLUSIVE)')}
-            options={SINCE_MODE_OPTIONS}
+            // options={SINCE_MODE_OPTIONS}
+            options={retranslateConstants(SINCE_MODE_OPTIONS)} // DODO changed 44611022
             value={sinceMode}
             onChange={(value: string) => onChange('sinceMode', value)}
           />
@@ -175,7 +203,12 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={SINCE_GRAIN_OPTIONS}
+                  // options={SINCE_GRAIN_OPTIONS}
+                  // DODO changed 44611022
+                  options={retranslateConstantsComposed(
+                    SINCE_GRAIN_OPTIONS,
+                    'Before',
+                  )}
                   value={sinceGrain}
                   onChange={(value: string) => onChange('sinceGrain', value)}
                 />
@@ -252,7 +285,12 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={UNTIL_GRAIN_OPTIONS}
+                  // options={UNTIL_GRAIN_OPTIONS}
+                  // DODO changed 44611022
+                  options={retranslateConstantsComposed(
+                    UNTIL_GRAIN_OPTIONS,
+                    'After',
+                  )}
                   value={untilGrain}
                   onChange={(value: string) => onChange('untilGrain', value)}
                 />

@@ -39,6 +39,8 @@ import {
 } from './components';
 import { CurrentCalendarFrame } from './components/CurrentCalendarFrame';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const StyledRangeType = styled(Select)`
   width: 272px;
 `;
@@ -134,6 +136,16 @@ const getTooltipTitle = (
   ) : (
     range || null
   );
+
+// DODO added 44611022
+// For superset dashboard plugin we need to retranslate the labels
+const retranslateConstants = (opts: { value: string; label: string }[]) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => ({
+        value: opt.value,
+        label: t(opt.label),
+      }));
 
 export default function DateFilterLabel(props: DateFilterControlProps) {
   const {
@@ -282,7 +294,8 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       <div className="control-label">{t('RANGE TYPE')}</div>
       <StyledRangeType
         ariaLabel={t('RANGE TYPE')}
-        options={FRAME_OPTIONS}
+        // options={FRAME_OPTIONS}
+        options={retranslateConstants(FRAME_OPTIONS)} // DODO changed 44611022
         value={frame}
         onChange={onChangeFrame}
       />

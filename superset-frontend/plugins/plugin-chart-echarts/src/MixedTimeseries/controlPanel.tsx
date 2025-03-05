@@ -1,22 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { ensureIsArray, t } from '@superset-ui/core';
+// DODO was here
+import {
+  ChartDataResponseResult,
+  ensureIsArray,
+  isSavedMetric,
+  t,
+} from '@superset-ui/core';
 import { cloneDeep } from 'lodash';
 import {
   ControlPanelConfig,
@@ -39,6 +27,7 @@ import {
   xAxisBounds,
   xAxisLabelRotation,
 } from '../controls';
+import { chartOptionValuePositionDodo } from '../DodoExtensions/controlPanelCommon'; // DODO added 45525377
 
 const {
   area,
@@ -57,6 +46,14 @@ const {
   zoomable,
   yAxisIndex,
 } = DEFAULT_FORM_DATA;
+
+// DODO added 44211769
+const columnConfig = {
+  '0': [['d3NumberFormat']],
+  '1': [],
+  '2': [],
+  '3': [],
+};
 
 function createQuerySection(
   label: string,
@@ -196,6 +193,7 @@ function createCustomizeSection(
         },
       },
     ],
+    [{ ...chartOptionValuePositionDodo(controlSuffix) }], // DODO added 45525377
     [
       {
         name: `opacity${controlSuffix}`,
@@ -444,6 +442,46 @@ const config: ControlPanelConfig = {
               renderTrigger: true,
               default: logAxis,
               description: t('Logarithmic scale on secondary y-axis'),
+            },
+          },
+        ],
+        // DODO added 44211769
+        [
+          {
+            name: 'column_config',
+            config: {
+              type: 'ColumnConfigControl',
+              label: t('Customize Metrics'),
+              width: 400,
+              height: 175,
+              renderTrigger: true,
+              configFormLayout: columnConfig,
+              shouldMapStateToProps() {
+                return true;
+              },
+              mapStateToProps(explore, _, chart) {
+                // Showing metrics instead of columns
+                const colnames = [
+                  ...(chart?.latestQueryFormData?.metrics ?? []),
+                  ...(chart?.latestQueryFormData?.metrics_b ?? []),
+                ].map(metric =>
+                  isSavedMetric(metric) ? metric : metric?.label,
+                );
+                const coltypes = Array.from(
+                  { length: colnames.length },
+                  () => 0,
+                );
+                const newQueriesResponse = {
+                  ...(chart?.queriesResponse?.[0] ?? {}),
+                  colnames,
+                  coltypes,
+                };
+                return {
+                  queryResponse: newQueriesResponse as
+                    | ChartDataResponseResult
+                    | undefined,
+                };
+              },
             },
           },
         ],

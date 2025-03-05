@@ -7,6 +7,11 @@ import {
 
 import { BootstrapData, CommonBootstrapData } from './types/bootstrapTypes';
 
+import BASE_VERSION from './version/base'; // DODO added 45047288
+import CHANGE_VERSION from './version/change'; // DODO added 45047288
+
+export const APP_VERSION = `${BASE_VERSION}_${CHANGE_VERSION}`; // DODO added 45047288
+
 export const DATETIME_WITH_TIME_ZONE = 'YYYY-MM-DD HH:mm:ssZ';
 export const TIME_WITH_MS = 'HH:mm:ss.SSS';
 
@@ -188,3 +193,18 @@ export enum FilterPlugins {
   SelectWithTranslation = 'filter_select_with_translation', // DODO added 44211759
   SelectByIdWithTranslation = 'filter_select_by_id_with_translation', // DODO added 44211759
 }
+
+// DODO added start 44611022
+/**
+ * CSV format
+ */
+export const CSV = 'csv';
+export const CSV_MIME = 'text/csv';
+
+/**
+ * XLSX format
+ */
+export const XLSX = 'xlsx';
+export const XLSX_MIME =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+// DODO added stop 44611022
