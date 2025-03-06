@@ -7,10 +7,7 @@ import { getInitialState as getInitialNativeFilterState } from 'src/dashboard/re
 import { applyDefaultFormData } from 'src/explore/store';
 import { buildActiveFilters } from 'src/dashboard/util/activeDashboardFilters';
 import { findPermission } from 'src/utils/findPermission';
-import {
-  canUserEditDashboard,
-  canUserSaveAsDashboard,
-} from 'src/dashboard/util/permissionUtils';
+import { canUserEditDashboard } from 'src/dashboard/util/permissionUtils';
 import {
   getCrossFiltersConfiguration,
   isCrossFiltersEnabled,
@@ -40,7 +37,9 @@ import { FilterBarOrientation } from '../types';
 export const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 
 export const hydrateDashboard =
-  ({ history, dashboard, charts, dataMask, activeTabs }) =>
+  (
+    { history, dashboard, charts, dataMask, activeTabs, filterSets }, // DODO changed 44211751
+  ) =>
   (dispatch, getState) => {
     const { user, common, dashboardState } = getState();
     const { metadata, position_data: positionData } = dashboard;
@@ -212,6 +211,7 @@ export const hydrateDashboard =
 
     const nativeFilters = getInitialNativeFilterState({
       filterConfig: metadata?.native_filter_configuration || [],
+      filterSetsConfig: filterSets || [], // DODO added 44211751
     });
 
     if (isFeatureEnabled(FeatureFlag.DashboardCrossFilters)) {
@@ -242,7 +242,9 @@ export const hydrateDashboard =
           metadata,
           userId: user.userId ? String(user.userId) : null, // legacy, please use state.user instead
           dash_edit_perm: canEdit,
-          dash_save_perm: canUserSaveAsDashboard(dashboard, user),
+          // dash_save_perm: canUserSaveAsDashboard(dashboard, user),
+          dash_save_perm:
+            findPermission('can_save_dash', 'Superset', roles) || roles.Admin, // DODO changed 44993666
           dash_share_perm: findPermission(
             'can_share_dashboard',
             'Superset',

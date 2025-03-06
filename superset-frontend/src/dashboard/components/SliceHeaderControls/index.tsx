@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   MouseEvent,
   Key,
@@ -68,6 +51,8 @@ import { LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE } from 'src/logger/LogUtils';
 import { MenuKeys, RootState } from 'src/dashboard/types';
 import { findPermission } from 'src/utils/findPermission';
 import { useCrossFiltersScopingModal } from '../nativeFilters/FilterBar/CrossFilters/ScopingModal/useCrossFiltersScopingModal';
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 const ACTION_KEYS = {
   enter: 'Enter',
@@ -533,7 +518,7 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
   const [openScopingModal, scopingModal] = useCrossFiltersScopingModal(
     props.slice.slice_id,
   );
-  const history = useHistory();
+  // const history = useHistory(); // DODO commented out 45047288
 
   const queryMenuRef: RefObject<any> = useRef(null);
   const menuRef: RefObject<any> = useRef(null);
@@ -602,7 +587,8 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           domEvent.preventDefault();
           window.open(props.exploreUrl, '_blank');
         } else {
-          history.push(props.exploreUrl);
+          // history.push(props.exploreUrl); // DODO commented out 45047288
+          window.open(props.exploreUrl, '_blank'); // DODO added 45047288
         }
         break;
       case MenuKeys.ExportCsv:
@@ -765,7 +751,8 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         </Menu.Item>
       )}
 
-      {canExplore && (
+      {/* DODO changed 44611022 */}
+      {isStandalone && canExplore && (
         <Menu.Item key={MenuKeys.ExploreChart}>
           <Tooltip title={getSliceHeaderTooltip(props.slice.slice_name)}>
             {t('Edit chart')}
@@ -773,15 +760,18 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         </Menu.Item>
       )}
 
-      {canEditCrossFilters && (
+      {/* DODO changed 44611022 */}
+      {isStandalone && canEditCrossFilters && (
         <Menu.Item key={MenuKeys.CrossFilterScoping}>
           {t('Cross-filtering scoping')}
         </Menu.Item>
       )}
 
-      {(canExplore || canEditCrossFilters) && <Menu.Divider />}
+      {/* DODO changed 44611022 */}
+      {isStandalone && (canExplore || canEditCrossFilters) && <Menu.Divider />}
 
-      {(canExplore || canViewQuery) && (
+      {/* DODO changed 44611022 */}
+      {isStandalone && (canExplore || canViewQuery) && (
         <Menu.Item key={MenuKeys.ViewQuery}>
           <ModalTrigger
             triggerNode={
@@ -797,7 +787,8 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         </Menu.Item>
       )}
 
-      {(canExplore || canViewTable) && (
+      {/* DODO changed 44611022 */}
+      {isStandalone && (canExplore || canViewTable) && (
         <Menu.Item key={MenuKeys.ViewResults}>
           <ViewResultsModalTrigger
             canExplore={props.supersetCanExplore}
@@ -822,20 +813,25 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         </Menu.Item>
       )}
 
-      {isFeatureEnabled(FeatureFlag.DrillToDetail) && canDrillToDetail && (
-        <DrillDetailMenuItems
-          chartId={slice.slice_id}
-          formData={props.formData}
-          key={MenuKeys.DrillToDetail}
-          showModal={drillModalIsOpen}
-          setShowModal={setDrillModalIsOpen}
-          drillToDetailMenuRef={drillToDetailMenuRef}
-        />
-      )}
+      {/* DODO changed 44611022 */}
+      {isStandalone &&
+        isFeatureEnabled(FeatureFlag.DrillToDetail) &&
+        canDrillToDetail && (
+          <DrillDetailMenuItems
+            chartId={slice.slice_id}
+            formData={props.formData}
+            key={MenuKeys.DrillToDetail}
+            showModal={drillModalIsOpen}
+            setShowModal={setDrillModalIsOpen}
+            drillToDetailMenuRef={drillToDetailMenuRef}
+          />
+        )}
 
-      {(slice.description || canExplore) && <Menu.Divider />}
+      {/* DODO changed 44611022 */}
+      {isStandalone && (slice.description || canExplore) && <Menu.Divider />}
 
-      {supersetCanShare && (
+      {/* DODO changed 44611022 */}
+      {isStandalone && supersetCanShare && (
         <Menu.SubMenu
           title={t('Share')}
           key={MenuKeys.Share}

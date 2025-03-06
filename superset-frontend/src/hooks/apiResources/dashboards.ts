@@ -2,6 +2,7 @@
 
 import { Dashboard, Datasource, EmbeddedDashboard } from 'src/dashboard/types';
 import { Chart } from 'src/types/Chart';
+import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types'; // DODO added 44211751
 import { useApiV1Resource, useTransformedResource } from './apiResources';
 
 export const useDashboard = (idOrSlug: string | number) =>
@@ -50,3 +51,9 @@ export const useDashboardDatasets = (
 
 export const useEmbeddedDashboard = (idOrSlug: string | number) =>
   useApiV1Resource<EmbeddedDashboard>(`/api/v1/dashboard/${idOrSlug}/embedded`);
+
+// DODO added 44211751
+export const useDashboardFilterSets = (idOrSlug: string | number) =>
+  useApiV1Resource<FilterSetFullData[]>(
+    `/api/v1/dashboard/${idOrSlug}/filtersets`,
+  );

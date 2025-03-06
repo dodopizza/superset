@@ -1,8 +1,16 @@
 // DODO was here
-import { createContext, lazy, FC, useEffect, useMemo, useRef } from 'react';
+import {
+  createContext,
+  lazy,
+  FC,
+  useEffect,
+  useMemo,
+  useRef,
+  Suspense, // DODO added 44611022
+} from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import { t, useTheme } from '@superset-ui/core';
+import { FeatureFlag, isFeatureEnabled, t, useTheme } from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { useToasts } from 'src/components/MessageToasts/withToasts';
@@ -11,7 +19,15 @@ import {
   useDashboard,
   useDashboardCharts,
   useDashboardDatasets,
+  useDashboardFilterSets, // DODO added 44211751
 } from 'src/hooks/apiResources';
+// DODO added 44611022
+import {
+  useDashboard as useDashboardPlugin,
+  useDashboardCharts as useDashboardChartsPlugin,
+  useDashboardDatasets as useDashboardDatasetsPlugin,
+  useDashboardFilterSets as useDashboardFilterSetsPlugin,
+} from 'src/Superstructure/hooks/apiResources';
 import { hydrateDashboard } from 'src/dashboard/actions/hydrate';
 import { setDatasources } from 'src/dashboard/actions/datasources';
 import injectCustomCss from 'src/dashboard/util/injectCustomCss';
@@ -27,6 +43,11 @@ import {
 import DashboardContainer from 'src/dashboard/containers/Dashboard';
 
 import { nanoid } from 'nanoid';
+// DODO added 44211751
+import {
+  getPrimaryFilterSetDataMask,
+  transformFilterSetFullData,
+} from 'src/DodoExtensions/FilterSets/utils';
 import { RootState } from '../types';
 import {
   chartContextMenuStyles,
@@ -40,6 +61,7 @@ import SyncDashboardState, {
 } from '../components/SyncDashboardState';
 
 const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 export const DashboardPageIdContext = createContext('');
 
@@ -70,23 +92,52 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   );
   const { addDangerToast } = useToasts();
   const { result: dashboard, error: dashboardApiError } =
-    useDashboard(idOrSlug);
-  const { result: charts, error: chartsApiError } = useDashboardCharts(
-    idOrSlug,
-    locale, // DODO added 44120742
-  );
+    // DODO changed 44611022
+    (isStandalone ? useDashboard : useDashboardPlugin)(idOrSlug);
+  const {
+    result: charts,
+    error: chartsApiError,
+  } = // DODO changed 44611022
+    (isStandalone ? useDashboardCharts : useDashboardChartsPlugin)(idOrSlug);
   const {
     result: datasets,
     error: datasetsApiError,
     status,
-    // } = useDashboardDatasets(idOrSlug);
-  } = useDashboardDatasets(idOrSlug, locale); // DODO changed 44120742
+    // DODO changed 44611022
+  } = (isStandalone ? useDashboardDatasets : useDashboardDatasetsPlugin)(
+    idOrSlug,
+    locale, // DODO added 44120742
+  );
+
+  // DODO added start 44211751
+  const { result: filterSetsFullData, error: filterSetsApiError } =
+    // DODO changed 44611022
+    (isStandalone ? useDashboardFilterSets : useDashboardFilterSetsPlugin)(
+      idOrSlug,
+    );
+  const filterSets = transformFilterSetFullData(filterSetsFullData);
+  const primaryFilterSetDataMask = getPrimaryFilterSetDataMask(filterSets);
+  // DODO added stop 44211751
+
   const isDashboardHydrated = useRef(false);
 
+  // DODO added 44211751
+  const filterSetEnabled = isFeatureEnabled(
+    FeatureFlag.DashboardNativeFiltersSet,
+  );
+
   const error = dashboardApiError || chartsApiError;
-  const readyToRender = Boolean(dashboard && charts);
+
   // const { dashboard_title, css, id = 0 } = dashboard || {};
   const { dashboard_title, dashboard_title_ru, css, id = 0 } = dashboard || {}; // DODO changed 44120742
+
+  // const readyToRender = Boolean(dashboard && charts);
+  // DODO changed 44211751
+  const readyToRender = Boolean(
+    dashboard &&
+      charts &&
+      (!filterSetEnabled || filterSetsApiError || primaryFilterSetDataMask),
+  );
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -129,6 +180,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
         }
       } else if (nativeFilterKeyValue) {
         dataMask = await getFilterValue(id, nativeFilterKeyValue);
+        // DODO added 44211751
+      } else if (primaryFilterSetDataMask) {
+        dataMask = primaryFilterSetDataMask;
       }
       if (isOldRison) {
         dataMask = isOldRison;
@@ -145,6 +199,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
             charts,
             activeTabs,
             dataMask,
+            filterSets, // DODO added 44211751
           }),
         );
       }
@@ -198,11 +253,23 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     }
   }, [addDangerToast, datasets, datasetsApiError, dispatch]);
 
+  // DODO added 44211751
+  useEffect(() => {
+    if (filterSetEnabled && filterSetsApiError) {
+      addDangerToast(
+        t(
+          "Error loading chart filter sets. Primary filter set won't be applied.",
+        ),
+      );
+    }
+  }, [addDangerToast, filterSetsApiError, filterSetEnabled, dispatch]);
+
   if (error) throw error; // caught in error boundary
   if (!readyToRender || !hasDashboardInfoInitiated) return <Loading />;
 
   return (
-    <>
+    // DODO changed 44611022
+    <Suspense fallback={<Loading />}>
       <Global
         styles={[
           filterCardPopoverStyle(theme),
@@ -218,7 +285,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
           <DashboardBuilder />
         </DashboardContainer>
       </DashboardPageIdContext.Provider>
-    </>
+    </Suspense>
   );
 };
 

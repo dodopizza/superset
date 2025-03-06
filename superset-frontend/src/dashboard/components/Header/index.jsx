@@ -279,7 +279,8 @@ class Header extends PureComponent {
       const { dashboardInfo } = this.props;
       const periodicRefreshOptions =
         dashboardInfo.common?.conf?.DASHBOARD_AUTO_REFRESH_INTERVALS;
-      const predefinedValue = periodicRefreshOptions.find(
+      // DODO changed 44611022
+      const predefinedValue = periodicRefreshOptions?.find(
         option => Number(option[0]) === interval / 1000,
       );
 

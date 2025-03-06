@@ -131,9 +131,12 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
             const metricBody: any = {
               expression: metric.expression,
               description: metric.description,
+              description_en: metric.description_en, // DODO added 44728892
+              description_ru: metric.description_ru, // DODO added 44728892
               metric_name: metric.metric_name,
               metric_type: metric.metric_type,
               d3format: metric.d3format || null,
+              number_format: metric.number_format, // DODO added 44211769
               currency: !isDefined(metric.currency)
                 ? null
                 : JSON.stringify(metric.currency),
@@ -160,6 +163,8 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
             verbose_name_en: column.verbose_name_en, // DODO added 44120742
             verbose_name_ru: column.verbose_name_ru, // DODO added 44120742
             description: column.description,
+            description_en: column.description_en, // DODO added 44728892
+            description_ru: column.description_ru, // DODO added 44728892
             expression: column.expression,
             filterable: column.filterable,
             groupby: column.groupby,

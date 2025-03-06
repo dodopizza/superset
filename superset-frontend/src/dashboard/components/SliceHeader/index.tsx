@@ -1,6 +1,7 @@
 // DODO was here
 import { FC, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { css, getExtensionsRegistry, styled, t } from '@superset-ui/core';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 44728892
 import { useUiConfig } from 'src/components/UiConfigContext';
 import { Tooltip } from 'src/components/Tooltip';
 import { useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ type SliceHeaderPropsDodoExtended = {
   updateSliceNameRU?: (arg0: string) => void; // DODO added 44120742
   sliceNameRU?: string; // DODO added 44120742
   locale: string; // DODO added 44120742
+  metricDescription?: string; // DODO added 44728892
 };
 
 type SliceHeaderProps = SliceHeaderControlsProps &
@@ -155,6 +157,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   width,
   height,
   locale, // DODO added 44120742
+  metricDescription, // DODO added 44728892
 }) => {
   const SliceHeaderExtension = extensionsRegistry.get('dashboard.slice.header');
   const uiConfig = useUiConfig();
@@ -205,6 +208,14 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             url={canExplore ? exploreUrl : undefined}
           />
         </Tooltip> */}
+        {/* DODO added 44728892 */}
+        {!editMode && metricDescription && (
+          <InfoTooltipWithTrigger
+            tooltip={metricDescription}
+            placement="topLeft"
+            iconsStyle={{ marginRight: '2px', marginTop: '4px' }}
+          />
+        )}
         {/* DODO changed start 44120742 */}
         {editMode && (
           <>

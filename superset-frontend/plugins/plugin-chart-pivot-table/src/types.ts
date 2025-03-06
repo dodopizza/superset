@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   QueryFormData,
   DataRecord,
@@ -29,6 +12,7 @@ import {
   TimeGranularity,
   ContextMenuFilters,
   Currency,
+  Metric, // DODO added 44211769
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -50,7 +34,30 @@ export enum MetricsLayoutEnum {
   COLUMNS = 'COLUMNS',
 }
 
-interface PivotTableCustomizeProps {
+export type PivotTableSharedColumnConfigProp = {
+  d3NumberFormat: string; // DODO added 44211769
+  aggregate: string; // DODO added 45525377
+  hideValueInTotal: boolean; // DODO added 45525377
+  pinColumn: boolean; // DODO added 45525377
+};
+
+interface PivotTableCustomizePropsDodoExtended {
+  columnConfig: Record<string, PivotTableSharedColumnConfigProp>;
+  datasourceMetrics: Metric[];
+}
+// DODO added 45525377
+export type ColumnConfig = Record<
+  string,
+  Partial<PivotTableSharedColumnConfigProp>
+>;
+
+interface PivotTableCustomizePropsDodoExtended {
+  datasourceDescriptions: Record<string, string>; // DODO added 44728892
+  columnConfig: Record<string, PivotTableSharedColumnConfigProp>; // DODO added 45525377
+  datasourceMetrics: Metric[]; // DODO added 45525377
+}
+interface PivotTableCustomizeProps
+  extends PivotTableCustomizePropsDodoExtended {
   groupbyRows: QueryFormColumn[];
   groupbyColumns: QueryFormColumn[];
   metrics: QueryFormMetric[];
@@ -93,7 +100,12 @@ export type PivotTableQueryFormData = QueryFormData &
   PivotTableStylesProps &
   PivotTableCustomizeProps;
 
+// DODO added 45525377
+type PivotTablePropsDodoExtended = {
+  columnConfig: ColumnConfig;
+  pinnedColumns: number[];
+};
 export type PivotTableProps = PivotTableStylesProps &
   PivotTableCustomizeProps & {
     data: DataRecord[];
-  };
+  } & PivotTablePropsDodoExtended;
