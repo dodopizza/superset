@@ -15,8 +15,6 @@ type Props = {
 export const StepThreePopup: FC<Props> = ({ onClose }) => {
   const { Title, Paragraph } = Typography;
 
-  console.log(`StepThreePopup render`);
-
   return (
     <Modal
       show
