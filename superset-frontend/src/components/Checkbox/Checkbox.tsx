@@ -1,10 +1,10 @@
-// DOOD was here
+// DODO was here
 import { CSSProperties } from 'react';
 import { styled } from '@superset-ui/core';
 import { CheckboxChecked, CheckboxUnchecked } from 'src/components/Checkbox';
 
 interface CheckboxPropsDodoExtended {
-  disabled?: boolean; // DOOD added 44211792
+  disabled?: boolean; // DODO added 44211792
 }
 export interface CheckboxProps extends CheckboxPropsDodoExtended {
   checked: boolean;

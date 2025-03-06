@@ -348,9 +348,9 @@ function SavedQueryList({
             tags={tags.filter((tag: Tag) =>
               tag.type
                 ? tag.type === 1 ||
-                  tag.type === 'TagTypes.custom' || // DOOD added 44211792
-                  tag.type === 5 || // DOOD added 44211792
-                  tag.type === 'TagTypes.team' // DOOD added 44211792
+                  tag.type === 'TagTypes.custom' || // DODO added 44211792
+                  tag.type === 5 || // DODO added 44211792
+                  tag.type === 'TagTypes.team' // DODO added 44211792
                 : true,
             )}
           />

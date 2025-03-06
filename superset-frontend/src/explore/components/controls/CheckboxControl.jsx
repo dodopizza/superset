@@ -22,7 +22,7 @@ const CheckBoxControlWrapper = styled.div`
       // color: ${theme.colors.grayscale.dark1};
       color: ${disabled
         ? '#8c8c8c'
-        : theme.colors.grayscale.dark1}; // DOOD changed 44211792
+        : theme.colors.grayscale.dark1}; // DODO changed 44211792
     }
     span[role='checkbox'] {
       padding-right: ${theme.gridUnit * 2}px;
@@ -32,7 +32,7 @@ const CheckBoxControlWrapper = styled.div`
 
 export default class CheckboxControl extends Component {
   onChange() {
-    // DOOD changed 44211792
+    // DODO changed 44211792
     if (!this.props.disabled) {
       this.props.onChange(!this.props.value);
     }
@@ -43,7 +43,7 @@ export default class CheckboxControl extends Component {
       <Checkbox
         onChange={this.onChange.bind(this)}
         checked={!!this.props.value}
-        disabled={this.props.disabled} // DOOD added 44211792
+        disabled={this.props.disabled} // DODO added 44211792
       />
     );
   }
@@ -51,7 +51,7 @@ export default class CheckboxControl extends Component {
   render() {
     if (this.props.label) {
       return (
-        // DOOD changed 44211792
+        // DODO changed 44211792
         <CheckBoxControlWrapper disabled={this.props.disabled}>
           <ControlHeader
             {...this.props}

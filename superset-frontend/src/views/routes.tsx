@@ -1,7 +1,7 @@
 // DODO was here
 import { FeatureFlag, isFeatureEnabled } from '@superset-ui/core';
 import { lazy, ComponentType, ComponentProps } from 'react';
-// DOOD added 44211792
+// DODO added 44211792
 import {
   REQUEST_PAGE_LIST_URL,
   REQUEST_PAGE_URL,
@@ -113,7 +113,7 @@ const RowLevelSecurityList = lazy(
     ),
 );
 
-// DOOD added start 44211792
+// DODO added start 44211792
 const RequestList = lazy(
   () =>
     import(
@@ -141,7 +141,7 @@ const Team = lazy(
       /* webpackChunkName: "Team" */ 'src/DodoExtensions/onBoarding/pages/Team'
     ),
 );
-// DOOD added stop 44211792
+// DODO added stop 44211792
 
 type Routes = {
   path: string;
@@ -245,7 +245,7 @@ export const routes: Routes = [
     path: '/sqllab/',
     Component: SqlLab,
   },
-  // DOOD added start 44211792
+  // DODO added start 44211792
   {
     path: REQUEST_PAGE_LIST_URL,
     Component: RequestList,
@@ -262,7 +262,7 @@ export const routes: Routes = [
     path: TEAM_PAGE_URL,
     Component: Team,
   },
-  // DOOD added stop 44211792
+  // DODO added stop 44211792
 ];
 
 if (isFeatureEnabled(FeatureFlag.TaggingSystem)) {

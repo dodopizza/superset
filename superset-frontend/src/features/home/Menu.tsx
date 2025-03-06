@@ -17,7 +17,7 @@ import {
   MenuObjectProps,
   MenuData,
 } from 'src/types/bootstrapTypes';
-// DOOD added start 44211792
+// DODO added start 44211792
 import { useSelector } from 'react-redux';
 import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo';
 import { onboardingMenuAdminItems } from 'src/DodoExtensions/onBoarding';
@@ -25,7 +25,7 @@ import {
   REQUEST_PAGE_LIST_URL,
   TEAM_PAGE_LIST_URL,
 } from 'src/DodoExtensions/onBoarding/consts';
-// DOOD added stop 44211792
+// DODO added stop 44211792
 import RightMenu from './RightMenu';
 
 interface MenuProps {
@@ -375,7 +375,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   const cleanedMenu: MenuObjectProps[] = [];
   const settings: MenuObjectProps[] = [];
   newMenuData.menu
-    // DOOD added 44211792
+    // DODO added 44211792
     .filter(
       item =>
         item.url !== REQUEST_PAGE_LIST_URL && item.url !== TEAM_PAGE_LIST_URL,
@@ -410,7 +410,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
       }
     });
 
-  // DOOD added start 44211792
+  // DODO added start 44211792
   const user = useSelector(getUserInfo);
   if (user.roles) {
     if (user.roles.Admin) {
@@ -422,7 +422,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
       });
     }
   }
-  // DOOD added stop 44211792
+  // DODO added stop 44211792
 
   newMenuData.menu = cleanedMenu;
   newMenuData.settings = settings;

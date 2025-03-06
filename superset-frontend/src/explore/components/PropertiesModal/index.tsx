@@ -21,8 +21,8 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import { loadTags } from 'src/components/Tags/utils';
 import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
 import TagType from 'src/types/TagType';
-import { useSelector } from 'react-redux'; // DOOD added 44211792
-import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo'; // DOOD added 44211792
+import { useSelector } from 'react-redux'; // DODO added 44211792
+import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo'; // DODO added 44211792
 
 export type PropertiesModalProps = {
   slice: Slice;
@@ -225,7 +225,7 @@ function PropertiesModal({
     setTags([]);
   };
 
-  const user = useSelector(getUserInfo); // DOOD added 44211792
+  const user = useSelector(getUserInfo); // DODO added 44211792
 
   return (
     <Modal
@@ -372,7 +372,7 @@ function PropertiesModal({
                   onChange={handleChangeTags}
                   onClear={handleClearTags}
                   allowClear
-                  disabled={!user?.roles?.Admin} // DOOD added 44211792
+                  disabled={!user?.roles?.Admin} // DODO added 44211792
                 />
                 <StyledHelpBlock className="help-block">
                   {t('A list of tags that have been applied to this chart.')}
