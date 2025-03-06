@@ -283,7 +283,7 @@ function ChartList(props: ChartListProps) {
         dashboard_title: string;
         id: number;
       }) => ({
-        label: dashboardTitle,
+        label: `[${id}] ${dashboardTitle}`, // DODO changed
         value: id,
       }),
     );
