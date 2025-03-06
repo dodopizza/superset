@@ -358,6 +358,7 @@ class Chart extends Component {
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
+      language: locale, // DODO added 44120742
     });
   }
 
