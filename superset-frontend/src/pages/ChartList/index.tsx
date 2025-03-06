@@ -659,6 +659,7 @@ function ChartList(props: ChartListProps) {
         key: 'dashboards',
         id: 'dashboards',
         input: 'select',
+        width: 300, // DODO added
         operator: FilterOperator.relationManyMany,
         unfilteredLabel: t('All'),
         fetchSelects: fetchDashboards,
