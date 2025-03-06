@@ -33,7 +33,7 @@ export const StepThreePopup: FC<Props> = ({ onClose }) => {
               {t(
                 'Request will be proceed by administrators. You can see your requests in',
               )}
-              <a href="/superset/profile/">&nbsp;{t('profile')}.</a>
+              <a href="/users/userinfo/">&nbsp;{t('profile')}.</a>
             </Paragraph>
           </Col>
 
