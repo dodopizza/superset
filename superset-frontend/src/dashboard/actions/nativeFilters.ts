@@ -1,8 +1,10 @@
 // DODO was here
 import {
+  API_HANDLER, // DODO added 44611022
   FilterConfiguration,
   Filters,
   FilterSet, // DODO added 44211751
+  FilterSets, // DODO added 44211751
   makeApi,
 } from '@superset-ui/core';
 import { Dispatch } from 'redux';
@@ -15,6 +17,8 @@ import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types'; // DODO
 import { HYDRATE_DASHBOARD } from './hydrate';
 import { dashboardInfoChanged } from './dashboardInfo';
 import { DashboardInfo, RootState } from '../types';
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 export const SET_FILTER_CONFIG_BEGIN = 'SET_FILTER_CONFIG_BEGIN';
 export interface SetFilterConfigBegin {
@@ -136,11 +140,14 @@ export const setInScopeStatusOfFilters =
     );
   };
 
+type NativeFiltersDodoExtended = {
+  filterSets: FilterSets; // DODO added 44211751
+};
 type BootstrapData = {
   nativeFilters: {
     filters: Filters;
     filtersState: object;
-  };
+  } & NativeFiltersDodoExtended;
 };
 
 export interface SetBootstrapData {
@@ -269,11 +276,10 @@ export interface UpdateFilterSetFail {
   type: typeof UPDATE_FILTER_SET_FAIL;
 }
 
-export const getFilterSets =
-  (dashboardId: number) => async (dispatch: Dispatch) => {
-    const fetchFilterSets = async () =>
-      // if (process.env.type === undefined) {
-      makeApi<
+const getFilterSets = (dashboardId: number) => async (dispatch: Dispatch) => {
+  const fetchFilterSets = async () => {
+    if (isStandalone) {
+      return makeApi<
         null,
         {
           count: number;
@@ -284,31 +290,34 @@ export const getFilterSets =
         method: 'GET',
         endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
       })(null);
-    // }
-    // return API_HANDLER.SupersetClient({
-    //   method: 'get',
-    //   url: `/api/v1/dashboard/${dashboardId}/filtersets`,
-    // });
-    dispatch({
-      type: SET_FILTER_SETS_BEGIN,
-    });
-
-    const response: {
-      count: number;
-      ids: number[];
-      result: FilterSetFullData[];
-    } = await fetchFilterSets();
-
-    dispatch({
-      type: SET_FILTER_SETS_COMPLETE,
-      filterSets: response.ids.map((id, i) => ({
-        ...response.result[i].params,
-        id,
-        name: response.result[i].name,
-        isPrimary: response.result[i].is_primary,
-      })),
+    }
+    // DODO added 44611022
+    return API_HANDLER.SupersetClient({
+      method: 'get',
+      url: `/api/v1/dashboard/${dashboardId}/filtersets`,
     });
   };
+
+  dispatch({
+    type: SET_FILTER_SETS_BEGIN,
+  });
+
+  const response: {
+    count: number;
+    ids: number[];
+    result: FilterSetFullData[];
+  } = await fetchFilterSets();
+
+  dispatch({
+    type: SET_FILTER_SETS_COMPLETE,
+    filterSets: response.ids.map((id, i) => ({
+      ...response.result[i].params,
+      id,
+      name: response.result[i].name,
+      isPrimary: response.result[i].is_primary,
+    })),
+  });
+};
 
 export const createFilterSet =
   (filterSet: Omit<FilterSet, 'id'>) =>
@@ -316,25 +325,28 @@ export const createFilterSet =
     const dashboardId = getState().dashboardInfo.id;
     const postFilterSets = (
       data: Partial<FilterSetFullData & { json_metadata: any }>,
-    ) =>
-      // if (process.env.type === undefined) {
-      makeApi<
-        Partial<FilterSetFullData & { json_metadata: any }>,
-        {
-          count: number;
-          ids: number[];
-          result: FilterSetFullData[];
-        }
-      >({
-        method: 'POST',
-        endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
-      })(data);
-    // }
-    // return API_HANDLER.SupersetClient({
-    //   method: 'post',
-    //   url: `/api/v1/dashboard/${dashboardId}/filtersets`,
-    //   body: data,
-    // });
+    ) => {
+      if (isStandalone) {
+        return makeApi<
+          Partial<FilterSetFullData & { json_metadata: any }>,
+          {
+            count: number;
+            ids: number[];
+            result: FilterSetFullData[];
+          }
+        >({
+          method: 'POST',
+          endpoint: `/api/v1/dashboard/${dashboardId}/filtersets`,
+        })(data);
+      }
+      // DODO added 44611022
+      return API_HANDLER.SupersetClient({
+        method: 'post',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets`,
+        body: data,
+      });
+    };
+
     dispatch({
       type: CREATE_FILTER_SET_BEGIN,
       id: -1, // -1 means the new filter set is being created
@@ -370,18 +382,22 @@ export const updateFilterSet =
     const dashboardId = getState().dashboardInfo.id;
     const postFilterSets = (
       data: Partial<FilterSetFullData & { json_metadata: any }>,
-    ) =>
-      // if (process.env.type === undefined) {
-      makeApi<Partial<FilterSetFullData & { json_metadata: any }>, {}>({
-        method: 'PUT',
-        endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
-      })(data);
-    // }
-    // return API_HANDLER.SupersetClient({
-    //   method: 'put',
-    //   url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
-    //   body: data,
-    // });
+    ) => {
+      if (isStandalone) {
+        return makeApi<Partial<FilterSetFullData & { json_metadata: any }>, {}>(
+          {
+            method: 'PUT',
+            endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
+          },
+        )(data);
+      }
+      // DODO added 44611022
+      return API_HANDLER.SupersetClient({
+        method: 'put',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSet.id}`,
+        body: data,
+      });
+    };
     dispatch({
       type: UPDATE_FILTER_SET_BEGIN,
       id: filterSet.id,
@@ -415,17 +431,20 @@ export const deleteFilterSet =
   (filterSetId: number) =>
   async (dispatch: Function, getState: () => RootState) => {
     const dashboardId = getState().dashboardInfo.id;
-    const deleteFilterSets = () =>
-      // if (process.env.type === undefined) {
-      makeApi<{}, {}>({
-        method: 'DELETE',
-        endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
-      })({});
-    // }
-    // return API_HANDLER.SupersetClient({
-    //   method: 'delete',
-    //   url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
-    // });
+    const deleteFilterSets = () => {
+      if (isStandalone) {
+        return makeApi<{}, {}>({
+          method: 'DELETE',
+          endpoint: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
+        })({});
+      }
+      // DODO added 44611022
+      return API_HANDLER.SupersetClient({
+        method: 'delete',
+        url: `/api/v1/dashboard/${dashboardId}/filtersets/${filterSetId}`,
+      });
+    };
+
     dispatch({
       type: DELETE_FILTER_SET_BEGIN,
       id: filterSetId,

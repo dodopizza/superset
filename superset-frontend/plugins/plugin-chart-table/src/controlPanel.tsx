@@ -30,7 +30,7 @@ import {
 } from '@superset-ui/chart-controls';
 
 import { isEmpty } from 'lodash';
-import { PAGE_SIZE_OPTIONS } from './consts';
+import { PAGE_SIZE_OPTIONS, TABLE_CONFIG_FORM_LAYOUT } from './consts'; // DODO changed 45525377
 import { ColorSchemeEnum } from './types';
 
 function getQueryMode(controls: ControlStateMapping): QueryMode {
@@ -342,7 +342,7 @@ const config: ControlPanelConfig = {
         ['adhoc_filters'],
         [
           {
-            name: 'timeseries_limit_metric',
+            name: 'series_limit_metric', // DODO changed 45525377
             override: {
               visibility: isAggMode,
               resetOnHide: false,
@@ -517,8 +517,9 @@ const config: ControlPanelConfig = {
               type: 'ColumnConfigControl',
               label: t('Customize columns'),
               description: t('Further customize how to display each column'),
+              configFormLayout: TABLE_CONFIG_FORM_LAYOUT, // DODO added 45525377
               width: 400,
-              height: 320,
+              height: 347, // DODO changed 45525377
               renderTrigger: true,
               configFormLayout: columnConfig, // DODO added 44136746
               shouldMapStateToProps() {

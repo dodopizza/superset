@@ -1,5 +1,10 @@
 // DODO was here
-import { ChartDataResponseResult, ensureIsArray, t } from '@superset-ui/core'; // DODO changed 44136746
+import {
+  ChartDataResponseResult,
+  ensureIsArray,
+  isSavedMetric,
+  t,
+} from '@superset-ui/core';
 import { cloneDeep } from 'lodash';
 import {
   ControlPanelConfig,
@@ -22,6 +27,7 @@ import {
   xAxisBounds,
   xAxisLabelRotation,
 } from '../controls';
+import { chartOptionValuePositionDodo } from '../DodoExtensions/controlPanelCommon'; // DODO added 45525377
 
 const {
   area,
@@ -41,9 +47,12 @@ const {
   yAxisIndex,
 } = DEFAULT_FORM_DATA;
 
-// DODO added 44136746
+// DODO added 44211769
 const columnConfig = {
-  '0': [['exportAsTime']],
+  '0': [
+    ['d3NumberFormat'],
+    ['exportAsTime'], // DODO added 44136746
+  ],
   '1': [],
   '2': [],
   '3': [],
@@ -187,6 +196,7 @@ function createCustomizeSection(
         },
       },
     ],
+    [{ ...chartOptionValuePositionDodo(controlSuffix) }], // DODO added 45525377
     [
       {
         name: `opacity${controlSuffix}`,
@@ -438,7 +448,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added 44136746
+        // DODO added 44211769
         [
           {
             name: 'column_config',
@@ -446,7 +456,7 @@ const config: ControlPanelConfig = {
               type: 'ColumnConfigControl',
               label: t('Customize Metrics'),
               width: 400,
-              height: 100,
+              height: 175,
               renderTrigger: true,
               configFormLayout: columnConfig,
               shouldMapStateToProps() {
@@ -458,7 +468,7 @@ const config: ControlPanelConfig = {
                   ...(chart?.latestQueryFormData?.metrics ?? []),
                   ...(chart?.latestQueryFormData?.metrics_b ?? []),
                 ].map(metric =>
-                  typeof metric === 'string' ? metric : metric?.label,
+                  isSavedMetric(metric) ? metric : metric?.label,
                 );
                 const coltypes = Array.from(
                   { length: colnames.length },

@@ -25,7 +25,7 @@ import {
 
 import { OrientationType } from '../../types';
 import {
-  CONTROL_PANEL_COLUMN_CONFIG, // DODO added 44136746
+  CONTROL_PANEL_COLUMN_CONFIG, // DODO added 44211769
   DEFAULT_FORM_DATA,
   TIME_SERIES_DESCRIPTION_TEXT,
 } from '../../constants';
@@ -325,7 +325,7 @@ const config: ControlPanelConfig = {
         ...richTooltipSection,
         [<ControlSubSectionHeader>{t('Y Axis')}</ControlSubSectionHeader>],
         ...createAxisControl('y'),
-        [CONTROL_PANEL_COLUMN_CONFIG], // DODO added 44136746
+        [CONTROL_PANEL_COLUMN_CONFIG], // DODO added 44211769
       ],
     },
   ],

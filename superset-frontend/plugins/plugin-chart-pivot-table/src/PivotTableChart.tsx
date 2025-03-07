@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useCallback, useMemo } from 'react';
 import { MinusSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import {
@@ -35,7 +18,13 @@ import {
   t,
   useTheme,
 } from '@superset-ui/core';
-import { aggregatorTemplates, PivotTable, sortAs } from './react-pivottable';
+import {
+  aggregatorTemplates,
+  filterColumnConfigByd3NumberFormat, // DODO added 44211769
+  getMetricNumberFormat, // DODO added 44211769
+  PivotTable,
+  sortAs,
+} from './react-pivottable';
 import {
   FilterType,
   MetricsLayoutEnum,
@@ -155,6 +144,10 @@ export default function PivotTableChart(props: PivotTableProps) {
     dateFormatters,
     onContextMenu,
     timeGrainSqla,
+    datasourceMetrics, // DODO added 44211769
+    datasourceDescriptions, // DODO added 44728892
+    columnConfig, // DODO added 45525377
+    pinnedColumns, // DODO added 45525377
   } = props;
 
   const theme = useTheme();
@@ -174,13 +167,30 @@ export default function PivotTableChart(props: PivotTableProps) {
         new Set([
           ...Object.keys(columnFormats || {}),
           ...Object.keys(currencyFormats || {}),
+          ...Object.keys(filterColumnConfigByd3NumberFormat(columnConfig)), // DODO added 44211769
+          // DODO added 44211769
+          ...datasourceMetrics
+            .map(metric => (metric?.number_format ? metric.metric_name : ''))
+            .filter(Boolean),
         ]),
       ).map(metricName => [
         metricName,
-        columnFormats[metricName] || valueFormat,
+        // columnFormats[metricName] || valueFormat,
+        // DODO changed 44211769
+        columnConfig?.[metricName]?.d3NumberFormat ||
+          getMetricNumberFormat(datasourceMetrics, metricName) ||
+          columnFormats[metricName] ||
+          valueFormat,
         currencyFormats[metricName] || currencyFormat,
       ]),
-    [columnFormats, currencyFormat, currencyFormats, valueFormat],
+    [
+      columnConfig, // DODO added 44211769
+      columnFormats,
+      currencyFormat,
+      currencyFormats,
+      datasourceMetrics, // DODO added 44211769
+      valueFormat,
+    ],
   );
   const hasCustomMetricFormatters = customFormatsArray.length > 0;
   const metricFormatters = useMemo(
@@ -556,6 +566,12 @@ export default function PivotTableChart(props: PivotTableProps) {
           subtotalOptions={subtotalOptions}
           namesMapping={verboseMap}
           onContextMenu={handleContextMenu}
+          datasourceDescriptions={datasourceDescriptions} // DODO added 44728892
+          // DODO added start 45525377
+          columnConfig={columnConfig}
+          combineMetric={combineMetric}
+          pinnedColumns={pinnedColumns}
+          // DODO added stop 45525377
         />
       </PivotTableWrapper>
     </Styles>

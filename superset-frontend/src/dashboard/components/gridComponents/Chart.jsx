@@ -6,7 +6,7 @@ import { styled, t, logging } from '@superset-ui/core';
 import { debounce, isEqual } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
-import { bootstrapData } from 'src/preamble'; // DODO added 44136746
+import { bootstrapData } from 'src/preamble'; // DODO added 44728892
 import { exportChart, mountExploreUrl } from 'src/explore/exploreUtils';
 import ChartContainer from 'src/components/Chart/ChartContainer';
 import {
@@ -19,12 +19,13 @@ import {
 import { areObjectsEqual } from 'src/reduxUtils';
 import { postFormData } from 'src/explore/exploreUtils/formData';
 import { URL_PARAMS } from 'src/constants';
+import { getMetricDescription } from 'src/DodoExtensions/dashboard/utils/getMetricDescription'; // DODO added 44728892
 
 import SliceHeader from '../SliceHeader';
 import MissingChart from '../MissingChart';
 import { slicePropShape, chartPropShape } from '../../util/propShapes';
 
-const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44136746
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44728892
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -431,6 +432,13 @@ class Chart extends Component {
       queriesResponse?.map(({ cached_dttm }) => cached_dttm) || [];
     const initialValues = {};
 
+    // DODO added 44728892
+    const metricDescription = getMetricDescription(
+      formData,
+      datasource,
+      locale,
+    );
+
     return (
       <SliceContainer
         className="chart-slice"
@@ -474,6 +482,7 @@ class Chart extends Component {
           formData={formData}
           width={width}
           height={this.getHeaderHeight()}
+          metricDescription={metricDescription} // DODO added 44728892
         />
 
         {/*

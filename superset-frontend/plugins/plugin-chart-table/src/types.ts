@@ -22,6 +22,9 @@ import { ColorFormatters } from '@superset-ui/chart-controls';
 
 export type CustomFormatter = (value: DataRecordValue) => string;
 
+type TableColumnConfigDodoExtended = {
+  pinColumn?: boolean; // DODO added 45525377
+};
 export type TableColumnConfig = {
   d3NumberFormat?: string;
   d3SmallNumberFormat?: string;
@@ -33,7 +36,7 @@ export type TableColumnConfig = {
   colorPositiveNegative?: boolean;
   truncateLongCells?: boolean;
   currencyFormat?: Currency;
-};
+} & TableColumnConfigDodoExtended;
 
 export interface DataColumnMeta {
   // `key` is what is called `label` in the input props
@@ -66,7 +69,7 @@ export type TableChartFormData = QueryFormData & {
   page_length?: string | number | null; // null means auto-paginate
   metrics?: QueryFormMetric[] | null;
   percent_metrics?: QueryFormMetric[] | null;
-  timeseries_limit_metric?: QueryFormMetric[] | QueryFormMetric | null;
+  series_limit_metric?: QueryFormMetric[] | QueryFormMetric | null; // DODO changed 45525377
   groupby?: QueryFormMetric[] | null;
   all_columns?: QueryFormMetric[] | null;
   order_desc?: boolean;
@@ -92,7 +95,11 @@ export type BasicColorFormatterType = {
   mainArrow: string;
 };
 
-export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
+interface TableChartTransformedPropsDodoExtended {
+  datasourceDescriptions: Record<string, string>; // DODO added 44728892
+}
+export interface TableChartTransformedProps<D extends DataRecord = DataRecord>
+  extends TableChartTransformedPropsDodoExtended {
   timeGrain?: TimeGranularity;
   height: number;
   width: number;

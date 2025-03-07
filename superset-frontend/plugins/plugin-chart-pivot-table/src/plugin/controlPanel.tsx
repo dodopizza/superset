@@ -1,10 +1,11 @@
 // DODO was here
 import {
-  ChartDataResponseResult, // DODO added 44136746
+  ChartDataResponseResult, // DODO added 45525377
   ensureIsArray,
   isAdhocColumn,
   isPhysicalColumn,
   QueryFormMetric,
+  SMART_DATE_DOT_DDMMYYYY_ID, // DODO added 45525377
   SMART_DATE_ID,
   t,
   validateNonEmpty,
@@ -15,8 +16,23 @@ import {
   sharedControls,
   Dataset,
   getStandardizedControls,
+  AGGREGATE_FUNCTION_OPTIONS,
 } from '@superset-ui/chart-controls';
 import { MetricsLayoutEnum } from '../types';
+import { METRIC_KEY } from '../DodoExtensions/utils/getPinnedColumnIndexes'; // DODO added 45525377
+
+// DODO added 45525377
+const columnConfig = {
+  '0': [
+    ['d3NumberFormat'], // DODO added 44211769
+    ['aggregation'],
+    ['hideValueInTotal'],
+    ['pinColumn'],
+  ],
+  '1': [['pinColumn']],
+  '2': [['pinColumn']],
+  '3': [['pinColumn']],
+};
 
 // DODO added 44136746
 const columnConfig = {
@@ -161,29 +177,7 @@ const config: ControlPanelConfig = {
               type: 'SelectControl',
               label: t('Aggregation function'),
               clearable: false,
-              choices: [
-                ['Count', t('Count')],
-                ['Count Unique Values', t('Count Unique Values')],
-                ['List Unique Values', t('List Unique Values')],
-                ['Sum', t('Sum')],
-                ['Average', t('Average')],
-                ['Median', t('Median')],
-                ['Sample Variance', t('Sample Variance')],
-                ['Sample Standard Deviation', t('Sample Standard Deviation')],
-                ['Minimum', t('Minimum')],
-                ['Maximum', t('Maximum')],
-                ['First', t('First')],
-                ['Last', t('Last')],
-                ['Sum as Fraction of Total', t('Sum as Fraction of Total')],
-                ['Sum as Fraction of Rows', t('Sum as Fraction of Rows')],
-                ['Sum as Fraction of Columns', t('Sum as Fraction of Columns')],
-                ['Count as Fraction of Total', t('Count as Fraction of Total')],
-                ['Count as Fraction of Rows', t('Count as Fraction of Rows')],
-                [
-                  'Count as Fraction of Columns',
-                  t('Count as Fraction of Columns'),
-                ],
-              ],
+              choices: AGGREGATE_FUNCTION_OPTIONS, // DODO changed 45525377
               default: 'Sum',
               description: t(
                 'Aggregate function to apply when pivoting and computing the total rows and columns',
@@ -292,7 +286,14 @@ const config: ControlPanelConfig = {
               label: t('Date format'),
               default: SMART_DATE_ID,
               renderTrigger: true,
-              choices: D3_TIME_FORMAT_OPTIONS,
+              // DODO changed 45525377
+              choices: [
+                ...D3_TIME_FORMAT_OPTIONS,
+                [
+                  SMART_DATE_DOT_DDMMYYYY_ID,
+                  t('Adaptive formatting dot ddmmyyyy'),
+                ],
+              ],
               description: t('D3 time format for datetime columns'),
             },
           },
@@ -387,7 +388,7 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        // DODO added 44136746
+        // DODO added 45525377
         [
           {
             name: 'column_config',
@@ -403,8 +404,22 @@ const config: ControlPanelConfig = {
                 return true;
               },
               mapStateToProps(explore, _, chart) {
+                const colnames = [
+                  METRIC_KEY,
+                  ...(chart?.queriesResponse?.[0]?.colnames ?? []),
+                ];
+                const coltypes = [
+                  1,
+                  ...(chart?.queriesResponse?.[0]?.coltypes ?? []),
+                ];
+                const isRowsLayout =
+                  chart?.latestQueryFormData?.metricsLayout ===
+                  MetricsLayoutEnum.ROWS;
+                const newQueriesResponse = !isRowsLayout
+                  ? chart?.queriesResponse?.[0]
+                  : { ...chart?.queriesResponse?.[0], colnames, coltypes };
                 return {
-                  queryResponse: chart?.queriesResponse?.[0] as
+                  queryResponse: newQueriesResponse as
                     | ChartDataResponseResult
                     | undefined,
                 };

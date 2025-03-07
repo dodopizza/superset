@@ -25,6 +25,7 @@ import {
 import {
   ColorFormatters,
   ConditionalFormattingConfig,
+  extractDatasourceDescriptions, // DODO added 44728892
   getColorFormatters,
 } from '@superset-ui/chart-controls';
 
@@ -176,7 +177,12 @@ const processColumns = memoizeOne(function processColumns(
   props: TableChartProps,
 ) {
   const {
-    datasource: { columnFormats, currencyFormats, verboseMap },
+    datasource: {
+      columnFormats,
+      currencyFormats,
+      verboseMap,
+      metrics: datasourceMetrics, // DODO added 44211769
+    },
     rawFormData: {
       table_timestamp_format: tableTimestampFormat,
       metrics: metrics_,
@@ -217,7 +223,14 @@ const processColumns = memoizeOne(function processColumns(
       const isNumber = dataType === GenericDataType.Numeric;
       const savedFormat = columnFormats?.[key];
       const savedCurrency = currencyFormats?.[key];
-      const numberFormat = config.d3NumberFormat || savedFormat;
+      // DODO added 44211769
+      const metricNumberFormat = datasourceMetrics?.find(
+        metric => metric.metric_name === key,
+      )?.number_format;
+      // const numberFormat = config.d3NumberFormat || savedFormat;
+      // DODO changed 44211769
+      const numberFormat =
+        config.d3NumberFormat || metricNumberFormat || savedFormat;
       const currency = config.currencyFormat?.symbol
         ? config.currencyFormat
         : savedCurrency;
@@ -358,6 +371,7 @@ const transformProps = (
   const {
     height,
     width,
+    datasource: { metrics: datasourceMetrics, columns: datasourceColumns }, // DODO added 44728892
     rawFormData: formData,
     queriesData = [],
     filterState,
@@ -369,6 +383,7 @@ const transformProps = (
       addToExtraFormData, // DODO added 44136746
     },
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
 
   const {
@@ -601,6 +616,24 @@ const transformProps = (
     if (addToExtraFormData) addToExtraFormData(value, sliceId);
   };
   // DODO added stop 44136746
+
+  // DODO added start 44728892
+  const chartMetricsCollection =
+    queryMode === QueryMode.Raw
+      ? columns.map(column => column.key)
+      : [
+          ...(formData?.metrics ?? []),
+          ...(formData?.percent_metrics ?? []),
+          ...(formData?.groupby ?? []),
+        ];
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    chartMetricsCollection,
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  // DODO added stop 44728892
+
   return {
     height,
     width,
@@ -637,6 +670,7 @@ const transformProps = (
     startDateOffset,
     basicColorColumnFormatters,
     handleAddToExtraFormData, // DODO added 44136746
+    datasourceDescriptions, // DODO added 44728892
   };
 };
 

@@ -161,6 +161,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.column_name",
         "columns.created_on",
         "columns.description",
+        "columns.description_en",  # dodo added 44728914
+        "columns.description_ru",  # dodo added 44728914
         "columns.expression",
         "columns.filterable",
         "columns.groupby",
@@ -177,9 +179,12 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "metrics.d3format",
         "metrics.currency",
         "metrics.description",
+        "metrics.description_en",  # dodo added 44728914
+        "metrics.description_ru",  # dodo added 44728914
         "metrics.expression",
         "metrics.extra",
         "metrics.id",
+        "metrics.number_format",  # dodo added 44728517
         "metrics.metric_name",
         "metrics.metric_type",
         "metrics.verbose_name",

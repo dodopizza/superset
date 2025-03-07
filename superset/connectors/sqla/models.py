@@ -835,6 +835,10 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
     python_date_format = Column(String(255))
     extra = Column(Text)
 
+    # dodo added 44728914
+    description_en = Column(utils.MediumText(), nullable=True)
+    description_ru = Column(utils.MediumText(), nullable=True)
+
     table: Mapped[SqlaTable] = relationship(
         "SqlaTable",
         back_populates="columns",
@@ -1011,6 +1015,8 @@ class TableColumn(AuditMixinNullable, ImportExportMixin, CertificationMixin, Mod
             "certified_by",
             "column_name",
             "description",
+            "description_en",  # dodo added 44728914
+            "description_ru",  # dodo added 44728914
             "expression",
             "filterable",
             "groupby",
@@ -1041,9 +1047,14 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
     d3format = Column(String(128))
     currency = Column(String(128))
     warning_text = Column(Text)
+    number_format = Column(Text, nullable=True)  # dodo added 44728517
     table_id = Column(Integer, ForeignKey("tables.id", ondelete="CASCADE"))
     expression = Column(utils.MediumText(), nullable=False)
     extra = Column(Text)
+
+    # dodo added 44728914
+    description_en = Column(utils.MediumText(), nullable=True)
+    description_ru = Column(utils.MediumText(), nullable=True)
 
     table: Mapped[SqlaTable] = relationship(
         "SqlaTable",
@@ -1112,8 +1123,11 @@ class SqlMetric(AuditMixinNullable, ImportExportMixin, CertificationMixin, Model
             "currency",
             "d3format",
             "description",
+            "description_en",  # dodo added 44728914
+            "description_ru",  # dodo added 44728914
             "expression",
             "id",
+            "number_format",  # dodo added 44728517
             "is_certified",
             "metric_name",
             "warning_markdown",

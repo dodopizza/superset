@@ -1,4 +1,5 @@
 // DODO was here
+
 /** Type checking is disabled for this file due to reselect only supporting
  * TS declarations for selectors with up to 12 arguments. */
 // @ts-nocheck
@@ -11,6 +12,7 @@ import {
   Datasource,
   FilterState,
   JsonObject,
+  Locale, // DODO added 44728892
 } from '../..';
 import {
   HandlerFunction,
@@ -89,6 +91,8 @@ export interface ChartPropsConfig {
   inputRef?: RefObject<any>;
   /** Theme object */
   theme: SupersetTheme;
+  /** User's language */
+  locale?: Locale; // DODO added 44728892
 }
 
 const DEFAULT_WIDTH = 800;
@@ -139,6 +143,8 @@ export default class ChartProps<FormData extends RawFormData = RawFormData> {
 
   theme: SupersetTheme;
 
+  locale: Locale; // DODO added 44728892
+
   constructor(config: ChartPropsConfig & { formData?: FormData } = {}) {
     const {
       annotationData = {},
@@ -160,6 +166,7 @@ export default class ChartProps<FormData extends RawFormData = RawFormData> {
       inContextMenu = false,
       emitCrossFilters = false,
       theme,
+      locale, // DODO added 44728892
     } = config;
     this.width = width;
     this.height = height;
@@ -182,6 +189,7 @@ export default class ChartProps<FormData extends RawFormData = RawFormData> {
     this.inContextMenu = inContextMenu;
     this.emitCrossFilters = emitCrossFilters;
     this.theme = theme;
+    this.locale = locale; // DODO added 44728892
   }
 }
 
@@ -207,6 +215,7 @@ ChartProps.createSelector = function create(): ChartPropsSelector {
     input => input.inContextMenu,
     input => input.emitCrossFilters,
     input => input.theme,
+    input => input.locale, // DODO added 44728892
     (
       annotationData,
       datasource,
@@ -227,6 +236,7 @@ ChartProps.createSelector = function create(): ChartPropsSelector {
       inContextMenu,
       emitCrossFilters,
       theme,
+      locale, // DODO added 44728892
     ) =>
       new ChartProps({
         annotationData,
@@ -248,6 +258,7 @@ ChartProps.createSelector = function create(): ChartPropsSelector {
         inContextMenu,
         emitCrossFilters,
         theme,
+        locale, // DODO added 44728892
       }),
   );
 };
