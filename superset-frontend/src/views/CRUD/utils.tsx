@@ -113,7 +113,8 @@ const createFetchResourceMethod =
             // text === loggedUser.label // DODO commented out 42727850
           ) {
             // DODO added start 42727850
-            loggedUserLabel += ` (${country_name || 'no country'})`;
+            if (resource === 'dashboard')
+              loggedUserLabel += ` (${country_name || 'no country'})`;
             if (user?.email) loggedUserLabel += ` ${user.email}`;
             loggedUser = {
               ...loggedUser,
@@ -124,7 +125,8 @@ const createFetchResourceMethod =
           } else {
             // DODO added start 42727850
             let label = text;
-            label += ` (${country_name || 'no country'})`;
+            if (resource === 'dashboard')
+              label += ` (${country_name || 'no country'})`;
             if (email) label += ` ${email}`;
             // DODO added stop 42727850
 
