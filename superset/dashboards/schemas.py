@@ -216,7 +216,7 @@ class DashboardGetResponseSchema(Schema):
         metadata={"description": dashboard_title_description}
     )
     # dodo added 44120742
-    dashboard_title_RU = fields.String(
+    dashboard_title_ru = fields.String(
         metadata={"description": dashboard_title_ru_description}
     )
     thumbnail_url = fields.String()
@@ -391,7 +391,7 @@ class DashboardPutSchema(BaseDashboardSchema):
         validate=Length(0, 500),
     )
     # dodo added 44120742
-    dashboard_title_RU = fields.String(
+    dashboard_title_ru = fields.String(
         metadata={"description": dashboard_title_ru_description},
         allow_none=True,
         validate=Length(0, 500),

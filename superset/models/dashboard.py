@@ -119,7 +119,7 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
     __tablename__ = "dashboards"
     id = Column(Integer, primary_key=True)
     dashboard_title = Column(String(500))
-    dashboard_title_RU = Column(String(500))  # dodo added 44120746
+    dashboard_title_ru = Column(String(500))  # dodo added 44120746
     position_json = Column(utils.MediumText())
     description = Column(Text)
     css = Column(utils.MediumText())

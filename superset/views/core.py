@@ -54,9 +54,9 @@ from superset.commands.explore.form_data.parameters import CommandParameters
 from superset.commands.explore.permalink.get import GetExplorePermalinkCommand
 from superset.common.chart_data import (  # dodo changed 44120742
     ChartDataResultFormat,
+    ChartDataResultLanguage,
     ChartDataResultType,
-    ChartDataResultLanguage
-    )
+)
 from superset.connectors.sqla.models import BaseDatasource, SqlaTable
 from superset.daos.chart import ChartDAO
 from superset.daos.datasource import DatasourceDAO
@@ -261,7 +261,7 @@ class Superset(BaseSupersetView):
     @etag_cache()
     @check_resource_permissions(check_datasource_perms)
     @deprecated(eol_version="5.0.0")
-    def explore_json(
+    def explore_json(  # pylint: disable=too-many-locals
         self, datasource_type: str | None = None, datasource_id: int | None = None
     ) -> FlaskResponse:
         """Serves all request that GET or POST form_data
@@ -343,18 +343,20 @@ class Superset(BaseSupersetView):
                 force=force,
             )
             # dodo added 44120742
-            column_and_metric_names = dict()
+            column_and_metric_names = {}
             # dodo added 44120742
             if language == ChartDataResultLanguage.RU:
                 for column in viz_obj.datasource.columns:
-                    if column.verbose_name_RU:
-                        column_and_metric_names[
-                            column.column_name] = column.verbose_name_RU
+                    if column.verbose_name_ru:
+                        column_and_metric_names[column.column_name] = (
+                            column.verbose_name_ru
+                        )
 
                 for metric in viz_obj.datasource.metrics:
-                    if metric.verbose_name_RU:
-                        column_and_metric_names[
-                            metric.metric_name] = metric.verbose_name_RU
+                    if metric.verbose_name_ru:
+                        column_and_metric_names[metric.metric_name] = (
+                            metric.verbose_name_ru
+                        )
 
                 metrics_ui = form_data.get("metrics")
                 if metrics_ui:
