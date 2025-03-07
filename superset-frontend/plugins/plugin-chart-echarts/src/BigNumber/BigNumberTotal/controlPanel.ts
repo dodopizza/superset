@@ -1,5 +1,5 @@
 // DODO was here
-import { GenericDataType, SMART_DATE_ID, t } from '@superset-ui/core';
+import { SMART_DATE_ID, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   D3_FORMAT_DOCS,

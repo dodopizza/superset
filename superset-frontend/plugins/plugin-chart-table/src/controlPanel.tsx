@@ -78,77 +78,6 @@ const queryMode: ControlConfig<'RadioButtonControl'> = {
   rerender: ['all_columns', 'groupby', 'metrics', 'percent_metrics'],
 };
 
-// DODO added 44136746
-const columnConfig = {
-  '0': [
-    {
-      tab: 'Display',
-      children: [
-        [
-          'columnWidth',
-          {
-            name: 'horizontalAlign',
-            override: {
-              defaultValue: 'right',
-            },
-          },
-        ],
-        ['showCellBars'],
-        ['alignPositiveNegative'],
-        ['colorPositiveNegative'],
-      ],
-    },
-    {
-      tab: 'Number formatting',
-      children: [
-        ['d3NumberFormat'],
-        ['d3SmallNumberFormat'],
-        ['currencyFormat'],
-      ],
-    },
-    // DODO added 33638561
-    {
-      tab: 'Export',
-      children: [['exportAsTime']],
-    },
-  ],
-  '1': [
-    [
-      'columnWidth',
-      {
-        name: 'horizontalAlign',
-        override: {
-          defaultValue: 'left',
-        },
-      },
-    ],
-    ['truncateLongCells'],
-  ],
-  '2': [
-    [
-      'columnWidth',
-      {
-        name: 'horizontalAlign',
-        override: {
-          defaultValue: 'left',
-        },
-      },
-    ],
-    ['d3TimeFormat'],
-  ],
-  '3': [
-    [
-      'columnWidth',
-      {
-        name: 'horizontalAlign',
-        override: {
-          defaultValue: 'left',
-        },
-      },
-    ],
-  ],
-};
-
 const allColumnsControl: typeof sharedControls.groupby = {
   ...sharedControls.groupby,
   label: t('Columns'),
@@ -521,7 +450,6 @@ const config: ControlPanelConfig = {
               width: 400,
               height: 347, // DODO changed 45525377
               renderTrigger: true,
-              configFormLayout: columnConfig, // DODO added 44136746
               shouldMapStateToProps() {
                 return true;
               },

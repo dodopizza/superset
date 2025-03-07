@@ -46,6 +46,11 @@ export const TABLE_CONFIG_FORM_LAYOUT = {
         ['currencyFormat'],
       ],
     },
+    // DODO added 33638561
+    {
+      tab: 'Export',
+      children: [['exportAsTime']],
+    },
   ],
   [GenericDataType.Temporal]: [
     [

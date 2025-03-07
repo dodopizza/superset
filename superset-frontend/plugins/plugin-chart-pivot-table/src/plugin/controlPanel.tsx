@@ -28,18 +28,11 @@ const columnConfig = {
     ['aggregation'],
     ['hideValueInTotal'],
     ['pinColumn'],
+    ['exportAsTime'], // DODO added 44136746
   ],
   '1': [['pinColumn']],
   '2': [['pinColumn']],
   '3': [['pinColumn']],
-};
-
-// DODO added 44136746
-const columnConfig = {
-  '0': [['exportAsTime']],
-  '1': [],
-  '2': [],
-  '3': [],
 };
 
 const config: ControlPanelConfig = {
