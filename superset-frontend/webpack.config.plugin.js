@@ -63,6 +63,7 @@ const FULL_ENV = {
   ...envKeys,
   'process.env.WEBPACK_MODE': JSON.stringify(mode),
   'process.env.APP_VERSION': JSON.stringify(APP_VERSION),
+  'process.env.DEV_STAND': JSON.stringify(process.env.DEV_STAND),
 };
 
 const publicPath = FULL_ENV['process.env.publicPath'].split('"').join('');
@@ -137,12 +138,12 @@ const plugins = [
   }),
 
   // expose mode variable to other modules
-  new webpack.DefinePlugin({
-    'process.env.WEBPACK_MODE': JSON.stringify(mode),
-    // 'process.env.REDUX_DEFAULT_MIDDLEWARE':
-    //   process.env.REDUX_DEFAULT_MIDDLEWARE,
-    // 'process.env.SCARF_ANALYTICS': JSON.stringify(process.env.SCARF_ANALYTICS),
-  }),
+  // new webpack.DefinePlugin({
+  //   'process.env.WEBPACK_MODE': JSON.stringify(mode),
+  //   'process.env.REDUX_DEFAULT_MIDDLEWARE':
+  //     process.env.REDUX_DEFAULT_MIDDLEWARE,
+  //   'process.env.SCARF_ANALYTICS': JSON.stringify(process.env.SCARF_ANALYTICS),
+  // }),
 
   // new CopyPlugin({
   //   patterns: [
