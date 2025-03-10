@@ -16,15 +16,17 @@ setupApp();
 
 const App = ({ store, dashboardIdOrSlug }) => (
   <RollbarProvider config={ROLLBAR_CONFIG}>
-    <Provider store={store}>
-      <DndProvider backend={HTML5Backend} context={window}>
-        <ThemeProvider theme={theme}>
-          <DynamicPluginProvider>
-            <DashboardPage idOrSlug={dashboardIdOrSlug} />
-          </DynamicPluginProvider>
-        </ThemeProvider>
-      </DndProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <DndProvider backend={HTML5Backend} context={window}>
+          <ThemeProvider theme={theme}>
+            <DynamicPluginProvider>
+              <DashboardPage idOrSlug={dashboardIdOrSlug} />
+            </DynamicPluginProvider>
+          </ThemeProvider>
+        </DndProvider>
+      </Provider>
+    </ErrorBoundary>
   </RollbarProvider>
 );
 
