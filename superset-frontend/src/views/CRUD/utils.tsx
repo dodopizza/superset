@@ -113,7 +113,7 @@ const createFetchResourceMethod =
             // text === loggedUser.label // DODO commented out 42727850
           ) {
             // DODO added start 42727850
-            if (resource === 'dashboard' && relation === 'owners')
+            if (relation === 'owners')
               loggedUserLabel += ` (${country_name || 'no country'})`;
             if (user?.email) loggedUserLabel += ` ${user.email}`;
             loggedUser = {

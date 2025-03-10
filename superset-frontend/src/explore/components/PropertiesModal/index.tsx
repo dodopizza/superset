@@ -37,6 +37,13 @@ export type PropertiesModalProps = {
   addSuccessToast: (msg: string) => void;
 };
 
+// DODO added 42727850
+interface IExtra {
+  active: boolean;
+  email: string;
+  country_name: string;
+}
+
 const FormItem = AntdForm.Item;
 
 const StyledFormItem = styled(AntdForm.Item)`
@@ -118,11 +125,25 @@ function PropertiesModal({
           endpoint: `/api/v1/chart/related/owners?q=${query}`,
         }).then(response => ({
           data: response.json.result
-            .filter((item: { extra: { active: boolean } }) => item.extra.active)
-            .map((item: { value: number; text: string }) => ({
-              value: item.value,
-              label: item.text,
-            })),
+            .filter((item: { extra: Partial<IExtra> }) => item.extra.active)
+            .map(
+              (item: {
+                value: number;
+                text: string;
+                extra: Partial<IExtra>;
+              }) => {
+                // DODO added start 42727850
+                const { country_name, email } = item.extra;
+                let label = item.text;
+                label += ` (${country_name || 'no country'})`;
+                if (email) label += ` ${email}`;
+                // DODO added stop 42727850
+                return {
+                  value: item.value,
+                  label,
+                };
+              },
+            ),
           totalCount: response.json.count,
         }));
       },

@@ -568,10 +568,18 @@ function OwnersSelector({ datasource, onChange }) {
     }).then(response => ({
       data: response.json.result
         .filter(item => item.extra.active)
-        .map(item => ({
-          value: item.value,
-          label: item.text,
-        })),
+        .map(item => {
+          // DODO added start 42727850
+          const { country_name, email } = item.extra;
+          let label = item.text;
+          label += ` (${country_name || 'no country'})`;
+          if (email) label += ` ${email}`;
+          // DODO added stop 42727850
+          return {
+            value: item.value,
+            label,
+          };
+        }),
       totalCount: response.json.count,
     }));
   }, []);
