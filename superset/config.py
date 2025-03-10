@@ -1692,7 +1692,12 @@ TALISMAN_DEV_CONFIG = {
             "'self'",
             "'unsafe-inline'",
         ],
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
+        "script-src": [
+            "'self'", 
+            "'unsafe-inline'", 
+            "'unsafe-eval'", 
+            "https://www.googletagmanager.com",
+        ],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
@@ -1993,5 +1998,8 @@ CONTENT_SECURITY_POLICY = {
         "https://identitytoolkit.googleapis.com",  # Firebase Auth API
     ],
     "font-src": ["'self'", "data:"],
-    "frame-src": ["'self'", "https://*.firebaseapp.com"],  # Allow Firebase-related frames
+    "frame-src": [
+        "'self'", 
+        "https://*.firebaseapp.com", # Allow Firebase-related frames
+    ],
 }
