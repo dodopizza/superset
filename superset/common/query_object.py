@@ -338,6 +338,7 @@ class QueryObject:  # pylint: disable=too-many-instance-attributes
             "series_limit_metric": self.series_limit_metric,
             "to_dttm": self.to_dttm,
             "time_shift": self.time_shift,
+            "time_range_end_type": self.time_range_end_type,
         }
         return query_object_dict
 
