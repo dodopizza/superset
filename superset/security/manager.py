@@ -1117,7 +1117,7 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         """
         query = self.get_session.query(Role).filter(Role.name.in_(role_names))
         return query.all()
-    
+
     def copy_role(
         self, role_from_name: str, role_to_name: str, merge: bool = True
     ) -> None:

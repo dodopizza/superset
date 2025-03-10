@@ -16,8 +16,8 @@
 # under the License.
 from __future__ import annotations
 
-from collections import Counter
 import logging
+from collections import Counter
 from typing import Any, Optional, TYPE_CHECKING
 
 from flask import g
