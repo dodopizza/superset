@@ -249,6 +249,9 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "owners": RelatedFieldFilter("first_name", FilterRelatedOwners),
         "database": "database_name",
     }
+    extra_fields_rel_fields: dict[str, list[str]] = {
+        "owners": ["email", "user_info.country_name", "active"]
+    }
     search_filters = {
         "sql": [DatasetIsNullOrEmptyFilter],
         "id": [DatasetCertifiedFilter],
