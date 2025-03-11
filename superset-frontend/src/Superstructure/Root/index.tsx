@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -65,6 +65,10 @@ import {
 
 setupClient();
 setupPlugins();
+
+export const PluginContext = createContext<{ leftNavigation: boolean }>({
+  leftNavigation: false,
+});
 
 const StyledCollapseBtn = styled.button<{
   isVisible: boolean;
@@ -497,6 +501,11 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
   );
 
+  const pluginContextValue = useMemo(
+    () => ({ leftNavigation: isVisible }),
+    [isVisible],
+  );
+
   if (isError) {
     return (
       <>
@@ -511,7 +520,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   }
 
   return (
-    <div>
+    <PluginContext.Provider value={pluginContextValue}>
       <Version appVersion={APP_VERSION} />
       <ContentWrapper>
         {!isLoaded || !isFullConfigReady ? (
@@ -554,6 +563,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
           </RootComponentWrapper>
         )}
       </ContentWrapper>
-    </div>
+    </PluginContext.Provider>
   );
 };

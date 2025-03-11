@@ -1,24 +1,15 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-env browser */
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   addAlpha,
   css,
@@ -77,6 +68,7 @@ import {
   EMPTY_CONTAINER_Z_INDEX,
 } from 'src/dashboard/constants';
 import BasicErrorAlert from 'src/components/ErrorMessage/BasicErrorAlert';
+import { PluginContext } from 'src/Superstructure/Root'; // DODO added 47089618
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -101,14 +93,19 @@ const StickyPanel = styled.div<{ width: number }>`
 `;
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
-const StyledHeader = styled.div`
-  ${({ theme }) => css`
+const StyledHeader = styled.div<{
+  filterBarWidth: number; // DODO added 47089618
+  leftNavigation: boolean; // DODO added 47089618
+}>`
+  ${({ theme, filterBarWidth, leftNavigation }) => css`
     grid-column: 2;
     grid-row: 1;
     position: sticky;
     top: 0;
     z-index: 100;
-    max-width: 100vw;
+    // max-width: 100vw;
+    // DODO changed 47089618
+    max-width: calc(100vw - ${filterBarWidth}px - ${leftNavigation ? 15 : 0}%);
 
     .empty-droptarget:before {
       position: absolute;
@@ -375,6 +372,8 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const uiConfig = useUiConfig();
   const theme = useTheme();
 
+  const { leftNavigation } = useContext(PluginContext); // DODO added 47089618
+
   const dashboardId = useSelector<RootState, string>(
     ({ dashboardInfo }) => `${dashboardInfo.id}`,
   );
@@ -441,6 +440,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     isReport;
 
   const [barTopOffset, setBarTopOffset] = useState(0);
+  const [filterBarWidth, setFilterBarWidth] = useState(OPEN_FILTER_BAR_WIDTH); // DODO added 47089618
 
   useEffect(() => {
     setBarTopOffset(headerRef.current?.getBoundingClientRect()?.height || 0);
@@ -597,6 +597,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
                 const filterBarWidth = dashboardFiltersOpen
                   ? adjustedWidth
                   : CLOSED_FILTER_BAR_WIDTH;
+                setFilterBarWidth(filterBarWidth); // DODO added 47089618
                 return (
                   <FiltersPanel
                     width={filterBarWidth}
@@ -623,7 +624,11 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             </ResizableSidebar>
           </>
         )}
-      <StyledHeader ref={headerRef}>
+      <StyledHeader
+        ref={headerRef}
+        filterBarWidth={filterBarWidth} // DODO added 47089618
+        leftNavigation={leftNavigation} // DODO added 47089618
+      >
         {/* @ts-ignore */}
         <Droppable
           data-test="top-level-tabs"
