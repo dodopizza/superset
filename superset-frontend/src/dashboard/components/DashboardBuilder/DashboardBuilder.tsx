@@ -5,6 +5,7 @@ import cx from 'classnames';
 import React, {
   FC,
   useCallback,
+  useContext, // DODO added
   useEffect,
   useMemo,
   useRef,
@@ -68,6 +69,7 @@ import {
   OPEN_FILTER_BAR_WIDTH,
 } from 'src/dashboard/constants';
 import { bootstrapData } from 'src/preamble';
+import { PluginContext } from 'src/Superstructure/Root'; // DODO added
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -160,13 +162,18 @@ const StickyPanel = styled.div<{ width: number }>`
 `;
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
-const StyledHeader = styled.div`
+const StyledHeader = styled.div<{
+  filterBarWidth: number; // DODO added
+  leftNavigation: boolean; // DODO added
+}>`
   grid-column: 2;
   grid-row: 1;
   position: sticky;
   top: 0;
   z-index: 100;
-  max-width: 100vw;
+  // DODO changed
+  max-width: ${({ filterBarWidth, leftNavigation }) =>
+    `calc(100vw - ${filterBarWidth}px - ${leftNavigation ? 15 : 0}%`});
 `;
 
 const StyledContent = styled.div<{
@@ -420,6 +427,8 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const uiConfig = useUiConfig();
   const theme = useTheme();
 
+  const { leftNavigation } = useContext(PluginContext); // DODO added
+
   const dashboardId = useSelector<RootState, string>(
     ({ dashboardInfo }) => `${dashboardInfo.id}`,
   );
@@ -485,6 +494,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     isReport;
 
   const [barTopOffset, setBarTopOffset] = useState(0);
+  const [filterBarWidth, setFilterBarWidth] = useState(OPEN_FILTER_BAR_WIDTH); // DODO added
 
   useEffect(() => {
     setBarTopOffset(headerRef.current?.getBoundingClientRect()?.height || 0);
@@ -648,6 +658,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               const filterBarWidth = dashboardFiltersOpen
                 ? adjustedWidth
                 : CLOSED_FILTER_BAR_WIDTH;
+              setFilterBarWidth(filterBarWidth); // DODO added
               return (
                 <FiltersPanel
                   width={filterBarWidth}
@@ -674,7 +685,11 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           </ResizableSidebar>
         </>
       )}
-      <StyledHeader ref={headerRef}>
+      <StyledHeader
+        ref={headerRef}
+        filterBarWidth={filterBarWidth} // DODO added
+        leftNavigation={leftNavigation} // DODO added
+      >
         {/* @ts-ignore */}
         <DragDroppable
           data-test="top-level-tabs"

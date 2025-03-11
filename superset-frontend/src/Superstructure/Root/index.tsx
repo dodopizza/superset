@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -63,6 +63,10 @@ import {
 } from '../../DodoExtensions/utils/annotationUtils';
 
 setupClient();
+
+export const PluginContext = createContext<{ leftNavigation: boolean }>({
+  leftNavigation: false,
+});
 
 const StyledCollapseBtn = styled.button<{
   isVisible: boolean;
@@ -512,49 +516,51 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
   return (
     <div>
-      <Version appVersion={APP_VERSION} />
-      <ContentWrapper>
-        {!isLoaded || !isFullConfigReady ? (
-          <Loading />
-        ) : (
-          <RootComponentWrapper withNavigation={withNavigation}>
-            <Router>
-              {withNavigation && (
-                <LeftNavigation
-                  routes={FULL_CONFIG.routes}
-                  baseRoute={FULL_CONFIG.basename}
-                  stylesConfig={stylesConfig}
-                  language={userLanguage}
-                  isVisible={isVisible}
-                  // onNavigate={closeLeftNavigation} // DODO added #33605679
-                />
-              )}
-              <DashboardComponentWrapper
-                withNavigation={withNavigation && isVisible}
-              >
+      <PluginContext.Provider value={{ leftNavigation: isVisible }}>
+        <Version appVersion={APP_VERSION} />
+        <ContentWrapper>
+          {!isLoaded || !isFullConfigReady ? (
+            <Loading />
+          ) : (
+            <RootComponentWrapper withNavigation={withNavigation}>
+              <Router>
                 {withNavigation && (
-                  <StyledCollapseBtn
-                    type="button"
-                    onClick={() => setIsVisible(!isVisible)}
+                  <LeftNavigation
+                    routes={FULL_CONFIG.routes}
+                    baseRoute={FULL_CONFIG.basename}
+                    stylesConfig={stylesConfig}
+                    language={userLanguage}
                     isVisible={isVisible}
-                  >
-                    {isVisible && <Icons.Expand />}
-                    {!isVisible && <Icons.Collapse />}
-                  </StyledCollapseBtn>
+                    // onNavigate={closeLeftNavigation} // DODO added #33605679
+                  />
                 )}
-                <Main
-                  routes={FULL_CONFIG.routes}
-                  store={store}
-                  basename={FULL_CONFIG.basename}
-                  stylesConfig={stylesConfig}
-                  annotationMessages={annotationsObjects}
-                  startDashboardId={startDashboard}
-                />
-              </DashboardComponentWrapper>
-            </Router>
-          </RootComponentWrapper>
-        )}
-      </ContentWrapper>
+                <DashboardComponentWrapper
+                  withNavigation={withNavigation && isVisible}
+                >
+                  {withNavigation && (
+                    <StyledCollapseBtn
+                      type="button"
+                      onClick={() => setIsVisible(!isVisible)}
+                      isVisible={isVisible}
+                    >
+                      {isVisible && <Icons.Expand />}
+                      {!isVisible && <Icons.Collapse />}
+                    </StyledCollapseBtn>
+                  )}
+                  <Main
+                    routes={FULL_CONFIG.routes}
+                    store={store}
+                    basename={FULL_CONFIG.basename}
+                    stylesConfig={stylesConfig}
+                    annotationMessages={annotationsObjects}
+                    startDashboardId={startDashboard}
+                  />
+                </DashboardComponentWrapper>
+              </Router>
+            </RootComponentWrapper>
+          )}
+        </ContentWrapper>
+      </PluginContext.Provider>
     </div>
   );
 };
