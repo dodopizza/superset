@@ -570,9 +570,9 @@ function OwnersSelector({ datasource, onChange }) {
         .filter(item => item.extra.active)
         .map(item => {
           // DODO added start 42727850
-          const { country_name, email } = item.extra;
+          const { country_name: countryName, email } = item.extra;
           let label = item.text;
-          label += ` (${country_name || 'no country'})`;
+          label += ` (${countryName || 'no country'})`;
           if (email) label += ` ${email}`;
           // DODO added stop 42727850
           return {
