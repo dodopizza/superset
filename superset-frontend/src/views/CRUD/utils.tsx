@@ -125,7 +125,7 @@ const createFetchResourceMethod =
           } else {
             // DODO added start 42727850
             let label = text;
-            if (resource === 'dashboard' && relation === 'owners')
+            if (relation === 'owners')
               label += ` (${country_name || 'no country'})`;
             if (email) label += ` ${email}`;
             // DODO added stop 42727850
