@@ -2000,6 +2000,6 @@ CONTENT_SECURITY_POLICY = {
     "font-src": ["'self'", "data:"],
     "frame-src": [
         "'self'",
-        "https://*.firebaseapp.com", # Allow Firebase-related frames
+        "https://*.firebaseapp.com",  # Allow Firebase-related frames
     ],
 }
