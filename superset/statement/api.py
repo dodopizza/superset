@@ -109,27 +109,27 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @statsd_metrics
     # pylint: disable=arguments-differ
     def get(self, pk: int) -> Response:
-        """Gets Teams
+        """Gets a Statement by ID
         ---
         get:
           description: >-
-            Get a teams
+            Get a statement by ID
           parameters:
           - in: path
             schema:
-              type: string
-            name: id_or_slug
-            description: Either the id of the dashboard, or its slug
+              type: integer
+            name: pk
+            description: The ID of the statement
           responses:
             200:
-              description: Dashboard
+              description: Statement
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
                       result:
-                        $ref: '#/components/schemas/DashboardGetResponseSchema'
+                        $ref: '#/components/schemas/StatementGetResponseSchema'
             400:
               $ref: '#/components/responses/400'
             401:
@@ -156,13 +156,13 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @safe
     @statsd_metrics
     def post(self) -> Response:
-        """Creates a new Dashboard
+        """Creates a new Statement
         ---
         post:
           description: >-
-            Create a new Dashboard.
+            Create a new Statement.
           requestBody:
-            description: Dashboard schema
+            description: Statement schema
             required: true
             content:
               application/json:
@@ -170,22 +170,22 @@ class StatementRestApi(BaseSupersetModelRestApi):
                   $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
           responses:
             201:
-              description: Dashboard added
+              description: Statement added
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
-                      id:
-                        type: number
-                      result:
-                        $ref: '#/components/schemas/{{self.__class__.__name__}}.post'
+                      is_onboarding_finished:
+                        type: boolean
             400:
               $ref: '#/components/responses/400'
             401:
               $ref: '#/components/responses/401'
             404:
               $ref: '#/components/responses/404'
+            422:
+              $ref: '#/components/responses/422'
             500:
               $ref: '#/components/responses/500'
         """
@@ -221,18 +221,19 @@ class StatementRestApi(BaseSupersetModelRestApi):
     @safe
     @statsd_metrics
     def put(self, pk: int) -> Response:  # pylint: disable=too-many-locals
-        """Changes a Statement
+        """Updates a Statement
         ---
         put:
           description: >-
-            Changes a Statement.
+            Updates an existing Statement. Can mark it as finished and update the team assignment.
           parameters:
           - in: path
             schema:
               type: integer
             name: pk
+            description: The Statement ID
           requestBody:
-            description: Dashboard schema
+            description: Statement update schema
             required: true
             content:
               application/json:
@@ -240,18 +241,18 @@ class StatementRestApi(BaseSupersetModelRestApi):
                   $ref: '#/components/schemas/{{self.__class__.__name__}}.put'
           responses:
             200:
-              description: Dashboard changed
+              description: Statement updated successfully
               content:
                 application/json:
                   schema:
                     type: object
                     properties:
                       id:
-                        type: number
+                        type: integer
+                        description: The ID of the updated Statement
                       result:
                         $ref: '#/components/schemas/{{self.__class__.__name__}}.put'
-                      last_modified_time:
-                        type: number
+                        description: The updated Statement data
             400:
               $ref: '#/components/responses/400'
             401:
