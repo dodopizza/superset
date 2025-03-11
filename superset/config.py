@@ -1693,9 +1693,9 @@ TALISMAN_DEV_CONFIG = {
             "'unsafe-inline'",
         ],
         "script-src": [
-            "'self'", 
-            "'unsafe-inline'", 
-            "'unsafe-eval'", 
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
             "https://www.googletagmanager.com",
         ],
     },
@@ -1999,7 +1999,7 @@ CONTENT_SECURITY_POLICY = {
     ],
     "font-src": ["'self'", "data:"],
     "frame-src": [
-        "'self'", 
+        "'self'",
         "https://*.firebaseapp.com", # Allow Firebase-related frames
     ],
 }
