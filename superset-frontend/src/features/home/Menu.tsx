@@ -409,18 +409,15 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
         settings.push(newItem);
       }
     });
-
   // DODO added start 44211792
   const user = useSelector(getUserInfo);
-  if (user.roles) {
-    if (user.roles.Admin) {
-      cleanedMenu.push(...onboardingMenuAdminItems());
-      cleanedMenu.push({
-        label: t('Tags'),
-        name: 'tags',
-        url: '/superset/tags/',
-      });
-    }
+  if (user.roles?.Admin) {
+    cleanedMenu.push(...onboardingMenuAdminItems());
+    cleanedMenu.push({
+      label: t('Tags'),
+      name: 'tags',
+      url: '/superset/tags/',
+    });
   }
   // DODO added stop 44211792
 
