@@ -5,9 +5,8 @@ import cx from 'classnames';
 import React, {
   FC,
   useCallback,
-  useContext, // DODO added
   useEffect,
-  useMemo,
+  // useMemo, // DODO commented out 47089618
   useRef,
   useState,
 } from 'react';
@@ -69,7 +68,6 @@ import {
   OPEN_FILTER_BAR_WIDTH,
 } from 'src/dashboard/constants';
 import { bootstrapData } from 'src/preamble';
-import { PluginContext } from 'src/Superstructure/Root'; // DODO added
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -163,17 +161,18 @@ const StickyPanel = styled.div<{ width: number }>`
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
 const StyledHeader = styled.div<{
-  filterBarWidth: number; // DODO added
-  leftNavigation: boolean; // DODO added
+  dashboardFiltersOpen: boolean; // DODO added
 }>`
-  grid-column: 2;
+  grid-column: ${({ dashboardFiltersOpen }) =>
+    dashboardFiltersOpen ? '2' : '1 / span 2'};
   grid-row: 1;
   position: sticky;
   top: 0;
   z-index: 100;
-  // DODO changed
-  max-width: ${({ filterBarWidth, leftNavigation }) =>
-    `calc(100vw - ${filterBarWidth}px - ${leftNavigation ? 15 : 0}%`});
+  // max-width: 100vw;
+  // DODO changed 47089618
+  max-width: 100%;
+  overflow-x: hidden; // DODO added 47089618
 `;
 
 const StyledContent = styled.div<{
@@ -427,8 +426,6 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const uiConfig = useUiConfig();
   const theme = useTheme();
 
-  const { leftNavigation } = useContext(PluginContext); // DODO added
-
   const dashboardId = useSelector<RootState, string>(
     ({ dashboardInfo }) => `${dashboardInfo.id}`,
   );
@@ -494,7 +491,6 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
     isReport;
 
   const [barTopOffset, setBarTopOffset] = useState(0);
-  const [filterBarWidth, setFilterBarWidth] = useState(OPEN_FILTER_BAR_WIDTH); // DODO added
 
   useEffect(() => {
     setBarTopOffset(headerRef.current?.getBoundingClientRect()?.height || 0);
@@ -542,23 +538,24 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const filterBarHeight = `calc(100vh - ${offset}px)`;
   const filterBarOffset = dashboardFiltersOpen ? 0 : barTopOffset + 20;
 
-  const draggableStyle = useMemo(
-    () => ({
-      marginLeft:
-        dashboardFiltersOpen ||
-        editMode ||
-        !nativeFiltersEnabled ||
-        filterBarOrientation === FilterBarOrientation.HORIZONTAL
-          ? 0
-          : -32,
-    }),
-    [
-      dashboardFiltersOpen,
-      editMode,
-      filterBarOrientation,
-      nativeFiltersEnabled,
-    ],
-  );
+  // DODO commented out 47089618
+  // const draggableStyle = useMemo(
+  //   () => ({
+  //     marginLeft:
+  //       dashboardFiltersOpen ||
+  //       editMode ||
+  //       !nativeFiltersEnabled ||
+  //       filterBarOrientation === FilterBarOrientation.HORIZONTAL
+  //         ? 0
+  //         : -32,
+  //   }),
+  //   [
+  //     dashboardFiltersOpen,
+  //     editMode,
+  //     filterBarOrientation,
+  //     nativeFiltersEnabled,
+  //   ],
+  // );
 
   // If a new tab was added, update the directPathToChild to reflect it
   const currentTopLevelTabs = useRef(topLevelTabs);
@@ -658,7 +655,6 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               const filterBarWidth = dashboardFiltersOpen
                 ? adjustedWidth
                 : CLOSED_FILTER_BAR_WIDTH;
-              setFilterBarWidth(filterBarWidth); // DODO added
               return (
                 <FiltersPanel
                   width={filterBarWidth}
@@ -687,8 +683,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
       )}
       <StyledHeader
         ref={headerRef}
-        filterBarWidth={filterBarWidth} // DODO added
-        leftNavigation={leftNavigation} // DODO added
+        dashboardFiltersOpen={dashboardFiltersOpen} // DODO added 47089618
       >
         {/* @ts-ignore */}
         <DragDroppable
@@ -702,7 +697,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           editMode={editMode}
           // you cannot drop on/displace tabs if they already exist
           disableDragDrop={!!topLevelTabs}
-          style={draggableStyle}
+          // style={draggableStyle} // DODO commented out 47089618
         >
           {renderDraggableContent}
         </DragDroppable>
