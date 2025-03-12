@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { styled } from '@superset-ui/core';
 
@@ -65,10 +65,6 @@ import {
 
 setupClient();
 setupPlugins();
-
-export const PluginContext = createContext<{ leftNavigation: boolean }>({
-  leftNavigation: false,
-});
 
 const StyledCollapseBtn = styled.button<{
   isVisible: boolean;
@@ -520,7 +516,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   }
 
   return (
-    <PluginContext.Provider value={pluginContextValue}>
+    <>
       <Version appVersion={APP_VERSION} />
       <ContentWrapper>
         {!isLoaded || !isFullConfigReady ? (
@@ -563,6 +559,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
           </RootComponentWrapper>
         )}
       </ContentWrapper>
-    </PluginContext.Provider>
+    </>
   );
 };
