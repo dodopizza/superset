@@ -182,6 +182,8 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.views.sqllab import SqllabView
         from superset.views.tags import TagModelView, TagView
         from superset.views.users.api import CurrentUserRestApi, UserRestApi
+        from superset.views.statement.views import StatementModelView
+        from superset.views.team.views import TeamModelView
 
         set_app_error_handlers(self.superset_app)
 
@@ -286,6 +288,23 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             icon="fa-css3",
             category="Manage",
             category_label=__("Manage"),
+            category_icon="",
+        )
+
+        appbuilder.add_view(
+            StatementModelView,
+            "Statements",
+            label=__("Statements"),
+            icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TeamModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
+            category="",
             category_icon="",
         )
 
