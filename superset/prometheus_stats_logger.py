@@ -32,17 +32,20 @@ try:
             self._user_activity = Counter(
                 f"{self.prefix}_user_activity",
                 "User activity counter",
-                labelnames=["user_id", "action", "dashboard_id"],
+                labelnames=["user_id", "action", "dashboard_id", "slice_id"],
             )
 
         def incr(self, key: str) -> None:
             self._counter.labels(key=key).inc()
 
         def user_activity(
-            self, user_id: Optional[int], action: str, dashboard_id: Optional[int]
+            self, user_id: Optional[int], action: str, dashboard_id: Optional[int], slice_id: Optional[int]
         ) -> None:
             self._user_activity.labels(
-                user_id=user_id, action=action, dashboard_id=dashboard_id
+                user_id=user_id,
+                action=action,
+                dashboard_id=dashboard_id,
+                slice_id=slice_id
             ).inc()
 
         def decr(self, key: str) -> None:
