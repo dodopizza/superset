@@ -44,9 +44,11 @@ try:
             # Start with the base label
             label_values = {"key": key}
 
-            # Add any additional labels provided
+            # Add only the labels that match the defined labelnames
             if labels:
-                label_values.update(labels)
+                for label_name in self._counter._labelnames:  # Use the defined labelnames
+                    if label_name in labels:
+                        label_values[label_name] = labels[label_name]
 
             # Increment the counter with the combined labels
             self._counter.labels(**label_values).inc()
