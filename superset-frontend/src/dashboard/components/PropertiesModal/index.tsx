@@ -34,6 +34,8 @@ import {
   OBJECT_TYPES,
 } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
+import Owner from 'src/types/Owner'; // DODO added 42727850
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -270,18 +272,12 @@ const PropertiesModal = ({
     setRoles(parsedRoles);
   };
 
+  // DODO changed 42727850
   const handleOwnersSelectValue = () => {
-    const parsedOwners = (owners || []).map(
-      (owner: {
-        id: number;
-        first_name?: string;
-        last_name?: string;
-        full_name?: string;
-      }) => ({
-        value: owner.id,
-        label: owner.full_name || `${owner.first_name} ${owner.last_name}`,
-      }),
-    );
+    const parsedOwners = (owners || []).map((owner: Owner) => ({
+      value: owner.id,
+      label: getOwnerName(owner),
+    }));
     return parsedOwners;
   };
 

@@ -25,6 +25,7 @@ import {
 } from 'src/features/tags/tags';
 import TagType from 'src/types/TagType';
 import { useSelector } from 'react-redux';
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
 import { getUserInfo } from '../../../DodoExtensions/onBoarding/model/selectors/getUserInfo';
 
 export type PropertiesModalProps = {
@@ -102,7 +103,7 @@ function PropertiesModal({
         setSelectedOwners(
           chart?.owners?.map((owner: any) => ({
             value: owner.id,
-            label: `${owner.first_name} ${owner.last_name}`,
+            label: getOwnerName(owner), // DODO changed 42727850
           })),
         );
       } catch (response) {
