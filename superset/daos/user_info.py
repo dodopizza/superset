@@ -71,12 +71,12 @@ class UserInfoDAO(BaseDAO[UserInfo]):
                 onboarding_started_time=started_time,
             )
             db.session.add(user_info)
-            db.session.commit()
+            db.session.commit()  # pylint: disable=consider-using-transaction
             return True
 
         except SQLAlchemyError as ex:
             logger.error("Database error creating onboarding: %s", str(ex))
-            db.session.rollback()
+            db.session.rollback()  # pylint: disable=consider-using-transaction
             return False
         except Exception as ex:  # pylint: disable=broad-except
             logger.error("Failed to create onboarding: %s", str(ex))
@@ -93,7 +93,7 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             )
             user_info.dodo_role = dodo_role
             user_info.onboarding_started_time = started_time
-            db.session.commit()
+            db.session.commit()  # pylint: disable=consider-using-transaction
         except AttributeError:
             UserInfoDAO.create_onboarding(dodo_role, started_time)
 
@@ -126,7 +126,7 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             return True
         except SQLAlchemyError as ex:
             logger.error("Database error finishing onboarding: %s", str(ex))
-            db.session.rollback()
+            db.session.rollback()  # pylint: disable=consider-using-transaction
             return False
 
     @staticmethod
@@ -150,11 +150,11 @@ class UserInfoDAO(BaseDAO[UserInfo]):
             model.user_id = user_id
             try:
                 db.session.add(model)
-                db.session.commit()
+                db.session.commit()  # pylint: disable=consider-using-transaction
                 return True
             except SQLAlchemyError as ex:
                 logger.error("Database error creating user info: %s", str(ex))
-                db.session.rollback()
+                db.session.rollback()  # pylint: disable=consider-using-transaction
                 return False
         except Exception as ex:  # pylint: disable=broad-except
             logger.error("Failed to create user info: %s", str(ex))

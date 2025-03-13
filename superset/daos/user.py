@@ -49,8 +49,8 @@ class UserDAO(BaseDAO[User]):
         user.roles = roles
         try:
             db.session.merge(user)
-            db.session.commit()
+            db.session.commit()  # pylint: disable=consider-using-transaction
         except SQLAlchemyError as ex:  # pragma: no cover
-            db.session.rollback()
+            db.session.rollback()  # pylint: disable=consider-using-transaction
             logger.exception(ex)
         return user

@@ -180,10 +180,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             TabStateView,
         )
         from superset.views.sqllab import SqllabView
-        from superset.views.tags import TagModelView, TagView
-        from superset.views.users.api import CurrentUserRestApi, UserRestApi
         from superset.views.statement.views import StatementModelView
+        from superset.views.tags import TagModelView, TagView
         from superset.views.team.views import TeamModelView
+        from superset.views.users.api import CurrentUserRestApi, UserRestApi
 
         set_app_error_handlers(self.superset_app)
 
