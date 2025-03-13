@@ -41,6 +41,7 @@ import NumberFormatControl from 'src/DodoExtensions/explore/components/controls/
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 
 const DatasourceContainer = styled.div`
   .change-warning {
@@ -587,7 +588,7 @@ class DatasourceEditor extends PureComponent {
         ...props.datasource,
         owners: props.datasource.owners.map(owner => ({
           value: owner.value || owner.id,
-          label: owner.label || `${owner.first_name} ${owner.last_name}`,
+          label: owner.label || getOwnerName(owner), // DODO changed 44211759
         })),
         metrics: props.datasource.metrics?.map(metric => {
           const {

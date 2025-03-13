@@ -21,6 +21,7 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import { loadTags } from 'src/components/Tags/utils';
 import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
 import TagType from 'src/types/TagType';
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 
 export type PropertiesModalProps = {
   slice: Slice;
@@ -96,7 +97,7 @@ function PropertiesModal({
         setSelectedOwners(
           chart?.owners?.map((owner: any) => ({
             value: owner.id,
-            label: `${owner.first_name} ${owner.last_name}`,
+            label: getOwnerName(owner), // DODO changed 44211759
           })),
         );
       } catch (response) {
