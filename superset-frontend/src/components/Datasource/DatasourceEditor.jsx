@@ -38,10 +38,10 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
 import NumberFormatControl from 'src/DodoExtensions/explore/components/controls/NumberFormatControl'; // DODO added 44211769
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
-import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 
 const DatasourceContainer = styled.div`
   .change-warning {
