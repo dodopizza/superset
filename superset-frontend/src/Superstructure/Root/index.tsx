@@ -497,11 +497,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     [FULL_CONFIG.routes.length, FULL_CONFIG.showNavigationMenu],
   );
 
-  const pluginContextValue = useMemo(
-    () => ({ leftNavigation: isVisible }),
-    [isVisible],
-  );
-
   if (isError) {
     return (
       <>
