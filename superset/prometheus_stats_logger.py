@@ -101,7 +101,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
             key (str): The metric key to increment.
         """
         self._user_activity.labels(
-            user_id="anonymous", action=key, dashboard_id="none", slice_id="none", is_plugin=None
+            user_id="unknown", action=key, dashboard_id="none", slice_id="none", is_plugin=None
         ).inc()
 
     def user_activity(
@@ -123,7 +123,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
             is_plugin (Optional[bool]): Whether the action was performed via a plugin.
         """
         self._user_activity.labels(
-            user_id=str(user_id) if user_id is not None else "anonymous",
+            user_id=str(user_id) if user_id is not None else "unknown",
             action=action,
             dashboard_id=str(dashboard_id) if dashboard_id is not None else "none",
             slice_id=str(slice_id) if slice_id is not None else "none",
@@ -185,7 +185,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
         self._dashboard_load_duration.labels(
             dashboard_id=str(dashboard_id) if dashboard_id is not None else "none",
             slice_id=str(slice_id) if slice_id is not None else "none",
-            user_id=str(user_id) if user_id is not None else "anonymous",
+            user_id=str(user_id) if user_id is not None else "unknown",
         ).observe(duration_ms)
 
     def log_cache_request(self, cache_type: str, status: str) -> None:
@@ -260,7 +260,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
         self._dashboard_load_duration.labels(
             dashboard_id="none",
             slice_id="none",
-            user_id="anonymous",
+            user_id="unknown",
         ).observe(value * 1000)  # Convert seconds to milliseconds
 
     def gauge(self, key: str, value: float) -> None:
@@ -272,6 +272,6 @@ class PrometheusStatsLogger(BaseStatsLogger):
             value (float): The value to set.
         """
         self._real_time_unique_views.labels(
-            user_id="anonymous",
+            user_id="unknown",
             dashboard_id=key,
         ).set(value)
