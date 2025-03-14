@@ -161,7 +161,7 @@ const StickyPanel = styled.div<{ width: number }>`
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
 const StyledHeader = styled.div<{
-  dashboardFiltersOpen: boolean; // DODO added
+  dashboardFiltersOpen: boolean; // DODO added 47089618
 }>`
   grid-column: ${({ dashboardFiltersOpen }) =>
     dashboardFiltersOpen ? '2' : '1 / span 2'};
@@ -641,7 +641,8 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
       : theme.gridUnit * 8;
 
   return (
-    <StyledDiv>
+    // DODO changed 47089618
+    <StyledDiv className="dashboard-wrapper">
       {showFilterBar && filterBarOrientation === FilterBarOrientation.VERTICAL && (
         <>
           <ResizableSidebar
