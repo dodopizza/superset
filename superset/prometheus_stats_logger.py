@@ -35,6 +35,12 @@ try:
                 labelnames=["user_id", "action", "dashboard_id", "slice_id"],
             )
 
+            self._duration_summary = Summary(
+                f"{self.prefix}_duration_summary",
+                "Duration summary metric for Superset",
+                labelnames=["dashboard_id", "slice_id", "user_id"],
+            )
+
         def incr(self, key: str) -> None:
             self._counter.labels(key=key).inc()
 
@@ -47,6 +53,15 @@ try:
                 dashboard_id=dashboard_id,
                 slice_id=slice_id
             ).inc()
+
+        def duration(
+            self, dashboard_id: Optional[int], slice_id: Optional[int], user_id: Optional[int], duration_ms: float
+        ) -> None:
+            self._duration_summary.labels(
+                dashboard_id=dashboard_id,
+                slice_id=slice_id,
+                user_id=user_id
+            ).observe(duration_ms / 1000.0)  # Convert milliseconds to seconds
 
         def decr(self, key: str) -> None:
             raise NotImplementedError("Decrement operation is not supported.")
