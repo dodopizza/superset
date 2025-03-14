@@ -41,18 +41,34 @@ try:
                 labelnames=["dashboard_id", "slice_id", "user_id"],
             )
 
+            # New gauge metric for tracking real-time unique user views
+            self._real_time_unique_views = Gauge(
+                f"{self.prefix}_real_time_unique_views",
+                "Gauge metric for tracking real-time unique user views per dashboard",
+                labelnames=["user_id", "dashboard_id"],
+                multiprocess_mode="livesum",
+            )
+
         def incr(self, key: str) -> None:
             self._counter.labels(key=key).inc()
 
         def user_activity(
             self, user_id: Optional[int], action: str, dashboard_id: Optional[int], slice_id: Optional[int]
         ) -> None:
+            # Increment the user activity counter
             self._user_activity.labels(
                 user_id=user_id,
                 action=action,
                 dashboard_id=dashboard_id,
                 slice_id=slice_id
             ).inc()
+
+            # Update the real-time unique views gauge if dashboard_id is not None
+            if dashboard_id is not None:
+                self._real_time_unique_views.labels(
+                    user_id=user_id,
+                    dashboard_id=dashboard_id
+                ).set(1)  # Set the gauge value to 1 for the specific user and dashboard
 
         def duration(
             self, dashboard_id: Optional[int], slice_id: Optional[int], user_id: Optional[int], duration_ms: float
