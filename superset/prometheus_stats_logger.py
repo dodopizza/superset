@@ -1,12 +1,16 @@
 from superset.stats_logger import BaseStatsLogger
-from typing import Optional
+from typing import Optional, Dict, Tuple
 from prometheus_client import Counter, Gauge, Histogram
+import threading
+from datetime import datetime, timedelta
+
 
 class PrometheusStatsLogger(BaseStatsLogger):
     """
     A Prometheus-based stats logger for Superset, tracking user activity, dashboard load times,
     and system performance metrics.
     """
+
     def __init__(self, prefix: str = "superset") -> None:
         """
         Initialize Prometheus metrics for Superset monitoring.
@@ -20,7 +24,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
         self._user_activity = Counter(
             f"{self.prefix}_user_activity",
             "Counter for user actions in Superset",
-            labelnames=["user_id", "action", "dashboard_id", "slice_id"],
+            labelnames=["user_id", "action", "dashboard_id", "slice_id", "is_plugin"],
         )
 
         # Dashboard and slice load duration histogram
@@ -28,10 +32,10 @@ class PrometheusStatsLogger(BaseStatsLogger):
             f"{self.prefix}_dashboard_load_duration",
             "Histogram of dashboard and slice load times in milliseconds",
             labelnames=["dashboard_id", "slice_id", "user_id"],
-            buckets=[100, 500, 1000, 2000, 5000, 10000, 30000],  # Tuned for Superset dashboards
+            buckets=[5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000],  # Custom buckets
         )
 
-        # Real-time unique views per dashboard
+        # Real-time unique views gauge
         self._real_time_unique_views = Gauge(
             f"{self.prefix}_real_time_unique_views",
             "Number of real-time unique user views per dashboard",
@@ -61,6 +65,34 @@ class PrometheusStatsLogger(BaseStatsLogger):
             labelnames=["dashboard_id", "slice_id", "error_type"],  # e.g., error_type: "timeout"
         )
 
+        # Track active views with timestamps for cleanup
+        self._active_views: Dict[Tuple[str, str], datetime] = {}
+
+        # Start the periodic cleanup job
+        self._start_cleanup_job()
+
+    def _start_cleanup_job(self) -> None:
+        """
+        Start a periodic cleanup job to decrement the gauge for stale views.
+        """
+        def cleanup_stale_views():
+            cutoff_time = datetime.now() - timedelta(minutes=5)  # Stale if older than 5 minutes
+            stale_views = [
+                (user_id, dashboard_id)
+                for (user_id, dashboard_id), timestamp in self._active_views.items()
+                if timestamp < cutoff_time
+            ]
+
+            for user_id, dashboard_id in stale_views:
+                self.stop_view(user_id=int(user_id), dashboard_id=int(dashboard_id))
+                del self._active_views[(user_id, dashboard_id)]  # Remove from active views
+
+            # Schedule the next cleanup
+            threading.Timer(60, cleanup_stale_views).start()  # Run every 60 seconds
+
+        # Start the first cleanup job
+        threading.Timer(60, cleanup_stale_views).start()
+
     def incr(self, key: str) -> None:
         """
         Increment a generic counter (kept for compatibility, but prefer specific methods).
@@ -69,7 +101,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
             key (str): The metric key to increment.
         """
         self._user_activity.labels(
-            user_id=None, action=key, dashboard_id=None, slice_id=None
+            user_id="anonymous", action=key, dashboard_id="none", slice_id="none", is_plugin=None
         ).inc()
 
     def user_activity(
@@ -78,6 +110,7 @@ class PrometheusStatsLogger(BaseStatsLogger):
         action: str,
         dashboard_id: Optional[int] = None,
         slice_id: Optional[int] = None,
+        is_plugin: Optional[bool] = None,
     ) -> None:
         """
         Log user activity in Superset.
@@ -87,20 +120,51 @@ class PrometheusStatsLogger(BaseStatsLogger):
             action (str): Type of action (e.g., "view_dashboard", "edit_slice").
             dashboard_id (Optional[int]): ID of the dashboard involved.
             slice_id (Optional[int]): ID of the slice/chart involved.
+            is_plugin (Optional[bool]): Whether the action was performed via a plugin.
         """
         self._user_activity.labels(
             user_id=str(user_id) if user_id is not None else "anonymous",
             action=action,
             dashboard_id=str(dashboard_id) if dashboard_id is not None else "none",
             slice_id=str(slice_id) if slice_id is not None else "none",
+            is_plugin=str(is_plugin) if is_plugin is not None else "none",
         ).inc()
 
         # Update real-time unique views if dashboard_id is provided
         if dashboard_id is not None and user_id is not None:
-            self._real_time_unique_views.labels(
-                user_id=str(user_id),
-                dashboard_id=str(dashboard_id),
-            ).set(1)  # Set to 1 to indicate active view
+            self.start_view(user_id=user_id, dashboard_id=dashboard_id)
+
+    def start_view(self, user_id: int, dashboard_id: int) -> None:
+        """
+        Start tracking a user's view of a dashboard.
+
+        Args:
+            user_id (int): The ID of the user viewing the dashboard.
+            dashboard_id (int): The ID of the dashboard being viewed.
+        """
+        self._real_time_unique_views.labels(
+            user_id=str(user_id),
+            dashboard_id=str(dashboard_id),
+        ).inc()  # Increment the gauge to indicate an active view
+
+        # Record the start time of the view
+        self._active_views[(str(user_id), str(dashboard_id))] = datetime.now()
+
+    def stop_view(self, user_id: int, dashboard_id: int) -> None:
+        """
+        Stop tracking a user's view of a dashboard.
+
+        Args:
+            user_id (int): The ID of the user who stopped viewing the dashboard.
+            dashboard_id (int): The ID of the dashboard being viewed.
+        """
+        self._real_time_unique_views.labels(
+            user_id=str(user_id),
+            dashboard_id=str(dashboard_id),
+        ).dec()  # Decrement the gauge to indicate the view has ended
+
+        # Remove the view from active views
+        self._active_views.pop((str(user_id), str(dashboard_id)), None)
 
     def duration(
         self,
