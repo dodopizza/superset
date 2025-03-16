@@ -37,7 +37,9 @@ from superset.commands.query.exceptions import (
 )
 from superset.commands.query.export import ExportSavedQueriesCommand
 from superset.commands.query.importers.dispatcher import ImportSavedQueriesCommand
+from superset.commands.tag.create import CreateTeamTagCommand
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
+from superset.daos.team import TeamDAO
 from superset.databases.filters import DatabaseFilter
 from superset.extensions import event_logger
 from superset.models.sql_lab import SavedQuery
@@ -53,6 +55,7 @@ from superset.queries.saved_queries.schemas import (
     get_export_ids_schema,
     openapi_spec_methods_override,
 )
+from superset.tags.models import ObjectType
 from superset.utils import json
 from superset.views.base_api import (
     BaseSupersetModelRestApi,
@@ -192,6 +195,12 @@ class SavedQueryRestApi(BaseSupersetModelRestApi):
 
     def pre_add(self, item: SavedQuery) -> None:
         item.user = g.user
+        # dodo add 35337314
+        if team := TeamDAO.get_team_by_user_id():
+            team_slug = team.slug
+            object_type = ObjectType.query
+            object_id = item.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
 
     def pre_update(self, item: SavedQuery) -> None:
         self.pre_add(item)
