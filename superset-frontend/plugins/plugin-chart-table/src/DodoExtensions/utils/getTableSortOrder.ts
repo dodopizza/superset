@@ -4,7 +4,7 @@ export const getTableSortOrder = (
   label: string, // column label
   sortDesc: boolean, // order_desc from controlPanel, it affects the order in which the sorting is switched
   isSortedDesc: boolean | undefined, // sort order of specific column
-): Record<string, SortOrder> | null => {
+): Record<string, SortOrder> | undefined => {
   // sort order value is set for the next render after clicking on the cell
 
   if (isSortedDesc === undefined) {
@@ -15,5 +15,5 @@ export const getTableSortOrder = (
     return { [label]: sortDesc ? 'asc' : 'desc' };
   }
 
-  return null;
+  return undefined;
 };
