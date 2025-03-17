@@ -265,7 +265,8 @@ class AdhocMetricPopoverTrigger extends PureComponent<
           isNewMetric={this.props.isNew}
           isLabelModified={
             this.state.labelModified &&
-            adhocMetricLabel !== this.state.title.label
+            (adhocMetricLabel !== this.state.title.label ||
+              adhocMetricLabelRU !== this.state.title.labelRU) // DODO added 44120742
           }
         />
       </ExplorePopoverContent>
