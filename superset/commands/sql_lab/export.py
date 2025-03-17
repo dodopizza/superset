@@ -91,7 +91,9 @@ class SqlResultExportCommand(BaseCommand):
         blob = None
         if results_backend and self._query.results_key:
             logger.info(
-                "Fetching CSV from results backend [%s]", self._query.results_key
+                "Fetching %s from results backend [%s]",
+                self._result_format,
+                self._query.results_key,
             )
             blob = results_backend.get(self._query.results_key)
         if blob:
@@ -109,9 +111,9 @@ class SqlResultExportCommand(BaseCommand):
                 columns=[c["name"] for c in obj["columns"]],
             )
 
-            logger.info("Using pandas to convert to CSV")
+            logger.info("Using pandas to convert to %s format", self._result_format)
         else:
-            logger.info("Running a query to turn into CSV")
+            logger.info("Running a query to turn into %s", self._result_format)
             if self._query.select_sql:
                 sql = self._query.select_sql
                 limit = None

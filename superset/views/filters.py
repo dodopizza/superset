@@ -91,9 +91,9 @@ class BaseFilterRelatedUsersFirstName(BaseFilter):  # pylint: disable=too-few-pu
     name = lazy_gettext("first_name")
     arg_name = ""
 
-    def apply(self, query: Query, value: str) -> Query:
+    def apply(self, query: Query, value: Optional[Any]) -> Query:
         user_model = security_manager.user_model
-        like_value = "%" + value + "%"
+        like_value = "%" + cast(str, value) + "%"
         return query.filter(user_model.first_name.ilike(like_value))
 
 

@@ -23,8 +23,6 @@ from typing import Any, TYPE_CHECKING
 import numpy as np
 import pandas as pd
 
-from superset.utils.core import GenericDataType
-
 if TYPE_CHECKING:
     from superset.common.query_object import QueryObject
 
@@ -86,29 +84,6 @@ def convert_to_time(value: Any) -> str:
     return "00:00:00"
 
 
-def delete_tz_from_df(d: dict) -> pd.DataFrame:
-    coltypes = d.get("coltypes", [])
-    if isinstance(d.get("data"), pd.DataFrame):
-        data = d.get("data")
-    elif isinstance(d.get("df"), pd.DataFrame):
-        data = d.get("df")
-    else:
-        data = d.get("data") or d.get("df")
-    df = pd.DataFrame(data)
-    colnames = [colname for colname in df.columns]
-    if GenericDataType.TEMPORAL in coltypes or GenericDataType.NUMERIC in coltypes:
-        for k, type_col in enumerate(coltypes):
-            if type_col == GenericDataType.TEMPORAL:
-                name_col = colnames[k]
-                df[name_col] = pd.to_datetime(df[name_col], utc=True)
-                df[name_col] = df[name_col].dt.tz_localize(None)
-            if type_col == GenericDataType.NUMERIC:
-                name_col = colnames[k]
-                df[name_col] = pd.to_numeric(df[name_col])
-        return df
-    return df
-
-
 def format_data_for_export(
     df: pd.DataFrame, form_data: dict[str, Any] | None = None
 ) -> pd.DataFrame:
@@ -123,15 +98,6 @@ def format_data_for_export(
     table_order_by = form_data.get(
         "table_order_by", {}
     )  # используем для сортировки данных, приходит словарь, где ключ это колонка, по которому отсортировали, а значение это в каком порядке было отсортировано
-
-    # df = pd.DataFrame()
-    # for data in result_queries:
-    #     # return query results xlsx format
-    #     new_df = delete_tz_from_df(data)
-    # new_df = new_df.drop(
-    #     columns=df.columns.intersection(new_df.columns), errors="ignore"
-    # )
-    # df = df.join(new_df, how="right", rsuffix="2") if not new_df.empty else df
 
     if export_as_time:  # экспорт в формате времени
         key_column = df.keys()[0]

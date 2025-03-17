@@ -52,7 +52,10 @@ from superset.commands.explore.form_data.create import CreateFormDataCommand
 from superset.commands.explore.form_data.get import GetFormDataCommand
 from superset.commands.explore.form_data.parameters import CommandParameters
 from superset.commands.explore.permalink.get import GetExplorePermalinkCommand
-from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
+from superset.common.chart_data import (
+    ChartDataResultFormat,
+    ChartDataResultType,
+)
 from superset.connectors.sqla.models import BaseDatasource, SqlaTable
 from superset.daos.chart import ChartDAO
 from superset.daos.datasource import DatasourceDAO
@@ -87,6 +90,7 @@ from superset.views.base import (
     generate_download_headers,
     json_error_response,
     json_success,
+    XlsxResponse,
 )
 from superset.views.error_handling import handle_api_exception
 from superset.views.utils import (
@@ -177,11 +181,20 @@ class Superset(BaseSupersetView):
         return data_payload_response(*viz_obj.payload_json_and_has_error(payload))
 
     def generate_json(
-        self, viz_obj: BaseViz, response_type: str | None = None
+        self,
+        viz_obj: BaseViz,
+        response_type: str | None = None,
+        column_names: dict[str, str] | None = None,
     ) -> FlaskResponse:
         if response_type == ChartDataResultFormat.CSV:
             return CsvResponse(
-                viz_obj.get_csv(), headers=generate_download_headers("csv")
+                viz_obj.get_csv(column_names), headers=generate_download_headers("csv")
+            )
+
+        if response_type == ChartDataResultFormat.XLSX:
+            return XlsxResponse(
+                viz_obj.get_xlsx(column_names),
+                headers=generate_download_headers("xlsx"),
             )
 
         if response_type == ChartDataResultType.QUERY:

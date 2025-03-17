@@ -363,38 +363,8 @@ class ChartDataRestApi(ChartRestApi):
             if not security_manager.can_access("can_csv", "Superset"):
                 return self.response_403()
 
-            if not (result_queries := result["queries"]):
+            if not result["queries"]:
                 return self.response_400(_("Empty query result"))
-
-            # try:
-            #     data_df = format_data_for_export(result_queries, form_data)
-            # except Exception:
-            #     logger.error(
-            #         "Server error occurred while exporting the file", exc_info=True
-            #     )
-            #     return self.response_500(
-            #         _("Server error occurred while exporting the file")
-            #     )
-
-            # if result_format == ChartDataResultFormat.XLSX:
-            #     excel_writer = io.BytesIO()
-            #     data_df.to_excel(
-            #         excel_writer,
-            #         startrow=0,
-            #         merge_cells=False,
-            #         sheet_name="Sheet_1",
-            #         index_label=None,
-            #         index=False,
-            #     )
-            #     excel_writer.seek(0)
-            #     return excel_writer
-
-            # if result_format == ChartDataResultFormat.CSV:
-            #     config_csv = current_app.config["CSV_EXPORT"]
-            #     return CsvResponse(
-            #         data_df.to_csv(**config_csv),
-            #         headers=generate_download_headers("csv"),
-            #     )
 
             if len(result["queries"]) == 1:
                 # return single query results
