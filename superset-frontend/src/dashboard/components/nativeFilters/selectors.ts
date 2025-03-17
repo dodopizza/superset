@@ -13,8 +13,12 @@ import {
   NO_TIME_RANGE,
   QueryFormColumn,
 } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble';
 import { TIME_FILTER_MAP } from 'src/explore/constants';
-import { getChartIdsInFilterBoxScope } from 'src/dashboard/util/activeDashboardFilters';
+import {
+  getChartIdsInFilterBoxScope,
+  getNativeFilterColumn,
+} from 'src/dashboard/util/activeDashboardFilters';
 import {
   ChartConfiguration,
   DashboardLayout,
@@ -28,6 +32,8 @@ export enum IndicatorStatus {
   Incompatible = 'INCOMPATIBLE',
   CrossFilterApplied = 'CROSS_FILTER_APPLIED',
 }
+
+const locale = bootstrapData?.common?.locale || 'en';
 
 const TIME_GRANULARITY_FIELDS = new Set(Object.values(TIME_FILTER_MAP));
 
@@ -110,7 +116,6 @@ const selectIndicatorsForChartFromFilter = (
     if (rejectedColumns.has(column)) return IndicatorStatus.Incompatible;
     return IndicatorStatus.Unset;
   };
-
   return Object.keys(filter.columns)
     .filter(column =>
       getChartIdsInFilterBoxScope({
@@ -363,12 +368,15 @@ export const selectNativeIndicatorsForChart = (
             nativeFilter.chartsInScope?.includes(chartId),
         )
         .map(nativeFilter => {
-          const column = nativeFilter.targets?.[0]?.column?.name;
+          const column = getNativeFilterColumn(nativeFilter);
           const filterState = dataMask[nativeFilter.id]?.filterState;
           const label = extractLabel(filterState);
           return {
             column,
-            name: nativeFilter.name,
+            name:
+              nativeFilter[locale === 'ru' ? 'nameRu' : 'name'] ||
+              nativeFilter.name ||
+              nativeFilter.nameRu,
             path: [nativeFilter.id],
             status: getStatus({
               label,
