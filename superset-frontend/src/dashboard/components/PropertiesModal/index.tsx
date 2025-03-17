@@ -35,7 +35,7 @@ import {
 } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
 import Owner from 'src/types/Owner'; // DODO added 42727850
-import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
+// import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -157,19 +157,18 @@ const PropertiesModal = ({
             item.extra.active !== undefined ? item.extra.active : true,
           )
           .map(
-            (item: { value: number; text: string; extra: Partial<IExtra> }) => {
+            (item: { value: number; text: string; extra: Partial<IExtra> }) =>
               // DODO added start 42727850
-              const { country_name, email } = item.extra;
-              let label = item.text;
-              if (accessType === 'owners')
-                label += ` (${country_name || 'no country'})`;
-              if (email) label += ` ${email}`;
+              // const { country_name, email } = item.extra;
+              // let label = item.text;
+              // if (accessType === 'owners')
+              //   label += ` (${country_name || 'no country'})`;
+              // if (email) label += ` ${email}`;
               // DODO added stop 42727850
-              return {
+              ({
                 value: item.value,
-                label,
-              };
-            },
+                label: item.text,
+              }),
           ),
         totalCount: response.json.count,
       }));
@@ -276,7 +275,8 @@ const PropertiesModal = ({
   const handleOwnersSelectValue = () => {
     const parsedOwners = (owners || []).map((owner: Owner) => ({
       value: owner.id,
-      label: getOwnerName(owner),
+      label: owner.full_name || `${owner.first_name} ${owner.last_name}`,
+      // label: getOwnerName(owner),
     }));
     return parsedOwners;
   };
