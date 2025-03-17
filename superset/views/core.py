@@ -91,6 +91,7 @@ from superset.views.base import (
     generate_download_headers,
     json_error_response,
     json_success,
+    XlsxResponse,
 )
 from superset.views.error_handling import handle_api_exception
 from superset.views.utils import (
@@ -181,11 +182,20 @@ class Superset(BaseSupersetView):
         return data_payload_response(*viz_obj.payload_json_and_has_error(payload))
 
     def generate_json(
-        self, viz_obj: BaseViz, response_type: str | None = None
+        self,
+        viz_obj: BaseViz,
+        response_type: str | None = None,
+        column_names: dict[str, str] | None = None,
     ) -> FlaskResponse:
         if response_type == ChartDataResultFormat.CSV:
             return CsvResponse(
-                viz_obj.get_csv(), headers=generate_download_headers("csv")
+                viz_obj.get_csv(column_names), headers=generate_download_headers("csv")
+            )
+
+        if response_type == ChartDataResultFormat.XLSX:
+            return XlsxResponse(
+                viz_obj.get_xlsx(column_names),
+                headers=generate_download_headers("xlsx"),
             )
 
         if response_type == ChartDataResultType.QUERY:
@@ -344,7 +354,6 @@ class Superset(BaseSupersetView):
             )
             # dodo added 44120742
             column_and_metric_names = {}
-            # dodo added 44120742
             if language == ChartDataResultLanguage.RU:
                 for column in viz_obj.datasource.columns:
                     if column.verbose_name_ru:
@@ -358,13 +367,11 @@ class Superset(BaseSupersetView):
                             metric.verbose_name_ru
                         )
 
-                metrics_ui = form_data.get("metrics")
-                if metrics_ui:
-                    for metric_ui in metrics_ui:
-                        if isinstance(metric_ui, dict) and metric_ui.get("labelRU"):
-                            metric_ui["label"] = metric_ui.get("labelRU")
+                for metric_ui in form_data.get("metrics", []):
+                    if isinstance(metric_ui, dict) and metric_ui.get("labelRU"):
+                        metric_ui["label"] = metric_ui.get("labelRU")
 
-            return self.generate_json(viz_obj, response_type)
+            return self.generate_json(viz_obj, response_type, column_and_metric_names)
         except SupersetException as ex:
             return json_error_response(utils.error_msg_from_exception(ex), 400)
 
