@@ -62,13 +62,30 @@ if not feature_flag_manager.is_feature_enabled("ENABLE_JAVASCRIPT_CONTROLS"):
 
 def get_language() -> str:  # DODO changed #33835937
     user_id = get_user_id()
+    if not user_id:
+        logger.info("User ID is not available. Defaulting to 'ru'.")
+        return "ru"
+
     try:
         user_info = (
             db.session.query(UserInfo).filter(UserInfo.user_id == user_id).one_or_none()
         )
+
+        if not user_info:
+            logger.info(
+                "User ID = %s does not have a language set in the database. Defaulting to 'ru'.",
+                user_id,
+            )
+            return "ru"
+
         return user_info.language
-    except Exception:  # pylint: disable=broad-exception-caught
-        logger.warning("User id = %s dont have language in database", user_id)
+
+    except Exception as ex:  # pylint: disable=broad-exception-caught
+        logger.exception(
+            "An unexpected error occurred while retrieving language for user ID = %s: %s",
+            user_id,
+            ex,
+        )
         return "ru"
 
 

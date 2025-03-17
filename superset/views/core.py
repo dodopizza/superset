@@ -52,12 +52,12 @@ from superset.commands.explore.form_data.create import CreateFormDataCommand
 from superset.commands.explore.form_data.get import GetFormDataCommand
 from superset.commands.explore.form_data.parameters import CommandParameters
 from superset.commands.explore.permalink.get import GetExplorePermalinkCommand
-from superset.common.chart_data import (  # dodo changed 44120742
+from superset.common.chart_data import (
     ChartDataResultFormat,
-    ChartDataResultLanguage,
     ChartDataResultType,
 )
 from superset.connectors.sqla.models import BaseDatasource, SqlaTable
+from superset.constants import Language
 from superset.daos.chart import ChartDAO
 from superset.daos.datasource import DatasourceDAO
 from superset.dashboards.permalink.exceptions import DashboardPermalinkGetFailedError
@@ -354,7 +354,7 @@ class Superset(BaseSupersetView):
             )
             # dodo added 44120742
             column_and_metric_names = {}
-            if language == ChartDataResultLanguage.RU:
+            if language == Language.RU:
                 for column in viz_obj.datasource.columns:
                     if column.verbose_name_ru:
                         column_and_metric_names[column.column_name] = (

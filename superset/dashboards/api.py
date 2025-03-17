@@ -45,8 +45,7 @@ from superset.commands.exceptions import TagForbiddenError
 from superset.commands.importers.exceptions import NoValidFilesFoundError
 from superset.commands.importers.v1.utils import get_contents_from_bundle
 from superset.commands.tag.create import CreateTeamTagCommand
-from superset.common.chart_data import ChartDataResultLanguage  # dodo added 44120742
-from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
+from superset.constants import Language, MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.dashboard import DashboardDAO, EmbeddedDashboardDAO
 from superset.daos.team import TeamDAO
 from superset.dashboards.filters import (
@@ -417,7 +416,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
             # dodo added 44120742
-            if language == ChartDataResultLanguage.RU:
+            if language == Language.RU:
                 translate_dashboards_to_russian(result)
 
             return self.response(200, result=result)
@@ -535,7 +534,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             result = [self.chart_entity_response_schema.dump(chart) for chart in charts]
 
             # dodo added 44120742
-            if language == ChartDataResultLanguage.RU:
+            if language == Language.RU:
                 translate_charts_to_russian(result)
 
             return self.response(200, result=result)
