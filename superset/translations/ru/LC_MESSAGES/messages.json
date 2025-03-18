@@ -11250,6 +11250,12 @@
       ],
       "Size": [
         "Размер"
+      ],
+      "Service temporarily unavailable": [
+        "Сервис временно недоступен"
+      ],
+      "Sorry, something went wrong. We are fixing the mistake now. Try again later.": [
+        "Извините, что-то пошло не так. Сейчас мы исправляем ошибку. Повторите попытку позже."
       ]
     }
   }
