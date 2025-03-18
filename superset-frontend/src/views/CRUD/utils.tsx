@@ -100,7 +100,7 @@ const createFetchResourceMethod =
         ({
           text,
           value,
-          extra, // DODO added 42727850
+          extra = {}, // DODO added 42727850
         }: {
           text: string;
           value: string | number;
