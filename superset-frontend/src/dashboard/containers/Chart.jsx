@@ -74,6 +74,7 @@ function mapStateToProps(
     labelsColor,
     labelsColorMap,
     sharedLabelsColors,
+    locale, // DODO added 44211759
   });
 
   formData.dashboardId = dashboardInfo.id;

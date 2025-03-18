@@ -1,7 +1,14 @@
 // DODO was here
 /* eslint-env browser */
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FC,
+  useCallback,
+  useEffect,
+  // useMemo, // DODO commented out 47089618
+  useRef,
+  useState,
+} from 'react';
 import {
   addAlpha,
   css,
@@ -115,14 +122,19 @@ const StickyPanel = styled.div<{ width: number }>`
 `;
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
-const StyledHeader = styled.div`
-  ${({ theme }) => css`
-    grid-column: 2;
+const StyledHeader = styled.div<{
+  dashboardFiltersOpen: boolean; // DODO added 47089618
+}>`
+  ${({ theme, dashboardFiltersOpen }) => css`
+    grid-column: ${dashboardFiltersOpen ? '2' : '1 / span 2'};
     grid-row: 1;
     position: sticky;
     top: 0;
     z-index: 100;
-    max-width: 100vw;
+    // max-width: 100vw;
+    // DODO changed 47089618
+    max-width: 100%;
+    overflow-x: hidden; // DODO added 47089618
 
     .empty-droptarget:before {
       position: absolute;
@@ -497,23 +509,24 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const filterBarHeight = `calc(100vh - ${offset}px)`;
   const filterBarOffset = dashboardFiltersOpen ? 0 : barTopOffset + 20;
 
-  const draggableStyle = useMemo(
-    () => ({
-      marginLeft:
-        dashboardFiltersOpen ||
-        editMode ||
-        !nativeFiltersEnabled ||
-        filterBarOrientation === FilterBarOrientation.Horizontal
-          ? 0
-          : -32,
-    }),
-    [
-      dashboardFiltersOpen,
-      editMode,
-      filterBarOrientation,
-      nativeFiltersEnabled,
-    ],
-  );
+  // DODO commented out 47089618
+  // const draggableStyle = useMemo(
+  //   () => ({
+  //     marginLeft:
+  //       dashboardFiltersOpen ||
+  //       editMode ||
+  //       !nativeFiltersEnabled ||
+  //       filterBarOrientation === FilterBarOrientation.Horizontal
+  //         ? 0
+  //         : -32,
+  //   }),
+  //   [
+  //     dashboardFiltersOpen,
+  //     editMode,
+  //     filterBarOrientation,
+  //     nativeFiltersEnabled,
+  //   ],
+  // );
 
   // If a new tab was added, update the directPathToChild to reflect it
   const currentTopLevelTabs = useRef(topLevelTabs);
@@ -638,8 +651,10 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             </ResizableSidebar>
           </>
         )}
-
-      <StyledHeader ref={headerRef}>
+      <StyledHeader
+        ref={headerRef}
+        dashboardFiltersOpen={dashboardFiltersOpen} // DODO added 47089618
+      >
         {/* @ts-ignore */}
         <Droppable
           data-test="top-level-tabs"
@@ -653,7 +668,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           editMode={editMode}
           // you cannot drop on/displace tabs if they already exist
           disableDragDrop={!!topLevelTabs}
-          style={draggableStyle}
+          // style={draggableStyle} // DODO commented out 47089618
         >
           {renderDraggableContent}
         </Droppable>
