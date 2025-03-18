@@ -20,7 +20,7 @@ import contextlib
 import logging
 from typing import Any, TYPE_CHECKING
 
-from flask import current_app, g, make_response, request, Response
+from flask import current_app, g, make_response, request, Response, send_file
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
@@ -41,6 +41,7 @@ from superset.commands.chart.exceptions import (
 )
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
 from superset.connectors.sqla.models import BaseDatasource
+from superset.constants import Language
 from superset.daos.exceptions import DatasourceNotFound
 from superset.exceptions import QueryObjectValidationError
 from superset.extensions import event_logger
@@ -257,6 +258,56 @@ class ChartDataRestApi(ChartRestApi):
             return self._run_async(json_body, command)
 
         form_data = json_body.get("form_data")
+        language = json_body.get("language")
+        if language == Language.RU:
+            for column in query_context.datasource.columns:
+                if column.verbose_name_ru:
+                    column.verbose_name_en = column.verbose_name
+                    column.verbose_name = column.verbose_name_ru
+
+            for metric in query_context.datasource.metrics:
+                if metric.verbose_name_ru:
+                    metric.verbose_name_en = metric.verbose_name
+                    metric.verbose_name = metric.verbose_name_ru
+
+            if query_context.result_format == ChartDataResultFormat.XLSX:
+                bytes_stream = self._get_data_response(
+                    command, form_data=form_data, datasource=query_context.datasource
+                )
+
+                for column in query_context.datasource.columns:
+                    column.verbose_name = column.verbose_name_en
+                for metric in query_context.datasource.metrics:
+                    metric.verbose_name = metric.verbose_name_en
+
+                return send_file(
+                    path_or_file=bytes_stream,
+                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    as_attachment=True,
+                    download_name="data.xlsx",
+                )
+
+            response_csv = self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
+
+            for column in query_context.datasource.columns:
+                column.verbose_name = column.verbose_name_en
+            for metric in query_context.datasource.metrics:
+                metric.verbose_name = metric.verbose_name_en
+
+            return response_csv
+
+        if query_context.result_format == ChartDataResultFormat.XLSX:
+            bytes_stream = self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
+            return send_file(
+                path_or_file=bytes_stream,
+                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                as_attachment=True,
+                download_name="data.xlsx",
+            )
         return self._get_data_response(
             command, form_data=form_data, datasource=query_context.datasource
         )
