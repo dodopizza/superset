@@ -37,7 +37,11 @@ const app = (
             stringifyOptions={{ encode: false }}
           >
             <ErrorBoundary>
-              <Menu data={menu} />
+              <Menu
+                data={menu}
+                connectionError={false} // DODO added
+                setConnectionError={() => {}} // DODO added
+              />
             </ErrorBoundary>
           </QueryParamProvider>
         </BrowserRouter>

@@ -109,6 +109,7 @@ const RightMenu = ({
   isFrontendRoute,
   environmentTag,
   setQuery,
+  setConnectionError, // DODO added
 }: RightMenuProps & {
   setQuery: ({
     databaseAdded,
@@ -252,9 +253,20 @@ const RightMenu = ({
     };
     SupersetClient.get({
       endpoint: `/api/v1/database/?q=${rison.encode(payload)}`,
-    }).then(({ json }: Record<string, any>) => {
-      setNonExamplesDBConnected(json.count >= 1);
-    });
+    })
+      .then(({ json }: Record<string, any>) => {
+        setNonExamplesDBConnected(json.count >= 1);
+      })
+      // DODO added
+      .catch(err => {
+        if (
+          err &&
+          typeof err === 'object' &&
+          'status' in err &&
+          err.status >= 500
+        )
+          setConnectionError(true);
+      });
   };
 
   useEffect(() => {
