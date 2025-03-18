@@ -1,13 +1,16 @@
 // DODO was here
 import { isEmpty } from 'lodash';
 import { mapValues, flow, keyBy } from 'lodash/fp';
+import { bootstrapData } from 'src/preamble'; // DODO added 44211759
+import { FilterPlugins } from 'src/constants'; // DODO added 44211759
 import {
   getChartIdAndColumnFromFilterKey,
   getDashboardFilterKey,
 } from './getDashboardFilterKey';
 import { CHART_TYPE } from './componentTypes';
 import { DASHBOARD_FILTER_SCOPE_GLOBAL } from '../reducers/dashboardFilters';
-import { FilterPlugins } from 'src/constants'; // DODO added 44211759
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44211759
 
 let activeFilters = {};
 let appliedFilterValuesByChart = {};
