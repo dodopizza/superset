@@ -348,7 +348,7 @@ function DashboardList(props: DashboardListProps) {
           </Link>
         ),
         // Header: t('Name'),
-        Header: t('Title'), // DODO changed 44120742
+        Header: t('Title (Eng)'), // DODO changed 44120742
         accessor: 'dashboard_title',
       },
       // DODO added start 44120742

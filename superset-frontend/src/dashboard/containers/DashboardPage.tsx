@@ -98,7 +98,10 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     result: charts,
     error: chartsApiError,
   } = // DODO changed 44611022
-    (isStandalone ? useDashboardCharts : useDashboardChartsPlugin)(idOrSlug);
+    (isStandalone ? useDashboardCharts : useDashboardChartsPlugin)(
+      idOrSlug,
+      locale, // DODO added 44120742
+    );
   const {
     result: datasets,
     error: datasetsApiError,

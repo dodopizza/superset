@@ -658,7 +658,7 @@ const PropertiesModal = ({
           <Col xs={24} md={12}>
             {/* <FormItem label={t('Name')} name="title"> */}
             {/* DODO changed 44120742 */}
-            <FormItem label={t('Title')} name="title">
+            <FormItem label={t('Title (Eng)')} name="title">
               <Input
                 data-test="dashboard-title-input"
                 type="text"
