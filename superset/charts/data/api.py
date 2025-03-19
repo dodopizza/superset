@@ -20,7 +20,7 @@ import contextlib
 import logging
 from typing import Any, TYPE_CHECKING
 
-from flask import current_app, g, make_response, request, Response, send_file
+from flask import current_app, g, make_response, request, Response
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
@@ -29,6 +29,10 @@ from superset import is_feature_enabled, security_manager
 from superset.async_events.async_query_manager import AsyncQueryTokenException
 from superset.charts.api import ChartRestApi
 from superset.charts.data.query_context_cache_loader import QueryContextCacheLoader
+from superset.charts.data.utils import (
+    revert_translate,
+    translate_chart_to_russian,
+)
 from superset.charts.post_processing import apply_post_process
 from superset.charts.schemas import ChartDataQueryContextSchema
 from superset.commands.chart.data.create_async_job_command import (
@@ -260,57 +264,17 @@ class ChartDataRestApi(ChartRestApi):
         form_data = json_body.get("form_data")
         language = json_body.get("language")
         if language == Language.RU:
-            for column in query_context.datasource.columns:
-                if column.verbose_name_ru:
-                    column.verbose_name_en = column.verbose_name
-                    column.verbose_name = column.verbose_name_ru
-
-            for metric in query_context.datasource.metrics:
-                if metric.verbose_name_ru:
-                    metric.verbose_name_en = metric.verbose_name
-                    metric.verbose_name = metric.verbose_name_ru
-
-            if query_context.result_format == ChartDataResultFormat.XLSX:
-                bytes_stream = self._get_data_response(
-                    command, form_data=form_data, datasource=query_context.datasource
-                )
-
-                for column in query_context.datasource.columns:
-                    column.verbose_name = column.verbose_name_en
-                for metric in query_context.datasource.metrics:
-                    metric.verbose_name = metric.verbose_name_en
-
-                return send_file(
-                    path_or_file=bytes_stream,
-                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    as_attachment=True,
-                    download_name="data.xlsx",
-                )
-
-            response_csv = self._get_data_response(
+            translate_chart_to_russian(query_context)
+            response = self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
+            revert_translate(query_context)
+        else:
+            response = self._get_data_response(
                 command, form_data=form_data, datasource=query_context.datasource
             )
 
-            for column in query_context.datasource.columns:
-                column.verbose_name = column.verbose_name_en
-            for metric in query_context.datasource.metrics:
-                metric.verbose_name = metric.verbose_name_en
-
-            return response_csv
-
-        if query_context.result_format == ChartDataResultFormat.XLSX:
-            bytes_stream = self._get_data_response(
-                command, form_data=form_data, datasource=query_context.datasource
-            )
-            return send_file(
-                path_or_file=bytes_stream,
-                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                as_attachment=True,
-                download_name="data.xlsx",
-            )
-        return self._get_data_response(
-            command, form_data=form_data, datasource=query_context.datasource
-        )
+        return response
 
     @expose("/data/<cache_key>", methods=("GET",))
     @protect()

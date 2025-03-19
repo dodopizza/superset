@@ -1362,7 +1362,6 @@ class ChartDataQueryContextSchema(Schema):
     )
     language = EnumField(Language, by_value=True)
 
-
     force = fields.Boolean(
         metadata={
             "description": "Should the queries be forced to load from the source. "
