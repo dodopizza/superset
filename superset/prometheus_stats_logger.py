@@ -1,6 +1,6 @@
 from superset.stats_logger import BaseStatsLogger
 from typing import Optional
-from prometheus_client import Counter, Gauge, Summary  # Added missing import for Summary
+from prometheus_client import Counter, Gauge, Summary, Histogram
 
 try:
     class PrometheusStatsLogger(BaseStatsLogger):
