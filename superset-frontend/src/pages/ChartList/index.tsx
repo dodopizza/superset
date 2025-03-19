@@ -130,6 +130,7 @@ interface ChartListProps {
     userId: string | number;
     firstName: string;
     lastName: string;
+    email: string;
   };
 }
 
@@ -282,7 +283,7 @@ function ChartList(props: ChartListProps) {
         dashboard_title: string;
         id: number;
       }) => ({
-        label: dashboardTitle,
+        label: `[${id}] ${dashboardTitle}`, // DODO changed
         value: id,
       }),
     );
@@ -658,6 +659,7 @@ function ChartList(props: ChartListProps) {
         key: 'dashboards',
         id: 'dashboards',
         input: 'select',
+        width: 300, // DODO added
         operator: FilterOperator.relationManyMany,
         unfilteredLabel: t('All'),
         fetchSelects: fetchDashboards,

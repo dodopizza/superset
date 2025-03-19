@@ -34,6 +34,8 @@ import {
   OBJECT_TYPES,
 } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
+import Owner from 'src/types/Owner'; // DODO added 42727850
+// import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -43,6 +45,12 @@ const StyledJsonEditor = styled(JsonEditor)`
   border-radius: ${({ theme }) => theme.borderRadius}px;
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
+
+// DODO added 42727850
+interface IExtra {
+  email: string;
+  country_name: string;
+}
 
 type PropertiesModalProps = {
   dashboardId: number;
@@ -148,10 +156,20 @@ const PropertiesModal = ({
           .filter((item: { extra: { active: boolean } }) =>
             item.extra.active !== undefined ? item.extra.active : true,
           )
-          .map((item: { value: number; text: string }) => ({
-            value: item.value,
-            label: item.text,
-          })),
+          .map(
+            (item: { value: number; text: string; extra: Partial<IExtra> }) =>
+              // DODO added start 42727850
+              // const { country_name, email } = item.extra;
+              // let label = item.text;
+              // if (accessType === 'owners')
+              //   label += ` (${country_name || 'no country'})`;
+              // if (email) label += ` ${email}`;
+              // DODO added stop 42727850
+              ({
+                value: item.value,
+                label: item.text,
+              }),
+          ),
         totalCount: response.json.count,
       }));
     },
@@ -253,18 +271,13 @@ const PropertiesModal = ({
     setRoles(parsedRoles);
   };
 
+  // DODO changed 42727850
   const handleOwnersSelectValue = () => {
-    const parsedOwners = (owners || []).map(
-      (owner: {
-        id: number;
-        first_name?: string;
-        last_name?: string;
-        full_name?: string;
-      }) => ({
-        value: owner.id,
-        label: owner.full_name || `${owner.first_name} ${owner.last_name}`,
-      }),
-    );
+    const parsedOwners = (owners || []).map((owner: Owner) => ({
+      value: owner.id,
+      label: owner.full_name || `${owner.first_name} ${owner.last_name}`,
+      // label: getOwnerName(owner),
+    }));
     return parsedOwners;
   };
 

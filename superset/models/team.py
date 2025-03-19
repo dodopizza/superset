@@ -6,11 +6,9 @@ from sqlalchemy import (
     Boolean,
     String,
     Table,
-    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 from flask_appbuilder import Model
-from flask_appbuilder.security.sqla.models import User
 
 from superset import security_manager
 

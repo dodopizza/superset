@@ -100,6 +100,15 @@ try:
             slice_id: Optional[int] = None,
             is_plugin: Optional[bool] = None,
         ) -> None:
+            """
+            Log user activity in Superset.
+            Args:
+                user_id (Optional[int]): ID of the user performing the action.
+                action (str): Type of action (e.g., "view_dashboard", "edit_slice").
+                dashboard_id (Optional[int]): ID of the dashboard involved.
+                slice_id (Optional[int]): ID of the slice/chart involved.
+                is_plugin (Optional[bool]): Whether the action was performed via a plugin.
+            """
             self._user_activity.labels(
                 user_id=str(user_id) if user_id is not None else "unknown",
                 action=action,

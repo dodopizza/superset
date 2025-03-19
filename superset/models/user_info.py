@@ -1,7 +1,7 @@
 # DODO added #33835937
 
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from flask_appbuilder import Model
 
 from superset import security_manager
@@ -22,7 +22,7 @@ class UserInfo(Model):
     user_id = Column(Integer, ForeignKey("ab_user.id"))
     user = relationship(
         security_manager.user_model,
-        backref="user_info"
+        backref=backref("user_info", uselist=False, lazy="joined"),
     )
     data_auth_dodo = Column(utils.MediumText())
     country_num = Column(Integer, nullable=True)

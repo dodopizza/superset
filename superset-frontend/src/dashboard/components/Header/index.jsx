@@ -640,7 +640,8 @@ class Header extends React.PureComponent {
           }
           menuDropdownProps={{
             getPopupContainer: triggerNode =>
-              triggerNode.closest('.header-with-actions'),
+              // triggerNode.closest('.header-with-actions'),
+              triggerNode.closest('.dashboard-wrapper'), // DODO changed 47089618
             visible: this.state.isDropdownVisible,
             onVisibleChange: this.setIsDropdownVisible,
           }}

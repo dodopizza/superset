@@ -313,6 +313,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
     dashboards: MicrofrontendNavigation['dashboards'];
   } = useMemo(() => {
     const env = process.env.WEBPACK_MODE;
+    const devStand = process.env.DEV_STAND;
 
     let parameters = {
       originUrl:
@@ -332,7 +333,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       parameters = {
         ...parameters,
         basename: '/',
-        originUrl: 'https://superset.d.yandex.dodois.dev',
+        originUrl: `https://superset-${devStand}.d.yandex.dodois.dev`,
         frontendLogger: true,
       };
     }
@@ -510,7 +511,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   }
 
   return (
-    <div>
+    <>
       <Version appVersion={APP_VERSION} />
       <ContentWrapper>
         {!isLoaded || !isFullConfigReady ? (
@@ -554,6 +555,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
           </RootComponentWrapper>
         )}
       </ContentWrapper>
-    </div>
+    </>
   );
 };

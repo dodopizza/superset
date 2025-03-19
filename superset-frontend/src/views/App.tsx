@@ -1,5 +1,5 @@
 // DODO was here
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
   BrowserRouter as Router,
@@ -27,6 +27,7 @@ import setupExtensions from 'src/setup/setupExtensions';
 import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added
+import ErrorMessage from 'src/DodoExtensions/components/ErrorMessage'; // DODO added
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
 import { OnBoardingEntryPoint } from '../DodoExtensions/onBoarding'; // DODO added #32839638
@@ -58,18 +59,19 @@ const LocationPathnameLogger = () => {
   return <></>;
 };
 
-const App = () => (
-  <RollbarProvider config={ROLLBAR_CONFIG}>
-    <RollbarErrorBoundary>
-      <Router>
-        <ScrollToTop />
-        <LocationPathnameLogger />
-        <RootContextProviders>
-          <GlobalStyles />
-          <Menu
-            data={bootstrapData.common.menu_data}
-            isFrontendRoute={isFrontendRoute}
-          />
+// DODO added
+const Content = () => {
+  const [connectionError, setConnectionError] = useState(false);
+  return (
+    <>
+      <Menu
+        data={bootstrapData.common.menu_data}
+        isFrontendRoute={isFrontendRoute}
+        connectionError={connectionError}
+        setConnectionError={setConnectionError}
+      />
+      {!connectionError && (
+        <>
           <Switch>
             {routes.map(
               ({ path, Component, props = {}, Fallback = Loading }) => (
@@ -88,6 +90,24 @@ const App = () => (
           <OnBoardingEntryPoint />
 
           <ToastContainer />
+        </>
+      )}
+
+      {connectionError && <ErrorMessage />}
+    </>
+  );
+};
+
+const App = () => (
+  <RollbarProvider config={ROLLBAR_CONFIG}>
+    <RollbarErrorBoundary>
+      <Router>
+        <ScrollToTop />
+        <LocationPathnameLogger />
+        <RootContextProviders>
+          <GlobalStyles />
+          {/* DODO changed */}
+          <Content />
         </RootContextProviders>
       </Router>
     </RollbarErrorBoundary>

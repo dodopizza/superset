@@ -421,6 +421,7 @@ class BaseViz:  # pylint: disable=too-many-public-methods
             "extras": extras,
             "series_limit_metric": series_limit_metric,
             "order_desc": order_desc,
+            "time_range_end_type": self.form_data.get("time_range_end_type"),
         }
 
     @property
