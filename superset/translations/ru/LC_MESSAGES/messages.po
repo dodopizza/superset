@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-03-19 10:32+0300\n"
-"PO-Revision-Date: 2025-03-19 17:10+0300\n"
+"PO-Revision-Date: 2025-03-19 17:27+0300\n"
 "Last-Translator: Daniel Checheta\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -419,7 +419,7 @@ msgstr "Обнаружен недопустимый пространственн
 
 #: superset/viz.py:1931
 msgid "Encountered invalid NULL spatial entry,                                        please consider filtering those out"
-msgstr "столкнулся с недействительной нулевой пространственной записью, пожалуйста, рассмотрите возможность отфильтировать ихОбнаружена недопустимая пространственная запись NULL,                                        рассмотрите возможность фильтрации таких записей"
+msgstr "Встретились недопустимые пространственные записи NULL,                                         пожалуйста, рассмотрите возможность фильтрации таких записей"
 
 #: superset/viz.py:2027
 msgid "Deck.gl - Scatter plot"
@@ -609,7 +609,7 @@ msgstr "Не удалось обновить слой аннотации."
 
 #: superset/commands/annotation_layer/exceptions.py:41
 msgid "Annotation layer not found."
-msgstr "Слой аннотации не найден"
+msgstr "Слой аннотации не найден."
 
 #: superset/commands/annotation_layer/exceptions.py:45
 msgid "Annotation layers could not be deleted."
@@ -617,7 +617,7 @@ msgstr "Аннотация нельзя удалить."
 
 #: superset/commands/annotation_layer/exceptions.py:49
 msgid "Annotation layer has associated annotations."
-msgstr "Слои аннотаций имеет связанные аннотации"
+msgstr "Слои аннотаций имеет связанные аннотации."
 
 #: superset/commands/annotation_layer/exceptions.py:58
 msgid "Name must be unique"
@@ -654,7 +654,7 @@ msgstr "Не удалось удалить аннотации."
 #: superset/commands/chart/delete.py:61 superset/commands/dashboard/delete.py:75 superset/commands/database/delete.py:60
 #, python-format
 msgid "There are associated alerts or reports: %(report_names)s"
-msgstr "Существуют связанные оповещения или отчеты: %(report_names) s"
+msgstr "Существуют связанные оповещения или отчеты: %(report_names)s"
 
 #: superset/commands/chart/exceptions.py:39
 #, python-format
@@ -937,7 +937,7 @@ msgstr "не может иметь несколько учетных данны�
 
 #: superset/commands/database/uploaders/base.py:123
 msgid "Table already exists. You can change your 'if table already exists' strategy to append or replace or provide a different Table Name to use."
-msgstr "таблица уже существует."
+msgstr "Таблица уже существует. Вы можете изменить стратегию «если таблица уже существует» на добавление или замену или указать другое имя таблицы для использования."
 
 #: superset/commands/database/uploaders/columnar_reader.py:69 superset/commands/database/uploaders/columnar_reader.py:125 superset/commands/database/uploaders/csv_reader.py:84 superset/commands/database/uploaders/excel_reader.py:91
 #, python-format
@@ -1060,7 +1060,7 @@ msgstr "Предоставленная таблица не была найден
 
 #: superset/commands/dataset/columns/exceptions.py:23
 msgid "Dataset column not found."
-msgstr "Столбец датасета не найден"
+msgstr "Столбец датасета не найден."
 
 #: superset/commands/dataset/columns/exceptions.py:27
 msgid "Dataset column delete failed."
@@ -1512,7 +1512,7 @@ msgstr "Редактировать столбец"
 
 #: superset/connectors/sqla/views.py:112
 msgid "Whether to make this column available as a [Time Granularity] option, column has to be DATETIME or DATETIME-like"
-msgstr "сделать этот столбец доступным в качестве опции [Time Granularity], столбец должен быть DateTime или DateTime"
+msgstr "Чтобы сделать этот столбец доступным в качестве опции [Time Granularity], столбец должен быть DATETIME или DATETIME-like"
 
 #: superset/connectors/sqla/views.py:117
 msgid "Whether this column is exposed in the `Filters` section of the explore view."
@@ -1759,7 +1759,7 @@ msgstr "Изменено"
 
 #: superset/connectors/sqla/views.py:444
 msgid "The table was created. As part of this two-phase configuration process, you should now click the edit button by the new table to configure it."
-msgstr "таблица была создана."
+msgstr "Таблица была создана. В рамках этого двухфазного процесса настройки теперь следует нажать кнопку редактирования новой таблицы, чтобы настроить ее."
 
 #: superset/css_templates/api.py:152
 #, python-format
@@ -2025,7 +2025,7 @@ msgstr "Имя тега недействительно (не может соде
 
 #: superset/tags/exceptions.py:39
 msgid "Tag could not be found."
-msgstr "тег не может быть найден."
+msgstr "Тег не может быть найден."
 
 #: superset/tags/filters.py:40
 msgid "Is custom tag"
@@ -2675,7 +2675,7 @@ msgstr "Запрашиваемые роли"
 
 #: superset/views/statement/mixin.py:29
 msgid "Created datetime"
-msgstr "создано DateTime"
+msgstr "Создано DateTime"
 
 #: superset/views/statement/mixin.py:30
 msgid "Last changed datetime"
@@ -2755,7 +2755,7 @@ msgstr "Максимальное значение"
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/constants.ts:57
 msgid "Average value"
-msgstr "среднее значение"
+msgstr "Среднее значение"
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/constants.ts:67
 msgid "Count"
@@ -3362,7 +3362,7 @@ msgstr "оси y сортируют"
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/customControls.tsx:80 superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/customControls.tsx:170
 msgid "X-Axis Sort By"
-msgstr "сортировка оси X."
+msgstr "Сортировка оси X"
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/customControls.tsx:81
 msgid "Decides which column to sort the base axis by."
@@ -4063,7 +4063,7 @@ msgstr "Коды ISO 3166-2"
 
 #: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:78
 msgid "Column containing ISO 3166-2 codes of region/province/department in your table."
-msgstr "Столбец, содержащий коды ISO 3166-2 региона/республики/области в вашей таблице"
+msgstr "Столбец, содержащий коды ISO 3166-2 региона/республики/области в вашей таблице."
 
 #: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:84
 msgid "Metric to display bottom title"
@@ -4162,7 +4162,7 @@ msgstr "Максимальное количество возвращаемых �
 
 #: superset-frontend/plugins/legacy-plugin-chart-event-flow/src/index.ts:27
 msgid "Compares the lengths of time different activities take in a shared timeline view."
-msgstr "сравнивает продолжительность времени, которые различные действия принимают в общий вид сроки."
+msgstr "Сравнивает продолжительность времени, которые различные действия принимают в общий вид сроки."
 
 #: superset-frontend/plugins/legacy-plugin-chart-event-flow/src/index.ts:31
 msgid "Event Flow"
@@ -4327,7 +4327,7 @@ msgstr "Трудоустройство и образование"
 
 #: superset-frontend/plugins/legacy-plugin-chart-heatmap/src/index.js:39
 msgid "Heatmap (legacy)"
-msgstr "тепловая карта (наследие)"
+msgstr "Heatmap (legacy)"
 
 #: superset-frontend/plugins/legacy-plugin-chart-heatmap/src/index.js:44 superset-frontend/plugins/legacy-plugin-chart-map-box/src/index.js:38 superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Scatter/index.ts:42 superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Screengrid/index.ts:35 superset-frontend/plugins/plugin-chart-echarts/src/Heatmap/index.ts:38
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/index.ts:40
@@ -4449,7 +4449,7 @@ msgstr "изменение"
 
 #: superset-frontend/plugins/legacy-plugin-chart-horizon/src/controlPanel.ts:77
 msgid "series: Treat each series independently; overall: All series use the same scale; change: Show changes compared to the first data point in each series"
-msgstr "серия: лечить каждую серию независимо; "
+msgstr "серии: Относитесь к каждой серии независимо; общий: Во всех сериях используется одна и та же шкала; изменение: Показать изменения по сравнению с первой точкой данных в каждой серии."
 
 #: superset-frontend/plugins/legacy-plugin-chart-horizon/src/index.js:28
 msgid "Compares how a metric changes over time between different groups. Each group is mapped to a row and change over time is visualized bar lengths and color."
@@ -4706,7 +4706,7 @@ msgstr "Трансформируемый"
 
 #: superset-frontend/plugins/legacy-plugin-chart-paired-t-test/src/controlPanel.ts:46
 msgid "Significance Level"
-msgstr "уровень значимости"
+msgstr "Уровень значимости"
 
 #: superset-frontend/plugins/legacy-plugin-chart-paired-t-test/src/controlPanel.ts:48
 msgid "Threshold alpha level for determining significance"
@@ -4796,7 +4796,7 @@ msgstr "Временной ряд"
 
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:62
 msgid "Standard time series"
-msgstr "стандартные временные ряды"
+msgstr "Стандартные временные ряды"
 
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:65
 msgid "Aggregate Mean"
@@ -5006,7 +5006,7 @@ msgstr "Покомпонентное сравнение"
 
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/index.js:27
 msgid "Compare the same summarized metric across multiple groups."
-msgstr "Сравнивает один и тот же обобщенный показатель в нескольких группах"
+msgstr "Сравнивает один и тот же обобщенный показатель в нескольких группах."
 
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/index.js:29
 msgid "Partition Chart"
@@ -5458,11 +5458,11 @@ msgstr "Количество ведер для групповых данных"
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Polygon/controlPanel.ts:145
 msgid "How many buckets should the data be grouped in."
-msgstr "сколько ведер должны быть сгруппированы данные."
+msgstr "Сколько ведер должны быть сгруппированы данные."
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Polygon/controlPanel.ts:157
 msgid "Bucket break points"
-msgstr "точки разрыва ведра"
+msgstr "Точки разрыва бакета"
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Polygon/controlPanel.ts:159
 msgid "List of n+1 values for bucketing metric into n buckets."
@@ -5988,7 +5988,7 @@ msgstr "Метрика, используемая для упорядочения
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Bar/controlPanel.ts:73
 msgid "Series Limit Sort Descending"
-msgstr "серия ограниченной сортировки нисходящего"
+msgstr "Предельная сортировка серии по убыванию"
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Bar/controlPanel.ts:75
 msgid "Whether to sort descending or ascending if a series limit is present"
@@ -6098,7 +6098,7 @@ msgstr "Сортировать столбцы"
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/controlPanel.ts:84 superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx:106
 msgid "Sort bars by x labels."
-msgstr "Сортировать столбцы по меткам на оси X"
+msgstr "Сортировать столбцы по меткам на оси X."
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/controlPanel.ts:121 superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx:151 superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:156
 msgid "Breakdowns"
@@ -6110,7 +6110,7 @@ msgstr "Определяет разложение каждой категори�
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/index.js:30
 msgid "Compares metrics from different categories using bars. Bar lengths are used to indicate the magnitude of each value and color is used to differentiate groups."
-msgstr "сравнивает метрики из разных категорий с использованием баров."
+msgstr "Сравнивает метрики из разных категорий с помощью столбиков. Длина столбиков используется для обозначения величины каждого значения, а цвет - для различения групп."
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/index.js:39
 msgid "Bar Chart (legacy)"
@@ -6177,7 +6177,7 @@ msgstr "Категория, значение и процентная доля"
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Pie/controlPanel.ts:60 superset-frontend/plugins/plugin-chart-echarts/src/Pie/controlPanel.tsx:125 superset-frontend/plugins/plugin-chart-echarts/src/Radar/controlPanel.tsx:94 superset-frontend/plugins/plugin-chart-echarts/src/Sunburst/controlPanel.tsx:107
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:90
 msgid "What should be shown on the label?"
-msgstr "Текст, отображаемый на метке"
+msgstr "Текст, отображаемый на метке?"
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Pie/controlPanel.ts:81 superset-frontend/plugins/plugin-chart-echarts/src/Pie/controlPanel.tsx:254
 msgid "Donut"
@@ -6361,7 +6361,7 @@ msgstr "Сортировка данных подсказки по мере"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:190
 msgid "Whether to sort tooltip by the selected metric in descending order."
-msgstr "Сортировка выбранных мер по убыванию во всплывающей подсказке"
+msgstr "Сортировка выбранных мер по убыванию во всплывающей подсказке."
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:202
 msgid "Show total"
@@ -6389,11 +6389,11 @@ msgstr "Исходя из того, что следует заказать се�
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:255
 msgid "Sort Series Ascending"
-msgstr "серия сортировки"
+msgstr "Сортировка серии по возрастанию"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:258
 msgid "Sort series in ascending order"
-msgstr "серия сортировки в порядке возрастания"
+msgstr "Сортировки серий в порядке возрастания"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:268
 msgid "Rotate x axis label"
@@ -6409,7 +6409,7 @@ msgstr "Порядок серий"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:290
 msgid "Truncate X Axis"
-msgstr "усеченная x ось"
+msgstr "Усеченная x ось"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:293
 msgid "Truncate X Axis. Can be overridden by specifying a min or max bound. Only applicable for numercal X axis."
@@ -6503,7 +6503,7 @@ msgstr "Процентный формат различий"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:72
 msgid "Comparison font size"
-msgstr "сравнение размер шрифта"
+msgstr "Сравнение размер шрифта"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:81 superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:84
 msgid "Add color for positive/negative change"
@@ -6864,7 +6864,7 @@ msgstr "Метки"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/controlPanel.tsx:107
 msgid "Label Contents"
-msgstr "содержимое этикетки"
+msgstr "Содержимое этикетки"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/controlPanel.tsx:125 superset-frontend/plugins/plugin-chart-echarts/src/Pie/controlPanel.tsx:122
 msgid "Value and Percentage"
@@ -7113,7 +7113,7 @@ msgstr "Оформление ребер"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Graph/controlPanel.tsx:124
 msgid "Symbol of two ends of edge line"
-msgstr "символ двух концов края линии"
+msgstr "Символ двух концов края линии"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Graph/controlPanel.tsx:127
 msgid "None -> None"
@@ -7855,7 +7855,7 @@ msgstr "график Stepped-Line (также называемый этап-ди
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Step/index.ts:59
 msgid "Stepped Line"
-msgstr "ступенчатая линия"
+msgstr "Stepped Line"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:50
 msgid "Name of the id column"
@@ -8051,11 +8051,11 @@ msgstr "Помощь"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/constants.ts:25 superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:70
 msgid "Increase"
-msgstr "увеличение"
+msgstr "Увеличение"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/constants.ts:26 superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:79
 msgid "Decrease"
-msgstr "уменьшение"
+msgstr "Уменьшение"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:63
 msgid "Series colors"
@@ -8787,7 +8787,7 @@ msgstr "Выберите столбец"
 
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:61 superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:82
 msgid "Message"
-msgstr "сообщение"
+msgstr "Сообщение"
 
 #: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:12
 msgid "Not assigned"
@@ -8832,7 +8832,7 @@ msgstr "Слишком короткий"
 
 #: superset-frontend/src/DodoExtensions/onBoarding/components/CreateTeamModal/CreateTeamModal.tsx:140
 msgid "Too long"
-msgstr "слишком долго"
+msgstr "Слишком длинное"
 
 #: superset-frontend/src/DodoExtensions/onBoarding/components/CreateTeamModal/CreateTeamModal.tsx:148
 msgid "Full Team Name"
@@ -8968,7 +8968,7 @@ msgstr "Поиск команды"
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/Request.tsx:82
 msgid "Existing team"
-msgstr "существующая команда"
+msgstr "Существующая команда"
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/Request.tsx:114
 msgid "Check information and update user"
@@ -9349,7 +9349,7 @@ msgstr "Прогноз затрат"
 
 #: superset-frontend/src/SqlLab/components/ExploreCtasResultsButton/index.tsx:69
 msgid "Creating a data source and creating a new tab"
-msgstr "Создание источника данных и добавление новой вкладки..."
+msgstr "Создание источника данных и добавление новой вкладки"
 
 #: superset-frontend/src/SqlLab/components/ExploreCtasResultsButton/index.tsx:83 superset-frontend/src/SqlLab/components/ExploreResultsButton/index.tsx:40
 msgid "Explore the result set in the data exploration view"
@@ -10180,7 +10180,7 @@ msgstr "Скопировать в буфер обмена"
 
 #: superset-frontend/src/components/CopyToClipboard/index.tsx:76 superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:74 superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:198
 msgid "Copied to clipboard!"
-msgstr "Скопировано в буфер обмена"
+msgstr "Скопировано в буфер обмена!"
 
 #: superset-frontend/src/components/CopyToClipboard/index.tsx:80
 msgid "Sorry, your browser does not support copying. Use Ctrl / Cmd + C!"
@@ -11348,7 +11348,7 @@ msgstr "Изменить"
 
 #: superset-frontend/src/dashboard/components/MissingChart.jsx:30
 msgid "There is no chart definition associated with this component, could it have been deleted?"
-msgstr "С этим компонентом не связан ни один график, возможно, он был удален."
+msgstr "С этим компонентом не связан ни один график, возможно, он был удален?"
 
 #: superset-frontend/src/dashboard/components/MissingChart.jsx:35
 msgid "Delete this container and save to remove this message."
@@ -11947,7 +11947,7 @@ msgstr "Сохранить как изображение"
 
 #: superset-frontend/src/dashboard/components/URLShortLinkButton/index.tsx:63
 msgid "Something went wrong."
-msgstr "что -то пошло не так."
+msgstr "Что-то пошло не так."
 
 #: superset-frontend/src/dashboard/components/filterscope/FilterScopeSelector.jsx:708
 msgid "Search..."
@@ -12077,11 +12077,11 @@ msgstr "Снимки экрана генерируются."
 
 #: superset-frontend/src/dashboard/components/menu/DownloadMenuItems/DownloadScreenshot.tsx:78
 msgid "The screenshot could not be downloaded. Please, try again later."
-msgstr "скриншот нельзя загрузить."
+msgstr "Скриншот нельзя загрузить."
 
 #: superset-frontend/src/dashboard/components/menu/DownloadMenuItems/DownloadScreenshot.tsx:84
 msgid "The screenshot has been downloaded."
-msgstr "скриншот был загружен."
+msgstr "Скриншот был загружен."
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Header/index.tsx:126 superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Horizontal.tsx:146
 msgid "Add/Edit Filters"
@@ -12250,7 +12250,7 @@ msgstr "Не найдено подходящих столбцов"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/DatasetSelect.tsx:94
 msgid "No compatible datasets found"
-msgstr "совместимые наборы данных не найдено"
+msgstr "Совместимые наборы данных не найдено"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/DatasetSelect.tsx:95
 msgid "Select a dataset"
@@ -13348,7 +13348,7 @@ msgstr "Скрыть линию"
 
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:879
 msgid "Hides the Line for the time series"
-msgstr "скрывает линию для временных рядов"
+msgstr "Скрывает линию для временных рядов"
 
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:911
 msgid "Layer configuration"
@@ -15367,11 +15367,11 @@ msgstr "например, "
 
 #: superset-frontend/src/features/databases/DatabaseModal/DatabaseConnectionForm/CommonParameters.tsx:153
 msgid "Default Schema"
-msgstr "схема по умолчанию"
+msgstr "Схема по умолчанию"
 
 #: superset-frontend/src/features/databases/DatabaseModal/DatabaseConnectionForm/CommonParameters.tsx:155
 msgid "The default schema that should be used for the connection."
-msgstr "схема по умолчанию, которая должна использоваться для соединения."
+msgstr "Схема по умолчанию, которая должна использоваться для соединения."
 
 #: superset-frontend/src/features/databases/DatabaseModal/DatabaseConnectionForm/CommonParameters.tsx:239
 msgid "Paste your access token here"
@@ -15407,7 +15407,7 @@ msgstr "Допустимый тип Google Таблиц"
 
 #: superset-frontend/src/features/databases/DatabaseModal/DatabaseConnectionForm/EncryptedField.tsx:82
 msgid "Publicly shared sheets only"
-msgstr "только общие листы."
+msgstr "Только общие листы"
 
 #: superset-frontend/src/features/databases/DatabaseModal/DatabaseConnectionForm/EncryptedField.tsx:85
 msgid "Public and privately shared sheets"
@@ -15500,7 +15500,7 @@ msgstr "Загрузите файл с правильным расширение
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:562
 msgid "Selecting a database is required"
-msgstr "требуется выбор базы данных"
+msgstr "Требуется выбор базы данных"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:568
 msgid "CSV Upload"
@@ -15593,7 +15593,7 @@ msgstr "Выберите уже существует"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:786
 msgid "Columns To Be Parsed as Dates"
-msgstr "Список столбцов, которые должны быть интерпретированы как даты."
+msgstr "Список столбцов, которые должны быть интерпретированы как даты"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:790
 msgid "Choose columns to be parsed as dates"
@@ -15662,7 +15662,7 @@ msgstr "Типы данных столбцов"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:928
 msgid "Create dataframe index"
-msgstr "создать индекс данных"
+msgstr "Создать индекс данных"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:940
 msgid "Index Column"
@@ -15698,7 +15698,7 @@ msgstr "Строка заголовка"
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:995
 msgid "Row containing the headers to use as column names (0 is first line of data)."
-msgstr "строка, содержащая заголовки для использования в качестве имен столбцов (0 - первая строка данных)."
+msgstr "Строка, содержащая заголовки для использования в качестве имен столбцов (0 - первая строка данных)."
 
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:1004
 msgid "Header row"
