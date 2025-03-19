@@ -46,14 +46,21 @@ try:
                 buckets=[5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000],  # Align with prometheus.py
             )
 
-        def incr(self, key: str) -> None:
-            """
-            Increment a generic counter (kept for compatibility, but prefer specific methods).
-            Args:
-                key (str): The metric key to increment.
-            """
+        def incr(
+            self,
+            key: str,
+            user_id: str = "unknown",
+            dashboard_id: Optional[str] = None,
+            slice_id: Optional[str] = None,
+            is_plugin: Optional[bool] = None
+        ) -> None:
+            self._counter.labels(key=key).inc()
             self._user_activity.labels(
-                user_id="unknown", action=key, dashboard_id="none", slice_id="none", is_plugin="none"
+                user_id=user_id,
+                action=key,
+                dashboard_id=dashboard_id or "none",
+                slice_id=slice_id or "none",
+                is_plugin=str(is_plugin) if is_plugin is not None else "none",
             ).inc()
 
         def duration(self, dashboard_id: Optional[int], slice_id: Optional[int], user_id: str, duration_ms: int) -> None:
@@ -118,5 +125,6 @@ try:
 
         def gauge(self, key: str, value: float) -> None:
             self._gauge.labels(key=key).set(value)
+
 except Exception:  # pylint: disable=broad-except
     pass
