@@ -47,11 +47,7 @@ try:
             )
 
         def incr(self, key: str) -> None:
-            """
-            Increment a generic counter (kept for compatibility, but prefer specific methods).
-            Args:
-                key (str): The metric key to increment.
-            """
+            self._counter.labels(key=key).inc()
             self._user_activity.labels(
                 user_id="unknown", action=key, dashboard_id="none", slice_id="none", is_plugin="none"
             ).inc()
