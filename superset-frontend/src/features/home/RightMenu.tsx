@@ -111,6 +111,7 @@ const RightMenu = ({
   isFrontendRoute,
   environmentTag,
   setQuery,
+  setConnectionError, // DODO added 47383817
 }: RightMenuProps & {
   setQuery: ({
     databaseAdded,
@@ -256,9 +257,20 @@ const RightMenu = ({
     };
     SupersetClient.get({
       endpoint: `/api/v1/database/?q=${rison.encode(payload)}`,
-    }).then(({ json }: Record<string, any>) => {
-      setNonExamplesDBConnected(json.count >= 1);
-    });
+    })
+      .then(({ json }: Record<string, any>) => {
+        setNonExamplesDBConnected(json.count >= 1);
+      })
+      // DODO added 47383817
+      .catch(err => {
+        if (
+          err &&
+          typeof err === 'object' &&
+          'status' in err &&
+          err.status >= 500
+        )
+          setConnectionError(true);
+      });
   };
 
   useEffect(() => {
@@ -480,16 +492,18 @@ const RightMenu = ({
             icon={<Icons.TriangleDown iconSize="xl" />}
           >
             {settings?.map?.((section, index) => [
-              <Menu.ItemGroup key={`${section.label}`} title={section.label}>
+              // DODO changed 44120742
+              <Menu.ItemGroup key={`${section.label}`} title={t(section.label)}>
                 {section?.childs?.map?.(child => {
                   if (typeof child !== 'string') {
                     const menuItemDisplay = RightMenuItemIconExtension ? (
                       <StyledMenuItemWithIcon>
-                        {child.label}
+                        {/* DODO changed 44120742 */}
+                        {t(child.label)}
                         <RightMenuItemIconExtension menuChild={child} />
                       </StyledMenuItemWithIcon>
                     ) : (
-                      child.label
+                      t(child.label) // DODO changed 44120742
                     );
                     return (
                       <Menu.Item key={`${child.label}`}>
