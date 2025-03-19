@@ -119,11 +119,11 @@ export function getNativeFilterColumn(nativeFilter = {}) {
     filterType === FilterPlugins.SelectById ||
     filterType === FilterPlugins.SelectByIdWithTranslation
   ) {
-    return targets?.[0]?.column.id;
+    return targets?.[0]?.column?.id;
   }
   if (filterType === FilterPlugins.SelectWithTranslation) {
     const localisedName = `name${locale === 'ru' ? 'Ru' : ''}`;
-    return targets?.[0]?.column[localisedName];
+    return targets?.[0]?.column?.[localisedName];
   }
-  return targets?.[0]?.column.name;
+  return targets?.[0]?.column?.name;
 }
