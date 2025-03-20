@@ -37,7 +37,11 @@ const app = (
           >
             {/* DODO added 47015293 (ErrorBoundary) */}
             <ErrorBoundary>
-              <Menu data={menu} />
+              <Menu
+                data={menu}
+                connectionError={false} // DODO added 47383817
+                setConnectionError={() => {}} // DODO added 47383817
+              />
             </ErrorBoundary>
           </QueryParamProvider>
         </BrowserRouter>

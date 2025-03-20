@@ -1,19 +1,4 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
+# dodo was here
 # pylint: disable=too-many-lines
 import functools
 import logging
@@ -59,8 +44,10 @@ from superset.commands.dashboard.update import UpdateDashboardCommand
 from superset.commands.exceptions import TagForbiddenError
 from superset.commands.importers.exceptions import NoValidFilesFoundError
 from superset.commands.importers.v1.utils import get_contents_from_bundle
-from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
+from superset.commands.tag.create import CreateTeamTagCommand
+from superset.constants import Language, MODEL_API_RW_METHOD_PERMISSION_MAP, RouteMethod
 from superset.daos.dashboard import DashboardDAO, EmbeddedDashboardDAO
+from superset.daos.team import TeamDAO
 from superset.dashboards.filters import (
     DashboardAccessFilter,
     DashboardCertifiedFilter,
@@ -92,10 +79,15 @@ from superset.dashboards.schemas import (
     TabsPayloadSchema,
     thumbnail_query_schema,
 )
+from superset.dashboards.utils import (
+    translate_charts_to_russian,
+    translate_dashboards_to_russian,
+)
 from superset.extensions import event_logger
 from superset.models.dashboard import Dashboard
 from superset.models.embedded_dashboard import EmbeddedDashboard
 from superset.security.guest_token import GuestUser
+from superset.tags.models import ObjectType
 from superset.tasks.thumbnails import (
     cache_dashboard_screenshot,
     cache_dashboard_thumbnail,
@@ -209,6 +201,7 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "created_by.id",
         "created_by.last_name",
         "dashboard_title",
+        "dashboard_title_ru",  # dodo added 44120742
         "owners.id",
         "owners.first_name",
         "owners.last_name",
@@ -296,6 +289,10 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "changed_by": RelatedFieldFilter("first_name", FilterRelatedOwners),
     }
     allowed_rel_fields = {"owners", "roles", "created_by", "changed_by"}
+
+    extra_fields_rel_fields: dict[str, list[str]] = {
+        "owners": ["email", "user_info.country_name", "active"]
+    }
 
     openapi_spec_tag = "Dashboards"
     """ Override the name set for this collection of endpoints """
@@ -416,11 +413,16 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        language = request.args.get("language")  # dodo added 44120742
         try:
             datasets = DashboardDAO.get_datasets_for_dashboard(id_or_slug)
             result = [
                 self.dashboard_dataset_schema.dump(dataset) for dataset in datasets
             ]
+            # dodo added 44120742
+            if language == Language.RU:
+                translate_dashboards_to_russian(result)
+
             return self.response(200, result=result)
         except (TypeError, ValueError) as err:
             return self.response_400(
@@ -530,9 +532,15 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             404:
               $ref: '#/components/responses/404'
         """
+        language = request.args.get("language")  # dodo added 44120742
         try:
             charts = DashboardDAO.get_charts_for_dashboard(id_or_slug)
             result = [self.chart_entity_response_schema.dump(chart) for chart in charts]
+
+            # dodo added 44120742
+            if language == Language.RU:
+                translate_charts_to_russian(result)
+
             return self.response(200, result=result)
         except DashboardAccessDeniedError:
             return self.response_403()
@@ -588,6 +596,13 @@ class DashboardRestApi(BaseSupersetModelRestApi):
             return self.response_400(message=error.messages)
         try:
             new_model = CreateDashboardCommand(item).run()
+            # dodo add 35337314
+            team = TeamDAO.get_team_by_user_id()
+            if team:
+                team_slug = team.slug
+                object_type = ObjectType.dashboard
+                object_id = new_model.id
+                CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
             return self.response(201, id=new_model.id, result=item)
         except DashboardInvalidError as ex:
             return self.response_422(message=ex.normalized_messages())

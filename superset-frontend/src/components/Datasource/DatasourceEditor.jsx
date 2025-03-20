@@ -38,6 +38,7 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
 import NumberFormatControl from 'src/DodoExtensions/explore/components/controls/NumberFormatControl'; // DODO added 44211769
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
@@ -238,11 +239,32 @@ function ColumnCollectionTable({
             )}
             <Field
               fieldKey="verbose_name"
-              label={t('Label')}
+              // label={t('Label')}
+              // DODO changed 44120742
+              label={
+                <div className="f16">
+                  {t('Label (Eng)')} <i className="flag gb" />
+                </div>
+              }
               control={
                 <TextControl
                   controlId="verbose_name"
-                  placeholder={t('Label')}
+                  placeholder={t('Label (Eng)')} // DODO changed 44120742
+                />
+              }
+            />
+            {/* DODO added 44120742 */}
+            <Field
+              fieldKey="verbose_name_ru"
+              label={
+                <div className="f16">
+                  {t('Label (Rus)')} <i className="flag ru" />
+                </div>
+              }
+              control={
+                <TextControl
+                  controlId="verbose_name_ru"
+                  placeholder={t('Label (Rus)')}
                 />
               }
             />
@@ -549,10 +571,18 @@ function OwnersSelector({ datasource, onChange }) {
     }).then(response => ({
       data: response.json.result
         .filter(item => item.extra.active)
-        .map(item => ({
-          value: item.value,
-          label: item.text,
-        })),
+        .map(item => {
+          // DODO added start 44211759
+          const { country_name: countryName, email } = item.extra;
+          let label = item.text;
+          label += ` (${countryName || 'no country'})`;
+          if (email) label += ` ${email}`;
+          // DODO added stop 44211759
+          return {
+            value: item.value,
+            label,
+          };
+        }),
       totalCount: response.json.count,
     }));
   }, []);
@@ -579,7 +609,7 @@ class DatasourceEditor extends PureComponent {
         ...props.datasource,
         owners: props.datasource.owners.map(owner => ({
           value: owner.value || owner.id,
-          label: owner.label || `${owner.first_name} ${owner.last_name}`,
+          label: owner.label || getOwnerName(owner), // DODO changed 44211759
         })),
         metrics: props.datasource.metrics?.map(metric => {
           const {
@@ -659,13 +689,28 @@ class DatasourceEditor extends PureComponent {
   onDatasourcePropChange(attr, value) {
     if (value === undefined) return; // if value is undefined do not update state
     const datasource = { ...this.state.datasource, [attr]: value };
+    // DODO added 44120742
+    const alteredDatasource = {
+      ...datasource,
+      metrics: datasource.metrics.map(v => ({
+        ...v,
+        verbose_name_en: v.verbose_name || null,
+      })),
+    };
     this.setState(
       prevState => ({
         datasource: { ...prevState.datasource, [attr]: value },
       }),
       attr === 'table_name'
-        ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
-        : this.onDatasourceChange(datasource, this.validateAndChange),
+        ? // ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
+          // : this.onDatasourceChange(datasource, this.validateAndChange),
+          // DODO changed start 44120742
+          this.onDatasourceChange(
+            alteredDatasource,
+            this.tableChangeAndSyncMetadata,
+          )
+        : this.onDatasourceChange(alteredDatasource, this.validateAndChange),
+      // DODO changed stop 44120742
     );
   }
 
@@ -675,7 +720,30 @@ class DatasourceEditor extends PureComponent {
 
   setColumns(obj) {
     // update calculatedColumns or databaseColumns
-    this.setState(obj, this.validateAndChange);
+    // this.setState(obj, this.validateAndChange);
+    let alteredObj = {
+      ...obj,
+    };
+    if (alteredObj && alteredObj.databaseColumns) {
+      alteredObj = {
+        ...alteredObj,
+        databaseColumns: alteredObj.databaseColumns.map(c => ({
+          ...c,
+          verbose_name_en: c.verbose_name || null,
+        })),
+      };
+    }
+    if (alteredObj && alteredObj.calculatedColumns) {
+      alteredObj = {
+        ...alteredObj,
+        calculatedColumns: alteredObj.calculatedColumns.map(c => ({
+          ...c,
+          verbose_name_en: c.verbose_name || null,
+        })),
+      };
+    }
+
+    this.setState(alteredObj, this.validateAndChange);
   }
 
   validateAndChange() {
@@ -1242,11 +1310,22 @@ class DatasourceEditor extends PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
-        tableColumns={['metric_name', 'verbose_name', 'expression']}
-        sortColumns={['metric_name', 'verbose_name', 'expression']}
+        tableColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_ru', // DODO added 44120742
+          'expression',
+        ]}
+        sortColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_ru', // DODO added 44120742
+          'expression',
+        ]}
         columnLabels={{
-          metric_name: t('Metric Key'),
-          verbose_name: t('Label'),
+          metric_name: t('Metric'),
+          verbose_name: t('Label (Eng)'), // DODO changed 44120742
+          verbose_name_ru: t('Label (Rus)'), // DODO added 44120742
           expression: t('SQL expression'),
         }}
         columnLabelTooltips={{
@@ -1354,6 +1433,7 @@ class DatasourceEditor extends PureComponent {
         itemGenerator={() => ({
           metric_name: t('<new metric>'),
           verbose_name: '',
+          verbose_name_ru: '', // DODO added 44120742
           expression: '',
         })}
         itemCellProps={{
@@ -1379,6 +1459,10 @@ class DatasourceEditor extends PureComponent {
             </FlexRowContainer>
           ),
           verbose_name: (v, onChange) => (
+            <TextControl canEdit value={v} onChange={onChange} />
+          ),
+          // DODO added 44120742
+          verbose_name_ru: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
           expression: (v, onChange) => (

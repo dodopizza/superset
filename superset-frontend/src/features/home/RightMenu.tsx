@@ -32,6 +32,11 @@ import DatabaseModal from 'src/features/databases/DatabaseModal';
 import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import TelemetryPixel from 'src/components/TelemetryPixel';
+// DODO added start 44211792
+import { useHasUserTeam } from 'src/DodoExtensions/onBoarding/hooks/useHasUserTeam';
+import { getIsOnboardingFinished } from 'src/DodoExtensions/onBoarding/model/selectors/getIsOnboardingFinished';
+import { setInitByUserStorageInfo } from 'src/DodoExtensions/onBoarding/utils/localStorageUtils';
+// DODO added stop 44211792
 import { Version } from 'src/DodoExtensions/components/Version'; // DODO added 45047288
 import { APP_VERSION } from 'src/constants'; // DODO added 45047288
 import LanguagePicker from './LanguagePicker';
@@ -106,6 +111,7 @@ const RightMenu = ({
   isFrontendRoute,
   environmentTag,
   setQuery,
+  setConnectionError, // DODO added 47383817
 }: RightMenuProps & {
   setQuery: ({
     databaseAdded,
@@ -251,9 +257,20 @@ const RightMenu = ({
     };
     SupersetClient.get({
       endpoint: `/api/v1/database/?q=${rison.encode(payload)}`,
-    }).then(({ json }: Record<string, any>) => {
-      setNonExamplesDBConnected(json.count >= 1);
-    });
+    })
+      .then(({ json }: Record<string, any>) => {
+        setNonExamplesDBConnected(json.count >= 1);
+      })
+      // DODO added 47383817
+      .catch(err => {
+        if (
+          err &&
+          typeof err === 'object' &&
+          'status' in err &&
+          err.status >= 500
+        )
+          setConnectionError(true);
+      });
   };
 
   useEffect(() => {
@@ -341,6 +358,12 @@ const RightMenu = ({
   };
 
   const theme = useTheme();
+
+  // DODO added start 44211792
+  const hasTeam = useHasUserTeam(String(user?.userId ?? ''), !isLoginPage);
+  const isOnboardingFinished = useSelector(getIsOnboardingFinished);
+  const isOnBoardingVisible = !isOnboardingFinished || !hasTeam;
+  // DODO added stop 44211792
 
   return (
     <StyledDiv align={align}>
@@ -469,16 +492,18 @@ const RightMenu = ({
             icon={<Icons.TriangleDown iconSize="xl" />}
           >
             {settings?.map?.((section, index) => [
-              <Menu.ItemGroup key={`${section.label}`} title={section.label}>
+              // DODO changed 44120742
+              <Menu.ItemGroup key={`${section.label}`} title={t(section.label)}>
                 {section?.childs?.map?.(child => {
                   if (typeof child !== 'string') {
                     const menuItemDisplay = RightMenuItemIconExtension ? (
                       <StyledMenuItemWithIcon>
-                        {child.label}
+                        {/* DODO changed 44120742 */}
+                        {t(child.label)}
                         <RightMenuItemIconExtension menuChild={child} />
                       </StyledMenuItemWithIcon>
                     ) : (
-                      child.label
+                      t(child.label) // DODO changed 44120742
                     );
                     return (
                       <Menu.Item key={`${child.label}`}>
@@ -501,6 +526,20 @@ const RightMenu = ({
             {!navbarRight.user_is_anonymous && [
               <Menu.Divider key="user-divider" />,
               <Menu.ItemGroup key="user-section" title={t('User')}>
+                {/* DODO added 44211792 */}
+                {isOnBoardingVisible && (
+                  <Menu.Item key="onboarding">
+                    <a
+                      href="/"
+                      onClick={() => {
+                        // e.preventDefault();
+                        setInitByUserStorageInfo();
+                      }}
+                    >
+                      {t('Onboarding')}
+                    </a>
+                  </Menu.Item>
+                )}
                 {navbarRight.user_info_url && (
                   <Menu.Item key="info">
                     <a href={navbarRight.user_info_url}>{t('Info')}</a>

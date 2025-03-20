@@ -512,7 +512,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   }
 
   return (
-    <div>
+    <>
       <Version appVersion={APP_VERSION} />
       <ContentWrapper>
         {!isLoaded || !isFullConfigReady ? (
@@ -555,6 +555,6 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
           </RootComponentWrapper>
         )}
       </ContentWrapper>
-    </div>
+    </>
   );
 };

@@ -174,6 +174,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.type",
         "columns.uuid",
         "columns.verbose_name",
+        "columns.verbose_name_ru",
+        "columns.verbose_name_en",
         "metrics.changed_on",
         "metrics.created_on",
         "metrics.d3format",
@@ -188,6 +190,8 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "metrics.metric_name",
         "metrics.metric_type",
         "metrics.verbose_name",
+        "metrics.verbose_name_ru",
+        "metrics.verbose_name_en",
         "metrics.warning_text",
         "datasource_type",
         "url",
@@ -272,6 +276,10 @@ class DatasetRestApi(BaseSupersetModelRestApi):
     ]
     allowed_rel_fields = {"database", "owners", "created_by", "changed_by"}
     allowed_distinct_fields = {"catalog", "schema"}
+
+    extra_fields_rel_fields: dict[str, list[str]] = {
+        "owners": ["email", "user_info.country_name", "active"]
+    }
 
     apispec_parameter_schemas = {
         "get_export_ids_schema": get_export_ids_schema,

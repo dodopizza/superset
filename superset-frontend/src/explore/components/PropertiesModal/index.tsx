@@ -1,22 +1,6 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { ChangeEvent, useMemo, useState, useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // DODO added 44211792
 
 import Modal from 'src/components/Modal';
 import { Input, TextArea } from 'src/components/Input';
@@ -38,6 +22,8 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import { loadTags } from 'src/components/Tags/utils';
 import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
 import TagType from 'src/types/TagType';
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
+import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo'; // DODO added 44211792
 
 export type PropertiesModalProps = {
   slice: Slice;
@@ -48,6 +34,13 @@ export type PropertiesModalProps = {
   existingOwners?: SelectValue;
   addSuccessToast: (msg: string) => void;
 };
+
+// DODO added 44211759
+interface IExtra {
+  active: boolean;
+  email: string;
+  country_name: string;
+}
 
 const FormItem = AntdForm.Item;
 
@@ -106,7 +99,7 @@ function PropertiesModal({
         setSelectedOwners(
           chart?.owners?.map((owner: any) => ({
             value: owner.id,
-            label: `${owner.first_name} ${owner.last_name}`,
+            label: getOwnerName(owner), // DODO changed 44211759
           })),
         );
       } catch (response) {
@@ -129,11 +122,25 @@ function PropertiesModal({
           endpoint: `/api/v1/chart/related/owners?q=${query}`,
         }).then(response => ({
           data: response.json.result
-            .filter((item: { extra: { active: boolean } }) => item.extra.active)
-            .map((item: { value: number; text: string }) => ({
-              value: item.value,
-              label: item.text,
-            })),
+            .filter((item: { extra: Partial<IExtra> }) => item.extra.active)
+            .map(
+              (item: {
+                value: number;
+                text: string;
+                extra: Partial<IExtra>; // DODO added 44211759
+              }) => {
+                // DODO added start 44211759
+                const { country_name, email } = item.extra;
+                let label = item.text;
+                label += ` (${country_name || 'no country'})`;
+                if (email) label += ` ${email}`;
+                // DODO added stop 44211759
+                return {
+                  value: item.value,
+                  label,
+                };
+              },
+            ),
           totalCount: response.json.count,
         }));
       },
@@ -239,6 +246,8 @@ function PropertiesModal({
   const handleClearTags = () => {
     setTags([]);
   };
+
+  const user = useSelector(getUserInfo); // DODO added 44211792
 
   return (
     <Modal
@@ -385,6 +394,7 @@ function PropertiesModal({
                   onChange={handleChangeTags}
                   onClear={handleClearTags}
                   allowClear
+                  disabled={!user?.roles?.Admin} // DODO added 44211792
                 />
                 <StyledHelpBlock className="help-block">
                   {t('A list of tags that have been applied to this chart.')}

@@ -1,24 +1,14 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-env browser */
 import cx from 'classnames';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FC,
+  useCallback,
+  useEffect,
+  // useMemo, // DODO commented out 47089618
+  useRef,
+  useState,
+} from 'react';
 import {
   addAlpha,
   css,
@@ -32,6 +22,7 @@ import {
 } from '@superset-ui/core';
 import { Global } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
+import { bootstrapData } from 'src/preamble';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import BuilderComponentPane from 'src/dashboard/components/BuilderComponentPane';
 import DashboardHeader from 'src/dashboard/containers/DashboardHeader';
@@ -84,6 +75,36 @@ import DashboardWrapper from './DashboardWrapper';
 
 type DashboardBuilderProps = {};
 
+// DODO added start 44120742
+const getPageLanguage = () => {
+  if (!document) {
+    return null;
+  }
+  const select = document.querySelector(
+    '#changeLanguage select',
+  ) as HTMLSelectElement;
+  const selectedLanguage = select ? select.value : null;
+  return selectedLanguage;
+};
+
+const getLocaleForSuperset = () => {
+  const dodoisLanguage = getPageLanguage();
+  if (dodoisLanguage) {
+    if (dodoisLanguage === 'ru-RU') return 'ru';
+    return 'en';
+  }
+  return 'en';
+};
+
+let locale = 'en';
+
+if (process.env.type === undefined) {
+  locale = bootstrapData?.common?.locale || 'en';
+} else {
+  locale = getLocaleForSuperset();
+}
+// DODO added stop 44120742
+
 // @z-index-above-dashboard-charts + 1 = 11
 const FiltersPanel = styled.div<{ width: number; hidden: boolean }>`
   grid-column: 1;
@@ -101,14 +122,19 @@ const StickyPanel = styled.div<{ width: number }>`
 `;
 
 // @z-index-above-dashboard-popovers (99) + 1 = 100
-const StyledHeader = styled.div`
-  ${({ theme }) => css`
-    grid-column: 2;
+const StyledHeader = styled.div<{
+  dashboardFiltersOpen: boolean; // DODO added 47089618
+}>`
+  ${({ theme, dashboardFiltersOpen }) => css`
+    grid-column: ${dashboardFiltersOpen ? '2' : '1 / span 2'};
     grid-row: 1;
     position: sticky;
     top: 0;
     z-index: 100;
-    max-width: 100vw;
+    // max-width: 100vw;
+    // DODO changed 47089618
+    max-width: 100%;
+    overflow-x: hidden; // DODO added 47089618
 
     .empty-droptarget:before {
       position: absolute;
@@ -483,23 +509,24 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   const filterBarHeight = `calc(100vh - ${offset}px)`;
   const filterBarOffset = dashboardFiltersOpen ? 0 : barTopOffset + 20;
 
-  const draggableStyle = useMemo(
-    () => ({
-      marginLeft:
-        dashboardFiltersOpen ||
-        editMode ||
-        !nativeFiltersEnabled ||
-        filterBarOrientation === FilterBarOrientation.Horizontal
-          ? 0
-          : -32,
-    }),
-    [
-      dashboardFiltersOpen,
-      editMode,
-      filterBarOrientation,
-      nativeFiltersEnabled,
-    ],
-  );
+  // DODO commented out 47089618
+  // const draggableStyle = useMemo(
+  //   () => ({
+  //     marginLeft:
+  //       dashboardFiltersOpen ||
+  //       editMode ||
+  //       !nativeFiltersEnabled ||
+  //       filterBarOrientation === FilterBarOrientation.Horizontal
+  //         ? 0
+  //         : -32,
+  //   }),
+  //   [
+  //     dashboardFiltersOpen,
+  //     editMode,
+  //     filterBarOrientation,
+  //     nativeFiltersEnabled,
+  //   ],
+  // );
 
   // If a new tab was added, update the directPathToChild to reflect it
   const currentTopLevelTabs = useRef(topLevelTabs);
@@ -555,6 +582,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               renderTabContent={false}
               renderHoverMenu={false}
               onChangeTab={handleChangeTab}
+              locale={locale} // DODO added 44120742
             />
           </WithPopoverMenu>
         )}
@@ -623,7 +651,10 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             </ResizableSidebar>
           </>
         )}
-      <StyledHeader ref={headerRef}>
+      <StyledHeader
+        ref={headerRef}
+        dashboardFiltersOpen={dashboardFiltersOpen} // DODO added 47089618
+      >
         {/* @ts-ignore */}
         <Droppable
           data-test="top-level-tabs"
@@ -637,7 +668,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
           editMode={editMode}
           // you cannot drop on/displace tabs if they already exist
           disableDragDrop={!!topLevelTabs}
-          style={draggableStyle}
+          // style={draggableStyle} // DODO commented out 47089618
         >
           {renderDraggableContent}
         </Droppable>
