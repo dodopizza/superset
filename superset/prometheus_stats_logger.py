@@ -36,7 +36,7 @@ try:
             self._query_errors = Counter(
                 f"{self.prefix}_query_errors",
                 "Counter for query errors",
-                labelnames=["dashboard_id", "slice_id", "error_type"],
+                labelnames=["method", "endpoint", "status", "error_type"],
             )
 
             self._dashboard_load_duration = Histogram(
@@ -78,17 +78,29 @@ try:
                 user_id=user_id,
             ).observe(duration_ms)
 
-        def log_query_error(self, dashboard_id: Optional[int], slice_id: Optional[int], error_type: str) -> None:
+        # Used in GunicornPrometheusLogger
+        def log_query_error(
+            self,
+            error_type: str,
+            method: str = "UNKNOWN",
+            endpoint: str = "/unknown",
+            status: int = None,
+            duration_in_ms: float = None
+        ) -> None:
             """
-            Log query errors.
+            Log query errors using the _query_errors counter.
+
             Args:
-                dashboard_id (Optional[int]): ID of the dashboard involved.
-                slice_id (Optional[int]): ID of the slice/chart involved.
-                error_type (str): Type of error (e.g., "timeout", "unknown").
+                error_type (str): Type of error (e.g., "client_error", "server_error").
+                method (str): HTTP method (e.g., "GET", "POST").
+                endpoint (str): Requested endpoint (e.g., "/api/data").
+                status (int): HTTP status code (e.g., 404, 500).
+                duration_in_ms (float): Duration of the request in milliseconds.
             """
             self._query_errors.labels(
-                dashboard_id=str(dashboard_id) if dashboard_id is not None else "none",
-                slice_id=str(slice_id) if slice_id is not None else "none",
+                method=method,
+                endpoint=endpoint,
+                status=str(status),
                 error_type=error_type,
             ).inc()
 
@@ -116,9 +128,6 @@ try:
                 slice_id=str(slice_id) if slice_id is not None else "none",
                 is_plugin=str(is_plugin) if is_plugin is not None else "none",
             ).inc()
-
-        def decr(self, key: str) -> None:
-            raise NotImplementedError("Decrement operation is not supported.")
 
         def timing(self, key: str, value: float) -> None:
             self._summary.labels(key=key).observe(value)
