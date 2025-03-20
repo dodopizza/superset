@@ -21176,3 +21176,6 @@ msgstr "Выбрать все"
 
 msgid "Show values"
 msgstr "Показать значения"
+
+msgid "Hide values"
+msgstr "Скрыть значения"

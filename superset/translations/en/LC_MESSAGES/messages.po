@@ -20367,3 +20367,6 @@ msgstr ""
 
 msgid "Show values"
 msgstr ""
+
+msgid "Hide values"
+msgstr ""
