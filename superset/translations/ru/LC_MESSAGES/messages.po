@@ -14532,7 +14532,7 @@ msgid ""
 "              Your filter selection will be saved and remain active until you "
 "choose to change it."
 msgstr ""
-"Вы можете отобразить все диаграммы, к которым у вас есть доступ, или только те, "
+"Вы можете отобразить все графики, к которым у вас есть доступ, или только те, "
 "которые у вас есть."
 
 #: superset-frontend/src/dashboard/components/AddSliceCard/AddSliceCard.tsx:140
@@ -15273,7 +15273,7 @@ msgstr "В настоящее время глобальные фильтры н�
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx:200
 msgid "Click on \"+Add/Edit Filters\" button to create new dashboard filters"
 msgstr ""
-"Нажмите кнопку «Добавить/редактировать фильтры» \\ », чтобы создать новые фильтры "
+"Нажмите кнопку «Добавить/изменить фильтры» \\ », чтобы создать новые фильтры "
 "на дашборде"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/Vertical.tsx:227
