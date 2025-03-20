@@ -46,6 +46,13 @@ try:
                 buckets=[5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000],  # Align with prometheus.py
             )
 
+            # New user registration counter
+            self._new_user_registrations = Counter(
+                f"{self.prefix}_new_user_registrations",
+                "Tracks the number of new user registrations.",
+                labelnames=["user_id", "email"],
+            )
+
         def incr(
             self,
             key: str,
@@ -134,6 +141,27 @@ try:
 
         def gauge(self, key: str, value: float) -> None:
             self._gauge.labels(key=key).set(value)
+
+        # Used in dodo.py
+        def incr_new_user_registration(
+            self,
+            user_id: str,
+            email: str,
+        ) -> None:
+            """
+            Increment the new user registration counter.
+
+            Args:
+                user_id (str): The ID of the newly registered user.
+                email (str): The email of the newly registered user.
+            """
+            try:
+                self._new_user_registrations.labels(
+                    user_id=user_id,
+                    email=email,
+                ).inc()
+            except Exception as e:
+                logger.error(f"[prometheus_stats_logger.py] Failed to log new user registration metric: {e}")
 
 except Exception:  # pylint: disable=broad-except
     pass
