@@ -15421,7 +15421,7 @@ msgstr "Сохраненные (%(filterSetCount)d)"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/ActionButtons/index.tsx:127
 msgid "Apply filters"
-msgstr "Применить фильтры"
+msgstr "Применить"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/ActionButtons/index.tsx:137
 msgid "Clear all"
@@ -21346,6 +21346,9 @@ msgid "We have the following keys: %s"
 msgstr "У нас есть следующие ключи: %s"
 
 #, Manually added translations
+msgid "Query History"
+msgstr "История запросов"
+
 msgid "Manage"
 msgstr "Управление"
 

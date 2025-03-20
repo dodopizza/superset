@@ -20265,6 +20265,9 @@ msgstr ""
 
 
 #, Manually added translations
+msgid "Query History"
+msgstr ""
+
 msgid "Manage"
 msgstr ""
 

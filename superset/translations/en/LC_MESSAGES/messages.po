@@ -20296,6 +20296,9 @@ msgid "We have the following keys: %s"
 msgstr ""
 
 #, Manually added translations
+msgid "Query History"
+msgstr ""
+
 msgid "Manage"
 msgstr ""
 
