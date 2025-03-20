@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-03-20 15:37+0300\n"
+"POT-Creation-Date: 2025-03-20 16:26+0300\n"
 "PO-Revision-Date: 2016-05-02 08:49-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -4517,6 +4517,18 @@ msgstr ""
 
 #: superset-frontend/packages/superset-ui-core/src/chart/components/SuperChartCore.tsx:175
 msgid "ERROR"
+msgstr ""
+
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:81
+msgid ""
+"This chart uses features or modules which are no longer actively "
+"maintained. It will eventually be replaced or removed."
+msgstr ""
+
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:84
+msgid ""
+"This chart was tested and verified, so the overall experience should be "
+"stable."
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-core/src/query/extractQueryFields.ts:121
@@ -20368,5 +20380,3 @@ msgstr ""
 msgid "Show values"
 msgstr ""
 
-msgid "Hide values"
-msgstr ""
