@@ -5741,7 +5741,7 @@ msgstr "Lанные по возрасту населения"
 
 #: superset-frontend/plugins/legacy-plugin-chart-histogram/src/index.js:37
 msgid "Histogram (legacy)"
-msgstr "гистограмма (наследие)"
+msgstr "Гистограмма (legacy)"
 
 #: superset-frontend/plugins/legacy-plugin-chart-horizon/src/controlPanel.ts:30
 #: superset-frontend/plugins/legacy-plugin-chart-paired-t-test/src/controlPanel.ts:28
@@ -5810,7 +5810,7 @@ msgstr ""
 
 #: superset-frontend/plugins/legacy-plugin-chart-horizon/src/index.js:32
 msgid "Horizon Chart"
-msgstr "Horizon график"
+msgstr "Horizon Chart"
 
 #: superset-frontend/plugins/legacy-plugin-chart-map-box/src/controlPanel.ts:31
 msgid "Dark Cyan"
@@ -9013,7 +9013,7 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/index.ts:59
 msgid "Funnel Chart"
-msgstr "Воронка"
+msgstr "Funnel Chart"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/index.ts:65
 #: superset-frontend/plugins/plugin-chart-table/src/index.ts:52
