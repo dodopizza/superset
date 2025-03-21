@@ -1976,12 +1976,6 @@ const en = {
       'Count as Fraction of Total': [''],
       'Count as Fraction of Rows': [''],
       'Count as Fraction of Columns': [''],
-      '': [''],
-      '': [''],
-      '': [''],
-      '': [''],
-      '': [''],
-      '': [''],
     },
   },
 };
