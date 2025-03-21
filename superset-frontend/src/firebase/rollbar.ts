@@ -9,6 +9,9 @@ const ENV_MAP: Record<string, Env> = {
 
   'superset-spr.d.yandex.dodois': 'development',
   'superset-fof.d.yandex.dodois': 'development',
+  'spr.d.yandex.dodois': 'development',
+  'superset.d.yandex.dodois': 'development',
+
   localhost: 'local',
 };
 const DOMAIN_ARRAY = Object.keys(ENV_MAP);
