@@ -8,6 +8,7 @@ import {
   getColumnLabel,
   getNumberFormatter,
   getTimeFormatter,
+  t,
 } from '@superset-ui/core';
 import { ECBasicOption } from 'echarts/types/src/util/types'; // DODO added 45525377
 import { EchartsMixedTimeseriesChartTransformedProps } from './types';
@@ -255,7 +256,7 @@ export default function EchartsMixedTimeseries({
             tabIndex={0}
             onClick={showHideHandler}
           >
-            {isVisibleNow ? 'Show' : 'Hide'} values
+            {t(isVisibleNow ? 'Show values' : 'Hide values')}
           </span>
         </div>
       )}

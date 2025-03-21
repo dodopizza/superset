@@ -1,3 +1,4 @@
+import { t } from '@superset-ui/core';
 import EditableTitle from 'src/components/EditableTitle';
 import { Tooltip } from 'src/components/Tooltip';
 import {
@@ -73,7 +74,7 @@ const ControlPopoverTitle = ({
       </>
     )}
     {!canHaveCustomLabel && (
-      <Tooltip placement="top" title="You cannot edit titles from Dataset">
+      <Tooltip placement="top" title={t('You cannot edit titles from Dataset')}>
         <InformativeTitle inputLabel={popoverLabel} language="gb" />
         <InformativeTitle inputLabel={popoverLabelRU} language="ru" />
       </Tooltip>
