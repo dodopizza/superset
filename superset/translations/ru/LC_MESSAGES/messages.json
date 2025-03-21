@@ -4681,6 +4681,8 @@
         "Эта панель управления управляется снаружи и не может быть отредактирована в Superset"
       ],
       "Basic information": ["Основная информация"],
+      "Title (Eng)": ["Английское название"],
+      "Title (Rus)": ["Русское название"],
       "URL slug": ["Читаемый URL"],
       "A readable URL for your dashboard": ["Читаемый URL-адрес для дашборда"],
       "Certification": ["Утверждение"],
@@ -6792,7 +6794,19 @@
       "Drop columns here or click": ["Перетащите столбцы сюда"],
       "Saved Queries": ["Сохраненные Запросы"],
       "Select all": ["Выбрать все"],
-      "Show values": ["Показать значения"]
+      "Show values": ["Показать значения"],
+      "Day": ["День"],
+      "Week": ["Неделя"],
+      "Month": ["Месяц"],
+      "Quarter": ["Квартал"],
+      "Year": ["Год"],
+      "Week starting sunday": ["Неделя с воскресенья"],
+      "Week starting monday": ["Неделя с понедельника"],
+      "Week ending saturday": ["Неделя до субботы"],
+      "Week_ending sunday": ["Неделя до воскресенья"],
+      "Week starting Sunday": ["Неделя с воскресенья"],
+      "Week starting Monday": ["Неделя с понедельника"],
+      "Week ending Saturday": ["Неделя до субботы"]
     }
   }
 }

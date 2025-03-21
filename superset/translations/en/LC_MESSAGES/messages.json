@@ -4942,7 +4942,19 @@
       "Drop columns here or click": [""],
       "Saved Queries": [""],
       "Select all": [""],
-      "Show values": [""]
+      "Show values": [""],
+      "Day": [""],
+      "Week": [""],
+      "Month": [""],
+      "Quarter": [""],
+      "Year": [""],
+      "Week starting sunday": [""],
+      "Week starting monday": [""],
+      "Week ending saturday": [""],
+      "Week_ending sunday": [""],
+      "Week starting Sunday": [""],
+      "Week starting Monday": [""],
+      "Week ending Saturday": [""]
     }
   }
 }
