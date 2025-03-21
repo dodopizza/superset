@@ -6783,6 +6783,7 @@
       "Manage": ["Управление"],
       "List Users": ["Список пользователей"],
       "List Roles": ["Список ролей"],
+      "User Registrations": ["Регистрации пользователей"],
       "Action Log": ["Журнал Действий"],
       "Database Connections": ["Базы данных"],
       "Plugins": ["Плагины"],

@@ -4933,6 +4933,7 @@
       "Manage": [""],
       "List Users": [""],
       "List Roles": [""],
+      "User Registrations": [""],
       "Action Log": [""],
       "Database Connections": [""],
       "Plugins": [""],

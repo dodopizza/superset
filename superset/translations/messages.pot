@@ -20322,6 +20322,9 @@ msgstr ""
 msgid "List Roles"
 msgstr ""
 
+msgid "User Registrations"
+msgstr ""
+
 msgid "Action Log"
 msgstr ""
 
@@ -20350,4 +20353,40 @@ msgid "Show values"
 msgstr ""
 
 msgid "Hide values"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Quarter"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Week starting sunday"
+msgstr ""
+
+msgid "Week starting monday"
+msgstr ""
+
+msgid "Week ending saturday"
+msgstr ""
+
+msgid "Week_ending sunday"
+msgstr ""
+
+msgid "Week starting Sunday"
+msgstr ""
+
+msgid "Week starting Monday"
+msgstr ""
+
+msgid "Week ending Saturday"
 msgstr ""

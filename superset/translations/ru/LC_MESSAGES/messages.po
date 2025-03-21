@@ -14938,15 +14938,13 @@ msgstr "Основная информация"
 
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:661
 #: superset-frontend/src/pages/DashboardList/index.tsx:351
-#, fuzzy
 msgid "Title (Eng)"
-msgstr "Название"
+msgstr "Английское название"
 
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:671
 #: superset-frontend/src/pages/DashboardList/index.tsx:363
-#, fuzzy
 msgid "Title (Rus)"
-msgstr "Название"
+msgstr "Русское название"
 
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:681
 msgid "URL slug"
@@ -21165,6 +21163,9 @@ msgstr "Список пользователей"
 msgid "List Roles"
 msgstr "Список ролей"
 
+msgid "User Registrations"
+msgstr "Регистрации пользователей"
+
 msgid "Action Log"
 msgstr "Журнал Действий"
 
@@ -21191,3 +21192,39 @@ msgstr "Выбрать все"
 
 msgid "Show values"
 msgstr "Показать значения"
+
+msgid "Day"
+msgstr "День"
+
+msgid "Week"
+msgstr "Неделя"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Quarter"
+msgstr "Квартал"
+
+msgid "Year"
+msgstr "Год"
+
+msgid "Week starting sunday"
+msgstr "Неделя с воскресенья"
+
+msgid "Week starting monday"
+msgstr "Неделя с понедельника"
+
+msgid "Week ending saturday"
+msgstr "Неделя до субботы"
+
+msgid "Week_ending sunday"
+msgstr "Неделя до воскресенья"
+
+msgid "Week starting Sunday"
+msgstr "Неделя с воскресенья"
+
+msgid "Week starting Monday"
+msgstr "Неделя с понедельника"
+
+msgid "Week ending Saturday"
+msgstr "Неделя до субботы"
