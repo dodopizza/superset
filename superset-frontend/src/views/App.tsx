@@ -8,6 +8,11 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+// DODO added 47015293
+import {
+  Provider as RollbarProvider,
+  ErrorBoundary as RollbarErrorBoundary,
+} from '@rollbar/react';
 import { GlobalStyles } from 'src/GlobalStyles';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 import Loading from 'src/components/Loading';
@@ -21,6 +26,7 @@ import { Logger, LOG_ACTIONS_SPA_NAVIGATION } from 'src/logger/LogUtils';
 import setupExtensions from 'src/setup/setupExtensions';
 import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
+import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added 47015293
 import { OnBoardingEntryPoint } from 'src/DodoExtensions/onBoarding'; // DODO added 44211792
 import ErrorMessage from 'src/DodoExtensions/components/ErrorMessage'; // DODO added 47383817
 import { RootContextProviders } from './RootContextProviders';
@@ -93,14 +99,20 @@ const Content = () => {
 };
 
 const App = () => (
-  <Router>
-    <ScrollToTop />
-    <LocationPathnameLogger />
-    <RootContextProviders>
-      <GlobalStyles />
-      <Content />
-    </RootContextProviders>
-  </Router>
+  // DODO added 47015293 (RollbarProvider, RollbarErrorBoundary)
+  <RollbarProvider config={ROLLBAR_CONFIG}>
+    <RollbarErrorBoundary>
+      <Router>
+        <ScrollToTop />
+        <LocationPathnameLogger />
+        <RootContextProviders>
+          <GlobalStyles />
+          {/* DODO changed 47383817 */}
+          <Content />
+        </RootContextProviders>
+      </Router>
+    </RollbarErrorBoundary>
+  </RollbarProvider>
 );
 
 export default hot(App);

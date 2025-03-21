@@ -9,6 +9,7 @@ import {
   getNumberFormatter,
   LegendState,
   ensureIsArray,
+  t,
 } from '@superset-ui/core';
 import type {
   ECBasicOption, // DODO added 45525377
@@ -308,7 +309,7 @@ export default function EchartsTimeseries({
             tabIndex={0}
             onClick={showHideHandler}
           >
-            {isVisibleNow ? 'Show' : 'Hide'} values
+            {t(isVisibleNow ? 'Show values' : 'Hide values')}
           </span>
         </div>
       )}

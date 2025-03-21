@@ -108,7 +108,7 @@ export default function PluginFilterTimegrain(
     (row: { name: string; duration: string }) => {
       const { name, duration } = row;
       return {
-        label: name,
+        label: t(name),
         value: duration,
       };
     },

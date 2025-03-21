@@ -12,6 +12,7 @@ import { ThemeProvider } from '@superset-ui/core';
 import Menu from 'src/features/home/Menu';
 import { theme } from 'src/preamble';
 import getBootstrapData from 'src/utils/getBootstrapData';
+import ErrorBoundary from 'src/components/ErrorBoundary'; // DODO added 47015293
 import { setupStore } from './store';
 
 // Disable connecting to redux debugger so that the React app injected
@@ -34,11 +35,14 @@ const app = (
             ReactRouterRoute={Route}
             stringifyOptions={{ encode: false }}
           >
-            <Menu
-              data={menu}
-              connectionError={false} // DODO added 47383817
-              setConnectionError={() => {}} // DODO added 47383817
-            />
+            {/* DODO added 47015293 (ErrorBoundary) */}
+            <ErrorBoundary>
+              <Menu
+                data={menu}
+                connectionError={false} // DODO added 47383817
+                setConnectionError={() => {}} // DODO added 47383817
+              />
+            </ErrorBoundary>
           </QueryParamProvider>
         </BrowserRouter>
       </Provider>

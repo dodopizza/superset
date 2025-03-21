@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { t, styled } from '@superset-ui/core';
 import { useCallback, useEffect, useRef, useState, ReactNode } from 'react';
 import Alert from 'src/components/Alert';
@@ -26,6 +9,7 @@ import IndeterminateCheckbox from 'src/components/IndeterminateCheckbox';
 import Pagination from 'src/components/Pagination';
 import TableCollection from 'src/components/TableCollection';
 import BulkTagModal from 'src/features/tags/BulkTagModal';
+import { FirebaseService } from 'src/firebase'; // DODO added 47015293
 import CardCollection from './CardCollection';
 import FilterControls from './Filters';
 import { CardSortSelect } from './CardSortSelect';
@@ -175,32 +159,42 @@ const ViewModeToggle = ({
 }: {
   mode: 'table' | 'card';
   setMode: (mode: 'table' | 'card') => void;
-}) => (
-  <ViewModeContainer>
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={e => {
-        e.currentTarget.blur();
-        setMode('card');
-      }}
-      className={cx('toggle-button', { active: mode === 'card' })}
-    >
-      <Icons.CardView />
-    </div>
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={e => {
-        e.currentTarget.blur();
-        setMode('table');
-      }}
-      className={cx('toggle-button', { active: mode === 'table' })}
-    >
-      <Icons.ListView />
-    </div>
-  </ViewModeContainer>
-);
+}) => {
+  // DODO added 47015293
+  const handleModeChange = (
+    newMode: 'table' | 'card',
+    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>,
+  ) => {
+    e.currentTarget.blur(); // Ensure the button loses focus
+    setMode(newMode); // Update the mode
+
+    // Log the event using FirebaseService
+    FirebaseService.logEvent('view_mode_change', {
+      new_mode: newMode,
+      previous_mode: mode,
+    });
+  };
+  return (
+    <ViewModeContainer>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={e => handleModeChange('card', e)} // DODO changed 47015293
+        className={cx('toggle-button', { active: mode === 'card' })}
+      >
+        <Icons.CardView />
+      </div>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={e => handleModeChange('table', e)} // DODO changed 47015293
+        className={cx('toggle-button', { active: mode === 'table' })}
+      >
+        <Icons.ListView />
+      </div>
+    </ViewModeContainer>
+  );
+};
 
 export interface ListViewProps<T extends object = any> {
   columns: any[];
