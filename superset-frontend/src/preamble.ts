@@ -17,6 +17,8 @@ import setupDashboardComponents from './setup/setupDashboardComponents';
 import { BootstrapUser, User } from './types/bootstrapTypes';
 import getBootstrapData from './utils/getBootstrapData';
 import { DODOPIZZA_THEME_OVERRIDES } from './Superstructure/constants'; // DODO added 44611022
+import setupFirebase from './firebase/setupFirebase'; // DODO added 47015293
+import { FirebaseService } from './firebase'; // DODO added 47015293
 
 const isStandalone = process.env.type === undefined; // DODO added 44611022
 
@@ -83,6 +85,10 @@ setupFormatters(
 
 setupDashboardComponents();
 
+// DODO added 47015293
+// Setup Firebase
+setupFirebase();
+
 export const theme = merge(
   supersetTheme,
   // DODO changed 44611022
@@ -106,7 +112,8 @@ if (bootstrapData.user?.isActive) {
     // we only care about the tab becoming visible, not vice versa
     if (document.visibilityState !== 'visible') return;
 
-    getMe().catch(() => {
+    getMe().catch(e => {
+      FirebaseService.logError(e); // DODO added 47015293
       // ignore error, SupersetClient will redirect to login on a 401
     });
   });
