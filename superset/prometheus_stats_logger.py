@@ -1,8 +1,12 @@
 from superset.stats_logger import BaseStatsLogger
 from typing import Optional
-from prometheus_client import Counter, Gauge, Summary, Histogram
 
 try:
+    from prometheus_client import make_wsgi_app, Counter, Gauge, Summary, Histogram
+
+    # Define reusable buckets
+    BUCKETS = [5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000]
+
     class PrometheusStatsLogger(BaseStatsLogger):
         def __init__(self, prefix: str = "superset") -> None:
             super().__init__(prefix)
@@ -30,7 +34,7 @@ try:
                 f"{self.prefix}_dashboard_load_duration_milliseconds",
                 "Histogram of dashboard load durations in milliseconds",
                 labelnames=["dashboard_id", "slice_id", "user_id", "is_plugin"],
-                buckets=[5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000],  # Align with prometheus.py
+                buckets=BUCKETS,  # Align with prometheus.py
             )
 
             # New user registration counter
@@ -73,10 +77,7 @@ try:
 
         # Used in dodo.py
         def incr_new_user_registration(self, user_id: str) -> None:
-            try:
-                self._new_user_registrations.labels(user_id=user_id).inc()
-            except Exception as e:
-                logger.error(f"[prometheus_stats_logger.py] Failed to log new user registration metric: {e}")
+            self._new_user_registrations.labels(user_id=user_id).inc()
 
 except Exception:  # pylint: disable=broad-except
     pass
