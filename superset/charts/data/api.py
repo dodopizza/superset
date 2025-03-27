@@ -149,7 +149,7 @@ class ChartDataRestApi(ChartRestApi):
             query_context = self._create_query_context_from_form(json_body)
             command = ChartDataCommand(query_context)
             command.validate()
-        except DatasourceNotFound as error:
+        except DatasourceNotFound:
             return self.response_404()
         except QueryObjectValidationError as error:
             return self.response_400(message=error.message)
@@ -501,7 +501,6 @@ class ChartDataRestApi(ChartRestApi):
                 if not result["queries"]:
                     return self.response_400(_("Empty query result"))
                 if list_of_data := result["queries"]:
-                    logger.info("get data for prepare")
                     df = pd.DataFrame()
                     for data in list_of_data:
                         try:
