@@ -44,14 +44,7 @@ try:
                 labelnames=["user_id"],
             )
 
-        def incr(
-            self,
-            key: str,
-            user_id: str = "unknown",
-            dashboard_id: Optional[str] = None,
-            slice_id: Optional[str] = None,
-            is_plugin: Optional[bool] = None
-        ) -> None:
+        def incr(self, key: str) -> None:
             self._counter.labels(key=key).inc()
 
         def duration(
