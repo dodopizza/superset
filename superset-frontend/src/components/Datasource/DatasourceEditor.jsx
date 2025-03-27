@@ -569,18 +569,18 @@ function OwnersSelector({ datasource, onChange }) {
     }).then(response => ({
       data: response.json.result
         .filter(item => item.extra.active)
-        .map(item =>
+        .map(item => {
           // DODO added start 42727850
-          // const { country_name: countryName, email } = item.extra;
-          // let label = item.text;
-          // label += ` (${countryName || 'no country'})`;
-          // if (email) label += ` ${email}`;
-          // DODO added stop 42727850
-          ({
+          const { country_name: countryName, email } = item.extra;
+          let label = item.text;
+          label += ` (${countryName || 'no country'})`;
+          if (email) label += ` ${email}`;
+          return {
             value: item.value,
-            label: item.text,
-          }),
-        ),
+            label,
+          };
+          // DODO added stop 42727850
+        }),
       totalCount: response.json.count,
     }));
   }, []);

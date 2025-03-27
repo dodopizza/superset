@@ -613,7 +613,6 @@ const PropertiesModal = ({
       dashboardInfo &&
       dashboardInfo.title !== dashboardTitle
     ) {
-      console.log('call here 2', dashboardInfo);
       form.setFieldsValue({
         ...dashboardInfo,
         title: dashboardTitle,
