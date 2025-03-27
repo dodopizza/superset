@@ -33,7 +33,7 @@ try:
             self._dashboard_load_duration_milliseconds = Histogram(
                 f"{self.prefix}_dashboard_load_duration_milliseconds",
                 "Histogram of dashboard load durations in milliseconds",
-                labelnames=["dashboard_id", "slice_id", "user_id", "is_plugin"],
+                labelnames=["dashboard_id", "is_plugin"],
                 buckets=BUCKETS,  # Align with prometheus.py
             )
 
@@ -50,15 +50,11 @@ try:
         def duration(
             self,
             dashboard_id: Optional[int],
-            slice_id: Optional[int],
-            user_id: str,
             duration_ms: int,
             is_plugin: Optional[bool] = None
         ) -> None:
             self._dashboard_load_duration_milliseconds.labels(
                 dashboard_id=str(dashboard_id) if dashboard_id is not None else "none",
-                slice_id=str(slice_id) if slice_id is not None else "none",
-                user_id=user_id,
                 is_plugin=str(is_plugin) if is_plugin is not None else "none",
             ).observe(duration_ms)
 
