@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from typing import Any, Optional, Dict
 import time
-import types as py_types  # Rename to avoid conflict
+import types as py_types
 
 from sqlalchemy import types as sqla_types
 from sqlalchemy.dialects.mssql.base import SMALLDATETIME
@@ -23,7 +23,14 @@ from superset.utils.core import GenericDataType
 from configs.gunicorn_infrastructure.prometheus import GunicornPrometheusLogger
 
 # Create a minimal config object for GunicornPrometheusLogger
-dummy_cfg = py_types.SimpleNamespace(statsd_prefix="superset_gunicorn")
+dummy_cfg = py_types.SimpleNamespace(
+    statsd_prefix="superset_gunicorn",
+    loglevel="info",
+    accesslog=None,
+    errorlog=None,
+    logconfig=None,
+    syslog=False,
+)
 logger = GunicornPrometheusLogger(dummy_cfg)
 
 # Log to confirm kusto.py initialization
