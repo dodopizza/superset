@@ -26,10 +26,21 @@ from configs.gunicorn_infrastructure.prometheus import GunicornPrometheusLogger
 dummy_cfg = py_types.SimpleNamespace(
     statsd_prefix="superset_gunicorn",
     loglevel="info",
-    accesslog=None,
+    capture_output=None,
     errorlog=None,
-    logconfig=None,
+    user=None,
+    group=None,
+    accesslog=None,
+    access_log_format=None,
     syslog=False,
+    syslog_prefix=False,
+    syslog_facility="",
+    syslog_addr="",
+    proc_name="",
+    logconfig_dict=None,
+    logconfig_json=None,
+    logconfig=None,
+    disable_redirect_access_to_syslog=None,
 )
 logger = GunicornPrometheusLogger(dummy_cfg)
 
