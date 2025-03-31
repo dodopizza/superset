@@ -207,6 +207,7 @@ export const buildV1ChartDataPayload = ({
   resultType,
   setDataMask,
   ownState,
+  datasourceMetrics, // DODO added 44136746
 }) => {
   const buildQuery =
     getChartBuildQueryRegistry().get(formData.viz_type) ??
@@ -216,7 +217,8 @@ export const buildV1ChartDataPayload = ({
           ...baseQueryObject,
         },
       ]));
-  return buildQuery(
+  // DODO changed 44136746
+  const builtQueryFunc = buildQuery(
     {
       ...formData,
       force,
@@ -230,6 +232,17 @@ export const buildV1ChartDataPayload = ({
       },
     },
   );
+
+  return {
+    ...builtQueryFunc,
+    // DODO added 44136746
+    form_data: {
+      ...builtQueryFunc.form_data,
+      ...(datasourceMetrics && {
+        datasource_metrics: datasourceMetrics,
+      }),
+    },
+  };
 };
 
 // DODO added 44611022
@@ -282,6 +295,10 @@ export const exportChartPlugin = ({
       fixedUrl,
       payload: formData,
       resultFormat,
+      resultType,
+      ownState,
+      parseMethod,
+      datasourceMetrics, // DODO added 44136746
       updatedUrl,
     });
     console.groupEnd();

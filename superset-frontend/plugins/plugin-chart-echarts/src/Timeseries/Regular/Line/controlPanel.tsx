@@ -40,6 +40,7 @@ const {
   yAxisBounds,
   zoomable,
 } = DEFAULT_FORM_DATA;
+
 const config: ControlPanelConfig = {
   controlPanelSections: [
     sections.echartsTimeSeriesQueryWithXAxisSort,

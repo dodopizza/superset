@@ -157,6 +157,19 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added 44136746
+        [
+          {
+            name: 'export_as_time',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Export as time'),
+              renderTrigger: false,
+              default: false,
+              description: t('Export a numeric value as number of days'),
+            },
+          },
+        ],
       ],
     },
     { ...bigNumberWithTrendlineControlPanelConditionalFormatting }, // DODO added 45525377

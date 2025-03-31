@@ -190,6 +190,9 @@ def get_form_data(
             else None
         )
 
+        if extra_filters := json_data.get("extra_form_data", {}).get("filters"):
+            form_data["extra_filters"] = extra_filters
+
         add_sqllab_custom_filters(form_data)
 
         request_form_data = request.form.get("form_data")

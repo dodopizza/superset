@@ -350,15 +350,25 @@ class Chart extends Component {
       slice_id: this.props.slice.slice_id,
       is_cached: this.props.isCached,
     });
+    // DODO added start 44136746
+    const extraFormData = this.props.chart.extraFormData || {};
+    const formDataForExport = {
+      ...this.props.formData,
+      ...(isFullCSV && { row_limit: this.props.maxRows }),
+      ...extraFormData,
+    };
+    // DODO added stop 44136746
     exportChart({
-      formData: isFullCSV
-        ? { ...this.props.formData, row_limit: this.props.maxRows }
-        : this.props.formData,
+      // formData: isFullCSV
+      //  ? { ...this.props.formData, row_limit: this.props.maxRows }
+      //  : this.props.formData,
+      formData: formDataForExport, // DODO changed 44136746
       resultType: isPivot ? 'post_processed' : 'full',
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
-      language: locale, // DODO added 44120742
+      language: locale, // DODO added 44136746
+      datasourceMetrics: this.props.datasource.metrics, // DODO added 44136746
     });
   }
 

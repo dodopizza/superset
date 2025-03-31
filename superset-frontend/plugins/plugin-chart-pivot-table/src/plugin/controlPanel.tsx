@@ -28,6 +28,7 @@ const columnConfig = {
     ['aggregation'],
     ['hideValueInTotal'],
     ['pinColumn'],
+    ['exportAsTime'], // DODO added 44136746
   ],
   '1': [['pinColumn']],
   '2': [['pinColumn']],

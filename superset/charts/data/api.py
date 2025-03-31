@@ -381,12 +381,10 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
-            is_csv_format = result_format == ChartDataResultFormat.CSV
-
             if len(result["queries"]) == 1:
                 # return single query results
                 data = result["queries"][0]["data"]
-                if is_csv_format:
+                if result_format == ChartDataResultFormat.CSV:
                     return CsvResponse(data, headers=generate_download_headers("csv"))
 
                 return XlsxResponse(data, headers=generate_download_headers("xlsx"))

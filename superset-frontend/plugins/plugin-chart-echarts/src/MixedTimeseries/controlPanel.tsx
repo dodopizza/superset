@@ -49,7 +49,10 @@ const {
 
 // DODO added 44211769
 const columnConfig = {
-  '0': [['d3NumberFormat']],
+  '0': [
+    ['d3NumberFormat'],
+    ['exportAsTime'], // DODO added 44136746
+  ],
   '1': [],
   '2': [],
   '3': [],
