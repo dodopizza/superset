@@ -113,6 +113,8 @@ export const ALLOW_DEPENDENCIES = [
   'filter_select',
   'filter_time',
   'filter_select_by_id', // DODO added 44211759
+  'filter_select_with_translation', // DODO added 44211759
+  'filter_select_by_id_with_translation', // DODO added 44211759
 ];
 
 const DEFAULT_EMPTY_FILTERS: string[] = [];
