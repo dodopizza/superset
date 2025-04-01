@@ -31,9 +31,12 @@ from flask_babel import gettext as __, lazy_gettext as _
 from flask_login import AnonymousUserMixin, login_user
 
 from superset import db, event_logger, is_feature_enabled
+from superset.commands.tag.create import CreateTeamTagCommand
 from superset.constants import MODEL_VIEW_RW_METHOD_PERMISSION_MAP, RouteMethod
+from superset.daos.team import TeamDAO
 from superset.models.dashboard import Dashboard as DashboardModel
 from superset.superset_typing import FlaskResponse
+from superset.tags.models import ObjectType
 from superset.utils import json
 from superset.views.base import (
     BaseSupersetView,
@@ -123,6 +126,11 @@ class Dashboard(BaseSupersetView):
         )
         db.session.add(new_dashboard)
         db.session.commit()  # pylint: disable=consider-using-transaction
+        if team := TeamDAO.get_team_by_user_id():
+            team_slug = team.slug
+            object_type = ObjectType.dashboard
+            object_id = new_dashboard.id
+            CreateTeamTagCommand(object_type, object_id, [team_slug]).run()
         return redirect(f"/superset/dashboard/{new_dashboard.id}/?edit=true")
 
     @expose("/<dashboard_id_or_slug>/embedded")

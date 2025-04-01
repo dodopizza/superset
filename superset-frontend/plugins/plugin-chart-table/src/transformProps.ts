@@ -12,6 +12,7 @@ import {
   getTimeFormatter,
   getTimeFormatterForGranularity,
   NumberFormats,
+  PlainObject, // DODO added 44136746
   QueryMode,
   t,
   SMART_DATE_ID,
@@ -379,6 +380,7 @@ const transformProps = (
       onAddFilter: onChangeFilter,
       setDataMask = () => {},
       onContextMenu,
+      addToExtraFormData, // DODO added 44136746
     },
     emitCrossFilters,
     locale, // DODO added 44728892
@@ -402,6 +404,7 @@ const transformProps = (
     comparison_color_enabled: comparisonColorEnabled = false,
     comparison_color_scheme: comparisonColorScheme = ColorSchemeEnum.Green,
     comparison_type,
+    slice_id: sliceId, // DODO added 44136746
   } = formData;
   const isUsingTimeComparison =
     !isEmpty(time_compare) &&
@@ -607,6 +610,13 @@ const transformProps = (
 
   const startDateOffset = chartProps.rawFormData?.start_date_offset;
 
+  // DODO added start 44136746
+  // to add table_order_by into extraFormData of a chart state for export
+  const handleAddToExtraFormData = (value: PlainObject) => {
+    if (addToExtraFormData) addToExtraFormData(value, sliceId);
+  };
+  // DODO added stop 44136746
+
   // DODO added start 44728892
   const chartMetricsCollection =
     queryMode === QueryMode.Raw
@@ -623,6 +633,7 @@ const transformProps = (
     locale,
   );
   // DODO added stop 44728892
+
   return {
     height,
     width,
@@ -658,6 +669,7 @@ const transformProps = (
     basicColorFormatters,
     startDateOffset,
     basicColorColumnFormatters,
+    handleAddToExtraFormData, // DODO added 44136746
     datasourceDescriptions, // DODO added 44728892
   };
 };

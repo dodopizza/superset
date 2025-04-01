@@ -51,6 +51,8 @@ type Hooks = {
   setDataMask?: SetDataMaskHook;
   /** handle tooltip */
   setTooltip?: HandlerFunction;
+  /** add to extraFormData into chart state */
+  addToExtraFormData?: (value: PlainObject, sliceId: number) => void; // DODO added 44136746
 } & PlainObject;
 
 /**

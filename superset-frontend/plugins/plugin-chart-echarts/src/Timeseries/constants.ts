@@ -85,7 +85,10 @@ export const CONTROL_PANEL_COLUMN_CONFIG: CustomControlItem = {
     height: 175,
     renderTrigger: true,
     configFormLayout: {
-      '0': [['d3NumberFormat']],
+      '0': [
+        ['d3NumberFormat'],
+        ['exportAsTime'], // DODO added 44136746
+      ],
       '1': [],
       '2': [],
       '3': [],

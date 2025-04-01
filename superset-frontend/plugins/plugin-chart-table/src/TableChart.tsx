@@ -75,11 +75,12 @@ import {
   getDefaultPinColumns,
   getPinnedWidth,
 } from './DodoExtensions/utils/columnPinning';
+import { getTableSortOrder } from './DodoExtensions/utils/getTableSortOrder';
 
 // DODO added 45525377
 type CustomCellProps<D extends object> = CellProps<D, any> & {
   colWidths: number[];
-};
+}; // DODO added 44136746
 
 type ValueRange = [number, number];
 
@@ -273,6 +274,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     basicColorFormatters,
     basicColorColumnFormatters,
     datasourceDescriptions, // DODO added 44728892
+    handleAddToExtraFormData, // DODO added 44136746
   } = props;
   // DODO added start 45525377
   const [pinnedColumns, setPinnedColumns] = useState<number[]>(
@@ -967,76 +969,86 @@ export default function TableChart<D extends DataRecord = DataRecord>(
           onDragStart,
           onDrop,
           colWidths, // DODO added 45525377
-        }) => (
-          <th
-            id={`header-${column.key}`}
-            title={headerTitle} // DODO changed 44728892
-            className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
-            style={{
-              ...sharedStyle,
-              ...style,
-              // DODO added 45525377
-              ...(isColumnPinned
-                ? {
-                    position: 'sticky',
-                    zIndex: 4,
-                    left: getPinnedWidth(colWidths, pinnedColumns, i),
-                  }
-                : {}),
-            }}
-            onKeyDown={(e: ReactKeyboardEvent<HTMLElement>) => {
-              // programatically sort column on keypress
-              if (Object.values(ACTION_KEYS).includes(e.key)) {
-                col.toggleSortBy();
-              }
-            }}
-            role="columnheader button"
-            onClick={onClick}
-            data-column-name={col.id}
-            {...(allowRearrangeColumns && {
-              draggable: 'true',
-              onDragStart,
-              onDragOver: e => e.preventDefault(),
-              onDragEnter: e => e.preventDefault(),
-              onDrop,
-            })}
-            tabIndex={0}
-          >
-            {/* can't use `columnWidth &&` because it may also be zero */}
-            {config.columnWidth ? (
-              // column width hint
-              <div
-                style={{
-                  width: columnWidth,
-                  height: 0.01,
-                }}
-              />
-            ) : null}
-            <div
-              data-column-name={col.id}
-              css={{
-                display: 'inline-flex',
-                alignItems: 'flex-end',
+        }) => {
+          // DODO added start 44136746
+          const handleClick = (e: React.MouseEvent<Element>) => {
+            const order = getTableSortOrder(label, sortDesc, col.isSortedDesc);
+            handleAddToExtraFormData({ table_order_by: order });
+            if (onClick) onClick(e);
+          };
+          // DODO added stop 44136746
+          return (
+            <th
+              id={`header-${column.key}`}
+              title={headerTitle} // DODO changed 44728892
+              className={[className, col.isSorted ? 'is-sorted' : ''].join(' ')}
+              style={{
+                ...sharedStyle,
+                ...style,
+                // DODO added 45525377
+                ...(isColumnPinned
+                  ? {
+                      position: 'sticky',
+                      zIndex: 4,
+                      left: getPinnedWidth(colWidths, pinnedColumns, i),
+                    }
+                  : {}),
               }}
+              onKeyDown={(e: ReactKeyboardEvent<HTMLElement>) => {
+                // programatically sort column on keypress
+                if (Object.values(ACTION_KEYS).includes(e.key)) {
+                  col.toggleSortBy();
+                }
+              }}
+              role="columnheader button"
+              // onClick={onClick}
+              onClick={handleClick} // DODO changed 44136746
+              data-column-name={col.id}
+              {...(allowRearrangeColumns && {
+                draggable: 'true',
+                onDragStart,
+                onDragOver: e => e.preventDefault(),
+                onDragEnter: e => e.preventDefault(),
+                onDrop,
+              })}
+              tabIndex={0}
             >
-              {/* DODO added 45525377 */}
-              <PinIcon
-                isPinned={isColumnPinned}
-                handlePinning={() => toggleColumnPin(isColumnPinned, i)}
-              />
-              {/* DODO added 44728892 */}
-              {headerDescription && (
-                <InfoTooltipWithTrigger
-                  tooltip={headerDescription}
-                  placement="top"
-                  iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+              {/* can't use `columnWidth &&` because it may also be zero */}
+              {config.columnWidth ? (
+                // column width hint
+                <div
+                  style={{
+                    width: columnWidth,
+                    height: 0.01,
+                  }}
                 />
-              )}
-              <span data-column-name={col.id}>{label}</span>
-              <SortIcon column={col} />
-            </div>
-          </th>
-        ),
+              ) : null}
+              <div
+                data-column-name={col.id}
+                css={{
+                  display: 'inline-flex',
+                  alignItems: 'flex-end',
+                }}
+              >
+                {/* DODO added 45525377 */}
+                <PinIcon
+                  isPinned={isColumnPinned}
+                  handlePinning={() => toggleColumnPin(isColumnPinned, i)}
+                />
+                {/* DODO added 44728892 */}
+                {headerDescription && (
+                  <InfoTooltipWithTrigger
+                    tooltip={headerDescription}
+                    placement="top"
+                    iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                  />
+                )}
+                <span data-column-name={col.id}>{label}</span>
+                <SortIcon column={col} />
+              </div>
+            </th>
+          );
+        },
         Footer: totals ? (
           i === 0 ? (
             <th>

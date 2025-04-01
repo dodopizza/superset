@@ -24,12 +24,13 @@ from flask_babel import gettext as __
 
 from superset import app, db, results_backend, results_backend_use_msgpack
 from superset.commands.base import BaseCommand
+from superset.common.chart_data import ChartDataResultFormat  # dodo added 44136746
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
 from superset.exceptions import SupersetErrorException, SupersetSecurityException
 from superset.models.sql_lab import Query
 from superset.sql_parse import ParsedQuery
 from superset.sqllab.limiting_factor import LimitingFactor
-from superset.utils import core as utils, csv
+from superset.utils import core as utils, csv, excel  # dodo added 44136746
 from superset.views.utils import _deserialize_results_payload
 
 config = app.config
@@ -46,12 +47,13 @@ class SqlExportResult(TypedDict):
 class SqlResultExportCommand(BaseCommand):
     _client_id: str
     _query: Query
+    _result_format: str  # dodo added 44136746
 
     def __init__(
-        self,
-        client_id: str,
-    ) -> None:
+        self, client_id: str, result_format: str
+    ) -> None:  # dodo changed 44136746
         self._client_id = client_id
+        self._result_format = result_format  # dodo added 44136746
 
     def validate(self) -> None:
         self._query = (
@@ -89,7 +91,9 @@ class SqlResultExportCommand(BaseCommand):
         blob = None
         if results_backend and self._query.results_key:
             logger.info(
-                "Fetching CSV from results backend [%s]", self._query.results_key
+                "Fetching %s from results backend [%s]",
+                self._result_format,
+                self._query.results_key,
             )
             blob = results_backend.get(self._query.results_key)
         if blob:
@@ -107,9 +111,9 @@ class SqlResultExportCommand(BaseCommand):
                 columns=[c["name"] for c in obj["columns"]],
             )
 
-            logger.info("Using pandas to convert to CSV")
+            logger.info("Using pandas to convert to %s format", self._result_format)
         else:
-            logger.info("Running a query to turn into CSV")
+            logger.info("Running a query to turn into %s", self._result_format)
             if self._query.select_sql:
                 sql = self._query.select_sql
                 limit = None
@@ -131,11 +135,16 @@ class SqlResultExportCommand(BaseCommand):
                 self._query.catalog,
                 self._query.schema,
             )[:limit]
-
-        csv_data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        # dodo added 44136746
+        if self._result_format == ChartDataResultFormat.XLSX:
+            data = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
+        elif self._result_format == ChartDataResultFormat.CSV:
+            data = csv.df_to_escaped_csv(df, index=False, **config["CSV_EXPORT"])
+        else:
+            raise ValueError(f"Unsupported result format: {self._result_format}")
 
         return {
             "query": self._query,
             "count": len(df.index),
-            "data": csv_data,
+            "data": data,  # dodo added 44136746
         }

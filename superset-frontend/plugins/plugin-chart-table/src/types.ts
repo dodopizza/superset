@@ -16,6 +16,7 @@ import {
   ContextMenuFilters,
   CurrencyFormatter,
   Currency,
+  PlainObject, // DODO added 44136746
 } from '@superset-ui/core';
 import { ColorFormatters } from '@superset-ui/chart-controls';
 
@@ -136,6 +137,7 @@ export interface TableChartTransformedProps<D extends DataRecord = DataRecord>
   basicColorFormatters?: { [Key: string]: BasicColorFormatterType }[];
   basicColorColumnFormatters?: { [Key: string]: BasicColorFormatterType }[];
   startDateOffset?: string;
+  handleAddToExtraFormData: (value: PlainObject) => void; // DODO added 44136746
 }
 
 export enum ColorSchemeEnum {

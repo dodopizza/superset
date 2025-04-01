@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
-from typing import Any, cast, Optional
+from typing import Any, cast, Optional, Union  # dodo changed 44136746
 from urllib import parse
 
 from flask import request, Response
@@ -29,6 +29,7 @@ from superset.commands.sql_lab.estimate import QueryEstimationCommand
 from superset.commands.sql_lab.execute import CommandResult, ExecuteSqlCommand
 from superset.commands.sql_lab.export import SqlResultExportCommand
 from superset.commands.sql_lab.results import SqlExecutionResultsCommand
+from superset.common.chart_data import ChartDataResultFormat  # dodo added 44136746
 from superset.constants import MODEL_API_RW_METHOD_PERMISSION_MAP
 from superset.daos.database import DatabaseDAO
 from superset.daos.query import QueryDAO
@@ -62,7 +63,12 @@ from superset.sqllab.utils import bootstrap_sqllab_data
 from superset.sqllab.validators import CanAccessQueryValidatorImpl
 from superset.superset_typing import FlaskResponse
 from superset.utils import core as utils, json
-from superset.views.base import CsvResponse, generate_download_headers, json_success
+from superset.views.base import (  # dodo changed 44136746
+    CsvResponse,
+    generate_download_headers,
+    json_success,
+    XlsxResponse,
+)
 from superset.views.base_api import BaseSupersetApi, requires_json, statsd_metrics
 
 config = app.config
@@ -242,7 +248,8 @@ class SqlLabRestApi(BaseSupersetApi):
         f".export_csv",
         log_to_statsd=False,
     )
-    def export_csv(self, client_id: str) -> CsvResponse:
+    # dodo added 44136746
+    def export_csv(self, client_id: str) -> Union[CsvResponse, XlsxResponse]:
         """Export the SQL query results to a CSV.
         ---
         get:
@@ -271,14 +278,25 @@ class SqlLabRestApi(BaseSupersetApi):
             500:
               $ref: '#/components/responses/500'
         """
-        result = SqlResultExportCommand(client_id=client_id).run()
-
+        # dodo added 44136746
+        result_format = request.args.get("result_format")
+        result = SqlResultExportCommand(
+            client_id=client_id, result_format=result_format
+        ).run()
         query, data, row_count = result["query"], result["data"], result["count"]
+        quoted_name = parse.quote(query.name)
 
-        quoted_csv_name = parse.quote(query.name)
-        response = CsvResponse(
-            data, headers=generate_download_headers("csv", quoted_csv_name)
-        )
+        if result_format == ChartDataResultFormat.XLSX:
+            response = XlsxResponse(
+                data, headers=generate_download_headers("xlsx", quoted_name)
+            )
+            event_format = "xlsx"
+        else:
+            response = CsvResponse(
+                data, headers=generate_download_headers("csv", quoted_name)
+            )
+            event_format = "csv"
+
         event_info = {
             "event_type": "data_export",
             "client_id": client_id,
@@ -287,7 +305,7 @@ class SqlLabRestApi(BaseSupersetApi):
             "catalog": query.catalog,
             "schema": query.schema,
             "sql": query.sql,
-            "exported_format": "csv",
+            "exported_format": event_format,  # dodo added 44136746
         }
         event_rep = repr(event_info)
         logger.debug(
