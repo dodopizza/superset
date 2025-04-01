@@ -38,6 +38,7 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
 import NumberFormatControl from 'src/explore/components/controls/NumberFormatControl';
+// import getOwnerName from 'src/utils/getOwnerName'; // DODO added 42727850
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
@@ -568,10 +569,18 @@ function OwnersSelector({ datasource, onChange }) {
     }).then(response => ({
       data: response.json.result
         .filter(item => item.extra.active)
-        .map(item => ({
-          value: item.value,
-          label: item.text,
-        })),
+        .map(item => {
+          // DODO added start 42727850
+          const { country_name: countryName, email } = item.extra;
+          let label = item.text;
+          label += ` (${countryName || 'no country'})`;
+          if (email) label += ` ${email}`;
+          return {
+            value: item.value,
+            label,
+          };
+          // DODO added stop 42727850
+        }),
       totalCount: response.json.count,
     }));
   }, []);
@@ -599,6 +608,7 @@ class DatasourceEditor extends React.PureComponent {
         owners: props.datasource.owners.map(owner => ({
           value: owner.value || owner.id,
           label: owner.label || `${owner.first_name} ${owner.last_name}`,
+          // label: owner.label || getOwnerName(owner), // DODO changed 42727850
         })),
         metrics: props.datasource.metrics?.map(metric => {
           const {
