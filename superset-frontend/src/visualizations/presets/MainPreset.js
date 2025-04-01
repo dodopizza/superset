@@ -174,7 +174,7 @@ export default class MainPreset extends Preset {
         }),
         // DODO added 44211759
         new SelectByIdWithTranslationFilterPlugin().configure({
-          key: 'filter_select_by_id_with_translation',
+          key: FilterPlugins.SelectByIdWithTranslation,
         }),
         ...experimentalPlugins,
         new EchartsBarChartPluginDodo().configure({
