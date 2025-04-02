@@ -1,0 +1,44 @@
+name: Frontend linting
+
+on:
+  push:
+    branches:
+      - "4.1.1-dodo"
+      # - "feat-precommit-frontend"
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
+
+# cancel previous workflow jobs for PRs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.19.1'
+
+      # Step 3: Cache Node.js dependencies
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+
+      # Step 4: Install Node.js dependencies
+      - name: Install Node.js dependencies
+        run: npm install
+
+      # Step 5: Run frontend linting
+      - name: Run frontend linting
+        run: npm run lint
