@@ -25,7 +25,7 @@ import ColorSchemeControlWrapper from 'src/dashboard/components/ColorSchemeContr
 import FilterScopeModal from 'src/dashboard/components/filterscope/FilterScopeModal';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import TagType from 'src/types/TagType';
-import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
+// import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags'; // DODO commented out 48160107
 import { loadTags } from 'src/components/Tags/utils';
 import {
   applyColors,
@@ -195,6 +195,7 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
+        tags, // DODO added 48160107
       } = dashboardData;
       const dashboardInfo = {
         id,
@@ -212,6 +213,10 @@ const PropertiesModal = ({
       setOwners(owners);
       setRoles(roles);
       setCurrentColorScheme(metadata.color_scheme);
+
+      // DODO added 48160107
+      if (isFeatureEnabled(FeatureFlag.TaggingSystem))
+        setTags(tags?.filter((tag: TagType) => tag.type === 1) || []);
 
       const metaDataCopy = omit(metadata, [
         'positions',
@@ -577,24 +582,25 @@ const PropertiesModal = ({
     }
   }, [dashboardInfo, dashboardTitle, form]);
 
-  useEffect(() => {
-    if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
-    try {
-      fetchTags(
-        {
-          objectType: OBJECT_TYPES.DASHBOARD,
-          objectId: dashboardId,
-          includeTypes: false,
-        },
-        (tags: TagType[]) => setTags(tags),
-        (error: Response) => {
-          addDangerToast(`Error fetching tags: ${error.text}`);
-        },
-      );
-    } catch (error) {
-      handleErrorResponse(error);
-    }
-  }, [dashboardId]);
+  // DODO commented out 48160107
+  // useEffect(() => {
+  //   if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
+  //   try {
+  //     fetchTags(
+  //       {
+  //         objectType: OBJECT_TYPES.DASHBOARD,
+  //         objectId: dashboardId,
+  //         includeTypes: false,
+  //       },
+  //       (tags: TagType[]) => setTags(tags),
+  //       (error: Response) => {
+  //         addDangerToast(`Error fetching tags: ${error.text}`);
+  //       },
+  //     );
+  //   } catch (error) {
+  //     handleErrorResponse(error);
+  //   }
+  // }, [dashboardId]);
 
   const handleChangeTags = (tags: { label: string; value: number }[]) => {
     const parsedTags: TagType[] = ensureIsArray(tags).map(r => ({
@@ -666,7 +672,7 @@ const PropertiesModal = ({
               />
             </FormItem>
           </Col>
-          {/* DODO added start 44120742 */}
+          {/* DODO added 44120742 */}
           <Col xs={24} md={12}>
             <FormItem label={t('Title (Rus)')} name="titleRU">
               <Input
@@ -676,7 +682,6 @@ const PropertiesModal = ({
               />
             </FormItem>
           </Col>
-          {/* DODO added stop 44120742 */}
           <Col xs={24} md={12}>
             <StyledFormItem label={t('URL slug')} name="slug">
               <Input type="text" disabled={isLoading} />

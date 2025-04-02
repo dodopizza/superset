@@ -20,7 +20,7 @@ import {
 import Chart, { Slice } from 'src/types/Chart';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import { loadTags } from 'src/components/Tags/utils';
-import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
+// import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags'; // DODO commented out 48160107
 import TagType from 'src/types/TagType';
 import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 import { getUserInfo } from 'src/DodoExtensions/onBoarding/model/selectors/getUserInfo'; // DODO added 44211792
@@ -89,7 +89,8 @@ function PropertiesModal({
     });
   }
 
-  const fetchChartOwners = useCallback(
+  // DODO changed 48160107
+  const fetchChartData = useCallback(
     async function fetchChartOwners() {
       try {
         const response = await SupersetClient.get({
@@ -102,6 +103,9 @@ function PropertiesModal({
             label: getOwnerName(owner), // DODO changed 44211759
           })),
         );
+        // DODO added 48160107
+        if (isFeatureEnabled(FeatureFlag.TaggingSystem))
+          setTags(chart.tags?.filter((tag: TagType) => tag.type === 1) || []);
       } catch (response) {
         const clientError = await getClientErrorObject(response);
         showError(clientError);
@@ -206,34 +210,36 @@ function PropertiesModal({
 
   const ownersLabel = t('Owners');
 
-  // get the owners of this slice
+  // DODO changed 48160107
+  // get the owners and tags of this slice
   useEffect(() => {
-    fetchChartOwners();
-  }, [fetchChartOwners]);
+    fetchChartData();
+  }, [fetchChartData]);
 
   // update name after it's changed in another modal
   useEffect(() => {
     setName(slice.slice_name || '');
   }, [slice.slice_name]);
 
-  useEffect(() => {
-    if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
-    try {
-      fetchTags(
-        {
-          objectType: OBJECT_TYPES.CHART,
-          objectId: slice.slice_id,
-          includeTypes: false,
-        },
-        (tags: TagType[]) => setTags(tags),
-        error => {
-          showError(error);
-        },
-      );
-    } catch (error) {
-      showError(error);
-    }
-  }, [slice.slice_id]);
+  // DODO commented out 48160107
+  // useEffect(() => {
+  //   if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
+  //   try {
+  //     fetchTags(
+  //       {
+  //         objectType: OBJECT_TYPES.CHART,
+  //         objectId: slice.slice_id,
+  //         includeTypes: false,
+  //       },
+  //       (tags: TagType[]) => setTags(tags),
+  //       error => {
+  //         showError(error);
+  //       },
+  //     );
+  //   } catch (error) {
+  //     showError(error);
+  //   }
+  // }, [slice.slice_id]);
 
   const handleChangeTags = (tags: { label: string; value: number }[]) => {
     const parsedTags: TagType[] = ensureIsArray(tags).map(r => ({
