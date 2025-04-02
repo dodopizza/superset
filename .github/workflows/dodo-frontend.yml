@@ -37,8 +37,10 @@ jobs:
 
       # Step 4: Install Node.js dependencies
       - name: Install Node.js dependencies
+        working-directory: repos/superset/superset-frontend
         run: npm install
 
       # Step 5: Run frontend linting
       - name: Run frontend linting
+        working-directory: repos/superset/superset-frontend
         run: npm run lint
