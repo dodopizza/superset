@@ -19,6 +19,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { css, t, useTheme, useTruncation } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble';
 import Icons from 'src/components/Icons';
 import { setDirectPathToChild } from 'src/dashboard/actions/dashboardState';
 import {
@@ -33,6 +34,9 @@ import { useFilterDependencies } from './useFilterDependencies';
 import { DependencyValueProps, FilterCardRowProps } from './types';
 import { TooltipWithTruncation } from './TooltipWithTruncation';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added
+const localisedNameField = locale === 'ru' ? 'nameRu' : 'name'; // DODO added
+
 const DependencyValue = ({
   dependency,
   hasSeparator,
@@ -45,7 +49,9 @@ const DependencyValue = ({
     <span>
       {hasSeparator && <span>, </span>}
       <DependencyItem role="button" onClick={handleClick} tabIndex={0}>
-        {dependency.name}
+        {/* {dependency.name} */}
+        {/* DODO changed 44211759 */}
+        {dependency[localisedNameField] || dependency.name || dependency.nameRu}
       </DependencyItem>
     </span>
   );
