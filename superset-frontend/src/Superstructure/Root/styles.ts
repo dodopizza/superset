@@ -24,3 +24,8 @@ export const ContentWrapper = styled.div`
   position: relative;
   background: #fff;
 `;
+
+export const MainWrapper = styled.div`
+  position: relative;
+  min-height: 100vh;
+`;

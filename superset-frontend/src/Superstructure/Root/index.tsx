@@ -43,6 +43,7 @@ import {
 import {
   ContentWrapper,
   DashboardComponentWrapper,
+  MainWrapper,
   RootComponentWrapper,
 } from './styles';
 
@@ -546,14 +547,16 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                     {!isVisible && <Icons.Collapse />}
                   </StyledCollapseBtn>
                 )}
-                <Main
-                  routes={FULL_CONFIG.routes}
-                  store={store}
-                  basename={FULL_CONFIG.basename}
-                  stylesConfig={stylesConfig}
-                  annotationMessages={annotationsObjects}
-                  startDashboardId={startDashboard}
-                />
+                <MainWrapper>
+                  <Main
+                    routes={FULL_CONFIG.routes}
+                    store={store}
+                    basename={FULL_CONFIG.basename}
+                    stylesConfig={stylesConfig}
+                    annotationMessages={annotationsObjects}
+                    startDashboardId={startDashboard}
+                  />
+                </MainWrapper>
               </DashboardComponentWrapper>
             </Router>
           </RootComponentWrapper>
