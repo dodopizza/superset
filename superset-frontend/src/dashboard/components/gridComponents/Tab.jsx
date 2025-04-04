@@ -21,7 +21,7 @@ import {
   LanguageIndicatorWrapper,
 } from 'src/DodoExtensions/Common';
 
-const isStandalone = process.env.type === undefined; // DOOD added
+const isStandalone = process.env.type === undefined; // DODO added
 
 export const RENDER_TAB = 'RENDER_TAB';
 export const RENDER_TAB_CONTENT = 'RENDER_TAB_CONTENT';
