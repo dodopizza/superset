@@ -27,5 +27,5 @@ export const ContentWrapper = styled.div`
 
 export const MainWrapper = styled.div`
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
 `;
