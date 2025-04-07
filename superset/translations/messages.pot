@@ -20346,7 +20346,7 @@ msgstr ""
 msgid "Saved Queries"
 msgstr ""
 
-msgid "Select all"
+msgid "Select All"
 msgstr ""
 
 msgid "Show values"
@@ -20389,4 +20389,28 @@ msgid "Week starting Monday"
 msgstr ""
 
 msgid "Week ending Saturday"
+msgstr ""
+
+msgid "Managing Company"
+msgstr ""
+
+msgid "readonly"
+msgstr ""
+
+msgid "Create data"
+msgstr ""
+
+msgid "Vizualize data"
+msgstr ""
+
+msgid "center"
+msgstr ""
+
+msgid "oldest"
+msgstr ""
+
+msgid "average"
+msgstr ""
+
+msgid "latest"
 msgstr ""

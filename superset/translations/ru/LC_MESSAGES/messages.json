@@ -762,6 +762,9 @@
       "Duplicate column/metric labels: %(labels)s. Please make sure all columns and metrics have a unique label.": [
         "Дубликат наименования столбца/метрики: %(labels)s. Пожалуйста, убедитесь, что все столбцы и меры имеют уникальную метку."
       ],
+      "The following entries in `series_columns` are missing in `columns`: %(columns)s. ": [
+        "В `columns` отсутствуют следующие записи в `series_columns`: %(columns)s. "
+      ],
       "`operation` property of post processing object undefined": [
         "`operation` свойство объекта постобработки не определено"
       ],
@@ -1640,6 +1643,7 @@
         "Применяется только тогда, когда \\ \"метка типа \" не установлен на процент."
       ],
       "With space": ["С отступом"],
+      "With space rounded": ["С пробелом округл."],
       "Rounded": ["Округленный"],
       "With space rounded 1": ["С пробелом округл. 1"],
       "With space rounded 2": ["С пробелом округл. 2"],
@@ -1651,6 +1655,9 @@
       ],
       "Duration in ms (1.40008 => 1ms 400µs 80ns)": [
         "Продолжительность в мс (1.40008 => 1ms 400µs 80ns)"
+      ],
+      "Duration in ms (66000 => 0:01:06)": [
+        "Продолжительность в мс (66000 => 0:01:06)"
       ],
       "D3 time format syntax: https://github.com/d3/d3-time-format": [
         "Формат времени D3: https://github.com/d3/d3-time-format"
@@ -2720,6 +2727,7 @@
       "Use date formatting even when metric value is not a timestamp": [
         "Использовать перевод к формату дата/время даже если мера представляет другой тип данных"
       ],
+      "Export as time": ["Экспортировать как время"],
       "Export a numeric value as number of days": [
         "Экспорт числового значения в виде количества дней"
       ],
@@ -3014,6 +3022,7 @@
       "The histogram chart displays the distribution of a dataset by\n          representing the frequency or count of values within different ranges or bins.\n          It helps visualize patterns, clusters, and outliers in the data and provides\n          insights into its shape, central tendency, and spread.": [
         "График Гистограмма отображает распределение набора данных путем,\n          представляющего частоту или подсчет значений в разных диапазонах или ящиках.\n          Он помогает визуализировать закономерности, кластеры и выбросы в данных и дает\n          представление о его форме, центральной тенденции и разбросе."
       ],
+      "Hide values": ["Показать значения"],
       "Series type": ["Тип серии"],
       "Smooth Line": ["Гладкая линия"],
       "Step - start": ["Шаг - начало"],
@@ -3650,7 +3659,7 @@
       ],
       "If this is C-level": ["Если запрос от C-level"],
       "give: c_level": ["даем: c_level"],
-      "If it's a franchisee": ["Если это френчайзи"],
+      "If it's a franchisee": ["Если это франчайзи"],
       "Give: fr_{last name}_{first name}": ["Даем: fr_{фамилия}_{имя}"],
       "If from management company": ["Если это сотрудник УК"],
       "Give: by the name of the team": ["Даем: по названию команды"],
@@ -3663,7 +3672,7 @@
         "Произошла ошибка при закрытии запроса"
       ],
       "Onboarding request": ["Заявка на онбоардинг"],
-      "email": ["электронная почта"],
+      "Email": ["Электронная почта"],
       "Current roles": ["Текущие роли"],
       "Requested roles": ["Запрашиваемые роли"],
       "Closed": ["Закрыта"],
@@ -3682,7 +3691,6 @@
       "User update": ["Обновить пользователя"],
       "Apply roles and link to a team": ["Применить роли и добавить в команду"],
       "New Roles": ["Новые роли"],
-      "Email": ["Электронная почта"],
       "Actions": ["Действия"],
       "Requests": ["Заявки"],
       "All": ["Все"],
@@ -3838,6 +3846,7 @@
         "Сохраните данный запрос как виртуальный датасет для создания графика"
       ],
       "Download to CSV": ["Сохранить в CSV"],
+      "Download to XLSX": ["Сохранить в XLSX"],
       "Copy to Clipboard": ["Скопировать в буфер обмена"],
       "Filter results": ["Фильтровать результаты"],
       "The number of results displayed is limited to %(rows)d by the configuration DISPLAY_MAX_ROW. Please add additional limits/filters or download to csv to see more rows up to the %(limit)d limit.": [
@@ -4206,6 +4215,8 @@
       "BOOLEAN": ["Булевый (BOOLEAN)"],
       "Physical (table or view)": ["Физический (таблица или представление)"],
       "Virtual (SQL)": ["Виртуальный (SQL)"],
+      "Label (Eng)": ["Английское название"],
+      "Label (Rus)": ["Русское название"],
       "Data type": ["Тип данных"],
       "Advanced data type": ["Расширенный тип данных"],
       "Advanced Data type": ["Расширенный тип данных"],
@@ -4656,6 +4667,9 @@
       "Set filter mapping": ["Установить действие фильтра"],
       "Set auto-refresh interval": ["Задать интервал обновления"],
       "Confirm overwrite": ["Подтвердить перезапись"],
+      "Scroll down to the bottom to enable overwriting changes. ": [
+        "Прокрутите вниз внизу, чтобы обеспечить перезаписание изменений. "
+      ],
       "Yes, overwrite changes": ["Да, перезаписать изменения"],
       "Are you sure you intend to overwrite the following values?": [
         "Вы уверены, что хотите перезаписать эти значения?"
@@ -5151,6 +5165,9 @@
       ],
       "Chart type requires a dataset": [
         "Для данного типа графика необходим датасет"
+      ],
+      "This chart type is not supported when using an unsaved query as a chart source. ": [
+        "Этот тип графика не поддерживается при использовании несохраненного запроса в качестве источника графика."
       ],
       " to visualize your data.": [" для визуализации ваших данных."],
       "Required control values have been removed": [
@@ -5862,6 +5879,9 @@
         "Продолжительность (в секундах) таймаута кэша для схем этой базы данных. Обратите внимание, что если значение не задано, кэш никогда не очистится."
       ],
       "Table cache timeout": ["Время жизни кэша таблицы"],
+      "Duration (in seconds) of the metadata caching timeout for tables of this database. If left unset, the cache never expires. ": [
+        "Длительность (в секундах) таймаута кэширования метаданных для таблиц этого типа базы данных. Если значение не задано, срок действия кэша не истекает."
+      ],
       "Asynchronous query execution": ["Асинхронное выполнение запросов"],
       "This option has been disabled by the administrator.": [
         "Администратор отключен этот вариант."
@@ -5982,6 +6002,9 @@
       "Supported databases": ["Поддерживаемые базы данных"],
       "Choose a database...": ["Выберите базу данных..."],
       "Want to add a new database?": ["Хотите добавить новую базу данных?"],
+      "Any databases that allow connections via SQL Alchemy URIs can be added. ": [
+        "Можно добавлять любые базы данных, которые позволяют подключаться через URI SQL Alchemy. "
+      ],
       "Any databases that allow connections via SQL Alchemy URIs can be added. Learn about how to connect a database driver ": [
         "Любые базы данных, подключаемые через SQL Alchemy URI, могут быть добавлены. Узнайте больше о том, как подключить драйвер базы данных "
       ],
@@ -6789,7 +6812,7 @@
       "Alerts & Reports": ["Оповещения и отчеты"],
       "Drop columns here or click": ["Перетащите столбцы сюда"],
       "Saved Queries": ["Сохраненные Запросы"],
-      "Select all": ["Выбрать все"],
+      "Select All": ["Выбрать все"],
       "Show values": ["Показать значения"],
       "Day": ["День"],
       "Week": ["Неделя"],
@@ -6802,7 +6825,14 @@
       "Week_ending sunday": ["Неделя до воскресенья"],
       "Week starting Sunday": ["Неделя с воскресенья"],
       "Week starting Monday": ["Неделя с понедельника"],
-      "Week ending Saturday": ["Неделя до субботы"]
+      "Week ending Saturday": ["Неделя до субботы"],
+      "Managing Company": ["Управляющая компания"],
+      "Create data": ["Подготовка данных"],
+      "Vizualize data": ["Визуализация данных"],
+      "center": ["По центру"],
+      "oldest": ["Первое"],
+      "average": ["Среднее"],
+      "latest": ["Последнее"]
     }
   }
 }

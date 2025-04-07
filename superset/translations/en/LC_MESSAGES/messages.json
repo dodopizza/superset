@@ -2590,7 +2590,7 @@
       "All C-level people please select ‘c_level’": [""],
       "your team": [""],
       "Which use cases are you interested in using Superset for?": [""],
-      "readonly": [""],
+      "readonly": ["Check data"],
       "Check available dashboards. Gather insights from charts inside a dashboard": [
         ""
       ],
@@ -4941,7 +4941,7 @@
       "Alerts & Reports": [""],
       "Drop columns here or click": [""],
       "Saved Queries": [""],
-      "Select all": [""],
+      "Select All": [""],
       "Show values": [""],
       "Day": [""],
       "Week": [""],
@@ -4954,7 +4954,14 @@
       "Week_ending sunday": [""],
       "Week starting Sunday": [""],
       "Week starting Monday": [""],
-      "Week ending Saturday": [""]
+      "Week ending Saturday": [""],
+      "Managing Company": [""],
+      "Create data": [""],
+      "Vizualize data": [""],
+      "center": [""],
+      "oldest": [""],
+      "average": [""],
+      "latest": [""]
     }
   }
 }
