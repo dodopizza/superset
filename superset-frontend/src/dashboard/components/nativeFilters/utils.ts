@@ -134,7 +134,7 @@ export function mergeExtraFormData(
           col: column,
           val: value.val.map((val: PlainObject) => val[column]),
         };
-      };);
+      });
       mergedExtra[key] = localisedMergedValues;
       // DODO added stop 30434273
     }
