@@ -24,7 +24,7 @@ Create Date: 2025-02-14 12:54:58.589533
 
 # revision identifiers, used by Alembic.
 revision = "2684073d82a4"
-down_revision = "48cbb571fa3a"
+down_revision = "24505e69a987"
 
 from importlib import import_module  # noqa: E402
 

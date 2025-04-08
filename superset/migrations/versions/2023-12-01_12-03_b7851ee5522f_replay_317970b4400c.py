@@ -24,7 +24,7 @@ Create Date: 2023-12-01 12:03:27.538945
 
 # revision identifiers, used by Alembic.
 revision = "b7851ee5522f"
-down_revision = "24505e69a987"  # DODO added 44994244
+down_revision = "2684073d82a4"  # DODO added 44994244
 
 from importlib import import_module  # noqa: E402
 
