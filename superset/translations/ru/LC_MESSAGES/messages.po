@@ -9526,7 +9526,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:259
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:312
 msgid "Hide values"
-msgstr "Показать значения"
+msgstr "Скрыть значения"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:143
 msgid "Series type"
@@ -21198,9 +21198,6 @@ msgstr "Сохраненные Запросы"
 
 msgid "Select All"
 msgstr "Выбрать все"
-
-msgid "Show values"
-msgstr "Показать значения"
 
 msgid "Day"
 msgstr "День"

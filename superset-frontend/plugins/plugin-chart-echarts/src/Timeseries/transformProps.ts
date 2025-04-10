@@ -90,6 +90,7 @@ import {
   getYAxisFormatter,
 } from '../utils/formatters';
 import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 44728892
+import InfoIcon from '../DodoExtensions/common/InfoIcon';
 
 export default function transformProps(
   chartProps: EchartsTimeseriesChartProps,
@@ -642,7 +643,7 @@ export default function transformProps(
             icon: {
               height: 14,
               backgroundColor: {
-                image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                image: InfoIcon,
               },
             },
           },
