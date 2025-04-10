@@ -2126,6 +2126,7 @@
       "The histogram chart displays the distribution of a dataset by\n          representing the frequency or count of values within different ranges or bins.\n          It helps visualize patterns, clusters, and outliers in the data and provides\n          insights into its shape, central tendency, and spread.": [
         ""
       ],
+      "Show values": [""],
       "Hide values": [""],
       "Series type": [""],
       "Smooth Line": [""],
@@ -2590,7 +2591,7 @@
       "All C-level people please select ‘c_level’": [""],
       "your team": [""],
       "Which use cases are you interested in using Superset for?": [""],
-      "readonly": ["Check data"],
+      "readonly": [""],
       "Check available dashboards. Gather insights from charts inside a dashboard": [
         ""
       ],
@@ -2614,7 +2615,7 @@
       "Request closed successfully.": [""],
       "An error occurred while closing the request": [""],
       "Onboarding request": [""],
-      "email": [""],
+      "Email": [""],
       "Current roles": [""],
       "Requested roles": [""],
       "Closed": [""],
@@ -2628,7 +2629,6 @@
       "User update": [""],
       "Apply roles and link to a team": [""],
       "New Roles": [""],
-      "Email": [""],
       "Actions": [""],
       "Requests": [""],
       "All": [""],
@@ -4942,7 +4942,6 @@
       "Drop columns here or click": [""],
       "Saved Queries": [""],
       "Select All": [""],
-      "Show values": [""],
       "Day": [""],
       "Week": [""],
       "Month": [""],

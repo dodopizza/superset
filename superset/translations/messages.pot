@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-03-20 16:26+0300\n"
+"POT-Creation-Date: 2025-04-10 18:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1636,7 +1636,7 @@ msgstr ""
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:948
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/DividerConfigForm.tsx:51
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:1270
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:322
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:328
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1429
 #: superset-frontend/src/features/reports/ReportModal/index.tsx:329
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:475
@@ -1930,11 +1930,11 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:414
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:433
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:447
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:452
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:455
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:499
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:503
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:207
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:457
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:460
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:504
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:508
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:211
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1407
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1412
 #: superset-frontend/src/features/allEntities/AllEntitiesTable.tsx:141
@@ -2261,11 +2261,11 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:55
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/consts.tsx:34
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:166
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:1009
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:993
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:220
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1184
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:309
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:311
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:315
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:317
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:916
 #: superset-frontend/src/features/annotations/AnnotationModal.tsx:289
 #: superset-frontend/src/features/cssTemplates/CssTemplateModal.tsx:242
@@ -2720,7 +2720,7 @@ msgstr ""
 msgid "To get a readable URL for your dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:773
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:778
 #: superset/views/dashboard/mixin.py:59
 msgid ""
 "This JSON object is generated dynamically when clicking the save or "
@@ -2756,8 +2756,8 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:188
-#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:209
+#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:171
+#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:192
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/DividerConfigForm.tsx:41
 #: superset/views/dashboard/mixin.py:78 superset/views/dashboard/views.py:195
 msgid "Title"
@@ -2770,8 +2770,8 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/consts.tsx:66
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:367
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:381
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:520
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:523
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:525
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:528
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:418
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:427
 #: superset/views/dashboard/mixin.py:82 superset/views/team/mixin.py:16
@@ -4508,13 +4508,13 @@ msgstr ""
 msgid "ERROR"
 msgstr ""
 
-#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:81
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:65
 msgid ""
 "This chart uses features or modules which are no longer actively "
 "maintained. It will eventually be replaced or removed."
 msgstr ""
 
-#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:84
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:69
 msgid ""
 "This chart was tested and verified, so the overall experience should be "
 "stable."
@@ -6656,7 +6656,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Scatter/controlPanel.ts:149
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Screengrid/controlPanel.ts:61
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1030
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:755
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:760
 #: superset-frontend/src/explore/components/controls/DateFilterControl/utils/constants.ts:25
 #: superset-frontend/src/features/databases/DatabaseModal/index.tsx:1897
 msgid "Advanced"
@@ -9120,8 +9120,13 @@ msgid ""
 "          insights into its shape, central tendency, and spread."
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:259
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:312
+#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:260
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:313
+msgid "Show values"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:260
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:313
 msgid "Hide values"
 msgstr ""
 
@@ -9583,11 +9588,11 @@ msgstr ""
 msgid "Generic Chart"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:661
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:662
 msgid "zoom area"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:662
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:663
 msgid "restore zoom"
 msgstr ""
 
@@ -10344,19 +10349,19 @@ msgstr ""
 msgid "metric"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:577
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:853
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:578
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:854
 msgid "Subtotal"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:603
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:719
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:978
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:604
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:720
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:979
 #, python-format
 msgid "Total (%(aggregatorName)s)"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:995
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:996
 #, python-format
 msgid "Value has own aggregation: %(aggregation)s"
 msgstr ""
@@ -10591,15 +10596,15 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:141
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:76
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:225
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:986
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:970
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:271
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:262
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:303
 #: superset-frontend/src/components/Modal/Modal.tsx:275
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:621
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:627
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:305
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/Footer/Footer.tsx:62
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:266
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:272
 #: superset-frontend/src/explore/components/SaveModal.tsx:446
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:970
 #: superset-frontend/src/features/datasets/AddDataset/Footer/index.tsx:117
@@ -10619,8 +10624,8 @@ msgid "Filter set already exists"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:161
-#: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:66
-#: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:80
+#: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:50
+#: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:64
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:218
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:233
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:323
@@ -10635,7 +10640,7 @@ msgstr ""
 #: superset-frontend/src/explore/components/DatasourcePanel/index.tsx:385
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:252
 #: superset-frontend/src/explore/components/ExploreChartPanel/index.jsx:460
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:284
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:290
 #: superset-frontend/src/explore/components/SaveModal.tsx:474
 #: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:344
 #: superset-frontend/src/explore/components/controls/DatasourceControl/index.jsx:496
@@ -10744,8 +10749,8 @@ msgid "Please filter set name"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:96
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:994
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:1003
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:978
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:987
 msgid "Create"
 msgstr ""
 
@@ -10762,7 +10767,7 @@ msgid "Please apply filter changes"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/utils/index.ts:39
-#: superset-frontend/src/dashboard/components/nativeFilters/utils.ts:278
+#: superset-frontend/src/dashboard/components/nativeFilters/utils.ts:282
 msgid "Unknown value"
 msgstr ""
 
@@ -11172,7 +11177,8 @@ msgid "Onboarding request"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:53
-msgid "email"
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:33
+msgid "Email"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:57
@@ -11234,10 +11240,6 @@ msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/UpdateUser.tsx:58
 msgid "New Roles"
-msgstr ""
-
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:33
-msgid "Email"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:106
@@ -11634,7 +11636,7 @@ msgid "Previous Line"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/components/KeyboardShortcutButton/index.tsx:55
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:726
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:710
 msgid "Format SQL"
 msgstr ""
 
@@ -11657,7 +11659,7 @@ msgid "Replace"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/components/KeyboardShortcutButton/index.tsx:97
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:744
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:728
 msgid "Keyboard shortcuts"
 msgstr ""
 
@@ -12028,55 +12030,55 @@ msgstr ""
 msgid "Preview: `%s`"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:694
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:678
 msgid "Schedule the query periodically"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:695
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:679
 msgid "You must run the query successfully first"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:700
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:684
 msgid "Render HTML"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:708
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:692
 msgid "Autocomplete"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:773
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:757
 msgid "CREATE TABLE AS"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:787
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:771
 msgid "CREATE VIEW AS"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:798
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:782
 msgid "The database that was used to generate this query could not be found"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:801
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:785
 msgid "Choose one of the available databases on the left panel."
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:825
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:809
 msgid "Estimate the cost before running a query"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:929
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:913
 msgid "Specify name to CREATE VIEW AS schema in: public"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:930
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:914
 msgid "Specify name to CREATE TABLE AS schema in: public"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:971
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:955
 msgid "Select a database to write a query"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:972
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:956
 msgid "Choose one of the available databases from the panel on the left."
 msgstr ""
 
@@ -12940,9 +12942,9 @@ msgstr ""
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:360
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1390
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1398
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:699
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:333
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:334
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:704
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:339
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:340
 msgid "Certified by"
 msgstr ""
 
@@ -12950,9 +12952,9 @@ msgstr ""
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:371
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1403
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1409
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:708
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:342
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:345
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:713
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:348
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:351
 msgid "Certification details"
 msgstr ""
 
@@ -13077,7 +13079,7 @@ msgid ""
 msgstr ""
 
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1036
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:357
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:363
 msgid "Cache timeout"
 msgstr ""
 
@@ -13315,7 +13317,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: superset-frontend/src/components/ErrorBoundary/index.tsx:61
+#: superset-frontend/src/components/ErrorBoundary/index.tsx:65
 #: superset-frontend/src/components/ErrorMessage/ErrorMessageWithStackTrace.tsx:24
 msgid "Unexpected error"
 msgstr ""
@@ -13514,36 +13516,36 @@ msgstr ""
 msgid "+ %s more"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:252
+#: superset-frontend/src/components/ListView/ListView.tsx:246
 #, python-format
 msgid "%s Selected"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:389
+#: superset-frontend/src/components/ListView/ListView.tsx:383
 msgid "Deselect all"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:415
+#: superset-frontend/src/components/ListView/ListView.tsx:409
 msgid "Add Tag"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:451
+#: superset-frontend/src/components/ListView/ListView.tsx:445
 msgid "No results match your filter criteria"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:452
+#: superset-frontend/src/components/ListView/ListView.tsx:446
 msgid "Try different criteria to display results."
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:455
+#: superset-frontend/src/components/ListView/ListView.tsx:449
 msgid "clear all filters"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:460
+#: superset-frontend/src/components/ListView/ListView.tsx:454
 msgid "No Data"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:480
+#: superset-frontend/src/components/ListView/ListView.tsx:474
 #: superset-frontend/src/components/TableView/TableView.tsx:250
 #, python-format
 msgid "%s-%s of %s"
@@ -13606,8 +13608,8 @@ msgid "Created by"
 msgstr ""
 
 #: superset-frontend/src/components/MetadataBar/ContentConfig.tsx:127
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:721
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:385
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:726
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:391
 #: superset-frontend/src/explore/components/controls/VizTypeControl/VizTypeGallery.tsx:621
 #: superset-frontend/src/features/allEntities/AllEntitiesTable.tsx:131
 #: superset-frontend/src/features/home/Menu.tsx:438
@@ -13822,12 +13824,12 @@ msgid "Create a new chart"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/DashboardGrid.jsx:229
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:193
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:195
 msgid "Drag and drop components to this tab"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/DashboardGrid.jsx:250
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:194
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:196
 msgid "There are no components added to this tab"
 msgstr ""
 
@@ -14279,116 +14281,116 @@ msgid "Last Updated %s by %s"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:144
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:310
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:315
 #: superset-frontend/src/explore/components/EmbedCodeContent.jsx:57
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:86
 #: superset-frontend/src/pages/AlertReportList/index.tsx:66
 msgid "Error"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:311
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:316
 msgid "A valid color scheme is required"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:346
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:351
 msgid "JSON metadata is invalid!"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:418
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:423
 msgid "Dashboard properties updated"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:437
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:442
 msgid "The dashboard has been saved"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:451
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:494
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:366
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:456
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:499
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:372
 msgid "Access"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:466
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:514
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:471
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:519
 msgid ""
 "Owners is a list of users who can alter the dashboard. Searchable by name"
 " or username."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:472
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:477
 msgid "Colors"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:534
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:539
 msgid ""
 "Roles is a list which defines access to the dashboard. Granting a role "
 "access to a dashboard will bypass dataset level checks. If no roles are "
 "defined, regular access permissions apply."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:611
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:617
 msgid "Dashboard properties"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:633
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:639
 msgid "This dashboard is managed externally, and can't be edited in Superset"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:654
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:308
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:660
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:314
 #: superset-frontend/src/features/annotationLayers/AnnotationLayerModal.tsx:245
 #: superset-frontend/src/features/annotations/AnnotationModal.tsx:285
 #: superset-frontend/src/features/cssTemplates/CssTemplateModal.tsx:238
 msgid "Basic information"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:661
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:667
 #: superset-frontend/src/pages/DashboardList/index.tsx:351
 msgid "Title (Eng)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:671
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:677
 #: superset-frontend/src/pages/DashboardList/index.tsx:363
 msgid "Title (Rus)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:681
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:686
 msgid "URL slug"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:685
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:690
 msgid "A readable URL for your dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:694
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:331
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:699
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:337
 msgid "Certification"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:703
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:708
 msgid "Person or group that has certified this dashboard."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:714
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:348
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:719
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:354
 msgid "Any additional detail to show in the certification tooltip."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:739
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:400
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:744
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:406
 msgid "A list of tags that have been applied to this chart."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:760
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:765
 #: superset-frontend/src/features/annotations/AnnotationModal.tsx:334
 msgid "JSON metadata"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:779
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:784
 msgid "Please DO NOT overwrite the \"filter_scopes\" key."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:786
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:791
 #, python-format
 msgid "Use \"%(menuName)s\" menu instead."
 msgstr ""
@@ -14577,23 +14579,23 @@ msgstr ""
 msgid "Empty row"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:200
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:202
 msgid "You can"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:206
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:208
 msgid "create a new chart"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:208
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:210
 msgid "or use existing ones from the panel on the right"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:212
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:214
 msgid "You can add the components in the"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:218
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:220
 msgid "edit mode"
 msgstr ""
 
@@ -14792,11 +14794,11 @@ msgstr ""
 msgid "Filters out of scope (%d)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:85
+#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:73
 msgid "Dependent on"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:87
+#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:75
 msgid "Filter only displays values relevant to selections made in other filters."
 msgstr ""
 
@@ -14825,15 +14827,15 @@ msgstr ""
 msgid "Add filters and dividers"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:316
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:318
 msgid "[untitled]"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:496
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:498
 msgid "Cyclic dependency detected"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:644
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:646
 msgid "Add and edit filters"
 msgstr ""
 
@@ -15769,40 +15771,40 @@ msgstr ""
 msgid "You do not have permission to edit this chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:198
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:202
 msgid "Chart properties updated"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:256
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:262
 msgid "Edit Chart Properties"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:277
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:283
 msgid "This chart is managed externally, and can't be edited in Superset"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:326
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:332
 msgid ""
 "The description can be displayed as widget headers in the dashboard view."
 " Supports markdown."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:337
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:343
 msgid "Person or group that has certified this chart."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:355
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:361
 msgid "Configuration"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:361
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:367
 msgid ""
 "Duration (in seconds) of the caching timeout for this chart. Set to -1 to"
 " bypass the cache. Note this defaults to the dataset's timeout if "
 "undefined."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:379
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:385
 msgid "A list of users who can alter the chart. Searchable by name or username."
 msgstr ""
 
@@ -18710,29 +18712,29 @@ msgid ""
 "overwrite?"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:174
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:162
 msgid "Refreshing columns"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:175
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:163
 msgid "Table columns"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:176
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:164
 msgid "Loading"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:223
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:211
 msgid ""
 "This table already has a dataset associated with it. You can only "
 "associate one dataset with a table.\n"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:226
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:214
 msgid "View Dataset"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:233
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:221
 #: superset-frontend/src/features/datasets/AddDataset/LeftPanel/index.tsx:172
 msgid "This table already has a dataset"
 msgstr ""
@@ -20347,9 +20349,6 @@ msgid "Saved Queries"
 msgstr ""
 
 msgid "Select All"
-msgstr ""
-
-msgid "Show values"
 msgstr ""
 
 msgid "Hide values"

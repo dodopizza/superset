@@ -3022,6 +3022,7 @@
       "The histogram chart displays the distribution of a dataset by\n          representing the frequency or count of values within different ranges or bins.\n          It helps visualize patterns, clusters, and outliers in the data and provides\n          insights into its shape, central tendency, and spread.": [
         "График Гистограмма отображает распределение набора данных путем,\n          представляющего частоту или подсчет значений в разных диапазонах или ящиках.\n          Он помогает визуализировать закономерности, кластеры и выбросы в данных и дает\n          представление о его форме, центральной тенденции и разбросе."
       ],
+      "Show values": ["Показать значения"],
       "Hide values": ["Скрыть значения"],
       "Series type": ["Тип серии"],
       "Smooth Line": ["Гладкая линия"],
