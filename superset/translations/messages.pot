@@ -20351,9 +20351,6 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-msgid "Hide values"
-msgstr ""
-
 msgid "Day"
 msgstr ""
 
