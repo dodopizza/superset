@@ -1,10 +1,11 @@
 // DODO was here
 import { useSelector } from 'react-redux';
 import { t, customTimeRangeDecode, dttmToMoment } from '@superset-ui/core';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { isInteger } from 'lodash';
 // @ts-ignore
 import { locales } from 'antd/dist/antd-with-locales';
+import { bootstrapData } from 'src/preamble';
 import { Col, Row } from 'src/components';
 import { InputNumber } from 'src/components/Input';
 import { DatePicker } from 'src/components/DatePicker';
@@ -55,6 +56,17 @@ const retranslateConstantsComposed = (
         };
       });
 // DODO added stop 44611022
+
+// DODO added start
+const locale = bootstrapData?.common?.locale || 'en';
+if (locale === 'en') {
+  moment.updateLocale('en', {
+    week: {
+      dow: 1, // Monday is the first day of the week
+    },
+  });
+}
+// DODO added stop
 
 export function CustomFrame(props: FrameComponentProps) {
   const { withTime = true, untilInclude = false } = props; // DODO added 44211759
