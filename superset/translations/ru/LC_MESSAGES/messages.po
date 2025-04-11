@@ -10662,7 +10662,7 @@ msgid ""
 "Show total aggregations of selected metrics. Note that row limit does not"
 " apply to the result."
 msgstr ""
-"Показать общие итоговые значения выбранных показателей. Обратите "
+"Показывает общие итоговые значения выбранных показателей. Обратите "
 "внимание, что ограничение количества строк не применяется к результату."
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
