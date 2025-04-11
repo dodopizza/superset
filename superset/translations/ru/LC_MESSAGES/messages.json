@@ -862,10 +862,10 @@
         "Набор параметров, которые доступны в запросе через шаблонизацию Jinja."
       ],
       "Duration (in seconds) of the caching timeout for this table. A timeout of 0 indicates that the cache never expires. Note this defaults to the database timeout if undefined.": [
-        "Продолжительность (в секундах) тайм -аута кэширования для этой таблицы. Продолжительность (в секундах) таймаута кэша для этой таблицы. Обратите внимание, что если значение не задано, применяется значение базы данных."
+        "Продолжительность (в секундах) жизни кэша для этой таблицы. Обратите внимание, что если значение не задано, применяется значение по умолчанию."
       ],
       "Allow column names to be changed to case insensitive format, if supported (e.g. Oracle, Snowflake).": [
-        "Разрешите изменять имена столбцов на нечувствительный формат, если он поддерживается (например, Oracle, Snowflake).Позволить изменять имена столбцов на нечувствительные к регистру, если это поддерживается (например, Oracle, Snowflake)."
+        "Разрешить изменять имена столбцов на нечувствительный формат, если поддерживается (например, Oracle, Snowflake)."
       ],
       "Datasets can have a main temporal column (main_dttm_col), but can also have secondary time columns. When this attribute is true, whenever the secondary columns are filtered, the same filter is applied to the main datetime column.": [
         "Наборы данных могут иметь основной временный столбец (main_dttm_col), но также могут иметь вторичные временные столбцы."
@@ -1610,7 +1610,7 @@
       ],
       "Row limit": ["Лимит строк"],
       "Limits the number of the rows that are computed in the query that is the source of the data used for this chart.": [
-        "ограничивает количество строк, которые вычисляются в запросе, который является источником данных, используемых для этого графика."
+        "Ограничивает количество строк, которые вычисляются в запросе, который является источником данных, используемым для этого графика."
       ],
       "Sort Descending": ["Сортировать по убыванию"],
       "If enabled, this control sorts the results/values descending, otherwise it sorts the results ascending.": [
@@ -1618,7 +1618,7 @@
       ],
       "Series limit": ["Лимит кол-ва категорий"],
       "Limits the number of series that get displayed. A joined subquery (or an extra phase where subqueries are not supported) is applied to limit the number of series that get fetched and rendered. This feature is useful when grouping by high cardinality column(s) though does increase the query complexity and cost.": [
-        "ограничивает количество отображаемых серий. Ограничивает количество отображаемых категорий. Эта опция полезна для столбцов с большим количеством уникальных значений, т.к. уменьшает сложность и стоимость запроса."
+        "Ограничивает количество отображаемых серий. Объединенный подзапрос (или дополнительная фаза, если подзапросы не поддерживаются) применяется для ограничения количества серий, которые будут получены и отображены. Эта функция полезна при группировке по столбцам с высокой кардинальностью, но увеличивает сложность и стоимость запроса."
       ],
       "Y Axis Format": ["Формат Оси Y"],
       "Currency format": ["Формат валюты"],
@@ -2481,7 +2481,7 @@
       "You cannot use 45° tick layout along with the time range filter": [
         "Вы не можете использовать расположение делений под углом 45° при использовании временного фильтра"
       ],
-      "Stacked Style": ["Складированный стиль"],
+      "Stacked Style": ["Стиль укладки"],
       "stack": ["стек"],
       "stream": ["поток"],
       "expand": ["развернуть"],
@@ -2669,7 +2669,7 @@
         "Поле для ввода поддерживает пользовательские значения, например 30 для 30°"
       ],
       "Series Order": ["Порядок серий"],
-      "Truncate X Axis": ["Усеченная x ось"],
+      "Truncate X Axis": ["Усеченная ось X"],
       "Truncate X Axis. Can be overridden by specifying a min or max bound. Only applicable for numercal X axis.": [
         "Усечение оси X. Можно переопределить, указав минимальное или максимальное ограничение. Применяется только для числовой оси X."
       ],
@@ -2727,7 +2727,7 @@
       "Use date formatting even when metric value is not a timestamp": [
         "Использовать перевод к формату дата/время даже если мера представляет другой тип данных"
       ],
-      "Export as time": ["Экспортировать как время"],
+      "Export as time": ["Экспортировать как величину времени"],
       "Export a numeric value as number of days": [
         "Экспорт числового значения в виде количества дней"
       ],
@@ -2792,7 +2792,7 @@
       "Rotate y axis label": ["Повернуть метку оси y"],
       "Y AXIS TITLE MARGIN": ["Отступ названия оси Y"],
       "Logarithmic y-axis": ["Логарифмическая ось Y"],
-      "Truncate Y Axis": ["Урезать интервал оси Y"],
+      "Truncate Y Axis": ["Усеченная ось Y"],
       "Truncate Y Axis. Can be overridden by specifying a min or max bound.": [
         "Уменьшить интервал по умолчанию для оси Y. Необходимо задать минимальную и максимальную границы. Обратите внимание, что некоторые линии могут пропасть из области видимости."
       ],
@@ -2835,7 +2835,7 @@
       ],
       "Conditional message Font Size": ["Условный размер шрифта сообщения"],
       "Alignment": ["Выравнивание"],
-      "Value to show": ["Значение, чтобы показать"],
+      "Value to show": ["Отображаемое значение"],
       "Conditional formatting": ["Условное форматирование"],
       "Comparison period conditional Formatting": [
         "условное форматирование периода сравнения"
@@ -3373,11 +3373,11 @@
       ],
       "Show rows total": ["Показать общий итог по строкам"],
       "Display row level total": ["Отображать общий итог по строке"],
-      "Show rows subtotal": ["Показать Rows Subtotal"],
+      "Show rows subtotal": ["Показать промежуточные итоги по строкам"],
       "Display row level subtotal": ["Показ уровня строки подтотальный"],
       "Show columns total": ["Показать общий итог по столбцам"],
       "Display column level total": ["Отображать общий итог по столбцу"],
-      "Show columns subtotal": ["Показать столбцы подтоталь"],
+      "Show columns subtotal": ["Показать промежуточные итоги по столбцам"],
       "Display column level subtotal": [
         "Попрос на уровне столбца подтотальный"
       ],
@@ -3462,12 +3462,12 @@
       "Allow end user to drag-and-drop column headers to rearrange them. Note their changes won't persist for the next time they open the chart.": [
         "Разрешить конечному пользователю перемещать столбцы, удерживая их заголовки. Заметьте, такие изменения будут нейтрализованы при следующем обращении к дашборду."
       ],
-      "Render columns in HTML format": ["Рендеринговые столбцы в формате HTML"],
+      "Render columns in HTML format": ["Отрисовывать столбцы в формате HTML"],
       "Render data in HTML format if applicable.": [
-        "Данные рендеринга в формате HTML, если применимо."
+        "Отрисовывает данные в формате HTML, если применимо."
       ],
       "Visual formatting": ["Визуальное форматирование"],
-      "Show Cell bars": ["Показать сотовые стержни"],
+      "Show Cell bars": ["Показать столбцы ячеек"],
       "Whether to display a bar chart background in table columns": [
         "Отображать гистограмм в колонках таблицы"
       ],
@@ -3475,7 +3475,7 @@
       "Whether to align background charts with both positive and negative values at 0": [
         "Совместить ли фоновые диаграммы как с положительными, так и с отрицательными значениями при 0"
       ],
-      "add colors to cell bars for +/-": ["добавьте цвета в стержни для /-"],
+      "add colors to cell bars for +/-": ["добавить цвета в столбцы для +/-"],
       "Whether to colorize numeric values by whether they are positive or negative": [
         "окрасить численные значения на то, являются ли они положительными или отрицательными"
       ],
@@ -3485,7 +3485,7 @@
       ],
       "color type": ["тип цвета"],
       "Custom Conditional Formatting": [
-        "Пользовательский условный форматирование"
+        "Пользовательское условное форматирование"
       ],
       "Green for increase, red for decrease": [
         "Зеленый для увеличения, красный для уменьшения"
@@ -4278,7 +4278,7 @@
       ],
       "Cache timeout": ["Время жизни кэша"],
       "The duration of time in seconds before the cache is invalidated. Set to -1 to bypass the cache.": [
-        "Продолжительность времени за несколько секунд до того, как кэш неверен."
+        "Продолжительность времени за несколько секунд до того, как кэш недействителен.Установите -1 для обхода кэша."
       ],
       "Hours offset": ["Смещение времени"],
       "The number of hours, negative or positive, to shift the time column. This can be used to move UTC time to local time.": [
@@ -5374,7 +5374,7 @@
       ],
       "Select aggregate options": ["Выберите настройки агрегации"],
       "%s aggregates(s)": ["Агрегатных функций: %s"],
-      "Hide value in Total": ["Скрыть значение в Total"],
+      "Hide value in Total": ["Скрыть значение в Итого"],
       "Customize chart metrics or columns with currency symbols as prefixes or suffixes. Choose a symbol from dropdown or type your own.": [
         "Настройте метрики или столбцы графика с символами валюты в качестве префиксов или суффиксов."
       ],

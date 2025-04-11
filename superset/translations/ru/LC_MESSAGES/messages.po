@@ -1934,9 +1934,8 @@ msgid ""
 " 0 indicates that the cache never expires. Note this defaults to the "
 "database timeout if undefined."
 msgstr ""
-"Продолжительность (в секундах) тайм -аута кэширования для этой таблицы. "
-"Продолжительность (в секундах) таймаута кэша для этой таблицы. Обратите "
-"внимание, что если значение не задано, применяется значение базы данных."
+"Продолжительность (в секундах) жизни кэша для этой таблицы. Обратите "
+"внимание, что если значение не задано, применяется значение по умолчанию."
 
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1064
 #: superset/connectors/sqla/views.py:392
@@ -1944,10 +1943,8 @@ msgid ""
 "Allow column names to be changed to case insensitive format, if supported"
 " (e.g. Oracle, Snowflake)."
 msgstr ""
-"Разрешите изменять имена столбцов на нечувствительный формат, если он "
-"поддерживается (например, Oracle, Snowflake).Позволить изменять имена "
-"столбцов на нечувствительные к регистру, если это поддерживается "
-"(например, Oracle, Snowflake)."
+"Разрешить изменять имена столбцов на нечувствительный формат, если "
+"поддерживается (например, Oracle, Snowflake)."
 
 #: superset/connectors/sqla/views.py:396
 msgid ""
@@ -4604,8 +4601,8 @@ msgid ""
 "Limits the number of the rows that are computed in the query that is the "
 "source of the data used for this chart."
 msgstr ""
-"ограничивает количество строк, которые вычисляются в запросе, который "
-"является источником данных, используемых для этого графика."
+"Ограничивает количество строк, которые вычисляются в запросе, который "
+"является источником данных, используемым для этого графика."
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/sharedControls.tsx:240
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx:22
@@ -4639,10 +4636,11 @@ msgid ""
 "when grouping by high cardinality column(s) though does increase the "
 "query complexity and cost."
 msgstr ""
-"ограничивает количество отображаемых серий. Ограничивает количество "
-"отображаемых категорий. Эта опция полезна для столбцов с большим "
-"количеством уникальных значений, т.к. уменьшает сложность и стоимость "
-"запроса."
+"Ограничивает количество отображаемых серий. Объединенный подзапрос (или "
+"дополнительная фаза, если подзапросы не поддерживаются) применяется для ограничения "
+"количества серий, которые будут получены и отображены. Эта функция полезна "
+"при группировке по столбцам с высокой кардинальностью, но увеличивает "
+"сложность и стоимость запроса."
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/sharedControls.tsx:287
 #: superset-frontend/src/explore/controls.jsx:406
@@ -7840,7 +7838,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:106
 #: superset-frontend/src/explore/fixtures.tsx:57
 msgid "Stacked Style"
-msgstr "Складированный стиль"
+msgstr "Стиль укладки"
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Area/controlPanel.ts:55
 #: superset-frontend/src/explore/fixtures.tsx:60
@@ -8482,7 +8480,7 @@ msgstr "Порядок серий"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:290
 msgid "Truncate X Axis"
-msgstr "Усеченная x ось"
+msgstr "Усеченная ось X"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:293
 msgid ""
@@ -8672,7 +8670,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:166
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:185
 msgid "Export as time"
-msgstr "Экспортировать как время"
+msgstr "Экспортировать как величину времени"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:95
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:169
@@ -8911,7 +8909,7 @@ msgstr "Логарифмическая ось Y"
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/SmoothLine/controlPanel.tsx:149
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Step/controlPanel.tsx:202
 msgid "Truncate Y Axis"
-msgstr "Урезать интервал оси Y"
+msgstr "Усеченная ось Y"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:290
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:347
@@ -9027,7 +9025,7 @@ msgstr "Выравнивание"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/sharedControls.ts:71
 msgid "Value to show"
-msgstr "Значение, чтобы показать"
+msgstr "Отображаемое значение"
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo.tsx:11
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberWithTrendline/controlPanelDodo.tsx:12
@@ -10790,7 +10788,7 @@ msgstr "Отображать общий итог по строке"
 
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:199
 msgid "Show rows subtotal"
-msgstr "Показать Rows Subtotal"
+msgstr "Показать промежуточные итоги по строкам"
 
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:202
 msgid "Display row level subtotal"
@@ -10806,7 +10804,7 @@ msgstr "Отображать общий итог по столбцу"
 
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:223
 msgid "Show columns subtotal"
-msgstr "Показать столбцы подтоталь"
+msgstr "Показать промежуточные итоги по столбцам"
 
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:226
 msgid "Display column level subtotal"
@@ -11059,11 +11057,11 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:435
 msgid "Render columns in HTML format"
-msgstr "Рендеринговые столбцы в формате HTML"
+msgstr "Отрисовывать столбцы в формате HTML"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:438
 msgid "Render data in HTML format if applicable."
-msgstr "Данные рендеринга в формате HTML, если применимо."
+msgstr "Отрисовывает данные в формате HTML, если применимо."
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:469
 msgid "Visual formatting"
@@ -11071,7 +11069,7 @@ msgstr "Визуальное форматирование"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:477
 msgid "Show Cell bars"
-msgstr "Показать сотовые стержни"
+msgstr "Показать столбцы ячеек"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:480
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:108
@@ -11093,7 +11091,7 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:505
 msgid "add colors to cell bars for +/-"
-msgstr "добавьте цвета в стержни для /-"
+msgstr "добавить цвета в столбцы для +/-"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:508
 msgid ""
@@ -11120,7 +11118,7 @@ msgstr "тип цвета"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:560
 msgid "Custom Conditional Formatting"
-msgstr "Пользовательский условный форматирование"
+msgstr "Пользовательское условное форматирование"
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:564
 msgid "Green for increase, red for decrease"
@@ -13791,7 +13789,8 @@ msgstr "Время жизни кэша"
 msgid ""
 "The duration of time in seconds before the cache is invalidated. Set to "
 "-1 to bypass the cache."
-msgstr "Продолжительность времени за несколько секунд до того, как кэш неверен."
+msgstr "Продолжительность времени за несколько секунд до того, как кэш недействителен."
+"Установите -1 для обхода кэша."
 
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1044
 msgid "Hours offset"
@@ -17172,7 +17171,7 @@ msgstr "Агрегатных функций: %s"
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:166
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:167
 msgid "Hide value in Total"
-msgstr "Скрыть значение в Total"
+msgstr "Скрыть значение в Итого"
 
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:176
 msgid ""
