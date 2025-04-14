@@ -2947,6 +2947,8 @@ const ru = {
       'Count as Fraction of Total': ['Количество, как доля от целого'],
       'Count as Fraction of Rows': ['Количество, как доля от строк'],
       'Count as Fraction of Columns': ['Количество, как доля от столбцов'],
+      stream: ['поток'],
+      expand: ['развернуть'],
     },
   },
 };
