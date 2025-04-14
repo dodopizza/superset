@@ -31,6 +31,7 @@ import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
   EchartsBarChartPluginDodo,
+  EchartsBubbleChartDodoPlugin, // DODO added 45525377
   EchartsPieChartPlugin,
   EchartsBoxPlotChartPlugin,
   EchartsAreaChartPlugin,
@@ -182,7 +183,7 @@ export default class MainPreset extends Preset {
           key: 'echarts_bar_dodo',
         }),
         // DODO added 45525377
-        new EchartsBubbleChartPlugin().configure({
+        new EchartsBubbleChartDodoPlugin().configure({
           key: 'echarts_bubble_dodo',
         }),
       ],
