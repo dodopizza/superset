@@ -177,8 +177,13 @@ export default class MainPreset extends Preset {
           key: FilterPlugins.SelectByIdWithTranslation,
         }),
         ...experimentalPlugins,
+        // DODO added 45525377
         new EchartsBarChartPluginDodo().configure({
           key: 'echarts_bar_dodo',
+        }),
+        // DODO added 45525377
+        new EchartsBubbleChartPlugin().configure({
+          key: 'echarts_bubble_dodo',
         }),
       ],
     });
