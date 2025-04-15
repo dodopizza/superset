@@ -23,6 +23,9 @@ import { useSelector } from 'react-redux';
 const DatasourceEditor = AsyncEsmComponent(() => import('./DatasourceEditor'));
 
 const StyledDatasourceModal = styled(Modal)`
+  padding-left: ${({ theme }) => theme.gridUnit * 4}px; // DODO added 45047288
+  padding-right: ${({ theme }) => theme.gridUnit * 4}px; // DODO added 45047288
+
   .modal-content {
     height: 900px;
     display: flex;
@@ -325,6 +328,7 @@ const DatasourceModal: FunctionComponent<DatasourceModalProps> = ({
         </>
       }
       responsive
+      maxWidth="100vw" // DODO added 45047288
     >
       <DatasourceEditor
         showLoadingForImport
