@@ -3710,7 +3710,7 @@
       "Last login date": ["Дата последнего логина"],
       "REMOVE FROM TEAM": ["Удалить из команды"],
       "Member added successfully.": ["Участник успешно добавлен."],
-      "Member removed successfully.": ["участник успешно удален."],
+      "Member removed successfully.": ["Участник успешно удален."],
       "An error occurred while adding user:": [
         "Произошла ошибка при добавлении пользователя:"
       ],
@@ -3720,9 +3720,9 @@
       "Teams": ["Команды"],
       "offline": ["офлайн"],
       "failed": ["не удалось"],
-      "pending": ["В ожидании"],
-      "fetching": ["Привлечение"],
-      "running": ["бег"],
+      "pending": ["в ожидании"],
+      "fetching": ["загружаем"],
+      "running": ["обрабатываем"],
       "stopped": ["остановлен"],
       "The query couldn't be loaded": ["Запрос невозможно загрузить"],
       "Your query has been scheduled. To see details of your query, navigate to Saved queries": [

@@ -11974,7 +11974,7 @@ msgstr "Участник успешно добавлен."
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/useTeamPage.tsx:59
 msgid "Member removed successfully."
-msgstr "участник успешно удален."
+msgstr "Участник успешно удален."
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/useTeamPage.tsx:66
 msgid "An error occurred while adding user:"
@@ -12002,16 +12002,16 @@ msgstr "не удалось"
 #: superset-frontend/src/SqlLab/constants.ts:35
 #: superset-frontend/src/SqlLab/constants.ts:55
 msgid "pending"
-msgstr "В ожидании"
+msgstr "в ожидании"
 
 #: superset-frontend/src/SqlLab/constants.ts:36
 msgid "fetching"
-msgstr "Привлечение"
+msgstr "загружаем"
 
 #: superset-frontend/src/SqlLab/constants.ts:37
 #: superset-frontend/src/SqlLab/constants.ts:53
 msgid "running"
-msgstr "бег"
+msgstr "обрабатываем"
 
 #: superset-frontend/src/SqlLab/constants.ts:38
 msgid "stopped"
