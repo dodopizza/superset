@@ -38,7 +38,7 @@ async function getDashboardsResult(
   const search = [{ col: 'id', opr: 'dashboard_is_certified', value: true }];
   const query = rison.encode({
     keys: ['none'],
-    columns: [
+    select_columns: [
       'created_on_delta_humanized',
       'changed_on_delta_humanized',
       'dashboard_title',
