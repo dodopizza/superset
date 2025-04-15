@@ -1961,6 +1961,7 @@ const en = {
       'Show values': [''],
       'Hide values': [''],
       'Total (%(aggregatorName)s)': [''],
+      Subtotal: [''],
       Sum: [''],
       Average: [''],
       Median: [''],
@@ -1978,6 +1979,9 @@ const en = {
       'Count as Fraction of Columns': [''],
       stream: [''],
       expand: [''],
+      'Export to PDF': [''],
+      'Download as Image': [''],
+      'There are no components added to this tab': [''],
     },
   },
 };
