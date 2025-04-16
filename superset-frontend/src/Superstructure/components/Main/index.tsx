@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { FeatureFlag } from '@superset-ui/core';
 import DashboardApp from '../App';
 import { MainComponentProps } from '../../types/global';
 
@@ -10,13 +11,11 @@ export default function Main({
 }: MainComponentProps) {
   window.featureFlags = {
     ...window.featureFlags,
-    DYNAMIC_PLUGINS: false,
-    GLOBAL_ASYNC_QUERIES: true,
-    // DYNAMIC_PLUGINS: true,
-    // DASHBOARD_NATIVE_FILTERS: true,
-    DASHBOARD_CROSS_FILTERS: true,
-    DASHBOARD_NATIVE_FILTERS_SET: true,
-    TAGGING_SYSTEM: false,
+    [FeatureFlag.ChartPluginsExperimental]: true,
+    [FeatureFlag.DynamicPlugins]: false,
+    [FeatureFlag.GlobalAsyncQueries]: true,
+    [FeatureFlag.DashboardNativeFiltersSet]: true,
+    [FeatureFlag.TaggingSystem]: false,
   };
   window.htmlSanitization = false; // for handlebars viz
 
