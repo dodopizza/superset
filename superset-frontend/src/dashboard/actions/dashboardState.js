@@ -717,12 +717,7 @@ const storeDashboardMetadata = async (id, metadata) =>
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
       })
-    : API_HANDLER.SupersetClient({
-        method: 'put',
-        url: `/api/v1/dashboard/${id}`,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
-      });
+    : null;
 
 /**
  *
