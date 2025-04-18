@@ -3,7 +3,6 @@
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import rison from 'rison';
 import {
-  API_HANDLER,
   ensureIsArray,
   isFeatureEnabled,
   FeatureFlag,
