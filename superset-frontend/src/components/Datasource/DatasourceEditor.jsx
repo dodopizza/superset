@@ -1211,6 +1211,7 @@ class DatasourceEditor extends PureComponent {
                         maxLines={Infinity}
                         readOnly={!this.state.isEditMode}
                         resize="both"
+                        height={0.7 * window.innerHeight} // DODO added 45047288
                       />
                     }
                   />
@@ -1438,7 +1439,7 @@ class DatasourceEditor extends PureComponent {
         })}
         itemCellProps={{
           expression: () => ({
-            width: '240px',
+            width: '40%',
           }),
         }}
         itemRenderers={{
@@ -1474,9 +1475,9 @@ class DatasourceEditor extends PureComponent {
               language="sql"
               offerEditInModal={false}
               minLines={5}
-              textAreaStyles={{ minWidth: '200px', maxWidth: '450px' }}
+              textAreaStyles={{ minWidth: '200px' }} // DODO changed 45047288
               resize="both"
-              height={100} // DODO added 45047288
+              height={150} // DODO added 45047288
             />
           ),
           description: (v, onChange, label) => (

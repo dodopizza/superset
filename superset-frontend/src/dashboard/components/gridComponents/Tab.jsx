@@ -222,7 +222,7 @@ class Tab extends PureComponent {
                 </span>
               ))
             }
-            image="chart.svg"
+            image={isStandalone ? 'chart.svg' : undefined} // DODO changed
           />
         )}
         {tabComponent.children.map((componentId, componentIndex) => (

@@ -2908,7 +2908,7 @@ const ru = {
       Summary: ['Итого'],
       'Show total aggregations of selected metrics. Note that row limit does not apply to the result.':
         [
-          'Показать общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату.',
+          'Показывает общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату.',
         ],
       'Current day': ['Текущий день'],
       'Current week': ['Текущая неделя'],
@@ -2935,6 +2935,7 @@ const ru = {
       'Show values': ['Показать значения'],
       'Hide values': ['Скрыть значения'],
       'Total (%(aggregatorName)s)': ['Итого (%(aggregatorName)s)'],
+      Subtotal: ['Подытог'],
       Sum: ['Сумма'],
       Average: ['Среднее'],
       Median: ['Медиана'],
@@ -2949,6 +2950,11 @@ const ru = {
       'Count as Fraction of Columns': ['Количество, как доля от столбцов'],
       stream: ['поток'],
       expand: ['развернуть'],
+      'Export to PDF': ['Экспорт в PDF'],
+      'Download as Image': ['Скачать как изображение'],
+      'There are no components added to this tab': [
+        'В этой вкладке нет компонентов',
+      ],
     },
   },
 };
