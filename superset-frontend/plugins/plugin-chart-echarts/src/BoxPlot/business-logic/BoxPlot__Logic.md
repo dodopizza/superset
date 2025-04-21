@@ -10,29 +10,29 @@ Box Plot (Диаграмма размаха) - это тип визуализа�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `columns` | Столбцы для расчета распределения | [controlPanel.ts](../controlPanel.ts): `columns` |
-| `time_grain_sqla` | Гранулярность времени для временных столбцов | [controlPanel.ts](../controlPanel.ts): `time_grain_sqla` |
-| `groupby` | Измерения для группировки по оси X | [controlPanel.ts](../controlPanel.ts): `groupby` |
-| `metrics` | Метрики для расчета статистики | [controlPanel.ts](../controlPanel.ts): `metrics` |
-| `whiskerOptions` | Определяет, как рассчитываются усы и выбросы | [controlPanel.ts](../controlPanel.ts): `whiskerOptions` |
-| `series_limit` | Ограничение количества серий | [controlPanel.ts](../controlPanel.ts): `series_limit` |
-| `series_limit_metric` | Метрика для определения порядка сортировки | [controlPanel.ts](../controlPanel.ts): `series_limit_metric` |
+| Параметр              | Назначение                                   | Подтверждение в коде                                         |
+| --------------------- | -------------------------------------------- | ------------------------------------------------------------ |
+| `columns`             | Столбцы для расчета распределения            | [controlPanel.ts](../controlPanel.ts): `columns`             |
+| `time_grain_sqla`     | Гранулярность времени для временных столбцов | [controlPanel.ts](../controlPanel.ts): `time_grain_sqla`     |
+| `groupby`             | Измерения для группировки по оси X           | [controlPanel.ts](../controlPanel.ts): `groupby`             |
+| `metrics`             | Метрики для расчета статистики               | [controlPanel.ts](../controlPanel.ts): `metrics`             |
+| `whiskerOptions`      | Определяет, как рассчитываются усы и выбросы | [controlPanel.ts](../controlPanel.ts): `whiskerOptions`      |
+| `series_limit`        | Ограничение количества серий                 | [controlPanel.ts](../controlPanel.ts): `series_limit`        |
+| `series_limit_metric` | Метрика для определения порядка сортировки   | [controlPanel.ts](../controlPanel.ts): `series_limit_metric` |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для графика | [controlPanel.ts](../controlPanel.ts): `color_scheme` |
-| `x_ticks_layout` | Расположение меток на оси X | [controlPanel.ts](../controlPanel.ts): `x_ticks_layout` |
-| `number_format` | Формат отображения чисел | [controlPanel.ts](../controlPanel.ts): `number_format` |
-| `date_format` | Формат отображения дат | [controlPanel.ts](../controlPanel.ts): `date_format` |
-| `xAxisTitle` | Заголовок оси X | [transformProps.ts](../transformProps.ts): `xAxisTitle` |
-| `yAxisTitle` | Заголовок оси Y | [transformProps.ts](../transformProps.ts): `yAxisTitle` |
-| `xAxisTitleMargin` | Отступ заголовка оси X | [transformProps.ts](../transformProps.ts): `xAxisTitleMargin` |
-| `yAxisTitleMargin` | Отступ заголовка оси Y | [transformProps.ts](../transformProps.ts): `yAxisTitleMargin` |
-| `yAxisTitlePosition` | Позиция заголовка оси Y | [transformProps.ts](../transformProps.ts): `yAxisTitlePosition` |
+| Параметр             | Назначение                  | Подтверждение в коде                                            |
+| -------------------- | --------------------------- | --------------------------------------------------------------- |
+| `color_scheme`       | Цветовая схема для графика  | [controlPanel.ts](../controlPanel.ts): `color_scheme`           |
+| `x_ticks_layout`     | Расположение меток на оси X | [controlPanel.ts](../controlPanel.ts): `x_ticks_layout`         |
+| `number_format`      | Формат отображения чисел    | [controlPanel.ts](../controlPanel.ts): `number_format`          |
+| `date_format`        | Формат отображения дат      | [controlPanel.ts](../controlPanel.ts): `date_format`            |
+| `xAxisTitle`         | Заголовок оси X             | [transformProps.ts](../transformProps.ts): `xAxisTitle`         |
+| `yAxisTitle`         | Заголовок оси Y             | [transformProps.ts](../transformProps.ts): `yAxisTitle`         |
+| `xAxisTitleMargin`   | Отступ заголовка оси X      | [transformProps.ts](../transformProps.ts): `xAxisTitleMargin`   |
+| `yAxisTitleMargin`   | Отступ заголовка оси Y      | [transformProps.ts](../transformProps.ts): `yAxisTitleMargin`   |
+| `yAxisTitlePosition` | Позиция заголовка оси Y     | [transformProps.ts](../transformProps.ts): `yAxisTitlePosition` |
 
 ## Логика работы и обработки данных
 
@@ -57,7 +57,7 @@ Box Plot (Диаграмма размаха) - это тип визуализа�
 
 Параметр `whiskerOptions` определяет, как рассчитываются усы и выбросы:
 
-- **Tukey**: Стандартный метод Тьюки, где усы простираются до 1.5 * IQR (межквартильный размах) от ящика, а точки за пределами считаются выбросами.
+- **Tukey**: Стандартный метод Тьюки, где усы простираются до 1.5 \* IQR (межквартильный размах) от ящика, а точки за пределами считаются выбросами.
 - **Min/max (no outliers)**: Усы простираются до минимального и максимального значений, выбросы не отображаются.
 - **2/98 percentiles**: Усы простираются до 2-го и 98-го процентилей.
 - **9/91 percentiles**: Усы простираются до 9-го и 91-го процентилей.

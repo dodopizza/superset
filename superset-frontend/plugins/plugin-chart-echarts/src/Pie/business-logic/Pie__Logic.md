@@ -8,32 +8,32 @@ Pie Chart (Круговая диаграмма) - это тип визуализ
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metric` | Метрика для определения размера сегментов | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `sort_by_metric` | Сортировка по метрике | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
+| Параметр         | Назначение                                | Подтверждение в коде                                      |
+| ---------------- | ----------------------------------------- | --------------------------------------------------------- |
+| `groupby`        | Столбцы для группировки данных            | [controlPanel.tsx](../controlPanel.tsx): `groupby`        |
+| `metric`         | Метрика для определения размера сегментов | [controlPanel.tsx](../controlPanel.tsx): `metric`         |
+| `adhoc_filters`  | Фильтры для данных                        | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`  |
+| `row_limit`      | Ограничение количества строк              | [controlPanel.tsx](../controlPanel.tsx): `row_limit`      |
+| `sort_by_metric` | Сортировка по метрике                     | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `show_labels_threshold` | Порог отображения меток в процентах | [controlPanel.tsx](../controlPanel.tsx): `show_labels_threshold` |
-| `rose_type` | Тип розовидной диаграммы (area, radius, none) | [controlPanel.tsx](../controlPanel.tsx): `roseType` |
-| `number_format` | Формат отображения чисел | [controlPanel.tsx](../controlPanel.tsx): `number_format` |
-| `currency_format` | Формат отображения валюты | [controlPanel.tsx](../controlPanel.tsx): `currency_format` |
-| `date_format` | Формат отображения дат | [controlPanel.tsx](../controlPanel.tsx): `date_format` |
-| `show_labels` | Отображение меток | [controlPanel.tsx](../controlPanel.tsx): `show_labels` |
-| `labels_outside` | Размещение меток снаружи | [controlPanel.tsx](../controlPanel.tsx): `labels_outside` |
-| `label_line` | Отображение линий к меткам | [controlPanel.tsx](../controlPanel.tsx): `label_line` |
-| `label_type` | Тип меток | [controlPanel.tsx](../controlPanel.tsx): `label_type` |
-| `outer_radius` | Внешний радиус | [controlPanel.tsx](../controlPanel.tsx): `outerRadius` |
-| `donut` | Отображение в виде кольца | [controlPanel.tsx](../controlPanel.tsx): `donut` |
-| `inner_radius` | Внутренний радиус для кольца | [controlPanel.tsx](../controlPanel.tsx): `innerRadius` |
-| `show_total` | Отображение общего значения (DODO-модификация) | [transformProps.ts](../transformProps.ts): `showTotal` |
+| Параметр                | Назначение                                     | Подтверждение в коде                                             |
+| ----------------------- | ---------------------------------------------- | ---------------------------------------------------------------- |
+| `color_scheme`          | Цветовая схема                                 | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`          |
+| `show_labels_threshold` | Порог отображения меток в процентах            | [controlPanel.tsx](../controlPanel.tsx): `show_labels_threshold` |
+| `rose_type`             | Тип розовидной диаграммы (area, radius, none)  | [controlPanel.tsx](../controlPanel.tsx): `roseType`              |
+| `number_format`         | Формат отображения чисел                       | [controlPanel.tsx](../controlPanel.tsx): `number_format`         |
+| `currency_format`       | Формат отображения валюты                      | [controlPanel.tsx](../controlPanel.tsx): `currency_format`       |
+| `date_format`           | Формат отображения дат                         | [controlPanel.tsx](../controlPanel.tsx): `date_format`           |
+| `show_labels`           | Отображение меток                              | [controlPanel.tsx](../controlPanel.tsx): `show_labels`           |
+| `labels_outside`        | Размещение меток снаружи                       | [controlPanel.tsx](../controlPanel.tsx): `labels_outside`        |
+| `label_line`            | Отображение линий к меткам                     | [controlPanel.tsx](../controlPanel.tsx): `label_line`            |
+| `label_type`            | Тип меток                                      | [controlPanel.tsx](../controlPanel.tsx): `label_type`            |
+| `outer_radius`          | Внешний радиус                                 | [controlPanel.tsx](../controlPanel.tsx): `outerRadius`           |
+| `donut`                 | Отображение в виде кольца                      | [controlPanel.tsx](../controlPanel.tsx): `donut`                 |
+| `inner_radius`          | Внутренний радиус для кольца                   | [controlPanel.tsx](../controlPanel.tsx): `innerRadius`           |
+| `show_total`            | Отображение общего значения (DODO-модификация) | [transformProps.ts](../transformProps.ts): `showTotal`           |
 
 ## Логика работы и обработки данных
 

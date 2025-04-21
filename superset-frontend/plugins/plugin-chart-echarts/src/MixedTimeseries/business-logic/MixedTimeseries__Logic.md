@@ -8,80 +8,80 @@ Mixed Chart (Смешанный график) - это тип визуализа
 
 ### Общие параметры запроса
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `x_axis` | Столбец для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis` |
+| Параметр          | Назначение            | Подтверждение в коде                                       |
+| ----------------- | --------------------- | ---------------------------------------------------------- |
+| `x_axis`          | Столбец для оси X     | [controlPanel.tsx](../controlPanel.tsx): `x_axis`          |
 | `time_grain_sqla` | Гранулярность времени | [controlPanel.tsx](../controlPanel.tsx): `time_grain_sqla` |
 
 ### Параметры запроса A
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metrics` | Метрики для отображения | [controlPanel.tsx](../controlPanel.tsx): `metrics` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `order_desc` | Сортировка по убыванию | [controlPanel.tsx](../controlPanel.tsx): `order_desc` |
+| Параметр        | Назначение                     | Подтверждение в коде                                     |
+| --------------- | ------------------------------ | -------------------------------------------------------- |
+| `groupby`       | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby`       |
+| `metrics`       | Метрики для отображения        | [controlPanel.tsx](../controlPanel.tsx): `metrics`       |
+| `adhoc_filters` | Фильтры для данных             | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
+| `row_limit`     | Ограничение количества строк   | [controlPanel.tsx](../controlPanel.tsx): `row_limit`     |
+| `order_desc`    | Сортировка по убыванию         | [controlPanel.tsx](../controlPanel.tsx): `order_desc`    |
 
 ### Параметры запроса B
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby_b` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby_b` |
-| `metrics_b` | Метрики для отображения | [controlPanel.tsx](../controlPanel.tsx): `metrics_b` |
-| `adhoc_filters_b` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters_b` |
-| `row_limit_b` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit_b` |
-| `order_desc_b` | Сортировка по убыванию | [controlPanel.tsx](../controlPanel.tsx): `order_desc_b` |
+| Параметр          | Назначение                     | Подтверждение в коде                                       |
+| ----------------- | ------------------------------ | ---------------------------------------------------------- |
+| `groupby_b`       | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby_b`       |
+| `metrics_b`       | Метрики для отображения        | [controlPanel.tsx](../controlPanel.tsx): `metrics_b`       |
+| `adhoc_filters_b` | Фильтры для данных             | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters_b` |
+| `row_limit_b`     | Ограничение количества строк   | [controlPanel.tsx](../controlPanel.tsx): `row_limit_b`     |
+| `order_desc_b`    | Сортировка по убыванию         | [controlPanel.tsx](../controlPanel.tsx): `order_desc_b`    |
 
 ### Параметры отображения для запроса A
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `series_type` | Тип серии (line, bar, scatter, smooth_line) | [controlPanel.tsx](../controlPanel.tsx): `series_type` |
-| `area` | Отображение области под линией | [controlPanel.tsx](../controlPanel.tsx): `area` |
-| `stack` | Стекирование серий | [controlPanel.tsx](../controlPanel.tsx): `stack` |
-| `show_value` | Отображение значений | [controlPanel.tsx](../controlPanel.tsx): `show_value` |
-| `marker_enabled` | Отображение маркеров | [controlPanel.tsx](../controlPanel.tsx): `marker_enabled` |
-| `marker_size` | Размер маркеров | [controlPanel.tsx](../controlPanel.tsx): `marker_size` |
-| `opacity` | Прозрачность | [controlPanel.tsx](../controlPanel.tsx): `opacity` |
-| `y_axis_index` | Индекс оси Y (0 или 1) | [controlPanel.tsx](../controlPanel.tsx): `y_axis_index` |
+| Параметр         | Назначение                                  | Подтверждение в коде                                      |
+| ---------------- | ------------------------------------------- | --------------------------------------------------------- |
+| `series_type`    | Тип серии (line, bar, scatter, smooth_line) | [controlPanel.tsx](../controlPanel.tsx): `series_type`    |
+| `area`           | Отображение области под линией              | [controlPanel.tsx](../controlPanel.tsx): `area`           |
+| `stack`          | Стекирование серий                          | [controlPanel.tsx](../controlPanel.tsx): `stack`          |
+| `show_value`     | Отображение значений                        | [controlPanel.tsx](../controlPanel.tsx): `show_value`     |
+| `marker_enabled` | Отображение маркеров                        | [controlPanel.tsx](../controlPanel.tsx): `marker_enabled` |
+| `marker_size`    | Размер маркеров                             | [controlPanel.tsx](../controlPanel.tsx): `marker_size`    |
+| `opacity`        | Прозрачность                                | [controlPanel.tsx](../controlPanel.tsx): `opacity`        |
+| `y_axis_index`   | Индекс оси Y (0 или 1)                      | [controlPanel.tsx](../controlPanel.tsx): `y_axis_index`   |
 
 ### Параметры отображения для запроса B
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `series_type_b` | Тип серии (line, bar, scatter, smooth_line) | [controlPanel.tsx](../controlPanel.tsx): `series_type_b` |
-| `area_b` | Отображение области под линией | [controlPanel.tsx](../controlPanel.tsx): `area_b` |
-| `stack_b` | Стекирование серий | [controlPanel.tsx](../controlPanel.tsx): `stack_b` |
-| `show_value_b` | Отображение значений | [controlPanel.tsx](../controlPanel.tsx): `show_value_b` |
-| `marker_enabled_b` | Отображение маркеров | [controlPanel.tsx](../controlPanel.tsx): `marker_enabled_b` |
-| `marker_size_b` | Размер маркеров | [controlPanel.tsx](../controlPanel.tsx): `marker_size_b` |
-| `opacity_b` | Прозрачность | [controlPanel.tsx](../controlPanel.tsx): `opacity_b` |
-| `y_axis_index_b` | Индекс оси Y (0 или 1) | [controlPanel.tsx](../controlPanel.tsx): `y_axis_index_b` |
+| Параметр           | Назначение                                  | Подтверждение в коде                                        |
+| ------------------ | ------------------------------------------- | ----------------------------------------------------------- |
+| `series_type_b`    | Тип серии (line, bar, scatter, smooth_line) | [controlPanel.tsx](../controlPanel.tsx): `series_type_b`    |
+| `area_b`           | Отображение области под линией              | [controlPanel.tsx](../controlPanel.tsx): `area_b`           |
+| `stack_b`          | Стекирование серий                          | [controlPanel.tsx](../controlPanel.tsx): `stack_b`          |
+| `show_value_b`     | Отображение значений                        | [controlPanel.tsx](../controlPanel.tsx): `show_value_b`     |
+| `marker_enabled_b` | Отображение маркеров                        | [controlPanel.tsx](../controlPanel.tsx): `marker_enabled_b` |
+| `marker_size_b`    | Размер маркеров                             | [controlPanel.tsx](../controlPanel.tsx): `marker_size_b`    |
+| `opacity_b`        | Прозрачность                                | [controlPanel.tsx](../controlPanel.tsx): `opacity_b`        |
+| `y_axis_index_b`   | Индекс оси Y (0 или 1)                      | [controlPanel.tsx](../controlPanel.tsx): `y_axis_index_b`   |
 
 ### Общие параметры отображения
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `zoomable` | Возможность масштабирования | [controlPanel.tsx](../controlPanel.tsx): `zoomable` |
-| `rich_tooltip` | Расширенные подсказки | [controlPanel.tsx](../controlPanel.tsx): `rich_tooltip` |
-| `x_axis_time_format` | Формат времени для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis_time_format` |
-| `tooltip_time_format` | Формат времени для подсказок | [controlPanel.tsx](../controlPanel.tsx): `tooltip_time_format` |
-| `y_axis_format` | Формат оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format` |
-| `y_axis_format_secondary` | Формат вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format_secondary` |
-| `y_axis_title` | Заголовок оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_title` |
-| `y_axis_title_secondary` | Заголовок вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_title_secondary` |
-| `log_axis` | Логарифмическая шкала для оси Y | [controlPanel.tsx](../controlPanel.tsx): `log_axis` |
-| `log_axis_secondary` | Логарифмическая шкала для вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `log_axis_secondary` |
-| `y_axis_bounds` | Границы оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_bounds` |
-| `y_axis_bounds_secondary` | Границы вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_bounds_secondary` |
-| `x_axis_label_rotation` | Угол поворота меток оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis_label_rotation` |
-| `truncate_y_axis` | Усечение оси Y | [controlPanel.tsx](../controlPanel.tsx): `truncate_y_axis` |
-| `truncate_y_axis_secondary` | Усечение вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `truncate_y_axis_secondary` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `show_legend` |
-| `legend_type` | Тип легенды | [controlPanel.tsx](../controlPanel.tsx): `legend_type` |
-| `legend_orientation` | Ориентация легенды | [controlPanel.tsx](../controlPanel.tsx): `legend_orientation` |
+| Параметр                    | Назначение                                | Подтверждение в коде                                                 |
+| --------------------------- | ----------------------------------------- | -------------------------------------------------------------------- |
+| `color_scheme`              | Цветовая схема                            | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`              |
+| `zoomable`                  | Возможность масштабирования               | [controlPanel.tsx](../controlPanel.tsx): `zoomable`                  |
+| `rich_tooltip`              | Расширенные подсказки                     | [controlPanel.tsx](../controlPanel.tsx): `rich_tooltip`              |
+| `x_axis_time_format`        | Формат времени для оси X                  | [controlPanel.tsx](../controlPanel.tsx): `x_axis_time_format`        |
+| `tooltip_time_format`       | Формат времени для подсказок              | [controlPanel.tsx](../controlPanel.tsx): `tooltip_time_format`       |
+| `y_axis_format`             | Формат оси Y                              | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format`             |
+| `y_axis_format_secondary`   | Формат вторичной оси Y                    | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format_secondary`   |
+| `y_axis_title`              | Заголовок оси Y                           | [controlPanel.tsx](../controlPanel.tsx): `y_axis_title`              |
+| `y_axis_title_secondary`    | Заголовок вторичной оси Y                 | [controlPanel.tsx](../controlPanel.tsx): `y_axis_title_secondary`    |
+| `log_axis`                  | Логарифмическая шкала для оси Y           | [controlPanel.tsx](../controlPanel.tsx): `log_axis`                  |
+| `log_axis_secondary`        | Логарифмическая шкала для вторичной оси Y | [controlPanel.tsx](../controlPanel.tsx): `log_axis_secondary`        |
+| `y_axis_bounds`             | Границы оси Y                             | [controlPanel.tsx](../controlPanel.tsx): `y_axis_bounds`             |
+| `y_axis_bounds_secondary`   | Границы вторичной оси Y                   | [controlPanel.tsx](../controlPanel.tsx): `y_axis_bounds_secondary`   |
+| `x_axis_label_rotation`     | Угол поворота меток оси X                 | [controlPanel.tsx](../controlPanel.tsx): `x_axis_label_rotation`     |
+| `truncate_y_axis`           | Усечение оси Y                            | [controlPanel.tsx](../controlPanel.tsx): `truncate_y_axis`           |
+| `truncate_y_axis_secondary` | Усечение вторичной оси Y                  | [controlPanel.tsx](../controlPanel.tsx): `truncate_y_axis_secondary` |
+| `show_legend`               | Отображение легенды                       | [controlPanel.tsx](../controlPanel.tsx): `show_legend`               |
+| `legend_type`               | Тип легенды                               | [controlPanel.tsx](../controlPanel.tsx): `legend_type`               |
+| `legend_orientation`        | Ориентация легенды                        | [controlPanel.tsx](../controlPanel.tsx): `legend_orientation`        |
 
 ## Логика работы и обработки данных
 
@@ -154,14 +154,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "x_axis": "ds",
   "time_grain_sqla": "P1D",
   "groupby": ["product"],
-  "metrics": [{
-    "aggregate": "SUM",
-    "column": {
-      "column_name": "sales"
-    },
-    "expressionType": "SIMPLE",
-    "label": "SUM(sales)"
-  }],
+  "metrics": [
+    {
+      "aggregate": "SUM",
+      "column": {
+        "column_name": "sales"
+      },
+      "expressionType": "SIMPLE",
+      "label": "SUM(sales)"
+    }
+  ],
   "adhoc_filters": [],
   "row_limit": 10000,
   "order_desc": true,
@@ -174,14 +176,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "opacity": 0.8,
   "y_axis_index": 0,
   "groupby_b": ["region"],
-  "metrics_b": [{
-    "aggregate": "COUNT",
-    "column": {
-      "column_name": "*"
-    },
-    "expressionType": "SIMPLE",
-    "label": "COUNT(*)"
-  }],
+  "metrics_b": [
+    {
+      "aggregate": "COUNT",
+      "column": {
+        "column_name": "*"
+      },
+      "expressionType": "SIMPLE",
+      "label": "COUNT(*)"
+    }
+  ],
   "adhoc_filters_b": [],
   "row_limit_b": 10000,
   "order_desc_b": true,
@@ -225,14 +229,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "x_axis": "date",
   "time_grain_sqla": "P1M",
   "groupby": ["category"],
-  "metrics": [{
-    "aggregate": "SUM",
-    "column": {
-      "column_name": "revenue"
-    },
-    "expressionType": "SIMPLE",
-    "label": "SUM(revenue)"
-  }],
+  "metrics": [
+    {
+      "aggregate": "SUM",
+      "column": {
+        "column_name": "revenue"
+      },
+      "expressionType": "SIMPLE",
+      "label": "SUM(revenue)"
+    }
+  ],
   "adhoc_filters": [
     {
       "clause": "WHERE",
@@ -254,14 +260,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "opacity": 0.8,
   "y_axis_index": 0,
   "groupby_b": [],
-  "metrics_b": [{
-    "aggregate": "AVG",
-    "column": {
-      "column_name": "profit_margin"
-    },
-    "expressionType": "SIMPLE",
-    "label": "AVG(profit_margin)"
-  }],
+  "metrics_b": [
+    {
+      "aggregate": "AVG",
+      "column": {
+        "column_name": "profit_margin"
+      },
+      "expressionType": "SIMPLE",
+      "label": "AVG(profit_margin)"
+    }
+  ],
   "adhoc_filters_b": [
     {
       "clause": "WHERE",
@@ -314,14 +322,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "x_axis": "timestamp",
   "time_grain_sqla": "PT1H",
   "groupby": ["sensor_id"],
-  "metrics": [{
-    "aggregate": "AVG",
-    "column": {
-      "column_name": "temperature"
-    },
-    "expressionType": "SIMPLE",
-    "label": "AVG(temperature)"
-  }],
+  "metrics": [
+    {
+      "aggregate": "AVG",
+      "column": {
+        "column_name": "temperature"
+      },
+      "expressionType": "SIMPLE",
+      "label": "AVG(temperature)"
+    }
+  ],
   "adhoc_filters": [],
   "row_limit": 10000,
   "order_desc": true,
@@ -334,14 +344,16 @@ Mixed Chart (Смешанный график) - это тип визуализа
   "opacity": 0.5,
   "y_axis_index": 0,
   "groupby_b": ["sensor_id"],
-  "metrics_b": [{
-    "aggregate": "AVG",
-    "column": {
-      "column_name": "humidity"
-    },
-    "expressionType": "SIMPLE",
-    "label": "AVG(humidity)"
-  }],
+  "metrics_b": [
+    {
+      "aggregate": "AVG",
+      "column": {
+        "column_name": "humidity"
+      },
+      "expressionType": "SIMPLE",
+      "label": "AVG(humidity)"
+    }
+  ],
   "adhoc_filters_b": [],
   "row_limit_b": 10000,
   "order_desc_b": true,
@@ -387,7 +399,7 @@ Mixed Chart (Смешанный график) - это тип визуализа
 
 - Mixed Chart использует библиотеку ECharts для визуализации данных.
 - Этот тип графика позволяет отображать две различные серии данных с разными типами графиков и разными осями Y.
-- Параметры с суффиксом "_b" относятся к запросу B и его настройкам отображения.
+- Параметры с суффиксом "\_b" относятся к запросу B и его настройкам отображения.
 - Параметр `y_axis_index` определяет, к какой оси Y (основной или вторичной) привязана серия данных.
 - При изменении логики этого плагина необходимо обновить соответствующие функции в `transformProps.ts` и `buildQuery.ts`.
 - DODO-модификации добавляют дополнительные возможности, такие как показ/скрытие значений и настройка форматирования метрик.

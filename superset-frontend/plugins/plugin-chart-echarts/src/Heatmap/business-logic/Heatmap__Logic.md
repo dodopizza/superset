@@ -8,35 +8,35 @@ Heatmap (Тепловая карта) - это тип визуализации, 
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `x_axis` | Столбец для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis` |
-| `groupby` | Столбец для оси Y | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metric` | Метрика для определения интенсивности цвета | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `sort_x_axis` | Сортировка оси X | [controlPanel.tsx](../controlPanel.tsx): `sort_x_axis` |
-| `sort_y_axis` | Сортировка оси Y | [controlPanel.tsx](../controlPanel.tsx): `sort_y_axis` |
+| Параметр        | Назначение                                  | Подтверждение в коде                                     |
+| --------------- | ------------------------------------------- | -------------------------------------------------------- |
+| `x_axis`        | Столбец для оси X                           | [controlPanel.tsx](../controlPanel.tsx): `x_axis`        |
+| `groupby`       | Столбец для оси Y                           | [controlPanel.tsx](../controlPanel.tsx): `groupby`       |
+| `metric`        | Метрика для определения интенсивности цвета | [controlPanel.tsx](../controlPanel.tsx): `metric`        |
+| `adhoc_filters` | Фильтры для данных                          | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
+| `row_limit`     | Ограничение количества строк                | [controlPanel.tsx](../controlPanel.tsx): `row_limit`     |
+| `sort_x_axis`   | Сортировка оси X                            | [controlPanel.tsx](../controlPanel.tsx): `sort_x_axis`   |
+| `sort_y_axis`   | Сортировка оси Y                            | [controlPanel.tsx](../controlPanel.tsx): `sort_y_axis`   |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `legend_type` | Тип легенды (continuous, piecewise) | [controlPanel.tsx](../controlPanel.tsx): `legend_type` |
-| `linear_color_scheme` | Цветовая схема | [controlPanel.tsx](../controlPanel.tsx): `linear_color_scheme` |
-| `xscale_interval` | Интервал шкалы X | [controlPanel.tsx](../controlPanel.tsx): `xscale_interval` |
-| `yscale_interval` | Интервал шкалы Y | [controlPanel.tsx](../controlPanel.tsx): `yscale_interval` |
-| `value_bounds` | Границы значений для цветовой шкалы | [controlPanel.tsx](../controlPanel.tsx): `value_bounds` |
-| `y_axis_format` | Формат оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format` |
-| `x_axis_time_format` | Формат времени для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis_time_format` |
-| `currency_format` | Формат валюты | [controlPanel.tsx](../controlPanel.tsx): `currency_format` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `show_legend` |
-| `show_percentage` | Отображение процентов | [controlPanel.tsx](../controlPanel.tsx): `show_percentage` |
-| `show_values` | Отображение значений | [controlPanel.tsx](../controlPanel.tsx): `show_values` |
-| `normalized` | Нормализация данных | [controlPanel.tsx](../controlPanel.tsx): `normalized` |
-| `normalize_across` | Нормализация по оси | [controlPanel.tsx](../controlPanel.tsx): `normalize_across` |
-| `left_margin` | Левый отступ | [controlPanel.tsx](../controlPanel.tsx): `left_margin` |
-| `bottom_margin` | Нижний отступ | [controlPanel.tsx](../controlPanel.tsx): `bottom_margin` |
+| Параметр              | Назначение                          | Подтверждение в коде                                           |
+| --------------------- | ----------------------------------- | -------------------------------------------------------------- |
+| `legend_type`         | Тип легенды (continuous, piecewise) | [controlPanel.tsx](../controlPanel.tsx): `legend_type`         |
+| `linear_color_scheme` | Цветовая схема                      | [controlPanel.tsx](../controlPanel.tsx): `linear_color_scheme` |
+| `xscale_interval`     | Интервал шкалы X                    | [controlPanel.tsx](../controlPanel.tsx): `xscale_interval`     |
+| `yscale_interval`     | Интервал шкалы Y                    | [controlPanel.tsx](../controlPanel.tsx): `yscale_interval`     |
+| `value_bounds`        | Границы значений для цветовой шкалы | [controlPanel.tsx](../controlPanel.tsx): `value_bounds`        |
+| `y_axis_format`       | Формат оси Y                        | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format`       |
+| `x_axis_time_format`  | Формат времени для оси X            | [controlPanel.tsx](../controlPanel.tsx): `x_axis_time_format`  |
+| `currency_format`     | Формат валюты                       | [controlPanel.tsx](../controlPanel.tsx): `currency_format`     |
+| `show_legend`         | Отображение легенды                 | [controlPanel.tsx](../controlPanel.tsx): `show_legend`         |
+| `show_percentage`     | Отображение процентов               | [controlPanel.tsx](../controlPanel.tsx): `show_percentage`     |
+| `show_values`         | Отображение значений                | [controlPanel.tsx](../controlPanel.tsx): `show_values`         |
+| `normalized`          | Нормализация данных                 | [controlPanel.tsx](../controlPanel.tsx): `normalized`          |
+| `normalize_across`    | Нормализация по оси                 | [controlPanel.tsx](../controlPanel.tsx): `normalize_across`    |
+| `left_margin`         | Левый отступ                        | [controlPanel.tsx](../controlPanel.tsx): `left_margin`         |
+| `bottom_margin`       | Нижний отступ                       | [controlPanel.tsx](../controlPanel.tsx): `bottom_margin`       |
 
 ## Логика работы и обработки данных
 

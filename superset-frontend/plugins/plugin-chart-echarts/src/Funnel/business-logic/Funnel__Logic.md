@@ -8,34 +8,34 @@ Funnel Chart (Воронка) - это тип визуализации, кото
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Измерения для определения этапов воронки | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metric` | Метрика для измерения значений на каждом этапе | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк (этапов) | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `sort_by_metric` | Сортировка по метрике | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
-| `percent_calculation_type` | Тип расчета процентов | [controlPanel.tsx](../controlPanel.tsx): `percent_calculation_type` |
+| Параметр                   | Назначение                                     | Подтверждение в коде                                                |
+| -------------------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| `groupby`                  | Измерения для определения этапов воронки       | [controlPanel.tsx](../controlPanel.tsx): `groupby`                  |
+| `metric`                   | Метрика для измерения значений на каждом этапе | [controlPanel.tsx](../controlPanel.tsx): `metric`                   |
+| `adhoc_filters`            | Фильтры для данных                             | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`            |
+| `row_limit`                | Ограничение количества строк (этапов)          | [controlPanel.tsx](../controlPanel.tsx): `row_limit`                |
+| `sort_by_metric`           | Сортировка по метрике                          | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric`           |
+| `percent_calculation_type` | Тип расчета процентов                          | [controlPanel.tsx](../controlPanel.tsx): `percent_calculation_type` |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для графика | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `label_type` | Содержимое меток (категория, значение, процент) | [controlPanel.tsx](../controlPanel.tsx): `label_type` |
-| `tooltip_label_type` | Содержимое подсказок | [transformProps.ts](../transformProps.ts): `tooltipLabelType` |
-| `number_format` | Формат отображения чисел | [controlPanel.tsx](../controlPanel.tsx): `number_format` |
-| `currency_format` | Формат отображения валюты | [controlPanel.tsx](../controlPanel.tsx): `currency_format` |
-| `show_labels` | Отображение меток | [controlPanel.tsx](../controlPanel.tsx): `show_labels` |
-| `show_tooltip_labels` | Отображение подсказок | [controlPanel.tsx](../controlPanel.tsx): `show_tooltip_labels` |
-| `orient` | Ориентация воронки (вертикальная/горизонтальная) | [transformProps.ts](../transformProps.ts): `orient` |
-| `sort` | Порядок сортировки (по возрастанию/убыванию/без сортировки) | [transformProps.ts](../transformProps.ts): `sort` |
-| `gap` | Расстояние между блоками воронки | [transformProps.ts](../transformProps.ts): `gap` |
-| `label_line` | Отображение линий для меток | [transformProps.ts](../transformProps.ts): `labelLine` |
-| `show_legend` | Отображение легенды | [transformProps.ts](../transformProps.ts): `showLegend` |
-| `legend_orientation` | Ориентация легенды | [transformProps.ts](../transformProps.ts): `legendOrientation` |
-| `legend_type` | Тип легенды | [transformProps.ts](../transformProps.ts): `legendType` |
-| `legend_margin` | Отступ легенды | [transformProps.ts](../transformProps.ts): `legendMargin` |
+| Параметр              | Назначение                                                  | Подтверждение в коде                                           |
+| --------------------- | ----------------------------------------------------------- | -------------------------------------------------------------- |
+| `color_scheme`        | Цветовая схема для графика                                  | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`        |
+| `label_type`          | Содержимое меток (категория, значение, процент)             | [controlPanel.tsx](../controlPanel.tsx): `label_type`          |
+| `tooltip_label_type`  | Содержимое подсказок                                        | [transformProps.ts](../transformProps.ts): `tooltipLabelType`  |
+| `number_format`       | Формат отображения чисел                                    | [controlPanel.tsx](../controlPanel.tsx): `number_format`       |
+| `currency_format`     | Формат отображения валюты                                   | [controlPanel.tsx](../controlPanel.tsx): `currency_format`     |
+| `show_labels`         | Отображение меток                                           | [controlPanel.tsx](../controlPanel.tsx): `show_labels`         |
+| `show_tooltip_labels` | Отображение подсказок                                       | [controlPanel.tsx](../controlPanel.tsx): `show_tooltip_labels` |
+| `orient`              | Ориентация воронки (вертикальная/горизонтальная)            | [transformProps.ts](../transformProps.ts): `orient`            |
+| `sort`                | Порядок сортировки (по возрастанию/убыванию/без сортировки) | [transformProps.ts](../transformProps.ts): `sort`              |
+| `gap`                 | Расстояние между блоками воронки                            | [transformProps.ts](../transformProps.ts): `gap`               |
+| `label_line`          | Отображение линий для меток                                 | [transformProps.ts](../transformProps.ts): `labelLine`         |
+| `show_legend`         | Отображение легенды                                         | [transformProps.ts](../transformProps.ts): `showLegend`        |
+| `legend_orientation`  | Ориентация легенды                                          | [transformProps.ts](../transformProps.ts): `legendOrientation` |
+| `legend_type`         | Тип легенды                                                 | [transformProps.ts](../transformProps.ts): `legendType`        |
+| `legend_margin`       | Отступ легенды                                              | [transformProps.ts](../transformProps.ts): `legendMargin`      |
 
 ## Логика работы и обработки данных
 
@@ -79,6 +79,7 @@ Funnel Chart (Воронка) - это тип визуализации, кото
 ### Настройки меток и подсказок
 
 Параметр `label_type` определяет содержимое меток на графике:
+
 - `Key`: Только название категории
 - `Value`: Только значение
 - `Percent`: Только процент

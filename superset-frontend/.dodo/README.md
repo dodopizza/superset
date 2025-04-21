@@ -2,7 +2,8 @@
 
 ## Local requirements for backend
 
-Create a file  `docker/requirements-local.txt` with this content:
+Create a file `docker/requirements-local.txt` with this content:
+
 ```
 Authlib==0.15.5
 gevent==21.12.0
@@ -23,8 +24,11 @@ Flask-SQLAlchemy==2.5.1
 marshmallow-enum==1.5.1
 
 ```
+
 ## Start docker
+
 In order to start development in the root directory perform
+
 ```
 docker-compose -f docker-compose.yml up
 ```
@@ -32,6 +36,7 @@ docker-compose -f docker-compose.yml up
 The core version is going to run on http://localhost:8088/
 
 ## Developing frontend (standalone)
+
 If you want to develop frontend part (standalone) in the `superset-frontend` directory perform
 
 ```
@@ -41,11 +46,13 @@ npm run dev-server
 The version for development is going to run on http://localhost:9000/
 
 ## Developing frontend (plugin)
+
 If you want to develop frontend part (plugin) in the `superset-frontend` directory perform
 
 ```
 npm run pl:dev-server
 ```
+
 The version for development is going to run on http://localhost:3000/
 
 ## Superset login/pass
@@ -78,11 +85,15 @@ LANGUAGES = {
 3. Actions -> Build Frontend
 
 > `Superset frontend branch`
+
 ```
 3.0-dodo
 ```
+
 !Deprecated
+
 > `Superset UI branch`
+
 ```
 dodo-plugins-0.17.41
 ```
@@ -90,7 +101,8 @@ dodo-plugins-0.17.41
 **Wait until this job is done and green.**
 
 4. Actions -> Build Backend
-> `Superset backend branch`
+   > `Superset backend branch`
+
 ```
 add-kusto-support-1.3.1
 ```

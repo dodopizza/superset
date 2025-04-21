@@ -8,58 +8,58 @@ Timeseries (Временной ряд) - это универсальный ти�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `metrics` | Метрики для отображения | [types.ts](../types.ts): `metrics` |
-| `groupby` | Столбцы для группировки данных | [types.ts](../types.ts): `groupby` |
-| `time_grain_sqla` | Гранулярность времени | [types.ts](../types.ts): `timeGrainSqla` |
-| `time_compare` | Сравнение с предыдущими периодами | [types.ts](../types.ts): `timeCompare` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../Regular/Line/controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [constants.ts](../constants.ts): `rowLimit` |
+| Параметр          | Назначение                        | Подтверждение в коде                                                  |
+| ----------------- | --------------------------------- | --------------------------------------------------------------------- |
+| `metrics`         | Метрики для отображения           | [types.ts](../types.ts): `metrics`                                    |
+| `groupby`         | Столбцы для группировки данных    | [types.ts](../types.ts): `groupby`                                    |
+| `time_grain_sqla` | Гранулярность времени             | [types.ts](../types.ts): `timeGrainSqla`                              |
+| `time_compare`    | Сравнение с предыдущими периодами | [types.ts](../types.ts): `timeCompare`                                |
+| `adhoc_filters`   | Фильтры для данных                | [controlPanel.tsx](../Regular/Line/controlPanel.tsx): `adhoc_filters` |
+| `row_limit`       | Ограничение количества строк      | [constants.ts](../constants.ts): `rowLimit`                           |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема | [types.ts](../types.ts): `colorScheme` |
-| `series_type` | Тип серии (line, bar, scatter, smooth) | [types.ts](../types.ts): `seriesType` |
-| `area` | Отображение области под линией | [types.ts](../types.ts): `area` |
-| `stack` | Стекирование серий | [types.ts](../types.ts): `stack` |
-| `opacity` | Прозрачность | [constants.ts](../constants.ts): `opacity` |
-| `marker_enabled` | Отображение маркеров | [constants.ts](../constants.ts): `markerEnabled` |
-| `marker_size` | Размер маркеров | [constants.ts](../constants.ts): `markerSize` |
-| `show_value` | Отображение значений | [types.ts](../types.ts): `showValue` |
-| `only_total` | Отображение только итоговых значений | [types.ts](../types.ts): `onlyTotal` |
-| `percentage_threshold` | Порог процентов для отображения | [types.ts](../types.ts): `percentageThreshold` |
-| `zoomable` | Возможность масштабирования | [constants.ts](../constants.ts): `zoomable` |
-| `rich_tooltip` | Расширенные подсказки | [types.ts](../types.ts): `richTooltip` |
-| `x_axis_time_format` | Формат времени для оси X | [types.ts](../types.ts): `xAxisTimeFormat` |
-| `tooltip_time_format` | Формат времени для подсказок | [types.ts](../types.ts): `tooltipTimeFormat` |
-| `y_axis_format` | Формат оси Y | [types.ts](../types.ts): `yAxisFormat` |
-| `x_axis_title` | Заголовок оси X | [types.ts](../types.ts): `xAxisTitle` |
-| `y_axis_title` | Заголовок оси Y | [types.ts](../types.ts): `yAxisTitle` |
-| `log_axis` | Логарифмическая шкала для оси Y | [constants.ts](../constants.ts): `logAxis` |
-| `x_axis_label_rotation` | Угол поворота меток оси X | [types.ts](../types.ts): `xAxisLabelRotation` |
-| `truncate_y_axis` | Усечение оси Y | [constants.ts](../constants.ts): `truncateYAxis` |
-| `y_axis_bounds` | Границы оси Y | [constants.ts](../constants.ts): `yAxisBounds` |
-| `show_legend` | Отображение легенды | [types.ts](../types.ts): `showLegend` |
-| `legend_type` | Тип легенды | [types.ts](../types.ts): `legendType` |
-| `legend_orientation` | Ориентация легенды | [types.ts](../types.ts): `legendOrientation` |
-| `contribution_mode` | Режим вклада | [types.ts](../types.ts): `contributionMode` |
-| `x_axis_sort_series` | Сортировка серий по оси X | [transformProps.ts](../transformProps.ts): `xAxisSortSeries` |
-| `x_axis_sort_series_ascending` | Сортировка серий по возрастанию | [transformProps.ts](../transformProps.ts): `xAxisSortSeriesAscending` |
-| `orientation` | Ориентация графика (вертикальная/горизонтальная) | [types.ts](../types.ts): `orientation` |
+| Параметр                       | Назначение                                       | Подтверждение в коде                                                  |
+| ------------------------------ | ------------------------------------------------ | --------------------------------------------------------------------- |
+| `color_scheme`                 | Цветовая схема                                   | [types.ts](../types.ts): `colorScheme`                                |
+| `series_type`                  | Тип серии (line, bar, scatter, smooth)           | [types.ts](../types.ts): `seriesType`                                 |
+| `area`                         | Отображение области под линией                   | [types.ts](../types.ts): `area`                                       |
+| `stack`                        | Стекирование серий                               | [types.ts](../types.ts): `stack`                                      |
+| `opacity`                      | Прозрачность                                     | [constants.ts](../constants.ts): `opacity`                            |
+| `marker_enabled`               | Отображение маркеров                             | [constants.ts](../constants.ts): `markerEnabled`                      |
+| `marker_size`                  | Размер маркеров                                  | [constants.ts](../constants.ts): `markerSize`                         |
+| `show_value`                   | Отображение значений                             | [types.ts](../types.ts): `showValue`                                  |
+| `only_total`                   | Отображение только итоговых значений             | [types.ts](../types.ts): `onlyTotal`                                  |
+| `percentage_threshold`         | Порог процентов для отображения                  | [types.ts](../types.ts): `percentageThreshold`                        |
+| `zoomable`                     | Возможность масштабирования                      | [constants.ts](../constants.ts): `zoomable`                           |
+| `rich_tooltip`                 | Расширенные подсказки                            | [types.ts](../types.ts): `richTooltip`                                |
+| `x_axis_time_format`           | Формат времени для оси X                         | [types.ts](../types.ts): `xAxisTimeFormat`                            |
+| `tooltip_time_format`          | Формат времени для подсказок                     | [types.ts](../types.ts): `tooltipTimeFormat`                          |
+| `y_axis_format`                | Формат оси Y                                     | [types.ts](../types.ts): `yAxisFormat`                                |
+| `x_axis_title`                 | Заголовок оси X                                  | [types.ts](../types.ts): `xAxisTitle`                                 |
+| `y_axis_title`                 | Заголовок оси Y                                  | [types.ts](../types.ts): `yAxisTitle`                                 |
+| `log_axis`                     | Логарифмическая шкала для оси Y                  | [constants.ts](../constants.ts): `logAxis`                            |
+| `x_axis_label_rotation`        | Угол поворота меток оси X                        | [types.ts](../types.ts): `xAxisLabelRotation`                         |
+| `truncate_y_axis`              | Усечение оси Y                                   | [constants.ts](../constants.ts): `truncateYAxis`                      |
+| `y_axis_bounds`                | Границы оси Y                                    | [constants.ts](../constants.ts): `yAxisBounds`                        |
+| `show_legend`                  | Отображение легенды                              | [types.ts](../types.ts): `showLegend`                                 |
+| `legend_type`                  | Тип легенды                                      | [types.ts](../types.ts): `legendType`                                 |
+| `legend_orientation`           | Ориентация легенды                               | [types.ts](../types.ts): `legendOrientation`                          |
+| `contribution_mode`            | Режим вклада                                     | [types.ts](../types.ts): `contributionMode`                           |
+| `x_axis_sort_series`           | Сортировка серий по оси X                        | [transformProps.ts](../transformProps.ts): `xAxisSortSeries`          |
+| `x_axis_sort_series_ascending` | Сортировка серий по возрастанию                  | [transformProps.ts](../transformProps.ts): `xAxisSortSeriesAscending` |
+| `orientation`                  | Ориентация графика (вертикальная/горизонтальная) | [types.ts](../types.ts): `orientation`                                |
 
 ### Параметры прогнозирования (Forecasting)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `forecast_enabled` | Включение прогнозирования | [types.ts](../types.ts): `forecastEnabled` |
-| `forecast_periods` | Количество периодов для прогноза | [types.ts](../types.ts): `forecastPeriods` |
-| `forecast_interval` | Интервал прогноза | [types.ts](../types.ts): `forecastInterval` |
-| `forecast_seasonality_daily` | Дневная сезонность | [types.ts](../types.ts): `forecastSeasonalityDaily` |
-| `forecast_seasonality_weekly` | Недельная сезонность | [types.ts](../types.ts): `forecastSeasonalityWeekly` |
-| `forecast_seasonality_yearly` | Годовая сезонность | [types.ts](../types.ts): `forecastSeasonalityYearly` |
+| Параметр                      | Назначение                       | Подтверждение в коде                                 |
+| ----------------------------- | -------------------------------- | ---------------------------------------------------- |
+| `forecast_enabled`            | Включение прогнозирования        | [types.ts](../types.ts): `forecastEnabled`           |
+| `forecast_periods`            | Количество периодов для прогноза | [types.ts](../types.ts): `forecastPeriods`           |
+| `forecast_interval`           | Интервал прогноза                | [types.ts](../types.ts): `forecastInterval`          |
+| `forecast_seasonality_daily`  | Дневная сезонность               | [types.ts](../types.ts): `forecastSeasonalityDaily`  |
+| `forecast_seasonality_weekly` | Недельная сезонность             | [types.ts](../types.ts): `forecastSeasonalityWeekly` |
+| `forecast_seasonality_yearly` | Годовая сезонность               | [types.ts](../types.ts): `forecastSeasonalityYearly` |
 
 ## Логика работы и обработки данных
 

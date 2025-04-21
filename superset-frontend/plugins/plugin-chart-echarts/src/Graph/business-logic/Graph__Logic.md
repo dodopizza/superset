@@ -8,36 +8,36 @@ Graph Chart (Граф) - это тип визуализации, который 
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `source` | Столбец с именами исходных узлов | [controlPanel.tsx](../controlPanel.tsx): `source` |
-| `target` | Столбец с именами целевых узлов | [controlPanel.tsx](../controlPanel.tsx): `target` |
-| `metric` | Метрика для определения веса связей | [controlPanel.tsx](../controlPanel.tsx): `metric` |
+| Параметр          | Назначение                                     | Подтверждение в коде                                       |
+| ----------------- | ---------------------------------------------- | ---------------------------------------------------------- |
+| `source`          | Столбец с именами исходных узлов               | [controlPanel.tsx](../controlPanel.tsx): `source`          |
+| `target`          | Столбец с именами целевых узлов                | [controlPanel.tsx](../controlPanel.tsx): `target`          |
+| `metric`          | Метрика для определения веса связей            | [controlPanel.tsx](../controlPanel.tsx): `metric`          |
 | `source_category` | Категория исходных узлов для назначения цветов | [controlPanel.tsx](../controlPanel.tsx): `source_category` |
-| `target_category` | Категория целевых узлов | [controlPanel.tsx](../controlPanel.tsx): `target_category` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
+| `target_category` | Категория целевых узлов                        | [controlPanel.tsx](../controlPanel.tsx): `target_category` |
+| `adhoc_filters`   | Фильтры для данных                             | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`   |
+| `row_limit`       | Ограничение количества строк                   | [controlPanel.tsx](../controlPanel.tsx): `row_limit`       |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для графика | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `layout` | Тип макета графа (force, circular) | [controlPanel.tsx](../controlPanel.tsx): `layout` |
-| `roam` | Возможность перемещения и масштабирования графа | [controlPanel.tsx](../controlPanel.tsx): `roam` |
-| `draggable` | Возможность перетаскивания узлов | [controlPanel.tsx](../controlPanel.tsx): `draggable` |
-| `selectedMode` | Режим выбора узлов | [controlPanel.tsx](../controlPanel.tsx): `selectedMode` |
-| `show_symbol_threshold` | Порог отображения символов | [controlPanel.tsx](../controlPanel.tsx): `show_symbol_threshold` |
-| `base_node_size` | Базовый размер узла | [controlPanel.tsx](../controlPanel.tsx): `baseNodeSize` |
-| `base_edge_width` | Базовая ширина связи | [controlPanel.tsx](../controlPanel.tsx): `baseEdgeWidth` |
-| `edge_length` | Длина связи | [controlPanel.tsx](../controlPanel.tsx): `edgeLength` |
-| `edge_symbol` | Символ связи | [controlPanel.tsx](../controlPanel.tsx): `edgeSymbol` |
-| `repulsion` | Сила отталкивания между узлами | [controlPanel.tsx](../controlPanel.tsx): `repulsion` |
-| `gravity` | Сила гравитации к центру | [controlPanel.tsx](../controlPanel.tsx): `gravity` |
-| `friction` | Трение (замедление движения узлов) | [controlPanel.tsx](../controlPanel.tsx): `friction` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `showLegend` |
-| `legend_type` | Тип легенды | [controlPanel.tsx](../controlPanel.tsx): `legendType` |
-| `legend_orientation` | Ориентация легенды | [controlPanel.tsx](../controlPanel.tsx): `legendOrientation` |
+| Параметр                | Назначение                                      | Подтверждение в коде                                             |
+| ----------------------- | ----------------------------------------------- | ---------------------------------------------------------------- |
+| `color_scheme`          | Цветовая схема для графика                      | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`          |
+| `layout`                | Тип макета графа (force, circular)              | [controlPanel.tsx](../controlPanel.tsx): `layout`                |
+| `roam`                  | Возможность перемещения и масштабирования графа | [controlPanel.tsx](../controlPanel.tsx): `roam`                  |
+| `draggable`             | Возможность перетаскивания узлов                | [controlPanel.tsx](../controlPanel.tsx): `draggable`             |
+| `selectedMode`          | Режим выбора узлов                              | [controlPanel.tsx](../controlPanel.tsx): `selectedMode`          |
+| `show_symbol_threshold` | Порог отображения символов                      | [controlPanel.tsx](../controlPanel.tsx): `show_symbol_threshold` |
+| `base_node_size`        | Базовый размер узла                             | [controlPanel.tsx](../controlPanel.tsx): `baseNodeSize`          |
+| `base_edge_width`       | Базовая ширина связи                            | [controlPanel.tsx](../controlPanel.tsx): `baseEdgeWidth`         |
+| `edge_length`           | Длина связи                                     | [controlPanel.tsx](../controlPanel.tsx): `edgeLength`            |
+| `edge_symbol`           | Символ связи                                    | [controlPanel.tsx](../controlPanel.tsx): `edgeSymbol`            |
+| `repulsion`             | Сила отталкивания между узлами                  | [controlPanel.tsx](../controlPanel.tsx): `repulsion`             |
+| `gravity`               | Сила гравитации к центру                        | [controlPanel.tsx](../controlPanel.tsx): `gravity`               |
+| `friction`              | Трение (замедление движения узлов)              | [controlPanel.tsx](../controlPanel.tsx): `friction`              |
+| `show_legend`           | Отображение легенды                             | [controlPanel.tsx](../controlPanel.tsx): `showLegend`            |
+| `legend_type`           | Тип легенды                                     | [controlPanel.tsx](../controlPanel.tsx): `legendType`            |
+| `legend_orientation`    | Ориентация легенды                              | [controlPanel.tsx](../controlPanel.tsx): `legendOrientation`     |
 
 ## Логика работы и обработки данных
 
@@ -50,8 +50,8 @@ Graph Chart (Граф) - это тип визуализации, который 
    - Узлы и связи организуются в структуру графа.
 3. **Нормализация стилей**: Размеры узлов и ширина связей нормализуются для обеспечения визуальной согласованности.
    - Функция `normalizeStyles` в [transformProps.ts](../transformProps.ts) масштабирует размеры узлов и ширину связей в зависимости от их значений.
-   - Минимальный размер узла составляет 0.5 * `baseNodeSize`, а максимальный - 2 * `baseNodeSize`.
-   - Минимальная ширина связи составляет 0.5 * `baseEdgeWidth`, а максимальная - 2 * `baseEdgeWidth`.
+   - Минимальный размер узла составляет 0.5 _ `baseNodeSize`, а максимальный - 2 _ `baseNodeSize`.
+   - Минимальная ширина связи составляет 0.5 _ `baseEdgeWidth`, а максимальная - 2 _ `baseEdgeWidth`.
 4. **Отображение**: Данные отображаются в виде графа с использованием библиотеки ECharts.
 
 ### Алгоритмы макета
@@ -59,6 +59,7 @@ Graph Chart (Граф) - это тип визуализации, который 
 Параметр `layout` определяет, как узлы размещаются на графике:
 
 - **Force** (`force`): Силовой макет, где узлы отталкиваются друг от друга, а связи действуют как пружины. Этот макет хорошо подходит для визуализации сложных сетей.
+
   - Параметр `repulsion` определяет силу отталкивания между узлами.
   - Параметр `gravity` определяет силу притяжения к центру.
   - Параметр `edgeLength` определяет идеальную длину связей.
@@ -87,7 +88,7 @@ Graph Chart (Граф) - это тип визуализации, который 
 ### Настройки связей
 
 - **Ширина связи**: Параметр `baseEdgeWidth` определяет базовую ширину связи. Фактическая ширина связи зависит от значения метрики.
-- **Символ связи**: Параметр `edgeSymbol` определяет символы на концах связи. Формат: "символ_начала,символ_конца". Возможные значения: "none", "circle", "arrow".
+- **Символ связи**: Параметр `edgeSymbol` определяет символы на концах связи. Формат: "символ*начала,символ*конца". Возможные значения: "none", "circle", "arrow".
 - **Кривизна связи**: Связи отображаются с небольшой кривизной (0.1) для лучшей визуализации.
 
 ### Интерактивность

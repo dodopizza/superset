@@ -8,48 +8,48 @@ Bubble Chart (Пузырьковая диаграмма) - это тип виз�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `series` | Измерение для группировки пузырьков по цвету | [controlPanel.tsx](../controlPanel.tsx): `series` |
-| `entity` | Измерение для идентификации отдельных пузырьков | [controlPanel.tsx](../controlPanel.tsx): `entity` |
-| `x` | Метрика для оси X | [controlPanel.tsx](../controlPanel.tsx): `x` |
-| `y` | Метрика для оси Y | [controlPanel.tsx](../controlPanel.tsx): `y` |
-| `size` | Метрика для определения размера пузырьков | [controlPanel.tsx](../controlPanel.tsx): `size` |
-| `max_bubble_size` | Максимальный размер пузырька | [controlPanel.tsx](../controlPanel.tsx): `max_bubble_size` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `orderby` | Сортировка данных | [controlPanel.tsx](../controlPanel.tsx): `orderby` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
+| Параметр          | Назначение                                      | Подтверждение в коде                                       |
+| ----------------- | ----------------------------------------------- | ---------------------------------------------------------- |
+| `series`          | Измерение для группировки пузырьков по цвету    | [controlPanel.tsx](../controlPanel.tsx): `series`          |
+| `entity`          | Измерение для идентификации отдельных пузырьков | [controlPanel.tsx](../controlPanel.tsx): `entity`          |
+| `x`               | Метрика для оси X                               | [controlPanel.tsx](../controlPanel.tsx): `x`               |
+| `y`               | Метрика для оси Y                               | [controlPanel.tsx](../controlPanel.tsx): `y`               |
+| `size`            | Метрика для определения размера пузырьков       | [controlPanel.tsx](../controlPanel.tsx): `size`            |
+| `max_bubble_size` | Максимальный размер пузырька                    | [controlPanel.tsx](../controlPanel.tsx): `max_bubble_size` |
+| `adhoc_filters`   | Фильтры для данных                              | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`   |
+| `orderby`         | Сортировка данных                               | [controlPanel.tsx](../controlPanel.tsx): `orderby`         |
+| `row_limit`       | Ограничение количества строк                    | [controlPanel.tsx](../controlPanel.tsx): `row_limit`       |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для графика | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `opacity` | Прозрачность пузырьков | [controlPanel.tsx](../controlPanel.tsx): `opacity` |
-| `tooltipSizeFormat` | Формат числа для размера пузырька в подсказке | [controlPanel.tsx](../controlPanel.tsx): `tooltipSizeFormat` |
-| `xAxisFormat` | Формат оси X | [transformProps.ts](../transformProps.ts): `xAxisFormat` |
-| `yAxisFormat` | Формат оси Y | [transformProps.ts](../transformProps.ts): `yAxisFormat` |
-| `logXAxis` | Логарифмическая шкала для оси X | [transformProps.ts](../transformProps.ts): `logXAxis` |
-| `logYAxis` | Логарифмическая шкала для оси Y | [transformProps.ts](../transformProps.ts): `logYAxis` |
-| `xAxisBounds` | Границы оси X | [transformProps.ts](../transformProps.ts): `xAxisBounds` |
-| `yAxisBounds` | Границы оси Y | [transformProps.ts](../transformProps.ts): `yAxisBounds` |
-| `xAxisLabel` | Заголовок оси X | [transformProps.ts](../transformProps.ts): `bubbleXAxisTitle` |
-| `yAxisLabel` | Заголовок оси Y | [transformProps.ts](../transformProps.ts): `bubbleYAxisTitle` |
-| `xAxisTitleMargin` | Отступ заголовка оси X | [transformProps.ts](../transformProps.ts): `xAxisTitleMargin` |
-| `yAxisTitleMargin` | Отступ заголовка оси Y | [transformProps.ts](../transformProps.ts): `yAxisTitleMargin` |
-| `showLegend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `showLegend` |
-| `legendOrientation` | Ориентация легенды | [transformProps.ts](../transformProps.ts): `legendOrientation` |
-| `legendMargin` | Отступ легенды | [transformProps.ts](../transformProps.ts): `legendMargin` |
-| `legendType` | Тип легенды | [transformProps.ts](../transformProps.ts): `legendType` |
+| Параметр            | Назначение                                    | Подтверждение в коде                                           |
+| ------------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| `color_scheme`      | Цветовая схема для графика                    | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`        |
+| `opacity`           | Прозрачность пузырьков                        | [controlPanel.tsx](../controlPanel.tsx): `opacity`             |
+| `tooltipSizeFormat` | Формат числа для размера пузырька в подсказке | [controlPanel.tsx](../controlPanel.tsx): `tooltipSizeFormat`   |
+| `xAxisFormat`       | Формат оси X                                  | [transformProps.ts](../transformProps.ts): `xAxisFormat`       |
+| `yAxisFormat`       | Формат оси Y                                  | [transformProps.ts](../transformProps.ts): `yAxisFormat`       |
+| `logXAxis`          | Логарифмическая шкала для оси X               | [transformProps.ts](../transformProps.ts): `logXAxis`          |
+| `logYAxis`          | Логарифмическая шкала для оси Y               | [transformProps.ts](../transformProps.ts): `logYAxis`          |
+| `xAxisBounds`       | Границы оси X                                 | [transformProps.ts](../transformProps.ts): `xAxisBounds`       |
+| `yAxisBounds`       | Границы оси Y                                 | [transformProps.ts](../transformProps.ts): `yAxisBounds`       |
+| `xAxisLabel`        | Заголовок оси X                               | [transformProps.ts](../transformProps.ts): `bubbleXAxisTitle`  |
+| `yAxisLabel`        | Заголовок оси Y                               | [transformProps.ts](../transformProps.ts): `bubbleYAxisTitle`  |
+| `xAxisTitleMargin`  | Отступ заголовка оси X                        | [transformProps.ts](../transformProps.ts): `xAxisTitleMargin`  |
+| `yAxisTitleMargin`  | Отступ заголовка оси Y                        | [transformProps.ts](../transformProps.ts): `yAxisTitleMargin`  |
+| `showLegend`        | Отображение легенды                           | [controlPanel.tsx](../controlPanel.tsx): `showLegend`          |
+| `legendOrientation` | Ориентация легенды                            | [transformProps.ts](../transformProps.ts): `legendOrientation` |
+| `legendMargin`      | Отступ легенды                                | [transformProps.ts](../transformProps.ts): `legendMargin`      |
+| `legendType`        | Тип легенды                                   | [transformProps.ts](../transformProps.ts): `legendType`        |
 
 ### DODO-модификации (45525377)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
+| Параметр                    | Назначение                                             | Подтверждение в коде                                                   |
+| --------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
 | `xForceTimestampFormatting` | Принудительное форматирование временных меток на оси X | [transformProps.ts](../transformProps.ts): `xForceTimestampFormatting` |
 | `yForceTimestampFormatting` | Принудительное форматирование временных меток на оси Y | [transformProps.ts](../transformProps.ts): `yForceTimestampFormatting` |
-| `xTimeFormat` | Формат времени для оси X | [transformProps.ts](../transformProps.ts): `xTimeFormat` |
-| `yTimeFormat` | Формат времени для оси Y | [transformProps.ts](../transformProps.ts): `yTimeFormat` |
+| `xTimeFormat`               | Формат времени для оси X                               | [transformProps.ts](../transformProps.ts): `xTimeFormat`               |
+| `yTimeFormat`               | Формат времени для оси Y                               | [transformProps.ts](../transformProps.ts): `yTimeFormat`               |
 
 ## Логика работы и обработки данных
 

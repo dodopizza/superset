@@ -8,27 +8,27 @@ Sunburst Chart (Солнечная диаграмма) - это тип визу�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `columns` | Столбцы для иерархии | [controlPanel.tsx](../controlPanel.tsx): `columns` |
-| `metric` | Основная метрика для определения размера сегментов | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `secondary_metric` | Вторичная метрика для определения цвета | [controlPanel.tsx](../controlPanel.tsx): `secondary_metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `sort_by_metric` | Сортировка по метрике | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
+| Параметр           | Назначение                                         | Подтверждение в коде                                        |
+| ------------------ | -------------------------------------------------- | ----------------------------------------------------------- |
+| `columns`          | Столбцы для иерархии                               | [controlPanel.tsx](../controlPanel.tsx): `columns`          |
+| `metric`           | Основная метрика для определения размера сегментов | [controlPanel.tsx](../controlPanel.tsx): `metric`           |
+| `secondary_metric` | Вторичная метрика для определения цвета            | [controlPanel.tsx](../controlPanel.tsx): `secondary_metric` |
+| `adhoc_filters`    | Фильтры для данных                                 | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`    |
+| `row_limit`        | Ограничение количества строк                       | [controlPanel.tsx](../controlPanel.tsx): `row_limit`        |
+| `sort_by_metric`   | Сортировка по метрике                              | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric`   |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для категориальных данных | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `linear_color_scheme` | Цветовая схема для линейных данных | [controlPanel.tsx](../controlPanel.tsx): `linear_color_scheme` |
-| `show_labels` | Отображение меток | [controlPanel.tsx](../controlPanel.tsx): `show_labels` |
-| `show_labels_threshold` | Порог отображения меток в процентах | [controlPanel.tsx](../controlPanel.tsx): `show_labels_threshold` |
-| `show_total` | Отображение общего значения | [controlPanel.tsx](../controlPanel.tsx): `show_total` |
-| `label_type` | Тип меток (key, value, key_value) | [controlPanel.tsx](../controlPanel.tsx): `label_type` |
-| `number_format` | Формат отображения чисел | [controlPanel.tsx](../controlPanel.tsx): `number_format` |
-| `date_format` | Формат отображения дат | [controlPanel.tsx](../controlPanel.tsx): `date_format` |
+| Параметр                | Назначение                               | Подтверждение в коде                                             |
+| ----------------------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| `color_scheme`          | Цветовая схема для категориальных данных | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`          |
+| `linear_color_scheme`   | Цветовая схема для линейных данных       | [controlPanel.tsx](../controlPanel.tsx): `linear_color_scheme`   |
+| `show_labels`           | Отображение меток                        | [controlPanel.tsx](../controlPanel.tsx): `show_labels`           |
+| `show_labels_threshold` | Порог отображения меток в процентах      | [controlPanel.tsx](../controlPanel.tsx): `show_labels_threshold` |
+| `show_total`            | Отображение общего значения              | [controlPanel.tsx](../controlPanel.tsx): `show_total`            |
+| `label_type`            | Тип меток (key, value, key_value)        | [controlPanel.tsx](../controlPanel.tsx): `label_type`            |
+| `number_format`         | Формат отображения чисел                 | [controlPanel.tsx](../controlPanel.tsx): `number_format`         |
+| `date_format`           | Формат отображения дат                   | [controlPanel.tsx](../controlPanel.tsx): `date_format`           |
 
 ## Логика работы и обработки данных
 

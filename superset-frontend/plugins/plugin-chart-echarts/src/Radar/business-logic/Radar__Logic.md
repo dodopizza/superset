@@ -8,29 +8,29 @@ Radar Chart (Лепестковая диаграмма) - это тип визу
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metrics` | Метрики для отображения на осях | [controlPanel.tsx](../controlPanel.tsx): `metrics` |
-| `series_limit_metric` | Метрика для ограничения серий | [controlPanel.tsx](../controlPanel.tsx): `series_limit_metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
+| Параметр              | Назначение                      | Подтверждение в коде                                           |
+| --------------------- | ------------------------------- | -------------------------------------------------------------- |
+| `groupby`             | Столбцы для группировки данных  | [controlPanel.tsx](../controlPanel.tsx): `groupby`             |
+| `metrics`             | Метрики для отображения на осях | [controlPanel.tsx](../controlPanel.tsx): `metrics`             |
+| `series_limit_metric` | Метрика для ограничения серий   | [controlPanel.tsx](../controlPanel.tsx): `series_limit_metric` |
+| `adhoc_filters`       | Фильтры для данных              | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`       |
+| `row_limit`           | Ограничение количества строк    | [controlPanel.tsx](../controlPanel.tsx): `row_limit`           |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `show_labels` | Отображение меток | [controlPanel.tsx](../controlPanel.tsx): `show_labels` |
-| `label_type` | Тип меток (value, key_value) | [types.ts](../types.ts): `labelType` |
-| `label_position` | Позиция меток | [types.ts](../types.ts): `labelPosition` |
-| `number_format` | Формат отображения чисел | [controlPanel.tsx](../controlPanel.tsx): `number_format` |
-| `date_format` | Формат отображения дат | [controlPanel.tsx](../controlPanel.tsx): `date_format` |
-| `is_circle` | Форма радара (круг или многоугольник) | [controlPanel.tsx](../controlPanel.tsx): `is_circle` |
-| `column_config` | Настройка метрик (включая максимальные значения) | [controlPanel.tsx](../controlPanel.tsx): `column_config` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `show_legend` |
-| `legend_type` | Тип легенды | [controlPanel.tsx](../controlPanel.tsx): `legend_type` |
-| `legend_orientation` | Ориентация легенды | [controlPanel.tsx](../controlPanel.tsx): `legend_orientation` |
+| Параметр             | Назначение                                       | Подтверждение в коде                                          |
+| -------------------- | ------------------------------------------------ | ------------------------------------------------------------- |
+| `color_scheme`       | Цветовая схема                                   | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`       |
+| `show_labels`        | Отображение меток                                | [controlPanel.tsx](../controlPanel.tsx): `show_labels`        |
+| `label_type`         | Тип меток (value, key_value)                     | [types.ts](../types.ts): `labelType`                          |
+| `label_position`     | Позиция меток                                    | [types.ts](../types.ts): `labelPosition`                      |
+| `number_format`      | Формат отображения чисел                         | [controlPanel.tsx](../controlPanel.tsx): `number_format`      |
+| `date_format`        | Формат отображения дат                           | [controlPanel.tsx](../controlPanel.tsx): `date_format`        |
+| `is_circle`          | Форма радара (круг или многоугольник)            | [controlPanel.tsx](../controlPanel.tsx): `is_circle`          |
+| `column_config`      | Настройка метрик (включая максимальные значения) | [controlPanel.tsx](../controlPanel.tsx): `column_config`      |
+| `show_legend`        | Отображение легенды                              | [controlPanel.tsx](../controlPanel.tsx): `show_legend`        |
+| `legend_type`        | Тип легенды                                      | [controlPanel.tsx](../controlPanel.tsx): `legend_type`        |
+| `legend_orientation` | Ориентация легенды                               | [controlPanel.tsx](../controlPanel.tsx): `legend_orientation` |
 
 ## Логика работы и обработки данных
 
@@ -59,8 +59,7 @@ const indicator = metricLabels.map(metricLabel => {
     metricLabelAndMaxValueMap.get(metricLabel) === 0
       ? Number.MAX_SAFE_INTEGER
       : metricLabelAndMaxValueMap.get(metricLabel);
-  const max =
-    maxValueInControl === null ? metricValueAsMax : maxValueInControl;
+  const max = maxValueInControl === null ? metricValueAsMax : maxValueInControl;
   return {
     name: metricLabel,
     max,

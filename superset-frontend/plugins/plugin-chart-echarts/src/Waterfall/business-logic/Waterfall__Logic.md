@@ -8,30 +8,30 @@ Waterfall Chart (Каскадная диаграмма) - это тип визу
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `x_axis` | Столбец для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis` |
-| `time_grain_sqla` | Гранулярность времени | [controlPanel.tsx](../controlPanel.tsx): `time_grain_sqla` |
-| `groupby` | Столбцы для разбивки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metric` | Метрика для отображения | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
+| Параметр          | Назначение                   | Подтверждение в коде                                       |
+| ----------------- | ---------------------------- | ---------------------------------------------------------- |
+| `x_axis`          | Столбец для оси X            | [controlPanel.tsx](../controlPanel.tsx): `x_axis`          |
+| `time_grain_sqla` | Гранулярность времени        | [controlPanel.tsx](../controlPanel.tsx): `time_grain_sqla` |
+| `groupby`         | Столбцы для разбивки данных  | [controlPanel.tsx](../controlPanel.tsx): `groupby`         |
+| `metric`          | Метрика для отображения      | [controlPanel.tsx](../controlPanel.tsx): `metric`          |
+| `adhoc_filters`   | Фильтры для данных           | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`   |
+| `row_limit`       | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit`       |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `show_value` | Отображение значений | [controlPanel.tsx](../controlPanel.tsx): `show_value` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `show_legend` |
-| `increase_color` | Цвет для увеличения | [controlPanel.tsx](../controlPanel.tsx): `increase_color` |
-| `decrease_color` | Цвет для уменьшения | [controlPanel.tsx](../controlPanel.tsx): `decrease_color` |
-| `total_color` | Цвет для итога | [controlPanel.tsx](../controlPanel.tsx): `total_color` |
-| `x_axis_label` | Заголовок оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis_label` |
+| Параметр             | Назначение               | Подтверждение в коде                                          |
+| -------------------- | ------------------------ | ------------------------------------------------------------- |
+| `show_value`         | Отображение значений     | [controlPanel.tsx](../controlPanel.tsx): `show_value`         |
+| `show_legend`        | Отображение легенды      | [controlPanel.tsx](../controlPanel.tsx): `show_legend`        |
+| `increase_color`     | Цвет для увеличения      | [controlPanel.tsx](../controlPanel.tsx): `increase_color`     |
+| `decrease_color`     | Цвет для уменьшения      | [controlPanel.tsx](../controlPanel.tsx): `decrease_color`     |
+| `total_color`        | Цвет для итога           | [controlPanel.tsx](../controlPanel.tsx): `total_color`        |
+| `x_axis_label`       | Заголовок оси X          | [controlPanel.tsx](../controlPanel.tsx): `x_axis_label`       |
 | `x_axis_time_format` | Формат времени для оси X | [controlPanel.tsx](../controlPanel.tsx): `x_axis_time_format` |
-| `x_ticks_layout` | Расположение меток оси X | [controlPanel.tsx](../controlPanel.tsx): `x_ticks_layout` |
-| `y_axis_label` | Заголовок оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_label` |
-| `y_axis_format` | Формат оси Y | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format` |
-| `currency_format` | Формат валюты | [controlPanel.tsx](../controlPanel.tsx): `currency_format` |
+| `x_ticks_layout`     | Расположение меток оси X | [controlPanel.tsx](../controlPanel.tsx): `x_ticks_layout`     |
+| `y_axis_label`       | Заголовок оси Y          | [controlPanel.tsx](../controlPanel.tsx): `y_axis_label`       |
+| `y_axis_format`      | Формат оси Y             | [controlPanel.tsx](../controlPanel.tsx): `y_axis_format`      |
+| `currency_format`    | Формат валюты            | [controlPanel.tsx](../controlPanel.tsx): `currency_format`    |
 
 ## Логика работы и обработки данных
 

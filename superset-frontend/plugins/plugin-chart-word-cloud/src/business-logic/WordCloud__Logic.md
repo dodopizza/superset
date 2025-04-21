@@ -8,22 +8,22 @@ Word Cloud (Облако слов) - это тип визуализации, к�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `series` | Столбец, содержащий текстовые данные для отображения | [controlPanel.ts](../plugin/controlPanel.ts): `series` |
-| `metric` | Метрика для определения размера слов | [controlPanel.ts](../plugin/controlPanel.ts): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.ts](../plugin/controlPanel.ts): `adhoc_filters` |
-| `row_limit` | Ограничение количества слов | [controlPanel.ts](../plugin/controlPanel.ts): `row_limit` |
-| `sort_by_metric` | Сортировка по метрике | [controlPanel.ts](../plugin/controlPanel.ts): `sort_by_metric` |
+| Параметр         | Назначение                                           | Подтверждение в коде                                           |
+| ---------------- | ---------------------------------------------------- | -------------------------------------------------------------- |
+| `series`         | Столбец, содержащий текстовые данные для отображения | [controlPanel.ts](../plugin/controlPanel.ts): `series`         |
+| `metric`         | Метрика для определения размера слов                 | [controlPanel.ts](../plugin/controlPanel.ts): `metric`         |
+| `adhoc_filters`  | Фильтры для данных                                   | [controlPanel.ts](../plugin/controlPanel.ts): `adhoc_filters`  |
+| `row_limit`      | Ограничение количества слов                          | [controlPanel.ts](../plugin/controlPanel.ts): `row_limit`      |
+| `sort_by_metric` | Сортировка по метрике                                | [controlPanel.ts](../plugin/controlPanel.ts): `sort_by_metric` |
 
 ### Параметры отображения (Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `size_from` | Минимальный размер шрифта | [controlPanel.ts](../plugin/controlPanel.ts): `size_from` |
-| `size_to` | Максимальный размер шрифта | [controlPanel.ts](../plugin/controlPanel.ts): `size_to` |
-| `rotation` | Поворот слов (random, flat, square) | [controlPanel.ts](../plugin/controlPanel.ts): `rotation` |
-| `color_scheme` | Цветовая схема для графика | [controlPanel.ts](../plugin/controlPanel.ts): `color_scheme` |
+| Параметр       | Назначение                          | Подтверждение в коде                                         |
+| -------------- | ----------------------------------- | ------------------------------------------------------------ |
+| `size_from`    | Минимальный размер шрифта           | [controlPanel.ts](../plugin/controlPanel.ts): `size_from`    |
+| `size_to`      | Максимальный размер шрифта          | [controlPanel.ts](../plugin/controlPanel.ts): `size_to`      |
+| `rotation`     | Поворот слов (random, flat, square) | [controlPanel.ts](../plugin/controlPanel.ts): `rotation`     |
+| `color_scheme` | Цветовая схема для графика          | [controlPanel.ts](../plugin/controlPanel.ts): `color_scheme` |
 
 ## Логика работы и обработки данных
 

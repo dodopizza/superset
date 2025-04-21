@@ -65,8 +65,8 @@ export default function BubbleDodo({
         const x = getNumber(param.data[X_INDEX]);
         const y = getNumber(param.data[Y_INDEX]);
         const size = getNumber(param.data[ABSOLUTE_SIZE_INDEX]);
-        return `${param.data[ENTRY_INDEX]} <br/> 
-                    ${tooltipLabels.x}: ${xAxisFormatter(x)} <br/> 
+        return `${param.data[ENTRY_INDEX]} <br/>
+                    ${tooltipLabels.x}: ${xAxisFormatter(x)} <br/>
                     ${tooltipLabels.y}: ${yAxisFormatter(y)} <br/>
                     ${tooltipLabels.size}: ${sizeFormatter(size)}`;
       },

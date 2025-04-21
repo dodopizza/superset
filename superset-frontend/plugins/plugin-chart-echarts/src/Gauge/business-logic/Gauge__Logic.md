@@ -8,37 +8,37 @@ Gauge Chart (Диаграмма-датчик) - это тип визуализа
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `metric` | Метрика для отображения на датчике | [controlPanel.tsx](../controlPanel.tsx): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк (датчиков) | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `sort_by_metric` | Сортировка по метрике | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
+| Параметр         | Назначение                              | Подтверждение в коде                                      |
+| ---------------- | --------------------------------------- | --------------------------------------------------------- |
+| `groupby`        | Столбцы для группировки данных          | [controlPanel.tsx](../controlPanel.tsx): `groupby`        |
+| `metric`         | Метрика для отображения на датчике      | [controlPanel.tsx](../controlPanel.tsx): `metric`         |
+| `adhoc_filters`  | Фильтры для данных                      | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters`  |
+| `row_limit`      | Ограничение количества строк (датчиков) | [controlPanel.tsx](../controlPanel.tsx): `row_limit`      |
+| `sort_by_metric` | Сортировка по метрике                   | [controlPanel.tsx](../controlPanel.tsx): `sort_by_metric` |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `min_val` | Минимальное значение на шкале | [controlPanel.tsx](../controlPanel.tsx): `min_val` |
-| `max_val` | Максимальное значение на шкале | [controlPanel.tsx](../controlPanel.tsx): `max_val` |
-| `font_size` | Размер шрифта | [controlPanel.tsx](../controlPanel.tsx): `font_size` |
-| `number_format` | Формат отображения чисел | [controlPanel.tsx](../controlPanel.tsx): `number_format` |
-| `currency_format` | Формат отображения валюты | [controlPanel.tsx](../controlPanel.tsx): `currency_format` |
-| `value_formatter` | Формат отображения значения | [controlPanel.tsx](../controlPanel.tsx): `value_formatter` |
-| `animation` | Анимация при изменении значения | [controlPanel.tsx](../controlPanel.tsx): `animation` |
-| `show_pointer` | Отображение стрелки | [controlPanel.tsx](../controlPanel.tsx): `show_pointer` |
-| `start_angle` | Начальный угол шкалы | [controlPanel.tsx](../controlPanel.tsx): `start_angle` |
-| `end_angle` | Конечный угол шкалы | [controlPanel.tsx](../controlPanel.tsx): `end_angle` |
-| `show_axis_tick` | Отображение делений на шкале | [controlPanel.tsx](../controlPanel.tsx): `show_axis_tick` |
-| `show_split_line` | Отображение разделительных линий | [controlPanel.tsx](../controlPanel.tsx): `show_split_line` |
-| `split_number` | Количество делений на шкале | [controlPanel.tsx](../controlPanel.tsx): `split_number` |
-| `show_progress` | Отображение прогресса | [controlPanel.tsx](../controlPanel.tsx): `show_progress` |
-| `overlap` | Перекрытие прогресс-баров | [controlPanel.tsx](../controlPanel.tsx): `overlap` |
-| `round_cap` | Закругленные концы прогресс-бара | [controlPanel.tsx](../controlPanel.tsx): `round_cap` |
-| `intervals` | Границы интервалов | [controlPanel.tsx](../controlPanel.tsx): `intervals` |
-| `interval_color_indices` | Цвета интервалов | [controlPanel.tsx](../controlPanel.tsx): `interval_color_indices` |
-| `color_scheme` | Цветовая схема | [types.ts](../types.ts): `colorScheme` |
+| Параметр                 | Назначение                       | Подтверждение в коде                                              |
+| ------------------------ | -------------------------------- | ----------------------------------------------------------------- |
+| `min_val`                | Минимальное значение на шкале    | [controlPanel.tsx](../controlPanel.tsx): `min_val`                |
+| `max_val`                | Максимальное значение на шкале   | [controlPanel.tsx](../controlPanel.tsx): `max_val`                |
+| `font_size`              | Размер шрифта                    | [controlPanel.tsx](../controlPanel.tsx): `font_size`              |
+| `number_format`          | Формат отображения чисел         | [controlPanel.tsx](../controlPanel.tsx): `number_format`          |
+| `currency_format`        | Формат отображения валюты        | [controlPanel.tsx](../controlPanel.tsx): `currency_format`        |
+| `value_formatter`        | Формат отображения значения      | [controlPanel.tsx](../controlPanel.tsx): `value_formatter`        |
+| `animation`              | Анимация при изменении значения  | [controlPanel.tsx](../controlPanel.tsx): `animation`              |
+| `show_pointer`           | Отображение стрелки              | [controlPanel.tsx](../controlPanel.tsx): `show_pointer`           |
+| `start_angle`            | Начальный угол шкалы             | [controlPanel.tsx](../controlPanel.tsx): `start_angle`            |
+| `end_angle`              | Конечный угол шкалы              | [controlPanel.tsx](../controlPanel.tsx): `end_angle`              |
+| `show_axis_tick`         | Отображение делений на шкале     | [controlPanel.tsx](../controlPanel.tsx): `show_axis_tick`         |
+| `show_split_line`        | Отображение разделительных линий | [controlPanel.tsx](../controlPanel.tsx): `show_split_line`        |
+| `split_number`           | Количество делений на шкале      | [controlPanel.tsx](../controlPanel.tsx): `split_number`           |
+| `show_progress`          | Отображение прогресса            | [controlPanel.tsx](../controlPanel.tsx): `show_progress`          |
+| `overlap`                | Перекрытие прогресс-баров        | [controlPanel.tsx](../controlPanel.tsx): `overlap`                |
+| `round_cap`              | Закругленные концы прогресс-бара | [controlPanel.tsx](../controlPanel.tsx): `round_cap`              |
+| `intervals`              | Границы интервалов               | [controlPanel.tsx](../controlPanel.tsx): `intervals`              |
+| `interval_color_indices` | Цвета интервалов                 | [controlPanel.tsx](../controlPanel.tsx): `interval_color_indices` |
+| `color_scheme`           | Цветовая схема                   | [types.ts](../types.ts): `colorScheme`                            |
 
 ## Логика работы и обработки данных
 
@@ -59,6 +59,7 @@ Gauge Chart (Диаграмма-датчик) - это тип визуализа
 ### Расчет ширины осевой линии
 
 Ширина осевой линии зависит от параметра `overlap` и количества датчиков:
+
 - Если `overlap` = true, ширина равна размеру шрифта.
 - Если `overlap` = false, ширина равна произведению размера шрифта на количество датчиков.
 
@@ -67,6 +68,7 @@ Gauge Chart (Диаграмма-датчик) - это тип визуализа
 ### Форматирование значений
 
 Значения на шкале и в центре датчика форматируются с использованием:
+
 - Параметра `numberFormat` для общего форматирования чисел.
 - Параметра `currencyFormat` для форматирования валютных значений.
 - Параметра `valueFormatter` для добавления дополнительного текста до или после значения (например, единицы измерения).
@@ -90,6 +92,7 @@ Gauge Chart (Диаграмма-датчик) - это тип визуализа
 ### Настройки интервалов
 
 Параметры `intervals` и `intervalColorIndices` позволяют разделить шкалу на цветовые зоны:
+
 - `intervals`: Строка с разделенными запятыми границами интервалов, например, "2,4,5" для интервалов 0-2, 2-4 и 4-5.
 - `intervalColorIndices`: Строка с разделенными запятыми индексами цветов для интервалов, например, "1,2,4". Индексы соответствуют цветам из выбранной цветовой схемы и начинаются с 1.
 

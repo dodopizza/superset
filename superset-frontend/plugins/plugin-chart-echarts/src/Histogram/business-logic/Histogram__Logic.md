@@ -8,25 +8,25 @@ Histogram (Гистограмма) - это тип визуализации, к�
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `column` | Числовой столбец для построения гистограммы | [controlPanel.tsx](../controlPanel.tsx): `column` |
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../controlPanel.tsx): `groupby` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
-| `bins` | Количество бинов (столбцов) гистограммы | [controlPanel.tsx](../controlPanel.tsx): `bins` |
+| Параметр        | Назначение                                  | Подтверждение в коде                                     |
+| --------------- | ------------------------------------------- | -------------------------------------------------------- |
+| `column`        | Числовой столбец для построения гистограммы | [controlPanel.tsx](../controlPanel.tsx): `column`        |
+| `groupby`       | Столбцы для группировки данных              | [controlPanel.tsx](../controlPanel.tsx): `groupby`       |
+| `adhoc_filters` | Фильтры для данных                          | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
+| `row_limit`     | Ограничение количества строк                | [controlPanel.tsx](../controlPanel.tsx): `row_limit`     |
+| `bins`          | Количество бинов (столбцов) гистограммы     | [controlPanel.tsx](../controlPanel.tsx): `bins`          |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема для графика | [controlPanel.tsx](../controlPanel.tsx): `color_scheme` |
-| `show_value` | Отображение значений над столбцами | [controlPanel.tsx](../controlPanel.tsx): `showValueControl` |
-| `show_legend` | Отображение легенды | [controlPanel.tsx](../controlPanel.tsx): `showLegendControl` |
-| `normalize` | Нормализация данных (в процентах) | [controlPanel.tsx](../controlPanel.tsx): `normalize` |
-| `cumulative` | Кумулятивная гистограмма | [controlPanel.tsx](../controlPanel.tsx): `cumulative` |
-| `x_axis_title` | Заголовок оси X | [types.ts](../types.ts): `xAxisTitle` |
-| `y_axis_title` | Заголовок оси Y | [types.ts](../types.ts): `yAxisTitle` |
+| Параметр       | Назначение                         | Подтверждение в коде                                         |
+| -------------- | ---------------------------------- | ------------------------------------------------------------ |
+| `color_scheme` | Цветовая схема для графика         | [controlPanel.tsx](../controlPanel.tsx): `color_scheme`      |
+| `show_value`   | Отображение значений над столбцами | [controlPanel.tsx](../controlPanel.tsx): `showValueControl`  |
+| `show_legend`  | Отображение легенды                | [controlPanel.tsx](../controlPanel.tsx): `showLegendControl` |
+| `normalize`    | Нормализация данных (в процентах)  | [controlPanel.tsx](../controlPanel.tsx): `normalize`         |
+| `cumulative`   | Кумулятивная гистограмма           | [controlPanel.tsx](../controlPanel.tsx): `cumulative`        |
+| `x_axis_title` | Заголовок оси X                    | [types.ts](../types.ts): `xAxisTitle`                        |
+| `y_axis_title` | Заголовок оси Y                    | [types.ts](../types.ts): `yAxisTitle`                        |
 
 ## Логика работы и обработки данных
 

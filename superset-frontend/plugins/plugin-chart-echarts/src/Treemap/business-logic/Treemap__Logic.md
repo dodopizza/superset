@@ -8,24 +8,24 @@ Treemap (Древовидная карта) - это тип визуализац
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `groupby` | Столбцы для группировки данных (иерархия) | [types.ts](../types.ts): `groupby` |
-| `metric` | Метрика для определения размера блоков | [types.ts](../types.ts): `metric` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../controlPanel.tsx): `row_limit` |
+| Параметр        | Назначение                                | Подтверждение в коде                                     |
+| --------------- | ----------------------------------------- | -------------------------------------------------------- |
+| `groupby`       | Столбцы для группировки данных (иерархия) | [types.ts](../types.ts): `groupby`                       |
+| `metric`        | Метрика для определения размера блоков    | [types.ts](../types.ts): `metric`                        |
+| `adhoc_filters` | Фильтры для данных                        | [controlPanel.tsx](../controlPanel.tsx): `adhoc_filters` |
+| `row_limit`     | Ограничение количества строк              | [controlPanel.tsx](../controlPanel.tsx): `row_limit`     |
 
 ### Параметры отображения (Chart Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `color_scheme` | Цветовая схема | [types.ts](../types.ts): `colorScheme` |
-| `label_type` | Тип меток (key, value, key_value) | [types.ts](../types.ts): `labelType` |
-| `label_position` | Позиция меток | [types.ts](../types.ts): `labelPosition` |
-| `show_labels` | Отображение меток | [types.ts](../types.ts): `showLabels` |
-| `show_upper_labels` | Отображение верхних меток | [types.ts](../types.ts): `showUpperLabels` |
-| `number_format` | Формат отображения чисел | [types.ts](../types.ts): `numberFormat` |
-| `date_format` | Формат отображения дат | [types.ts](../types.ts): `dateFormat` |
+| Параметр            | Назначение                        | Подтверждение в коде                       |
+| ------------------- | --------------------------------- | ------------------------------------------ |
+| `color_scheme`      | Цветовая схема                    | [types.ts](../types.ts): `colorScheme`     |
+| `label_type`        | Тип меток (key, value, key_value) | [types.ts](../types.ts): `labelType`       |
+| `label_position`    | Позиция меток                     | [types.ts](../types.ts): `labelPosition`   |
+| `show_labels`       | Отображение меток                 | [types.ts](../types.ts): `showLabels`      |
+| `show_upper_labels` | Отображение верхних меток         | [types.ts](../types.ts): `showUpperLabels` |
+| `number_format`     | Формат отображения чисел          | [types.ts](../types.ts): `numberFormat`    |
+| `date_format`       | Формат отображения дат            | [types.ts](../types.ts): `dateFormat`      |
 
 ## Логика работы и обработки данных
 

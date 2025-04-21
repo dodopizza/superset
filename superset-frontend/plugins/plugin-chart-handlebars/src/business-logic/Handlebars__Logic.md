@@ -8,29 +8,29 @@ Handlebars - это тип визуализации, который позвол
 
 ### Параметры запроса (Query)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
-| `query_mode` | Режим запроса (raw, aggregate) | [controlPanel.tsx](../plugin/controlPanel.tsx): `queryModeControlSetItem` |
-| `groupby` | Столбцы для группировки данных | [controlPanel.tsx](../plugin/controlPanel.tsx): `groupByControlSetItem` |
-| `metrics` | Метрики для агрегации данных | [controlPanel.tsx](../plugin/controlPanel.tsx): `metricsControlSetItem` |
-| `all_columns` | Все столбцы для отображения | [controlPanel.tsx](../plugin/controlPanel.tsx): `allColumnsControlSetItem` |
-| `percent_metrics` | Метрики в процентах | [controlPanel.tsx](../plugin/controlPanel.tsx): `percentMetricsControlSetItem` |
+| Параметр                  | Назначение                              | Подтверждение в коде                                                                  |
+| ------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------- |
+| `query_mode`              | Режим запроса (raw, aggregate)          | [controlPanel.tsx](../plugin/controlPanel.tsx): `queryModeControlSetItem`             |
+| `groupby`                 | Столбцы для группировки данных          | [controlPanel.tsx](../plugin/controlPanel.tsx): `groupByControlSetItem`               |
+| `metrics`                 | Метрики для агрегации данных            | [controlPanel.tsx](../plugin/controlPanel.tsx): `metricsControlSetItem`               |
+| `all_columns`             | Все столбцы для отображения             | [controlPanel.tsx](../plugin/controlPanel.tsx): `allColumnsControlSetItem`            |
+| `percent_metrics`         | Метрики в процентах                     | [controlPanel.tsx](../plugin/controlPanel.tsx): `percentMetricsControlSetItem`        |
 | `timeseries_limit_metric` | Метрика для ограничения временных рядов | [controlPanel.tsx](../plugin/controlPanel.tsx): `timeSeriesLimitMetricControlSetItem` |
-| `order_by` | Столбец для сортировки | [controlPanel.tsx](../plugin/controlPanel.tsx): `orderByControlSetItem` |
-| `order_desc` | Сортировка по убыванию | [controlPanel.tsx](../plugin/controlPanel.tsx): `orderDescendingControlSetItem` |
-| `row_limit` | Ограничение количества строк | [controlPanel.tsx](../plugin/controlPanel.tsx): `rowLimitControlSetItem` |
-| `server_pagination` | Серверная пагинация | [controlPanel.tsx](../plugin/controlPanel.tsx): `serverPaginationControlSetRow` |
-| `server_page_length` | Размер страницы для серверной пагинации | [controlPanel.tsx](../plugin/controlPanel.tsx): `serverPageLengthControlSetItem` |
-| `include_time` | Включить временную колонку | [controlPanel.tsx](../plugin/controlPanel.tsx): `includeTimeControlSetItem` |
-| `show_totals` | Показать итоги | [controlPanel.tsx](../plugin/controlPanel.tsx): `showTotalsControlSetItem` |
-| `adhoc_filters` | Фильтры для данных | [controlPanel.tsx](../plugin/controlPanel.tsx): `adhoc_filters` |
+| `order_by`                | Столбец для сортировки                  | [controlPanel.tsx](../plugin/controlPanel.tsx): `orderByControlSetItem`               |
+| `order_desc`              | Сортировка по убыванию                  | [controlPanel.tsx](../plugin/controlPanel.tsx): `orderDescendingControlSetItem`       |
+| `row_limit`               | Ограничение количества строк            | [controlPanel.tsx](../plugin/controlPanel.tsx): `rowLimitControlSetItem`              |
+| `server_pagination`       | Серверная пагинация                     | [controlPanel.tsx](../plugin/controlPanel.tsx): `serverPaginationControlSetRow`       |
+| `server_page_length`      | Размер страницы для серверной пагинации | [controlPanel.tsx](../plugin/controlPanel.tsx): `serverPageLengthControlSetItem`      |
+| `include_time`            | Включить временную колонку              | [controlPanel.tsx](../plugin/controlPanel.tsx): `includeTimeControlSetItem`           |
+| `show_totals`             | Показать итоги                          | [controlPanel.tsx](../plugin/controlPanel.tsx): `showTotalsControlSetItem`            |
+| `adhoc_filters`           | Фильтры для данных                      | [controlPanel.tsx](../plugin/controlPanel.tsx): `adhoc_filters`                       |
 
 ### Параметры отображения (Options)
 
-| Параметр | Назначение | Подтверждение в коде |
-|----------|------------|----------------------|
+| Параметр             | Назначение                               | Подтверждение в коде                                                                                  |
+| -------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | `handlebarsTemplate` | Шаблон Handlebars для отображения данных | [handlebarTemplate.tsx](../plugin/controls/handlebarTemplate.tsx): `handlebarsTemplateControlSetItem` |
-| `styleTemplate` | CSS-стили для оформления | [controlPanel.tsx](../plugin/controlPanel.tsx): `styleControlSetItem` |
+| `styleTemplate`      | CSS-стили для оформления                 | [controlPanel.tsx](../plugin/controlPanel.tsx): `styleControlSetItem`                                 |
 
 ## Логика работы и обработки данных
 
@@ -75,8 +75,9 @@ Handlebars - это шаблонизатор, который позволяет 
 Параметр `handlebarsTemplate` определяет, как будут отображаться данные. Шаблон может включать HTML-теги, переменные Handlebars, условия, циклы и другие конструкции.
 
 Пример базового шаблона:
+
 ```handlebars
-<ul class="data-list">
+<ul class='data-list'>
   {{#each data}}
     <li>{{stringify this}}</li>
   {{/each}}
@@ -88,6 +89,7 @@ Handlebars - это шаблонизатор, который позволяет 
 Параметр `styleTemplate` позволяет определить CSS-стили для оформления сгенерированного контента. Стили добавляются в тег `<style>` после шаблона Handlebars.
 
 Пример стилей:
+
 ```css
 .data-list {
   list-style-type: none;

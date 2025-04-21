@@ -19,7 +19,7 @@ from typing import Any, Optional
 from flask import g
 from flask_appbuilder.security.sqla.models import Role
 from flask_babel import lazy_gettext as _
-from sqlalchemy import and_, or_, cast, String
+from sqlalchemy import and_, cast, or_, String
 from sqlalchemy.orm.query import Query
 
 from superset import db, is_feature_enabled, security_manager
