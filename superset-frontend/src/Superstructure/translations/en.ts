@@ -1982,6 +1982,7 @@ const en = {
       'Export to PDF': [''],
       'Download as Image': [''],
       'There are no components added to this tab': [''],
+      'Processing file export...': [''],
     },
   },
 };

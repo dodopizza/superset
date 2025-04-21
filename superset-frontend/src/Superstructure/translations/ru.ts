@@ -2955,6 +2955,7 @@ const ru = {
       'There are no components added to this tab': [
         'В этой вкладке нет компонентов',
       ],
+      'Processing file export...': ['Экспорт файла обрабатывается...'],
     },
   },
 };
