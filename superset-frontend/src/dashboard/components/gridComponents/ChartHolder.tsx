@@ -24,7 +24,10 @@ import {
 
 export const CHART_MARGIN = 32;
 
-interface ChartHolderProps {
+interface ChartHolderPropsDodoExtended {
+  toggleIsExportingData: () => void; // DODO added 48951211
+}
+interface ChartHolderProps extends ChartHolderPropsDodoExtended {
   id: string;
   parentId: string;
   dashboardId: number;
@@ -75,6 +78,7 @@ const ChartHolder: React.FC<ChartHolderProps> = ({
   handleComponentDrop,
   setFullSizeChartId,
   isInView,
+  toggleIsExportingData, // DODO added 48951211
 }) => {
   const theme = useTheme();
   const fullSizeStyle = css`
@@ -324,6 +328,7 @@ const ChartHolder: React.FC<ChartHolderProps> = ({
               setControlValue={handleExtraControl}
               extraControls={extraControls}
               isInView={isInView}
+              toggleIsExportingData={toggleIsExportingData} // DODO added 48951211
             />
             {editMode && (
               <HoverMenu position="top">

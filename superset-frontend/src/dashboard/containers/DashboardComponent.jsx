@@ -58,7 +58,7 @@ function mapStateToProps(
   ownProps,
 ) {
   const dashboardLayout = undoableLayout.present;
-  const { id, parentId } = ownProps;
+  const { id, parentId, toggleIsExportingData } = ownProps;
   const component = dashboardLayout[id];
   const props = {
     component,
@@ -69,6 +69,7 @@ function mapStateToProps(
     dashboardId: dashboardInfo.id,
     dashboardInfo,
     fullSizeChartId: dashboardState.fullSizeChartId,
+    toggleIsExportingData, // DODO added 48951211
   };
 
   // rows and columns need more data about their child dimensions
