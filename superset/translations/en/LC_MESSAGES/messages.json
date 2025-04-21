@@ -1051,6 +1051,7 @@
       "Whether to sort results by the selected metric in descending order.": [
         ""
       ],
+      "Size format": [""],
       "D3 format syntax: https://github.com/d3/d3-format": [""],
       "Only applies when \"Label Type\" is set to show values.": [""],
       "Only applies when \"Label Type\" is not set to a percentage.": [""],
@@ -1985,6 +1986,28 @@
       "Conditional formatting": [""],
       "Comparison period conditional Formatting": [""],
       "Apply comporation period conditional color formatting": [""],
+      "Use a log scale for the X-axis.": [""],
+      "X Axis name": [""],
+      "X axis name": [""],
+      "Name location": [""],
+      "Name gap (in pixels)": [""],
+      "Name gap from chart grid": [""],
+      "Use a log scale for the Y-axis.": [""],
+      "Y Axis name": [""],
+      "Y axis name": [""],
+      "Dimension Options": [""],
+      "Show dimension": [""],
+      "Whether to display the dimension.": [""],
+      "Grid margin top (in pixels)": [""],
+      "Margin top for chart grid": [""],
+      "Scroll dimension": [""],
+      "Whether to scroll dimensions.": [""],
+      "Label Options": [""],
+      "Whether to display the labels.": [""],
+      "Label location": [""],
+      "Label font (in pixels)": [""],
+      "Label color": [""],
+      "Size": [""],
       "% calculation": [""],
       "Display percents in the label and tooltip as the percent of the total value, from the first step of the funnel, or from the previous step in the funnel.": [
         ""
@@ -1998,7 +2021,6 @@
       "What should be shown as the label": [""],
       "Tooltip Contents": [""],
       "What should be shown as the tooltip label": [""],
-      "Whether to display the labels.": [""],
       "Show Tooltip Labels": [""],
       "Whether to display the tooltip labels.": [""],
       "Showcases how a metric changes as the funnel progresses. This classic chart is useful for visualizing drop-off between stages in a pipeline or lifecycle.": [
@@ -2458,6 +2480,7 @@
       "Summary": [""],
       "Display": [""],
       "Number formatting": [""],
+      "Export": [""],
       "Timestamp format": [""],
       "Page length": [""],
       "Search box": [""],
@@ -3253,6 +3276,7 @@
       "Drag and drop components to this tab": [""],
       "There are no components added to this tab": [""],
       "You can add the components in the edit mode.": [""],
+      "Processing file export...": [""],
       "There is no chart definition associated with this component, could it have been deleted?": [
         ""
       ],
@@ -4240,7 +4264,6 @@
       "Additional information": [""],
       "Please confirm": [""],
       "Are you sure you want to delete": [""],
-      "Export": [""],
       "Modified %s": [""],
       "css_template": [""],
       "Edit CSS template properties": [""],

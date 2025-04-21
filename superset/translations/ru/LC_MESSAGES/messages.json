@@ -2843,6 +2843,10 @@
       "Apply comporation period conditional color formatting": [
         "Применить период кондиционирования."
       ],
+      "Name gap (in pixels)": [""],
+      "Name gap from chart grid": [""],
+      "Grid margin top (in pixels)": [""],
+      "Whether to display the labels.": ["Отображать метки"],
       "% calculation": ["% расчет"],
       "Display percents in the label and tooltip as the percent of the total value, from the first step of the funnel, or from the previous step in the funnel.": [
         "Отображение каких -либо викцентов на этикетке и всплеске инструментов как процент от общей стоимости, с первого этапа воронки или с предыдущего шага в воронке."
@@ -2860,7 +2864,6 @@
       "What should be shown as the tooltip label": [
         "Что должно быть показано в качестве метки подъема инструментов"
       ],
-      "Whether to display the labels.": ["Отображать метки"],
       "Show Tooltip Labels": ["Показать этикетки подсказки"],
       "Whether to display the tooltip labels.": [
         "Отображать ли метки подсказки."
@@ -3452,6 +3455,7 @@
       "Summary": ["Итого"],
       "Display": ["Отображение"],
       "Number formatting": ["Форматирование чисел"],
+      "Export": ["Экспортировать"],
       "Timestamp format": ["Формат даты и времени"],
       "Page length": ["Размер страницы"],
       "Search box": ["Строка поиска"],
@@ -4278,7 +4282,7 @@
       ],
       "Cache timeout": ["Время жизни кэша"],
       "The duration of time in seconds before the cache is invalidated. Set to -1 to bypass the cache.": [
-        "Продолжительность времени за несколько секунд до того, как кэш недействителен.Установите -1 для обхода кэша."
+        "Продолжительность времени за несколько секунд до того, как кэш недействителен. Установите -1 для обхода кэша."
       ],
       "Hours offset": ["Смещение времени"],
       "The number of hours, negative or positive, to shift the time column. This can be used to move UTC time to local time.": [
@@ -4528,6 +4532,7 @@
         "Вы можете добавить компоненты в режиме редактирования."
       ],
       "Edit the dashboard": ["Изменить"],
+      "Processing file export...": ["Экспорт файла обрабатывается..."],
       "There is no chart definition associated with this component, could it have been deleted?": [
         "С этим компонентом не связан ни один график, возможно, он был удален?"
       ],
@@ -5813,7 +5818,6 @@
       "Additional information": ["Дополнительная информация"],
       "Please confirm": ["Пожалуйста, подтвердите действие"],
       "Are you sure you want to delete": ["Вы уверены, что хотите удалить"],
-      "Export": ["Экспортировать"],
       "Modified %s": ["Изменено %s"],
       "css_template": ["css_template"],
       "Edit CSS template properties": ["Редактировать свойств CSS шаблона"],
