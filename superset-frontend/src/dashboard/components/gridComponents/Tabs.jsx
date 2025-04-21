@@ -373,6 +373,7 @@ export class Tabs extends PureComponent {
                         activeKey !== tabId && tabsToHighlight?.includes(tabId)
                       }
                       locale={locale} // DODO added 44120742
+                      toggleIsExportingData={this.props.toggleIsExportingData} // DODO added 48951211
                     />
                   }
                 >
