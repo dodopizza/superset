@@ -239,6 +239,7 @@ class Tab extends PureComponent {
               onResizeStop={onResizeStop}
               isComponentVisible={isComponentVisible}
               onChangeTab={this.handleChangeTab}
+              toggleIsExportingData={this.props.toggleIsExportingData} // DODO added 48951211
             />
             {/* Make bottom of tab droppable */}
             {editMode && (

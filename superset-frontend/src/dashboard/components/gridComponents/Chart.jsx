@@ -73,6 +73,7 @@ const propTypes = {
 
   // DODO extended
   updateSliceNameRU: PropTypes.func.isRequired, // DODO added 44120742
+  toggleIsExportingData: PropTypes.func.isRequired, // DODO added 48951211
 };
 
 const defaultProps = {
@@ -358,6 +359,8 @@ class Chart extends Component {
       ...extraFormData,
     };
     // DODO added stop 44136746
+
+    this.props.toggleIsExportingData(); // DODO added 48951211
     exportChart({
       // formData: isFullCSV
       //  ? { ...this.props.formData, row_limit: this.props.maxRows }
@@ -369,7 +372,7 @@ class Chart extends Component {
       ownState: this.props.ownState,
       language: locale, // DODO added 44136746
       datasourceMetrics: this.props.datasource.metrics, // DODO added 44136746
-    });
+    }).finally(this.props.toggleIsExportingData); // DODO added 48951211
   }
 
   forceRefresh() {

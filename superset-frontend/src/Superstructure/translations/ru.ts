@@ -2947,6 +2947,14 @@ const ru = {
       'Count as Fraction of Total': ['Количество, как доля от целого'],
       'Count as Fraction of Rows': ['Количество, как доля от строк'],
       'Count as Fraction of Columns': ['Количество, как доля от столбцов'],
+      stream: ['поток'],
+      expand: ['развернуть'],
+      'Export to PDF': ['Экспорт в PDF'],
+      'Download as Image': ['Скачать как изображение'],
+      'There are no components added to this tab': [
+        'В этой вкладке нет компонентов',
+      ],
+      'Processing file export...': ['Экспорт файла обрабатывается...'],
     },
   },
 };

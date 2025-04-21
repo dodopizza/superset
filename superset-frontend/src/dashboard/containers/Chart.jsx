@@ -41,7 +41,8 @@ function mapStateToProps(
   },
   ownProps,
 ) {
-  const { id, extraControls, setControlValue } = ownProps;
+  const { id, extraControls, setControlValue, toggleIsExportingData } =
+    ownProps;
   const chart = chartQueries[id] || EMPTY_OBJECT;
   const datasource =
     (chart && chart.form_data && datasources[chart.form_data.datasource]) ||
@@ -100,6 +101,7 @@ function mapStateToProps(
     datasetsStatus,
     emitCrossFilters: !!dashboardInfo.crossFiltersEnabled,
     locale, // DODO added 44120742
+    toggleIsExportingData, // DODO added 48951211
   };
 }
 
