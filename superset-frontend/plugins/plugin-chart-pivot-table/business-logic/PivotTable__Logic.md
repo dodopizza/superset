@@ -116,6 +116,7 @@ Pivot Table (Сводная таблица) - это тип визуализац
      - `pinColumn`: Закрепление колонки
      - `aggregation`: Специфическая агрегация для колонки
      - `visibility`: Управление видимостью колонки
+     - `exportAsTime`: Экспорт числового значения как количество дней (DODO 44136746)
 
 2. **Закрепление колонок** (DODO 45525377):
 
@@ -129,7 +130,7 @@ Pivot Table (Сводная таблица) - это тип визуализац
 
 4. **Описания источников данных** (DODO 44728892):
    - `datasourceDescriptions`: Добавляет всплывающие подсказки и описания к заголовкам и данным
-   - Реализовано через функцию `extendDatasourceDescriptions` из DodoExtensions
+   - Реализовано через функцию `extractDatasourceDescriptions` из DodoExtensions
 
 ### Улучшенная логика
 
@@ -257,7 +258,7 @@ Pivot Table (Сводная таблица) - это тип визуализац
 - **DODO расширения**:
   - Утилиты закрепления колонок: [superset-frontend/plugins/plugin-chart-pivot-table/src/DodoExtensions/utils/getPinnedColumnIndexes.ts](../src/DodoExtensions/utils/getPinnedColumnIndexes.ts) (DODO 45525377)
   - Компонент иконки закрепления: [superset-frontend/packages/superset-ui-chart-controls/src/DodoExtensions/components/PinIcon.tsx](../../packages/superset-ui-chart-controls/src/DodoExtensions/components/PinIcon.tsx) (DODO 45525377)
-  - Расширение описаний: [superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/utils/extendDatasourceDescriptions.ts](../../plugin-chart-echarts/src/DodoExtensions/utils/extendDatasourceDescriptions.ts) (DODO 44728892)
+  - Извлечение описаний: [superset-frontend/packages/superset-ui-chart-controls/src/DodoExtensions/utils/extractDatasourceDescriptions.ts](../../packages/superset-ui-chart-controls/src/DodoExtensions/utils/extractDatasourceDescriptions.ts) (DODO 44728892)
 
 ## Примечания
 
