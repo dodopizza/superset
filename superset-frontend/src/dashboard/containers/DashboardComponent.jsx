@@ -21,6 +21,7 @@ import {
   setDirectPathToChild,
   setActiveTab,
   setFullSizeChartId,
+  toggleIsExportingData, // DODO added 48951211
 } from 'src/dashboard/actions/dashboardState';
 
 const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
@@ -58,7 +59,7 @@ function mapStateToProps(
   ownProps,
 ) {
   const dashboardLayout = undoableLayout.present;
-  const { id, parentId, toggleIsExportingData } = ownProps;
+  const { id, parentId } = ownProps;
   const component = dashboardLayout[id];
   const props = {
     component,
@@ -69,7 +70,6 @@ function mapStateToProps(
     dashboardId: dashboardInfo.id,
     dashboardInfo,
     fullSizeChartId: dashboardState.fullSizeChartId,
-    toggleIsExportingData, // DODO added 48951211
   };
 
   // rows and columns need more data about their child dimensions
@@ -102,6 +102,7 @@ function mapDispatchToProps(dispatch) {
       setFullSizeChartId,
       setActiveTab,
       logEvent,
+      toggleIsExportingData, // DODO added 48951211
     },
     dispatch,
   );

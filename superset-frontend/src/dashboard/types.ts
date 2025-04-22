@@ -67,6 +67,10 @@ export type ChartConfiguration = {
   };
 };
 
+type DashboardStateDodoExtended = {
+  isExportingData: boolean;
+};
+
 export type ActiveTabs = string[];
 export type DashboardLayout = { [key: string]: LayoutItem };
 export type DashboardLayoutState = { present: DashboardLayout };
@@ -99,7 +103,7 @@ export type DashboardState = {
     dashboardId: number;
     data: JsonObject;
   };
-};
+} & DashboardStateDodoExtended;
 export type DashboardInfo = {
   id: number;
   common: {
