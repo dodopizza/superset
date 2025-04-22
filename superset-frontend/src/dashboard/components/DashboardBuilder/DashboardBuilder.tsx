@@ -42,6 +42,7 @@ import {
 import {
   setDirectPathToChild,
   setEditMode,
+  toggleIsExportingData, // DODO added 48951211
 } from 'src/dashboard/actions/dashboardState';
 import {
   deleteTopLevelTabs,
@@ -589,7 +590,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               renderHoverMenu={false}
               onChangeTab={handleChangeTab}
               locale={locale} // DODO added 44120742
-              toggleIsExportingData={dispatch(toggleDashboardFiltersOpen())} // DODO added 48951211
+              toggleIsExportingData={dispatch(toggleIsExportingData())} // DODO added 48951211
             />
           </WithPopoverMenu>
         )}
