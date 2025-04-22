@@ -59,7 +59,7 @@ function mapStateToProps(
   ownProps,
 ) {
   const dashboardLayout = undoableLayout.present;
-  const { id, parentId, toggleIsExportingData } = ownProps;
+  const { id, parentId } = ownProps;
   const component = dashboardLayout[id];
   const props = {
     component,

@@ -178,7 +178,7 @@ class DashboardGrid extends PureComponent {
       (width + GRID_GUTTER_SIZE) / GRID_COLUMN_COUNT;
 
     const columnWidth = columnPlusGutterWidth - GRID_GUTTER_SIZE;
-    const { isResizing, isExportingData } = this.state;
+    const { isResizing } = this.state;
 
     const shouldDisplayEmptyState = gridComponent?.children?.length === 0;
     const shouldDisplayTopLevelTabEmptyState =
