@@ -50,6 +50,7 @@ import {
   SET_DASHBOARD_LABELS_COLORMAP_SYNCED,
   SET_DASHBOARD_SHARED_LABELS_COLORS_SYNCABLE,
   SET_DASHBOARD_SHARED_LABELS_COLORS_SYNCED,
+  TOGGLE_IS_EXPORTING_DATA, // DODO added 48951211
 } from '../actions/dashboardState';
 import { HYDRATE_DASHBOARD } from '../actions/hydrate';
 
@@ -264,6 +265,14 @@ export default function dashboardStateReducer(state = {}, action) {
       return {
         ...state,
         datasetsStatus: action.status,
+      };
+    },
+    // DODO added 48951211
+    [TOGGLE_IS_EXPORTING_DATA]() {
+      document.body.style.overflow = state.isExportingData ? '' : 'hidden';
+      return {
+        ...state,
+        isExportingData: !state.isExportingData,
       };
     },
   };

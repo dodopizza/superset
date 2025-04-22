@@ -709,6 +709,12 @@ export function setDatasetsStatus(status) {
   };
 }
 
+// DODO added 48951211
+export const TOGGLE_IS_EXPORTING_DATA = 'TOGGLE_IS_EXPORTING_DATA';
+export function toggleIsExportingData() {
+  return { type: TOGGLE_IS_EXPORTING_DATA };
+}
+
 const storeDashboardMetadata = async (id, metadata) =>
   isStandalone
     ? SupersetClient.put({

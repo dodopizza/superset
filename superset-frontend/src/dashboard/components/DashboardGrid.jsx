@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addAlpha, css, styled, t } from '@superset-ui/core';
 import { EmptyStateBig } from 'src/components/EmptyState';
-import CurtainLoader from 'src/DodoExtensions/components/CurtainLoader'; // DODO added 48951211
 import { componentShape } from '../util/propShapes';
 import DashboardComponent from '../containers/DashboardComponent';
 import { Droppable } from './dnd/DragDroppable';
@@ -107,7 +106,6 @@ class DashboardGrid extends PureComponent {
     super(props);
     this.state = {
       isResizing: false,
-      isExportingData: false, // DODO added 48951211
     };
 
     this.handleResizeStart = this.handleResizeStart.bind(this);
@@ -116,7 +114,6 @@ class DashboardGrid extends PureComponent {
     this.getRowGuidePosition = this.getRowGuidePosition.bind(this);
     this.setGridRef = this.setGridRef.bind(this);
     this.handleChangeTab = this.handleChangeTab.bind(this);
-    this.toggleIsExportingData = this.toggleIsExportingData.bind(this); // DODO added 48951211
   }
 
   getRowGuidePosition(resizeRef) {
@@ -163,14 +160,6 @@ class DashboardGrid extends PureComponent {
 
   handleChangeTab({ pathToTabIndex }) {
     this.props.setDirectPathToChild(pathToTabIndex);
-  }
-
-  // DODO added 48951211
-  toggleIsExportingData() {
-    this.setState(prev => {
-      document.body.style.overflow = prev.isExportingData ? '' : 'hidden';
-      return { isExportingData: !prev.isExportingData };
-    });
   }
 
   render() {
@@ -258,10 +247,6 @@ class DashboardGrid extends PureComponent {
 
     return width < 100 ? null : (
       <>
-        {/* DODO added 48951211 */}
-        {isExportingData && (
-          <CurtainLoader message={t('Processing file export...')} />
-        )}
         {shouldDisplayEmptyState && (
           <DashboardEmptyStateContainer>
             {shouldDisplayTopLevelTabEmptyState
@@ -309,7 +294,7 @@ class DashboardGrid extends PureComponent {
                   onResize={this.handleResize}
                   onResizeStop={this.handleResizeStop}
                   onChangeTab={this.handleChangeTab}
-                  toggleIsExportingData={this.toggleIsExportingData} // DODO added 48951211
+                  toggleIsExportingData={this.props.toggleIsExportingData} // DODO added 48951211
                 />
                 {/* make the area below components droppable */}
                 {editMode && (

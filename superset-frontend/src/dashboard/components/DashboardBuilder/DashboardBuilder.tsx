@@ -68,6 +68,7 @@ import {
   EMPTY_CONTAINER_Z_INDEX,
 } from 'src/dashboard/constants';
 import BasicErrorAlert from 'src/components/ErrorMessage/BasicErrorAlert';
+import CurtainLoader from 'src/DodoExtensions/components/CurtainLoader'; // DODO added 48951211
 import { getRootLevelTabsComponent, shouldFocusTabs } from './utils';
 import DashboardContainer from './DashboardContainer';
 import { useNativeFilters } from './state';
@@ -429,6 +430,11 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
         : FilterBarOrientation.Vertical,
   );
 
+  // DODO added 48951211
+  const isExportingData = useSelector<RootState, boolean>(
+    state => state.dashboardState.isExportingData,
+  );
+
   const handleChangeTab = useCallback(
     ({ pathToTabIndex }: { pathToTabIndex: string[] }) => {
       dispatch(setDirectPathToChild(pathToTabIndex));
@@ -583,6 +589,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
               renderHoverMenu={false}
               onChangeTab={handleChangeTab}
               locale={locale} // DODO added 44120742
+              toggleIsExportingData={dispatch(toggleDashboardFiltersOpen())} // DODO added 48951211
             />
           </WithPopoverMenu>
         )}
@@ -748,6 +755,10 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
             }
           `}
         />
+      )}
+      {/* DODO added 48951211 */}
+      {isExportingData && (
+        <CurtainLoader message={t('Processing file export...')} />
       )}
     </DashboardWrapper>
   );
