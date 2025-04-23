@@ -695,6 +695,7 @@ class DatasourceEditor extends PureComponent {
       metrics: datasource.metrics.map(v => ({
         ...v,
         verbose_name_en: v.verbose_name || null,
+        description_en: v.description || null,
       })),
     };
     this.setState(
