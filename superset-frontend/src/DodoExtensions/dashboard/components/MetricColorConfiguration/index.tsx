@@ -1,5 +1,6 @@
-import { useRef, useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
 import { Input } from 'antd';
 import {
   ChartDataResponseResult,
@@ -31,7 +32,7 @@ interface IProps {
 }
 
 const MetricColorConfiguration = ({
-  charts = [],
+  charts = {},
   labelColors = {},
   colorScheme,
 }: IProps) => {
@@ -41,13 +42,81 @@ const MetricColorConfiguration = ({
   const [deletedLabels, setDeletedLabels] = useState<Record<string, 'true'>>(
     {},
   );
-  const currentLabelColorsRef = useRef<PlainObject>(labelColors);
+  // const currentLabelColorsRef = useRef<PlainObject>(labelColors);
   const dispatch = useDispatch();
 
+  // Memoized dashboard metrics calculation
+  const dashboardMetrics = useMemo(
+    () =>
+      Object.values(charts).reduce((result: string[], chart) => {
+        if (!chart.queriesResponse) return result;
+
+        (chart.queriesResponse as ChartDataResponseResult[]).forEach(
+          response => {
+            if (response.colnames && Array.isArray(response.colnames)) {
+              result.push(...response.colnames);
+            }
+
+            const groupby = chart.latestQueryFormData?.groupby;
+            if (Array.isArray(groupby)) {
+              const metricNames = groupby.map(metric =>
+                isSavedMetric(metric) ? metric : metric.label ?? '',
+              );
+
+              response.data.forEach(entry => {
+                metricNames.forEach(metric => {
+                  const metricValue = entry[metric];
+                  if (
+                    metricValue &&
+                    (typeof metricValue === 'string' ||
+                      typeof metricValue === 'number')
+                  ) {
+                    result.push(String(metricValue));
+                  }
+                });
+              });
+            }
+          },
+        );
+
+        return result;
+      }, []),
+    [charts],
+  );
+
+  const dashboardMetricsSet = useMemo(
+    () => new Set(dashboardMetrics),
+    [dashboardMetrics],
+  );
+
+  // Memoized unique metrics list
+  const uniqueMetrics = useMemo(() => {
+    const allMetrics = [
+      ...Object.keys(labelColors).sort(
+        (a, b) =>
+          Number(dashboardMetricsSet.has(a)) -
+          Number(dashboardMetricsSet.has(b)),
+      ),
+      ...dashboardMetrics,
+    ];
+    return Array.from(new Set(allMetrics));
+  }, [dashboardMetrics, labelColors]);
+
+  const mergedLabelColors = useMemo(
+    () => ({ ...labelColors, ...newLabelColors }),
+    [labelColors, newLabelColors],
+  );
+
+  const filteredMetrics = useMemo(
+    () => uniqueMetrics.filter(metric => metric.toLowerCase().includes(search)),
+    [uniqueMetrics, search],
+  );
+
   const openModal = () => {
-    currentLabelColorsRef.current = labelColors;
+    // currentLabelColorsRef.current = labelColors;
     setShow(true);
   };
+
   const closeModal = () => {
     // reset changes
     setNewLabelColors({});
@@ -57,12 +126,13 @@ const MetricColorConfiguration = ({
   };
 
   const handleChangeColor = (metric: string) => (color: string) => {
-    setNewLabelColors(prev => ({ ...prev, ...{ [metric]: color } }));
+    setNewLabelColors(prev => ({ ...prev, [metric]: color }));
   };
 
   const handleDelete = (label: string) => () => {
     setDeletedLabels(prev => ({ ...prev, [label]: 'true' }));
   };
+
   const handleReset =
     (label: string, isColorChanged: boolean, isDeleted: boolean) => () => {
       // reset deletion
@@ -81,73 +151,20 @@ const MetricColorConfiguration = ({
       }
     };
 
-  const dashboardMetrics = Object.values(charts).reduce(
-    (result: string[], chart) => {
-      if (!chart.queriesResponse) return result;
-
-      (chart.queriesResponse as ChartDataResponseResult[]).forEach(response => {
-        if (response.colnames && Array.isArray(response.colnames))
-          result.push(...response.colnames);
-
-        const groupby = chart.latestQueryFormData?.groupby;
-        const hasGroupby = groupby?.length;
-        if (hasGroupby && Array.isArray(groupby)) {
-          const metricNames = groupby?.map(metric =>
-            isSavedMetric(metric) ? metric : metric.label ?? '',
-          );
-
-          response.data.forEach(entry => {
-            metricNames?.forEach(metric => {
-              const metricValue = entry[metric];
-              if (
-                metricValue &&
-                (typeof metricValue === 'string' ||
-                  typeof metricValue === 'number')
-              )
-                result.push(String(metricValue));
-            });
-          });
-        }
-      });
-
-      return result;
-    },
-    [],
-  );
-  const dashboardMetricsSet = new Set(dashboardMetrics);
-
-  const allMetrics = [
-    ...Object.keys(currentLabelColorsRef.current).sort(
-      (a, b) =>
-        Number(dashboardMetricsSet.has(a)) - Number(dashboardMetricsSet.has(b)),
-    ),
-    ...dashboardMetrics,
-  ];
-  const uniqueMetrics = Array.from(new Set(allMetrics));
-
-  const mergedLabelColors = {
-    ...currentLabelColorsRef.current,
-    ...newLabelColors,
-  };
-
-  const filteredMetrics = uniqueMetrics.filter(metric =>
-    metric.toLowerCase().includes(search),
-  );
-
   const handleSave = async () => {
     const finalLabelColors = { ...mergedLabelColors };
-    const deletedLabelsArray = Object.keys(deletedLabels);
-
     // remove deleted labels from finalLabelColors
-    deletedLabelsArray.forEach(label => {
-      delete finalLabelColors[label];
-    });
+    Object.keys(deletedLabels).forEach(label => delete finalLabelColors[label]);
 
     await dispatch(saveLabelColorsSettings(finalLabelColors));
-    currentLabelColorsRef.current = finalLabelColors;
+
+    // currentLabelColorsRef.current = finalLabelColors;
     setNewLabelColors({});
+    setDeletedLabels({});
     setShow(false);
   };
+
+  const debouncedSetSearch = debounce((value: string) => setSearch(value), 500);
 
   const footer = (
     <>
@@ -201,7 +218,7 @@ const MetricColorConfiguration = ({
           placeholder={t('Search for label')}
           allowClear
           size="middle"
-          onChange={e => setSearch(e.target.value.toLowerCase())}
+          onChange={e => debouncedSetSearch(e.target.value.toLowerCase())}
         />
 
         <StyledList
@@ -212,8 +229,9 @@ const MetricColorConfiguration = ({
             const isColorChanged = Boolean(newLabelColors[label]);
             const isDeleted = Boolean(deletedLabels[label]);
             const isAltered = isColorChanged || isDeleted;
-            const hasCurrentColor = currentLabelColorsRef.current[label];
+            const hasCurrentColor = labelColors[label];
             const hasActions = hasCurrentColor || isAltered;
+
             return (
               <StyledListItem key={label} isAltered={isAltered}>
                 <Tooltip
