@@ -757,6 +757,12 @@ const PropertiesModal = ({
             </h3>
             {isAdvancedOpen && (
               <>
+                {/* DODO added 45320801 */}
+                <p className="help-block">
+                  {t(
+                    'You can now edit the colors of the metrics in a separate modal window on the dashboard by clicking on the ‘Edit label colours’ button.',
+                  )}
+                </p>
                 <StyledFormItem label={t('JSON metadata')}>
                   <StyledJsonEditor
                     showLoadingForImport
