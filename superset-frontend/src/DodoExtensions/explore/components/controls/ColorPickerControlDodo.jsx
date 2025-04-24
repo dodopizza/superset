@@ -19,11 +19,14 @@ const propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.object,
   isHex: PropTypes.bool,
+  previewWidth: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 const defaultProps = {
   onChange: () => {},
   isHex: false,
+  disabled: false,
 };
 
 const swatchCommon = {
@@ -36,12 +39,14 @@ const swatchCommon = {
 };
 
 const StyledSwatch = styled.div`
-  ${({ theme }) => `
+  ${({ theme, width, disabled }) => `
       height: 20px;
       position: relative;
       padding: ${theme.gridUnit}px;
       borderRadius: ${theme.borderRadius}px;
-      cursor: pointer;
+      cursor: ${disabled ? 'not-allowed' : 'pointer'};
+      opacity: ${disabled ? 0.5 : 1}; // Reduce opacity when disabled
+      ${width ? `width: ${width};` : ''};
     `}
 `;
 
@@ -96,11 +101,14 @@ export default class ColorPickerControlDodo extends Component {
       <div>
         <ControlHeader {...this.props} />
         <Popover
-          trigger="click"
+          trigger={this.props.disabled ? '' : 'click'}
           placement="right"
           content={this.renderPopover()}
         >
-          <StyledSwatch>
+          <StyledSwatch
+            width={this.props.previewWidth}
+            disabled={this.props.disabled}
+          >
             <div style={styles.checkerboard} />
             <div style={colStyle} />
           </StyledSwatch>

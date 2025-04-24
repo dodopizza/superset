@@ -38,6 +38,7 @@ import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
 import DashboardEmbedModal from '../EmbeddedModal';
 import OverwriteConfirm from '../OverwriteConfirm';
+import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration'; // DODO added 45320801
 
 const locale = bootstrapData?.common?.locale || 'en';
 
@@ -639,16 +640,26 @@ class Header extends PureComponent {
                 <div css={actionButtonsStyle}>
                   {NavExtension && <NavExtension />}
                   {userCanEdit && (
-                    <Button
-                      buttonStyle="secondary"
-                      onClick={this.toggleEditMode}
-                      data-test="edit-dashboard-button"
-                      className="action-button"
-                      css={editButtonStyle}
-                      aria-label={t('Edit dashboard')}
-                    >
-                      {t('Edit dashboard')}
-                    </Button>
+                    <>
+                      <Button
+                        buttonStyle="secondary"
+                        onClick={this.toggleEditMode}
+                        data-test="edit-dashboard-button"
+                        className="action-button"
+                        css={editButtonStyle}
+                        aria-label={t('Edit dashboard')}
+                      >
+                        {t('Edit dashboard')}
+                      </Button>
+                      <MetricColorConfiguration
+                        charts={this.props.charts}
+                        labelColors={dashboardInfo.metadata?.label_colors}
+                        colorScheme={
+                          dashboardInfo?.metadata?.color_scheme ||
+                          this.props.colorScheme
+                        }
+                      />
+                    </>
                   )}
                 </div>
               )}
