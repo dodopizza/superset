@@ -1,4 +1,5 @@
 import { styled } from '@superset-ui/core';
+import { Pagination } from 'antd';
 import { List } from 'src/components';
 
 export const StyledList = styled(List)<{ colorScheme: string | undefined }>`
@@ -11,6 +12,7 @@ export const StyledList = styled(List)<{ colorScheme: string | undefined }>`
 
   p {
     margin: 0;
+    white-space: nowrap;
   }
 `;
 
@@ -18,6 +20,7 @@ export const StyledListItem = styled(List.Item)<{
   isAltered: boolean;
 }>`
   padding-inline: 16px;
+  gap: ${({ theme }) => theme.gridUnit * 4}px;
   background-color: ${({ theme, isAltered }) => {
     if (isAltered) return theme.colors.primary.light3;
     return 'transparent';
@@ -31,16 +34,13 @@ export const StyledListItem = styled(List.Item)<{
   }
 `;
 
-export const ColorWrapper = styled.div`
+export const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
 `;
 
-export const ActionsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
+export const ActionsWrapper = styled(FlexWrapper)`
   opacity: 0;
   transition: opacity 0.1s;
 
@@ -61,6 +61,8 @@ export const Label = styled.p<{ existOnDashboard: boolean }>`
     existOnDashboard ? 'inherit' : theme.colors.error.base};
   text-decoration: ${({ existOnDashboard }) =>
     existOnDashboard ? 'none' : 'line-through'};
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const ColorScheme = styled.p`
@@ -71,4 +73,8 @@ export const ColorScheme = styled.p`
 
 export const BoldText = styled.span`
   font-weight: bold;
+`;
+
+export const StyledPagination = styled(Pagination)`
+  min-width: fit-content;
 `;

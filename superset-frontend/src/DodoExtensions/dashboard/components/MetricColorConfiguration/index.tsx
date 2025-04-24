@@ -8,6 +8,7 @@ import {
   PlainObject,
   t,
 } from '@superset-ui/core';
+import Badge from 'src/components/Badge';
 import Button from 'src/components/Button';
 import Icons from 'src/components/Icons';
 import Modal from 'src/components/Modal';
@@ -19,11 +20,14 @@ import {
   ActionsWrapper,
   BoldText,
   ColorScheme,
-  ColorWrapper,
+  FlexWrapper,
   Label,
   StyledList,
   StyledListItem,
+  StyledPagination,
 } from './styles';
+
+const ITEMS_PER_PAGE = 30;
 
 interface IProps {
   charts: { [key: number]: ChartState };
@@ -42,8 +46,13 @@ const MetricColorConfiguration = ({
   const [deletedLabels, setDeletedLabels] = useState<Record<string, 'true'>>(
     {},
   );
-  // const currentLabelColorsRef = useRef<PlainObject>(labelColors);
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
+
+  const mergedLabelColors = useMemo(
+    () => ({ ...labelColors, ...newLabelColors }),
+    [labelColors, newLabelColors],
+  );
 
   // Memoized dashboard metrics calculation
   const dashboardMetrics = useMemo(
@@ -100,17 +109,22 @@ const MetricColorConfiguration = ({
       ...dashboardMetrics,
     ];
     return Array.from(new Set(allMetrics));
-  }, [dashboardMetrics, labelColors]);
-
-  const mergedLabelColors = useMemo(
-    () => ({ ...labelColors, ...newLabelColors }),
-    [labelColors, newLabelColors],
-  );
+  }, [dashboardMetrics, labelColors, dashboardMetricsSet]);
 
   const filteredMetrics = useMemo(
     () => uniqueMetrics.filter(metric => metric.toLowerCase().includes(search)),
     [uniqueMetrics, search],
   );
+
+  const paginatedMetrics = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredMetrics.slice(startIndex, endIndex);
+  }, [filteredMetrics, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const openModal = () => {
     // currentLabelColorsRef.current = labelColors;
@@ -158,13 +172,25 @@ const MetricColorConfiguration = ({
 
     await dispatch(saveLabelColorsSettings(finalLabelColors));
 
-    // currentLabelColorsRef.current = finalLabelColors;
     setNewLabelColors({});
     setDeletedLabels({});
     setShow(false);
   };
 
-  const debouncedSetSearch = debounce((value: string) => setSearch(value), 500);
+  const debouncedOnChangeSearch = debounce((value: string) => {
+    setSearch(value);
+    setCurrentPage(1);
+  }, 500);
+
+  const changesCount =
+    Object.keys(newLabelColors).length + Object.keys(deletedLabels).length;
+
+  const modalTitle = (
+    <FlexWrapper>
+      <span>{t('Edit label colors')}</span>
+      <Badge count={changesCount} title={t('Number of changes')} />
+    </FlexWrapper>
+  );
 
   const footer = (
     <>
@@ -175,10 +201,7 @@ const MetricColorConfiguration = ({
         buttonSize="small"
         buttonStyle="primary"
         onClick={handleSave}
-        disabled={
-          Object.keys(newLabelColors).length === 0 &&
-          Object.keys(deletedLabels).length === 0
-        }
+        disabled={changesCount === 0}
       >
         {t('Save')}
       </Button>
@@ -195,9 +218,10 @@ const MetricColorConfiguration = ({
       >
         {t('Edit colors')}
       </Button>
+
       <Modal
         show={show}
-        title={t('Edit label colors')}
+        title={modalTitle}
         footer={footer}
         onHide={closeModal}
         width="550px"
@@ -214,15 +238,28 @@ const MetricColorConfiguration = ({
           </ColorScheme>
         )}
 
-        <Input.Search
-          placeholder={t('Search for label')}
-          allowClear
-          size="middle"
-          onChange={e => debouncedSetSearch(e.target.value.toLowerCase())}
-        />
+        <FlexWrapper>
+          <Input.Search
+            placeholder={t('Search for label')}
+            allowClear
+            size="middle"
+            onChange={e =>
+              debouncedOnChangeSearch(e.target.value.toLowerCase())
+            }
+          />
+          <StyledPagination
+            current={currentPage}
+            total={filteredMetrics.length}
+            pageSize={ITEMS_PER_PAGE}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+            size="small"
+            simple
+          />
+        </FlexWrapper>
 
         <StyledList
-          dataSource={filteredMetrics}
+          dataSource={paginatedMetrics}
           colorScheme={colorScheme}
           renderItem={(label: string) => {
             const existOnDashboard = dashboardMetricsSet.has(label);
@@ -245,7 +282,8 @@ const MetricColorConfiguration = ({
                 >
                   <Label existOnDashboard={existOnDashboard}>{label}</Label>
                 </Tooltip>
-                <ColorWrapper>
+
+                <FlexWrapper>
                   {hasActions && (
                     <ActionsWrapper className="actions">
                       {isAltered && (
@@ -272,11 +310,13 @@ const MetricColorConfiguration = ({
                       )}
                     </ActionsWrapper>
                   )}
+
                   <p>
                     {isDeleted
                       ? t('Deleted')
                       : mergedLabelColors[label] || t('Not assigned')}
                   </p>
+
                   <ColorPickerControlDodo
                     value={isDeleted ? undefined : mergedLabelColors[label]}
                     onChange={handleChangeColor(label)}
@@ -284,7 +324,7 @@ const MetricColorConfiguration = ({
                     disabled={isDeleted}
                     isHex
                   />
-                </ColorWrapper>
+                </FlexWrapper>
               </StyledListItem>
             );
           }}
