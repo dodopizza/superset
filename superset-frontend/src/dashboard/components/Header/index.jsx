@@ -36,9 +36,9 @@ import setPeriodicRunner, {
 } from 'src/dashboard/util/setPeriodicRunner';
 import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
+import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration'; // DODO added 45320801
 import DashboardEmbedModal from '../EmbeddedModal';
 import OverwriteConfirm from '../OverwriteConfirm';
-import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration'; // DODO added 45320801
 
 const locale = bootstrapData?.common?.locale || 'en';
 
