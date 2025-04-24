@@ -1633,6 +1633,7 @@
       "Whether to sort results by the selected metric in descending order.": [
         "Сортировка результатов по выбранной мере в порядке убывания."
       ],
+      "Size format": ["Формат размера"],
       "D3 format syntax: https://github.com/d3/d3-format": [
         "Формат D3: https://github.com/d3/d3-format."
       ],
@@ -2843,10 +2844,32 @@
       "Apply comporation period conditional color formatting": [
         "Применить период кондиционирования."
       ],
-      "Name gap (in pixels)": [""],
-      "Name gap from chart grid": [""],
-      "Grid margin top (in pixels)": [""],
+      "Use a log scale for the X-axis.": [
+        "Использовать логарифмическую шкалу для оси X"
+      ],
+      "X Axis name": ["Метка оси X"],
+      "X axis name": ["Метка оси X"],
+      "Name location": ["Положение метки"],
+      "Name gap (in pixels)": ["Отступ метки (в пикселях)"],
+      "Name gap from chart grid": ["Отступ метки от сетки графика"],
+      "Use a log scale for the Y-axis.": [
+        "Использовать логарифмическую шкалу для оси Y"
+      ],
+      "Y Axis name": ["Метка оси Y"],
+      "Y axis name": ["Метка оси Y"],
+      "Dimension Options": ["Настройка измерений"],
+      "Show dimension": ["Показать измерения"],
+      "Whether to display the dimension.": ["Отображение измерения или нет"],
+      "Grid margin top (in pixels)": ["Отступ сетки сверху (в пикселях)"],
+      "Margin top for chart grid": ["Верхний отступ для сетки графика"],
+      "Scroll dimension": ["Прокручивать измерения"],
+      "Whether to scroll dimensions.": ["Прокручивать измерения bkb ytn"],
+      "Label Options": ["Настройка меток"],
       "Whether to display the labels.": ["Отображать метки"],
+      "Label location": ["Положение метки"],
+      "Label font (in pixels)": ["Размер грифта меток (в пискселях)"],
+      "Label color": ["Цвет меток"],
+      "Size": ["Размер"],
       "% calculation": ["% расчет"],
       "Display percents in the label and tooltip as the percent of the total value, from the first step of the funnel, or from the previous step in the funnel.": [
         "Отображение каких -либо викцентов на этикетке и всплеске инструментов как процент от общей стоимости, с первого этапа воронки или с предыдущего шага в воронке."
@@ -3563,6 +3586,20 @@
       "Sorry, something went wrong. We are fixing the mistake now. Try again later.": [
         "Извините, что-то пошло не так. Сейчас мы исправляем ошибку. Повторите попытку позже."
       ],
+      "Edit colors": ["Изменить цвета"],
+      "Edit label colors": ["Изменить цвета мер"],
+      "The dashboard has a color scheme applied: ": [
+        "На дашборде применена цветовая схема: "
+      ],
+      "You can override the colors of the metrics with your own values.": [
+        "Вы можете переопределить цвета метрик собственными значениями."
+      ],
+      "Search for label": ["Искать меру"],
+      "Metric is missing from the dashboard with current filters or removed from the dataset": [
+        "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
+      ],
+      "Deleted": ["Удалено"],
+      "Not assigned": ["Не назначено"],
       "Edit formatter": ["Редактировать форматер"],
       "Add new formatter": ["Добавить форматирование"],
       "Add new color formatter": ["Добавить цветовое форматирование"],
@@ -3588,7 +3625,6 @@
       "Target value": ["Целевое значение"],
       "Select column": ["Выберите столбец"],
       "Message": ["Сообщение"],
-      "Not assigned": ["Не назначено"],
       "Create new team": ["Создайте новую команду"],
       "Create team": ["Создать команду"],
       "User from": ["Пользователь из"],
@@ -4469,6 +4505,10 @@
       "Failed to save cross-filter scoping": [
         "Не удалось сохранить кросс-фильтровую привязку"
       ],
+      "Dashboard label colors updated": ["Обновлены цвета меток дашборда"],
+      "Failed to save dashboard label colors": [
+        "Не удалось сохранить цвета меток дашборда"
+      ],
       "There is not enough space for this component. Try decreasing its width, or increasing the destination width.": [
         "Недостаточно пространства для этого компонента. Попробуйте уменьшить ширину или увеличить целевую ширину."
       ],
@@ -4532,7 +4572,6 @@
         "Вы можете добавить компоненты в режиме редактирования."
       ],
       "Edit the dashboard": ["Изменить"],
-      "Processing file export...": ["Экспорт файла обрабатывается..."],
       "There is no chart definition associated with this component, could it have been deleted?": [
         "С этим компонентом не связан ни один график, возможно, он был удален?"
       ],
@@ -4604,6 +4643,7 @@
       "The following filters have the 'Select first filter value by default'\n                    option checked and could not be loaded, which is preventing the dashboard\n                    from rendering: %s": [
         "Следующие фильтры имеют значение «Выбрать первое значение фильтра по умолчанию» \\ n, и не может быть загружено, что предотвращает рендеринг на панель \\ n: %s"
       ],
+      "Processing file export...": ["Экспорт файла обрабатывается..."],
       "Changes saved.": ["Изменения сохранены."],
       "Disable embedding?": ["Выключить встраивание?"],
       "This will remove your current embed configuration.": [
@@ -4714,6 +4754,9 @@
       ],
       "A list of tags that have been applied to this chart.": [
         "Список тегов, которые были применены к этому графику."
+      ],
+      "You can now edit the colors of the metrics in a separate modal window on the dashboard by clicking on the ‘Edit label colours’ button.": [
+        "Теперь вы можете редактировать цвета метрик в отдельном модальном окне на дашборде, нажав на кнопку «Редактировать цвета меток»."
       ],
       "JSON metadata": ["JSON метаданные"],
       "Please DO NOT overwrite the \"filter_scopes\" key.": [
@@ -6720,7 +6763,6 @@
       ],
       "Row Level Security": ["Безопасность на уровне строк"],
       "Deleted %s": ["Удалено %s"],
-      "Deleted": ["Удалено"],
       "There was an issue deleting rules: %s": [
         "Возникла проблема с удалением правил: %s"
       ],

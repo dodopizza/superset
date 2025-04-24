@@ -2554,6 +2554,16 @@
       "Sorry, something went wrong. We are fixing the mistake now. Try again later.": [
         ""
       ],
+      "Edit colors": [""],
+      "Edit label colors": [""],
+      "The dashboard has a color scheme applied: ": [""],
+      "You can override the colors of the metrics with your own values.": [""],
+      "Search for label": [""],
+      "Metric is missing from the dashboard with current filters or removed from the dataset": [
+        ""
+      ],
+      "Deleted": [""],
+      "Not assigned": [""],
       "Edit formatter": [""],
       "Add new formatter": [""],
       "Add new color formatter": [""],
@@ -2575,7 +2585,6 @@
       "Target value": [""],
       "Select column": [""],
       "Message": [""],
-      "Not assigned": [""],
       "Create new team": [""],
       "Create team": [""],
       "User from": [""],
@@ -3242,6 +3251,8 @@
       "You do not have permission to read tags": [""],
       "Timezone selector": [""],
       "Failed to save cross-filter scoping": [""],
+      "Dashboard label colors updated": [""],
+      "Failed to save dashboard label colors": [""],
       "There is not enough space for this component. Try decreasing its width, or increasing the destination width.": [
         ""
       ],
@@ -3276,7 +3287,6 @@
       "Drag and drop components to this tab": [""],
       "There are no components added to this tab": [""],
       "You can add the components in the edit mode.": [""],
-      "Processing file export...": [""],
       "There is no chart definition associated with this component, could it have been deleted?": [
         ""
       ],
@@ -3329,6 +3339,7 @@
       "The following filters have the 'Select first filter value by default'\n                    option checked and could not be loaded, which is preventing the dashboard\n                    from rendering: %s": [
         ""
       ],
+      "Processing file export...": [""],
       "Changes saved.": [""],
       "Disable embedding?": [""],
       "This will remove your current embed configuration.": [""],
@@ -3414,6 +3425,9 @@
       "Person or group that has certified this dashboard.": [""],
       "Any additional detail to show in the certification tooltip.": [""],
       "A list of tags that have been applied to this chart.": [""],
+      "You can now edit the colors of the metrics in a separate modal window on the dashboard by clicking on the ‘Edit label colours’ button.": [
+        ""
+      ],
       "JSON metadata": [""],
       "Please DO NOT overwrite the \"filter_scopes\" key.": [""],
       "Use \"%(menuName)s\" menu instead.": [""],
@@ -4901,7 +4915,6 @@
       "An error occurred while fetching user values: %s": [""],
       "Row Level Security": [""],
       "Deleted %s": [""],
-      "Deleted": [""],
       "There was an issue deleting rules: %s": [""],
       "No Rules yet": [""],
       "Are you sure you want to delete the selected rules?": [""],
