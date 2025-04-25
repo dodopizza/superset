@@ -30,6 +30,10 @@ import {
 
 const ITEMS_PER_PAGE = 30;
 
+const exploreJsonVizes: Record<string, 'true'> = {
+  bubble: 'true',
+};
+
 interface IProps {
   charts: { [key: number]: ChartState };
   labelColors: PlainObject;
@@ -102,7 +106,10 @@ const MetricColorConfiguration = ({
               );
             }
 
-            if (metricsForDataIteration.length) {
+            if (
+              metricsForDataIteration.length ||
+              exploreJsonVizes[vizType || '']
+            ) {
               const metricNames = metricsForDataIteration.map(metric =>
                 isSavedMetric(metric) ? metric : metric.label ?? '',
               );
@@ -112,8 +119,7 @@ const MetricColorConfiguration = ({
                   const metricValue =
                     entry[metric] ||
                     (Array.isArray(entry.key)
-                      ? // @ts-ignore
-                        entry.key?.join(', ')
+                      ? entry.key?.join(', ')
                       : entry.key);
                   if (
                     metricValue &&
