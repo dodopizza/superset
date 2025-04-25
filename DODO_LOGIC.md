@@ -1,647 +1,326 @@
-# Документация по DODO-специфичным компонентам и функциям в Superset
+# Документация по бизнес-функциям DODO в Superset
 
 ## Содержание
 
 1. [Введение](#введение)
-2. [Визуализация и компоненты](#визуализация-и-компоненты)
-   - [Компоненты визуализации](#компоненты-визуализации)
-   - [Компоненты управления](#компоненты-управления)
-   - [Общие компоненты](#общие-компоненты)
-3. [Локализация](#локализация)
-   - [Поддержка русского языка](#поддержка-русского-языка)
+2. [Визуализация данных](#визуализация-данных)
+   - [Улучшенные диаграммы](#улучшенные-диаграммы)
+   - [Настройка отображения](#настройка-отображения)
+   - [Управление цветами](#управление-цветами)
+3. [Многоязычность](#многоязычность)
+   - [Русский интерфейс](#русский-интерфейс)
    - [Локализация дашбордов](#локализация-дашбордов)
    - [Локализация фильтров](#локализация-фильтров)
-4. [Фильтрация и маски данных](#фильтрация-и-маски-данных)
-   - [Наборы фильтров (FilterSets)](#наборы-фильтров-filtersets)
-   - [Маски данных](#маски-данных)
-5. [Интеграция с внешними сервисами](#интеграция-с-внешними-сервисами)
-   - [Firebase](#firebase)
-   - [Rollbar](#rollbar)
-   - [Интеграция с DODO IS](#интеграция-с-dodo-is)
-6. [Система onBoarding](#система-onboarding)
-   - [Компоненты onBoarding](#компоненты-onboarding)
-   - [Хуки onBoarding](#хуки-onboarding)
-   - [Модель данных onBoarding](#модель-данных-onboarding)
-7. [Утилиты и расширения](#утилиты-и-расширения)
-   - [Утилиты для дашбордов](#утилиты-для-дашбордов)
-   - [Утилиты для аннотаций](#утилиты-для-аннотаций)
-   - [Утилиты для форматирования](#утилиты-для-форматирования)
+4. [Улучшенная фильтрация](#улучшенная-фильтрация)
+   - [Наборы фильтров](#наборы-фильтров)
+   - [Сохранение состояний фильтров](#сохранение-состояний-фильтров)
+5. [Интеграция с экосистемой DODO](#интеграция-с-экосистемой-dodo)
+   - [Аналитика использования](#аналитика-использования)
+   - [Мониторинг ошибок](#мониторинг-ошибок)
+   - [Встраивание в DODO IS](#встраивание-в-dodo-is)
+6. [Обучение пользователей](#обучение-пользователей)
+   - [Система онбординга](#система-онбординга)
+   - [Подсказки и описания](#подсказки-и-описания)
+7. [Дополнительные возможности](#дополнительные-возможности)
+   - [Оповещения и аннотации](#оповещения-и-аннотации)
+   - [Форматирование данных](#форматирование-данных)
 
 ## Введение
 
-Данный документ содержит информацию о компонентах и функциях, которые были добавлены или модифицированы командой DODO в проекте Superset. Каждая модификация помечена идентификатором изменения (например, "DODO 44211751"), что позволяет отслеживать историю изменений.
+Данный документ описывает бизнес-функции и улучшения, которые команда DODO внедрила в платформу аналитики Superset. Эти доработки направлены на повышение удобства использования, расширение функциональности и адаптацию платформы под потребности бизнеса DODO.
 
-DODO-специфичные компоненты и функции расширяют базовую функциональность Superset, добавляя поддержку русского языка, интеграцию с внешними сервисами (Firebase, Rollbar), систему onBoarding для новых пользователей, наборы фильтров и другие возможности, необходимые для работы в экосистеме DODO.
+Все модификации разработаны с учетом специфики работы компании и призваны сделать аналитику более доступной, понятной и полезной для принятия бизнес-решений.
 
-## Визуализация и компоненты
+## Визуализация данных
 
-### Компоненты визуализации
+### Улучшенные диаграммы
 
-#### BigNumber
+**BigNumber с условным форматированием**
 
-**Описание**: Расширение для компонента BigNumber с поддержкой условного форматирования.
+Функция позволяет отображать ключевые показатели эффективности (KPI) с автоматическим изменением цвета и отображением пояснительных сообщений в зависимости от значения. Например, показатель может автоматически становиться красным при падении ниже целевого значения и зеленым при превышении плана.
 
-**DODO-модификации**:
-- **45525377**: Добавлена возможность условного форматирования для значения и процентного изменения
-- Добавлена возможность отображения условных сообщений
+**Преимущества для бизнеса:**
+- Мгновенная визуальная оценка состояния бизнес-показателей
+- Возможность настройки пороговых значений для каждого показателя
+- Автоматические пояснения к критическим значениям на русском и английском языках
 
-**Ключевые файлы**:
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberViz.tsx`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo.ts`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo.tsx`
+**Столбчатые диаграммы с расширенными возможностями**
 
-#### BarDodo
+Улучшенные столбчатые диаграммы с дополнительными возможностями форматирования и отображения данных, позволяющие более наглядно представлять сравнительную информацию.
 
-**Описание**: Модифицированная версия столбчатой диаграммы с дополнительными возможностями.
+**Преимущества для бизнеса:**
+- Более гибкая настройка отображения данных
+- Улучшенная читаемость при большом количестве категорий
+- Возможность выделения ключевых значений
 
-**DODO-модификации**:
-- **45525377**: Создан компонент с расширенными возможностями форматирования и отображения
+**Пузырьковые диаграммы с дополнительными настройками**
 
-**Ключевые файлы**:
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/index.ts`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/transformProps.ts`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx`
+Расширенная версия пузырьковых диаграмм для визуализации многомерных данных, где размер и цвет пузырьков могут отражать дополнительные измерения.
 
-#### BubbleDodo
+**Преимущества для бизнеса:**
+- Отображение нескольких измерений данных на одной диаграмме
+- Возможность использования логарифмической шкалы для данных с большим разбросом значений
+- Настраиваемые метки для улучшения читаемости
 
-**Описание**: Модифицированная версия пузырьковой диаграммы с дополнительными возможностями.
+**Временные ряды с подсказками**
 
-**DODO-модификации**:
-- Добавлена возможность настройки отображения меток
-- Добавлена возможность настройки размера и цвета пузырьков
-- Добавлена возможность настройки логарифмической шкалы для осей
+Улучшенные графики временных рядов с возможностью отображения подсказок с описаниями метрик при наведении курсора.
 
-**Ключевые файлы**:
-- `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/BubbleDodo.tsx`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/index.ts`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/transformProps.ts`
+**Преимущества для бизнеса:**
+- Контекстная информация о метриках прямо на графике
+- Локализованные описания показателей
+- Улучшенное понимание данных без необходимости обращаться к документации
 
-#### MixedTimeseries
+### Настройка отображения
 
-**Описание**: Модифицированная версия временного ряда с дополнительными возможностями.
+**Условное форматирование**
 
-**DODO-модификации**:
-- **44728892**: Добавлена функция для расширения описаний источников данных
-- Добавлена поддержка отображения подсказок с описаниями метрик
+Инструмент для настройки условного форматирования данных в различных визуализациях, позволяющий задавать правила изменения цвета, стиля и отображения значений в зависимости от их величины.
 
-**Ключевые файлы**:
-- `plugins/plugin-chart-echarts/src/MixedTimeseries/transformProps.tsx`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/utils/extendDatasourceDescriptions.ts`
+**Преимущества для бизнеса:**
+- Выделение важных данных и аномалий
+- Настройка визуальных индикаторов для быстрой оценки ситуации
+- Возможность добавления пояснительных сообщений к критическим значениям
 
-### Компоненты управления
+**Выбор цвета с предпросмотром**
 
-#### ConditionalFormattingControlDodo
+Улучшенный инструмент выбора цвета с возможностью предпросмотра, позволяющий более точно настраивать цветовую схему визуализаций.
 
-**Описание**: Модифицированная версия компонента условного форматирования с расширенными возможностями.
+**Преимущества для бизнеса:**
+- Более удобный интерфейс для настройки цветов
+- Возможность создания единого стиля для всех дашбордов
+- Соответствие корпоративным стандартам оформления
 
-**DODO-модификации**:
-- **45525377**: Создан компонент с улучшенным интерфейсом и дополнительными возможностями
+### Управление цветами
 
-**Ключевые файлы**:
-- `src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
-- `src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverDodo.tsx`
+**Настройка цветов метрик**
 
-#### ColorPickerControlDodo
+Инструмент для централизованного управления цветами метрик в дашборде, позволяющий задавать и сохранять цвета для конкретных показателей, которые будут применяться ко всем диаграммам.
 
-**Описание**: Модифицированная версия компонента выбора цвета с улучшенным интерфейсом.
+**Преимущества для бизнеса:**
+- Единообразное отображение метрик во всех диаграммах дашборда
+- Возможность настройки цветовой схемы в соответствии с корпоративным стилем
+- Улучшенная читаемость и интерпретация данных благодаря консистентному использованию цветов
 
-**DODO-модификации**:
-- **45525377**: Изменены стили относительно оригинального компонента, убрана фиксированная ширина и высота
+**Функциональность:**
+- Поиск метрик по названию
+- Предпросмотр текущих и новых цветов
+- Возможность сброса настроек для отдельных метрик
+- Сохранение настроек для всего дашборда
 
-**Ключевые файлы**:
-- `src/DodoExtensions/explore/components/controls/ColorPickerControlDodo.jsx`
+## Многоязычность
 
-### Общие компоненты
+### Русский интерфейс
 
-**Описание**: Общие компоненты, используемые в различных частях приложения.
+**Полная локализация интерфейса**
 
-**Ключевые файлы**:
-- `src/DodoExtensions/Common/TitleWrapper.ts`
-- `src/DodoExtensions/Common/TitleLabel.ts`
-- `src/DodoExtensions/Common/StyledFlag.ts`
-- `src/DodoExtensions/Common/StyledPencil.ts`
-- `src/DodoExtensions/Common/LanguageIndicator.ts`
-- `src/DodoExtensions/Common/LanguageIndicatorWrapper.ts`
+Полная поддержка русского языка во всех элементах интерфейса Superset, включая меню, кнопки, сообщения и подсказки.
 
-## Локализация
-
-### Поддержка русского языка
-
-**Описание**: Добавление поддержки русского языка в интерфейс и данные.
-
-**DODO-модификации**:
-- **44120742**: Добавлены поля для поддержки русского языка в различных компонентах
-- **44211759**: Добавлена поддержка локализации для наборов фильтров
-
-**Ключевые файлы**:
-- `superset-frontend/src/types/Dashboard.ts`
-- `superset-frontend/src/dashboard/components/Header/types.ts`
-- `superset-frontend/src/types/Owner.ts`
-
-**Пример кода**:
-```typescript
-interface DashboardDodoExtended {
-  dashboard_title_ru: string; // DODO added 44120742
-}
-
-interface HeaderDropdownPropsDodoExtended {
-  dashboardTitleRU: string; // DODO added 44120742
-}
-
-type MetaDodoExtended = {
-  sliceNameRU?: string; // DODO added 44120742
-  sliceNameOverrideRU?: string; // DODO added 44120742
-};
-```
+**Преимущества для бизнеса:**
+- Снижение порога входа для русскоязычных пользователей
+- Уменьшение количества ошибок при работе с системой
+- Повышение эффективности работы с аналитикой
 
 ### Локализация дашбордов
 
-**Описание**: Поддержка локализации для дашбордов и их компонентов.
+**Двуязычные заголовки дашбордов**
 
-**DODO-модификации**:
-- **44120742**: Добавлена поддержка локализации для API дашбордов
+Возможность задавать заголовки дашбордов на русском и английском языках с автоматическим переключением в зависимости от выбранного языка интерфейса.
 
-**Ключевые файлы**:
-- `superset-frontend/src/hooks/apiResources/dashboards.ts`
-- `superset-frontend/src/Superstructure/hooks/apiResources/dashboards.ts`
+**Преимущества для бизнеса:**
+- Удобство использования для международных команд
+- Единообразие терминологии на разных языках
+- Возможность создания дашбордов, понятных всем сотрудникам независимо от языка
 
-**Пример кода**:
-```typescript
-// DODO changed 44120742
-export const useDashboardCharts = (
-  idOrSlug: string | number,
-  language?: string,
-) =>
-  useApiV1Resource<Chart[]>(
-    !language
-      ? `/api/v1/dashboard/${idOrSlug}/charts`
-      : `/api/v1/dashboard/${idOrSlug}/charts?language=${language}`,
-  );
-```
+**Локализованные названия диаграмм**
+
+Поддержка русских и английских названий для диаграмм и визуализаций с автоматическим переключением в зависимости от языка интерфейса.
+
+**Преимущества для бизнеса:**
+- Последовательное использование терминологии на разных языках
+- Улучшенное понимание данных русскоязычными пользователями
+- Возможность использования специфичных для бизнеса терминов на обоих языках
 
 ### Локализация фильтров
 
-**Описание**: Поддержка локализации для фильтров и наборов фильтров.
-
-**DODO-модификации**:
-- **44211759**: Добавлены поля для поддержки локализации фильтров
-
-**Ключевые файлы**:
-- `superset-frontend/packages/superset-ui-core/src/query/types/Dashboard.ts`
-- `superset-frontend/src/DodoExtensions/FilterSets/index.tsx`
-
-**Пример кода**:
-```typescript
-type FilterDodoExtended = {
-  nameRu?: string; // DODO added 44211759
-  selectTopValue?: number; // DODO added 44211759
-};
-
-// DODO added start 44211759
-const locale = bootstrapData?.common?.locale || 'en';
-const localisedNameField = `name${locale === 'en' ? '' : 'Ru'}` as
-  | 'name'
-  | 'nameRu';
-// DODO added stop 44211759
-```
-
-## Фильтрация и маски данных
-
-### Наборы фильтров (FilterSets)
-
-**Описание**: Компоненты и функции для работы с наборами фильтров.
-
-**DODO-модификации**:
-- **44211751**: Добавлена поддержка наборов фильтров
-- **44211759**: Добавлена поддержка локализации для наборов фильтров
-
-**Ключевые файлы**:
-- `src/DodoExtensions/FilterSets/index.tsx`
-- `src/DodoExtensions/FilterSets/FiltersHeader.tsx`
-- `src/DodoExtensions/FilterSets/utils/index.ts`
-- `src/DodoExtensions/FilterSets/state.ts`
-- `src/DodoExtensions/FilterSets/types.ts`
-
-**Пример кода**:
-```typescript
-// DODO added start 44211751
-type FilterSetDodoExtended = {
-  isPrimary: boolean;
-};
-
-export type FilterSet = {
-  id: number;
-  name: string;
-  nativeFilters: Filters;
-  dataMask: DataMaskStateWithId;
-} & FilterSetDodoExtended;
-
-export type FilterSets = {
-  [filtersSetId: string]: FilterSet;
-};
-// DODO added stop 44211751
-```
-
-### Маски данных
-
-**Описание**: Компоненты и функции для работы с масками данных.
-
-**Ключевые файлы**:
-- `superset-frontend/src/dataMask/reducer.ts`
-- `superset-frontend/src/dataMask/actions.ts`
-
-**Пример кода**:
-```typescript
-export function getInitialDataMask(
-  id?: string | number,
-  moreProps?: DataMask,
-): DataMask;
-export function getInitialDataMask(
-  id: string | number,
-  moreProps: DataMask = {},
-): DataMaskWithId {
-  let otherProps = {};
-  if (id) {
-    otherProps = {
-      id,
-    };
-  }
-  return {
-    ...otherProps,
-    extraFormData: {},
-    filterState: {},
-    ownState: {},
-    ...moreProps,
-  } as DataMaskWithId;
-}
-```
-
-## Интеграция с внешними сервисами
-
-### Firebase
-
-**Описание**: Интеграция с сервисами Firebase для аналитики и логирования ошибок.
-
-**Ключевые файлы**:
-- `superset-frontend/src/firebase/constants.ts`
-- `superset-frontend/src/firebase/setupFirebase.ts`
-- `superset-frontend/src/firebase/index.ts`
-
-**Пример кода**:
-```typescript
-export interface IFirebaseConfig {
-  apiKey: string;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-  measurementId: string;
-}
-
-const STANDALONE_PROD_CONFIG: IFirebaseConfig = {
-  apiKey: 'AIzaSyDXn8X8G9vVCw_b8AZWSupI3T_aLLK7L4Y',
-  authDomain: 'superset-dodobrands.firebaseapp.com',
-  projectId: 'superset-dodobrands',
-  storageBucket: 'superset-dodobrands.firebasestorage.app',
-  messagingSenderId: '1083382993878',
-  appId: '1:1083382993878:web:285f3dfa11c518e8438a77',
-  measurementId: 'G-DBW4DYJ5T1',
-};
-```
-
-**Логирование событий**:
-```typescript
-export const FirebaseService: IFirebaseService = (() => {
-  let analytics: Analytics;
-  
-  // ...
-  
-  return {
-    // ...
-    logEvent: (eventName: string, params: object) => {
-      logEvent(analytics, eventName, params);
-    },
-    // ...
-  };
-})();
-```
-
-### Rollbar
-
-**Описание**: Интеграция с сервисом Rollbar для отслеживания ошибок.
-
-**DODO-модификации**:
-- **47015293**: Добавлена интеграция с Rollbar
-
-**Ключевые файлы**:
-- `superset-frontend/src/firebase/rollbar.ts`
-- `superset-frontend/src/views/App.tsx`
-- `superset-frontend/src/Superstructure/components/App.jsx`
-
-**Пример кода**:
-```typescript
-export const ROLLBAR_CONFIG: Configuration = {
-  accessToken: 'd9021ea67e624bcc904ff9deae004565',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment: getEnv(),
-    client: {
-      javascript: {
-        code_version: APP_VERSION,
-      },
-    },
-  },
-  version: APP_VERSION,
-  checkIgnore: (isUncaught, args, payload: RollbarPayload) => {
-    const description = payload?.body?.trace?.exception?.description || '';
-    const traceMessage = payload?.body?.trace?.exception?.message || '';
-    const message = payload?.body?.message?.body?.message || '';
-
-    return Boolean(
-      ERROR_WHITE_LIST[description] ||
-        ERROR_WHITE_LIST[traceMessage] ||
-        ERROR_WHITE_LIST[message],
-    );
-  },
-};
-```
-
-### Интеграция с DODO IS
-
-**Описание**: Интеграция с DODO IS для встраивания дашбордов и аутентификации.
-
-**Ключевые файлы**:
-- `superset-frontend/src/embedded/index.tsx`
-- `superset-frontend/src/embedded/api.tsx`
-- `superset-frontend/src/Superstructure/messages.ts`
-
-**Пример кода**:
-```typescript
-const RULES_RU = {
-  title: 'Добро пожаловать в Superset dashboard plugin',
-  subTitle: 'Новый инструмент от команды DE',
-  extra: IF_QUESTIONS_RU,
-  messages: [
-    'Слева можно выбрать интересующий дашборд.',
-    'Данный инструмент встроен в DODO IS и показывает дашборды из standalone сервиса по ссылке: https://analytics.dodois.io/',
-    'Примененные конфигурации: CERTIFIED BY => DODOPIZZA',
-  ],
-  buttons: [
-    {
-      txt: 'Правила работы с аналитикой',
-      link: DODOPIZZA_KNOWLEDGEBASE_URL,
-    },
-    {
-      txt: 'Перейти в аналитику  (standalone)',
-      link: DODOPIZZA_ANALYTICS_URL,
-    },
-  ],
-};
-```
-
-## Система onBoarding
-
-### Компоненты onBoarding
-
-**Описание**: Компоненты для системы onBoarding новых пользователей.
-
-**Ключевые файлы**:
-- `src/DodoExtensions/onBoarding/onBoardingEntryPoint.tsx`
-- `src/DodoExtensions/onBoarding/components/stepOnePopup/stepOnePopup.tsx`
-- `src/DodoExtensions/onBoarding/components/stepTwoPopup/stepTwoPopup.tsx`
-- `src/DodoExtensions/onBoarding/components/stepThreePopup/stepThreePopup.tsx`
-
-**Пример кода**:
-```typescript
-const OnBoardingEntryPoint: FC = () => {
-  const { step, toStepTwo, closeOnboarding, setStep2Passed, setStep3Passed } =
-    useOnboarding();
-
-  if (process.env.type !== undefined) {
-    return null;
-  }
-
-  if (step === 1) {
-    return <StepOnePopup onClose={closeOnboarding} onNextStep={toStepTwo} />;
-  }
-  if (step === 2) {
-    return <StepTwoPopup onClose={closeOnboarding} onFinish={setStep2Passed} />;
-  }
-  if (step === 3) {
-    return <StepThreePopup onClose={setStep3Passed} />;
-  }
-
-  return null;
-};
-```
-
-### Хуки onBoarding
-
-**Описание**: Хуки для управления процессом onBoarding.
-
-**Ключевые файлы**:
-- `src/DodoExtensions/onBoarding/hooks/useOnboarding.ts`
-- `src/DodoExtensions/onBoarding/hooks/useHasUserTeam.ts`
-- `src/DodoExtensions/onBoarding/hooks/useTeam.tsx`
-
-**Пример кода**:
-```typescript
-export const useOnboarding = () => {
-  const [step, setStep] = useState<number | null>(null);
-
-  const step2PassedRef = useRef<null | boolean>();
-
-  const dispatch = useDispatch();
-  const isOnboardingFinished = useSelector(getIsOnboardingFinished);
-  const onboardingStartedTime = useSelector(getOnboardingStartedTime);
-
-  const storageInfo = getOnboardingStorageInfo();
-
-  useEffect(() => {
-    dispatch(initOnboarding());
-  }, [dispatch]);
-
-  // ...
-
-  const closeOnboarding = useCallback(() => {
-    updateStorageTimeOfTheLastShow();
-    clearStorageInitialByUser();
-    setStep(null);
-  }, []);
-
-  const toStepTwo = async (stepOneDto: StepOnePopupDto) => {
-    dispatch(stepOneFinish(stepOneDto.DodoRole));
-  };
-
-  const setStep2Passed = useCallback(() => {
-    step2PassedRef.current = true;
-  }, []);
-
-  // ...
-}
-```
-
-### Модель данных onBoarding
-
-**Описание**: Модель данных для системы onBoarding.
-
-**Ключевые файлы**:
-- `src/DodoExtensions/onBoarding/model/slices/onboardingStart.slice.ts`
-- `src/DodoExtensions/onBoarding/model/types/start.types.ts`
-- `src/DodoExtensions/onBoarding/model/types/teamPage.types.ts`
-- `src/DodoExtensions/onBoarding/repository/getOnboarding.repository.ts`
-
-**Пример кода**:
-```typescript
-export type OnboardingSuccessPayload = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  isOnboardingFinished: boolean;
-  onboardingStartedTime: string | null;
-};
-
-export type OnboardingFinishSuccessPayload = {
-  isOnboardingFinished: boolean;
-};
-
-export type OnboardingStepOneSuccessPayload = {
-  onboardingStartedTime: string | null;
-};
-```
-
-## Утилиты и расширения
-
-### Утилиты для дашбордов
-
-**Описание**: Утилиты для работы с дашбордами.
-
-**DODO-модификации**:
-- **44728892**: Добавлена функция для получения описания метрики с учетом локализации
-
-**Ключевые файлы**:
-- `src/DodoExtensions/dashboard/utils/getMetricDescription.ts`
-
-**Пример кода**:
-```typescript
-export const getMetricDescription = (
-  formData: QueryFormData & { metric: QueryFormMetric | undefined },
-  datasource: Datasource,
-  locale: string,
-): Maybe<string> | undefined => {
-  const { viz_type, metric } = formData;
-  if (!viz_type.startsWith('big_number') || !metric) return undefined;
-
-  if (isAdhocMetricSQL(metric)) return undefined;
-
-  const isMetricSaved = isSavedMetric(metric);
-
-  const metricName = isMetricSaved ? metric : metric?.column.column_name;
-  if (!metricName) return undefined;
-
-  const localizedKey = `description_${locale}` as
-    | 'description_en'
-    | 'description_ru';
-
-  const getDescription = (
-    source: Source | undefined,
-  ): Maybe<string> | undefined =>
-    source?.[localizedKey] ||
-    source?.description_ru ||
-    source?.description_en ||
-    source?.description;
-  // ...
-}
-```
-
-### Утилиты для аннотаций
-
-**Описание**: Утилиты для работы с аннотациями и оповещениями.
-
-**DODO-модификации**:
-- **44611022**: Созданы функции для работы с аннотациями и оповещениями
-
-**Ключевые файлы**:
-- `src/DodoExtensions/utils/annotationUtils.ts`
-
-**Пример кода**:
-```typescript
-const ALERT_PREFIX = '[ALERT]';
-
-const handleAnnotationLayersRequest = async () => {
-  const annotationsResponse = await getAnnotationLayersData();
-
-  if (annotationsResponse.loaded && annotationsResponse.data) {
-    const filteredAnnotationLayers = annotationsResponse.data.filter(
-      (layer: AnnotationLayer) => layer.name.includes(ALERT_PREFIX),
-    );
-
-    const foundAnnotationLayer = filteredAnnotationLayers[0] || null;
-
-    if (foundAnnotationLayer) {
-      const idsResponse = await getSingleAnnotationLayerIdsData(
-        foundAnnotationLayer.id,
-      );
-
-      if (
-        idsResponse?.loaded &&
-        idsResponse.data?.ids &&
-        idsResponse.data?.ids.length
-      ) {
-        const dataWithIds = {
-          layerId: idsResponse.data.layerId,
-          ids: idsResponse.data.ids,
-        };
-
-        return dataWithIds;
-      }
-
-      return null;
-    }
-
-    return null;
-  }
-
-  return null;
-};
-```
-
-### Утилиты для форматирования
-
-**Описание**: Утилиты для форматирования данных.
-
-**DODO-модификации**:
-- **44136746**: Добавлен формат DURATION_HMMSS для форматирования длительности в формате часы:минуты:секунды
-- **45525377**: Добавлены типы для условного форматирования с поддержкой локализации
-
-**Ключевые файлы**:
-- `superset-frontend/src/setup/setupFormatters.ts`
-- `superset-frontend/src/DodoExtensions/utils/formatDurationHMMSS.ts`
-- `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/types.ts`
-
-**Пример кода**:
-```typescript
-import { formatDurationHMMSS } from 'src/DodoExtensions/utils/formatDurationHMMSS'; // DODO added 44136746
-
-// ...
-
-// DODO added 44136746
-.registerValue(
-  'DURATION_HMMSS',
-  createDurationFormatter({ formatFunc: formatDurationHMMSS }),
-);
-```
-
-**Типы для условного форматирования**:
-```typescript
-export type ColorFormattersWithConditionalMessage = Array<{
-  column: string;
-  getColorFromValue: (value: number) => string | undefined;
-  message?: string;
-  messageRU?: string;
-  messageEN?: string;
-}>;
-```
+**Двуязычные названия фильтров**
+
+Возможность задавать названия фильтров на русском и английском языках с автоматическим переключением в зависимости от выбранного языка интерфейса.
+
+**Преимущества для бизнеса:**
+- Интуитивно понятные фильтры для всех пользователей
+- Единообразие терминологии на разных языках
+- Улучшенный пользовательский опыт для международных команд
+
+## Улучшенная фильтрация
+
+### Наборы фильтров
+
+**Сохранение и применение наборов фильтров**
+
+Возможность сохранять наборы часто используемых фильтров и быстро применять их к дашборду, что позволяет быстро переключаться между различными представлениями данных.
+
+**Преимущества для бизнеса:**
+- Экономия времени при анализе данных в разных разрезах
+- Стандартизация аналитических представлений
+- Возможность создания предустановленных фильтров для типовых бизнес-сценариев
+
+**Основные фильтры**
+
+Возможность отмечать определенные наборы фильтров как основные, которые будут автоматически применяться при открытии дашборда.
+
+**Преимущества для бизнеса:**
+- Настройка дашбордов под конкретные бизнес-задачи
+- Стандартизация начального представления данных
+- Улучшенный пользовательский опыт для новых пользователей
+
+### Сохранение состояний фильтров
+
+**Автоматическое сохранение состояния фильтров**
+
+Система автоматически сохраняет состояние фильтров для каждого пользователя, что позволяет продолжить работу с того же места при следующем входе.
+
+**Преимущества для бизнеса:**
+- Непрерывность аналитического процесса
+- Персонализированный опыт для каждого пользователя
+- Повышение эффективности работы с данными
+
+## Интеграция с экосистемой DODO
+
+### Аналитика использования
+
+**Сбор данных об использовании**
+
+Интеграция с Firebase Analytics для сбора анонимизированных данных об использовании аналитической платформы, что позволяет улучшать пользовательский опыт на основе реальных данных.
+
+**Преимущества для бизнеса:**
+- Понимание того, какие дашборды и визуализации наиболее востребованы
+- Выявление проблемных мест в пользовательском опыте
+- Данные для принятия решений о дальнейшем развитии аналитической платформы
+
+### Мониторинг ошибок
+
+**Автоматическое отслеживание ошибок**
+
+Интеграция с Rollbar для автоматического отслеживания и анализа ошибок, возникающих при работе с платформой.
+
+**Преимущества для бизнеса:**
+- Быстрое выявление и устранение проблем
+- Повышение стабильности работы аналитической платформы
+- Улучшение пользовательского опыта за счет снижения количества ошибок
+
+### Встраивание в DODO IS
+
+**Интеграция с внутренними системами**
+
+Возможность встраивания дашбордов Superset в интерфейс DODO IS для обеспечения единой точки доступа к аналитике.
+
+**Преимущества для бизнеса:**
+- Единый интерфейс для работы с данными и бизнес-процессами
+- Контекстная аналитика, доступная прямо в рабочем процессе
+- Повышение доступности аналитических данных для принятия решений
+
+**Приветственные сообщения**
+
+Настраиваемые приветственные сообщения и инструкции для пользователей, работающих с встроенными дашбордами.
+
+**Преимущества для бизнеса:**
+- Улучшенный пользовательский опыт
+- Снижение порога входа для новых пользователей
+- Быстрый доступ к справочной информации и ресурсам
+
+## Обучение пользователей
+
+### Система онбординга
+
+**Пошаговое обучение новых пользователей**
+
+Интерактивная система онбординга, которая проводит новых пользователей через основные функции и возможности аналитической платформы.
+
+**Преимущества для бизнеса:**
+- Снижение затрат на обучение новых сотрудников
+- Ускорение адаптации пользователей к аналитической платформе
+- Повышение эффективности использования аналитических инструментов
+
+**Персонализированный онбординг**
+
+Адаптация процесса онбординга в зависимости от роли пользователя и его команды.
+
+**Преимущества для бизнеса:**
+- Релевантное обучение для разных категорий пользователей
+- Фокус на функциях, наиболее важных для конкретной роли
+- Повышение эффективности обучения
+
+**Многоэтапный процесс**
+
+Система онбординга разделена на несколько этапов, что позволяет пользователю постепенно осваивать функциональность платформы:
+- Этап 1: Знакомство с основными возможностями
+- Этап 2: Изучение специфичных для роли функций
+- Этап 3: Продвинутые возможности и интеграции
+
+**Преимущества для бизнеса:**
+- Структурированный подход к обучению
+- Возможность отслеживания прогресса обучения
+- Снижение когнитивной нагрузки на пользователя
+
+### Подсказки и описания
+
+**Контекстные подсказки**
+
+Система контекстных подсказок и описаний для метрик и визуализаций, доступных на русском и английском языках.
+
+**Преимущества для бизнеса:**
+- Улучшенное понимание данных и их бизнес-значения
+- Снижение количества ошибок интерпретации
+- Единое понимание метрик всеми пользователями
+
+## Дополнительные возможности
+
+### Оповещения и аннотации
+
+**Система оповещений**
+
+Возможность настройки и отображения оповещений о важных событиях или аномалиях в данных.
+
+**Преимущества для бизнеса:**
+- Своевременное информирование о критических изменениях в бизнес-показателях
+- Возможность быстрого реагирования на проблемы
+- Автоматизация мониторинга ключевых метрик
+
+**Аннотации на графиках**
+
+Возможность добавления аннотаций к графикам для отметки важных событий или изменений в бизнес-процессах.
+
+**Преимущества для бизнеса:**
+- Контекстная информация о причинах изменений в данных
+- Улучшенное понимание взаимосвязи бизнес-событий и метрик
+- Возможность документирования важных решений и их влияния на показатели
+
+### Форматирование данных
+
+**Расширенные форматы данных**
+
+Дополнительные форматы для отображения данных, включая специальный формат для длительности (часы:минуты:секунды).
+
+**Преимущества для бизнеса:**
+- Более наглядное представление специфичных для бизнеса данных
+- Улучшенная читаемость и интерпретация временных показателей
+- Возможность настройки отображения данных под конкретные бизнес-потребности
+
+**Условные сообщения**
+
+Возможность настройки условных сообщений, которые отображаются в зависимости от значений показателей.
+
+**Преимущества для бизнеса:**
+- Автоматическая интерпретация данных
+- Быстрое выявление проблемных областей
+- Стандартизация реакции на определенные значения показателей
+
+**Локализованные описания метрик**
+
+Возможность добавления описаний метрик на разных языках, которые отображаются при наведении курсора на показатель.
+
+**Преимущества для бизнеса:**
+- Улучшенное понимание значения метрик всеми пользователями
+- Единая терминология на разных языках
+- Снижение количества ошибок интерпретации данных
