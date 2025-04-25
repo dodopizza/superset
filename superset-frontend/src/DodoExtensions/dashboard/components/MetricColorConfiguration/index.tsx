@@ -106,21 +106,21 @@ const MetricColorConfiguration = ({
               );
             }
 
-            if (
-              metricsForDataIteration.length ||
-              exploreJsonVizes[vizType || '']
-            ) {
+            // explore json vizes
+            if (exploreJsonVizes[vizType || '']) {
+              metricsForDataIteration.push('key');
+            }
+
+            if (metricsForDataIteration.length) {
               const metricNames = metricsForDataIteration.map(metric =>
                 isSavedMetric(metric) ? metric : metric.label ?? '',
               );
 
               response.data.forEach(entry => {
                 metricNames.forEach(metric => {
-                  const metricValue =
-                    entry[metric] ||
-                    (Array.isArray(entry.key)
-                      ? entry.key?.join(', ')
-                      : entry.key);
+                  const metricValue = Array.isArray(entry[metric])
+                    ? entry[metric].join(', ')
+                    : entry[metric];
                   if (
                     metricValue &&
                     (typeof metricValue === 'string' ||
