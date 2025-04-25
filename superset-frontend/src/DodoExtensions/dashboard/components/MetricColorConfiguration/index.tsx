@@ -11,17 +11,17 @@ import {
 import Badge from 'src/components/Badge';
 import Button from 'src/components/Button';
 import Icons from 'src/components/Icons';
+import InfoTooltip from 'src/components/InfoTooltip';
 import Modal from 'src/components/Modal';
 import { ChartState } from 'src/explore/types';
 import ColorPickerControlDodo from 'src/DodoExtensions/explore/components/controls/ColorPickerControlDodo';
 import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
-import { Tooltip } from 'src/components/Tooltip';
 import {
   ActionsWrapper,
   BoldText,
   ColorScheme,
   FlexWrapper,
-  Label,
+  LabelWrapper,
   StyledList,
   StyledListItem,
   StyledPagination,
@@ -122,20 +122,15 @@ const MetricColorConfiguration = ({
     return filteredMetrics.slice(startIndex, endIndex);
   }, [filteredMetrics, currentPage]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const openModal = () => {
-    // currentLabelColorsRef.current = labelColors;
-    setShow(true);
+  const resetChanges = () => {
+    setNewLabelColors({});
+    setDeletedLabels({});
+    setSearch('');
+    setCurrentPage(1);
   };
 
   const closeModal = () => {
-    // reset changes
-    setNewLabelColors({});
-    setDeletedLabels({});
-
+    resetChanges();
     setShow(false);
   };
 
@@ -172,8 +167,7 @@ const MetricColorConfiguration = ({
 
     await dispatch(saveLabelColorsSettings(finalLabelColors));
 
-    setNewLabelColors({});
-    setDeletedLabels({});
+    resetChanges();
     setShow(false);
   };
 
@@ -212,7 +206,7 @@ const MetricColorConfiguration = ({
     <>
       <Button
         buttonStyle="secondary"
-        onClick={openModal}
+        onClick={() => setShow(true)}
         className="action-button"
         aria-label={t('Edit colors')}
       >
@@ -251,7 +245,7 @@ const MetricColorConfiguration = ({
             current={currentPage}
             total={filteredMetrics.length}
             pageSize={ITEMS_PER_PAGE}
-            onChange={handlePageChange}
+            onChange={setCurrentPage}
             showSizeChanger={false}
             size="small"
             simple
@@ -271,17 +265,17 @@ const MetricColorConfiguration = ({
 
             return (
               <StyledListItem key={label} isAltered={isAltered}>
-                <Tooltip
-                  title={
-                    existOnDashboard
-                      ? ''
-                      : t(
-                          'Metric is missing from the dashboard with current filters or removed from the dataset',
-                        )
-                  }
-                >
-                  <Label existOnDashboard={existOnDashboard}>{label}</Label>
-                </Tooltip>
+                <LabelWrapper existOnDashboard={existOnDashboard}>
+                  {!existOnDashboard && (
+                    <InfoTooltip
+                      tooltip={t(
+                        'Metric is missing from the dashboard with current filters or removed from the dataset',
+                      )}
+                      placement="top"
+                    />
+                  )}
+                  <p title={label}>{label}</p>
+                </LabelWrapper>
 
                 <FlexWrapper>
                   {hasActions && (
@@ -311,7 +305,7 @@ const MetricColorConfiguration = ({
                     </ActionsWrapper>
                   )}
 
-                  <p>
+                  <p className="color-current">
                     {isDeleted
                       ? t('Deleted')
                       : mergedLabelColors[label] || t('Not assigned')}

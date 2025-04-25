@@ -12,7 +12,6 @@ export const StyledList = styled(List)<{ colorScheme: string | undefined }>`
 
   p {
     margin: 0;
-    white-space: nowrap;
   }
 `;
 
@@ -31,6 +30,10 @@ export const StyledListItem = styled(List.Item)<{
     .actions {
       opacity: 1;
     }
+  }
+
+  .color-current {
+    white-space: nowrap;
   }
 `;
 
@@ -56,13 +59,22 @@ export const ActionsWrapper = styled(FlexWrapper)`
   }
 `;
 
-export const Label = styled.p<{ existOnDashboard: boolean }>`
-  color: ${({ theme, existOnDashboard }) =>
-    existOnDashboard ? 'inherit' : theme.colors.error.base};
-  text-decoration: ${({ existOnDashboard }) =>
-    existOnDashboard ? 'none' : 'line-through'};
-  overflow: hidden;
-  text-overflow: ellipsis;
+export const LabelWrapper = styled.div<{ existOnDashboard: boolean }>`
+  display: flex;
+  align-items: center;
+
+  p {
+    color: ${({ theme, existOnDashboard }) =>
+      existOnDashboard ? 'inherit' : theme.colors.grayscale.light1};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    flex-grow: 1;
+    max-height: 22px;
+    word-break: break-all;
+  }
 `;
 
 export const ColorScheme = styled.p`
