@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { debounce } from 'lodash';
 import { Input } from 'antd';
 import {
   ChartDataResponseResult,
@@ -16,6 +15,8 @@ import Modal from 'src/components/Modal';
 import { ChartState } from 'src/explore/types';
 import ColorPickerControlDodo from 'src/DodoExtensions/explore/components/controls/ColorPickerControlDodo';
 import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
+import Loading from 'src/components/Loading';
+import { useDebounceValue } from 'src/hooks/useDebounceValue';
 import {
   ActionsWrapper,
   BoldText,
@@ -42,11 +43,13 @@ const MetricColorConfiguration = ({
 }: IProps) => {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounceValue(search, 500);
   const [newLabelColors, setNewLabelColors] = useState<PlainObject>({});
   const [deletedLabels, setDeletedLabels] = useState<Record<string, 'true'>>(
     {},
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const mergedLabelColors = useMemo(
@@ -62,19 +65,56 @@ const MetricColorConfiguration = ({
 
         (chart.queriesResponse as ChartDataResponseResult[]).forEach(
           response => {
+            const vizType = chart.latestQueryFormData.viz_type;
+            if (vizType === 'table' || vizType === 'pivot_table_v2') return;
+
             if (response.colnames && Array.isArray(response.colnames)) {
               result.push(...response.colnames);
             }
 
-            const groupby = chart.latestQueryFormData?.groupby;
-            if (Array.isArray(groupby)) {
-              const metricNames = groupby.map(metric =>
+            const metricsForDataIteration = [];
+
+            if (Array.isArray(chart.latestQueryFormData?.groupby)) {
+              metricsForDataIteration.push(
+                ...chart.latestQueryFormData?.groupby,
+              );
+            }
+
+            // bubble_v2
+            if (chart.latestQueryFormData?.series) {
+              metricsForDataIteration.push(chart.latestQueryFormData.series);
+            }
+
+            // sankey_v2
+            if (chart.latestQueryFormData?.source) {
+              metricsForDataIteration.push(chart.latestQueryFormData.source);
+            }
+
+            // graph_chart
+            if (chart.latestQueryFormData?.target) {
+              metricsForDataIteration.push(chart.latestQueryFormData.target);
+            }
+
+            // sunburst_v2
+            if (Array.isArray(chart.latestQueryFormData?.columns)) {
+              metricsForDataIteration.push(
+                ...chart.latestQueryFormData.columns,
+              );
+            }
+
+            if (metricsForDataIteration.length) {
+              const metricNames = metricsForDataIteration.map(metric =>
                 isSavedMetric(metric) ? metric : metric.label ?? '',
               );
 
               response.data.forEach(entry => {
                 metricNames.forEach(metric => {
-                  const metricValue = entry[metric];
+                  const metricValue =
+                    entry[metric] ||
+                    (Array.isArray(entry.key)
+                      ? // @ts-ignore
+                        entry.key?.join(', ')
+                      : entry.key);
                   if (
                     metricValue &&
                     (typeof metricValue === 'string' ||
@@ -112,8 +152,11 @@ const MetricColorConfiguration = ({
   }, [dashboardMetrics, labelColors, dashboardMetricsSet]);
 
   const filteredMetrics = useMemo(
-    () => uniqueMetrics.filter(metric => metric.toLowerCase().includes(search)),
-    [uniqueMetrics, search],
+    () =>
+      uniqueMetrics.filter(metric =>
+        metric.toLowerCase().includes(debouncedSearch),
+      ),
+    [uniqueMetrics, debouncedSearch],
   );
 
   const paginatedMetrics = useMemo(() => {
@@ -129,9 +172,9 @@ const MetricColorConfiguration = ({
     setCurrentPage(1);
   };
 
-  const closeModal = () => {
+  const openModal = () => {
     resetChanges();
-    setShow(false);
+    setShow(true);
   };
 
   const handleChangeColor = (metric: string) => (color: string) => {
@@ -165,16 +208,17 @@ const MetricColorConfiguration = ({
     // remove deleted labels from finalLabelColors
     Object.keys(deletedLabels).forEach(label => delete finalLabelColors[label]);
 
+    setIsLoading(true);
     await dispatch(saveLabelColorsSettings(finalLabelColors));
+    setIsLoading(false);
 
-    resetChanges();
     setShow(false);
   };
 
-  const debouncedOnChangeSearch = debounce((value: string) => {
-    setSearch(value);
+  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
     setCurrentPage(1);
-  }, 500);
+  };
 
   const changesCount =
     Object.keys(newLabelColors).length + Object.keys(deletedLabels).length;
@@ -188,14 +232,14 @@ const MetricColorConfiguration = ({
 
   const footer = (
     <>
-      <Button buttonSize="small" onClick={closeModal}>
+      <Button buttonSize="small" onClick={() => setShow(false)}>
         {t('Cancel')}
       </Button>
       <Button
         buttonSize="small"
         buttonStyle="primary"
         onClick={handleSave}
-        disabled={changesCount === 0}
+        disabled={changesCount === 0 || isLoading || isLoading}
       >
         {t('Save')}
       </Button>
@@ -206,7 +250,7 @@ const MetricColorConfiguration = ({
     <>
       <Button
         buttonStyle="secondary"
-        onClick={() => setShow(true)}
+        onClick={openModal}
         className="action-button"
         aria-label={t('Edit colors')}
       >
@@ -217,7 +261,7 @@ const MetricColorConfiguration = ({
         show={show}
         title={modalTitle}
         footer={footer}
-        onHide={closeModal}
+        onHide={() => setShow(false)}
         width="550px"
         responsive
       >
@@ -234,12 +278,11 @@ const MetricColorConfiguration = ({
 
         <FlexWrapper>
           <Input.Search
+            value={search}
+            onChange={onChangeSearch}
             placeholder={t('Search for label')}
             allowClear
             size="middle"
-            onChange={e =>
-              debouncedOnChangeSearch(e.target.value.toLowerCase())
-            }
           />
           <StyledPagination
             current={currentPage}
@@ -323,6 +366,8 @@ const MetricColorConfiguration = ({
             );
           }}
         />
+
+        {isLoading && <Loading />}
       </Modal>
     </>
   );
