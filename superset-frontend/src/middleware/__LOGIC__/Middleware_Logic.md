@@ -23,9 +23,11 @@
 **Описание**: Middleware для логирования событий в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/loggerMiddleware.js`
 
 **Пример кода**:
+
 ```javascript
 const loggerMiddleware = store => next => action => {
   if (action.type !== LOG_EVENT) {
@@ -102,9 +104,11 @@ const loggerMiddleware = store => next => action => {
 **Описание**: Функции для отправки данных логирования на сервер.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/loggerMiddleware.js`
 
 **Пример кода**:
+
 ```javascript
 const LOG_ENDPOINT = '/superset/log/?explode=events';
 const sendBeacon = events => {
@@ -140,6 +144,7 @@ const sendBeacon = events => {
 ```
 
 **Очередь сообщений**:
+
 ```javascript
 // beacon API has data size limit = 2^16.
 // assume avg each log entry has 2^6 characters
@@ -158,9 +163,11 @@ const logMessageQueue = new DebouncedMessageQueue({
 **Описание**: Middleware для обработки асинхронных событий в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/asyncEvent.ts`
 
 **Пример кода**:
+
 ```typescript
 export const init = (appConfig?: AppConfig) => {
   if (!isFeatureEnabled(FeatureFlag.GlobalAsyncQueries)) return;
@@ -194,9 +201,11 @@ export const init = (appConfig?: AppConfig) => {
 **Описание**: Различные транспорты для передачи асинхронных событий.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/asyncEvent.ts`
 
 **Пример кода**:
+
 ```typescript
 const TRANSPORT_POLLING = 'polling';
 const TRANSPORT_WS = 'ws';
@@ -213,12 +222,15 @@ const JOB_STATUS = {
 **Описание**: Интеграция middleware с DODO-специфичными компонентами.
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена функция логирования для API запросов
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/api/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added 44611022
 import { AxiosRequestConfig } from 'axios';
@@ -236,6 +248,7 @@ const logger = (params: AxiosRequestConfig, isEnabled = false) => {
 ```
 
 **Использование в API**:
+
 ```typescript
 async authanticateInDodoInner() {
   const { FRONTEND_LOGGER, ORIGIN_URL, CREDS } = this.config;
@@ -269,10 +282,12 @@ async authanticateInDodoInner() {
 **Описание**: Тесты для middleware.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/logger.test.js`
 - `superset-frontend/src/middleware/asyncEvent.test.ts`
 
 **Пример кода**:
+
 ```javascript
 describe('logger middleware', () => {
   const next = sinon.spy();

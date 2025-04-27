@@ -21,9 +21,11 @@
 **Описание**: Действия для логирования событий в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/logger/actions/index.ts`
 
 **Пример кода**:
+
 ```typescript
 export const LOG_EVENT = 'LOG_EVENT';
 
@@ -44,10 +46,12 @@ export function logEvent(eventName: string, eventData: Record<string, any>) {
 **Описание**: Утилиты для логирования различных типов событий.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/logger/LogUtils.ts`
 - `superset-frontend/src/logger/useLogAction.ts`
 
 **Пример кода**:
+
 ```typescript
 export const LOG_ACTIONS_LOAD_CHART = 'load_chart';
 export const LOG_ACTIONS_RENDER_CHART = 'render_chart';
@@ -86,6 +90,7 @@ export const LOG_EVENT_TYPE_USER = new Set([
 ```
 
 **Хук для логирования**:
+
 ```typescript
 export default function useLogAction(staticEventData: Record<string, any>) {
   const dispatch = useDispatch();
@@ -111,12 +116,15 @@ export default function useLogAction(staticEventData: Record<string, any>) {
 **Описание**: Интеграция логирования с API.
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена функция логирования для API запросов
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/api/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added 44611022
 import { AxiosRequestConfig } from 'axios';
@@ -138,13 +146,16 @@ const logger = (params: AxiosRequestConfig, isEnabled = false) => {
 **Описание**: Интеграция с сервисом Rollbar для отслеживания ошибок.
 
 **DODO-модификации**:
+
 - **47015293**: Добавлена интеграция с Rollbar
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/views/App.tsx`
 - `superset-frontend/src/firebase/rollbar.ts`
 
 **Пример кода**:
+
 ```typescript
 import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added 47015293
 ```
@@ -156,9 +167,11 @@ import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added 47015293
 **Описание**: Middleware для логирования событий в Redux.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/middleware/loggerMiddleware.js`
 
 **Пример кода**:
+
 ```javascript
 const loggerMiddleware = store => next => action => {
   if (action.type !== LOG_EVENT) {
@@ -212,9 +225,11 @@ const loggerMiddleware = store => next => action => {
 **Описание**: Использование логирования в различных компонентах приложения.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/Header/index.jsx`
 
 **Пример кода**:
+
 ```javascript
 import {
   LOG_ACTIONS_PERIODIC_RENDER_DASHBOARD,

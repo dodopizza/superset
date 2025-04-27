@@ -28,12 +28,15 @@
 **Описание**: Тип для представления дашборда.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлено поле `dashboard_title_ru` для поддержки локализации заголовка дашборда
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/types/Dashboard.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO was here
 import Owner from './Owner';
@@ -66,9 +69,11 @@ export interface Dashboard extends DashboardDodoExtended {
 **Описание**: Тип для представления информации о дашборде.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/Header/types.ts`
 
 **Пример кода**:
+
 ```typescript
 interface DashboardInfo {
   id: number;
@@ -87,12 +92,15 @@ interface DashboardInfo {
 **Описание**: Тип для представления владельца объекта.
 
 **DODO-модификации**:
+
 - **44211759**: Добавлены поля `email` и `country_name` для расширения информации о владельце
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/types/Owner.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO was here
 
@@ -118,9 +126,11 @@ export default interface Owner extends OwnerDodoExtened {
 **Описание**: Тип для представления пользователя.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/types/bootstrapTypes.ts`
 
 **Пример кода**:
+
 ```typescript
 export type User = {
   createdOn?: string;
@@ -152,12 +162,15 @@ export type UserWithPermissionsAndRoles = User & PermissionsAndRoles;
 **Описание**: Типы для компонентов заголовка дашборда.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлено поле `dashboardTitleRU` для поддержки локализации заголовка дашборда
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/Header/types.ts`
 
 **Пример кода**:
+
 ```typescript
 interface HeaderDropdownPropsDodoExtended {
   dashboardTitleRU: string; // DODO added 44120742
@@ -173,12 +186,15 @@ interface HeaderPropsDodoExtended {
 **Описание**: Типы для компонентов диаграмм.
 
 **DODO-модификации**:
+
 - **44136746**: Добавлено поле `extraFormData` для расширения данных формы
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/explore/types.ts`
 
 **Пример кода**:
+
 ```typescript
 interface ChartStateDodoExtended {
   extraFormData?: PlainObject; // DODO added 44136746
@@ -192,10 +208,12 @@ interface ChartStateDodoExtended {
 **Описание**: Тип для представления набора данных.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/types/Dataset.ts`
 - `superset-frontend/src/features/datasets/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default interface Dataset {
   changed_by_name: string;
@@ -219,12 +237,15 @@ export default interface Dataset {
 **Описание**: Типы для масок данных, используемых для фильтрации.
 
 **DODO-модификации**:
+
 - **44211751**: Добавлены типы для наборов фильтров (FilterSets)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/FilterSets/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export type FilterSetFullData = {
   changed_by_fk: string | null;
@@ -249,15 +270,18 @@ export type FilterSetFullData = {
 **Описание**: Типы для поддержки локализации в DODO.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлены поля для поддержки русского языка
 - **45525377**: Добавлены типы для условного форматирования с поддержкой локализации
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/types/Dashboard.ts`
 - `superset-frontend/src/dashboard/types.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/types.ts`
 
 **Пример кода**:
+
 ```typescript
 type MetaDodoExtended = {
   sliceNameRU?: string; // DODO added 44120742
@@ -266,6 +290,7 @@ type MetaDodoExtended = {
 ```
 
 **Типы для условного форматирования**:
+
 ```typescript
 export type ColorFormattersWithConditionalMessage = Array<{
   column: string;
@@ -281,12 +306,15 @@ export type ColorFormattersWithConditionalMessage = Array<{
 **Описание**: Типы для специфичных компонентов DODO.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлены типы для компонентов условного форматирования
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/types.ts`
 
 **Пример кода**:
+
 ```typescript
 type RenderExistLinParams = {
   index: number;
@@ -310,9 +338,11 @@ type RenderAddPopover = (params: {
 **Описание**: Типы для системы onBoarding новых пользователей.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export type OnBoardingStorageInfo = {
   theTimeOfTheLastShow?: Date;

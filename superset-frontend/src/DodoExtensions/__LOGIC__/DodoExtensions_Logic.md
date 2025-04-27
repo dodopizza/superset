@@ -29,10 +29,12 @@
 **Описание**: Расширение для компонента BigNumber с поддержкой условного форматирования.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлена возможность условного форматирования для значения и процентного изменения
 - Добавлена возможность отображения условных сообщений
 
 **Ключевые файлы**:
+
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberViz.tsx`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo.ts`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo.tsx`
@@ -40,6 +42,7 @@
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/controlPanelCommon.tsx`
 
 **Пример кода**:
+
 ```typescript
 const bigNumberVizGetColorDodo = (
   props: BigNumberVizProps,
@@ -62,7 +65,7 @@ const bigNumberVizGetColorDodo = (
     numberColor = 'black';
   }
   // ...
-}
+};
 ```
 
 ### BarDodo
@@ -70,15 +73,18 @@ const bigNumberVizGetColorDodo = (
 **Описание**: Модифицированная версия столбчатой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с расширенными возможностями форматирования и отображения
 
 **Ключевые файлы**:
+
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/index.ts`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/transformProps.ts`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default class EchartsBarChartPluginDodo extends ChartPlugin<
   EchartsBarFormData,
@@ -110,11 +116,13 @@ export default class EchartsBarChartPluginDodo extends ChartPlugin<
 **Описание**: Модифицированная версия пузырьковой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - Добавлена возможность настройки отображения меток
 - Добавлена возможность настройки размера и цвета пузырьков
 - Добавлена возможность настройки логарифмической шкалы для осей
 
 **Ключевые файлы**:
+
 - `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/BubbleDodo.tsx`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/index.ts`
 - `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/types.ts`
@@ -122,6 +130,7 @@ export default class EchartsBarChartPluginDodo extends ChartPlugin<
 - `plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function BubbleDodo({
   height,
@@ -160,14 +169,17 @@ export default function BubbleDodo({
 **Описание**: Модифицированная версия компонента условного форматирования с расширенными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с улучшенным интерфейсом и дополнительными возможностями
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
 - `src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverDodo.tsx`
 - `src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/ConditionalFormattingControlDodoWrapper.tsx`
 
 **Пример кода**:
+
 ```typescript
 const renderExistLine: RenderExistLine = ({
   index,
@@ -205,12 +217,15 @@ const renderExistLine: RenderExistLine = ({
 **Описание**: Модифицированная версия компонента выбора цвета с улучшенным интерфейсом.
 
 **DODO-модификации**:
+
 - **45525377**: Изменены стили относительно оригинального компонента, убрана фиксированная ширина и высота
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/explore/components/controls/ColorPickerControlDodo.jsx`
 
 **Пример кода**:
+
 ```jsx
 export default class ColorPickerControlDodo extends Component {
   constructor(props) {
@@ -248,12 +263,14 @@ export default class ColorPickerControlDodo extends Component {
 **Описание**: Компоненты для системы onBoarding новых пользователей.
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/onBoarding/onBoardingEntryPoint.tsx`
 - `src/DodoExtensions/onBoarding/components/stepOnePopup/stepOnePopup.tsx`
 - `src/DodoExtensions/onBoarding/components/stepTwoPopup/stepTwoPopup.tsx`
 - `src/DodoExtensions/onBoarding/components/stepThreePopup/stepThreePopup.tsx`
 
 **Пример кода**:
+
 ```typescript
 const OnBoardingEntryPoint: FC = () => {
   const { step, toStepTwo, closeOnboarding, setStep2Passed, setStep3Passed } =
@@ -282,11 +299,13 @@ const OnBoardingEntryPoint: FC = () => {
 **Описание**: Хуки для управления процессом onBoarding.
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/onBoarding/hooks/useOnboarding.ts`
 - `src/DodoExtensions/onBoarding/hooks/useHasUserTeam.ts`
 - `src/DodoExtensions/onBoarding/hooks/useTeam.tsx`
 
 **Пример кода**:
+
 ```typescript
 export const useOnboarding = () => {
   const [step, setStep] = useState<number | null>(null);
@@ -320,7 +339,7 @@ export const useOnboarding = () => {
   }, []);
 
   // ...
-}
+};
 ```
 
 ### Модель данных onBoarding
@@ -328,12 +347,14 @@ export const useOnboarding = () => {
 **Описание**: Модель данных для системы onBoarding.
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/onBoarding/model/slices/onboardingStart.slice.ts`
 - `src/DodoExtensions/onBoarding/model/types/start.types.ts`
 - `src/DodoExtensions/onBoarding/model/types/teamPage.types.ts`
 - `src/DodoExtensions/onBoarding/repository/getOnboarding.repository.ts`
 
 **Пример кода**:
+
 ```typescript
 export type OnboardingSuccessPayload = {
   id: number;
@@ -358,10 +379,12 @@ export type OnboardingStepOneSuccessPayload = {
 **Описание**: Компоненты и функции для работы с наборами фильтров.
 
 **DODO-модификации**:
+
 - **44211751**: Добавлена поддержка наборов фильтров
 - **44211759**: Добавлена поддержка локализации для наборов фильтров
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/FilterSets/index.tsx`
 - `src/DodoExtensions/FilterSets/FiltersHeader.tsx`
 - `src/DodoExtensions/FilterSets/utils/index.ts`
@@ -369,6 +392,7 @@ export type OnboardingStepOneSuccessPayload = {
 - `src/DodoExtensions/FilterSets/types.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211759
 const locale = bootstrapData?.common?.locale || 'en';
@@ -406,6 +430,7 @@ export const getFilterValueForDisplay = (
 **Описание**: Общие компоненты, используемые в различных частях приложения.
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/Common/TitleWrapper.ts`
 - `src/DodoExtensions/Common/TitleLabel.ts`
 - `src/DodoExtensions/Common/StyledFlag.ts`
@@ -414,6 +439,7 @@ export const getFilterValueForDisplay = (
 - `src/DodoExtensions/Common/LanguageIndicatorWrapper.ts`
 
 **Пример кода**:
+
 ```typescript
 import { TitleWrapper } from 'src/DodoExtensions/Common/TitleWrapper';
 import { TitleLabel } from 'src/DodoExtensions/Common/TitleLabel';
@@ -439,12 +465,15 @@ export {
 **Описание**: Утилиты для работы с дашбордами.
 
 **DODO-модификации**:
+
 - **44728892**: Добавлена функция для получения описания метрики с учетом локализации
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/dashboard/utils/getMetricDescription.ts`
 
 **Пример кода**:
+
 ```typescript
 export const getMetricDescription = (
   formData: QueryFormData & { metric: QueryFormMetric | undefined },
@@ -473,7 +502,7 @@ export const getMetricDescription = (
     source?.description_en ||
     source?.description;
   // ...
-}
+};
 ```
 
 ### Утилиты для аннотаций
@@ -481,12 +510,15 @@ export const getMetricDescription = (
 **Описание**: Утилиты для работы с аннотациями и оповещениями.
 
 **DODO-модификации**:
+
 - **44611022**: Созданы функции для работы с аннотациями и оповещениями
 
 **Ключевые файлы**:
+
 - `src/DodoExtensions/utils/annotationUtils.ts`
 
 **Пример кода**:
+
 ```typescript
 const ALERT_PREFIX = '[ALERT]';
 
@@ -533,12 +565,15 @@ const handleAnnotationLayersRequest = async () => {
 **Описание**: Утилиты для работы с визуализациями.
 
 **DODO-модификации**:
+
 - **44728892**: Добавлена функция для расширения описаний источников данных
 
 **Ключевые файлы**:
+
 - `plugins/plugin-chart-echarts/src/DodoExtensions/utils/extendDatasourceDescriptions.ts`
 
 **Пример кода**:
+
 ```typescript
 export const extendDatasourceDescriptions = (
   datasourceDesriptions: Record<string, string>,

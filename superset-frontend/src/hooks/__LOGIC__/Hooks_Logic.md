@@ -23,14 +23,17 @@
 **Описание**: Хуки для работы с API дашбордов.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации для API дашбордов
 - **44211751**: Добавлена поддержка наборов фильтров (FilterSets)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/hooks/apiResources/dashboards.ts`
 - `superset-frontend/src/Superstructure/hooks/apiResources/dashboards.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO changed 44120742
 export const useDashboardCharts = (
@@ -56,6 +59,7 @@ export const useDashboardDatasets = (
 ```
 
 **Импорт типов для наборов фильтров**:
+
 ```typescript
 import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types'; // DODO added 44211751
 ```
@@ -65,10 +69,12 @@ import { FilterSetFullData } from 'src/DodoExtensions/FilterSets/types'; // DODO
 **Описание**: Базовые хуки для работы с API ресурсами.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/hooks/apiResources/apiResources.ts`
 - `superset-frontend/src/Superstructure/hooks/apiResources/apiResources.ts`
 
 **Пример кода**:
+
 ```typescript
 export enum ResourceStatus {
   Loading = 'loading',
@@ -90,9 +96,11 @@ export type Resource<T> = LoadingState | CompleteState<T> | ErrorState;
 **Описание**: Хук для управления процессом onBoarding новых пользователей.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/hooks/useOnboarding.ts`
 
 **Пример кода**:
+
 ```typescript
 // hardcode to stop show onboarding popup
 const oneDayPassed = (date?: Date): boolean => false;
@@ -129,7 +137,7 @@ export const useOnboarding = () => {
   }, []);
 
   // ...
-}
+};
 ```
 
 ### useHasUserTeam
@@ -137,9 +145,11 @@ export const useOnboarding = () => {
 **Описание**: Хук для проверки наличия команды у пользователя.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/hooks/useHasUserTeam.ts`
 
 **Пример кода**:
+
 ```typescript
 export const useHasUserTeam = (id: string, isEnabled: boolean): boolean => {
   const [hasTeam, setHasTeam] = useState(true);
@@ -173,9 +183,11 @@ export const useHasUserTeam = (id: string, isEnabled: boolean): boolean => {
 **Описание**: Хук для работы с командами.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/hooks/useTeam.tsx`
 
 **Пример кода**:
+
 ```typescript
 import { useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
@@ -192,12 +204,15 @@ import { MAX_TEAM_NAME_LENGTH, SEARCH_TEAM_DELAY } from '../consts';
 **Описание**: Утилиты для работы с аннотациями и оповещениями.
 
 **DODO-модификации**:
+
 - **44611022**: Созданы функции для работы с аннотациями и оповещениями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/utils/annotationUtils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO created 44611022
 import {
@@ -223,9 +238,11 @@ const ALERT_PREFIX = '[ALERT]';
 **Описание**: Хуки для работы с датасетами.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/features/datasets/hooks/useGetDatasetRelatedCounts.ts`
 
 **Пример кода**:
+
 ```typescript
 const useGetDatasetRelatedCounts = (id: string) => {
   const [usageCount, setUsageCount] = useState(0);

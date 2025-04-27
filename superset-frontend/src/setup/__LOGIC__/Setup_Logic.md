@@ -25,9 +25,11 @@
 **Описание**: Функции для настройки форматирования чисел и дат в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupFormatters.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function setupFormatters(
   d3NumberFormat: Partial<FormatLocaleDefinition>,
@@ -72,13 +74,16 @@ export default function setupFormatters(
 **Описание**: DODO-специфичные форматы для чисел и дат.
 
 **DODO-модификации**:
+
 - **44136746**: Добавлен формат DURATION_HMMSS для форматирования длительности в формате часы:минуты:секунды
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupFormatters.ts`
 - `superset-frontend/src/DodoExtensions/utils/formatDurationHMMSS.ts`
 
 **Пример кода**:
+
 ```typescript
 import { formatDurationHMMSS } from 'src/DodoExtensions/utils/formatDurationHMMSS'; // DODO added 44136746
 
@@ -98,9 +103,11 @@ import { formatDurationHMMSS } from 'src/DodoExtensions/utils/formatDurationHMMS
 **Описание**: Функции для настройки клиента Superset.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupClient.ts`
 
 **Пример кода**:
+
 ```typescript
 function getDefaultConfiguration(): ClientConfig {
   const csrfNode = document.querySelector<HTMLInputElement>('#csrf_token');
@@ -137,10 +144,12 @@ export default function setupClient(customConfig: Partial<ClientConfig> = {}) {
 **Описание**: Интеграция с CSRF для защиты от атак.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupClient.ts`
 - `superset-frontend/src/Superstructure/setupClient.ts`
 
 **Пример кода**:
+
 ```typescript
 // Версия в Superstructure
 export default function setupClient() {
@@ -169,9 +178,11 @@ export default function setupClient() {
 **Описание**: Функции для настройки цветовых схем в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupColors.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function setupColors(
   extraCategoricalColorSchemeConfigs: ColorSchemeConfig[] = [],
@@ -219,10 +230,12 @@ export default function setupColors(
 **Описание**: Функции для настройки плагинов в приложении.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupPlugins.ts`
 - `superset-frontend/src/setup/setupPluginsExtra.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function setupPlugins() {
   new MainPreset().register();
@@ -235,6 +248,7 @@ export default function setupPlugins() {
 ```
 
 **Расширение плагинов**:
+
 ```typescript
 // For individual deployments to add custom overrides
 export default function setupPluginsExtra() {}
@@ -245,9 +259,11 @@ export default function setupPluginsExtra() {}
 **Описание**: Функции для настройки приложения в целом.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupApp.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function setupApp() {
   $(document).ready(function () {
@@ -295,17 +311,20 @@ export default function setupApp() {
 **Описание**: Функции для расширения функциональности приложения.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/setup/setupExtensions.ts`
 - `superset-frontend/src/setup/setupDashboardComponents.ts`
 - `superset-frontend/src/setup/setupErrorMessagesExtra.ts`
 
 **Пример кода**:
+
 ```typescript
 // For individual deployments to add custom overrides
 export default function setupExtensions() {}
 ```
 
 **Настройка компонентов дашборда**:
+
 ```typescript
 export default function setupDashboardComponents() {
   // Add custom dashboard components here. Example:
@@ -314,6 +333,7 @@ export default function setupDashboardComponents() {
 ```
 
 **Настройка сообщений об ошибках**:
+
 ```typescript
 // For individual deployments to add custom error messages
 export default function setupErrorMessagesExtra() {}

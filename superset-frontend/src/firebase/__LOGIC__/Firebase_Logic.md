@@ -27,9 +27,11 @@
 **Описание**: Константы и конфигурация для подключения к Firebase.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 export interface IFirebaseConfig {
   apiKey: string;
@@ -73,6 +75,7 @@ const DEV_CONFIG: IFirebaseConfig = {
 ```
 
 **Выбор конфигурации в зависимости от домена**:
+
 ```typescript
 const CONFIG_MAP: Record<string, IFirebaseConfig> = {
   'analytics.dodois': STANDALONE_PROD_CONFIG,
@@ -111,9 +114,11 @@ export const firebaseConfig = getConfig();
 **Описание**: Функция для инициализации Firebase.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/setupFirebase.ts`
 
 **Пример кода**:
+
 ```typescript
 import { FirebaseService } from '.';
 import { firebaseConfig } from './constants';
@@ -126,6 +131,7 @@ export default setupFirebase;
 ```
 
 **Интеграция с приложением**:
+
 ```typescript
 import setupFirebase from './firebase/setupFirebase'; // DODO added 47015293
 
@@ -140,9 +146,11 @@ setupFirebase();
 **Описание**: Функции для логирования событий в Firebase Analytics.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/index.ts`
 
 **Пример кода**:
+
 ```typescript
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import type { Analytics } from 'firebase/analytics';
@@ -151,9 +159,9 @@ import type { Analytics } from 'firebase/analytics';
 
 export const FirebaseService: IFirebaseService = (() => {
   let analytics: Analytics;
-  
+
   // ...
-  
+
   return {
     // ...
     logEvent: (eventName: string, params: object) => {
@@ -165,6 +173,7 @@ export const FirebaseService: IFirebaseService = (() => {
 ```
 
 **Использование в компонентах**:
+
 ```typescript
 // Пример логирования изменения режима просмотра
 const handleModeChange = (
@@ -187,9 +196,11 @@ const handleModeChange = (
 **Описание**: Сбор общих данных о пользователе и устройстве.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/index.ts`
 
 **Пример кода**:
+
 ```typescript
 interface IGenericData {
   app_version: string;
@@ -202,7 +213,7 @@ interface IGenericData {
 
 export const FirebaseService: IFirebaseService = (() => {
   // ...
-  
+
   const uaParser = new UAParser();
   const device = uaParser.getDevice();
   const os = uaParser.getOS();
@@ -215,9 +226,9 @@ export const FirebaseService: IFirebaseService = (() => {
     timestamp: Timestamp.now(), // Add a Firestore timestamp
     userAgent: navigator.userAgent, // Add user agent for context
   };
-  
+
   // ...
-  
+
   return {
     // ...
     updateGenericData: (data: Partial<IGenericData> = {}) => {
@@ -238,12 +249,15 @@ export const FirebaseService: IFirebaseService = (() => {
 **Описание**: Конфигурация для интеграции с сервисом Rollbar для отслеживания ошибок.
 
 **DODO-модификации**:
+
 - **47015293**: Добавлена интеграция с Rollbar
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/rollbar.ts`
 
 **Пример кода**:
+
 ```typescript
 import type { Configuration } from 'rollbar';
 import { APP_VERSION } from 'src/constants';
@@ -296,10 +310,12 @@ export const ROLLBAR_CONFIG: Configuration = {
 **Описание**: Интеграция Rollbar в приложение.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/views/App.tsx`
 - `superset-frontend/src/Superstructure/components/App.jsx`
 
 **Пример кода**:
+
 ```typescript
 import { ROLLBAR_CONFIG } from 'src/firebase/rollbar'; // DODO added 47015293
 
@@ -330,17 +346,19 @@ const App = () => (
 **Описание**: Функции для логирования ошибок в Firestore.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/firebase/index.ts`
 
 **Пример кода**:
+
 ```typescript
 export const FirebaseService: IFirebaseService = (() => {
   // ...
-  
+
   let firestore: Firestore; // Firestore instance
-  
+
   // ...
-  
+
   return {
     // ...
     logError: (errorDetails: object) => {
@@ -367,11 +385,13 @@ export const FirebaseService: IFirebaseService = (() => {
 **Описание**: Интеграция логирования ошибок с компонентами приложения.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/components/ErrorBoundary/index.tsx`
 - `superset-frontend/src/components/MessageToasts/Toast.tsx`
 - `superset-frontend/src/preamble.ts`
 
 **Пример кода в ErrorBoundary**:
+
 ```typescript
 import { FirebaseService } from 'src/firebase'; // DODO added 47015293
 
@@ -403,6 +423,7 @@ componentDidCatch(error: Error, info: ErrorInfo): void {
 ```
 
 **Пример кода в Toast**:
+
 ```typescript
 if (toast.toastType === ToastType.Warning) {
   icon = <Icons.WarningSolid css={StyledIcon} />;
@@ -418,6 +439,7 @@ if (toast.toastType === ToastType.Warning) {
 ```
 
 **Пример кода в preamble.ts**:
+
 ```typescript
 document.addEventListener('visibilitychange', () => {
   // we only care about the tab becoming visible, not vice versa

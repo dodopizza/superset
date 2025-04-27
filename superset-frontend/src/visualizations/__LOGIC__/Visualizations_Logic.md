@@ -27,11 +27,13 @@
 **Описание**: Компонент для отображения временных рядов в виде таблицы со спарклайнами.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/visualizations/TimeTable/index.ts`
 - `superset-frontend/src/visualizations/TimeTable/transformProps.ts`
 - `superset-frontend/src/visualizations/TimeTable/FormattedNumber.tsx`
 
 **Пример кода**:
+
 ```typescript
 const metadata = new ChartMetadata({
   category: t('Table'),
@@ -59,9 +61,11 @@ const metadata = new ChartMetadata({
 **Описание**: Компонент для форматирования чисел в визуализациях.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/visualizations/TimeTable/FormattedNumber.tsx`
 
 **Пример кода**:
+
 ```typescript
 function FormattedNumber({ num = 0, format }: FormattedNumberProps) {
   if (format) {
@@ -79,15 +83,18 @@ function FormattedNumber({ num = 0, format }: FormattedNumberProps) {
 **Описание**: Расширение для компонента BigNumber с поддержкой условного форматирования.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлена возможность условного форматирования для значения и процентного изменения
 - Добавлена возможность отображения условных сообщений
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberViz.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo.tsx`
 
 **Пример кода**:
+
 ```typescript
 const bigNumberVizGetColorDodo = (
   props: BigNumberVizProps,
@@ -110,7 +117,7 @@ const bigNumberVizGetColorDodo = (
     numberColor = 'black';
   }
   // ...
-}
+};
 ```
 
 ### BarDodo
@@ -118,14 +125,17 @@ const bigNumberVizGetColorDodo = (
 **Описание**: Модифицированная версия столбчатой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с расширенными возможностями форматирования и отображения
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/index.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/transformProps.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default class EchartsBarChartPluginDodo extends ChartPlugin<
   EchartsBarFormData,
@@ -157,16 +167,19 @@ export default class EchartsBarChartPluginDodo extends ChartPlugin<
 **Описание**: Модифицированная версия пузырьковой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - Добавлена возможность настройки отображения меток
 - Добавлена возможность настройки размера и цвета пузырьков
 - Добавлена возможность настройки логарифмической шкалы для осей
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/BubbleDodo.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/index.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function BubbleDodo({
   height,
@@ -203,13 +216,16 @@ export default function BubbleDodo({
 ### Форматирование чисел
 
 **DODO-модификации**:
+
 - **44211769**: Добавлены специфичные для русской локали форматы чисел и валют
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/number-format/D3FormatConfig.ts`
 - `superset-frontend/packages/superset-ui-chart-controls/src/utils/D3Formatting.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211769
 interface ExtendedFormatLocaleDefinition extends FormatLocaleDefinition {
@@ -236,14 +252,17 @@ export const SUPPORTED_CURRENCIES_LOCALES_ARRAY = [
 ### Форматирование дат
 
 **DODO-модификации**:
+
 - **45525377**: Добавлен новый формат для умных дат с точкой (DD.MM.YYYY)
 - **44136746**: Добавлен формат для длительности в формате H:MM:SS
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/time-format/formatters/smartDate.ts`
 - `superset-frontend/packages/superset-ui-chart-controls/src/utils/D3Formatting.ts`
 
 **Пример кода**:
+
 ```typescript
 export const D3_FORMAT_OPTIONS: [string, string][] = [
   [NumberFormats.SMART_NUMBER, t('Adaptive formatting')],
@@ -261,14 +280,17 @@ export const D3_FORMAT_OPTIONS: [string, string][] = [
 **Описание**: Добавлена поддержка локализации для компонентов визуализации.
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена настройка локали по умолчанию (русский язык)
 - **44211759**: Добавлена поддержка локализации для различных компонентов
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/utilities.js`
 - `superset-frontend/src/setup/setupFormatters.ts`
 
 **Пример кода**:
+
 ```javascript
 const locales = {
   en: {
@@ -298,13 +320,16 @@ const locales = {
 **Описание**: Компоненты для условного форматирования в визуализациях.
 
 **DODO-модификации**:
+
 - **45525377**: Созданы компоненты для условного форматирования
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverDodo.tsx`
 
 **Пример кода**:
+
 ```typescript
 const FormattingPopoverDodo = (props: FormattingPopoverProps) => {
   const render = useCallback(

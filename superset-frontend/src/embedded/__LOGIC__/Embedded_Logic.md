@@ -23,9 +23,11 @@
 **Описание**: Основное приложение для встраивания дашбордов.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/embedded/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 const EmbeddedRoute = () => (
   <Suspense fallback={<Loading />}>
@@ -48,6 +50,7 @@ const EmbeddedApp = () => (
 ```
 
 **Инициализация клиента**:
+
 ```typescript
 function setupGuestClient(guestToken: string) {
   setupClient({
@@ -63,9 +66,11 @@ function setupGuestClient(guestToken: string) {
 **Описание**: API для взаимодействия с встроенными дашбордами.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/embedded/api.tsx`
 
 **Пример кода**:
+
 ```typescript
 type EmbeddedSupersetApi = {
   getScrollSize: () => Size;
@@ -115,9 +120,11 @@ export const embeddedApi: EmbeddedSupersetApi = {
 **Описание**: Модальное окно для настройки встраивания дашборда.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/EmbeddedModal/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 const DashboardEmbedModal = (props: Props) => {
   const { show, onHide } = props;
@@ -138,9 +145,11 @@ const DashboardEmbedModal = (props: Props) => {
 **Описание**: Компоненты для управления настройками встраивания дашборда.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/EmbeddedModal/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 export const DashboardEmbedControls = ({ dashboardId, onHide }: Props) => {
   const { addInfoToast, addDangerToast } = useToasts();
@@ -189,9 +198,11 @@ export const DashboardEmbedControls = ({ dashboardId, onHide }: Props) => {
 **Описание**: Механизмы коммуникации между встроенным дашбордом и родительским приложением.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/embedded/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 const MESSAGE_TYPE = '__embedded_comms__';
 
@@ -251,9 +262,11 @@ window.addEventListener('message', event => {
 **Описание**: Интеграция встраивания дашбордов с DODO IS.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/Superstructure/messages.ts`
 
 **Пример кода**:
+
 ```typescript
 const RULES_RU = {
   title: 'Добро пожаловать в Superset dashboard plugin',
@@ -299,6 +312,7 @@ const RULES_DRINKIT_RU = {
 ```
 
 **Интеграция с аутентификацией DODO**:
+
 ```puml
 @startuml
 ' Libs

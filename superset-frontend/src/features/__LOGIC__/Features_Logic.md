@@ -25,12 +25,15 @@
 **Описание**: Компонент для выбора языка интерфейса.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка русского языка и модифицирован URL для смены языка
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/features/home/LanguagePicker.tsx`
 
 **Пример кода**:
+
 ```typescript
 // DODO added 44120742
 const hardcodedRuEnUrl = Object.fromEntries(
@@ -51,14 +54,17 @@ const hardcodedRuEnUrl = Object.fromEntries(
 **Описание**: Файлы с переводами для различных языков.
 
 **DODO-модификации**:
+
 - Добавлены переводы для русского языка
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/Superstructure/translations/ru.ts`
 - `superset-frontend/src/Superstructure/translations/en.ts`
 - `superset-frontend/src/Superstructure/translations.ts`
 
 **Пример кода**:
+
 ```typescript
 /* eslint-disable no-template-curly-in-string */
 import { ru } from './translations/ru';
@@ -77,12 +83,15 @@ export { SupersetPluginTranslations };
 ### Форматирование чисел
 
 **DODO-модификации**:
+
 - **44211769**: Добавлены специфичные для русской локали форматы чисел и валют
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/number-format/D3FormatConfig.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211769
 interface ExtendedFormatLocaleDefinition extends FormatLocaleDefinition {
@@ -119,13 +128,16 @@ const UNICODE = {
 ### Форматирование дат
 
 **DODO-модификации**:
+
 - **45525377**: Добавлен новый формат для умных дат с точкой (DD.MM.YYYY)
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/time-format/formatters/smartDate.ts`
 - `superset-frontend/packages/superset-ui-core/src/time-format/index.ts`
 
 **Пример кода**:
+
 ```typescript
 export const SMART_DATE_ID = 'smart_date';
 export const SMART_DATE_DOT_DDMMYYYY_ID = 'smart_date_dot_ddmmyyyy'; // DODO added 45525377
@@ -138,14 +150,17 @@ export const SMART_DATE_DOT_DDMMYYYY_ID = 'smart_date_dot_ddmmyyyy'; // DODO add
 **Описание**: Модифицированная версия столбчатой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с расширенными возможностями форматирования и отображения
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/index.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/transformProps.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default class EchartsBarChartPluginDodo extends ChartPlugin<
   EchartsBarFormData,
@@ -177,16 +192,19 @@ export default class EchartsBarChartPluginDodo extends ChartPlugin<
 **Описание**: Модифицированная версия пузырьковой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - Добавлена возможность настройки отображения меток
 - Добавлена возможность настройки размера и цвета пузырьков
 - Добавлена возможность настройки логарифмической шкалы для осей
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/BubbleDodo.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/index.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/types.ts`
 
 **Пример кода**:
+
 ```typescript
 export default function BubbleDodo({
   height,
@@ -223,12 +241,15 @@ export default function BubbleDodo({
 ### Настройка локали по умолчанию
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена настройка локали по умолчанию (русский язык)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/preamble.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44611022
 const root = document.getElementById('app');
@@ -251,9 +272,11 @@ bootstrapData = {
 **Описание**: Компонент для редактирования заголовков метрик с поддержкой локализации.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/AdhocMetricEditPopoverTitle.tsx`
 
 **Пример кода**:
+
 ```typescript
 const SYSTEM_LANGUAGES = {
   ru: 'ru',

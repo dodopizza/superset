@@ -23,9 +23,11 @@
 **Описание**: Редьюсер для управления состоянием масок данных.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dataMask/reducer.ts`
 
 **Пример кода**:
+
 ```typescript
 export function getInitialDataMask(
   id?: string | number,
@@ -86,9 +88,11 @@ function fillNativeFilters(
 **Описание**: Действия для управления состоянием масок данных.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dataMask/actions.ts`
 
 **Пример кода**:
+
 ```typescript
 export const CLEAR_DATA_MASK_STATE = 'CLEAR_DATA_MASK_STATE';
 export interface ClearDataMaskState {
@@ -129,13 +133,16 @@ export function clearDataMaskState(): ClearDataMaskState {
 **Описание**: Интеграция с наборами фильтров (FilterSets) для сохранения и восстановления состояния фильтров.
 
 **DODO-модификации**:
+
 - **44211751**: Добавлены типы и интерфейсы для работы с наборами фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/query/types/Dashboard.ts`
 - `superset-frontend/src/DodoExtensions/FilterSets/types.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211751
 type FilterSetDodoExtended = {
@@ -156,6 +163,7 @@ export type FilterSets = {
 ```
 
 **Интеграция с компонентами FilterSets**:
+
 ```typescript
 export type FilterSetFullData = {
   changed_by_fk: string | null;
@@ -178,12 +186,15 @@ export type FilterSetFullData = {
 **Описание**: Поддержка локализации для масок данных и фильтров.
 
 **DODO-модификации**:
+
 - **44211759**: Добавлены поля для поддержки локализации фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/query/types/Dashboard.ts`
 
 **Пример кода**:
+
 ```typescript
 type FilterDodoExtended = {
   nameRu?: string; // DODO added 44211759
@@ -198,9 +209,11 @@ type FilterDodoExtended = {
 **Описание**: Мокированные данные для тестирования масок данных.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/fixtures/mockNativeFilters.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO was here
 import {
@@ -225,12 +238,15 @@ export const mockDataMaskInfo: DataMaskStateWithId = {
 **Описание**: Интеграция с аннотациями для отображения оповещений.
 
 **DODO-модификации**:
+
 - **44611022**: Созданы функции для работы с аннотациями и оповещениями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/utils/annotationUtils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO was here
 // DODO created 44611022

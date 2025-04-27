@@ -25,12 +25,15 @@
 **Описание**: Функция для преобразования строки даты/времени в объект Moment.
 
 **DODO-модификации**:
+
 - **44211759**: Создана функция для преобразования строки даты/времени в объект Moment
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/time-format/utils/dttmToMoment.ts`
 
 **Пример кода**:
+
 ```typescript
 export const dttmToMoment = (dttm: string): Moment => {
   if (dttm === 'now') {
@@ -48,12 +51,15 @@ export const dttmToMoment = (dttm: string): Moment => {
 **Описание**: Функция для форматирования длительности в формате H:MM:SS.
 
 **DODO-модификации**:
+
 - **44136746**: Создана функция для форматирования длительности в формате H:MM:SS
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/utils/formatDurationHMMSS.ts`
 
 **Пример кода**:
+
 ```typescript
 export const formatDurationHMMSS = (milliSeconds: number): string => {
   const totalSeconds = Math.floor(milliSeconds / 1000);
@@ -74,12 +80,15 @@ export const formatDurationHMMSS = (milliSeconds: number): string => {
 **Описание**: Функция для переопределения локали в данных загрузки.
 
 **DODO-модификации**:
+
 - **44611022**: Создана функция для переопределения локали в данных загрузки
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/utils/bootstrapHelpers.ts`
 
 **Пример кода**:
+
 ```typescript
 export const redefineLocale = (data: BootstrapData): BootstrapData => {
   let finalLanguage: Locale = 'ru';
@@ -107,12 +116,15 @@ export const redefineLocale = (data: BootstrapData): BootstrapData => {
 **Описание**: Функции для локализации имен элементов в дашбордах.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации имен элементов в дашбордах
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FilterScope/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44120742
 const locale = bootstrapData?.common?.locale || 'en';
@@ -141,9 +153,11 @@ export const getNodeTitle = (node: LayoutItem) =>
 **Описание**: Утилиты для работы с локальным хранилищем для функциональности onBoarding.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/utils/localStorageUtils.ts`
 
 **Пример кода**:
+
 ```typescript
 export const getOnboardingStorageInfo: () => OnBoardingStorageInfo = () => {
   const fromStorage = localStorage.getItem(ONBOARDING_LOCAL_STORAGE_KEY);
@@ -183,12 +197,15 @@ export const updateStorageTimeOfTheLastShow = () => {
 **Описание**: Утилиты для работы с аннотациями и оповещениями.
 
 **DODO-модификации**:
+
 - **44611022**: Созданы функции для работы с аннотациями и оповещениями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/utils/annotationUtils.ts`
 
 **Пример кода**:
+
 ```typescript
 const ALERT_PREFIX = '[ALERT]';
 
@@ -237,9 +254,11 @@ const handleAnnotationLayersRequest = async () => {
 **Описание**: Функция для исправления проблемы с CSS-свойством min-height в элементе div.all.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/Superstructure/Root/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 const dirtyHackDodoIs = () => {
   // In dodois the div.all has css property min-height, that forces the footer to be overlapped
@@ -256,12 +275,15 @@ const dirtyHackDodoIs = () => {
 **Описание**: Функция для обработки CSRF-токена.
 
 **DODO-модификации**:
+
 - **44611022**: Создана функция для обработки CSRF-токена
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/api/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 const handleCsrfToken = (csrfToken: string) => {
   const csrfOnThePage = document.getElementById('csrf_token');
@@ -284,9 +306,11 @@ const handleCsrfToken = (csrfToken: string) => {
 **Описание**: Функция для получения ID дашборда по умолчанию в зависимости от бизнеса.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/Superstructure/utils/getDefaultDashboard.ts`
 
 **Пример кода**:
+
 ```typescript
 export const DODOPIZZA_DEFAULT_DASHBOARD_ID = 209;
 export const DRINKIT_DEFAULT_DASHBOARD_ID = 507;
