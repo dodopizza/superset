@@ -78,6 +78,7 @@ const propTypes = {
   hasUnsavedChanges: PropTypes.bool.isRequired,
   maxUndoHistoryExceeded: PropTypes.bool.isRequired,
   lastModifiedTime: PropTypes.number.isRequired,
+  datasources: PropTypes.object, // Добавлено для поддержки переводов метрик и колонок
 
   // redux
   onRefresh: PropTypes.func.isRequired,
@@ -658,6 +659,7 @@ class Header extends PureComponent {
                           dashboardInfo?.metadata?.color_scheme ||
                           this.props.colorScheme
                         }
+                        datasources={this.props.datasources}
                       />
                     </>
                   )}

@@ -10,13 +10,15 @@
 3. [Компоненты управления](#компоненты-управления)
    - [ConditionalFormattingControlDodo](#conditionalformattingcontroldodo)
    - [ColorPickerControlDodo](#colorpickercontroldodo)
-4. [Система onBoarding](#система-onboarding)
+4. [Компоненты дашборда](#компоненты-дашборда)
+   - [MetricColorConfiguration](#metriccolorconfiguration)
+5. [Система onBoarding](#система-onboarding)
    - [Компоненты onBoarding](#компоненты-onboarding)
    - [Хуки onBoarding](#хуки-onboarding)
    - [Модель данных onBoarding](#модель-данных-onboarding)
-5. [Наборы фильтров (FilterSets)](#наборы-фильтров-filtersets)
-6. [Общие компоненты](#общие-компоненты)
-7. [Утилиты](#утилиты)
+6. [Наборы фильтров (FilterSets)](#наборы-фильтров-filtersets)
+7. [Общие компоненты](#общие-компоненты)
+8. [Утилиты](#утилиты)
 
 ## Введение
 
@@ -254,6 +256,72 @@ export default class ColorPickerControlDodo extends Component {
   }
   // ...
 }
+```
+
+## Компоненты дашборда
+
+### MetricColorConfiguration
+
+**Описание**: Компонент для настройки цветов метрик и колонок на дашборде с поддержкой локализации.
+
+**DODO-модификации**:
+
+- **45320801**: Создан компонент для настройки цветов метрик на дашборде
+- **49876543**: Добавлена поддержка локализации для метрик и колонок из наборов данных
+
+**Ключевые файлы**:
+
+- `src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx`
+- `src/DodoExtensions/dashboard/components/MetricColorConfiguration/styles.ts`
+
+**Функциональность**:
+
+- Отображение списка всех метрик и колонок, используемых на дашборде
+- Возможность назначения пользовательских цветов для метрик и колонок
+- Поддержка локализации названий метрик и колонок в зависимости от выбранного языка интерфейса
+- Поиск по названиям метрик и колонок (с учетом локализации)
+- Пагинация для удобного просмотра большого количества метрик
+- Возможность удаления назначенных цветов
+
+**Особенности локализации**:
+
+- Компонент учитывает текущий язык интерфейса (`bootstrapData?.common?.locale || 'en'`)
+- Для русского языка используются переводы из `verbose_name_ru`
+- Для английского и других языков используются отображаемые имена из `verbose_name`
+- Учитывается различие между именами метрик (`metric_name`) и их отображаемыми именами (`verbose_name`)
+- Создаются двусторонние связи между именами и отображаемыми именами для корректного отображения
+
+**Пример кода**:
+
+```typescript
+// Создаем словарь переводов для метрик и колонок
+const translationsMap = useMemo(() => {
+  const translations: Record<string, string> = {};
+
+  // Собираем переводы из всех наборов данных
+  Object.values(datasources).forEach(datasource => {
+    // Для русского языка используем verbose_name_ru
+    if (locale === 'ru' && metric.metric_name && metric.verbose_name_ru) {
+      translations[metric.metric_name] = metric.verbose_name_ru;
+    }
+    // Для английского и других языков используем verbose_name
+    else if (metric.metric_name && metric.verbose_name && metric.metric_name !== metric.verbose_name) {
+      translations[metric.metric_name] = metric.verbose_name;
+    }
+
+    // Если метрика отображается по имени, но у нее есть verbose_name
+    if (metric.verbose_name && metric.metric_name !== metric.verbose_name) {
+      translations[metric.verbose_name] = locale === 'ru' && metric.verbose_name_ru
+        ? metric.verbose_name_ru
+        : metric.metric_name;
+    }
+  });
+
+  return translations;
+}, [datasources]);
+
+// Отображение метрики с учетом перевода
+<p title={label}>{translationsMap[label] || label}</p>
 ```
 
 ## Система onBoarding

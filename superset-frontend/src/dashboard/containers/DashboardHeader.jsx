@@ -49,6 +49,7 @@ function mapStateToProps({
   charts,
   dataMask,
   user,
+  datasources,
 }) {
   return {
     dashboardInfo,
@@ -72,6 +73,7 @@ function mapStateToProps({
     charts,
     dataMask,
     user,
+    datasources, // Добавлено для поддержки переводов метрик и колонок
     isStarred: !!dashboardState.isStarred,
     isPublished: !!dashboardState.isPublished,
     isLoading: isDashboardLoading(charts),
