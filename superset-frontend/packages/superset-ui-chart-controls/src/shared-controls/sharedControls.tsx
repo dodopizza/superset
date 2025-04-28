@@ -227,8 +227,8 @@ const order_desc: SharedControlConfig<'CheckboxControl'> = {
   ),
   visibility: ({ controls }) =>
     Boolean(
-      controls?.timeseries_limit_metric.value &&
-        !isEmpty(controls?.timeseries_limit_metric.value),
+      controls?.series_limit_metric?.value &&
+        !isEmpty(controls?.series_limit_metric?.value),
     ),
 };
 

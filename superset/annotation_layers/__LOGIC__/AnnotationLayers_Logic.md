@@ -61,7 +61,7 @@
 
 **Описание**: В DODO реализована система оповещений, которая использует аннотации с префиксом `[ALERT]` для отображения важных уведомлений на дашбордах.
 
-**Реализация**: 
+**Реализация**:
 - Утилиты для работы с аннотациями находятся в файле `superset-frontend/src/DodoExtensions/utils/annotationUtils.ts`
 - Система фильтрует аннотации по префиксу `[ALERT]` и отображает их как оповещения
 
@@ -81,7 +81,7 @@ const handleAnnotationLayersRequest = async () => {
     // Дальнейшая обработка слоев аннотаций с префиксом [ALERT]
     // ...
   }
-  
+
   return null;
 };
 ```
@@ -127,7 +127,7 @@ class Annotation(Model, AuditMixinNullable):
     start_dttm = Column(DateTime)
     end_dttm = Column(DateTime)
     json_metadata = Column(Text)
-    
+
     layer = relationship("AnnotationLayer", foreign_keys=[layer_id])
 ```
 

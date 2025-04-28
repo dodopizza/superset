@@ -236,10 +236,10 @@ import { extractDatasourceDescriptions } from '@superset-ui/chart-controls';
 
 const transformProps = (chartProps) => {
   const { queriesData } = chartProps;
-  
+
   // Извлечение описаний источников данных
   const datasourceDescriptions = extractDatasourceDescriptions(chartProps, queriesData);
-  
+
   // Использование описаний для отображения тултипов
   const tooltips = queriesData[0].colnames.map(colname => {
     const description = datasourceDescriptions[colname];
@@ -250,7 +250,7 @@ const transformProps = (chartProps) => {
       description_en: description?.description_en,
     };
   });
-  
+
   return {
     ...chartProps,
     tooltips,

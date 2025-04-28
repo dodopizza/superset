@@ -24,12 +24,15 @@
 **Описание**: Страница со списком дашбордов.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации заголовков дашбордов (поле `dashboard_title_ru`)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/pages/DashboardList/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 interface DashboardDodoExtended {
   dashboard_title_ru: string; // DODO added 44120742
@@ -56,11 +59,13 @@ export interface Dashboard extends DashboardDodoExtended {
 **Описание**: Страница со списком запросов на доступ.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/requestList.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/types.ts`
 
 **Пример кода**:
+
 ```typescript
 const RequestListPage: FC<RequestListProps> = ({
   addDangerToast,
@@ -99,11 +104,13 @@ const RequestListPage: FC<RequestListProps> = ({
 **Описание**: Страница с детальной информацией о запросе на доступ.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/Request/Request.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/Request/useRequest.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx`
 
 **Пример кода**:
+
 ```typescript
 type Props = {
   data?: {
@@ -127,10 +134,12 @@ type Props = {
 **Описание**: Страница со списком команд.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/teamList.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/useTeamList.tsx`
 
 **Пример кода**:
+
 ```typescript
 export const useTeamList = () => {
   const dispatch = useDispatch();
@@ -157,10 +166,12 @@ export const useTeamList = () => {
 **Описание**: Страница с детальной информацией о команде.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/pages/Team/useTeamPage.tsx`
 
 **Пример кода**:
+
 ```typescript
 type TeamPageSuccessPayload = {
   id: number;
@@ -187,14 +198,17 @@ type TeamPageSuccessPayload = {
 **Описание**: Добавлена поддержка локализации для страниц.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации заголовков дашбордов
 - **44611022**: Добавлена настройка локали по умолчанию (русский язык)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/containers/DashboardPage.tsx`
 - `superset-frontend/src/preamble.ts`
 
 **Пример кода**:
+
 ```typescript
 const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44120742
 const isStandalone = process.env.type === undefined; // DODO added 44611022
@@ -209,10 +223,12 @@ export const DashboardPageIdContext = createContext('');
 **Описание**: Система онбординга для новых пользователей.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/onBoardingEntryPoint.tsx`
 - `superset-frontend/src/DodoExtensions/onBoarding/index.ts`
 
 **Пример кода**:
+
 ```typescript
 const OnBoardingEntryPoint: FC = () => {
   const { step, toStepTwo, closeOnboarding, setStep2Passed, setStep3Passed } =
@@ -241,10 +257,12 @@ const OnBoardingEntryPoint: FC = () => {
 **Описание**: Модель данных для системы онбординга.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/onBoarding/model/slices/teamPage.slice.ts`
 - `superset-frontend/src/DodoExtensions/onBoarding/model/types/teamPage.types.ts`
 
 **Пример кода**:
+
 ```typescript
 const initialState: OnBoardingTeamPageState = {
   pending: false,

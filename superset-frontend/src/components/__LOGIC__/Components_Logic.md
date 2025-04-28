@@ -30,17 +30,20 @@
 **Описание**: Компонент для визуализации двух различных серий данных с использованием одной оси X. Позволяет отображать разные типы графиков (например, столбцы и линии) на одном графике.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлена возможность показывать/скрывать значения на графике
 - **44211769**: Добавлена возможность настраивать форматирование метрик
 - **44136746**: Добавлена возможность экспортировать данные как временные ряды
 - **44728892**: Добавлены тултипы с описанием для элементов легенды
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/transformProps.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx`
 
 **Пример кода** (добавление тултипов с описанием):
+
 ```typescript
 // DODO added 44728892
 const datasourceDescriptions = extractDatasourceDescriptions(
@@ -61,16 +64,19 @@ const extendedDatasourceDescriptions = extendDatasourceDescriptions(
 **Описание**: Компонент для создания сводных таблиц с возможностью группировки, агрегации и форматирования данных.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлена возможность закрепления колонок (pinned columns)
 - **44211769**: Добавлена возможность настраивать форматирование метрик
 - **44728892**: Добавлены тултипы с описанием для заголовков и данных
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-pivot-table/src/PivotTableChart.tsx`
 - `superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx`
 - `superset-frontend/plugins/plugin-chart-pivot-table/src/DodoExtensions/utils/getPinnedColumnIndexes.ts`
 
 **Пример кода** (закрепление колонок):
+
 ```jsx
 TableRenderer.propTypes = {
   ...PivotData.propTypes,
@@ -90,16 +96,19 @@ TableRenderer.defaultProps = {
 **Описание**: Компонент для визуализации метрик в трех измерениях (ось X, ось Y и размер пузырька). Пузырьки из одной группы могут быть выделены цветом.
 
 **DODO-модификации**:
+
 - Добавлена возможность настройки отображения меток
 - Добавлена возможность настройки размера и цвета пузырьков
 - Добавлена возможность настройки логарифмической шкалы для осей
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/BubbleDodo.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/transformProps.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/types.ts`
 
 **Пример кода** (настройка меток):
+
 ```typescript
 label: {
   show: showLabels,
@@ -118,16 +127,19 @@ label: {
 **Описание**: Компонент для отображения одного большого числа с возможностью показа тренда.
 
 **DODO-модификации**:
+
 - **45525377**: Добавлена возможность условного форматирования для значения и процентного изменения
 - Добавлена возможность выбора значения для отображения (самое старое, среднее, последнее)
 - Добавлена возможность выравнивания (по левому краю, по центру, по правому краю)
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberViz.tsx`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/BigNumberWithTrendline/transformPropsDodo.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BigNumber/types.ts`
 
 **Пример кода** (условное форматирование):
+
 ```typescript
 const bigNumberVizGetColorDodo = (
   props: BigNumberVizProps,
@@ -150,7 +162,7 @@ const bigNumberVizGetColorDodo = (
     numberColor = 'black';
   }
   // ...
-}
+};
 ```
 
 ### BarDodo (Столбчатая диаграмма)
@@ -158,9 +170,11 @@ const bigNumberVizGetColorDodo = (
 **Описание**: Модифицированная версия столбчатой диаграммы с дополнительными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с расширенными возможностями форматирования и отображения
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/index.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/transformProps.ts`
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/BarDodo/controlPanel.tsx`
@@ -172,12 +186,15 @@ const bigNumberVizGetColorDodo = (
 **Описание**: Функция для извлечения описаний метрик из источника данных. Используется для добавления тултипов с описанием для элементов легенды и заголовков таблиц.
 
 **DODO-модификации**:
+
 - **44728892**: Создана функция для извлечения описаний с учетом локализации
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-chart-controls/src/DodoExtensions/utils/extractDatasourceDescriptions.ts`
 
 **Пример кода**:
+
 ```typescript
 export const extractDatasourceDescriptions = (
   queryFormMetrics: QueryFormMetric[], // Chart Metrics
@@ -210,12 +227,15 @@ export const extractDatasourceDescriptions = (
 **Описание**: Функция для расширения описаний на серии данных, которые включают группировку.
 
 **DODO-модификации**:
+
 - **44728892**: Создана функция для расширения описаний
 
 **Ключевые файлы**:
+
 - `superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/utils/extendDatasourceDescriptions.ts`
 
 **Пример кода**:
+
 ```typescript
 export const extendDatasourceDescriptions = (
   datasourceDesriptions: Record<string, string>,
@@ -252,12 +272,15 @@ export const extendDatasourceDescriptions = (
 **Описание**: Модифицированная версия компонента выбора цвета с улучшенным интерфейсом.
 
 **DODO-модификации**:
+
 - **45525377**: Изменены стили относительно оригинального компонента, убрана фиксированная ширина и высота
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ColorPickerControlDodo.jsx`
 
 **Пример кода**:
+
 ```jsx
 export default class ColorPickerControlDodo extends Component {
   constructor(props) {
@@ -279,9 +302,11 @@ export default class ColorPickerControlDodo extends Component {
 **Описание**: Компонент для настройки условного форматирования с расширенными возможностями.
 
 **DODO-модификации**:
+
 - Добавлена возможность настройки условного форматирования с сообщениями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
 
 ### InfoIcon
@@ -289,12 +314,15 @@ export default class ColorPickerControlDodo extends Component {
 **Описание**: Компонент для отображения иконки информации.
 
 **DODO-модификации**:
+
 - Создан компонент для использования в тултипах с описанием
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/components/InfoIcon/index.tsx`
 
 **Пример кода**:
+
 ```tsx
 export const InfoIcon = ({ color }: { color?: string }) => (
   <div>
@@ -318,12 +346,15 @@ export const InfoIcon = ({ color }: { color?: string }) => (
 **Описание**: Компонент для отображения иконки закрепления.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент для использования в функционале закрепления колонок
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-chart-controls/src/DodoExtensions/components/PinIcon.tsx`
 
 **Пример кода**:
+
 ```tsx
 export const PinIcon = ({
   isPinned,
@@ -371,6 +402,7 @@ const dirtyHackDodoIs = () => {
 ### Фильтры и наборы фильтров
 
 В директории `superset-frontend/src/DodoExtensions/FilterSets/` добавлены компоненты для работы с наборами фильтров, включая:
+
 - `FiltersHeader.tsx` - компонент для отображения заголовка фильтров
 - `Footer.tsx` - компонент для отображения футера с кнопками действий
 - Утилиты для работы с фильтрами
@@ -378,5 +410,6 @@ const dirtyHackDodoIs = () => {
 ### Onboarding
 
 В директории `superset-frontend/src/DodoExtensions/onBoarding/` добавлены компоненты для онбординга новых пользователей, включая:
+
 - Компоненты для выбора ролей
 - Компоненты для пошагового обучения работе с системой

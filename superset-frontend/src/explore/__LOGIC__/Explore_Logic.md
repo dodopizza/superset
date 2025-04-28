@@ -26,14 +26,17 @@
 **Описание**: Модифицированная версия компонента условного форматирования с расширенными возможностями.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент с улучшенным интерфейсом и дополнительными возможностями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverDodo.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx`
 
 **Пример кода**:
+
 ```typescript
 const renderExistLine: RenderExistLine = ({
   index,
@@ -71,9 +74,11 @@ const renderExistLine: RenderExistLine = ({
 **Описание**: Версия компонента условного форматирования без градиентной заливки.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент для условного форматирования без градиентной заливки
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/ConditionalFormattingControlNoGradient.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx`
 
@@ -82,13 +87,16 @@ const renderExistLine: RenderExistLine = ({
 **Описание**: Компонент условного форматирования с возможностью добавления сообщений.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент для условного форматирования с сообщениями
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/ConditionalFormattingMessageControl.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx`
 
 **Пример кода**:
+
 ```typescript
 const createLabel = ({
   column,
@@ -119,15 +127,18 @@ const createLabel = ({
 **Описание**: Базовый компонент-обертка для всех компонентов условного форматирования.
 
 **DODO-модификации**:
+
 - **45525377**: Создан компонент-обертка для переиспользования логики условного форматирования
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/ConditionalFormattingControlDodoWrapper.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverWrapper.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/types.ts`
 
 **Пример кода**:
+
 ```typescript
 const ConditionalFormattingControlDodoWrapper = ({
   value,
@@ -158,12 +169,15 @@ const ConditionalFormattingControlDodoWrapper = ({
 **Описание**: Модифицированная версия компонента выбора цвета с улучшенным интерфейсом.
 
 **DODO-модификации**:
+
 - **45525377**: Изменены стили относительно оригинального компонента, убрана фиксированная ширина и высота
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ColorPickerControlDodo.jsx`
 
 **Пример кода**:
+
 ```jsx
 export default class ColorPickerControlDodo extends Component {
   constructor(props) {
@@ -199,13 +213,16 @@ export default class ColorPickerControlDodo extends Component {
 ### Константы форматирования
 
 **DODO-модификации**:
+
 - **44211759**: Добавлены константы для форматирования дат в формате DD-MM-YYYY HH:mm:ss
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/explore/constants.ts`
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/time-format/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 export const MOMENT_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 export const MOMENT_FORMAT_UI_DODO = 'DD-MM-YYYY HH:mm:ss';
@@ -214,14 +231,17 @@ export const MOMENT_FORMAT_UI_DODO = 'DD-MM-YYYY HH:mm:ss';
 ### Утилиты для работы с датами
 
 **DODO-модификации**:
+
 - **44211759**: Добавлены утилиты для работы с датами
 - **44136746**: Добавлена функция форматирования длительности в формате H:MM:SS
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/DodoExtensions/time-format/utils/dttmToMoment.ts`
 - `superset-frontend/src/DodoExtensions/utils/formatDurationHMMSS.ts`
 
 **Пример кода**:
+
 ```typescript
 export const dttmToMoment = (dttm: string): Moment => {
   if (dttm === 'now') {
@@ -248,14 +268,17 @@ export const formatDurationHMMSS = (milliSeconds: number): string => {
 ### Компоненты выбора дат
 
 **DODO-модификации**:
+
 - **44211759**: Модифицирован компонент выбора дат для поддержки формата DD-MM-YYYY HH:mm:ss
 - **44611022**: Добавлена локализация для опций выбора дат
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/explore/components/controls/DateFilterControl/components/CustomFrame.tsx`
 - `superset-frontend/src/explore/components/controls/DateFilterControl/types.ts`
 
 **Пример кода**:
+
 ```typescript
 <DatePicker
   // showTime
@@ -279,12 +302,15 @@ export const formatDurationHMMSS = (milliSeconds: number): string => {
 ### Интеграция компонентов в основной код
 
 **DODO-модификации**:
+
 - **45525377**: Добавлены импорты DODO-специфичных компонентов в основной код
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/explore/components/controls/index.js`
 
 **Пример кода**:
+
 ```javascript
 import ConditionalFormattingControlDodo from 'src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo'; // DODO added 45525377
 import ConditionalFormattingControlNoGradient from 'src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient'; // DODO added 45525377
@@ -294,12 +320,15 @@ import ConditionalFormattingMessageControl from 'src/DodoExtensions/explore/comp
 ### Форматирование для умных дат
 
 **DODO-модификации**:
+
 - **45525377**: Добавлен новый формат для умных дат с точкой (DD.MM.YYYY)
 
 **Ключевые файлы**:
+
 - `superset-frontend/packages/superset-ui-core/src/time-format/formatters/smartDate.ts`
 
 **Пример кода**:
+
 ```typescript
 export const SMART_DATE_ID = 'smart_date';
 export const SMART_DATE_DOT_DDMMYYYY_ID = 'smart_date_dot_ddmmyyyy'; // DODO added 45525377

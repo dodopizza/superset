@@ -24,13 +24,16 @@
 **Описание**: Компонент фильтра выбора с поддержкой локализации (русский и английский языки).
 
 **DODO-модификации**:
+
 - **44211759**: Создан компонент для поддержки локализации фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/filters/components/Select/index-with-translation.ts`
 - `superset-frontend/src/filters/components/Select/SelectFilterPluginWithTranslations.tsx`
 
 **Пример кода**:
+
 ```typescript
 export default class FilterSelectWithTranslationPlugin extends ChartPlugin {
   constructor() {
@@ -59,12 +62,15 @@ export default class FilterSelectWithTranslationPlugin extends ChartPlugin {
 **Описание**: Компонент фильтра выбора с поддержкой идентификаторов.
 
 **DODO-модификации**:
+
 - **44211759**: Создан компонент для поддержки фильтрации по идентификаторам
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/filters/components/Select/index-by-id.ts`
 
 **Пример кода**:
+
 ```typescript
 for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
   const section = panel.controlPanelSections.at(i);
@@ -87,13 +93,16 @@ for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
 **Описание**: Компонент фильтра выбора с поддержкой идентификаторов и локализации.
 
 **DODO-модификации**:
+
 - **44211759**: Создан компонент для поддержки фильтрации по идентификаторам с локализацией
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts`
 - `superset-frontend/src/filters/components/Select/SelectFilterPluginWithTranslations.tsx`
 
 **Пример кода**:
+
 ```typescript
 for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
   const section = panel.controlPanelSections.at(i);
@@ -130,12 +139,15 @@ for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
 **Описание**: Функция для проверки, поддерживает ли фильтр локализацию.
 
 **DODO-модификации**:
+
 - **44211759**: Создана функция для проверки поддержки локализации
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/filters/utils.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added 44211759
 export const hasFilterTranslations = (filterType: string): boolean =>
@@ -150,12 +162,15 @@ export const hasFilterTranslations = (filterType: string): boolean =>
 **Описание**: Модификация компонента выбора для поддержки настраиваемой ширины.
 
 **DODO-модификации**:
+
 - **44211759**: Добавлен параметр width для настройки ширины компонента
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/components/ListView/Filters/Select.tsx`
 
 **Пример кода**:
+
 ```typescript
 interface SelectFilterPropsDodoExtended {
   width?: number; // DODO added 44211759
@@ -174,12 +189,15 @@ interface SelectFilterProps extends BaseFilter, SelectFilterPropsDodoExtended {
 ### Константы для типов фильтров
 
 **DODO-модификации**:
+
 - **44211759**: Добавлены константы для новых типов фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 export enum FilterPlugins {
   Select = 'filter_select',
@@ -196,12 +214,15 @@ export enum FilterPlugins {
 ### Экспорт компонентов фильтров
 
 **DODO-модификации**:
+
 - **44211759**: Добавлен экспорт новых компонентов фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/filters/components/index.ts`
 
 **Пример кода**:
+
 ```typescript
 export { default as SelectFilterPlugin } from './Select';
 export { default as RangeFilterPlugin } from './Range';
@@ -216,12 +237,15 @@ export { default as SelectByIdWithTranslationFilterPlugin } from './Select/index
 ### Локализация заголовков фильтров
 
 **DODO-модификации**:
+
 - **44211759**: Добавлена поддержка локализации заголовков фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/FilterSets/FiltersHeader.tsx`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211759
 const locale = bootstrapData?.common?.locale || 'en';
@@ -234,12 +258,15 @@ const localisedNameField = `name${locale === 'en' ? '' : 'Ru'}` as
 ### Standalone режим для фильтров
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена поддержка standalone режима для фильтров
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/components/nativeFilters/FilterBar/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 const isStandalone = process.env.type === undefined; // DODO added 44611022
 ```

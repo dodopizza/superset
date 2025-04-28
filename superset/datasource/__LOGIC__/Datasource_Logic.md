@@ -356,7 +356,7 @@ const extendedDescriptions = extendDatasourceDescriptions(
 const tooltips = series.map(option => {
   const { id } = option;
   if (typeof id !== 'string') return null;
-  
+
   return {
     id,
     description: extendedDescriptions[id],

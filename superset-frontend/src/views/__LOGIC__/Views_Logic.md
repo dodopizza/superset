@@ -24,13 +24,16 @@
 **Описание**: Расширенные типы и интерфейсы для CRUD компонентов.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлены поля для поддержки локализации заголовков дашбордов
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/views/CRUD/types.ts`
 - `superset-frontend/src/types/Dashboard.ts`
 
 **Пример кода**:
+
 ```typescript
 interface DashboardDodoExtended {
   dashboard_title_ru: string; // DODO added 44120742
@@ -59,12 +62,15 @@ export interface Dashboard extends DashboardDodoExtended {
 **Описание**: Утилиты для работы с CRUD компонентами.
 
 **DODO-модификации**:
+
 - **44211759**: Добавлен интерфейс `IExtra` для дополнительных полей
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/views/CRUD/utils.tsx`
 
 **Пример кода**:
+
 ```typescript
 // DODO added 44211759
 interface IExtra {
@@ -80,13 +86,16 @@ interface IExtra {
 **Описание**: Компонент заголовка дашборда.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации заголовков дашбордов
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/containers/DashboardHeader.jsx`
 - `superset-frontend/src/dashboard/components/Header/types.ts`
 
 **Пример кода**:
+
 ```typescript
 interface HeaderDropdownPropsDodoExtended {
   dashboardTitleRU: string; // DODO added 44120742
@@ -98,12 +107,15 @@ interface HeaderDropdownPropsDodoExtended {
 **Описание**: Компонент для отображения элементов дашборда.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлен импорт bootstrapData для поддержки локализации
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/dashboard/containers/DashboardComponent.jsx`
 
 **Пример кода**:
+
 ```javascript
 import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 ```
@@ -113,14 +125,17 @@ import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 **Описание**: Добавлена поддержка локализации для компонентов в директории views.
 
 **DODO-модификации**:
+
 - **44120742**: Добавлена поддержка локализации заголовков дашбордов
 - **44611022**: Добавлена настройка локали по умолчанию (русский язык)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/components/CronPicker/CronPicker.tsx` - локализация компонента выбора расписания
 - `superset-frontend/src/preamble.ts` - настройка локали по умолчанию
 
 **Пример кода**:
+
 ```typescript
 export const LOCALE: Locale = {
   everyText: t('every'),
@@ -147,7 +162,7 @@ export const LOCALE: Locale = {
   prefixHours: t('at'),
   prefixMinutes: t(':'),
   prefixMinutesForHourPeriod: t('at'),
-}
+};
 ```
 
 ## Интеграция с onBoarding
@@ -155,12 +170,15 @@ export const LOCALE: Locale = {
 **Описание**: Интеграция с системой onBoarding для новых пользователей.
 
 **DODO-модификации**:
+
 - **44211792**: Добавлены слайсы для системы onBoarding в хранилище Redux
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/views/store.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44211792
 import {
@@ -183,13 +201,16 @@ import { onboardingTeamAddUserSlice } from '../DodoExtensions/onBoarding/model/s
 **Описание**: Компоненты для условного форматирования в визуализациях.
 
 **DODO-модификации**:
+
 - **45525377**: Созданы компоненты для условного форматирования
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx`
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverDodo.tsx`
 
 **Пример кода**:
+
 ```typescript
 const renderExistLine: RenderExistLine = ({
   index,
@@ -227,12 +248,15 @@ const renderExistLine: RenderExistLine = ({
 **Описание**: Модифицированная версия компонента выбора цвета с улучшенным интерфейсом.
 
 **DODO-модификации**:
+
 - **45525377**: Изменены стили относительно оригинального компонента, убрана фиксированная ширина и высота
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/DodoExtensions/explore/components/controls/ColorPickerControlDodo.jsx`
 
 **Пример кода**:
+
 ```jsx
 export default class ColorPickerControlDodo extends Component {
   constructor(props) {

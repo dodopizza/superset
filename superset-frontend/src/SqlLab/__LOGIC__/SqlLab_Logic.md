@@ -21,9 +21,11 @@
 **Описание**: Добавлены локализованные строки для состояний запросов.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 export const STATE_TYPE_MAP: Record<string, Type> = {
   offline: 'danger',
@@ -51,9 +53,11 @@ export const STATE_TYPE_MAP_LOCALIZED = {
 **Описание**: Добавлены локализованные строки для статусов запросов.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 export const STATUS_OPTIONS = {
   success: 'success',
@@ -77,10 +81,12 @@ export const STATUS_OPTIONS_LOCALIZED = {
 **Описание**: Функциональность для форматирования SQL-запросов.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/actions/sqlLab.js`
 - `superset/sqllab/api.py`
 
 **Пример кода**:
+
 ```javascript
 export function formatQuery(queryEditor) {
   return function (dispatch, getState) {
@@ -102,14 +108,17 @@ export function formatQuery(queryEditor) {
 **Описание**: Механизмы для хранения состояния SQL Lab в локальном хранилище браузера.
 
 **DODO-модификации**:
+
 - Оптимизация хранения состояния для уменьшения использования локального хранилища
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/utils/reduxStateToLocalStorageHelper.ts`
 - `superset-frontend/src/SqlLab/middlewares/persistSqlLabStateEnhancer.js`
 - `superset-frontend/src/SqlLab/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 const PERSISTENT_QUERY_EDITOR_KEYS = new Set([
   'version',
@@ -132,6 +141,7 @@ const PERSISTENT_QUERY_EDITOR_KEYS = new Set([
 ```
 
 **Константы для хранения**:
+
 ```typescript
 // kilobyte storage
 export const KB_STORAGE = 1024;
@@ -152,10 +162,12 @@ export const LOCALSTORAGE_WARNING_MESSAGE_THROTTLE_MS = 8000; // danger type toa
 **Описание**: Механизм автодополнения в редакторе SQL с поддержкой схем, таблиц и колонок.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/components/AceEditorWrapper/useKeywords.ts`
 - `superset-frontend/src/SqlLab/constants.ts`
 
 **Пример кода**:
+
 ```typescript
 // autocomplete score weights
 export const SQL_KEYWORD_AUTOCOMPLETE_SCORE = 100;
@@ -170,9 +182,11 @@ export const COLUMN_AUTOCOMPLETE_SCORE = 50;
 **Описание**: Механизм для мониторинга использования локального хранилища и предупреждения пользователя при приближении к лимиту.
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/SqlLab/components/App/index.tsx`
 
 **Пример кода**:
+
 ```typescript
 componentDidUpdate() {
   const { localStorageUsageInKilobytes, actions, queries } = this.props;
@@ -205,12 +219,15 @@ componentDidUpdate() {
 **Описание**: Добавлена поддержка локализации в различных компонентах SQL Lab.
 
 **DODO-модификации**:
+
 - **44611022**: Добавлена настройка локали по умолчанию (русский язык)
 
 **Ключевые файлы**:
+
 - `superset-frontend/src/preamble.ts`
 
 **Пример кода**:
+
 ```typescript
 // DODO added start 44611022
 const root = document.getElementById('app');
