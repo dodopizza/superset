@@ -7,6 +7,7 @@ import { t, withTheme } from '@superset-ui/core';
 import Button from 'src/components/Button';
 import { TextAreaEditor } from 'src/components/AsyncAceEditor';
 import ModalTrigger from 'src/components/ModalTrigger';
+import MonacoSQLEditor from 'src/components/MonacoSQLEditor';
 
 import ControlHeader from 'src/explore/components/ControlHeader';
 
@@ -100,6 +101,22 @@ class TextAreaControl extends Component {
 
   renderEditor(inModal = false) {
     const minLines = inModal ? 40 : this.props.minLines || 12;
+
+    // Используем Monaco Editor для SQL
+    if (this.props.language === 'sql') {
+      return (
+        <MonacoSQLEditor
+          {...this.props}
+          initialValue={this.props.initialValue}
+          height={this.state.height}
+          minLines={minLines}
+          maxLines={inModal ? 1000 : this.props.maxLines}
+          onChange={this.onAreaEditorChange.bind(this)}
+        />
+      );
+    }
+
+    // Для других языков продолжаем использовать Ace Editor
     if (this.props.language) {
       const style = {
         border: `1px solid ${this.props.theme.colors.grayscale.light1}`,
@@ -151,6 +168,24 @@ class TextAreaControl extends Component {
   }
 
   renderModalBody() {
+    // Для SQL используем встроенный модальный редактор из MonacoSQLEditor
+    if (this.props.language === 'sql') {
+      return (
+        <>
+          <div>{this.props.aboveEditorSection}</div>
+          <MonacoSQLEditor
+            {...this.props}
+            initialValue={this.props.initialValue}
+            height="70vh"
+            minLines={40}
+            maxLines={1000}
+            onChange={this.onAreaEditorChange.bind(this)}
+          />
+        </>
+      );
+    }
+
+    // Для других языков используем стандартный подход
     return (
       <>
         <div>{this.props.aboveEditorSection}</div>
@@ -161,6 +196,19 @@ class TextAreaControl extends Component {
 
   render() {
     const controlHeader = <ControlHeader {...this.props} />;
+
+    // Для SQL используем встроенный редактор без дополнительной кнопки модального окна,
+    // так как она уже включена в компонент MonacoSQLEditor
+    if (this.props.language === 'sql') {
+      return (
+        <div>
+          {controlHeader}
+          {this.renderEditor()}
+        </div>
+      );
+    }
+
+    // Для других языков используем стандартный подход
     return (
       <div>
         {controlHeader}
@@ -174,7 +222,7 @@ class TextAreaControl extends Component {
                 {t('in modal')}
               </Button>
             }
-            modalBody={this.renderModalBody(true)}
+            modalBody={this.renderModalBody()}
             responsive
           />
         )}
