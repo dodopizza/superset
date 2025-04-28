@@ -232,6 +232,8 @@
       "Deck.gl - Polygon": ["Deck.gl - Polygon"],
       "Deck.gl - 3D HEX": ["Deck.gl - 3D HEX"],
       "Deck.gl - Heatmap": ["Deck.gl - Heatmap"],
+      "changes": ["изменение", "изменения", "изменений"],
+      "Modified": ["Изменено"],
       "Deck.gl - Contour": ["Deck.gl - Contour"],
       "Deck.gl - GeoJSON": ["Deck.gl - GeoJSON"],
       "Deck.gl - Arc": ["Deck.gl - Arc"],
@@ -885,7 +887,6 @@
       "Main Datetime Column": ["Основной столбец с временем"],
       "SQL Lab View": ["SQL Lab View"],
       "Template parameters": ["Параметры шаблона"],
-      "Modified": ["Изменено"],
       "The table was created. As part of this two-phase configuration process, you should now click the edit button by the new table to configure it.": [
         "Таблица была создана. В рамках этого двухфазного процесса настройки теперь следует нажать кнопку редактирования новой таблицы, чтобы настроить ее."
       ],
@@ -3586,8 +3587,11 @@
       "Sorry, something went wrong. We are fixing the mistake now. Try again later.": [
         "Извините, что-то пошло не так. Сейчас мы исправляем ошибку. Повторите попытку позже."
       ],
-      "Edit colors": ["Изменить цвета"],
       "Edit label colors": ["Изменить цвета мер"],
+      "Number of changes": ["Число изменений"],
+      "Deleted": ["Удалено"],
+      "Not assigned": ["Не назначено"],
+      "Edit colors": ["Изменить цвета"],
       "The dashboard has a color scheme applied: ": [
         "На дашборде применена цветовая схема: "
       ],
@@ -3598,13 +3602,12 @@
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
       ],
-      "Deleted": ["Удалено"],
-      "Not assigned": ["Не назначено"],
+      "Color": ["Цвет"],
+      "Reset": ["Сбросить"],
       "Edit formatter": ["Редактировать форматер"],
       "Add new formatter": ["Добавить форматирование"],
       "Add new color formatter": ["Добавить цветовое форматирование"],
       "Color scheme": ["Цветовая схема"],
-      "Color": ["Цвет"],
       "Apply": ["Применить"],
       "success": ["успех"],
       "alert": ["оповещение"],
@@ -4476,7 +4479,6 @@
       "Menu actions trigger": ["Действия меню триггер"],
       "Select ...": ["Выбрать ..."],
       "Filter menu": ["Меню фильтра"],
-      "Reset": ["Сбросить"],
       "No filters": ["Нет фильтров"],
       "Select all items": ["Выбрать все записи"],
       "Search in filters": ["Поиск в фильтрах"],

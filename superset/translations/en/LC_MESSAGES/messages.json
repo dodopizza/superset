@@ -2554,21 +2554,23 @@
       "Sorry, something went wrong. We are fixing the mistake now. Try again later.": [
         ""
       ],
-      "Edit colors": [""],
       "Edit label colors": [""],
+      "Number of changes": [""],
+      "Deleted": [""],
+      "Not assigned": [""],
+      "Edit colors": [""],
       "The dashboard has a color scheme applied: ": [""],
       "You can override the colors of the metrics with your own values.": [""],
       "Search for label": [""],
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         ""
       ],
-      "Deleted": [""],
-      "Not assigned": [""],
+      "Color": [""],
+      "Reset": [""],
       "Edit formatter": [""],
       "Add new formatter": [""],
       "Add new color formatter": [""],
       "Color scheme": [""],
-      "Color": [""],
       "Apply": [""],
       "success": [""],
       "alert": [""],
@@ -3230,7 +3232,6 @@
       "Menu actions trigger": [""],
       "Select ...": [""],
       "Filter menu": [""],
-      "Reset": [""],
       "No filters": [""],
       "Select all items": [""],
       "Search in filters": [""],
@@ -4996,7 +4997,8 @@
       "center": [""],
       "oldest": [""],
       "average": [""],
-      "latest": [""]
+      "latest": [""],
+      "changes": ["change", "changes", "changes"]
     }
   }
 }
