@@ -18,6 +18,7 @@ import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
 import Loading from 'src/components/Loading';
 import { useDebounceValue } from 'src/hooks/useDebounceValue';
 import { bootstrapData } from 'src/preamble';
+import { DatasourcesState } from 'src/dashboard/types';
 import {
   ActionsWrapper,
   BoldText,
@@ -40,8 +41,7 @@ interface IProps {
   charts: { [key: number]: ChartState };
   labelColors: PlainObject;
   colorScheme: string | undefined;
-  // Добавляем информацию о наборах данных для получения переводов
-  datasources?: Record<string, any>;
+  datasources?: DatasourcesState;
 }
 
 const MetricColorConfiguration = ({
@@ -124,7 +124,8 @@ const MetricColorConfiguration = ({
               response.data.forEach(entry => {
                 metricNames.forEach(metric => {
                   const metricValue = Array.isArray(entry[metric])
-                    ? entry[metric].join(', ')
+                    ? // @ts-ignore
+                      entry[metric].join(', ')
                     : entry[metric];
                   if (
                     metricValue &&
@@ -149,29 +150,31 @@ const MetricColorConfiguration = ({
     [dashboardMetrics],
   );
 
-  // Создаем словарь переводов для метрик и колонок
+  // Memoized translations map
   const translationsMap = useMemo(() => {
     const translations: Record<string, string> = {};
 
-    // Собираем переводы из всех наборов данных
     Object.values(datasources).forEach(datasource => {
-      // Добавляем переводы для метрик
       if (Array.isArray(datasource?.metrics)) {
         datasource.metrics.forEach((metric: any) => {
-          // Для русского языка используем verbose_name_ru
           if (locale === 'ru' && metric.metric_name && metric.verbose_name_ru) {
             translations[metric.metric_name] = metric.verbose_name_ru;
-          }
-          // Для английского и других языков используем verbose_name
-          else if (metric.metric_name && metric.verbose_name && metric.metric_name !== metric.verbose_name) {
+          } else if (
+            metric.metric_name &&
+            metric.verbose_name &&
+            metric.metric_name !== metric.verbose_name
+          ) {
             translations[metric.metric_name] = metric.verbose_name;
           }
 
-          // Если метрика отображается по имени, но у нее есть verbose_name
-          if (metric.verbose_name && metric.metric_name !== metric.verbose_name) {
-            translations[metric.verbose_name] = locale === 'ru' && metric.verbose_name_ru
-              ? metric.verbose_name_ru
-              : metric.metric_name;
+          if (
+            metric.verbose_name &&
+            metric.metric_name !== metric.verbose_name
+          ) {
+            translations[metric.verbose_name] =
+              locale === 'ru' && metric.verbose_name_ru
+                ? metric.verbose_name_ru
+                : metric.metric_name;
           }
         });
       }
@@ -184,27 +187,35 @@ const MetricColorConfiguration = ({
             translations[column.column_name] = column.verbose_name_ru;
           }
           // Для английского и других языков используем verbose_name
-          else if (column.column_name && column.verbose_name && column.column_name !== column.verbose_name) {
+          else if (
+            column.column_name &&
+            column.verbose_name &&
+            column.column_name !== column.verbose_name
+          ) {
             translations[column.column_name] = column.verbose_name;
           }
 
           // Если колонка отображается по имени, но у нее есть verbose_name
-          if (column.verbose_name && column.column_name !== column.verbose_name) {
-            translations[column.verbose_name] = locale === 'ru' && column.verbose_name_ru
-              ? column.verbose_name_ru
-              : column.column_name;
+          if (
+            column.verbose_name &&
+            column.column_name !== column.verbose_name
+          ) {
+            translations[column.verbose_name] =
+              locale === 'ru' && column.verbose_name_ru
+                ? column.verbose_name_ru
+                : column.column_name;
           }
         });
       }
 
       // Добавляем переводы из verbose_map, если он есть
-      if (datasource?.verbose_map) {
-        Object.entries(datasource.verbose_map).forEach(([key, value]) => {
-          if (key && value && !translations[key]) {
-            translations[key] = String(value);
-          }
-        });
-      }
+      // if (datasource?.verbose_map) {
+      //   Object.entries(datasource.verbose_map).forEach(([key, value]) => {
+      //     if (key && value && !translations[key]) {
+      //       translations[key] = String(value);
+      //     }
+      //   });
+      // }
     });
 
     return translations;
@@ -230,7 +241,8 @@ const MetricColorConfiguration = ({
         // Ищем как в оригинальном названии, так и в переводе
         return (
           metric.toLowerCase().includes(searchLower) ||
-          translationsMap[metric]?.toLowerCase().includes(searchLower) || false
+          translationsMap[metric]?.toLowerCase().includes(searchLower) ||
+          false
         );
       }),
     [uniqueMetrics, debouncedSearch, translationsMap],
@@ -282,18 +294,16 @@ const MetricColorConfiguration = ({
       }
     };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const finalLabelColors = { ...mergedLabelColors };
     // remove deleted labels from finalLabelColors
     Object.keys(deletedLabels).forEach(label => delete finalLabelColors[label]);
 
     setIsLoading(true);
-    dispatch(saveLabelColorsSettings(finalLabelColors));
-    // Устанавливаем таймаут для завершения операции
-    setTimeout(() => {
-      setIsLoading(false);
-      setShow(false);
-    }, 500);
+    await dispatch(saveLabelColorsSettings(finalLabelColors));
+    setIsLoading(false);
+
+    setShow(false);
   };
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -398,7 +408,9 @@ const MetricColorConfiguration = ({
                       placement="top"
                     />
                   )}
-                  <p title={label}>{translationsMap[label] || label}</p>
+                  <p title={translationsMap[label] || label}>
+                    {translationsMap[label] || label}
+                  </p>
                 </LabelWrapper>
 
                 <FlexWrapper>
