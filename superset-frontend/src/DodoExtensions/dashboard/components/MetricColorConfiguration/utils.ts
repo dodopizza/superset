@@ -67,7 +67,8 @@ export const getDashboardMetrics = (charts: {
         response.data.forEach(entry => {
           metricNames.forEach(metric => {
             const metricValue = Array.isArray(entry[metric])
-              ? entry[metric].join(', ')
+              ? // @ts-ignore
+                entry[metric].join(', ')
               : entry[metric];
             if (
               metricValue &&
