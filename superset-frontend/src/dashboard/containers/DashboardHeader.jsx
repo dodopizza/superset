@@ -49,7 +49,7 @@ function mapStateToProps({
   charts,
   dataMask,
   user,
-  datasources,
+  datasources, // DODO added 45320801
 }) {
   return {
     dashboardInfo,
@@ -73,7 +73,7 @@ function mapStateToProps({
     charts,
     dataMask,
     user,
-    datasources, // Добавлено для поддержки переводов метрик и колонок
+    datasources, // DODO added 45320801
     isStarred: !!dashboardState.isStarred,
     isPublished: !!dashboardState.isPublished,
     isLoading: isDashboardLoading(charts),

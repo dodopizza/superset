@@ -66,10 +66,12 @@
 Карточка метрики имеет следующую структуру:
 
 1. **Заголовок**:
+
    - Название метрики
    - Индикатор "Изменено" (если цвет метрики был изменен)
 
 2. **Содержимое**:
+
    - Текущий цвет (цветовой индикатор и HEX-код)
    - Список графиков, в которых используется метрика
 
@@ -80,15 +82,18 @@
 ## Состояния метрик
 
 ### 1. Метрика с назначенным цветом (не изменена)
+
 - Отображается цветовой индикатор и HEX-код
 - В футере только кнопка "Удалить настройку"
 
 ### 2. Метрика с измененным цветом
+
 - Отображается цветовой индикатор и HEX-код
 - В заголовке присутствует индикатор "Изменено"
 - В футере кнопки "Отменить изменение" и "Удалить настройку"
 
 ### 3. Метрика без назначенного цвета
+
 - Вместо цветового индикатора отображается серый квадрат с вопросительным знаком
 - Вместо HEX-кода отображается текст "Не назначен"
 - В футере только кнопка "Удалить настройку"
@@ -96,35 +101,58 @@
 ## Взаимодействие с пользователем
 
 ### Изменение цвета
+
 1. Пользователь кликает на цветовой индикатор
 2. Появляется цветовой пикер
 3. Пользователь выбирает новый цвет
 4. Метрика получает индикатор "Изменено"
 5. Появляется кнопка "Отменить изменение"
+6. Счетчик изменений в заголовке модального окна увеличивается
 
 ### Отмена изменения
+
 1. Пользователь нажимает кнопку "Отменить изменение"
 2. Цвет метрики возвращается к исходному значению
 3. Индикатор "Изменено" исчезает
 4. Кнопка "Отменить изменение" исчезает
+5. Счетчик изменений в заголовке модального окна уменьшается
 
 ### Удаление настройки
+
 1. Пользователь нажимает кнопку "Удалить настройку"
 2. Настройка цвета для метрики удаляется
 3. Метрика переходит в состояние "без назначенного цвета"
+4. Счетчик изменений в заголовке модального окна увеличивается
+
+### Закрытие модального окна
+
+1. При нажатии на кнопку "Отмена" все изменения сбрасываются
+2. При нажатии на кнопку "Сохранить" изменения сохраняются и сбрасываются
+3. При закрытии модального окна через крестик или клик вне окна все изменения сбрасываются
 
 ### Поиск метрик
+
 1. Пользователь вводит текст в поле поиска
 2. Отображаются только метрики, названия которых содержат введенный текст
 
 ### Пагинация
+
 1. Метрики разбиты на страницы (по 8-12 метрик на странице)
 2. Пользователь может переключаться между страницами с помощью кнопок пагинации
 3. Пагинация всегда отображается внизу области с метриками
 
-## Компоненты React
+## Структура компонента
 
-### 1. MetricColorConfiguration
+### 1. Файлы компонента
+
+- **index.tsx** - Основной компонент с логикой и состоянием
+- **styles.tsx** - Стили компонента с использованием styled-components
+- **utils.ts** - Утилитарные функции для работы с данными
+- **README.md** - Документация по компоненту
+- \***\*LOGIC**/MetricColorConfiguration_Logic.md\*\* - Подробная техническая документация
+
+### 2. MetricColorConfiguration
+
 Основной компонент, который содержит всю логику и состояние.
 
 ```jsx
@@ -133,32 +161,67 @@ const MetricColorConfiguration = ({
   onChange,
   onClose,
   dashboardInfo,
-  charts
+  charts,
+  datasources,
 }) => {
   // Состояние
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [newLabelColors, setNewLabelColors] = useState({});
   const [deletedLabels, setDeletedLabels] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Мемоизированные значения
+  const dashboardMetrics = useMemo(() => getDashboardMetrics(charts), [charts]);
+  const translationsMap = useMemo(
+    () => getTranslationsMap(datasources),
+    [datasources],
+  );
+
+  // Подсчет уникальных изменений
+  const changesCount = new Set([
+    ...Object.keys(newLabelColors),
+    ...Object.keys(deletedLabels),
+  ]).size;
+
+  // Функции для работы с изменениями
+  const resetChanges = () => {
+    setNewLabelColors({});
+    setDeletedLabels({});
+    setSearch('');
+    setCurrentPage(1);
+  };
+
+  const handleCancel = () => {
+    resetChanges();
+    setShow(false);
+  };
 
   // Логика
   // ...
 
   return (
-    <Modal>
-      <Header />
+    <Modal
+      show={show}
+      title={modalTitle}
+      footer={footer}
+      onHide={() => {
+        resetChanges();
+        setShow(false);
+      }}
+    >
       <SearchBar />
       <MetricsContainer>
         <MetricCards />
         <Pagination />
       </MetricsContainer>
-      <Footer />
     </Modal>
   );
 };
 ```
 
 ### 2. MetricCard
+
 Компонент для отображения карточки метрики.
 
 ```jsx
@@ -168,7 +231,7 @@ const MetricCard = ({
   onColorChange,
   onResetColor,
   onDeleteColor,
-  charts
+  charts,
 }) => {
   // Логика
   // ...
@@ -210,9 +273,7 @@ const MetricCard = ({
               Отменить изменение
             </ActionButton>
           )}
-          <ActionButton onClick={onDeleteColor}>
-            Удалить настройку
-          </ActionButton>
+          <ActionButton onClick={onDeleteColor}>Удалить настройку</ActionButton>
         </FooterActions>
       </CardFooter>
     </Card>
@@ -221,14 +282,11 @@ const MetricCard = ({
 ```
 
 ### 3. Pagination
+
 Компонент для отображения пагинации.
 
 ```jsx
-const Pagination = ({
-  currentPage,
-  totalPages,
-  onPageChange
-}) => {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   // Логика
   // ...
 
@@ -325,23 +383,71 @@ const PaginationContainer = styled.div`
 `;
 ```
 
+## Утилитарные функции
+
+Компонент использует утилитарные функции из файла `utils.ts`:
+
+### 1. getDashboardMetrics
+
+Функция для получения всех метрик из дашборда.
+
+```typescript
+export const getDashboardMetrics = (charts: {
+  [key: number]: ChartState;
+}): string[] => {
+  return Object.values(charts).reduce((result: string[], chart) => {
+    if (!chart.queriesResponse) return result;
+
+    (chart.queriesResponse as ChartDataResponseResult[]).forEach(response => {
+      // Логика извлечения метрик из различных типов графиков
+      // ...
+    });
+
+    return result;
+  }, []);
+};
+```
+
+### 2. getTranslationsMap
+
+Функция для создания словаря переводов метрик и колонок.
+
+```typescript
+export const getTranslationsMap = (
+  datasources: Record<string, any> = {},
+): Record<string, string> => {
+  const translations: Record<string, string> = {};
+
+  // Collect translations from all datasources
+  Object.values(datasources).forEach(datasource => {
+    // Add translations for metrics
+    // ...
+    // Add translations for columns
+    // ...
+    // Add translations from verbose_map if it exists
+    // ...
+  });
+
+  return translations;
+};
+```
+
 ## Интеграция с существующим кодом
 
 Компонент интегрируется с существующим кодом следующим образом:
 
 1. Получает текущие настройки цветов из `dashboardInfo.metadata.label_colors`
 2. Получает информацию о графиках из `charts`
-3. При сохранении вызывает действие Redux `saveLabelColorsSettings`
-4. Использует существующий компонент `ColorPickerControlDodo` для выбора цвета
+3. Получает информацию о наборах данных из `datasources`
+4. При сохранении вызывает действие Redux `saveLabelColorsSettings`
+5. Использует существующий компонент `ColorPickerControlDodo` для выбора цвета
 
 ## Локализация
 
 Компонент поддерживает локализацию с использованием функции `t` из `@superset-ui/core`. Все текстовые строки должны быть обернуты в эту функцию:
 
 ```jsx
-<ActionButton onClick={onResetColor}>
-  {t('Отменить изменение')}
-</ActionButton>
+<ActionButton onClick={onResetColor}>{t('Отменить изменение')}</ActionButton>
 ```
 
 ## Производительность

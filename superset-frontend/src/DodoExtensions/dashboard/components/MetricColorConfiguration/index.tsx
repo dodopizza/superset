@@ -1,15 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Input } from 'antd';
-import {
-  ChartDataResponseResult,
-  isSavedMetric,
-  PlainObject,
-  t,
-} from '@superset-ui/core';
+import { PlainObject, t, tn } from '@superset-ui/core';
 import Badge from 'src/components/Badge';
 import Button from 'src/components/Button';
-import Icons from 'src/components/Icons';
 import InfoTooltip from 'src/components/InfoTooltip';
 import Modal from 'src/components/Modal';
 import { ChartState } from 'src/explore/types';
@@ -17,30 +11,31 @@ import ColorPickerControlDodo from 'src/DodoExtensions/explore/components/contro
 import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
 import Loading from 'src/components/Loading';
 import { useDebounceValue } from 'src/hooks/useDebounceValue';
-import { bootstrapData } from 'src/preamble';
+import { getDashboardMetrics, getTranslationsMap } from './utils';
 import {
   ActionsWrapper,
   BoldText,
+  CardTitle,
+  ChangeIndicator,
+  ColorLabel,
+  ColorRow,
   ColorScheme,
+  ColorValue,
   FlexWrapper,
-  LabelWrapper,
-  StyledList,
-  StyledListItem,
+  MetricCardsGrid,
+  MetricName,
+  MetricsContainer,
+  StyledCard,
   StyledPagination,
+  TooltipContainer,
 } from './styles';
 
 const ITEMS_PER_PAGE = 30;
-const locale = bootstrapData?.common?.locale || 'en';
-
-const exploreJsonVizes: Record<string, 'true'> = {
-  bubble: 'true',
-};
 
 interface IProps {
   charts: { [key: number]: ChartState };
   labelColors: PlainObject;
   colorScheme: string | undefined;
-  // Добавляем информацию о наборах данных для получения переводов
   datasources?: Record<string, any>;
 }
 
@@ -67,148 +62,18 @@ const MetricColorConfiguration = ({
   );
 
   // Memoized dashboard metrics calculation
-  const dashboardMetrics = useMemo(
-    () =>
-      Object.values(charts).reduce((result: string[], chart) => {
-        if (!chart.queriesResponse) return result;
-
-        (chart.queriesResponse as ChartDataResponseResult[]).forEach(
-          response => {
-            const vizType = chart.latestQueryFormData.viz_type;
-            if (vizType === 'table' || vizType === 'pivot_table_v2') return;
-
-            if (response.colnames && Array.isArray(response.colnames)) {
-              result.push(...response.colnames);
-            }
-
-            const metricsForDataIteration = [];
-
-            if (Array.isArray(chart.latestQueryFormData?.groupby)) {
-              metricsForDataIteration.push(
-                ...chart.latestQueryFormData?.groupby,
-              );
-            }
-
-            // bubble_v2
-            if (chart.latestQueryFormData?.series) {
-              metricsForDataIteration.push(chart.latestQueryFormData.series);
-            }
-
-            // sankey_v2
-            if (chart.latestQueryFormData?.source) {
-              metricsForDataIteration.push(chart.latestQueryFormData.source);
-            }
-
-            // graph_chart
-            if (chart.latestQueryFormData?.target) {
-              metricsForDataIteration.push(chart.latestQueryFormData.target);
-            }
-
-            // sunburst_v2
-            if (Array.isArray(chart.latestQueryFormData?.columns)) {
-              metricsForDataIteration.push(
-                ...chart.latestQueryFormData.columns,
-              );
-            }
-
-            // explore json vizes
-            if (exploreJsonVizes[vizType || '']) {
-              metricsForDataIteration.push('key');
-            }
-
-            if (metricsForDataIteration.length) {
-              const metricNames = metricsForDataIteration.map(metric =>
-                isSavedMetric(metric) ? metric : metric.label ?? '',
-              );
-
-              response.data.forEach(entry => {
-                metricNames.forEach(metric => {
-                  const metricValue = Array.isArray(entry[metric])
-                    ? entry[metric].join(', ')
-                    : entry[metric];
-                  if (
-                    metricValue &&
-                    (typeof metricValue === 'string' ||
-                      typeof metricValue === 'number')
-                  ) {
-                    result.push(String(metricValue));
-                  }
-                });
-              });
-            }
-          },
-        );
-
-        return result;
-      }, []),
-    [charts],
-  );
+  const dashboardMetrics = useMemo(() => getDashboardMetrics(charts), [charts]);
 
   const dashboardMetricsSet = useMemo(
     () => new Set(dashboardMetrics),
     [dashboardMetrics],
   );
 
-  // Создаем словарь переводов для метрик и колонок
-  const translationsMap = useMemo(() => {
-    const translations: Record<string, string> = {};
-
-    // Собираем переводы из всех наборов данных
-    Object.values(datasources).forEach(datasource => {
-      // Добавляем переводы для метрик
-      if (Array.isArray(datasource?.metrics)) {
-        datasource.metrics.forEach((metric: any) => {
-          // Для русского языка используем verbose_name_ru
-          if (locale === 'ru' && metric.metric_name && metric.verbose_name_ru) {
-            translations[metric.metric_name] = metric.verbose_name_ru;
-          }
-          // Для английского и других языков используем verbose_name
-          else if (metric.metric_name && metric.verbose_name && metric.metric_name !== metric.verbose_name) {
-            translations[metric.metric_name] = metric.verbose_name;
-          }
-
-          // Если метрика отображается по имени, но у нее есть verbose_name
-          if (metric.verbose_name && metric.metric_name !== metric.verbose_name) {
-            translations[metric.verbose_name] = locale === 'ru' && metric.verbose_name_ru
-              ? metric.verbose_name_ru
-              : metric.metric_name;
-          }
-        });
-      }
-
-      // Добавляем переводы для колонок
-      if (Array.isArray(datasource?.columns)) {
-        datasource.columns.forEach((column: any) => {
-          // Для русского языка используем verbose_name_ru
-          if (locale === 'ru' && column.column_name && column.verbose_name_ru) {
-            translations[column.column_name] = column.verbose_name_ru;
-          }
-          // Для английского и других языков используем verbose_name
-          else if (column.column_name && column.verbose_name && column.column_name !== column.verbose_name) {
-            translations[column.column_name] = column.verbose_name;
-          }
-
-          // Если колонка отображается по имени, но у нее есть verbose_name
-          if (column.verbose_name && column.column_name !== column.verbose_name) {
-            translations[column.verbose_name] = locale === 'ru' && column.verbose_name_ru
-              ? column.verbose_name_ru
-              : column.column_name;
-          }
-        });
-      }
-
-      // Добавляем переводы из verbose_map, если он есть
-      if (datasource?.verbose_map) {
-        Object.entries(datasource.verbose_map).forEach(([key, value]) => {
-          if (key && value && !translations[key]) {
-            translations[key] = String(value);
-          }
-        });
-      }
-    });
-
-    return translations;
-  }, [datasources]);
+  // Create translations map for metrics and columns
+  const translationsMap = useMemo(
+    () => getTranslationsMap(datasources),
+    [datasources],
+  );
 
   // Memoized unique metrics list
   const uniqueMetrics = useMemo(() => {
@@ -227,10 +92,11 @@ const MetricColorConfiguration = ({
     () =>
       uniqueMetrics.filter(metric => {
         const searchLower = debouncedSearch.toLowerCase();
-        // Ищем как в оригинальном названии, так и в переводе
+        // Search in both original title and translation
         return (
           metric.toLowerCase().includes(searchLower) ||
-          translationsMap[metric]?.toLowerCase().includes(searchLower) || false
+          translationsMap[metric]?.toLowerCase().includes(searchLower) ||
+          false
         );
       }),
     [uniqueMetrics, debouncedSearch, translationsMap],
@@ -250,7 +116,6 @@ const MetricColorConfiguration = ({
   };
 
   const openModal = () => {
-    resetChanges();
     setShow(true);
   };
 
@@ -282,18 +147,17 @@ const MetricColorConfiguration = ({
       }
     };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const finalLabelColors = { ...mergedLabelColors };
     // remove deleted labels from finalLabelColors
     Object.keys(deletedLabels).forEach(label => delete finalLabelColors[label]);
 
     setIsLoading(true);
-    dispatch(saveLabelColorsSettings(finalLabelColors));
-    // Устанавливаем таймаут для завершения операции
-    setTimeout(() => {
-      setIsLoading(false);
-      setShow(false);
-    }, 500);
+    await dispatch(saveLabelColorsSettings(finalLabelColors));
+    setIsLoading(false);
+
+    resetChanges();
+    setShow(false);
   };
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -301,19 +165,34 @@ const MetricColorConfiguration = ({
     setCurrentPage(1);
   };
 
-  const changesCount =
-    Object.keys(newLabelColors).length + Object.keys(deletedLabels).length;
+  // Count only unique keys between newLabelColors and deletedLabels
+  const changesCount = new Set([
+    ...Object.keys(newLabelColors),
+    ...Object.keys(deletedLabels),
+  ]).size;
 
   const modalTitle = (
     <FlexWrapper>
       <span>{t('Edit label colors')}</span>
-      <Badge count={changesCount} title={t('Number of changes')} />
+      <Badge
+        count={
+          changesCount > 0
+            ? `${changesCount} ${tn('changes', 'changes', changesCount)}`
+            : 0
+        }
+        title={t('Number of changes')}
+      />
     </FlexWrapper>
   );
 
+  const handleCancel = () => {
+    resetChanges();
+    setShow(false);
+  };
+
   const footer = (
     <>
-      <Button buttonSize="small" onClick={() => setShow(false)}>
+      <Button buttonSize="small" onClick={handleCancel}>
         {t('Cancel')}
       </Button>
       <Button
@@ -326,6 +205,30 @@ const MetricColorConfiguration = ({
       </Button>
     </>
   );
+
+  // Get metric data for display and interaction
+  const getMetricData = (label: string) => {
+    const existOnDashboard = dashboardMetricsSet.has(label);
+    const isColorChanged = Boolean(newLabelColors[label]);
+    const isDeleted = Boolean(deletedLabels[label]);
+    const isAltered = isColorChanged || isDeleted;
+    const hasCurrentColor = labelColors[label];
+    const hasActions = hasCurrentColor || isAltered;
+
+    return {
+      label,
+      existOnDashboard,
+      isColorChanged,
+      isDeleted,
+      isAltered,
+      hasCurrentColor,
+      hasActions,
+      displayName: translationsMap[label] || label,
+      colorValue: isDeleted
+        ? t('Deleted')
+        : mergedLabelColors[label] || t('Not assigned'),
+    };
+  };
 
   return (
     <>
@@ -342,8 +245,11 @@ const MetricColorConfiguration = ({
         show={show}
         title={modalTitle}
         footer={footer}
-        onHide={() => setShow(false)}
-        width="550px"
+        onHide={() => {
+          resetChanges();
+          setShow(false);
+        }}
+        width="800px"
         responsive
       >
         {colorScheme && (
@@ -376,77 +282,91 @@ const MetricColorConfiguration = ({
           />
         </FlexWrapper>
 
-        <StyledList
-          dataSource={paginatedMetrics}
-          colorScheme={colorScheme}
-          renderItem={(label: string) => {
-            const existOnDashboard = dashboardMetricsSet.has(label);
-            const isColorChanged = Boolean(newLabelColors[label]);
-            const isDeleted = Boolean(deletedLabels[label]);
-            const isAltered = isColorChanged || isDeleted;
-            const hasCurrentColor = labelColors[label];
-            const hasActions = hasCurrentColor || isAltered;
+        <MetricsContainer colorScheme={colorScheme}>
+          <MetricCardsGrid>
+            {paginatedMetrics.map(label => {
+              const item = getMetricData(label);
 
-            return (
-              <StyledListItem key={label} isAltered={isAltered}>
-                <LabelWrapper existOnDashboard={existOnDashboard}>
-                  {!existOnDashboard && (
-                    <InfoTooltip
-                      tooltip={t(
-                        'Metric is missing from the dashboard with current filters or removed from the dataset',
+              return (
+                <StyledCard
+                  key={label}
+                  isAltered={item.isAltered}
+                  title={
+                    <CardTitle hasTooltip={!item.existOnDashboard}>
+                      {!item.existOnDashboard && (
+                        <TooltipContainer>
+                          <InfoTooltip
+                            tooltip={t(
+                              'Metric is missing from the dashboard with current filters or removed from the dataset',
+                            )}
+                            placement="top"
+                          />
+                        </TooltipContainer>
                       )}
-                      placement="top"
-                    />
-                  )}
-                  <p title={label}>{translationsMap[label] || label}</p>
-                </LabelWrapper>
+                      <MetricName
+                        existOnDashboard={item.existOnDashboard}
+                        title={label}
+                      >
+                        {item.displayName}
+                      </MetricName>
+                      {item.isAltered && (
+                        <ChangeIndicator>{t('Modified')}</ChangeIndicator>
+                      )}
+                    </CardTitle>
+                  }
+                >
+                  <ColorRow>
+                    <ColorLabel>{t('Color')}:</ColorLabel>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ColorPickerControlDodo
+                        value={
+                          item.isDeleted ? undefined : mergedLabelColors[label]
+                        }
+                        onChange={handleChangeColor(label)}
+                        previewWidth="50px"
+                        disabled={item.isDeleted}
+                        isHex
+                      />
+                      <ColorValue>{item.colorValue}</ColorValue>
+                    </div>
+                  </ColorRow>
 
-                <FlexWrapper>
-                  {hasActions && (
-                    <ActionsWrapper className="actions">
-                      {isAltered && (
+                  {item.hasActions && (
+                    <ActionsWrapper>
+                      {item.isAltered && (
                         <span
                           role="button"
                           tabIndex={0}
                           onClick={handleReset(
                             label,
-                            isColorChanged,
-                            isDeleted,
+                            item.isColorChanged,
+                            item.isDeleted,
                           )}
                         >
-                          <Icons.UndoOutlined />
+                          {t('Reset')}
                         </span>
                       )}
-                      {hasCurrentColor && !isDeleted && (
+                      {item.hasCurrentColor && !item.isDeleted && (
                         <span
                           role="button"
                           tabIndex={0}
                           onClick={handleDelete(label)}
                         >
-                          <Icons.Trash />
+                          {t('Delete')}
                         </span>
                       )}
                     </ActionsWrapper>
                   )}
-
-                  <p className="color-current">
-                    {isDeleted
-                      ? t('Deleted')
-                      : mergedLabelColors[label] || t('Not assigned')}
-                  </p>
-
-                  <ColorPickerControlDodo
-                    value={isDeleted ? undefined : mergedLabelColors[label]}
-                    onChange={handleChangeColor(label)}
-                    previewWidth="50px"
-                    disabled={isDeleted}
-                    isHex
-                  />
-                </FlexWrapper>
-              </StyledListItem>
-            );
-          }}
-        />
+                </StyledCard>
+              );
+            })}
+          </MetricCardsGrid>
+        </MetricsContainer>
 
         {isLoading && <Loading />}
       </Modal>

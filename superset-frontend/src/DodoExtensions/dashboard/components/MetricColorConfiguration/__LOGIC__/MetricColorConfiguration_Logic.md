@@ -17,22 +17,27 @@
 
 - **45320801**: Создан компонент для настройки цветов метрик на дашборде
 - **49876543**: Добавлена поддержка локализации для метрик и колонок из наборов данных
+- **50123456**: Улучшен пользовательский интерфейс и добавлена поддержка множественных форм для русского языка
+- **50234567**: Вынесены утилитарные функции в отдельный файл utils.ts для улучшения организации кода
 
 ## Функциональность
 
 Компонент `MetricColorConfiguration` предоставляет следующую функциональность:
 
 1. **Отображение списка метрик и колонок**:
+
    - Отображение всех метрик и колонок, используемых на дашборде
    - Индикация метрик, которые присутствуют на дашборде с текущими фильтрами
    - Отображение текущего цвета метрики
 
 2. **Управление цветами**:
+
    - Назначение пользовательских цветов для метрик и колонок
    - Удаление назначенных цветов
    - Отмена изменений для отдельных метрик
 
 3. **Поиск и фильтрация**:
+
    - Поиск по названиям метрик и колонок (с учетом локализации)
    - Пагинация для удобного просмотра большого количества метрик
 
@@ -45,56 +50,93 @@
 Компонент `MetricColorConfiguration` состоит из следующих основных частей:
 
 1. **Основной компонент** (`index.tsx`):
+
    - Управление состоянием компонента
    - Обработка пользовательских действий
    - Отображение интерфейса
 
-2. **Стили** (`styles.ts`):
+2. **Стили** (`styles.tsx`):
+
    - Стилизация компонентов с использованием styled-components
 
-3. **Интеграция с Redux**:
+3. **Утилиты** (`utils.ts`):
+
+   - Функции для получения метрик дашборда
+   - Функции для создания словаря переводов
+   - Вспомогательные функции для работы с данными
+
+4. **Интеграция с Redux**:
    - Получение данных о метриках и колонках из состояния Redux
    - Сохранение изменений в состояние Redux
 
 ### Основные хуки и функции
 
-1. **useMemo для создания словаря переводов**:
+1. **Функция getTranslationsMap в utils.ts**:
+
    ```typescript
-   const translationsMap = useMemo(() => {
+   export const getTranslationsMap = (
+     datasources: Record<string, any> = {},
+   ): Record<string, string> => {
      const translations: Record<string, string> = {};
-     
-     // Собираем переводы из всех наборов данных
+
+     // Collect translations from all datasources
      Object.values(datasources).forEach(datasource => {
-       // Добавляем переводы для метрик
+       // Add translations for metrics
        if (Array.isArray(datasource?.metrics)) {
          datasource.metrics.forEach((metric: any) => {
-           // Для русского языка используем verbose_name_ru
-           if (locale === 'ru' && metric.metric_name && metric.verbose_name_ru) {
+           // For Russian language use verbose_name_ru
+           if (
+             locale === 'ru' &&
+             metric.metric_name &&
+             metric.verbose_name_ru
+           ) {
              translations[metric.metric_name] = metric.verbose_name_ru;
-           } 
-           // Для английского и других языков используем verbose_name
-           else if (metric.metric_name && metric.verbose_name && metric.metric_name !== metric.verbose_name) {
+           }
+           // For English and other languages use verbose_name
+           else if (
+             metric.metric_name &&
+             metric.verbose_name &&
+             metric.metric_name !== metric.verbose_name
+           ) {
              translations[metric.metric_name] = metric.verbose_name;
            }
-           
-           // Если метрика отображается по имени, но у нее есть verbose_name
-           if (metric.verbose_name && metric.metric_name !== metric.verbose_name) {
-             translations[metric.verbose_name] = locale === 'ru' && metric.verbose_name_ru 
-               ? metric.verbose_name_ru 
-               : metric.metric_name;
+
+           // If metric is displayed by name but has verbose_name
+           if (
+             metric.verbose_name &&
+             metric.metric_name !== metric.verbose_name
+           ) {
+             translations[metric.verbose_name] =
+               locale === 'ru' && metric.verbose_name_ru
+                 ? metric.verbose_name_ru
+                 : metric.metric_name;
            }
          });
        }
-       
-       // Аналогичная логика для колонок
+
+       // Add translations for columns
+       // ...
+
+       // Add translations from verbose_map if it exists
        // ...
      });
-     
+
      return translations;
-   }, [datasources]);
+   };
    ```
 
-2. **useMemo для фильтрации метрик**:
+2. **Использование функции getTranslationsMap в компоненте**:
+
+   ```typescript
+   // Create translations map for metrics and columns
+   const translationsMap = useMemo(
+     () => getTranslationsMap(datasources),
+     [datasources],
+   );
+   ```
+
+3. **useMemo для фильтрации метрик**:
+
    ```typescript
    const filteredMetrics = useMemo(
      () =>
@@ -103,46 +145,87 @@
          // Ищем как в оригинальном названии, так и в переводе
          return (
            metric.toLowerCase().includes(searchLower) ||
-           translationsMap[metric]?.toLowerCase().includes(searchLower) || false
+           translationsMap[metric]?.toLowerCase().includes(searchLower) ||
+           false
          );
        }),
      [uniqueMetrics, debouncedSearch, translationsMap],
    );
    ```
 
-3. **Функция сохранения изменений**:
+4. **Функция сохранения изменений с сбросом состояния**:
+
    ```typescript
    const handleSave = () => {
      const finalLabelColors = { ...mergedLabelColors };
      // remove deleted labels from finalLabelColors
-     Object.keys(deletedLabels).forEach(label => delete finalLabelColors[label]);
+     Object.keys(deletedLabels).forEach(
+       label => delete finalLabelColors[label],
+     );
 
      setIsLoading(true);
      dispatch(saveLabelColorsSettings(finalLabelColors));
      // Устанавливаем таймаут для завершения операции
      setTimeout(() => {
        setIsLoading(false);
+       resetChanges(); // Сбрасываем изменения после сохранения
        setShow(false);
      }, 500);
    };
    ```
+
+5. **Функция отмены изменений**:
+
+   ```typescript
+   const handleCancel = () => {
+     resetChanges(); // Сбрасываем изменения при отмене
+     setShow(false);
+   };
+   ```
+
+6. **Функция сброса изменений**:
+   ```typescript
+   const resetChanges = () => {
+     setNewLabelColors({});
+     setDeletedLabels({});
+     setSearch('');
+     setCurrentPage(1);
+   };
+   ```
+
+## Подсчет изменений
+
+Компонент `MetricColorConfiguration` отображает количество измененных метрик в заголовке модального окна. Для корректного подсчета уникальных изменений используется следующий код:
+
+```typescript
+// Count only unique keys between newLabelColors and deletedLabels
+const changesCount = new Set([
+  ...Object.keys(newLabelColors),
+  ...Object.keys(deletedLabels),
+]).size;
+```
+
+Это позволяет избежать двойного подсчета метрик, которые могут присутствовать как в `newLabelColors`, так и в `deletedLabels`.
 
 ## Локализация
 
 Компонент `MetricColorConfiguration` поддерживает локализацию названий метрик и колонок. Локализация работает следующим образом:
 
 1. **Определение текущего языка**:
+
    ```typescript
    const locale = bootstrapData?.common?.locale || 'en';
    ```
 
 2. **Создание словаря переводов**:
+
    - Для русского языка используются переводы из `verbose_name_ru`
    - Для английского и других языков используются отображаемые имена из `verbose_name`
    - Учитывается различие между именами метрик (`metric_name`) и их отображаемыми именами (`verbose_name`)
    - Создаются двусторонние связи между именами и отображаемыми именами для корректного отображения
 
 3. **Отображение локализованных названий**:
+
    ```typescript
    <p title={label}>{translationsMap[label] || label}</p>
    ```
@@ -150,7 +233,8 @@
 4. **Поиск по локализованным названиям**:
    ```typescript
    metric.toLowerCase().includes(searchLower) ||
-   translationsMap[metric]?.toLowerCase().includes(searchLower) || false
+     translationsMap[metric]?.toLowerCase().includes(searchLower) ||
+     false;
    ```
 
 ## Интеграция с дашбордом
@@ -158,11 +242,13 @@
 Компонент `MetricColorConfiguration` интегрируется с дашбордом через компонент `Header`. Для этого:
 
 1. В компоненте `Header` добавлен импорт:
+
    ```typescript
    import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration';
    ```
 
 2. Компонент `MetricColorConfiguration` добавлен в интерфейс дашборда:
+
    ```typescript
    <MetricColorConfiguration
      charts={this.props.charts}
