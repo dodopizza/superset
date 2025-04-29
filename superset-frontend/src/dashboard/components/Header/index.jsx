@@ -660,6 +660,7 @@ class Header extends PureComponent {
                           this.props.colorScheme
                         }
                         datasources={this.props.datasources}
+                        dashboardLayout={this.props.layout}
                       />
                     </>
                   )}

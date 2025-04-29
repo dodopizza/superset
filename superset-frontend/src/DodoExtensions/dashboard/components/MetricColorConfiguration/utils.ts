@@ -1,5 +1,13 @@
-import { ChartDataResponseResult, isSavedMetric } from '@superset-ui/core';
-import { DatasourcesState } from 'src/dashboard/types';
+import {
+  ChartDataResponseResult,
+  isSavedMetric,
+  SqlaFormData,
+} from '@superset-ui/core';
+import {
+  DatasourcesState,
+  DashboardLayout,
+  LayoutItem,
+} from 'src/dashboard/types';
 import { ChartState } from 'src/explore/types';
 import { bootstrapData } from 'src/preamble';
 
@@ -7,83 +15,167 @@ const locale = bootstrapData?.common?.locale || 'en';
 
 const exploreJsonVizes: Record<string, 'true'> = {
   bubble: 'true',
+  line: 'true',
 };
 
+type ChartInfo = { id: number; name: string; type: string };
+
 /**
- * Extracts all metrics from dashboard charts
+ * Processes dashboard charts to extract metrics and build a map of metrics to charts
  * @param charts Dashboard charts
- * @returns Array of metric names
+ * @param dashboardLayout Dashboard layout with chart metadata
+ * @returns Object with metrics array and metricsToChartsMap
  */
-export const getDashboardMetrics = (charts: {
-  [key: number]: ChartState;
-}): string[] =>
-  Object.values(charts).reduce((result: string[], chart) => {
-    if (!chart.queriesResponse) return result;
 
-    (chart.queriesResponse as ChartDataResponseResult[]).forEach(response => {
-      const vizType = chart.latestQueryFormData.viz_type;
-      if (vizType === 'table' || vizType === 'pivot_table_v2') return;
+export const processDashboardCharts = (
+  charts: { [key: number]: ChartState },
+  dashboardLayout: DashboardLayout,
+): {
+  dashboardMetricsSet: Set<string>;
+  metricsToChartsMap: Record<string, ChartInfo[]>;
+} => {
+  const dashboardMetricsSet = new Set<string>();
+  const metricsToChartsMap: Record<string, ChartInfo[]> = {};
 
-      if (response.colnames && Array.isArray(response.colnames)) {
-        result.push(...response.colnames);
-      }
+  const layoutMap = Object.values(dashboardLayout).reduce(
+    (acc: Record<number, LayoutItem>, item) => {
+      const chartId = item?.meta?.chartId;
+      if (!chartId) return acc;
+      return { ...acc, [chartId]: item };
+    },
+    {},
+  );
 
-      const metricsForDataIteration = [];
+  /**
+   * Adds a metric to the set and maps it to the corresponding chart.
+   */
+  const addMetric = (metric: string, chartInfo: ChartInfo) => {
+    if (!metric) return;
 
-      if (Array.isArray(chart.latestQueryFormData?.groupby)) {
-        metricsForDataIteration.push(...chart.latestQueryFormData?.groupby);
-      }
+    // Add to metrics set
+    dashboardMetricsSet.add(metric);
 
-      // bubble_v2
-      if (chart.latestQueryFormData?.series) {
-        metricsForDataIteration.push(chart.latestQueryFormData.series);
-      }
+    // Add to metrics-to-charts map without duplicates
+    if (!metricsToChartsMap[metric]) {
+      metricsToChartsMap[metric] = [chartInfo];
+    } else if (!metricsToChartsMap[metric].some(c => c.id === chartInfo.id)) {
+      metricsToChartsMap[metric].push(chartInfo);
+    }
+  };
 
-      // sankey_v2
-      if (chart.latestQueryFormData?.source) {
-        metricsForDataIteration.push(chart.latestQueryFormData.source);
-      }
+  /**
+   * Extracts metrics from the form data and adds them to the map.
+   */
+  const extractMetricsFromFormData = (
+    formData: Partial<SqlaFormData>,
+  ): string[] => {
+    const metricsForDataIteration: string[] = [];
 
-      // graph_chart
-      if (chart.latestQueryFormData?.target) {
-        metricsForDataIteration.push(chart.latestQueryFormData.target);
-      }
+    if (Array.isArray(formData.groupby)) {
+      metricsForDataIteration.push(
+        ...formData.groupby.map(metric =>
+          isSavedMetric(metric) ? metric : metric.label || '',
+        ),
+      );
+    }
 
-      // sunburst_v2
-      if (Array.isArray(chart.latestQueryFormData?.columns)) {
-        metricsForDataIteration.push(...chart.latestQueryFormData.columns);
-      }
+    if (formData.series) {
+      metricsForDataIteration.push(formData.series);
+    }
 
-      // explore json vizes
-      if (exploreJsonVizes[vizType || '']) {
-        metricsForDataIteration.push('key');
-      }
+    if (formData.source) {
+      metricsForDataIteration.push(formData.source);
+    }
 
-      if (metricsForDataIteration.length) {
-        const metricNames = metricsForDataIteration.map(metric =>
-          isSavedMetric(metric) ? metric : metric.label ?? '',
-        );
+    if (formData.target) {
+      metricsForDataIteration.push(formData.target);
+    }
 
-        response.data.forEach(entry => {
-          metricNames.forEach(metric => {
-            const metricValue = Array.isArray(entry[metric])
-              ? // @ts-ignore
-                entry[metric].join(', ')
-              : entry[metric];
-            if (
-              metricValue &&
-              (typeof metricValue === 'string' ||
-                typeof metricValue === 'number')
-            ) {
-              result.push(String(metricValue));
-            }
-          });
+    if (Array.isArray(formData.columns)) {
+      metricsForDataIteration.push(
+        ...formData.columns.map(column =>
+          isSavedMetric(column) ? column : column.label || '',
+        ),
+      );
+    }
+
+    if (exploreJsonVizes[formData.viz_type || '']) {
+      metricsForDataIteration.push('key');
+    }
+
+    return metricsForDataIteration;
+  };
+
+  /**
+   * Processes a single chart's query response to extract metrics.
+   */
+  const processChartResponse = (
+    response: ChartDataResponseResult,
+    chartInfo: ChartInfo,
+    metricsForDataIteration: string[],
+  ) => {
+    const { colnames, data } = response;
+
+    // Add column names as metrics
+    if (Array.isArray(colnames)) {
+      colnames.forEach(colname => addMetric(colname, chartInfo));
+    }
+
+    // Process data values for metrics
+    if (data && Array.isArray(data)) {
+      data.forEach(entry => {
+        metricsForDataIteration.forEach(key => {
+          const value = entry[key];
+          const metricValue = Array.isArray(value) ? value.join(', ') : value;
+          if (
+            metricValue &&
+            (typeof metricValue === 'string' || typeof metricValue === 'number')
+          ) {
+            addMetric(String(metricValue), chartInfo);
+          }
         });
-      }
-    });
+      });
+    }
+  };
 
-    return result;
-  }, []);
+  // Process all charts
+  Object.values(charts).forEach(chart => {
+    if (!chart.queriesResponse) return;
+
+    // Get chart name from layout item
+    const layoutItem = layoutMap[chart.id];
+
+    const chartName =
+      (locale === 'ru' && layoutItem?.meta?.sliceNameOverrideRU) ||
+      (locale === 'ru' && layoutItem?.meta?.sliceNameRU) ||
+      layoutItem?.meta?.sliceNameOverride ||
+      layoutItem?.meta?.sliceName ||
+      `Chart ${chart.id}`;
+
+    const chartInfo: ChartInfo = {
+      id: chart.id,
+      name: chartName,
+      type: chart.latestQueryFormData?.viz_type || 'unknown',
+    };
+
+    // Skip certain visualization types
+    const vizType = chart.latestQueryFormData?.viz_type;
+    if (vizType === 'table' || vizType === 'pivot_table_v2') return;
+
+    // Process each query response
+    (chart.queriesResponse as ChartDataResponseResult[]).forEach(response => {
+      const metricsForDataIteration = extractMetricsFromFormData(
+        chart.latestQueryFormData,
+      );
+      processChartResponse(response, chartInfo, metricsForDataIteration);
+    });
+  });
+
+  return {
+    dashboardMetricsSet,
+    metricsToChartsMap,
+  };
+};
 
 /**
  * Creates a translation map for metrics and columns

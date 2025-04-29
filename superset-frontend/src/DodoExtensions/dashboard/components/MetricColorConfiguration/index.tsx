@@ -11,12 +11,14 @@ import ColorPickerControlDodo from 'src/DodoExtensions/explore/components/contro
 import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
 import Loading from 'src/components/Loading';
 import { useDebounceValue } from 'src/hooks/useDebounceValue';
-import { getDashboardMetrics, getTranslationsMap } from './utils';
+import { DashboardLayout, DatasourcesState } from 'src/dashboard/types';
+import { processDashboardCharts, getTranslationsMap } from './utils';
 import {
   ActionsWrapper,
   BoldText,
   CardTitle,
   ChangeIndicator,
+  ChartLink,
   ColorLabel,
   ColorRow,
   ColorScheme,
@@ -28,6 +30,7 @@ import {
   StyledCard,
   StyledPagination,
   TooltipContainer,
+  UsageRow,
 } from './styles';
 
 const ITEMS_PER_PAGE = 30;
@@ -36,7 +39,8 @@ interface IProps {
   charts: { [key: number]: ChartState };
   labelColors: PlainObject;
   colorScheme: string | undefined;
-  datasources?: Record<string, any>;
+  datasources?: DatasourcesState;
+  dashboardLayout?: DashboardLayout;
 }
 
 const MetricColorConfiguration = ({
@@ -44,6 +48,7 @@ const MetricColorConfiguration = ({
   labelColors = {},
   colorScheme,
   datasources = {},
+  dashboardLayout = {},
 }: IProps) => {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
@@ -61,12 +66,10 @@ const MetricColorConfiguration = ({
     [labelColors, newLabelColors],
   );
 
-  // Memoized dashboard metrics calculation
-  const dashboardMetrics = useMemo(() => getDashboardMetrics(charts), [charts]);
-
-  const dashboardMetricsSet = useMemo(
-    () => new Set(dashboardMetrics),
-    [dashboardMetrics],
+  // Process dashboard charts to get metrics and charts map in one pass
+  const { dashboardMetricsSet, metricsToChartsMap } = useMemo(
+    () => processDashboardCharts(charts, dashboardLayout),
+    [charts, dashboardLayout],
   );
 
   // Create translations map for metrics and columns
@@ -83,10 +86,10 @@ const MetricColorConfiguration = ({
           Number(dashboardMetricsSet.has(a)) -
           Number(dashboardMetricsSet.has(b)),
       ),
-      ...dashboardMetrics,
+      ...dashboardMetricsSet,
     ];
     return Array.from(new Set(allMetrics));
-  }, [dashboardMetrics, labelColors, dashboardMetricsSet]);
+  }, [labelColors, dashboardMetricsSet]);
 
   const filteredMetrics = useMemo(
     () =>
@@ -214,6 +217,7 @@ const MetricColorConfiguration = ({
     const isAltered = isColorChanged || isDeleted;
     const hasCurrentColor = labelColors[label];
     const hasActions = hasCurrentColor || isAltered;
+    const usedInCharts = metricsToChartsMap[label] || [];
 
     return {
       label,
@@ -223,6 +227,7 @@ const MetricColorConfiguration = ({
       isAltered,
       hasCurrentColor,
       hasActions,
+      usedInCharts,
       displayName: translationsMap[label] || label,
       colorValue: isDeleted
         ? t('Deleted')
@@ -335,6 +340,18 @@ const MetricColorConfiguration = ({
                       <ColorValue>{item.colorValue}</ColorValue>
                     </div>
                   </ColorRow>
+
+                  {item.usedInCharts.length > 0 && (
+                    <UsageRow>
+                      {item.usedInCharts.map(
+                        (chart: { id: number; name: string; type: string }) => (
+                          <ChartLink key={chart.id}>
+                            {chart.name} ({chart.type})
+                          </ChartLink>
+                        ),
+                      )}
+                    </UsageRow>
+                  )}
 
                   {item.hasActions && (
                     <ActionsWrapper>

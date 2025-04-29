@@ -8,15 +8,18 @@ export const FlexWrapper = styled.div`
 `;
 
 export const ActionsWrapper = styled.div`
-  margin-top: ${({ theme }) => theme.gridUnit * 3}px;
+  margin-top: auto; /* Push to bottom of flex container */
+  margin-bottom: 0;
   display: flex;
   justify-content: flex-start;
   gap: ${({ theme }) => theme.gridUnit * 3}px;
   padding: ${({ theme }) => theme.gridUnit * 2}px
     ${({ theme }) => theme.gridUnit * 3}px;
   background-color: ${({ theme }) => theme.colors.grayscale.light4};
-  border-radius: ${({ theme }) => theme.borderRadius}px;
+  border-radius: 0 0 ${({ theme }) => theme.borderRadius}px
+    ${({ theme }) => theme.borderRadius}px;
   width: 100%;
+  align-self: flex-end;
 
   span {
     display: flex;
@@ -92,9 +95,14 @@ export const MetricCardsGrid = styled.div`
 export const StyledCard = styled(Card)<{ isAltered: boolean }>`
   transition: all 0.2s ease;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 
   .ant-card-body {
     padding: ${({ theme }) => theme.gridUnit * 3}px 0 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
 
   .ant-card-head {
@@ -148,6 +156,8 @@ export const ColorRow = styled.div`
   margin-top: ${({ theme }) => theme.gridUnit * 2}px;
   margin-bottom: ${({ theme }) => theme.gridUnit * 2}px;
   padding: 0 ${({ theme }) => theme.gridUnit * 3}px; /* Same as card head padding */
+  min-height: ${({ theme }) =>
+    theme.gridUnit * 8}px; /* Ensure consistent height */
 `;
 
 export const ColorLabel = styled.span`
@@ -184,4 +194,31 @@ export const TooltipContainer = styled.div`
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
+`;
+
+export const UsageRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: ${({ theme }) => theme.gridUnit * 2}px;
+  margin-bottom: ${({ theme }) => theme.gridUnit * 2}px;
+  padding: 0 ${({ theme }) => theme.gridUnit * 3}px; /* Same as card head padding */
+  overflow-y: auto; /* Add scrolling for very tall content */
+  max-height: 80px; /* Limit height to prevent pushing ActionsWrapper too far */
+`;
+
+export const ChartLink = styled.span`
+  color: ${({ theme }) => theme.colors.primary.base};
+  background-color: ${({ theme }) => theme.colors.primary.light4};
+  padding: ${({ theme }) => theme.gridUnit / 2}px
+    ${({ theme }) => theme.gridUnit}px;
+  border-radius: ${({ theme }) => theme.gridUnit}px;
+  font-size: ${({ theme }) => theme.typography.sizes.s}px;
+  white-space: nowrap;
+  margin-right: ${({ theme }) => theme.gridUnit}px;
+  margin-bottom: ${({ theme }) => theme.gridUnit}px;
+  display: inline-block;
+  cursor: default;
+  max-width: 200px; /* Limit width to prevent very long chart names */
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
