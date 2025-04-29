@@ -217,8 +217,4 @@ export const ChartLabel = styled.span`
   margin-right: ${({ theme }) => theme.gridUnit}px;
   margin-bottom: ${({ theme }) => theme.gridUnit}px;
   display: inline-block;
-  cursor: default;
-  max-width: 200px; /* Limit width to prevent very long chart names */
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
