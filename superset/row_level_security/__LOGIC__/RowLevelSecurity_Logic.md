@@ -291,10 +291,10 @@ def get_sqla_query(
     apply_fetch_values_predicate: bool = False,
 ) -> SqlaQuery:
     # ...
-    
+
     # Apply row level security filters
     security_manager.add_row_level_security_filters(self.query, self)
-    
+
     # ...
 ```
 

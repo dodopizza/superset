@@ -373,7 +373,7 @@ template_params = {}
 try:
     command = ValidateSQLCommand(database_id, sql, schema, template_params)
     annotations = command.run()
-    
+
     # Проверка результатов валидации
     if not annotations:
         print("SQL-запрос корректен")

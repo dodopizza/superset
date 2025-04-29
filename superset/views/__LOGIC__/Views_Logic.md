@@ -608,7 +608,7 @@ class MyView(BaseSupersetView):
     def detail(self, id: int) -> FlaskResponse:
         # Получение данных
         data = {"id": id, "name": "My Item"}
-        
+
         # Рендеринг шаблона
         return super().render_app_template({"item": data})
 ```
@@ -626,7 +626,7 @@ class MyModelRestApi(BaseSupersetModelRestApi):
     datamodel = SQLAInterface(MyModel)
     resource_name = "mymodel"
     allow_browser_login = True
-    
+
     @expose("/<int:pk>", methods=("GET",))
     @protect()
     @safe
@@ -712,7 +712,7 @@ class MyModelRestApi(BaseSupersetModelRestApi):
        def dashboard(self, id: int) -> FlaskResponse:
            # Получение данных
            dashboard = get_dashboard(id)
-           
+
            # Рендеринг шаблона
            return super().render_app_template({"dashboard": dashboard})
    ```

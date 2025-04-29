@@ -247,7 +247,7 @@ def send_alert_email(alert):
     """Sends an alert email"""
     recipients = ["user@example.com"]
     subject = f"Alert: {alert.label}"
-    
+
     template = app.jinja_env.get_template("email/alert.txt")
     content = template.render(
         label=alert.label,
@@ -256,7 +256,7 @@ def send_alert_email(alert):
         validation_error_message=alert.validation_error_message,
         alert_url=f"/superset/alert/{alert.id}",
     )
-    
+
     msg = Message(subject, recipients=recipients)
     msg.body = content
     mail.send(msg)
@@ -271,7 +271,7 @@ from superset import app
 def send_slack_message(alert):
     """Sends a Slack message"""
     webhook_url = "https://hooks.slack.com/services/xxx/yyy/zzz"
-    
+
     template = app.jinja_env.get_template("slack/alert.txt")
     content = template.render(
         label=alert.label,
@@ -280,14 +280,14 @@ def send_slack_message(alert):
         validation_error_message=alert.validation_error_message,
         alert_url=f"/superset/alert/{alert.id}",
     )
-    
+
     payload = {
         "text": content,
         "channel": "#alerts",
         "username": "Superset Alert",
         "icon_emoji": ":chart_with_upwards_trend:",
     }
-    
+
     requests.post(webhook_url, json=payload)
 ```
 
@@ -326,7 +326,7 @@ def send_slack_message(alert):
            validation_error_message=alert.validation_error_message,
            alert_url=f"/superset/alert/{alert.id}",
        )
-       
+
        # Отправка уведомления
        send_notification(content)
    ```
@@ -342,7 +342,7 @@ def send_slack_message(alert):
            team_dashboards=get_team_dashboards(team),
            report_date=datetime.now().strftime("%Y-%m-%d"),
        )
-       
+
        # Отправка отчета
        send_report(content, team.participants)
    ```

@@ -406,13 +406,13 @@ user_info = db.session.query(UserInfo).filter_by(user_id=user_id).one_or_none()
 if user_info:
     # Получение роли пользователя в DODO
     dodo_role = user_info.dodo_role
-    
+
     # Получение языка пользователя
     language = user_info.language
-    
+
     # Получение страны пользователя
     country = user_info.country_name
-    
+
     # Проверка завершения онбординга
     is_onboarding_finished = user_info.is_onboarding_finished
 else:
@@ -441,10 +441,10 @@ team = db.session.query(Team).filter_by(id=team_id).one_or_none()
 if team:
     # Получение участников команды
     participants = team.participants
-    
+
     # Получение ролей команды
     roles = team.roles
-    
+
     # Добавление пользователя в команду
     user = security_manager.find_user("user@example.com")
     if user and user not in participants:
