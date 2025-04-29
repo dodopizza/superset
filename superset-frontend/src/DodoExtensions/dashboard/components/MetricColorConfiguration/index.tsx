@@ -18,7 +18,7 @@ import {
   BoldText,
   CardTitle,
   ChangeIndicator,
-  ChartLink,
+  ChartLabel,
   ColorLabel,
   ColorRow,
   ColorScheme,
@@ -345,9 +345,9 @@ const MetricColorConfiguration = ({
                     <UsageRow>
                       {item.usedInCharts.map(
                         (chart: { id: number; name: string; type: string }) => (
-                          <ChartLink key={chart.id}>
+                          <ChartLabel key={chart.id}>
                             {chart.name} ({chart.type})
-                          </ChartLink>
+                          </ChartLabel>
                         ),
                       )}
                     </UsageRow>

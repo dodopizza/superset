@@ -206,7 +206,7 @@ export const UsageRow = styled.div`
   max-height: 80px; /* Limit height to prevent pushing ActionsWrapper too far */
 `;
 
-export const ChartLink = styled.span`
+export const ChartLabel = styled.span`
   color: ${({ theme }) => theme.colors.primary.base};
   background-color: ${({ theme }) => theme.colors.primary.light4};
   padding: ${({ theme }) => theme.gridUnit / 2}px
