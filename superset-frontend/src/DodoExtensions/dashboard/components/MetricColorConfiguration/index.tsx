@@ -345,7 +345,10 @@ const MetricColorConfiguration = ({
                     <UsageRow>
                       {item.usedInCharts.map(
                         (chart: { id: number; name: string; type: string }) => (
-                          <ChartLabel key={chart.id}>
+                          <ChartLabel
+                            key={chart.id}
+                            title={`${chart.name} (${chart.type})`}
+                          >
                             {chart.name} ({chart.type})
                           </ChartLabel>
                         ),
