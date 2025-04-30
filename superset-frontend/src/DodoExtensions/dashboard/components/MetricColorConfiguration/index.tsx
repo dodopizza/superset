@@ -361,7 +361,7 @@ const MetricColorConfiguration = ({
                       )}
                       <MetricName
                         existOnDashboard={item.existOnDashboard}
-                        title={label}
+                        title={item.displayName}
                       >
                         {item.displayName}
                       </MetricName>

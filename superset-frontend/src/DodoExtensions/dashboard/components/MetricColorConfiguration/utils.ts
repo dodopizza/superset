@@ -18,6 +18,14 @@ const exploreJsonVizes: Record<string, 'true'> = {
   line: 'true',
 };
 
+const excludedVizes: Record<string, 'true'> = {
+  table: 'true',
+  pivot_table_v2: 'true',
+  handlebars: 'true',
+  big_number: 'true',
+  big_number_total: 'true',
+};
+
 type ChartInfo = { id: number; name: string; type: string };
 
 /**
@@ -69,6 +77,8 @@ export const processDashboardCharts = (
   const extractMetricsFromFormData = (
     formData: Partial<SqlaFormData>,
   ): string[] => {
+    if (!formData) return [];
+
     const metricsForDataIteration: string[] = [];
 
     if (Array.isArray(formData.groupby)) {
@@ -160,7 +170,7 @@ export const processDashboardCharts = (
 
     // Skip certain visualization types
     const vizType = chart.latestQueryFormData?.viz_type;
-    if (vizType === 'table' || vizType === 'pivot_table_v2') return;
+    if (excludedVizes[vizType || '']) return;
 
     // Process each query response
     (chart.queriesResponse as ChartDataResponseResult[]).forEach(response => {
