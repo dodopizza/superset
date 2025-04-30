@@ -1,28 +1,31 @@
 import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Input } from 'antd';
-import { PlainObject, t, tn } from '@superset-ui/core';
+import { css, PlainObject, t, tn } from '@superset-ui/core';
 import Badge from 'src/components/Badge';
 import Button from 'src/components/Button';
 import InfoTooltip from 'src/components/InfoTooltip';
 import Modal from 'src/components/Modal';
+import Select from 'src/components/Select/Select';
 import { ChartState } from 'src/explore/types';
 import ColorPickerControlDodo from 'src/DodoExtensions/explore/components/controls/ColorPickerControlDodo';
 import { saveLabelColorsSettings } from 'src/dashboard/actions/dashboardInfo';
 import Loading from 'src/components/Loading';
 import { useDebounceValue } from 'src/hooks/useDebounceValue';
 import { DashboardLayout, DatasourcesState } from 'src/dashboard/types';
+import { Tooltip } from 'src/components/Tooltip';
 import { processDashboardCharts, getTranslationsMap } from './utils';
 import {
   ActionsWrapper,
   BoldText,
   CardTitle,
   ChangeIndicator,
-  ChartLabel,
+  ChartUsageText,
   ColorLabel,
   ColorRow,
   ColorScheme,
   ColorValue,
+  FilterSection,
   FlexWrapper,
   MetricCardsGrid,
   MetricName,
@@ -30,7 +33,6 @@ import {
   StyledCard,
   StyledPagination,
   TooltipContainer,
-  UsageRow,
 } from './styles';
 
 const ITEMS_PER_PAGE = 30;
@@ -43,6 +45,8 @@ interface IProps {
   dashboardLayout?: DashboardLayout;
 }
 
+type PresenceFilterType = 'all' | 'present' | 'not_present';
+
 const MetricColorConfiguration = ({
   charts = {},
   labelColors = {},
@@ -53,6 +57,8 @@ const MetricColorConfiguration = ({
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounceValue(search, 500);
+  const [existenceFilter, setExistenceFilter] =
+    useState<PresenceFilterType>('all');
   const [newLabelColors, setNewLabelColors] = useState<PlainObject>({});
   const [deletedLabels, setDeletedLabels] = useState<Record<string, 'true'>>(
     {},
@@ -95,14 +101,35 @@ const MetricColorConfiguration = ({
     () =>
       uniqueMetrics.filter(metric => {
         const searchLower = debouncedSearch.toLowerCase();
-        // Search in both original title and translation
-        return (
+        // First apply search filter
+        const matchesSearch =
           metric.toLowerCase().includes(searchLower) ||
           translationsMap[metric]?.toLowerCase().includes(searchLower) ||
-          false
-        );
+          false;
+
+        // Then apply existence filter
+        if (!matchesSearch) return false;
+
+        const existsOnDashboard = dashboardMetricsSet.has(metric);
+
+        if (existenceFilter === 'present') {
+          return existsOnDashboard;
+        }
+
+        if (existenceFilter === 'not_present') {
+          return !existsOnDashboard;
+        }
+
+        // For 'all' filter, return all metrics that match the search
+        return true;
       }),
-    [uniqueMetrics, debouncedSearch, translationsMap],
+    [
+      uniqueMetrics,
+      debouncedSearch,
+      translationsMap,
+      dashboardMetricsSet,
+      existenceFilter,
+    ],
   );
 
   const paginatedMetrics = useMemo(() => {
@@ -115,6 +142,7 @@ const MetricColorConfiguration = ({
     setNewLabelColors({});
     setDeletedLabels({});
     setSearch('');
+    setExistenceFilter('all');
     setCurrentPage(1);
   };
 
@@ -165,6 +193,11 @@ const MetricColorConfiguration = ({
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const onChangeExistenceFilter = (value: any) => {
+    setExistenceFilter(value as PresenceFilterType);
     setCurrentPage(1);
   };
 
@@ -254,7 +287,7 @@ const MetricColorConfiguration = ({
           resetChanges();
           setShow(false);
         }}
-        width="800px"
+        width="823px"
         responsive
       >
         {colorScheme && (
@@ -268,13 +301,31 @@ const MetricColorConfiguration = ({
           </ColorScheme>
         )}
 
-        <FlexWrapper>
+        <FilterSection>
           <Input.Search
             value={search}
             onChange={onChangeSearch}
             placeholder={t('Search for label')}
             allowClear
             size="middle"
+          />
+          <Select
+            ariaLabel={t('Filter labels')}
+            placeholder={t('Filter labels')}
+            value={existenceFilter}
+            onChange={onChangeExistenceFilter}
+            options={[
+              { value: 'all', label: t('All') },
+              { value: 'present', label: t('Present on dashboard') },
+              {
+                value: 'not_present',
+                label: t('Not present on dashboard'),
+              },
+            ]}
+            showSearch={false}
+            css={css`
+              width: 235px;
+            `}
           />
           <StyledPagination
             current={currentPage}
@@ -285,7 +336,7 @@ const MetricColorConfiguration = ({
             size="small"
             simple
           />
-        </FlexWrapper>
+        </FilterSection>
 
         <MetricsContainer colorScheme={colorScheme}>
           <MetricCardsGrid>
@@ -342,18 +393,26 @@ const MetricColorConfiguration = ({
                   </ColorRow>
 
                   {item.usedInCharts.length > 0 && (
-                    <UsageRow>
-                      {item.usedInCharts.map(
-                        (chart: { id: number; name: string; type: string }) => (
-                          <ChartLabel
-                            key={chart.id}
-                            title={`${chart.name} (${chart.type})`}
-                          >
-                            {chart.name} ({chart.type})
-                          </ChartLabel>
-                        ),
-                      )}
-                    </UsageRow>
+                    <Tooltip
+                      title={
+                        <ul
+                          style={{
+                            textAlign: 'left',
+                            margin: 0,
+                            padding: '0 0 0 16px',
+                          }}
+                        >
+                          {item.usedInCharts.map((chart, index) => (
+                            <li key={index}>
+                              {chart.name} ({chart.type})
+                            </li>
+                          ))}
+                        </ul>
+                      }
+                      placement="top"
+                    >
+                      <ChartUsageText>{t('Present on charts')}</ChartUsageText>
+                    </Tooltip>
                   )}
 
                   {item.hasActions && (

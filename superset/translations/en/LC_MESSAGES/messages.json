@@ -2562,10 +2562,13 @@
       "The dashboard has a color scheme applied: ": [""],
       "You can override the colors of the metrics with your own values.": [""],
       "Search for label": [""],
+      "Filter labels": [""],
+      "All": [""],
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         ""
       ],
       "Color": [""],
+      "Present on charts": [""],
       "Reset": [""],
       "Edit formatter": [""],
       "Add new formatter": [""],
@@ -2665,7 +2668,6 @@
       "New Roles": [""],
       "Actions": [""],
       "Requests": [""],
-      "All": [""],
       "An error occurred while fetching statements user values: %s": [""],
       "Any": [""],
       "Franchisee": [""],
@@ -4998,7 +5000,7 @@
       "oldest": [""],
       "average": [""],
       "latest": [""],
-      "changes": ["change", "changes", "changes"]
+      "changes": ["change"]
     }
   }
 }

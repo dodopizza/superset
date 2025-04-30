@@ -1,10 +1,16 @@
-import { styled, css } from '@superset-ui/core';
 import { Pagination, Card } from 'antd';
+import { styled, css } from '@superset-ui/core';
 
 export const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+export const FilterSection = styled(FlexWrapper)`
+  & > *:nth-child(2) {
+    width: unset;
+  }
 `;
 
 export const ActionsWrapper = styled.div`
@@ -37,24 +43,6 @@ export const ActionsWrapper = styled.div`
       background-color: ${({ theme }) => theme.colors.grayscale.light3};
       text-decoration: none;
     }
-  }
-`;
-
-export const LabelWrapper = styled.div<{ existOnDashboard: boolean }>`
-  display: flex;
-  align-items: center;
-
-  p {
-    color: ${({ theme, existOnDashboard }) =>
-      existOnDashboard ? 'inherit' : theme.colors.grayscale.light1};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    flex-grow: 1;
-    max-height: 22px;
-    word-break: break-all;
   }
 `;
 
@@ -174,8 +162,6 @@ export const ColorValue = styled.span`
   white-space: nowrap;
 `;
 
-// StyledTabs removed as we no longer use tabs
-
 export const ChangeIndicator = styled.span`
   display: inline-block;
   font-size: 11px;
@@ -196,14 +182,16 @@ export const TooltipContainer = styled.div`
   z-index: 1;
 `;
 
-export const UsageRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${({ theme }) => theme.gridUnit * 2}px;
+export const ChartUsageText = styled.span`
   margin-bottom: ${({ theme }) => theme.gridUnit * 2}px;
-  padding: 0 ${({ theme }) => theme.gridUnit * 3}px; /* Same as card head padding */
-  overflow-y: auto; /* Add scrolling for very tall content */
-  max-height: 80px; /* Limit height to prevent pushing ActionsWrapper too far */
+  margin-left: ${({ theme }) => theme.gridUnit * 3}px;
+  padding: ${({ theme }) => theme.gridUnit / 2}px
+    ${({ theme }) => theme.gridUnit}px;
+  width: fit-content;
+  color: ${({ theme }) => theme.colors.grayscale.dark1};
+  font-size: ${({ theme }) => theme.typography.sizes.s}px;
+  background-color: ${({ theme }) => theme.colors.alert.light1};
+  border-radius: ${({ theme }) => theme.borderRadius}px;
 `;
 
 export const ChartLabel = styled.span`

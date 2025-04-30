@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-28 14:56+0300\n"
+"POT-Creation-Date: 2025-04-30 15:57+0300\n"
 "PO-Revision-Date: 2025-03-20 16:37+0300\n"
 "Last-Translator: Daniel Checheta\n"
 "Language: ru\n"
@@ -498,16 +498,6 @@ msgstr "Deck.gl - 3D HEX"
 #: superset/viz.py:2251
 msgid "Deck.gl - Heatmap"
 msgstr "Deck.gl - Heatmap"
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:334
-msgid "changes"
-msgstr[0] "изменение"
-msgstr[1] "изменения"
-msgstr[2] "изменений"
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:457
-msgid "Modified"
-msgstr "Изменено"
 
 #: superset/viz.py:2271
 msgid "Deck.gl - Contour"
@@ -2073,7 +2063,7 @@ msgstr "SQL Lab View"
 msgid "Template parameters"
 msgstr "Параметры шаблона"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:460
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:369
 #: superset-frontend/src/dashboard/components/AddSliceCard/AddSliceCard.tsx:296
 #: superset/connectors/sqla/views.py:422 superset/views/dashboard/mixin.py:85
 #: superset/views/dashboard/views.py:197 superset/views/database/mixins.py:203
@@ -2642,7 +2632,7 @@ msgstr "Оператор не определен для агрегатора: %(
 msgid "Invalid numpy function: %(operator)s"
 msgstr "Недопустимая numpy функция: %(operator)s"
 
-#: superset/views/api.py:126
+#: superset/views/api.py:128
 #, python-format
 msgid "Unexpected time range: %(error)s"
 msgstr "Неожиданный диапазон времени: %(error)s"
@@ -11339,7 +11329,7 @@ msgstr "Редактирование набора фильтров:"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:141
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:76
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:343
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:232
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:225
 #: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:970
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:271
@@ -11369,7 +11359,7 @@ msgid "Filter set already exists"
 msgstr "Набор фильтров уже существует"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:161
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:351
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:240
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:50
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:64
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:218
@@ -11452,7 +11442,7 @@ msgid "Rebuild"
 msgstr "Обновить"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/FilterSetUnit.tsx:100
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:509
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:439
 #: superset-frontend/src/components/DeleteModal/index.tsx:84
 #: superset-frontend/src/features/charts/ChartCard.tsx:103
 #: superset-frontend/src/features/dashboards/DashboardCard.tsx:137
@@ -11530,48 +11520,89 @@ msgstr ""
 "Извините, что-то пошло не так. Сейчас мы исправляем ошибку. Повторите "
 "попытку позже."
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:332
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:212
 msgid "Edit label colors"
 msgstr "Изменить цвета мер"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:335
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:219
 msgid "Number of changes"
 msgstr "Число изменений"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:375
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:266
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:111
 msgid "Deleted"
 msgstr "Удалено"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:376
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:267
 #: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:12
 msgid "Not assigned"
 msgstr "Не назначено"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:388
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:390
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:277
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:279
 msgid "Edit colors"
 msgstr "Изменить цвета"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:403
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:295
 msgid "The dashboard has a color scheme applied: "
 msgstr "На дашборде применена цветовая схема: "
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:406
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:298
 msgid "You can override the colors of the metrics with your own values."
 msgstr "Вы можете переопределить цвета метрик собственными значениями."
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:416
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:308
 msgid "Search for label"
 msgstr "Искать меру"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:446
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:313
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:314
+msgid "Filter labels"
+msgstr "Фильтровать меры"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:318
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
+#: superset-frontend/src/pages/AlertReportList/index.tsx:462
+#: superset-frontend/src/pages/AlertReportList/index.tsx:500
+#: superset-frontend/src/pages/AnnotationLayerList/index.tsx:251
+#: superset-frontend/src/pages/ChartList/index.tsx:567
+#: superset-frontend/src/pages/ChartList/index.tsx:593
+#: superset-frontend/src/pages/ChartList/index.tsx:605
+#: superset-frontend/src/pages/ChartList/index.tsx:616
+#: superset-frontend/src/pages/ChartList/index.tsx:638
+#: superset-frontend/src/pages/ChartList/index.tsx:663
+#: superset-frontend/src/pages/CssTemplateList/index.tsx:236
+#: superset-frontend/src/pages/DashboardList/index.tsx:574
+#: superset-frontend/src/pages/DashboardList/index.tsx:585
+#: superset-frontend/src/pages/DashboardList/index.tsx:621
+#: superset-frontend/src/pages/DatabaseList/index.tsx:517
+#: superset-frontend/src/pages/DatabaseList/index.tsx:537
+#: superset-frontend/src/pages/DatabaseList/index.tsx:549
+#: superset-frontend/src/pages/DatasetList/index.tsx:644
+#: superset-frontend/src/pages/Home/index.tsx:194
+#: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
+#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
+#: superset-frontend/src/pages/SavedQueryList/index.tsx:458
+#: superset-frontend/src/pages/SavedQueryList/index.tsx:509
+#: superset-frontend/src/pages/Tags/index.tsx:260
+msgid "All"
+msgstr "Все"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:319
+msgid "Present on dashboard"
+msgstr "Присутствует на дашборде"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:322
+msgid "Not present on dashboard"
+msgstr "Отсутствует на дашборде"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:355
 msgid ""
 "Metric is missing from the dashboard with current filters or removed from"
 " the dataset"
 msgstr "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:466
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:375
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx:57
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx:71
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:116
@@ -11582,7 +11613,11 @@ msgstr "Мера отсутствует на дашборде с текущим�
 msgid "Color"
 msgstr "Цвет"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:500
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:414
+msgid "Present on charts"
+msgstr "Присутствует на графиках"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:430
 #: superset-frontend/src/components/Table/index.tsx:219
 msgid "Reset"
 msgstr "Сбросить"
@@ -12060,33 +12095,6 @@ msgstr "Действия"
 #: superset-frontend/src/DodoExtensions/onBoarding/utils/onboardingMenuAdminItems.ts:7
 msgid "Requests"
 msgstr "Заявки"
-
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
-#: superset-frontend/src/pages/AlertReportList/index.tsx:462
-#: superset-frontend/src/pages/AlertReportList/index.tsx:500
-#: superset-frontend/src/pages/AnnotationLayerList/index.tsx:251
-#: superset-frontend/src/pages/ChartList/index.tsx:567
-#: superset-frontend/src/pages/ChartList/index.tsx:593
-#: superset-frontend/src/pages/ChartList/index.tsx:605
-#: superset-frontend/src/pages/ChartList/index.tsx:616
-#: superset-frontend/src/pages/ChartList/index.tsx:638
-#: superset-frontend/src/pages/ChartList/index.tsx:663
-#: superset-frontend/src/pages/CssTemplateList/index.tsx:236
-#: superset-frontend/src/pages/DashboardList/index.tsx:574
-#: superset-frontend/src/pages/DashboardList/index.tsx:585
-#: superset-frontend/src/pages/DashboardList/index.tsx:621
-#: superset-frontend/src/pages/DatabaseList/index.tsx:517
-#: superset-frontend/src/pages/DatabaseList/index.tsx:537
-#: superset-frontend/src/pages/DatabaseList/index.tsx:549
-#: superset-frontend/src/pages/DatasetList/index.tsx:644
-#: superset-frontend/src/pages/Home/index.tsx:194
-#: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
-#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
-#: superset-frontend/src/pages/SavedQueryList/index.tsx:458
-#: superset-frontend/src/pages/SavedQueryList/index.tsx:509
-#: superset-frontend/src/pages/Tags/index.tsx:260
-msgid "All"
-msgstr "Все"
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:57
 #, python-format
