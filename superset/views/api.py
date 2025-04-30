@@ -53,6 +53,7 @@ get_time_range_schema = {
 
 
 class Api(BaseSupersetView):
+    allow_browser_login = True
     query_context_factory = None
 
     @event_logger.log_this
