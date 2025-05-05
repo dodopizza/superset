@@ -95,10 +95,11 @@ const EditLockContainer = styled.div`
   }
 `;
 
-const ColumnButtonWrapper = styled.div`
-  text-align: right;
-  ${({ theme }) => `margin-bottom: ${theme.gridUnit * 2}px`}
-`;
+// DODO commented out 48532456
+// const ColumnButtonWrapper = styled.div`
+//   text-align: right;
+//   ${({ theme }) => `margin-bottom: ${theme.gridUnit * 2}px`}
+// `;
 
 const StyledLabelWrapper = styled.div`
   display: flex;
@@ -118,12 +119,13 @@ const StyledColumnsTabWrapper = styled.div`
   }
 `;
 
-const StyledButtonWrapper = styled.span`
-  ${({ theme }) => `
-    margin-top: ${theme.gridUnit * 3}px;
-    margin-left: ${theme.gridUnit * 3}px;
-  `}
-`;
+// DODO commented out 48532456
+// const StyledButtonWrapper = styled.span`
+//   ${({ theme }) => `
+//     margin-top: ${theme.gridUnit * 3}px;
+//     margin-left: ${theme.gridUnit * 3}px;
+//   `}
+// `;
 
 const checkboxGenerator = (d, onChange) => (
   <CheckboxControl value={d} onChange={onChange} />
@@ -172,9 +174,13 @@ function ColumnCollectionTable({
   allowEditDataType,
   itemGenerator,
   columnLabelTooltips,
+  searchableColumns, // DODO added 48532456
+  extraHeaderButton, // DODO added 48532456
 }) {
   return (
     <CollectionTable
+      searchableColumns={searchableColumns} // DODO added 48532456
+      extraHeaderButton={extraHeaderButton} // DODO added 48532456
       tableColumns={
         isFeatureEnabled(FeatureFlag.EnableAdvancedDataTypes)
           ? [
@@ -1312,6 +1318,7 @@ class DatasourceEditor extends PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
+        searchableColumns={['metric_name', 'verbose_name', 'verbose_name_ru']} // DODO added 48532456
         tableColumns={[
           'metric_name',
           'verbose_name',
@@ -1553,7 +1560,8 @@ class DatasourceEditor extends PureComponent {
             key={2}
           >
             <StyledColumnsTabWrapper>
-              <ColumnButtonWrapper>
+              {/* DODO commented out 48532456 */}
+              {/* <ColumnButtonWrapper>
                 <StyledButtonWrapper>
                   <Button
                     buttonSize="small"
@@ -1566,8 +1574,14 @@ class DatasourceEditor extends PureComponent {
                     {t('Sync columns from source')}
                   </Button>
                 </StyledButtonWrapper>
-              </ColumnButtonWrapper>
+              </ColumnButtonWrapper> */}
               <ColumnCollectionTable
+                // DODO added 48532456
+                searchableColumns={[
+                  'column_name',
+                  'verbose_name',
+                  'verbose_name_ru',
+                ]}
                 className="columns-table"
                 columns={this.state.databaseColumns}
                 datasource={datasource}
@@ -1575,6 +1589,19 @@ class DatasourceEditor extends PureComponent {
                   this.setColumns({ databaseColumns })
                 }
                 onDatasourceChange={this.onDatasourceChange}
+                // DODO added 48532456
+                extraHeaderButton={
+                  <Button
+                    buttonSize="small"
+                    buttonStyle="tertiary"
+                    onClick={this.syncMetadata}
+                    className="sync-from-source"
+                    disabled={this.state.isEditMode}
+                  >
+                    <i className="fa fa-database" />{' '}
+                    {t('Sync columns from source')}
+                  </Button>
+                }
               />
               {this.state.metadataLoading && <Loading />}
             </StyledColumnsTabWrapper>
@@ -1590,6 +1617,12 @@ class DatasourceEditor extends PureComponent {
           >
             <StyledColumnsTabWrapper>
               <ColumnCollectionTable
+                // DODO added 48532456
+                searchableColumns={[
+                  'column_name',
+                  'verbose_name',
+                  'verbose_name_ru',
+                ]}
                 columns={this.state.calculatedColumns}
                 onColumnsChange={calculatedColumns =>
                   this.setColumns({ calculatedColumns })
