@@ -42,7 +42,9 @@ import OverwriteConfirm from '../OverwriteConfirm';
 // DODO added 45320801
 const MetricColorConfiguration = lazy(
   () =>
-    import('/src/DodoExtensions/dashboard/components/MetricColorConfiguration'),
+    import(
+      '../../../DodoExtensions/dashboard/components/MetricColorConfiguration'
+    ),
 );
 
 const locale = bootstrapData?.common?.locale || 'en';
