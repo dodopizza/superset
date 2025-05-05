@@ -2783,6 +2783,7 @@
         "Также известный как график коробки и визита, эта визуализация сравнивает распределения связанной метрики по нескольким группам."
       ],
       "ECharts": ["Графики Apache"],
+      "Min Bubble Size": ["Минимальный размер пузыря"],
       "Bubble size number format": ["Числовой формат размера пузырьков"],
       "Bubble Opacity": ["Пузырьковая непрозрачность"],
       "Opacity of bubbles, 0 means completely transparent, 1 means opaque": [
@@ -3600,8 +3601,8 @@
       "Search for label": ["Искать меру"],
       "Filter labels": ["Фильтровать меры"],
       "On dashboard": ["На дашборде"],
-      "All": ["Все"],
       "Not on dashboard": ["Нет на дашборде"],
+      "All": ["Все"],
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
       ],
@@ -6884,7 +6885,7 @@
       "oldest": ["Первое"],
       "average": ["Среднее"],
       "latest": ["Последнее"],
-      "changes": ["изменение", "изменения", "изменений"]
+      "changes": ["изменение"]
     }
   }
 }

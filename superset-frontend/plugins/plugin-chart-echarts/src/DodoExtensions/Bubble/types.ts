@@ -9,6 +9,7 @@ import { Refs } from '../../types';
 
 type BubbleDodoFormData = QueryFormData & {
   maxBubbleSize: string;
+  minBubbleSize: string;
   showLabels: boolean;
 
   showDimension: boolean;

@@ -1945,6 +1945,7 @@
         ""
       ],
       "ECharts": [""],
+      "Min Bubble Size": [""],
       "Bubble size number format": [""],
       "Bubble Opacity": [""],
       "Opacity of bubbles, 0 means completely transparent, 1 means opaque": [

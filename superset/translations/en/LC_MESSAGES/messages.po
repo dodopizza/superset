@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-05 10:49+0300\n"
+"POT-Creation-Date: 2025-05-05 12:09+0300\n"
 "PO-Revision-Date: 2016-05-02 08:49-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -3353,7 +3353,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/constants.ts:65
 #: superset-frontend/src/DodoExtensions/FilterSets/FiltersHeader.tsx:129
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx:32
-#: superset-frontend/src/dashboard/components/Header/index.jsx:445
+#: superset-frontend/src/dashboard/components/Header/index.jsx:447
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/ScopeRow.tsx:78
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:180
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:703
@@ -3703,7 +3703,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/controlPanel.ts:96
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Line/controlPanel.ts:73
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/TimePivot/controlPanel.ts:91
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:106
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:130
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:10
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:319
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:172
@@ -3719,7 +3719,7 @@ msgid "X Axis"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/sections/chartTitle.tsx:43
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:114
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:138
 msgid "X Axis Title"
 msgstr ""
 
@@ -3736,7 +3736,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Compare/controlPanel.ts:58
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Line/controlPanel.ts:84
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/TimePivot/controlPanel.ts:110
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:189
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:213
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:92
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:250
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:324
@@ -3753,7 +3753,7 @@ msgid "Y Axis"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/sections/chartTitle.tsx:71
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:197
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:221
 msgid "Y Axis Title"
 msgstr ""
 
@@ -6501,7 +6501,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:83
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Bubble/controlPanel.ts:58
 #: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:63
-#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:300
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:301
 msgid "Max Bubble Size"
 msgstr ""
 
@@ -7384,7 +7384,7 @@ msgid "The way the ticks are laid out on the X-axis"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:218
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:170
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:194
 msgid "X Axis Format"
 msgstr ""
 
@@ -7398,7 +7398,7 @@ msgid "Use a log scale for the Y-axis"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:241
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:301
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:325
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:234
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:220
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Scatter/controlPanel.tsx:163
@@ -7409,7 +7409,7 @@ msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:244
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:260
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:304
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:328
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:237
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:223
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Scatter/controlPanel.tsx:166
@@ -8075,7 +8075,7 @@ msgstr ""
 msgid "Rotate x axis label"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:217
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:241
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:276
 msgid "Input field supports custom rotation. e.g. 30 for 30°"
 msgstr ""
@@ -8237,8 +8237,8 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:64
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:138
 #: superset-frontend/plugins/plugin-chart-echarts/src/BoxPlot/controlPanel.ts:150
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:156
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:258
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:180
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:282
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:45
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:127
 #: superset-frontend/plugins/plugin-chart-echarts/src/Pie/controlPanel.tsx:170
@@ -8252,8 +8252,8 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:77
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:151
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:141
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:243
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:165
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:267
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:30
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:112
 msgid "Force date format"
@@ -8261,8 +8261,8 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:80
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:154
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:144
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:246
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:168
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:270
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:33
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:115
 msgid "Use date formatting even when metric value is not a timestamp"
@@ -8442,37 +8442,42 @@ msgstr ""
 msgid "ECharts"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:82
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:85
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:323
+msgid "Min Bubble Size"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:106
 msgid "Bubble size number format"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:91
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:115
 msgid "Bubble Opacity"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:97
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:121
 msgid "Opacity of bubbles, 0 means completely transparent, 1 means opaque"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:128
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:152
 msgid "X AXIS TITLE MARGIN"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:179
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:182
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:203
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:206
 msgid "Logarithmic x-axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:210
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:234
 msgid "Rotate y axis label"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:230
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:254
 msgid "Y AXIS TITLE MARGIN"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:273
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:276
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:297
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:300
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:385
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:435
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:444
@@ -8489,7 +8494,7 @@ msgstr ""
 msgid "Logarithmic y-axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:287
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:311
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:344
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:220
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:206
@@ -8499,7 +8504,7 @@ msgstr ""
 msgid "Truncate Y Axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:290
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:314
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:347
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:223
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:209
@@ -8718,7 +8723,7 @@ msgstr ""
 msgid "Label color"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:323
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:348
 msgid "Size"
 msgstr ""
 
@@ -10769,8 +10774,8 @@ msgstr ""
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:218
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:233
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:326
-#: superset-frontend/src/dashboard/components/Header/index.jsx:632
 #: superset-frontend/src/dashboard/components/Header/index.jsx:634
+#: superset-frontend/src/dashboard/components/Header/index.jsx:636
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:117
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:319
 #: superset-frontend/src/dashboard/components/SaveModal.tsx:211
@@ -10966,7 +10971,12 @@ msgstr ""
 msgid "On dashboard"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:320
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:322
+#, fuzzy
+msgid "Not on dashboard"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:324
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
 #: superset-frontend/src/pages/AlertReportList/index.tsx:462
 #: superset-frontend/src/pages/AlertReportList/index.tsx:500
@@ -10992,11 +11002,6 @@ msgstr ""
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:509
 #: superset-frontend/src/pages/Tags/index.tsx:260
 msgid "All"
-msgstr ""
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:323
-#, fuzzy, python-format
-msgid "Not on dashboard"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:357
@@ -14348,48 +14353,48 @@ msgstr ""
 msgid "Applied filters (%d)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:314
+#: superset-frontend/src/dashboard/components/Header/index.jsx:316
 #, python-format
 msgid ""
 "This dashboard is currently auto refreshing; the next auto refresh will "
 "be in %s."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:401
+#: superset-frontend/src/dashboard/components/Header/index.jsx:403
 msgid "Your dashboard is too large. Please reduce its size before saving it."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:437
-#: superset-frontend/src/dashboard/components/Header/index.jsx:441
+#: superset-frontend/src/dashboard/components/Header/index.jsx:439
+#: superset-frontend/src/dashboard/components/Header/index.jsx:443
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:175
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:179
 #: superset-frontend/src/features/datasets/metadataBar/useDatasetMetadataBar.tsx:72
 msgid "Not available"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:531
+#: superset-frontend/src/dashboard/components/Header/index.jsx:533
 msgid "Add the name of the dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:532
+#: superset-frontend/src/dashboard/components/Header/index.jsx:534
 msgid "Dashboard title"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:576
+#: superset-frontend/src/dashboard/components/Header/index.jsx:578
 msgid "Undo the action"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:596
+#: superset-frontend/src/dashboard/components/Header/index.jsx:598
 msgid "Redo the action"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:621
 #: superset-frontend/src/dashboard/components/Header/index.jsx:623
+#: superset-frontend/src/dashboard/components/Header/index.jsx:625
 msgid "Discard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:656
 #: superset-frontend/src/dashboard/components/Header/index.jsx:658
+#: superset-frontend/src/dashboard/components/Header/index.jsx:660
 #, fuzzy
 msgid "Edit dashboard"
 msgstr ""

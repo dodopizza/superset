@@ -89,6 +89,7 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       y: axisYInfo,
       size: bubbleSizeInfo,
       maxBubbleSize,
+      minBubbleSize,
       showLabels,
       showDimension,
       marginTopInPixel,
@@ -166,8 +167,11 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
     }
   });
   const deltaSize = maxSize - minSize;
+  const maxBubbleSizeValue = Number(maxBubbleSize || DEFAULT_MAX_BUBBLE_SIZE);
+  const minBubbleSizeValue = Number(minBubbleSize || 5);
+  // Handle the case where all bubbles have the same size
   const sizeCoefficient =
-    Number(maxBubbleSize || DEFAULT_MAX_BUBBLE_SIZE) / deltaSize;
+    deltaSize === 0 ? 0 : (maxBubbleSizeValue - minBubbleSizeValue) / deltaSize;
 
   const data: DataRecordValue[][][] = [];
 
@@ -176,9 +180,22 @@ export default function transformProps(chartProps: BubbleDodoTransformProps) {
       .filter(item => (item[series] ?? defaultDimension) === dimension)
       .map(item => {
         const absoluteSize = Number(item[bubbleSize]);
-        const size = absoluteSize
-          ? absoluteSize * sizeCoefficient
-          : DEFAULT_BUBBLE_SIZE;
+        let size;
+        if (!absoluteSize) {
+          size = Math.max(DEFAULT_BUBBLE_SIZE, minBubbleSizeValue);
+        } else if (deltaSize === 0) {
+          // If all bubbles have the same size, use the average of min and max bubble size
+          size = Math.max(
+            (minBubbleSizeValue + maxBubbleSizeValue) / 2,
+            minBubbleSizeValue,
+          );
+        } else {
+          // Calculate size and ensure it's not less than minBubbleSizeValue
+          size = Math.max(
+            minBubbleSizeValue + (absoluteSize - minSize) * sizeCoefficient,
+            minBubbleSizeValue,
+          );
+        }
 
         return [item[axisX], item[axisY], size, absoluteSize, item[entity]];
       });

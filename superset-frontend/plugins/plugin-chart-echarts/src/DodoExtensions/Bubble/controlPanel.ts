@@ -296,6 +296,7 @@ const config: ControlPanelConfig = {
             name: 'max_bubble_size',
             config: {
               type: 'SelectControl',
+              renderTrigger: true,
               freeForm: true,
               label: t('Max Bubble Size'),
               default: '25',
@@ -308,6 +309,30 @@ const config: ControlPanelConfig = {
                 '75',
                 '100',
               ]),
+            },
+          },
+        ],
+
+        [
+          {
+            name: 'min_bubble_size',
+            config: {
+              type: 'SelectControl',
+              renderTrigger: true,
+              freeForm: true,
+              label: t('Min Bubble Size'),
+              default: '5',
+              choices: [
+                ...formatSelectOptions([
+                  '5',
+                  '10',
+                  '15',
+                  '25',
+                  '50',
+                  '75',
+                  '100',
+                ]),
+              ],
             },
           },
         ],
