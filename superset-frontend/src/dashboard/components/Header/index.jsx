@@ -1,7 +1,7 @@
 // DODO was here
 /* eslint-env browser */
 import moment from 'moment';
-import { PureComponent } from 'react';
+import { lazy, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   styled,
@@ -36,9 +36,14 @@ import setPeriodicRunner, {
 } from 'src/dashboard/util/setPeriodicRunner';
 import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
-import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration'; // DODO added 45320801
 import DashboardEmbedModal from '../EmbeddedModal';
 import OverwriteConfirm from '../OverwriteConfirm';
+
+// DODO added 45320801
+const MetricColorConfiguration = lazy(
+  () =>
+    import('/src/DodoExtensions/dashboard/components/MetricColorConfiguration'),
+);
 
 const locale = bootstrapData?.common?.locale || 'en';
 

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-30 15:57+0300\n"
+"POT-Creation-Date: 2025-05-05 10:49+0300\n"
 "PO-Revision-Date: 2025-03-20 16:37+0300\n"
 "Last-Translator: Daniel Checheta\n"
 "Language: ru\n"
@@ -2063,7 +2063,7 @@ msgstr "SQL Lab View"
 msgid "Template parameters"
 msgstr "Параметры шаблона"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:369
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:371
 #: superset-frontend/src/dashboard/components/AddSliceCard/AddSliceCard.tsx:296
 #: superset/connectors/sqla/views.py:422 superset/views/dashboard/mixin.py:85
 #: superset/views/dashboard/views.py:197 superset/views/database/mixins.py:203
@@ -3524,7 +3524,7 @@ msgstr "Скользящая средняя"
 #: superset-frontend/plugins/plugin-chart-echarts/src/constants.ts:65
 #: superset-frontend/src/DodoExtensions/FilterSets/FiltersHeader.tsx:129
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx:32
-#: superset-frontend/src/dashboard/components/Header/index.jsx:440
+#: superset-frontend/src/dashboard/components/Header/index.jsx:445
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/ScopeRow.tsx:78
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:180
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:703
@@ -11329,7 +11329,7 @@ msgstr "Редактирование набора фильтров:"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:141
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:76
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:232
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:233
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:225
 #: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:970
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:271
@@ -11359,14 +11359,14 @@ msgid "Filter set already exists"
 msgstr "Набор фильтров уже существует"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:161
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:240
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:241
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:50
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:64
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:218
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:233
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:326
-#: superset-frontend/src/dashboard/components/Header/index.jsx:627
-#: superset-frontend/src/dashboard/components/Header/index.jsx:629
+#: superset-frontend/src/dashboard/components/Header/index.jsx:632
+#: superset-frontend/src/dashboard/components/Header/index.jsx:634
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:117
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:319
 #: superset-frontend/src/dashboard/components/SaveModal.tsx:211
@@ -11442,7 +11442,7 @@ msgid "Rebuild"
 msgstr "Обновить"
 
 #: superset-frontend/src/DodoExtensions/FilterSets/FilterSetUnit.tsx:100
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:439
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:445
 #: superset-frontend/src/components/DeleteModal/index.tsx:84
 #: superset-frontend/src/features/charts/ChartCard.tsx:103
 #: superset-frontend/src/features/dashboards/DashboardCard.tsx:137
@@ -11520,47 +11520,51 @@ msgstr ""
 "Извините, что-то пошло не так. Сейчас мы исправляем ошибку. Повторите "
 "попытку позже."
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:212
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:213
 msgid "Edit label colors"
 msgstr "Изменить цвета мер"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:219
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:220
 msgid "Number of changes"
 msgstr "Число изменений"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:266
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:267
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:111
 msgid "Deleted"
 msgstr "Удалено"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:267
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:268
 #: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:12
 msgid "Not assigned"
 msgstr "Не назначено"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:277
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:279
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:278
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:280
 msgid "Edit colors"
 msgstr "Изменить цвета"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:295
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:296
 msgid "The dashboard has a color scheme applied: "
 msgstr "На дашборде применена цветовая схема: "
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:298
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:299
 msgid "You can override the colors of the metrics with your own values."
 msgstr "Вы можете переопределить цвета метрик собственными значениями."
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:308
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:309
 msgid "Search for label"
 msgstr "Искать меру"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:313
 #: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:314
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:315
 msgid "Filter labels"
 msgstr "Фильтровать меры"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:318
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:319
+msgid "On dashboard"
+msgstr "На дашборде"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:320
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
 #: superset-frontend/src/pages/AlertReportList/index.tsx:462
 #: superset-frontend/src/pages/AlertReportList/index.tsx:500
@@ -11588,21 +11592,17 @@ msgstr "Фильтровать меры"
 msgid "All"
 msgstr "Все"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:319
-msgid "Present on dashboard"
-msgstr "Присутствует на дашборде"
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:323
+msgid "Not on dashboard"
+msgstr "Нет на дашборде"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:322
-msgid "Not present on dashboard"
-msgstr "Отсутствует на дашборде"
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:355
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:357
 msgid ""
 "Metric is missing from the dashboard with current filters or removed from"
 " the dataset"
 msgstr "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:375
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:377
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx:57
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx:71
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:116
@@ -11613,14 +11613,19 @@ msgstr "Мера отсутствует на дашборде с текущим�
 msgid "Color"
 msgstr "Цвет"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:414
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:419
 msgid "Present on charts"
 msgstr "Присутствует на графиках"
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:430
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
 #: superset-frontend/src/components/Table/index.tsx:219
 msgid "Reset"
 msgstr "Сбросить"
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:458
+#: superset-frontend/src/components/ListView/ListView.tsx:445
+msgid "No results match your filter criteria"
+msgstr "Не найдено результатов по вашим критериям"
 
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx:68
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/ConditionalFormattingControlNoGradient.tsx:46
@@ -14459,10 +14464,6 @@ msgstr "Снять выделение"
 msgid "Add Tag"
 msgstr "Добавить тег"
 
-#: superset-frontend/src/components/ListView/ListView.tsx:445
-msgid "No results match your filter criteria"
-msgstr "Не найдено результатов по вашим критериям"
-
 #: superset-frontend/src/components/ListView/ListView.tsx:446
 msgid "Try different criteria to display results."
 msgstr "Попробуйте использовать другии критерии фильтрации"
@@ -15088,7 +15089,7 @@ msgstr "Применены кросс-фильтры (%d)"
 msgid "Applied filters (%d)"
 msgstr "Применены фильтры (%d)"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:309
+#: superset-frontend/src/dashboard/components/Header/index.jsx:314
 #, python-format
 msgid ""
 "This dashboard is currently auto refreshing; the next auto refresh will "
@@ -15097,43 +15098,43 @@ msgstr ""
 "В настоящий момент дашборд обновляется; следующее обновление будет через "
 "%s."
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:396
+#: superset-frontend/src/dashboard/components/Header/index.jsx:401
 msgid "Your dashboard is too large. Please reduce its size before saving it."
 msgstr ""
 "Дашборд слишком большой. Пожалуйста, уменьшите его размер перед "
 "сохранением."
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:432
-#: superset-frontend/src/dashboard/components/Header/index.jsx:436
+#: superset-frontend/src/dashboard/components/Header/index.jsx:437
+#: superset-frontend/src/dashboard/components/Header/index.jsx:441
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:175
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:179
 #: superset-frontend/src/features/datasets/metadataBar/useDatasetMetadataBar.tsx:72
 msgid "Not available"
 msgstr "Не доступно"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:526
+#: superset-frontend/src/dashboard/components/Header/index.jsx:531
 msgid "Add the name of the dashboard"
 msgstr "Задайте имя дашборда"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:527
+#: superset-frontend/src/dashboard/components/Header/index.jsx:532
 msgid "Dashboard title"
 msgstr "Название дашборда"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:571
+#: superset-frontend/src/dashboard/components/Header/index.jsx:576
 msgid "Undo the action"
 msgstr "Отменить действие"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:591
+#: superset-frontend/src/dashboard/components/Header/index.jsx:596
 msgid "Redo the action"
 msgstr "Повторить действие"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:616
-#: superset-frontend/src/dashboard/components/Header/index.jsx:618
+#: superset-frontend/src/dashboard/components/Header/index.jsx:621
+#: superset-frontend/src/dashboard/components/Header/index.jsx:623
 msgid "Discard"
 msgstr "Отменить изменения"
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:651
-#: superset-frontend/src/dashboard/components/Header/index.jsx:653
+#: superset-frontend/src/dashboard/components/Header/index.jsx:656
+#: superset-frontend/src/dashboard/components/Header/index.jsx:658
 msgid "Edit dashboard"
 msgstr "Изменить"
 

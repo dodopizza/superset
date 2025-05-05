@@ -126,7 +126,9 @@ export const CardTitle = styled.div<{ hasTooltip?: boolean }>`
   padding-left: ${({ hasTooltip }) => (hasTooltip ? '24px' : '0')};
 `;
 
-export const MetricName = styled.span<{ existOnDashboard: boolean }>`
+export const MetricName = styled.span<{
+  existOnDashboard: boolean;
+}>`
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   color: ${({ theme, existOnDashboard }) =>
     existOnDashboard ? 'inherit' : theme.colors.grayscale.light1};

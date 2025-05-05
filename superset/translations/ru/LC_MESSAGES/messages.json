@@ -3599,15 +3599,18 @@
       ],
       "Search for label": ["Искать меру"],
       "Filter labels": ["Фильтровать меры"],
+      "On dashboard": ["На дашборде"],
       "All": ["Все"],
-      "Present on dashboard": ["Присутствует на дашборде"],
-      "Not present on dashboard": ["Отсутствует на дашборде"],
+      "Not on dashboard": ["Нет на дашборде"],
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         "Мера отсутствует на дашборде с текущими фильтрами или удалена из датасета"
       ],
       "Color": ["Цвет"],
       "Present on charts": ["Присутствует на графиках"],
       "Reset": ["Сбросить"],
+      "No results match your filter criteria": [
+        "Не найдено результатов по вашим критериям"
+      ],
       "Edit formatter": ["Редактировать форматер"],
       "Add new formatter": ["Добавить форматирование"],
       "Add new color formatter": ["Добавить цветовое форматирование"],
@@ -4461,9 +4464,6 @@
       "%s Selected": ["%s Выбрано"],
       "Deselect all": ["Снять выделение"],
       "Add Tag": ["Добавить тег"],
-      "No results match your filter criteria": [
-        "Не найдено результатов по вашим критериям"
-      ],
       "Try different criteria to display results.": [
         "Попробуйте использовать другии критерии фильтрации"
       ],

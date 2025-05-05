@@ -2563,6 +2563,7 @@
       "You can override the colors of the metrics with your own values.": [""],
       "Search for label": [""],
       "Filter labels": [""],
+      "On dashboard": [""],
       "All": [""],
       "Metric is missing from the dashboard with current filters or removed from the dataset": [
         ""
@@ -2570,6 +2571,7 @@
       "Color": [""],
       "Present on charts": [""],
       "Reset": [""],
+      "No results match your filter criteria": [""],
       "Edit formatter": [""],
       "Add new formatter": [""],
       "Add new color formatter": [""],
@@ -3217,7 +3219,6 @@
       "%s Selected": [""],
       "Deselect all": [""],
       "Add Tag": [""],
-      "No results match your filter criteria": [""],
       "Try different criteria to display results.": [""],
       "clear all filters": [""],
       "No Data": [""],

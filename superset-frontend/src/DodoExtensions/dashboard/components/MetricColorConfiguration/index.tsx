@@ -14,6 +14,7 @@ import Loading from 'src/components/Loading';
 import { useDebounceValue } from 'src/hooks/useDebounceValue';
 import { DashboardLayout, DatasourcesState } from 'src/dashboard/types';
 import { Tooltip } from 'src/components/Tooltip';
+import { EmptyStateSmall } from 'src/components/EmptyState';
 import { processDashboardCharts, getTranslationsMap } from './utils';
 import {
   ActionsWrapper,
@@ -58,7 +59,7 @@ const MetricColorConfiguration = ({
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounceValue(search, 500);
   const [existenceFilter, setExistenceFilter] =
-    useState<PresenceFilterType>('all');
+    useState<PresenceFilterType>('present');
   const [newLabelColors, setNewLabelColors] = useState<PlainObject>({});
   const [deletedLabels, setDeletedLabels] = useState<Record<string, 'true'>>(
     {},
@@ -142,7 +143,7 @@ const MetricColorConfiguration = ({
     setNewLabelColors({});
     setDeletedLabels({});
     setSearch('');
-    setExistenceFilter('all');
+    setExistenceFilter('present');
     setCurrentPage(1);
   };
 
@@ -315,12 +316,12 @@ const MetricColorConfiguration = ({
             value={existenceFilter}
             onChange={onChangeExistenceFilter}
             options={[
-              { value: 'all', label: t('All') },
-              { value: 'present', label: t('Present on dashboard') },
+              { value: 'present', label: t('On dashboard') },
               {
                 value: 'not_present',
-                label: t('Not present on dashboard'),
+                label: t('Not on dashboard'),
               },
+              { value: 'all', label: t('All') },
             ]}
             showSearch={false}
             css={css`
@@ -339,112 +340,125 @@ const MetricColorConfiguration = ({
         </FilterSection>
 
         <MetricsContainer colorScheme={colorScheme}>
-          <MetricCardsGrid>
-            {paginatedMetrics.map(label => {
-              const item = getMetricData(label);
+          {paginatedMetrics.length > 0 && (
+            <MetricCardsGrid>
+              {paginatedMetrics.map(label => {
+                const item = getMetricData(label);
 
-              return (
-                <StyledCard
-                  key={label}
-                  isAltered={item.isAltered}
-                  title={
-                    <CardTitle hasTooltip={!item.existOnDashboard}>
-                      {!item.existOnDashboard && (
-                        <TooltipContainer>
-                          <InfoTooltip
-                            tooltip={t(
-                              'Metric is missing from the dashboard with current filters or removed from the dataset',
-                            )}
-                            placement="top"
-                          />
-                        </TooltipContainer>
-                      )}
-                      <MetricName
-                        existOnDashboard={item.existOnDashboard}
-                        title={item.displayName}
+                return (
+                  <StyledCard
+                    key={label}
+                    isAltered={item.isAltered}
+                    title={
+                      <CardTitle hasTooltip={!item.existOnDashboard}>
+                        {!item.existOnDashboard && (
+                          <TooltipContainer>
+                            <InfoTooltip
+                              tooltip={t(
+                                'Metric is missing from the dashboard with current filters or removed from the dataset',
+                              )}
+                              placement="top"
+                            />
+                          </TooltipContainer>
+                        )}
+                        <MetricName
+                          existOnDashboard={item.existOnDashboard}
+                          title={item.displayName}
+                        >
+                          {item.displayName}
+                        </MetricName>
+                        {item.isAltered && (
+                          <ChangeIndicator>{t('Modified')}</ChangeIndicator>
+                        )}
+                      </CardTitle>
+                    }
+                  >
+                    <ColorRow>
+                      <ColorLabel>{t('Color')}:</ColorLabel>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
                       >
-                        {item.displayName}
-                      </MetricName>
-                      {item.isAltered && (
-                        <ChangeIndicator>{t('Modified')}</ChangeIndicator>
-                      )}
-                    </CardTitle>
-                  }
-                >
-                  <ColorRow>
-                    <ColorLabel>{t('Color')}:</ColorLabel>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <ColorPickerControlDodo
-                        value={
-                          item.isDeleted ? undefined : mergedLabelColors[label]
+                        <ColorPickerControlDodo
+                          value={
+                            item.isDeleted
+                              ? undefined
+                              : mergedLabelColors[label]
+                          }
+                          onChange={handleChangeColor(label)}
+                          previewWidth="50px"
+                          disabled={item.isDeleted}
+                          isHex
+                        />
+                        <ColorValue>{item.colorValue}</ColorValue>
+                      </div>
+                    </ColorRow>
+
+                    {item.usedInCharts.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ul
+                            style={{
+                              textAlign: 'left',
+                              margin: 0,
+                              padding: '0 0 0 16px',
+                            }}
+                          >
+                            {item.usedInCharts.map((chart, index) => (
+                              <li key={index}>
+                                {chart.name} ({chart.type})
+                              </li>
+                            ))}
+                          </ul>
                         }
-                        onChange={handleChangeColor(label)}
-                        previewWidth="50px"
-                        disabled={item.isDeleted}
-                        isHex
-                      />
-                      <ColorValue>{item.colorValue}</ColorValue>
-                    </div>
-                  </ColorRow>
+                        placement="top"
+                      >
+                        <ChartUsageText>
+                          {t('Present on charts')}
+                        </ChartUsageText>
+                      </Tooltip>
+                    )}
 
-                  {item.usedInCharts.length > 0 && (
-                    <Tooltip
-                      title={
-                        <ul
-                          style={{
-                            textAlign: 'left',
-                            margin: 0,
-                            padding: '0 0 0 16px',
-                          }}
-                        >
-                          {item.usedInCharts.map((chart, index) => (
-                            <li key={index}>
-                              {chart.name} ({chart.type})
-                            </li>
-                          ))}
-                        </ul>
-                      }
-                      placement="top"
-                    >
-                      <ChartUsageText>{t('Present on charts')}</ChartUsageText>
-                    </Tooltip>
-                  )}
+                    {item.hasActions && (
+                      <ActionsWrapper>
+                        {item.isAltered && (
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={handleReset(
+                              label,
+                              item.isColorChanged,
+                              item.isDeleted,
+                            )}
+                          >
+                            {t('Reset')}
+                          </span>
+                        )}
+                        {item.hasCurrentColor && !item.isDeleted && (
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={handleDelete(label)}
+                          >
+                            {t('Delete')}
+                          </span>
+                        )}
+                      </ActionsWrapper>
+                    )}
+                  </StyledCard>
+                );
+              })}
+            </MetricCardsGrid>
+          )}
 
-                  {item.hasActions && (
-                    <ActionsWrapper>
-                      {item.isAltered && (
-                        <span
-                          role="button"
-                          tabIndex={0}
-                          onClick={handleReset(
-                            label,
-                            item.isColorChanged,
-                            item.isDeleted,
-                          )}
-                        >
-                          {t('Reset')}
-                        </span>
-                      )}
-                      {item.hasCurrentColor && !item.isDeleted && (
-                        <span
-                          role="button"
-                          tabIndex={0}
-                          onClick={handleDelete(label)}
-                        >
-                          {t('Delete')}
-                        </span>
-                      )}
-                    </ActionsWrapper>
-                  )}
-                </StyledCard>
-              );
-            })}
-          </MetricCardsGrid>
+          {paginatedMetrics.length === 0 && (
+            <EmptyStateSmall
+              title={t('No results match your filter criteria')}
+              image="empty.svg"
+            />
+          )}
         </MetricsContainer>
 
         {isLoading && <Loading />}
