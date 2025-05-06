@@ -5,23 +5,19 @@
 Create a file `docker/requirements-local.txt` with this content:
 
 ```
-Authlib==0.15.5
-gevent==21.12.0
+Authlib==1.5.2
+confluent-kafka==2.5.0
+Flask-Cors==5.0.1
+flask-http-middleware==0.4.4
+gevent>=25.4.2
+marshmallow-enum==1.5.1
 moz-sql-parser==4.9.21002
-mysqlclient==2.1.0
-prometheus-client==0.13.1
-psycopg2==2.8.5
-pybigquery==0.5.0
-pymssql==2.1.5
+prometheus-client==0.21.1
+psycopg2-binary==2.9.6
+pycountry==24.6.1
 python-json-logger==2.0.2
 redis==4.6.0
-typing-extensions==4.9.0
-sqlalchemy-kusto==2.0.1
-xlsxwriter==3.0.7
-flask-http-middleware==0.3.1
-sshtunnel==0.4.0
-Flask-SQLAlchemy==2.5.1
-marshmallow-enum==1.5.1
+sqlalchemy-kusto==3.1.1
 
 ```
 
