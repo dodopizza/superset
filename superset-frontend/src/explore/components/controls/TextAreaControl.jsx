@@ -80,7 +80,7 @@ class TextAreaControl extends Component {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
           const { height } = container.getBoundingClientRect();
-          this.setState({ height });
+          if (height) this.setState({ height });
         }, 200);
       });
 

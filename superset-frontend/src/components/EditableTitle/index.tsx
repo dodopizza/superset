@@ -209,7 +209,7 @@ export default function EditableTitle({
         css={(theme: SupersetTheme) => css`
           color: ${theme.colors.grayscale.dark1};
           text-decoration: none;
-          display: inline-block;
+          // display: inline-block; // DODO commented out 44120742
         `}
       >
         {value}

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useState } from 'react';
 import { getClientErrorObject, t } from '@superset-ui/core';
 import Popover, { PopoverProps } from 'src/components/Popover';
@@ -36,9 +19,7 @@ export type URLShortLinkButtonProps = {
 export default function URLShortLinkButton({
   dashboardId,
   anchorLinkId,
-  placement = 'right',
-  emailContent = '',
-  emailSubject = '',
+  placement = 'right', // DODO deleted emailSubject and emailContent props
 }: URLShortLinkButtonProps) {
   const [shortUrl, setShortUrl] = useState('');
   const { addDangerToast } = useToasts();
@@ -66,8 +47,9 @@ export default function URLShortLinkButton({
     }
   };
 
-  const emailBody = `${emailContent}${shortUrl || ''}`;
-  const emailLink = `mailto:?Subject=${emailSubject}%20&Body=${emailBody}`;
+  // DODO commented out
+  // const emailBody = `${emailContent}${shortUrl || ''}`;
+  // const emailLink = `mailto:?Subject=${emailSubject}%20&Body=${emailBody}`;
 
   return (
     <Popover
@@ -88,10 +70,11 @@ export default function URLShortLinkButton({
               <i className="fa fa-clipboard" title={t('Copy to clipboard')} />
             }
           />
-          &nbsp;&nbsp;
+          {/* DODO commented out */}
+          {/* &nbsp;&nbsp;
           <a href={emailLink}>
             <i className="fa fa-envelope" />
-          </a>
+          </a> */}
         </div>
       }
     >

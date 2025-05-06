@@ -251,12 +251,13 @@ export default function EchartsMixedTimeseries({
               fontSize: '10px',
               marginTop: '5px',
               fontStyle: 'italic',
+              userSelect: 'none',
             }}
             role="button"
             tabIndex={0}
             onClick={showHideHandler}
           >
-            {t(isVisibleNow ? 'Show values' : 'Hide values')}
+            {isVisibleNow ? t('Show values') : t('Hide values')}
           </span>
         </div>
       )}

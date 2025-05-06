@@ -553,6 +553,7 @@ export class TableRenderer extends Component {
               onArrowClick,
               headerCellFormattedValue,
               namesMapping,
+              datasourceDescriptions, // DODO added 44728892
             )}
           </th>,
         );

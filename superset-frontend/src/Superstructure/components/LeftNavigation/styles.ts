@@ -35,6 +35,9 @@ const StyledLink = styled(NavLink)`
   padding-bottom: 0.5em;
   color: #69696a;
   border-radius: 2px;
+  hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
 
   &:hover {
     background: #f1f1f1;

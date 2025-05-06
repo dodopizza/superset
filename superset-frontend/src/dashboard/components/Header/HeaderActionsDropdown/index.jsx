@@ -20,6 +20,8 @@ import { getActiveFilters } from 'src/dashboard/util/activeDashboardFilters';
 import { getUrlParam } from 'src/utils/urlUtils';
 import { MenuKeys } from 'src/dashboard/types';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const propTypes = {
   addSuccessToast: PropTypes.func.isRequired,
   addDangerToast: PropTypes.func.isRequired,
@@ -187,7 +189,7 @@ export class HeaderActionsDropdown extends PureComponent {
 
     return (
       <Menu selectable={false} data-test="header-actions-menu" {...rest}>
-        {!editMode && (
+        {!editMode && isStandalone && (
           <Menu.Item
             key={MenuKeys.RefreshDashboard}
             data-test="refresh-dashboard-menu-item"
@@ -197,7 +199,7 @@ export class HeaderActionsDropdown extends PureComponent {
             {t('Refresh dashboard')}
           </Menu.Item>
         )}
-        {!editMode && !isEmbedded && (
+        {!editMode && !isEmbedded && isStandalone && (
           <Menu.Item
             key={MenuKeys.ToggleFullscreen}
             onClick={this.handleMenuClick}
@@ -207,7 +209,7 @@ export class HeaderActionsDropdown extends PureComponent {
               : t('Enter fullscreen')}
           </Menu.Item>
         )}
-        {editMode && (
+        {editMode && isStandalone && (
           <Menu.Item
             key={MenuKeys.EditProperties}
             onClick={this.handleMenuClick}
@@ -215,7 +217,7 @@ export class HeaderActionsDropdown extends PureComponent {
             {t('Edit properties')}
           </Menu.Item>
         )}
-        {editMode && (
+        {editMode && isStandalone && (
           <Menu.Item key={MenuKeys.EditCss}>
             <CssEditor
               triggerNode={<span>{t('Edit CSS')}</span>}
@@ -225,8 +227,8 @@ export class HeaderActionsDropdown extends PureComponent {
             />
           </Menu.Item>
         )}
-        <Menu.Divider />
-        {userCanSave && (
+        {isStandalone && <Menu.Divider />}
+        {userCanSave && isStandalone && (
           <Menu.Item key={MenuKeys.SaveModal}>
             <SaveModal
               addSuccessToast={this.props.addSuccessToast}
@@ -265,7 +267,7 @@ export class HeaderActionsDropdown extends PureComponent {
             dashboardId={dashboardId}
           />
         </Menu.SubMenu>
-        {userCanShare && (
+        {userCanShare && isStandalone && (
           <Menu.SubMenu
             key={MenuKeys.Share}
             data-test="share-dashboard-menu-item"
@@ -285,7 +287,7 @@ export class HeaderActionsDropdown extends PureComponent {
             />
           </Menu.SubMenu>
         )}
-        {!editMode && userCanCurate && (
+        {!editMode && userCanCurate && isStandalone && (
           <Menu.Item
             key={MenuKeys.ManageEmbedded}
             onClick={this.handleMenuClick}
@@ -293,8 +295,8 @@ export class HeaderActionsDropdown extends PureComponent {
             {t('Embed dashboard')}
           </Menu.Item>
         )}
-        <Menu.Divider />
-        {!editMode ? (
+        {isStandalone && <Menu.Divider />}
+        {!editMode && isStandalone ? (
           this.state.showReportSubMenu ? (
             <>
               <Menu.SubMenu title={t('Manage email report')}>
@@ -321,27 +323,31 @@ export class HeaderActionsDropdown extends PureComponent {
             </Menu>
           )
         ) : null}
-        {editMode && !isEmpty(dashboardInfo?.metadata?.filter_scopes) && (
-          <Menu.Item key={MenuKeys.SetFilterMapping}>
-            <FilterScopeModal
-              className="m-r-5"
-              triggerNode={t('Set filter mapping')}
+        {editMode &&
+          !isEmpty(dashboardInfo?.metadata?.filter_scopes) &&
+          isStandalone && (
+            <Menu.Item key={MenuKeys.SetFilterMapping}>
+              <FilterScopeModal
+                className="m-r-5"
+                triggerNode={t('Set filter mapping')}
+              />
+            </Menu.Item>
+          )}
+
+        {isStandalone && (
+          <Menu.Item key={MenuKeys.AutorefreshModal}>
+            <RefreshIntervalModal
+              addSuccessToast={this.props.addSuccessToast}
+              refreshFrequency={refreshFrequency}
+              refreshLimit={refreshLimit}
+              refreshWarning={refreshWarning}
+              onChange={this.changeRefreshInterval}
+              editMode={editMode}
+              refreshIntervalOptions={refreshIntervalOptions}
+              triggerNode={<span>{t('Set auto-refresh interval')}</span>}
             />
           </Menu.Item>
         )}
-
-        <Menu.Item key={MenuKeys.AutorefreshModal}>
-          <RefreshIntervalModal
-            addSuccessToast={this.props.addSuccessToast}
-            refreshFrequency={refreshFrequency}
-            refreshLimit={refreshLimit}
-            refreshWarning={refreshWarning}
-            onChange={this.changeRefreshInterval}
-            editMode={editMode}
-            refreshIntervalOptions={refreshIntervalOptions}
-            triggerNode={<span>{t('Set auto-refresh interval')}</span>}
-          />
-        </Menu.Item>
       </Menu>
     );
   }

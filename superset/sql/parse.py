@@ -67,6 +67,7 @@ SQLGLOT_DIALECTS = {
     # "ibmi": ???
     # "impala": ???
     # "kustokql": ???
+    "kustosql": Dialects.TSQL,
     # "kylin": ???
     "mssql": Dialects.TSQL,
     "mysql": Dialects.MYSQL,

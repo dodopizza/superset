@@ -102,6 +102,7 @@ def get_table_metadata(database: Any, table: Table) -> TableMetadataResponse:
             indent=True,
             cols=columns,
             latest_partition=True,
+            show_cols=True,  # dodo added
         ),
         "primaryKey": primary_key,
         "foreignKeys": foreign_keys,

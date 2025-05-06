@@ -1961,6 +1961,7 @@ const en = {
       'Show values': [''],
       'Hide values': [''],
       'Total (%(aggregatorName)s)': [''],
+      Subtotal: [''],
       Sum: [''],
       Average: [''],
       Median: [''],

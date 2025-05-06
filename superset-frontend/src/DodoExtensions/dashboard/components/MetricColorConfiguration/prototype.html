@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MetricColorConfiguration Prototype</title>
+    <link rel="stylesheet" href="prototype.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>Настройка цветов метрик <span class="badge">2 изменения</span></h2>
+        <button class="btn">Закрыть</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Поиск метрик..."
+          />
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="main-content">
+          <div class="metrics-container">
+            <div class="metric-cards">
+              <div class="metric-card altered">
+                <div class="card-header">
+                  <div class="metric-name">
+                    Выручка <span class="change-indicator">Изменено</span>
+                  </div>
+                </div>
+
+                <div class="card-content">
+                  <div class="color-row">
+                    <div class="color-label">Текущий цвет:</div>
+                    <div class="color-swatch-container">
+                      <div
+                        class="color-swatch clickable"
+                        style="background-color: #66c2a5"
+                        title="Нажмите, чтобы изменить цвет"
+                      ></div>
+                      <div class="color-value">#66c2a5</div>
+                      <button class="color-edit-button">Изменить</button>
+                    </div>
+                  </div>
+
+                  <div class="usage-row">
+                    <span class="usage-label">Используется в:</span>
+                    <a href="#" class="chart-link">Обзор продаж</a
+                    ><a href="#" class="chart-link">Динамика продаж</a
+                    ><a href="#" class="chart-link">Анализ выручки</a
+                    ><a href="#" class="chart-link"
+                      >Сравнение с прошлым годом</a
+                    >
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="footer-actions">
+                    <button class="action-button">Отменить изменение</button>
+                    <button class="action-button">Удалить настройку</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="card-header">
+                  <div class="metric-name">Прибыль</div>
+                </div>
+
+                <div class="card-content">
+                  <div class="color-row">
+                    <div class="color-label">Текущий цвет:</div>
+                    <div class="color-swatch-container">
+                      <div
+                        class="color-swatch clickable no-color"
+                        title="Нажмите, чтобы назначить цвет"
+                      >
+                        <div class="no-color-text">?</div>
+                      </div>
+                      <div class="color-value">Не назначен</div>
+                      <button class="color-edit-button">Назначить</button>
+                    </div>
+                  </div>
+
+                  <div class="usage-row">
+                    <span class="usage-label">Используется в:</span>
+                    <a href="#" class="chart-link">Обзор продаж</a
+                    ><a href="#" class="chart-link">Анализ прибыли</a
+                    ><a href="#" class="chart-link">Сравнение с конкурентами</a>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="footer-actions">
+                    <button class="action-button">Удалить настройку</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card">
+                <div class="card-header">
+                  <div class="metric-name">Затраты</div>
+                </div>
+
+                <div class="card-content">
+                  <div class="color-row">
+                    <div class="color-label">Текущий цвет:</div>
+                    <div class="color-swatch-container">
+                      <div
+                        class="color-swatch clickable"
+                        style="background-color: #8da0cb"
+                        title="Нажмите, чтобы изменить цвет"
+                      ></div>
+                      <div class="color-value">#8da0cb</div>
+                      <button class="color-edit-button">Изменить</button>
+                    </div>
+                  </div>
+
+                  <div class="usage-row">
+                    <span class="usage-label">Используется в:</span>
+                    <a href="#" class="chart-link">Обзор продаж</a
+                    ><a href="#" class="chart-link">Анализ затрат</a
+                    ><a href="#" class="chart-link">Бюджетирование</a>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="footer-actions">
+                    <button class="action-button">Удалить настройку</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metric-card altered">
+                <div class="card-header">
+                  <div class="metric-name">
+                    Клиенты <span class="change-indicator">Изменено</span>
+                  </div>
+                </div>
+
+                <div class="card-content">
+                  <div class="color-row">
+                    <div class="color-label">Текущий цвет:</div>
+                    <div class="color-swatch-container">
+                      <div
+                        class="color-swatch clickable"
+                        style="background-color: #e78ac3"
+                        title="Нажмите, чтобы изменить цвет"
+                      ></div>
+                      <div class="color-value">#e78ac3</div>
+                      <button class="color-edit-button">Изменить</button>
+                    </div>
+                  </div>
+
+                  <div class="usage-row">
+                    <span class="usage-label">Используется в:</span>
+                    <a href="#" class="chart-link">Анализ клиентов</a
+                    ><a href="#" class="chart-link">Сегментация</a>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="footer-actions">
+                    <button class="action-button">Отменить изменение</button>
+                    <button class="action-button">Удалить настройку</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pagination">
+              <button class="pagination-button" disabled>&laquo;</button>
+              <button class="pagination-button active">1</button>
+              <button class="pagination-button">2</button>
+              <button class="pagination-button">3</button>
+              <button class="pagination-button">&raquo;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button class="btn">Отмена</button>
+        <button class="btn btn-primary">Сохранить</button>
+      </div>
+    </div>
+  </body>
+</html>

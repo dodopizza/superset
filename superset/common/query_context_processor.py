@@ -48,7 +48,7 @@ from superset.exceptions import (
 from superset.extensions import cache_manager, security_manager
 from superset.models.helpers import QueryResult
 from superset.models.sql_lab import Query
-from superset.utils import csv, excel
+from superset.utils import excel
 from superset.utils.cache import generate_cache_key, set_and_log_cache
 from superset.utils.core import (
     DatasourceType,
@@ -646,7 +646,7 @@ class QueryContextProcessor:
         self, df: pd.DataFrame, coltypes: list[GenericDataType]
     ) -> str | list[dict[str, Any]]:
         if self._query_context.result_format in ChartDataResultFormat.table_like():
-            include_index = not isinstance(df.index, pd.RangeIndex)
+            # include_index = not isinstance(df.index, pd.RangeIndex)
             columns = list(df.columns)
             new_columns = []
             column_rename_indexes: dict[str, int] = {}
@@ -667,18 +667,19 @@ class QueryContextProcessor:
 
                 df.columns = new_columns
 
-            result = None
-            df = dataframe_utils.format_data_for_export(  # dodo added
-                df, self._query_context.form_data
-            )
-            if self._query_context.result_format == ChartDataResultFormat.CSV:
-                result = csv.df_to_escaped_csv(
-                    df, index=include_index, **config["CSV_EXPORT"]
-                )
-            elif self._query_context.result_format == ChartDataResultFormat.XLSX:
+            # result = None
+
+            # dodo added
+            # for merge some queries to single csv/xlsx file
+
+            # if self._query_context.result_format == ChartDataResultFormat.CSV:
+            #     result = csv.df_to_escaped_csv(
+            #         df, index=include_index, **config["CSV_EXPORT"]
+            #     )
+            if self._query_context.result_format == ChartDataResultFormat.XLSX:
                 excel.apply_column_types(df, coltypes)
-                result = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
-            return result or ""
+                # result = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
+            # return result or ""
 
         return df.to_dict(orient="records")
 
