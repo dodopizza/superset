@@ -14,7 +14,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10;
   padding: 24px;
 `;
 
@@ -27,7 +27,8 @@ const Modal = styled.div`
   box-shadow: 0 8px 24px
     ${({ theme }) => addAlpha(theme.colors.grayscale.dark2, 0.3)};
   color: ${({ theme }) => theme.colors.grayscale.light5};
-  overflow: hidden;
+  max-height: 100%;
+  overflow: auto;
 `;
 
 // Header section
