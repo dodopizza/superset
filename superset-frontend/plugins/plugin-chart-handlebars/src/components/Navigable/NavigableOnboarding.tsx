@@ -10,7 +10,7 @@ const Overlay = styled.div`
   position: absolute;
   inset: 0;
   background-color: ${({ theme }) =>
-    addAlpha(theme.colors.grayscale.dark2, 0.6)};
+    addAlpha(theme.colors.grayscale.dark2, 0.4)};
   display: flex;
   align-items: center;
   justify-content: center;
