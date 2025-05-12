@@ -20,7 +20,7 @@ const Overlay = styled.div`
 
 // Main modal card
 const Modal = styled.div`
-  background-color: ${({ theme }) => theme.colors.grayscale.dark2};
+  background-color: ${({ theme }) => theme.colors.grayscale.base};
   border-radius: 12px;
   max-width: 520px;
   width: 100%;
