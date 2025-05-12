@@ -3335,6 +3335,30 @@
       "Waterfall Chart": ["Waterfall Chart"],
       "page_size.all": ["все"],
       "Loading...": ["Загрузка..."],
+      "Content with navigation": ["Содержимое с навигацией"],
+      "Reset view (Esc)": ["Сбросить вид (Esc)"],
+      "Reset": ["Сбросить"],
+      "Double-click to reset zoom. Use +/- keys to zoom in/out": [
+        "Двойной щелчок позволяет сбросить масштаб. Используйте кнопки +/- для увеличения/уменьшения масштаба."
+      ],
+      "Chart Navigation Features": ["Возможности навигации по графику"],
+      "This chart supports interactive navigation:": [
+        "Этот график поддерживает интерактивную навигацию:"
+      ],
+      "Pan the chart:": ["Панорамируйте график:"],
+      "Hold": ["Держите"],
+      "while dragging with the mouse": ["при перетаскивании с помощью мыши"],
+      "Zoom in/out:": ["Увеличение/уменьшение масштаба:"],
+      "while scrolling the mouse wheel, or use": [
+        "прокручивая колесико мыши, или используйте"
+      ],
+      "and": ["и"],
+      "keys": ["клавиши"],
+      "Reset view:": ["Сбросить вид:"],
+      "Press": ["Зажать"],
+      "Esc": ["Esc"],
+      "or click the Reset button": ["или нажмите кнопку Сброс"],
+      "Got it!": ["Понятно!"],
       "Write a handlebars template to render the data": [
         "Напишите шаблон руля, чтобы отображать данные"
       ],
@@ -3355,6 +3379,10 @@
       "Show summary": ["Показать итоги"],
       "Show total aggregations of selected metrics. Note that row limit does not apply to the result.": [
         "Показывает общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату."
+      ],
+      "Allow navigation tools": ["Разрешить инструменты навигации"],
+      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse wheel.": [
+        "Включите инструменты навигации для шаблона руля. Позволяет панорамировать с помощью средней кнопкой мыши или Cmd/Ctrl+drag, и масштабирование с помощью Cmd/Ctrl+мышь колесиком»."
       ],
       "Ordering": ["Упорядочивание"],
       "Order results by selected columns": [
@@ -3608,7 +3636,6 @@
       ],
       "Color": ["Цвет"],
       "Present on charts": ["Присутствует на графиках"],
-      "Reset": ["Сбросить"],
       "No results match your filter criteria": [
         "Не найдено результатов по вашим критериям"
       ],

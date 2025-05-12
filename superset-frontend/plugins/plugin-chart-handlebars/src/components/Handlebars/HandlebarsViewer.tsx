@@ -5,15 +5,26 @@ import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { isPlainObject } from 'lodash';
 import Helpers from 'just-handlebars-helpers';
+import Navigable from '../Navigable'; // DODO added 49751291
 
-export interface HandlebarsViewerProps {
+interface HandlebarsViewerPropsDodoExtended {
+  allowNavigationTools?: boolean; // DODO added 49751291
+}
+export interface HandlebarsViewerProps
+  extends HandlebarsViewerPropsDodoExtended {
   templateSource: string;
   data: any;
 }
 
+// DODO added 49751291
+const ErrorStyled = styled.pre`
+  white-space: pre-wrap;
+`;
+
 export const HandlebarsViewer = ({
   templateSource,
   data,
+  allowNavigationTools = false, // DODO added 49751291
 }: HandlebarsViewerProps) => {
   const [renderedTemplate, setRenderedTemplate] = useState('');
   const [error, setError] = useState('');
@@ -35,20 +46,25 @@ export const HandlebarsViewer = ({
       setError('');
     } catch (error) {
       setRenderedTemplate('');
-      setError(error.message);
+      setError((error as Error).message);
     }
   }, [templateSource, data]);
 
-  const Error = styled.pre`
-    white-space: pre-wrap;
-  `;
-
   if (error) {
-    return <Error>{error}</Error>;
+    return <ErrorStyled>{error}</ErrorStyled>; // DODO changed 49751291
   }
 
   if (renderedTemplate) {
-    return (
+    // DODO changed 49751291
+    return allowNavigationTools ? (
+      <Navigable>
+        <SafeMarkdown
+          source={renderedTemplate}
+          htmlSanitization={htmlSanitization}
+          htmlSchemaOverrides={htmlSchemaOverrides}
+        />
+      </Navigable>
+    ) : (
       <SafeMarkdown
         source={renderedTemplate}
         htmlSanitization={htmlSanitization}
