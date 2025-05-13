@@ -2712,11 +2712,17 @@
         "Добавить цвет для положительного/отрицательного изменений"
       ],
       "color scheme for comparison": ["цветовая схема для сравнения"],
+      "Green for increase, red for decrease": [
+        "Зеленый для увеличения, красный для уменьшения"
+      ],
+      "Red for increase, green for decrease": [
+        "красный для увеличения, зеленый для уменьшения"
+      ],
       "Adds color to the chart symbols based on the positive or negative change from the comparison value.": [
         "Добавляет цвет к символам графика на основе положительного или отрицательного изменения от значения сравнения."
       ],
       "Big Number with Time Period Comparison": [
-        "Big Number with Time Period Comparison"
+        "Карточка со сравнением временных периодов"
       ],
       "Display settings": ["Настройки отображения"],
       "Subheader": ["Подзаголовок"],
@@ -3542,12 +3548,6 @@
       "color type": ["тип цвета"],
       "Custom Conditional Formatting": [
         "Пользовательское условное форматирование"
-      ],
-      "Green for increase, red for decrease": [
-        "Зеленый для увеличения, красный для уменьшения"
-      ],
-      "Red for increase, green for decrease": [
-        "красный для увеличения, зеленый для уменьшения"
       ],
       "Apply conditional color formatting to numeric columns": [
         "Применить условное цветовое форматирование к столбцам"
@@ -4625,8 +4625,10 @@
       "Type a number": ["Введите число"],
       "MINUTE": ["минута"],
       "Minutes value": ["Протокол"],
-      "SECOND": ["второй"],
+      "minutes": ["минут"],
+      "SECOND": ["секунда"],
       "Seconds value": ["Секундные значения"],
+      "seconds": ["секунд"],
       "Are you sure you want to proceed?": [
         "Вы уверены, что хотите продолжить?"
       ],
@@ -5830,7 +5832,6 @@
       "Log retention": ["Хранение журнала"],
       "Working timeout": ["Время на рассылку"],
       "Time in seconds": ["Время в секундах"],
-      "seconds": ["секунд"],
       "Grace period": ["Перерыв между оповещением"],
       "Choose notification method and recipients.": [
         "Выберите способ уведомления и получателей."
@@ -6912,7 +6913,8 @@
       "oldest": ["Первое"],
       "average": ["Среднее"],
       "latest": ["Последнее"],
-      "changes": ["изменение"]
+      "changes": ["изменение"],
+      "vs": ["против"]
     }
   }
 }

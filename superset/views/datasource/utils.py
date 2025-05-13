@@ -84,13 +84,19 @@ def get_samples(  # pylint: disable=too-many-arguments
             force=force,
         )
 
+    #  dodo added
+    if datasource.database.backend == "kustosql":
+        count_metric = "count()"
+    else:
+        count_metric = "COUNT(*)"
+
     # constructing count(*) query
     count_star_metric = {
         "metrics": [
             {
                 "expressionType": "SQL",
-                "sqlExpression": "COUNT(*)",
-                "label": "COUNT(*)",
+                "sqlExpression": count_metric,
+                "label": count_metric,
             }
         ]
     }
@@ -118,7 +124,7 @@ def get_samples(  # pylint: disable=too-many-arguments
 
         sample_data["page"] = page
         sample_data["per_page"] = per_page
-        sample_data["total_count"] = count_star_data["data"][0]["COUNT(*)"]
+        sample_data["total_count"] = count_star_data["data"][0][count_metric]
         return sample_data
     except (IndexError, KeyError) as exc:
         raise DatasetSamplesFailedError from exc

@@ -387,28 +387,32 @@ class ChartDataRestApi(ChartRestApi):
             result_df = pd.DataFrame()
             for query in result["queries"]:
                 data = pd.DataFrame(query["data"])
-                for key in data.keys():
-                    if key in result_df.keys():
-                        data.pop(key)
-                if not data.empty:
-                    result_df = result_df.join(data, how="right", rsuffix="2")
+                if result_df.empty():
+                    result_df = data
+                result_df = pd.merge(
+                    result_df,
+                    data,
+                    on=form_data.x_axis,
+                    how="outer",
+                    suffixes=("", "_extra"),
+                )
 
                 result_df = format_data_for_export(  # dodo added
                     result_df, form_data
                 )
-                if result_format == ChartDataResultFormat.CSV:
-                    include_index = not isinstance(result_df.index, pd.RangeIndex)
-                    return CsvResponse(
-                        csv.df_to_escaped_csv(
-                            result_df, index=include_index, **config["CSV_EXPORT"]
-                        ),
-                        headers=generate_download_headers("csv"),
-                    )
-                if result_format == ChartDataResultFormat.XLSX:
-                    return XlsxResponse(
-                        excel.df_to_excel(result_df, **config["EXCEL_EXPORT"]),
-                        headers=generate_download_headers("xlsx"),
-                    )
+            if result_format == ChartDataResultFormat.CSV:
+                include_index = not isinstance(result_df.index, pd.RangeIndex)
+                return CsvResponse(
+                    csv.df_to_escaped_csv(
+                        result_df, index=include_index, **config["CSV_EXPORT"]
+                    ),
+                    headers=generate_download_headers("csv"),
+                )
+            if result_format == ChartDataResultFormat.XLSX:
+                return XlsxResponse(
+                    excel.df_to_excel(result_df, **config["EXCEL_EXPORT"]),
+                    headers=generate_download_headers("xlsx"),
+                )
 
             # return multi-query results bundled as a zip file
             def _process_data(query_data: Any) -> Any:

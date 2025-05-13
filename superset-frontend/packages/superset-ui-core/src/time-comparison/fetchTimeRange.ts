@@ -9,6 +9,7 @@ import {
   dttmToMoment, // DODO added 44211759
   MOMENT_FORMAT_UI_DODO, // DODO added 44211759
   TimeRangeEndType, // DODO added 44211759
+  t,
 } from '@superset-ui/core';
 
 const isStandalone = process.env.type === undefined; // DODO added 44611022
@@ -47,13 +48,14 @@ export const formatTimeRangeComparison = (
 ) => {
   const splitInitialDateRange = initialTimeRange.split(SEPARATOR);
   const splitShiftedDateRange = shiftedTimeRange.split(SEPARATOR);
+  // DODO changed
   return `${columnPlaceholder}: ${formatDateEndpoint(
     splitInitialDateRange[0],
     true,
-  )} to ${formatDateEndpoint(splitInitialDateRange[1])} vs
-  ${formatDateEndpoint(splitShiftedDateRange[0], true)} to ${formatDateEndpoint(
-    splitShiftedDateRange[1],
-  )}`;
+  )} ${t('to')} ${formatDateEndpoint(splitInitialDateRange[1])} ${t('vs')}
+  ${formatDateEndpoint(splitShiftedDateRange[0], true)} ${t(
+    'to',
+  )} ${formatDateEndpoint(splitShiftedDateRange[1])}`;
 };
 
 export const fetchTimeRange = async (

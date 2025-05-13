@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-12 13:48+0300\n"
+"POT-Creation-Date: 2025-05-13 11:28+0300\n"
 "PO-Revision-Date: 2016-05-02 08:49-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -4929,7 +4929,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:125
 #: superset-frontend/plugins/legacy-plugin-chart-rose/src/controlPanel.tsx:50
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Pie/controlPanel.ts:68
-#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:119
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:125
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/sharedControls.ts:90
 #: superset-frontend/plugins/plugin-chart-echarts/src/BoxPlot/controlPanel.ts:136
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/controlPanel.tsx:164
@@ -8212,7 +8212,17 @@ msgstr ""
 msgid "color scheme for comparison"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:102
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:99
+#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:564
+msgid "Green for increase, red for decrease"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:103
+#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:568
+msgid "Red for increase, green for decrease"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:108
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:547
 msgid ""
 "Adds color to the chart symbols based on the positive or negative change "
@@ -10745,14 +10755,6 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:560
 msgid "Custom Conditional Formatting"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:564
-msgid "Green for increase, red for decrease"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:568
-msgid "Red for increase, green for decrease"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:571
@@ -14193,12 +14195,22 @@ msgstr ""
 msgid "Minutes value"
 msgstr ""
 
+#: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:257
+msgid "minutes"
+msgstr ""
+
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:269
 msgid "SECOND"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:273
 msgid "Seconds value"
+msgstr ""
+
+#: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:274
+#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1755
+#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1769
+msgid "seconds"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:294
@@ -17758,11 +17770,6 @@ msgstr ""
 msgid "Time in seconds"
 msgstr ""
 
-#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1755
-#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1769
-msgid "seconds"
-msgstr ""
-
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1761
 msgid "Grace period"
 msgstr ""
@@ -20718,3 +20725,6 @@ msgstr ""
 
 msgid "changes"
 msgstr "change"
+
+msgid "vs"
+msgstr ""
