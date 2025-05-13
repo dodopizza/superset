@@ -3387,8 +3387,8 @@
         "Показывает общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату."
       ],
       "Allow navigation tools": ["Разрешить инструменты навигации"],
-      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse wheel.": [
-        "Включите инструменты навигации для шаблона руля. Позволяет панорамировать с помощью средней кнопкой мыши или Cmd/Ctrl+drag, и масштабирование с помощью Cmd/Ctrl+мышь колесиком»."
+      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
+        "Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
       ],
       "Ordering": ["Упорядочивание"],
       "Order results by selected columns": [

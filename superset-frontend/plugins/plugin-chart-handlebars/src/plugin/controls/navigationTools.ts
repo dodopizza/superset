@@ -8,7 +8,7 @@ export const allowNavigationToolsControlSetItem: ControlSetItem = {
     type: 'CheckboxControl',
     label: t('Allow navigation tools'),
     description: t(
-      'Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse wheel.',
+      'Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.',
     ),
     default: false,
     renderTrigger: true,

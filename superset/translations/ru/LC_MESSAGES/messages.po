@@ -10874,12 +10874,11 @@ msgstr "Разрешить инструменты навигации"
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:27
 msgid ""
 "Enable navigation tools for the handlebars template. Allows panning with "
-"middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse "
+"middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse "
 "wheel."
 msgstr ""
-"Включите инструменты навигации для шаблона руля. Позволяет панорамировать с помощью "
-"средней кнопкой мыши или Cmd/Ctrl+drag, и масштабирование с помощью Cmd/Ctrl+мышь "
-"колесиком»."
+"Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью "
+"левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:284

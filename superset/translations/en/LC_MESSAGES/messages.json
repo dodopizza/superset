@@ -2417,7 +2417,7 @@
         ""
       ],
       "Allow navigation tools": [""],
-      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse wheel.": [
+      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         ""
       ],
       "Ordering": [""],
