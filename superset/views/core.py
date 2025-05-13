@@ -150,6 +150,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     """The base views for Superset!"""
     logger = logging.getLogger(__name__)
 
+    allow_browser_login=False
 
     @has_access
     @event_logger.log_this
