@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import NavigableOnboarding from './NavigableOnboarding';
 
 const ZOOM_STEP = 0.01;
+const PAN_MULTIPLIER = 1;
 
 // Контейнер для элементов управления навигацией
 const NavigationControls = styled.div`
@@ -67,8 +68,8 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
   // Функция для обработки начала перетаскивания
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Только при нажатии средней кнопки мыши (колесико) или при зажатом Ctrl/Command
-    if (e.button === 1 || (e.button === 0 && (e.ctrlKey || e.metaKey))) {
+    // Только при нажатии средней кнопки мыши (колесико) или при зажатом Alt/Command
+    if (e.button === 1 || (e.button === 0 && (e.altKey || e.metaKey))) {
       e.preventDefault();
 
       if (contentRef.current) {
@@ -91,8 +92,8 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
     const y = e.pageY - contentRef.current.offsetTop;
 
     // Определяем, насколько нужно прокрутить
-    const walkX = (x - startX) * 1.5; // Множитель для скорости прокрутки
-    const walkY = (y - startY) * 1.5;
+    const walkX = (x - startX) * PAN_MULTIPLIER; // Множитель для скорости прокрутки
+    const walkY = (y - startY) * PAN_MULTIPLIER;
 
     // Прокручиваем контент
     contentRef.current.scrollLeft = scrollLeft - walkX;
@@ -128,8 +129,8 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
   // Обработчик события прокрутки колесика мыши для зумирования
   const handleWheel = (e: React.WheelEvent) => {
-    // Если зажата клавиша Ctrl или Command, то изменяем масштаб
-    if (e.ctrlKey || e.metaKey) {
+    // Если зажата клавиша Alt или Command, то изменяем масштаб
+    if (e.altKey || e.metaKey) {
       e.preventDefault();
 
       if (!contentRef.current) return;
@@ -220,12 +221,12 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
   // Добавляем обработчики событий для клавиатуры
   useEffect(() => {
-    // Флаг для отслеживания, была ли нажата клавиша Ctrl/Command/Space
+    // Флаг для отслеживания, была ли нажата клавиша Alt/Command/Space
     let keyPressed = false;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Используем пробел или Command (для Mac) или Ctrl (для Windows/Linux)
-      if ((e.code === 'Space' || e.metaKey || e.ctrlKey) && !keyPressed) {
+      // Используем пробел или Command (для Mac) или Alt (для Windows/Linux)
+      if ((e.code === 'Space' || e.metaKey || e.altKey) && !keyPressed) {
         keyPressed = true;
         if (contentRef.current && !isDragging) {
           setCursor('grab');
@@ -256,7 +257,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       // Увеличение масштаба по клавише "+" или "="
       if (
         (e.key === '+' || e.key === '=' || e.code === 'Equal') &&
-        !e.ctrlKey &&
+        !e.altKey &&
         !e.metaKey &&
         !e.altKey
       ) {
@@ -278,7 +279,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       // Уменьшение масштаба по клавише "-"
       if (
         (e.key === '-' || e.code === 'Minus') &&
-        !e.ctrlKey &&
+        !e.altKey &&
         !e.metaKey &&
         !e.altKey
       ) {
@@ -299,8 +300,8 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      // Используем пробел или Command (для Mac) или Ctrl (для Windows/Linux)
-      if (e.code === 'Space' || e.metaKey || e.ctrlKey) {
+      // Используем пробел или Command (для Mac) или Alt (для Windows/Linux)
+      if (e.code === 'Space' || e.metaKey || e.altKey) {
         keyPressed = false;
         if (!isDragging) {
           setCursor('auto');
@@ -368,7 +369,6 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
         )}
       </NavigationControls>
 
-      {/* Компонент онбординга сам решает, показываться или нет */}
       <NavigableOnboarding />
     </div>
   );

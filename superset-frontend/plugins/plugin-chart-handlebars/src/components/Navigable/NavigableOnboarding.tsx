@@ -102,7 +102,7 @@ const markOnboardingAsSeen = (): void => {
 
 // Platform detection
 const isMacPlatform = /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
-const ctrlKeyLabel = isMacPlatform ? '⌘ Command' : 'Ctrl';
+const keyLabel = isMacPlatform ? '⌘ Command' : 'Alt';
 
 interface NavigableOnboardingProps {
   onClose?: () => void;
@@ -132,13 +132,12 @@ const NavigableOnboarding: FC<NavigableOnboardingProps> = ({ onClose }) => {
         <FeaturesList>
           <FeatureItem>
             <strong>{t('Pan the chart:')}</strong> {t('Hold')}{' '}
-            <Shortcut>{ctrlKeyLabel}</Shortcut>{' '}
-            {t('while dragging with the mouse')}
+            <Shortcut>{keyLabel}</Shortcut> {t('while dragging with the mouse')}
           </FeatureItem>
 
           <FeatureItem>
             <strong>{t('Zoom in/out:')}</strong> {t('Hold')}{' '}
-            <Shortcut>{ctrlKeyLabel}</Shortcut>{' '}
+            <Shortcut>{keyLabel}</Shortcut>{' '}
             {t('while scrolling the mouse wheel, or use')}{' '}
             <Shortcut>+</Shortcut> {t('and')} <Shortcut>-</Shortcut> {t('keys')}
           </FeatureItem>
