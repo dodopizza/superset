@@ -1892,6 +1892,8 @@
       "Comparison font size": [""],
       "Add color for positive/negative change": [""],
       "color scheme for comparison": [""],
+      "Green for increase, red for decrease": [""],
+      "Red for increase, green for decrease": [""],
       "Adds color to the chart symbols based on the positive or negative change from the comparison value.": [
         ""
       ],
@@ -2509,8 +2511,6 @@
       ],
       "color type": [""],
       "Custom Conditional Formatting": [""],
-      "Green for increase, red for decrease": [""],
-      "Red for increase, green for decrease": [""],
       "Apply conditional color formatting to numeric columns": [""],
       "Classic row-by-column spreadsheet like view of a dataset. Use tables to showcase a view into the underlying data or to show aggregated metrics.": [
         ""
@@ -3308,8 +3308,10 @@
       "Type a number": [""],
       "MINUTE": [""],
       "Minutes value": [""],
+      "minutes": [""],
       "SECOND": [""],
       "Seconds value": [""],
+      "seconds": [""],
       "Are you sure you want to proceed?": [""],
       "Save for this session": [""],
       "You must pick a name for the new dashboard": [""],
@@ -4237,7 +4239,6 @@
       "Log retention": [""],
       "Working timeout": [""],
       "Time in seconds": [""],
-      "seconds": [""],
       "Grace period": [""],
       "Choose notification method and recipients.": [""],
       "Recurring (every)": [""],
@@ -5002,7 +5003,8 @@
       "oldest": [""],
       "average": [""],
       "latest": [""],
-      "changes": ["change"]
+      "changes": ["change"],
+      "vs": [""]
     }
   }
 }
