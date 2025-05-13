@@ -387,12 +387,13 @@ class ChartDataRestApi(ChartRestApi):
             result_df = pd.DataFrame()
             for query in result["queries"]:
                 data = pd.DataFrame(query["data"])
-                if result_df.empty():
+                if result_df.empty:
                     result_df = data
+                    continue
                 result_df = pd.merge(
                     result_df,
                     data,
-                    on=form_data.x_axis,
+                    on=result_df.columns[0],
                     how="outer",
                     suffixes=("", "_extra"),
                 )
