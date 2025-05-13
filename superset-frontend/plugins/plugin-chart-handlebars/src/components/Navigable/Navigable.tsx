@@ -4,7 +4,8 @@ import { Tooltip } from '@superset-ui/chart-controls';
 import { useRef, useState, useEffect } from 'react';
 import NavigableOnboarding from './NavigableOnboarding';
 
-const ZOOM_STEP = 0.01;
+const ZOOM_STEP_TOUCHPAD = 0.01;
+const ZOOM_STEP_MOUSE = 0.05;
 const PAN_MULTIPLIER = 1;
 
 // Контейнер для элементов управления навигацией
@@ -54,6 +55,14 @@ const ResetButton = styled.button`
 export interface NavigableSafeMarkdownProps {
   children: React.ReactNode;
 }
+
+const isTouchpadScroll = (event: React.WheelEvent): boolean => {
+  // Touchpad scrolls typically use pixel-based scrolling
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PIXEL) {
+    return Math.abs(event.deltaY) < 10; // mouse wheels usually have higher values
+  }
+  return false;
+};
 
 const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -129,10 +138,9 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
   // Обработчик события прокрутки колесика мыши для зумирования
   const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
     // Если зажата клавиша Alt или Command, то изменяем масштаб
     if (e.altKey || e.metaKey) {
-      e.preventDefault();
-
       if (!contentRef.current) return;
 
       // Сохраняем текущую позицию прокрутки и размеры контейнера
@@ -146,6 +154,10 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       // Получаем позицию курсора относительно документа и контейнера
       const mouseX = e.clientX - rect.left + currentScrollLeft;
       const mouseY = e.clientY - rect.top + currentScrollTop;
+
+      const ZOOM_STEP = isTouchpadScroll(e)
+        ? ZOOM_STEP_TOUCHPAD
+        : ZOOM_STEP_MOUSE;
 
       // Определяем направление прокрутки и изменяем масштаб
       const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
@@ -264,7 +276,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
         e.preventDefault();
 
         // Увеличиваем масштаб
-        const newScale = Math.min(3, scale + ZOOM_STEP);
+        const newScale = Math.min(3, scale + ZOOM_STEP_MOUSE);
 
         if (newScale !== scale) {
           setScale(newScale);
@@ -286,7 +298,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
         e.preventDefault();
 
         // Уменьшаем масштаб
-        const newScale = Math.max(0.1, scale - ZOOM_STEP);
+        const newScale = Math.max(0.1, scale - ZOOM_STEP_MOUSE);
 
         if (newScale !== scale) {
           setScale(newScale);
