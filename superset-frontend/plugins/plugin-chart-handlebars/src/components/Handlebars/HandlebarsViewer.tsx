@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { isPlainObject } from 'lodash';
 import Helpers from 'just-handlebars-helpers';
-import Navigable from '../Navigable'; // DODO added 49751291
+import Navigable from '../../DodoExtensions/components/Navigable'; // DODO added 49751291
 
 interface HandlebarsViewerPropsDodoExtended {
   allowNavigationTools?: boolean; // DODO added 49751291

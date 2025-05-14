@@ -27,7 +27,7 @@ import {
 } from './controls/pagination';
 import { queryModeControlSetItem } from './controls/queryMode';
 import { styleControlSetItem } from './controls/style';
-import { allowNavigationToolsControlSetItem } from './controls/navigationTools'; // DODO added 49751291
+import { allowNavigationToolsControlSetItem } from '../DodoExtensions/plugin/controls/navigationTools'; // DODO added 49751291
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
