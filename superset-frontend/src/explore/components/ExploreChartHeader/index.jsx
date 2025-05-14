@@ -15,6 +15,7 @@ import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
 import { setSaveChartModalVisibility } from 'src/explore/actions/saveModalActions';
 import { applyColors, resetColors } from 'src/utils/colorScheme';
+import CurtainLoader from 'src/DodoExtensions/components/CurtainLoader'; // DODO added 48951211
 import { useExploreAdditionalActionsMenu } from '../useExploreAdditionalActionsMenu';
 
 const propTypes = {
@@ -71,6 +72,8 @@ export const ExploreChartHeader = ({
   const dispatch = useDispatch();
   const { latestQueryFormData, sliceFormData } = chart;
   const [isPropertiesModalOpen, setIsPropertiesModalOpen] = useState(false);
+  const [isExportingData, setIsExportingData] = useState(false); // DODO added 48951211
+  const toggleIsExportingData = () => setIsExportingData(prev => !prev); // DODO added 48951211
   const updateCategoricalNamespace = async () => {
     const { dashboards } = metadata || {};
     const dashboard =
@@ -144,6 +147,7 @@ export const ExploreChartHeader = ({
       ownState,
       metadata?.dashboards,
       datasourceMetrics, // DODO added 44136746
+      toggleIsExportingData, // DODO added 48951211
     );
 
   const metadataBar = useMemo(() => {
@@ -267,6 +271,10 @@ export const ExploreChartHeader = ({
           onSave={updateSlice}
           slice={slice}
         />
+      )}
+      {/* DODO added 48951211 */}
+      {isExportingData && (
+        <CurtainLoader message={t('Processing file export...')} />
       )}
     </>
   );
