@@ -4008,7 +4008,7 @@ msgstr "Заглавная позиция оси Y"
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:51
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controlPanel.ts:28
@@ -6292,7 +6292,7 @@ msgstr "Таблицы"
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:49
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:61
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:36
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:68
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:69
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:162
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:260
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:367
@@ -10721,7 +10721,7 @@ msgstr "Waterfall Chart"
 msgid "page_size.all"
 msgstr "все"
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:59
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:70
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
@@ -10729,6 +10729,81 @@ msgstr "все"
 #: superset-frontend/src/explore/components/RowCountLabel/index.tsx:43
 msgid "Loading..."
 msgstr "Загрузка..."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
+msgid "Content with navigation"
+msgstr "Содержимое с навигацией"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:356
+msgid "Reset view (Esc)"
+msgstr "Сбросить вид (Esc)"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:357
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
+#: superset-frontend/src/components/Table/index.tsx:219
+msgid "Reset"
+msgstr "Сбросить"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:362
+msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
+msgstr "Двойной щелчок позволяет сбросить масштаб. Используйте кнопки +/- для увеличения/уменьшения масштаба."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:124
+msgid "Chart Navigation Features"
+msgstr "Возможности навигации по графику"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:126
+msgid "This chart supports interactive navigation:"
+msgstr "Этот график поддерживает интерактивную навигацию:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
+msgid "Pan the chart:"
+msgstr "Панорамируйте график:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
+msgid "Hold"
+msgstr "Держите"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:134
+msgid "while dragging with the mouse"
+msgstr "при перетаскивании с помощью мыши"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
+msgid "Zoom in/out:"
+msgstr "Увеличение/уменьшение масштаба:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:140
+msgid "while scrolling the mouse wheel, or use"
+msgstr "прокручивая колесико мыши, или используйте"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
+msgid "and"
+msgstr "и"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
+msgid "keys"
+msgstr "клавиши"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
+msgid "Reset view:"
+msgstr "Сбросить вид:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
+msgid "Press"
+msgstr "Зажать"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Esc"
+msgstr "Esc"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
+msgid "or click the Reset button"
+msgstr "или нажмите кнопку Сброс"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:152
+msgid "Got it!"
+msgstr "Понятно!"
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/index.ts:40
 msgid "Write a handlebars template to render the data"
@@ -10791,6 +10866,19 @@ msgid ""
 msgstr ""
 "Показывает общие итоговые значения выбранных показателей. Обратите "
 "внимание, что ограничение количества строк не применяется к результату."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:26
+msgid "Allow navigation tools"
+msgstr "Разрешить инструменты навигации"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:27
+msgid ""
+"Enable navigation tools for the handlebars template. Allows panning with "
+"middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse "
+"wheel."
+msgstr ""
+"Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью "
+"левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:284
@@ -11624,11 +11712,6 @@ msgstr "Цвет"
 #: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:419
 msgid "Present on charts"
 msgstr "Присутствует на графиках"
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
-#: superset-frontend/src/components/Table/index.tsx:219
-msgid "Reset"
-msgstr "Сбросить"
 
 #: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:458
 #: superset-frontend/src/components/ListView/ListView.tsx:445
