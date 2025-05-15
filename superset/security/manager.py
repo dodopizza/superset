@@ -25,6 +25,8 @@ from typing import Any, Callable, cast, NamedTuple, Optional, TYPE_CHECKING
 
 from flask import current_app, Flask, g, Request
 from flask_appbuilder import Model
+from flask_appbuilder.fieldwidgets import BS3PasswordFieldWidget
+from flask_appbuilder.security.forms import SelectDataRequired
 from flask_appbuilder.security.sqla.manager import SecurityManager
 from flask_appbuilder.security.sqla.models import (
     assoc_permissionview_role,
@@ -42,6 +44,7 @@ from flask_appbuilder.security.views import (
     UserModelView,
     ViewMenuModelView,
 )
+from flask_appbuilder.validators import PasswordComplexityValidator
 from flask_appbuilder.widgets import ListWidget
 from flask_babel import lazy_gettext as _
 from flask_login import AnonymousUserMixin, LoginManager
@@ -51,6 +54,8 @@ from sqlalchemy.engine.base import Connection
 from sqlalchemy.orm import eagerload
 from sqlalchemy.orm.mapper import Mapper
 from sqlalchemy.orm.query import Query as SqlaQuery
+from wtforms import PasswordField, validators
+from wtforms.validators import EqualTo
 
 from superset.constants import RouteMethod
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
@@ -208,6 +213,117 @@ def query_context_modified(query_context: "QueryContext") -> bool:
     return False
 
 
+class ExtendedUserModelView(UserModelView):
+    """
+    Extended UserModelView
+    С дополнительными данными
+    User.teams, User.user_info.country_name
+    """
+
+    label_columns = UserModelView.label_columns.copy()
+    label_columns.update(
+        {
+            "user_info.country_name": _("Country"),
+            "teams": _("Team"),
+        }
+    )
+
+    show_fieldsets = [
+        (
+            _("User info"),
+            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+        ),
+        (
+            _("Personal Info"),
+            {
+                "fields": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "user_info.country_name",
+                ],
+                "expanded": True,
+            },
+        ),
+        (
+            _("Audit Info"),
+            {
+                "fields": [
+                    "last_login",
+                    "fail_login_count",
+                    "created_on",
+                    "created_by",
+                    "changed_on",
+                    "changed_by",
+                ],
+                "expanded": False,
+            },
+        ),
+    ]
+
+    user_show_fieldsets = [
+        (
+            _("User info"),
+            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+        ),
+        (
+            _("Personal Info"),
+            {
+                "fields": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "user_info.country_name",
+                ],
+                "expanded": True,
+            },
+        ),
+    ]
+
+
+class ExtendedUserOAuthModelView(ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+    """
+    View that add OAUTH specifics to User view.
+    """
+
+
+class ExtendedUserDBModelView(ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+    """
+    View that add DB specifics to User view.
+    """
+
+    add_form_extra_fields = {
+        "password": PasswordField(
+            _("Password"),
+            description=_("The user's password for authentication"),
+            validators=[validators.DataRequired(), PasswordComplexityValidator()],
+            widget=BS3PasswordFieldWidget(),
+        ),
+        "conf_password": PasswordField(
+            _("Confirm Password"),
+            description=_("Please rewrite the user's password to confirm"),
+            validators=[
+                validators.DataRequired(),
+                EqualTo("password", message=_("Passwords must match")),
+            ],
+            widget=BS3PasswordFieldWidget(),
+        ),
+    }
+
+    add_columns = [
+        "first_name",
+        "last_name",
+        "username",
+        "active",
+        "email",
+        "roles",
+        "password",
+        "conf_password",
+    ]
+
+    validators_columns = {"roles": [SelectDataRequired()]}
+
+
 class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
     SecurityManager
 ):
@@ -349,6 +465,9 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
 
     guest_user_cls = GuestUser
     pyjwt_for_guest_token = _jwt_global_obj
+
+    userdbmodelview = ExtendedUserDBModelView
+    useroauthmodelview = ExtendedUserOAuthModelView
 
     def create_login_manager(self, app: Flask) -> LoginManager:
         lm = super().create_login_manager(app)
