@@ -676,7 +676,7 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
     isCached = [],
   } = props;
   const isTable = slice.viz_type === 'table';
-  const isPivotTable = slice.viz_type === 'pivot_table_v2';
+  // const isPivotTable = slice.viz_type === 'pivot_table_v2'; // DODO commented out
   const cachedWhen = (cachedDttm || []).map(itemCachedDttm =>
     moment.utc(itemCachedDttm).fromNow(),
   );
