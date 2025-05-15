@@ -334,13 +334,14 @@ export const useExploreAdditionalActionsMenu = (
               >
                 {t('Export to original .CSV')}
               </Menu.Item>
-              <Menu.Item
+              {/* DODO commented out */}
+              {/* <Menu.Item
                 key={MENU_KEYS.EXPORT_TO_CSV_PIVOTED}
                 icon={<Icons.FileOutlined css={iconReset} />}
                 disabled={!canDownloadCSV}
               >
                 {t('Export to pivoted .CSV')}
-              </Menu.Item>
+              </Menu.Item> */}
             </>
           ) : (
             <Menu.Item

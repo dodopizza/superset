@@ -868,14 +868,15 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           >
             {t('Export to .CSV')}
           </Menu.Item>
-          {isPivotTable && (
+          {/* DODO commented out */}
+          {/* {isPivotTable && (
             <Menu.Item
               key={MenuKeys.ExportPivotCsv}
               icon={<Icons.FileOutlined css={dropdownIconsStyles} />}
             >
               {t('Export to Pivoted .CSV')}
             </Menu.Item>
-          )}
+          )} */}
           <Menu.Item
             key={MenuKeys.ExportXlsx}
             icon={<Icons.FileOutlined css={dropdownIconsStyles} />}

@@ -77,12 +77,13 @@ export const ExportToCSVDropdown = ({
               <Icons.Download />
             </MenuItemContent>
           </Menu.Item>
-          <Menu.Item key={MenuKeys.ExportPivoted}>
+          {/* DODO commented out */}
+          {/* <Menu.Item key={MenuKeys.ExportPivoted}>
             <MenuItemContent>
               {t('Pivoted')}
               <Icons.Download />
             </MenuItemContent>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       }
     >
