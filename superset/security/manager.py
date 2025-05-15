@@ -25,8 +25,6 @@ from typing import Any, Callable, cast, NamedTuple, Optional, TYPE_CHECKING
 
 from flask import current_app, Flask, g, Request
 from flask_appbuilder import Model
-from flask_appbuilder.fieldwidgets import BS3PasswordFieldWidget
-from flask_appbuilder.security.forms import SelectDataRequired
 from flask_appbuilder.security.sqla.manager import SecurityManager
 from flask_appbuilder.security.sqla.models import (
     assoc_permissionview_role,
@@ -41,10 +39,11 @@ from flask_appbuilder.security.views import (
     PermissionModelView,
     PermissionViewModelView,
     RoleModelView,
+    UserDBModelView,
     UserModelView,
+    UserOAuthModelView,
     ViewMenuModelView,
 )
-from flask_appbuilder.validators import PasswordComplexityValidator
 from flask_appbuilder.widgets import ListWidget
 from flask_babel import lazy_gettext as _
 from flask_login import AnonymousUserMixin, LoginManager
@@ -54,8 +53,6 @@ from sqlalchemy.engine.base import Connection
 from sqlalchemy.orm import eagerload
 from sqlalchemy.orm.mapper import Mapper
 from sqlalchemy.orm.query import Query as SqlaQuery
-from wtforms import PasswordField, validators
-from wtforms.validators import EqualTo
 
 from superset.constants import RouteMethod
 from superset.errors import ErrorLevel, SupersetError, SupersetErrorType
@@ -281,47 +278,16 @@ class ExtendedUserModelView(UserModelView):
     ]
 
 
-class ExtendedUserOAuthModelView(ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+class ExtendedUserOAuthModelView(UserOAuthModelView, ExtendedUserModelView):  # pylint: disable=too-many-ancestors
     """
     View that add OAUTH specifics to User view.
     """
 
 
-class ExtendedUserDBModelView(ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+class ExtendedUserDBModelView(UserDBModelView, ExtendedUserModelView):  # pylint: disable=too-many-ancestors
     """
     View that add DB specifics to User view.
     """
-
-    add_form_extra_fields = {
-        "password": PasswordField(
-            _("Password"),
-            description=_("The user's password for authentication"),
-            validators=[validators.DataRequired(), PasswordComplexityValidator()],
-            widget=BS3PasswordFieldWidget(),
-        ),
-        "conf_password": PasswordField(
-            _("Confirm Password"),
-            description=_("Please rewrite the user's password to confirm"),
-            validators=[
-                validators.DataRequired(),
-                EqualTo("password", message=_("Passwords must match")),
-            ],
-            widget=BS3PasswordFieldWidget(),
-        ),
-    }
-
-    add_columns = [
-        "first_name",
-        "last_name",
-        "username",
-        "active",
-        "email",
-        "roles",
-        "password",
-        "conf_password",
-    ]
-
-    validators_columns = {"roles": [SelectDataRequired()]}
 
 
 class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
