@@ -39,7 +39,9 @@ from flask_appbuilder.security.views import (
     PermissionModelView,
     PermissionViewModelView,
     RoleModelView,
+    UserDBModelView,
     UserModelView,
+    UserOAuthModelView,
     ViewMenuModelView,
 )
 from flask_appbuilder.widgets import ListWidget
@@ -208,6 +210,86 @@ def query_context_modified(query_context: "QueryContext") -> bool:
     return False
 
 
+class ExtendedUserModelView(UserModelView):
+    """
+    Extended UserModelView
+    С дополнительными данными
+    User.teams, User.user_info.country_name
+    """
+
+    label_columns = UserModelView.label_columns.copy()
+    label_columns.update(
+        {
+            "user_info.country_name": _("Country"),
+            "teams": _("Team"),
+        }
+    )
+
+    show_fieldsets = [
+        (
+            _("User info"),
+            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+        ),
+        (
+            _("Personal Info"),
+            {
+                "fields": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "user_info.country_name",
+                ],
+                "expanded": True,
+            },
+        ),
+        (
+            _("Audit Info"),
+            {
+                "fields": [
+                    "last_login",
+                    "fail_login_count",
+                    "created_on",
+                    "created_by",
+                    "changed_on",
+                    "changed_by",
+                ],
+                "expanded": False,
+            },
+        ),
+    ]
+
+    user_show_fieldsets = [
+        (
+            _("User info"),
+            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+        ),
+        (
+            _("Personal Info"),
+            {
+                "fields": [
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "user_info.country_name",
+                ],
+                "expanded": True,
+            },
+        ),
+    ]
+
+
+class ExtendedUserOAuthModelView(UserOAuthModelView, ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+    """
+    View that add OAUTH specifics to User view.
+    """
+
+
+class ExtendedUserDBModelView(UserDBModelView, ExtendedUserModelView):  # pylint: disable=too-many-ancestors
+    """
+    View that add DB specifics to User view.
+    """
+
+
 class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
     SecurityManager
 ):
@@ -349,6 +431,9 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
 
     guest_user_cls = GuestUser
     pyjwt_for_guest_token = _jwt_global_obj
+
+    userdbmodelview = ExtendedUserDBModelView
+    useroauthmodelview = ExtendedUserOAuthModelView
 
     def create_login_manager(self, app: Flask) -> LoginManager:
         lm = super().create_login_manager(app)
