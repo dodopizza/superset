@@ -21,6 +21,8 @@ import {
   TitleWrapper,
 } from 'src/DodoExtensions/Common';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const extensionsRegistry = getExtensionsRegistry();
 
 type SliceHeaderPropsDodoExtended = {
@@ -172,7 +174,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     ({ dashboardInfo }) => dashboardInfo.crossFiltersEnabled,
   );
 
-  const canExplore = !editMode && supersetCanExplore;
+  const canExplore = !editMode && supersetCanExplore && isStandalone; // DODO changed 44611022
 
   const localisedSliceName = locale === 'ru' ? sliceNameRU : sliceName; // DODO added 44120742
 
