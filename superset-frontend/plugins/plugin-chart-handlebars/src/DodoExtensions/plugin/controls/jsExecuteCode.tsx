@@ -102,12 +102,12 @@ export const jsExecuteCodeControlSetItem: ControlSetItem = {
     description: t(
       'Define JavaScript code to execute after the template is rendered',
     ),
-    default: `function(container, data) {
+    default: `// function(container, data) {
   // container - обертка над графиком для доступа к элементам внутри, например
   // const element = container.querySelector('.element');
   // data - данные приходящие в график
   // console.log(data)
-  }`,
+  // }`,
     isInt: false,
     renderTrigger: true,
     validators: [],

@@ -1012,6 +1012,11 @@
       "%(dialect)s cannot be used as a data source for security reasons.": [
         "%(dialect)s не может использоваться в качестве источника данных по соображениям безопасности."
       ],
+      "Country": ["Страна"],
+      "Team": ["Команда"],
+      "User info": ["Данные пользователя"],
+      "Personal Info": ["Личные данные"],
+      "Audit Info": ["Аудит информации"],
       "Guest user cannot modify chart payload": [
         "Гость не может изменить отправляемые данные графика"
       ],
@@ -1297,7 +1302,6 @@
       "Add Statement": ["Добавить заявку"],
       "Edit Statement": ["Редактировать заявление"],
       "is_external": ["is_external"],
-      "Team": ["Команда"],
       "is_new_team": ["is_new_team"],
       "Team slug": ["Читаемый URL команды"],
       "Finished": ["закончил"],
@@ -1779,7 +1783,6 @@
       "Legacy": ["Устарел"],
       "Proportional": ["Пропорция"],
       "Relational": ["Относительный"],
-      "Country": ["Страна"],
       "Which country to plot the map for?": ["Выбор страны для графика"],
       "ISO 3166-2 Codes": ["Коды ISO 3166-2"],
       "Column containing ISO 3166-2 codes of region/province/department in your table.": [
@@ -3340,7 +3343,6 @@
       ],
       "Waterfall Chart": ["Waterfall Chart"],
       "page_size.all": ["все"],
-      "Loading...": ["Загрузка..."],
       "Content with navigation": ["Содержимое с навигацией"],
       "Reset view (Esc)": ["Сбросить вид (Esc)"],
       "Reset": ["Сбросить"],
@@ -3362,9 +3364,23 @@
       "keys": ["клавиши"],
       "Reset view:": ["Сбросить вид:"],
       "Press": ["Зажать"],
-      "Esc": ["Esc"],
       "or click the Reset button": ["или нажмите кнопку Сброс"],
       "Got it!": ["Понятно!"],
+      "This JavaScript code will be executed after the template is rendered.": [
+        "Этот код JavaScript будет выполнен после отрисовки шаблона."
+      ],
+      "You can use it to add event handlers, manipulate DOM elements, etc.": [
+        "С его помощью можно добавлять обработчики событий, манипулировать элементами DOM и т.д."
+      ],
+      "Define JavaScript code to execute after the template is rendered": [
+        "Укажите код JavaScript, который будет выполняться после отрисовки шаблона"
+      ],
+      "JavaScript Execute Code": ["JavaScript код"],
+      "Allow navigation tools": ["Разрешить инструменты навигации"],
+      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
+        "Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
+      ],
+      "Loading...": ["Загрузка..."],
       "Write a handlebars template to render the data": [
         "Напишите шаблон руля, чтобы отображать данные"
       ],
@@ -3385,10 +3401,6 @@
       "Show summary": ["Показать итоги"],
       "Show total aggregations of selected metrics. Note that row limit does not apply to the result.": [
         "Показывает общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату."
-      ],
-      "Allow navigation tools": ["Разрешить инструменты навигации"],
-      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
-        "Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
       ],
       "Ordering": ["Упорядочивание"],
       "Order results by selected columns": [
