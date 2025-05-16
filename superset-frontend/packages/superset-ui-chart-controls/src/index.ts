@@ -22,3 +22,4 @@ export * from './types';
 export * from './fixtures';
 
 export * from './DodoExtensions/components/PinIcon'; // DODO added 45525377
+export { default as InfoIcon } from './DodoExtensions/components/InfoIcon'; // DODO added

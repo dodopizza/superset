@@ -28,6 +28,7 @@ import {
 import {
   getOriginalSeries,
   extractDatasourceDescriptions, // DODO added 44728892
+  InfoIcon, // DODO added 44728892
 } from '@superset-ui/chart-controls';
 import type { EChartsCoreOption } from 'echarts/core';
 import type { SeriesOption } from 'echarts';
@@ -84,7 +85,6 @@ import {
 } from '../utils/formatters';
 import { LabelPositionDodo } from '../DodoExtensions/types'; // DODO added 45525377
 import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 44728892
-import InfoIcon from '../DodoExtensions/common/InfoIcon'; // DODO added 44728892
 
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,

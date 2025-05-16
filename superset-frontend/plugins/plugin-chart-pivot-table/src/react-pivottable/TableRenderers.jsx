@@ -41,6 +41,7 @@ function displayHeaderCell(
           tooltip={datasourceDescription}
           placement="top"
           iconsStyle={{ marginRight: '4px' }}
+          staticInfoIcon
         />
       )}
       {parseLabel(name)}

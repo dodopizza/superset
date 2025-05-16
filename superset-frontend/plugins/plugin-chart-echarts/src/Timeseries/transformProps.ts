@@ -30,6 +30,7 @@ import {
   getOriginalSeries,
   isDerivedSeries,
   getTimeOffset,
+  InfoIcon,
 } from '@superset-ui/chart-controls';
 import type { EChartsCoreOption } from 'echarts/core';
 import type { LineStyleOption } from 'echarts/types/src/util/types';
@@ -90,7 +91,6 @@ import {
   getYAxisFormatter,
 } from '../utils/formatters';
 import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 44728892
-import InfoIcon from '../DodoExtensions/common/InfoIcon';
 
 export default function transformProps(
   chartProps: EchartsTimeseriesChartProps,
