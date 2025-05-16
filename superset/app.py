@@ -28,7 +28,6 @@ from superset.middlewares.middleware_logger import LoggerMiddleware
 logger = logging.getLogger(__name__)
 
 def create_app(superset_config_module: Optional[str] = None) -> Flask:
-    print("Creating app")
     app = SupersetApp(__name__)
 
     try:
