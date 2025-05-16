@@ -27,6 +27,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@types/d3-array": "^3.2.1",
     "antd": "^5.25.1",
     "currencyformatter.js": "^1.0.5",
     "handlebars": "^4.7.7",

@@ -30,6 +30,7 @@ export default function Handlebars(props: HandlebarsProps) {
         data={{ data }}
         templateSource={templateSource}
         allowNavigationTools={formData.allowNavigationTools} // DODO added 49751291
+        jsExecuteCode={formData.jsExecuteCode} // DODO added 49751291
       />
     </Styles>
   );
