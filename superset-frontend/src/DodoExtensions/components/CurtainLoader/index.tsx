@@ -18,11 +18,11 @@ interface IProps {
   message: string;
 }
 
-const CuratainLoader = ({ message }: IProps) => (
+const CurtainLoader = ({ message }: IProps) => (
   <Wrapper>
     <Loading position="inline" />
     <p>{message}</p>
   </Wrapper>
 );
 
-export default CuratainLoader;
+export default CurtainLoader;

@@ -157,6 +157,7 @@ export const getSlicePayload = (
         resultType: 'full',
         setDataMask: null,
         ownState: null,
+        language: 'en', // DODO added 44126075
         datasourceMetrics: [], // DODO added 44136746
       }),
     ),

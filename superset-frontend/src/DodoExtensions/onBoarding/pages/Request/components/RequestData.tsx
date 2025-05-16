@@ -50,7 +50,7 @@ export const RequestData: FC<Props> = ({ data }) => {
       <Descriptions.Item label={t('Last name')}>
         {data?.lastName}
       </Descriptions.Item>
-      <Descriptions.Item label={t('email')}>{data?.email}</Descriptions.Item>
+      <Descriptions.Item label={t('Email')}>{data?.email}</Descriptions.Item>
       <Descriptions.Item label={t('Role in Dodo Brands')}>
         {data?.dodoRole}
       </Descriptions.Item>

@@ -114,7 +114,7 @@ export default function chartReducer(
     [actions.ADD_TO_EXTRA_FORM_DATA](state) {
       return {
         ...state,
-        extraFormData: { ...(state.extraFormData || {}), ...action.value },
+        extraFormData: { ...(state?.extraFormData || {}), ...action.value },
       };
     },
     [actions.UPDATE_QUERY_FORM_DATA](state) {

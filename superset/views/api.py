@@ -20,7 +20,7 @@ from typing import Any, TYPE_CHECKING
 
 from flask import request
 from flask_appbuilder import expose
-from flask_appbuilder.api import rison
+from flask_appbuilder.api import protect, rison
 from flask_appbuilder.security.decorators import has_access_api
 from flask_babel import lazy_gettext as _
 
@@ -53,6 +53,7 @@ get_time_range_schema = {
 
 
 class Api(BaseSupersetView):
+    allow_browser_login = True
     query_context_factory = None
 
     @event_logger.log_this
@@ -97,6 +98,7 @@ class Api(BaseSupersetView):
 
     @api
     @handle_api_exception
+    @protect()
     @has_access_api
     @rison(get_time_range_schema)
     @expose("/v1/time_range/", methods=("GET",))

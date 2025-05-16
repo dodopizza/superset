@@ -106,6 +106,7 @@ export const useExploreAdditionalActionsMenu = (
   ownState,
   dashboards,
   datasourceMetrics, // DODO added 44136746
+  toggleIsExportingData, // DODO added 48951211
   ...rest
 ) => {
   const theme = useTheme();
@@ -209,7 +210,8 @@ export const useExploreAdditionalActionsMenu = (
           setIsDropdownVisible(false);
           break;
         case MENU_KEYS.EXPORT_TO_CSV:
-          exportCSV();
+          toggleIsExportingData(); // DODO added 48951211
+          exportCSV().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV, {
@@ -219,7 +221,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_CSV_PIVOTED:
-          exportCSVPivoted();
+          toggleIsExportingData(); // DODO added 48951211
+          exportCSVPivoted().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV_PIVOTED, {
@@ -229,7 +232,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_JSON:
-          exportJson();
+          toggleIsExportingData(); // DODO added 48951211
+          exportJson().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_JSON, {
@@ -239,7 +243,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_XLSX:
-          exportExcel();
+          toggleIsExportingData(); // DODO added 48951211
+          exportExcel().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_XLS, {
@@ -249,12 +254,13 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.DOWNLOAD_AS_IMAGE:
+          toggleIsExportingData(); // DODO added 48951211
           downloadAsImage(
             '.panel-body .chart-container',
             // eslint-disable-next-line camelcase
             slice?.slice_name ?? t('New chart'),
             true,
-          )(domEvent);
+          )(domEvent).then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE, {
@@ -328,13 +334,14 @@ export const useExploreAdditionalActionsMenu = (
               >
                 {t('Export to original .CSV')}
               </Menu.Item>
-              <Menu.Item
+              {/* DODO commented out */}
+              {/* <Menu.Item
                 key={MENU_KEYS.EXPORT_TO_CSV_PIVOTED}
                 icon={<Icons.FileOutlined css={iconReset} />}
                 disabled={!canDownloadCSV}
               >
                 {t('Export to pivoted .CSV')}
-              </Menu.Item>
+              </Menu.Item> */}
             </>
           ) : (
             <Menu.Item

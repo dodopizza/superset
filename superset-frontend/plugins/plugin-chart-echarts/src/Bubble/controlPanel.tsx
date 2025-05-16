@@ -74,6 +74,30 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        // DODO added 46246682
+        [
+          {
+            name: 'min_bubble_size',
+            config: {
+              type: 'SelectControl',
+              renderTrigger: true,
+              freeForm: true,
+              label: t('Min Bubble Size'),
+              default: '5',
+              choices: [
+                ...formatSelectOptions([
+                  '5',
+                  '10',
+                  '15',
+                  '25',
+                  '50',
+                  '75',
+                  '100',
+                ]),
+              ],
+            },
+          },
+        ],
         [
           {
             name: 'tooltipSizeFormat',

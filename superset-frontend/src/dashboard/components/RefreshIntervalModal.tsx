@@ -254,7 +254,7 @@ class RefreshIntervalModal extends PureComponent<
                   <br />
                   <Select
                     ariaLabel={t('Minutes value')}
-                    options={this.min_sec_options('minutes')}
+                    options={this.min_sec_options(t('minutes'))}
                     value={custom_min}
                     onChange={(value: number) => {
                       this.setState({
@@ -271,7 +271,7 @@ class RefreshIntervalModal extends PureComponent<
                   <br />
                   <Select
                     ariaLabel={t('Seconds value')}
-                    options={this.min_sec_options('seconds')}
+                    options={this.min_sec_options(t('seconds'))}
                     value={custom_sec}
                     onChange={(value: number) => {
                       this.setState({

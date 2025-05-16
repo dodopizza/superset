@@ -9,6 +9,7 @@ import {
   dttmToMoment, // DODO added 44211759
   MOMENT_FORMAT_UI_DODO, // DODO added 44211759
   TimeRangeEndType, // DODO added 44211759
+  t,
 } from '@superset-ui/core';
 
 const isStandalone = process.env.type === undefined; // DODO added 44611022
@@ -47,13 +48,14 @@ export const formatTimeRangeComparison = (
 ) => {
   const splitInitialDateRange = initialTimeRange.split(SEPARATOR);
   const splitShiftedDateRange = shiftedTimeRange.split(SEPARATOR);
+  // DODO changed
   return `${columnPlaceholder}: ${formatDateEndpoint(
     splitInitialDateRange[0],
     true,
-  )} to ${formatDateEndpoint(splitInitialDateRange[1])} vs
-  ${formatDateEndpoint(splitShiftedDateRange[0], true)} to ${formatDateEndpoint(
-    splitShiftedDateRange[1],
-  )}`;
+  )} ${t('to')} ${formatDateEndpoint(splitInitialDateRange[1])} ${t('vs')}
+  ${formatDateEndpoint(splitShiftedDateRange[0], true)} ${t(
+    'to',
+  )} ${formatDateEndpoint(splitShiftedDateRange[1])}`;
 };
 
 export const fetchTimeRange = async (
@@ -83,14 +85,16 @@ export const fetchTimeRange = async (
           method: 'get',
           url: endpoint,
         });
+
+    const data = (isStandalone ? response?.json : response)?.result;
     if (isEmpty(shifts)) {
       // DODO added start 44211759
-      const since = dttmToMoment(
-        (isStandalone ? response?.json : response)?.result?.[0].since || '',
-      ).format(MOMENT_FORMAT_UI_DODO);
-      const until = dttmToMoment(
-        (isStandalone ? response?.json : response)?.result?.[0].until || '',
-      ).format(MOMENT_FORMAT_UI_DODO);
+      const since = dttmToMoment(data?.[0]?.since || data?.since || '').format(
+        MOMENT_FORMAT_UI_DODO,
+      );
+      const until = dttmToMoment(data?.[0]?.until || data?.until || '').format(
+        MOMENT_FORMAT_UI_DODO,
+      );
       // DODO added stop 44211759
       // const timeRangeString = buildTimeRangeString(
       //   response?.json?.result[0]?.since || '',
@@ -107,8 +111,8 @@ export const fetchTimeRange = async (
       };
     }
     // DODO changed 44611022
-    const timeRanges = (isStandalone ? response?.json : response)?.result.map(
-      (result: any) => buildTimeRangeString(result.since, result.until),
+    const timeRanges = data?.map((result: any) =>
+      buildTimeRangeString(result.since, result.until),
     );
     return {
       value: timeRanges

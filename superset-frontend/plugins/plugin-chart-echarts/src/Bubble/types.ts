@@ -17,6 +17,7 @@ type EchartsBubbleFormDataDodoExtended = {
   yForceTimestampFormatting: boolean;
   xTimeFormat: string;
   yTimeFormat: string;
+  minBubbleSize: string; // DODO added 46246682
 };
 export type EchartsBubbleFormData = QueryFormData &
   LegendFormData & {

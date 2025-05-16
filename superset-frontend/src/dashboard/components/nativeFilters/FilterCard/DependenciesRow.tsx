@@ -1,24 +1,8 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { memo, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { css, t, useTheme, useTruncation } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble'; // DODO added 44211759
 import Icons from 'src/components/Icons';
 import { setDirectPathToChild } from 'src/dashboard/actions/dashboardState';
 import {
@@ -33,6 +17,9 @@ import { useFilterDependencies } from './useFilterDependencies';
 import { DependencyValueProps, FilterCardRowProps } from './types';
 import { TooltipWithTruncation } from './TooltipWithTruncation';
 
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44211759
+const localisedNameField = locale === 'ru' ? 'nameRu' : 'name'; // DODO added 44211759
+
 const DependencyValue = ({
   dependency,
   hasSeparator,
@@ -45,7 +32,8 @@ const DependencyValue = ({
     <span>
       {hasSeparator && <span>, </span>}
       <DependencyItem role="button" onClick={handleClick} tabIndex={0}>
-        {dependency.name}
+        {/* DODO changed 44211759 */}
+        {dependency[localisedNameField] || dependency.name || dependency.nameRu}
       </DependencyItem>
     </span>
   );
@@ -62,7 +50,7 @@ export const DependenciesRow = memo(({ filter }: FilterCardRowProps) => {
       elementsTruncated > 0 && dependencies ? (
         <TooltipList>
           {dependencies.map(dependency => (
-            <li>
+            <li key={dependency.id}>
               <DependencyValue dependency={dependency} />
             </li>
           ))}

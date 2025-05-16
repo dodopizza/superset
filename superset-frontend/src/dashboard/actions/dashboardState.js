@@ -3,7 +3,6 @@
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import rison from 'rison';
 import {
-  API_HANDLER,
   ensureIsArray,
   isFeatureEnabled,
   FeatureFlag,
@@ -710,6 +709,12 @@ export function setDatasetsStatus(status) {
   };
 }
 
+// DODO added 48951211
+export const TOGGLE_IS_EXPORTING_DATA = 'TOGGLE_IS_EXPORTING_DATA';
+export function toggleIsExportingData() {
+  return { type: TOGGLE_IS_EXPORTING_DATA };
+}
+
 const storeDashboardMetadata = async (id, metadata) =>
   isStandalone
     ? SupersetClient.put({
@@ -717,12 +722,7 @@ const storeDashboardMetadata = async (id, metadata) =>
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
       })
-    : API_HANDLER.SupersetClient({
-        method: 'put',
-        url: `/api/v1/dashboard/${id}`,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
-      });
+    : null;
 
 /**
  *

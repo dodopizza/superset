@@ -48,7 +48,7 @@ export const TABLE_CONFIG_FORM_LAYOUT = {
     },
     // DODO added 33638561
     {
-      tab: 'Export',
+      tab: t('Export'),
       children: [['exportAsTime']],
     },
   ],

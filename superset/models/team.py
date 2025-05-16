@@ -58,3 +58,6 @@ class Team(Model):  # pylint: disable=too-few-public-methods
         passive_deletes=True,
         backref="teams",
     )
+
+    def __repr__(self) -> str:
+        return self.name

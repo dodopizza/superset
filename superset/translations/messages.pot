@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-24 11:38+0300\n"
+"POT-Creation-Date: 2025-05-13 11:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -577,21 +577,21 @@ msgstr ""
 msgid "orderby column must be populated"
 msgstr ""
 
-#: superset/charts/data/api.py:142
+#: superset/charts/data/api.py:145
 msgid "Chart has no query context saved. Please save the chart again."
 msgstr ""
 
-#: superset/charts/data/api.py:164 superset/charts/data/api.py:252
-#: superset/charts/data/api.py:332
+#: superset/charts/data/api.py:167 superset/charts/data/api.py:255
+#: superset/charts/data/api.py:335
 #, python-format
 msgid "Request is incorrect: %(error)s"
 msgstr ""
 
-#: superset/charts/data/api.py:239
+#: superset/charts/data/api.py:242
 msgid "Request is not JSON"
 msgstr ""
 
-#: superset/charts/data/api.py:382
+#: superset/charts/data/api.py:385
 msgid "Empty query result"
 msgstr ""
 
@@ -1489,15 +1489,15 @@ msgstr ""
 msgid "Time Grain must be specified when using Time Shift."
 msgstr ""
 
-#: superset/common/query_context_processor.py:802
+#: superset/common/query_context_processor.py:803
 msgid "The chart does not exist"
 msgstr ""
 
-#: superset/common/query_context_processor.py:808
+#: superset/common/query_context_processor.py:809
 msgid "The chart datasource does not exist"
 msgstr ""
 
-#: superset/common/query_context_processor.py:825
+#: superset/common/query_context_processor.py:826
 msgid "The chart query context does not exist"
 msgstr ""
 
@@ -1566,7 +1566,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:49
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:114
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:83
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1550
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1557
 #: superset-frontend/src/explore/components/DatasourcePanel/DatasourcePanelItem.tsx:202
 #: superset-frontend/src/explore/controls.jsx:228
 #: superset-frontend/src/explore/fixtures.tsx:96
@@ -1610,8 +1610,8 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Histogram/controlPanel.tsx:45
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx:40
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:42
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:381
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:390
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:387
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:396
 #: superset-frontend/src/dashboard/components/gridComponents/new/NewColumn.jsx:30
 #: superset-frontend/src/explore/components/controls/ConditionalFormattingControl/FormattingPopoverContent.tsx:258
 #: superset-frontend/src/explore/components/controls/DndColumnSelectControl/ColumnSelectPopover.tsx:353
@@ -1632,11 +1632,11 @@ msgstr ""
 #: superset-frontend/packages/superset-ui-chart-controls/src/components/labelUtils.tsx:128
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:174
 #: superset-frontend/src/SqlLab/components/ScheduleQueryButton/index.tsx:186
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:277
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:949
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:283
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:955
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/DividerConfigForm.tsx:51
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:1270
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:322
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:328
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1429
 #: superset-frontend/src/features/reports/ReportModal/index.tsx:329
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:475
@@ -1672,8 +1672,8 @@ msgstr ""
 msgid "Expression"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:385
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:393
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:391
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:399
 #: superset/connectors/sqla/views.py:167
 msgid "Is temporal"
 msgstr ""
@@ -1705,7 +1705,7 @@ msgid "Invalid date/timestamp format"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/shared-controls/dndControls.tsx:154
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1539
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1546
 #: superset-frontend/src/explore/components/DatasourcePanel/DatasourcePanelItem.tsx:202
 #: superset-frontend/src/explore/controls.jsx:136
 #: superset-frontend/src/features/datasets/AddDataset/EditDataset/index.tsx:53
@@ -1731,7 +1731,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:106
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:94
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/PivotTableChart.tsx:53
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1328
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1335
 #: superset-frontend/src/explore/controls.jsx:151
 #: superset-frontend/src/explore/controls.jsx:152
 #: superset-frontend/src/visualizations/TimeTable/TimeTable.jsx:121
@@ -1747,7 +1747,7 @@ msgstr ""
 msgid "D3 Format"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:999
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1005
 #: superset/connectors/sqla/views.py:264 superset/connectors/sqla/views.py:421
 #: superset/views/database/mixins.py:197
 msgid "Extra"
@@ -1825,7 +1825,7 @@ msgstr ""
 msgid "Whether the table was generated by the 'Visualize' flow in SQL Lab"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1055
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1061
 #: superset/connectors/sqla/views.py:376
 msgid ""
 "A set of parameters that become available in the query using Jinja "
@@ -1839,7 +1839,7 @@ msgid ""
 "database timeout if undefined."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1065
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1071
 #: superset/connectors/sqla/views.py:392
 msgid ""
 "Allow column names to be changed to case insensitive format, if supported"
@@ -1924,17 +1924,17 @@ msgid "Fetch Values Predicate"
 msgstr ""
 
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:243
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:598
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:604
 #: superset-frontend/src/components/MetadataBar/ContentConfig.tsx:93
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:400
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:414
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:433
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:447
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:452
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:455
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:499
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:503
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:207
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:457
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:460
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:504
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:508
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:211
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1407
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1412
 #: superset-frontend/src/features/allEntities/AllEntitiesTable.tsx:141
@@ -1956,11 +1956,12 @@ msgid "SQL Lab View"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/components/TemplateParamsEditor/index.tsx:99
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1054
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1060
 #: superset/connectors/sqla/views.py:420
 msgid "Template parameters"
 msgstr ""
 
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:371
 #: superset-frontend/src/dashboard/components/AddSliceCard/AddSliceCard.tsx:296
 #: superset/connectors/sqla/views.py:422 superset/views/dashboard/mixin.py:85
 #: superset/views/dashboard/views.py:197 superset/views/database/mixins.py:203
@@ -2261,9 +2262,9 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:55
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/consts.tsx:34
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:166
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:1009
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:993
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:220
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1185
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1191
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:315
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:317
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:916
@@ -2315,6 +2316,7 @@ msgid "Filter List"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx:184
+#: superset-frontend/src/components/Datasource/CollectionTable.tsx:509
 #: superset-frontend/src/explore/components/DataTableControl/index.tsx:118
 #: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/DashboardsSubMenu.tsx:59
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:443
@@ -2501,7 +2503,7 @@ msgstr ""
 msgid "Invalid numpy function: %(operator)s"
 msgstr ""
 
-#: superset/views/api.py:126
+#: superset/views/api.py:128
 #, python-format
 msgid "Unexpected time range: %(error)s"
 msgstr ""
@@ -2756,8 +2758,8 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:188
-#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:209
+#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:171
+#: superset-frontend/src/components/DynamicEditableTitle/index.tsx:192
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/DividerConfigForm.tsx:41
 #: superset/views/dashboard/mixin.py:78 superset/views/dashboard/views.py:195
 msgid "Title"
@@ -2770,8 +2772,8 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/consts.tsx:66
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:367
 #: superset-frontend/src/dashboard/components/PropertiesModal/PropertiesModal.test.tsx:381
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:520
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:523
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:525
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:528
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:418
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:427
 #: superset/views/dashboard/mixin.py:82 superset/views/team/mixin.py:16
@@ -3220,7 +3222,7 @@ msgid "Certified by %s"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/components/ControlHeader.tsx:64
-#: superset-frontend/src/components/Datasource/CollectionTable.tsx:338
+#: superset-frontend/src/components/Datasource/CollectionTable.tsx:337
 #: superset-frontend/src/features/annotationLayers/AnnotationLayerModal.tsx:260
 #: superset-frontend/src/features/annotations/AnnotationModal.tsx:325
 msgid "description"
@@ -3251,8 +3253,8 @@ msgid "Show info tooltip"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/components/SQLPopover.tsx:63
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:230
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1331
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:236
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1338
 msgid "SQL expression"
 msgstr ""
 
@@ -3341,7 +3343,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/constants.ts:65
 #: superset-frontend/src/DodoExtensions/FilterSets/FiltersHeader.tsx:129
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx:32
-#: superset-frontend/src/dashboard/components/Header/index.jsx:439
+#: superset-frontend/src/dashboard/components/Header/index.jsx:447
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/ScopeRow.tsx:78
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:180
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:703
@@ -3691,7 +3693,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/DistBar/controlPanel.ts:96
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Line/controlPanel.ts:73
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/TimePivot/controlPanel.ts:91
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:106
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:130
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:10
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:319
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:172
@@ -3707,7 +3709,7 @@ msgid "X Axis"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/sections/chartTitle.tsx:43
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:114
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:138
 msgid "X Axis Title"
 msgstr ""
 
@@ -3724,7 +3726,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Compare/controlPanel.ts:58
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Line/controlPanel.ts:84
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/TimePivot/controlPanel.ts:110
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:189
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:213
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:92
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:250
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:324
@@ -3741,7 +3743,7 @@ msgid "Y Axis"
 msgstr ""
 
 #: superset-frontend/packages/superset-ui-chart-controls/src/sections/chartTitle.tsx:71
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:197
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:221
 msgid "Y Axis Title"
 msgstr ""
 
@@ -3806,7 +3808,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:51
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controlPanel.ts:28
@@ -4516,13 +4518,13 @@ msgstr ""
 msgid "ERROR"
 msgstr ""
 
-#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:81
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:65
 msgid ""
 "This chart uses features or modules which are no longer actively "
 "maintained. It will eventually be replaced or removed."
 msgstr ""
 
-#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:84
+#: superset-frontend/packages/superset-ui-core/src/chart/types/Base.ts:69
 msgid ""
 "This chart was tested and verified, so the overall experience should be "
 "stable."
@@ -4916,7 +4918,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:125
 #: superset-frontend/plugins/legacy-plugin-chart-rose/src/controlPanel.tsx:50
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Pie/controlPanel.ts:68
-#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:119
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:125
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/sharedControls.ts:90
 #: superset-frontend/plugins/plugin-chart-echarts/src/BoxPlot/controlPanel.ts:136
 #: superset-frontend/plugins/plugin-chart-echarts/src/Funnel/controlPanel.tsx:164
@@ -4927,7 +4929,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:100
 #: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:25
 #: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:27
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1388
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1395
 #: superset-frontend/src/explore/components/controls/TimeSeriesColumnControl/index.jsx:319
 msgid "Number format"
 msgstr ""
@@ -4939,7 +4941,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-chord/src/controlPanel.ts:51
 #: superset-frontend/plugins/plugin-chart-echarts/src/Graph/controlPanel.tsx:51
 #: superset-frontend/plugins/plugin-chart-echarts/src/Sankey/controlPanel.tsx:36
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1532
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1539
 msgid "Source"
 msgstr ""
 
@@ -5956,7 +5958,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:49
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:61
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:36
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:68
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:69
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:162
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:260
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:367
@@ -6489,7 +6491,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:83
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/Bubble/controlPanel.ts:58
 #: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:63
-#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:300
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:301
 msgid "Max Bubble Size"
 msgstr ""
 
@@ -6668,7 +6670,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Polygon/controlPanel.ts:197
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Scatter/controlPanel.ts:149
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Screengrid/controlPanel.ts:61
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1031
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1037
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:760
 #: superset-frontend/src/explore/components/controls/DateFilterControl/utils/constants.ts:25
 #: superset-frontend/src/features/databases/DatabaseModal/index.tsx:1897
@@ -6760,7 +6762,7 @@ msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Contour/index.ts:35
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/layers/Heatmap/index.ts:35
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1088
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1094
 msgid "Spatial"
 msgstr ""
 
@@ -7372,7 +7374,7 @@ msgid "The way the ticks are laid out on the X-axis"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:218
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:170
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:194
 msgid "X Axis Format"
 msgstr ""
 
@@ -7386,7 +7388,7 @@ msgid "Use a log scale for the Y-axis"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:241
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:301
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:325
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:234
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:220
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Scatter/controlPanel.tsx:163
@@ -7397,7 +7399,7 @@ msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:244
 #: superset-frontend/plugins/legacy-preset-chart-nvd3/src/NVD3Controls.tsx:260
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:304
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:328
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:237
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:223
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Scatter/controlPanel.tsx:166
@@ -8063,7 +8065,7 @@ msgstr ""
 msgid "Rotate x axis label"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:217
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:241
 #: superset-frontend/plugins/plugin-chart-echarts/src/controls.tsx:276
 msgid "Input field supports custom rotation. e.g. 30 for 30°"
 msgstr ""
@@ -8199,7 +8201,17 @@ msgstr ""
 msgid "color scheme for comparison"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:102
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:99
+#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:564
+msgid "Green for increase, red for decrease"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:103
+#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:568
+msgid "Red for increase, green for decrease"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberPeriodOverPeriod/controlPanel.ts:108
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:547
 msgid ""
 "Adds color to the chart symbols based on the positive or negative change "
@@ -8225,8 +8237,8 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:64
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:138
 #: superset-frontend/plugins/plugin-chart-echarts/src/BoxPlot/controlPanel.ts:150
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:156
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:258
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:180
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:282
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:45
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:127
 #: superset-frontend/plugins/plugin-chart-echarts/src/Pie/controlPanel.tsx:170
@@ -8240,8 +8252,8 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:77
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:151
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:141
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:243
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:165
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:267
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:30
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:112
 msgid "Force date format"
@@ -8249,8 +8261,8 @@ msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberTotal/controlPanel.ts:80
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:154
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:144
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:246
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:168
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:270
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:33
 #: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:115
 msgid "Use date formatting even when metric value is not a timestamp"
@@ -8430,37 +8442,42 @@ msgstr ""
 msgid "ECharts"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:82
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:85
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:323
+msgid "Min Bubble Size"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:106
 msgid "Bubble size number format"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:91
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:115
 msgid "Bubble Opacity"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:97
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:121
 msgid "Opacity of bubbles, 0 means completely transparent, 1 means opaque"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:128
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:152
 msgid "X AXIS TITLE MARGIN"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:179
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:182
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:203
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:206
 msgid "Logarithmic x-axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:210
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:234
 msgid "Rotate y axis label"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:230
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:254
 msgid "Y AXIS TITLE MARGIN"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:273
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:276
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:297
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:300
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:385
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:435
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:444
@@ -8477,7 +8494,7 @@ msgstr ""
 msgid "Logarithmic y-axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:287
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:311
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:344
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:220
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:206
@@ -8487,7 +8504,7 @@ msgstr ""
 msgid "Truncate Y Axis"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:290
+#: superset-frontend/plugins/plugin-chart-echarts/src/Bubble/controlPanel.tsx:314
 #: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/controlPanel.tsx:347
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Area/controlPanel.tsx:223
 #: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/Regular/Line/controlPanel.tsx:209
@@ -8706,7 +8723,7 @@ msgstr ""
 msgid "Label color"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:323
+#: superset-frontend/plugins/plugin-chart-echarts/src/DodoExtensions/Bubble/controlPanel.ts:348
 msgid "Size"
 msgstr ""
 
@@ -9232,8 +9249,13 @@ msgid ""
 "          insights into its shape, central tendency, and spread."
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:259
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:312
+#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:260
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:313
+msgid "Show values"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-echarts/src/MixedTimeseries/EchartsMixedTimeseries.tsx:260
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/EchartsTimeseries.tsx:313
 msgid "Hide values"
 msgstr ""
 
@@ -9695,11 +9717,11 @@ msgstr ""
 msgid "Generic Chart"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:661
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:662
 msgid "zoom area"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:662
+#: superset-frontend/plugins/plugin-chart-echarts/src/Timeseries/transformProps.ts:663
 msgid "restore zoom"
 msgstr ""
 
@@ -10123,13 +10145,88 @@ msgstr ""
 msgid "page_size.all"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:59
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:70
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
 #: superset-frontend/src/dashboard/components/gridComponents/DynamicComponent.tsx:165
 #: superset-frontend/src/explore/components/RowCountLabel/index.tsx:43
 msgid "Loading..."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
+msgid "Content with navigation"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:356
+msgid "Reset view (Esc)"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:357
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
+#: superset-frontend/src/components/Table/index.tsx:219
+msgid "Reset"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:362
+msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:124
+msgid "Chart Navigation Features"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:126
+msgid "This chart supports interactive navigation:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
+msgid "Pan the chart:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
+msgid "Hold"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:134
+msgid "while dragging with the mouse"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
+msgid "Zoom in/out:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:140
+msgid "while scrolling the mouse wheel, or use"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
+msgid "and"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
+msgid "keys"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
+msgid "Reset view:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
+msgid "Press"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Esc"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
+msgid "or click the Reset button"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:152
+msgid "Got it!"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/index.ts:40
@@ -10186,6 +10283,17 @@ msgstr ""
 msgid ""
 "Show total aggregations of selected metrics. Note that row limit does not"
 " apply to the result."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:26
+msgid "Allow navigation tools"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:27
+msgid ""
+"Enable navigation tools for the handlebars template. Allows panning with "
+"middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse "
+"wheel."
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
@@ -10456,19 +10564,19 @@ msgstr ""
 msgid "metric"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:577
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:853
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:578
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:854
 msgid "Subtotal"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:603
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:719
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:978
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:604
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:720
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:979
 #, python-format
 msgid "Total (%(aggregatorName)s)"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:995
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:996
 #, python-format
 msgid "Value has own aggregation: %(aggregation)s"
 msgstr ""
@@ -10638,14 +10746,6 @@ msgstr ""
 msgid "Custom Conditional Formatting"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:564
-msgid "Green for increase, red for decrease"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:568
-msgid "Red for increase, green for decrease"
-msgstr ""
-
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:571
 msgid "Apply conditional color formatting to numeric columns"
 msgstr ""
@@ -10716,17 +10816,17 @@ msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:141
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:76
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:155
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:233
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:225
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:986
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:970
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:271
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:265
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:306
 #: superset-frontend/src/components/Modal/Modal.tsx:275
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:621
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:627
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:305
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/Footer/Footer.tsx:62
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:266
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:272
 #: superset-frontend/src/explore/components/SaveModal.tsx:446
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:970
 #: superset-frontend/src/features/datasets/AddDataset/Footer/index.tsx:117
@@ -10746,14 +10846,14 @@ msgid "Filter set already exists"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/EditSection.tsx:161
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:166
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:241
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:50
 #: superset-frontend/src/SqlLab/components/SaveDatasetActionButton/index.tsx:64
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:218
 #: superset-frontend/src/SqlLab/components/SaveQuery/index.tsx:233
 #: superset-frontend/src/components/Datasource/DatasourceModal.tsx:326
-#: superset-frontend/src/dashboard/components/Header/index.jsx:626
-#: superset-frontend/src/dashboard/components/Header/index.jsx:628
+#: superset-frontend/src/dashboard/components/Header/index.jsx:634
+#: superset-frontend/src/dashboard/components/Header/index.jsx:636
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:117
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:319
 #: superset-frontend/src/dashboard/components/SaveModal.tsx:211
@@ -10763,7 +10863,7 @@ msgstr ""
 #: superset-frontend/src/explore/components/DatasourcePanel/index.tsx:385
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:252
 #: superset-frontend/src/explore/components/ExploreChartPanel/index.jsx:460
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:284
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:290
 #: superset-frontend/src/explore/components/SaveModal.tsx:474
 #: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:344
 #: superset-frontend/src/explore/components/controls/DatasourceControl/index.jsx:496
@@ -10829,6 +10929,7 @@ msgid "Rebuild"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/FilterSetUnit.tsx:100
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:445
 #: superset-frontend/src/components/DeleteModal/index.tsx:84
 #: superset-frontend/src/features/charts/ChartCard.tsx:103
 #: superset-frontend/src/features/dashboards/DashboardCard.tsx:137
@@ -10872,8 +10973,8 @@ msgid "Please filter set name"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/Footer.tsx:96
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:994
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:1003
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:978
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:987
 msgid "Create"
 msgstr ""
 
@@ -10890,7 +10991,7 @@ msgid "Please apply filter changes"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/FilterSets/utils/index.ts:39
-#: superset-frontend/src/dashboard/components/nativeFilters/utils.ts:278
+#: superset-frontend/src/dashboard/components/nativeFilters/utils.ts:282
 msgid "Unknown value"
 msgstr ""
 
@@ -10904,41 +11005,106 @@ msgid ""
 "later."
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:177
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:179
-msgid "Edit colors"
-msgstr ""
-
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:183
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:213
 msgid "Edit label colors"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:191
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:220
+msgid "Number of changes"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:267
+#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:111
+msgid "Deleted"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:268
+#: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:12
+msgid "Not assigned"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:278
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:280
+msgid "Edit colors"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:296
 msgid "The dashboard has a color scheme applied: "
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:194
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:299
 msgid "You can override the colors of the metrics with your own values."
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:201
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:309
 msgid "Search for label"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:223
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:314
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:315
+msgid "Filter labels"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:319
+msgid "On dashboard"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:322
+msgid "Not on dashboard"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:324
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
+#: superset-frontend/src/pages/AlertReportList/index.tsx:462
+#: superset-frontend/src/pages/AlertReportList/index.tsx:500
+#: superset-frontend/src/pages/AnnotationLayerList/index.tsx:251
+#: superset-frontend/src/pages/ChartList/index.tsx:567
+#: superset-frontend/src/pages/ChartList/index.tsx:593
+#: superset-frontend/src/pages/ChartList/index.tsx:605
+#: superset-frontend/src/pages/ChartList/index.tsx:616
+#: superset-frontend/src/pages/ChartList/index.tsx:638
+#: superset-frontend/src/pages/ChartList/index.tsx:663
+#: superset-frontend/src/pages/CssTemplateList/index.tsx:236
+#: superset-frontend/src/pages/DashboardList/index.tsx:574
+#: superset-frontend/src/pages/DashboardList/index.tsx:585
+#: superset-frontend/src/pages/DashboardList/index.tsx:621
+#: superset-frontend/src/pages/DatabaseList/index.tsx:517
+#: superset-frontend/src/pages/DatabaseList/index.tsx:537
+#: superset-frontend/src/pages/DatabaseList/index.tsx:549
+#: superset-frontend/src/pages/DatasetList/index.tsx:644
+#: superset-frontend/src/pages/Home/index.tsx:194
+#: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
+#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
+#: superset-frontend/src/pages/SavedQueryList/index.tsx:458
+#: superset-frontend/src/pages/SavedQueryList/index.tsx:509
+#: superset-frontend/src/pages/Tags/index.tsx:260
+msgid "All"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:357
 msgid ""
 "Metric is missing from the dashboard with current filters or removed from"
 " the dataset"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:259
-#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:111
-msgid "Deleted"
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:377
+#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx:57
+#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx:71
+#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:116
+#: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:840
+#: superset-frontend/src/explore/components/controls/ConditionalFormattingControl/FormattingPopoverContent.tsx:305
+#: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:262
+#: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:317
+msgid "Color"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:260
-#: superset-frontend/src/DodoExtensions/explore/components/controls/NumberFormatControl/NumberFormatControl.tsx:12
-msgid "Not assigned"
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:419
+msgid "Present on charts"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:458
+#: superset-frontend/src/components/ListView/ListView.tsx:445
+msgid "No results match your filter criteria"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/ConditionalFormattingControlDodo.tsx:68
@@ -10974,16 +11140,6 @@ msgstr ""
 #: superset-frontend/src/explore/controlPanels/sections.tsx:62
 #: superset-frontend/src/explore/controls.jsx:444
 msgid "Color scheme"
-msgstr ""
-
-#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx:57
-#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlNoGradient/FormattingPopoverContentNoGradient.tsx:71
-#: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingMessageControl/FormattingPopoverContentMessage.tsx:116
-#: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:840
-#: superset-frontend/src/explore/components/controls/ConditionalFormattingControl/FormattingPopoverContent.tsx:305
-#: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:262
-#: superset-frontend/src/explore/components/controls/ContourControl/ContourPopoverControl.tsx:317
-msgid "Color"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodo/FormattingPopoverContentDodo.tsx:76
@@ -11333,7 +11489,8 @@ msgid "Onboarding request"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:53
-msgid "email"
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:33
+msgid "Email"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:57
@@ -11397,10 +11554,6 @@ msgstr ""
 msgid "New Roles"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:33
-msgid "Email"
-msgstr ""
-
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:106
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/TeamList/consts.tsx:103
 #: superset-frontend/src/SqlLab/components/QueryTable/index.tsx:87
@@ -11422,33 +11575,6 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/requestList.tsx:31
 #: superset-frontend/src/DodoExtensions/onBoarding/utils/onboardingMenuAdminItems.ts:7
 msgid "Requests"
-msgstr ""
-
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:51
-#: superset-frontend/src/pages/AlertReportList/index.tsx:462
-#: superset-frontend/src/pages/AlertReportList/index.tsx:500
-#: superset-frontend/src/pages/AnnotationLayerList/index.tsx:251
-#: superset-frontend/src/pages/ChartList/index.tsx:567
-#: superset-frontend/src/pages/ChartList/index.tsx:593
-#: superset-frontend/src/pages/ChartList/index.tsx:605
-#: superset-frontend/src/pages/ChartList/index.tsx:616
-#: superset-frontend/src/pages/ChartList/index.tsx:638
-#: superset-frontend/src/pages/ChartList/index.tsx:663
-#: superset-frontend/src/pages/CssTemplateList/index.tsx:236
-#: superset-frontend/src/pages/DashboardList/index.tsx:574
-#: superset-frontend/src/pages/DashboardList/index.tsx:585
-#: superset-frontend/src/pages/DashboardList/index.tsx:621
-#: superset-frontend/src/pages/DatabaseList/index.tsx:517
-#: superset-frontend/src/pages/DatabaseList/index.tsx:537
-#: superset-frontend/src/pages/DatabaseList/index.tsx:549
-#: superset-frontend/src/pages/DatasetList/index.tsx:644
-#: superset-frontend/src/pages/Home/index.tsx:194
-#: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
-#: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
-#: superset-frontend/src/pages/SavedQueryList/index.tsx:458
-#: superset-frontend/src/pages/SavedQueryList/index.tsx:509
-#: superset-frontend/src/pages/Tags/index.tsx:260
-msgid "All"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/useRequestList.tsx:57
@@ -11763,7 +11889,7 @@ msgstr ""
 
 #: superset-frontend/src/SqlLab/components/HighlightedSql/index.tsx:100
 #: superset-frontend/src/SqlLab/components/QueryTable/index.tsx:85
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1201
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1207
 #: superset-frontend/src/features/home/commonMenuData.ts:22
 #: superset-frontend/src/pages/DatasetList/index.tsx:413
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:328
@@ -11795,7 +11921,7 @@ msgid "Previous Line"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/components/KeyboardShortcutButton/index.tsx:55
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:726
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:710
 msgid "Format SQL"
 msgstr ""
 
@@ -11818,7 +11944,7 @@ msgid "Replace"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/components/KeyboardShortcutButton/index.tsx:97
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:744
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:728
 msgid "Keyboard shortcuts"
 msgstr ""
 
@@ -12189,55 +12315,55 @@ msgstr ""
 msgid "Preview: `%s`"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:694
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:678
 msgid "Schedule the query periodically"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:695
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:679
 msgid "You must run the query successfully first"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:700
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:684
 msgid "Render HTML"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:708
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:692
 msgid "Autocomplete"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:773
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:757
 msgid "CREATE TABLE AS"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:787
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:771
 msgid "CREATE VIEW AS"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:798
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:782
 msgid "The database that was used to generate this query could not be found"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:801
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:785
 msgid "Choose one of the available databases on the left panel."
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:825
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:809
 msgid "Estimate the cost before running a query"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:929
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:913
 msgid "Specify name to CREATE VIEW AS schema in: public"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:930
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:914
 msgid "Specify name to CREATE TABLE AS schema in: public"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:971
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:955
 msgid "Select a database to write a query"
 msgstr ""
 
-#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:972
+#: superset-frontend/src/SqlLab/components/SqlEditor/index.tsx:956
 msgid "Choose one of the available databases from the panel on the left."
 msgstr ""
 
@@ -12995,83 +13121,83 @@ msgstr ""
 msgid "Search / Filter"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/CollectionTable.tsx:487
+#: superset-frontend/src/components/Datasource/CollectionTable.tsx:524
 msgid "Add item"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:132
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:134
 msgid "STRING"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:133
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:135
 msgid "NUMERIC"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:134
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:136
 msgid "DATETIME"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:135
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:137
 msgid "BOOLEAN"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:139
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:141
 msgid "Physical (table or view)"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:140
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:142
 msgid "Virtual (SQL)"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:246
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:252
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1329
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:258
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1336
 msgid "Label (Eng)"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:261
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:267
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1330
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:273
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1337
 msgid "Label (Rus)"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:295
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:298
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:383
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:391
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:301
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:304
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:389
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:397
 msgid "Data type"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:310
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:382
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:316
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:388
 msgid "Advanced data type"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:314
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:320
 msgid "Advanced Data type"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:323
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:329
 msgid "Datetime format"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:327
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:333
 msgid "The pattern of timestamp format. For strings use "
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:329
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:335
 msgid "Python datetime string pattern"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:331
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:337
 msgid " expression which needs to adhere to the "
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:333
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:339
 msgid "ISO 8601"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:335
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:341
 msgid ""
 " standard to ensure that the lexicographical ordering\n"
 "                      coincides with the chronological ordering. If the\n"
@@ -13089,84 +13215,84 @@ msgid ""
 "                      database/column name level via the extra parameter."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:355
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:361
 msgid "Certified By"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:356
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1394
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:362
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1401
 msgid "Person or group that has certified this metric"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:360
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1392
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1400
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:366
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1399
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1407
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:704
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:339
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:340
 msgid "Certified by"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:366
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:371
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1405
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1411
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:372
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:377
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1412
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1418
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:713
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:348
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:351
 msgid "Certification details"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:367
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1407
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:373
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1414
 msgid "Details of the certification"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:384
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:392
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:390
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:398
 msgid "Is dimension"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:386
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:394
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:392
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:400
 msgid "Default datetime"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:387
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:395
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:393
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:401
 msgid "Is filterable"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:523
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1611
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:529
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1644
 msgid "<new column>"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:592
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:598
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1416
 msgid "Select owners"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:847
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:853
 #, python-format
 msgid "Modified columns: %s"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:852
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:858
 #, python-format
 msgid "Removed columns: %s"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:857
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:863
 #, python-format
 msgid "New columns added: %s"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:860
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:866
 msgid "Metadata has been synced"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:866
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:872
 #: superset-frontend/src/components/Tags/utils.tsx:71
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:132
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/ColumnSelect.tsx:118
@@ -13175,51 +13301,51 @@ msgstr ""
 msgid "An error has occurred"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:895
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:901
 #, python-format
 msgid "Column name [%s] is duplicated"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:901
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:907
 #, python-format
 msgid "Metric name [%s] is duplicated"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:910
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:916
 #, python-format
 msgid "Calculated column [%s] requires an expression"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:925
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:931
 msgid "Invalid currency code in saved metrics"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:943
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:949
 #: superset-frontend/src/features/databases/DatabaseModal/index.tsx:1811
 msgid "Basic"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:961
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:967
 msgid "Default URL"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:962
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:968
 msgid "Default URL to redirect to when accessing from the dataset list page"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:970
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:976
 msgid "Autocomplete filters"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:971
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:977
 msgid "Whether to populate autocomplete filters options"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:977
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:983
 msgid "Autocomplete query predicate"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:978
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:984
 msgid ""
 "When using \"Autocomplete filters\", this can be used to improve "
 "performance of the query fetching the values. Use this option to apply a "
@@ -13228,7 +13354,7 @@ msgid ""
 "relative time filter on a partitioned or indexed time-related field."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1000
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1006
 #, python-brace-format
 msgid ""
 "Extra data to specify table metadata. Currently supports metadata of the "
@@ -13237,148 +13363,148 @@ msgid ""
 "\"warning_markdown\": \"This is a warning.\" }`."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1037
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1043
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:363
 msgid "Cache timeout"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1038
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1044
 msgid ""
 "The duration of time in seconds before the cache is invalidated. Set to "
 "-1 to bypass the cache."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1045
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1051
 msgid "Hours offset"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1047
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1053
 msgid ""
 "The number of hours, negative or positive, to shift the time column. This"
 " can be used to move UTC time to local time."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1064
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1070
 msgid "Normalize column names"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1073
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1079
 msgid "Always filter main datetime column"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1074
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1080
 msgid ""
 "When the secondary temporal columns are filtered, apply the same filter "
 "to the main datetime column."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1095
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1101
 msgid "<new spatial>"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1096
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1102
 msgid "<no type>"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1127
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1133
 msgid "Click the lock to make changes."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1130
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1136
 msgid "Click the lock to prevent further changes."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1156
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1162
 msgid "virtual"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1192
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1198
 msgid "Dataset name"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1202
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1208
 msgid ""
 "When specifying SQL, the datasource acts as a view. Superset will use "
 "this statement as a subquery while grouping and filtering on the "
 "generated parent queries."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1228
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1234
 #: superset-frontend/src/pages/DatasetList/index.tsx:364
 #: superset-frontend/src/pages/DatasetList/index.tsx:562
 msgid "Physical"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1276
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1282
 msgid ""
 "The pointer to a physical table (or view). Keep in mind that the chart is"
 " associated to this Superset logical table, and this logical table points"
 " the physical table referenced here."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1334
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1341
 msgid ""
 "This field is used as a unique identifier to attach the metric to charts."
 " It is also used as the alias in the SQL query."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1366
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1373
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:36
 #: superset-frontend/src/explore/components/controls/ColumnConfigControl/constants.tsx:54
 msgid "D3 format"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1373
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1380
 msgid "Metric currency"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1377
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1384
 msgid "Select or type currency symbol"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1416
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1423
 #: superset-frontend/src/explore/components/controls/DndColumnSelectControl/DndFilterSelect.tsx:240
 #: superset-frontend/src/explore/components/controls/FilterControl/AdhocFilterControl/index.jsx:205
 msgid "Warning"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1418
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1425
 msgid "Optional warning about use of this metric"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1436
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1443
 msgid "<new metric>"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1518
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1525
 msgid "Be careful."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1519
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1526
 msgid ""
 "Changing these settings will affect all charts using this dataset, "
 "including charts owned by other people."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1566
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1602
 msgid "Sync columns from source"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1586
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1613
 msgid "Calculated columns"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1598
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1631
 msgid ""
 "This field is used as a unique identifier to attach the calculated "
 "dimension to charts. It is also used as the alias in the SQL query."
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1614
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1647
 msgid "<enter SQL expression here>"
 msgstr ""
 
-#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1620
+#: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1653
 #: superset-frontend/src/dashboard/components/EmbeddedModal/index.tsx:191
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:281
 #: superset-frontend/src/features/datasets/AddDataset/Header/index.tsx:58
@@ -13476,7 +13602,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: superset-frontend/src/components/ErrorBoundary/index.tsx:61
+#: superset-frontend/src/components/ErrorBoundary/index.tsx:65
 #: superset-frontend/src/components/ErrorMessage/ErrorMessageWithStackTrace.tsx:24
 msgid "Unexpected error"
 msgstr ""
@@ -13675,36 +13801,32 @@ msgstr ""
 msgid "+ %s more"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:252
+#: superset-frontend/src/components/ListView/ListView.tsx:246
 #, python-format
 msgid "%s Selected"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:389
+#: superset-frontend/src/components/ListView/ListView.tsx:383
 msgid "Deselect all"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:415
+#: superset-frontend/src/components/ListView/ListView.tsx:409
 msgid "Add Tag"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:451
-msgid "No results match your filter criteria"
-msgstr ""
-
-#: superset-frontend/src/components/ListView/ListView.tsx:452
+#: superset-frontend/src/components/ListView/ListView.tsx:446
 msgid "Try different criteria to display results."
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:455
+#: superset-frontend/src/components/ListView/ListView.tsx:449
 msgid "clear all filters"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:460
+#: superset-frontend/src/components/ListView/ListView.tsx:454
 msgid "No Data"
 msgstr ""
 
-#: superset-frontend/src/components/ListView/ListView.tsx:480
+#: superset-frontend/src/components/ListView/ListView.tsx:474
 #: superset-frontend/src/components/TableView/TableView.tsx:250
 #, python-format
 msgid "%s-%s of %s"
@@ -13767,8 +13889,8 @@ msgid "Created by"
 msgstr ""
 
 #: superset-frontend/src/components/MetadataBar/ContentConfig.tsx:127
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:721
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:385
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:726
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:391
 #: superset-frontend/src/explore/components/controls/VizTypeControl/VizTypeGallery.tsx:621
 #: superset-frontend/src/features/allEntities/AllEntitiesTable.tsx:131
 #: superset-frontend/src/features/home/Menu.tsx:438
@@ -13792,10 +13914,6 @@ msgstr ""
 
 #: superset-frontend/src/components/Table/index.tsx:217
 msgid "Filter menu"
-msgstr ""
-
-#: superset-frontend/src/components/Table/index.tsx:219
-msgid "Reset"
 msgstr ""
 
 #: superset-frontend/src/components/Table/index.tsx:220
@@ -13875,15 +13993,15 @@ msgstr ""
 msgid "Timezone selector"
 msgstr ""
 
-#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:96
+#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:79
 msgid "Failed to save cross-filter scoping"
 msgstr ""
 
-#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:214
+#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:197
 msgid "Dashboard label colors updated"
 msgstr ""
 
-#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:216
+#: superset-frontend/src/dashboard/actions/dashboardInfo.ts:199
 msgid "Failed to save dashboard label colors"
 msgstr ""
 
@@ -14061,12 +14179,22 @@ msgstr ""
 msgid "Minutes value"
 msgstr ""
 
+#: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:257
+msgid "minutes"
+msgstr ""
+
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:269
 msgid "SECOND"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:273
 msgid "Seconds value"
+msgstr ""
+
+#: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:274
+#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1755
+#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1769
+msgid "seconds"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/RefreshIntervalModal.tsx:294
@@ -14302,48 +14430,48 @@ msgstr ""
 msgid "Applied filters (%d)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:308
+#: superset-frontend/src/dashboard/components/Header/index.jsx:316
 #, python-format
 msgid ""
 "This dashboard is currently auto refreshing; the next auto refresh will "
 "be in %s."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:395
+#: superset-frontend/src/dashboard/components/Header/index.jsx:403
 msgid "Your dashboard is too large. Please reduce its size before saving it."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:431
-#: superset-frontend/src/dashboard/components/Header/index.jsx:435
+#: superset-frontend/src/dashboard/components/Header/index.jsx:439
+#: superset-frontend/src/dashboard/components/Header/index.jsx:443
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:175
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:179
 #: superset-frontend/src/features/datasets/metadataBar/useDatasetMetadataBar.tsx:72
 msgid "Not available"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:525
+#: superset-frontend/src/dashboard/components/Header/index.jsx:533
 msgid "Add the name of the dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:526
+#: superset-frontend/src/dashboard/components/Header/index.jsx:534
 msgid "Dashboard title"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:570
+#: superset-frontend/src/dashboard/components/Header/index.jsx:578
 msgid "Undo the action"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:590
+#: superset-frontend/src/dashboard/components/Header/index.jsx:598
 msgid "Redo the action"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:615
-#: superset-frontend/src/dashboard/components/Header/index.jsx:617
+#: superset-frontend/src/dashboard/components/Header/index.jsx:623
+#: superset-frontend/src/dashboard/components/Header/index.jsx:625
 msgid "Discard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/Header/index.jsx:650
-#: superset-frontend/src/dashboard/components/Header/index.jsx:652
+#: superset-frontend/src/dashboard/components/Header/index.jsx:658
+#: superset-frontend/src/dashboard/components/Header/index.jsx:660
 msgid "Edit dashboard"
 msgstr ""
 
@@ -14452,103 +14580,103 @@ msgid "Last Updated %s by %s"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:144
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:310
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:315
 #: superset-frontend/src/explore/components/EmbedCodeContent.jsx:57
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:86
 #: superset-frontend/src/pages/AlertReportList/index.tsx:66
 msgid "Error"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:311
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:316
 msgid "A valid color scheme is required"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:346
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:351
 msgid "JSON metadata is invalid!"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:418
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:423
 msgid "Dashboard properties updated"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:437
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:442
 msgid "The dashboard has been saved"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:451
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:494
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:366
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:456
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:499
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:372
 msgid "Access"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:466
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:514
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:471
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:519
 msgid ""
 "Owners is a list of users who can alter the dashboard. Searchable by name"
 " or username."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:472
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:477
 msgid "Colors"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:534
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:539
 msgid ""
 "Roles is a list which defines access to the dashboard. Granting a role "
 "access to a dashboard will bypass dataset level checks. If no roles are "
 "defined, regular access permissions apply."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:611
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:617
 msgid "Dashboard properties"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:633
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:639
 msgid "This dashboard is managed externally, and can't be edited in Superset"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:654
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:308
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:660
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:314
 #: superset-frontend/src/features/annotationLayers/AnnotationLayerModal.tsx:245
 #: superset-frontend/src/features/annotations/AnnotationModal.tsx:285
 #: superset-frontend/src/features/cssTemplates/CssTemplateModal.tsx:238
 msgid "Basic information"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:661
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:667
 #: superset-frontend/src/pages/DashboardList/index.tsx:351
 msgid "Title (Eng)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:671
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:677
 #: superset-frontend/src/pages/DashboardList/index.tsx:363
 msgid "Title (Rus)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:681
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:686
 msgid "URL slug"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:685
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:690
 msgid "A readable URL for your dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:694
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:331
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:699
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:337
 msgid "Certification"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:703
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:708
 msgid "Person or group that has certified this dashboard."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:714
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:348
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:719
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:354
 msgid "Any additional detail to show in the certification tooltip."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:739
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:400
+#: superset-frontend/src/dashboard/components/PropertiesModal/index.tsx:744
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:406
 msgid "A list of tags that have been applied to this chart."
 msgstr ""
 
@@ -14756,23 +14884,23 @@ msgstr ""
 msgid "Empty row"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:200
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:202
 msgid "You can"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:206
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:208
 msgid "create a new chart"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:208
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:210
 msgid "or use existing ones from the panel on the right"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:212
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:214
 msgid "You can add the components in the"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:218
+#: superset-frontend/src/dashboard/components/gridComponents/Tab.jsx:220
 msgid "edit mode"
 msgstr ""
 
@@ -14971,11 +15099,11 @@ msgstr ""
 msgid "Filters out of scope (%d)"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:85
+#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:73
 msgid "Dependent on"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:87
+#: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/DependenciesRow.tsx:75
 msgid "Filter only displays values relevant to selections made in other filters."
 msgstr ""
 
@@ -15004,15 +15132,15 @@ msgstr ""
 msgid "Add filters and dividers"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:316
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:318
 msgid "[untitled]"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:496
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:498
 msgid "Cyclic dependency detected"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:644
+#: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigModal.tsx:646
 msgid "Add and edit filters"
 msgstr ""
 
@@ -15948,40 +16076,40 @@ msgstr ""
 msgid "You do not have permission to edit this chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:198
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:202
 msgid "Chart properties updated"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:256
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:262
 msgid "Edit Chart Properties"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:277
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:283
 msgid "This chart is managed externally, and can't be edited in Superset"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:326
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:332
 msgid ""
 "The description can be displayed as widget headers in the dashboard view."
 " Supports markdown."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:337
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:343
 msgid "Person or group that has certified this chart."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:355
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:361
 msgid "Configuration"
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:361
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:367
 msgid ""
 "Duration (in seconds) of the caching timeout for this chart. Set to -1 to"
 " bypass the cache. Note this defaults to the dataset's timeout if "
 "undefined."
 msgstr ""
 
-#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:379
+#: superset-frontend/src/explore/components/PropertiesModal/index.tsx:385
 msgid "A list of users who can alter the chart. Searchable by name or username."
 msgstr ""
 
@@ -17612,11 +17740,6 @@ msgstr ""
 msgid "Time in seconds"
 msgstr ""
 
-#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1755
-#: superset-frontend/src/features/alerts/AlertReportModal.tsx:1769
-msgid "seconds"
-msgstr ""
-
 #: superset-frontend/src/features/alerts/AlertReportModal.tsx:1761
 msgid "Grace period"
 msgstr ""
@@ -18876,29 +18999,29 @@ msgid ""
 "overwrite?"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:174
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:162
 msgid "Refreshing columns"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:175
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:163
 msgid "Table columns"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:176
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:164
 msgid "Loading"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:223
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:211
 msgid ""
 "This table already has a dataset associated with it. You can only "
 "associate one dataset with a table.\n"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:226
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:214
 msgid "View Dataset"
 msgstr ""
 
-#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:233
+#: superset-frontend/src/features/datasets/AddDataset/DatasetPanel/DatasetPanel.tsx:221
 #: superset-frontend/src/features/datasets/AddDataset/LeftPanel/index.tsx:172
 msgid "This table already has a dataset"
 msgstr ""
@@ -20484,6 +20607,9 @@ msgstr ""
 msgid "List Roles"
 msgstr ""
 
+msgid "User Registrations"
+msgstr ""
+
 msgid "Action Log"
 msgstr ""
 
@@ -20505,11 +20631,72 @@ msgstr ""
 msgid "Saved Queries"
 msgstr ""
 
-msgid "Select all"
+msgid "Select All"
 msgstr ""
 
-msgid "Show values"
+msgid "Day"
 msgstr ""
 
-msgid "Hide values"
+msgid "Week"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Quarter"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Week starting sunday"
+msgstr ""
+
+msgid "Week starting monday"
+msgstr ""
+
+msgid "Week ending saturday"
+msgstr ""
+
+msgid "Week_ending sunday"
+msgstr ""
+
+msgid "Week starting Sunday"
+msgstr ""
+
+msgid "Week starting Monday"
+msgstr ""
+
+msgid "Week ending Saturday"
+msgstr ""
+
+msgid "Managing Company"
+msgstr ""
+
+msgid "readonly"
+msgstr ""
+
+msgid "Create data"
+msgstr ""
+
+msgid "Vizualize data"
+msgstr ""
+
+msgid "center"
+msgstr ""
+
+msgid "oldest"
+msgstr ""
+
+msgid "average"
+msgstr ""
+
+msgid "latest"
+msgstr ""
+
+msgid "changes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "vs"
 msgstr ""

@@ -517,7 +517,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     # Allow users to export full CSV of table viz type.
     # This could cause the server to run out of memory or compute.
     "ALLOW_FULL_CSV_EXPORT": False,
-    "ALLOW_ADHOC_SUBQUERY": False,
+    "ALLOW_ADHOC_SUBQUERY": True,
     "USE_ANALAGOUS_COLORS": False,
     # Apply RLS rules to SQL Lab queries. This requires parsing and manipulating the
     # query, and might break queries and/or allow users to bypass RLS. Use with care!
@@ -558,7 +558,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     # Enabling this feature flag requires installing "playwright" pip package
     "PLAYWRIGHT_REPORTS_AND_THUMBNAILS": False,
     # Set to True to enable experimental chart plugins
-    "CHART_PLUGINS_EXPERIMENTAL": False,
+    "CHART_PLUGINS_EXPERIMENTAL": True,
     # Regardless of database configuration settings, force SQLLAB to run async using Celery
     "SQLLAB_FORCE_RUN_ASYNC": False,
     # Set to True to to enable factory resent CLI command
@@ -858,7 +858,7 @@ CORS_OPTIONS: dict[Any, Any] = {}
 # Disabling this option is not recommended for security reasons. If you wish to allow
 # valid safe elements that are not included in the default sanitization schema, use the
 # HTML_SANITIZATION_SCHEMA_EXTENSIONS configuration.
-HTML_SANITIZATION = True
+HTML_SANITIZATION = False
 
 # Use this configuration to extend the HTML sanitization schema.
 # By default we use the GitHub schema defined in

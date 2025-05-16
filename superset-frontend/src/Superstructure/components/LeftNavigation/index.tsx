@@ -7,6 +7,10 @@ import {
   UlContainer,
 } from './styles';
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 const LeftNavigation = (props: {
   routes: Array<{
     idOrSlug: null | string | number;
@@ -36,7 +40,7 @@ const LeftNavigation = (props: {
                 <StyledLink
                   activeClassName={`active-link active-link-${businessId}`}
                   to={link}
-                  // onClick={onNavigate}
+                  onClick={scrollToTop}
                 >
                   {props.language === 'ru'
                     ? route.nameRU || route.name

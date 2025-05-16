@@ -94,8 +94,14 @@ const config: ControlPanelConfig = {
               default: ColorSchemeEnum.Green,
               renderTrigger: true,
               choices: [
-                [ColorSchemeEnum.Green, 'Green for increase, red for decrease'],
-                [ColorSchemeEnum.Red, 'Red for increase, green for decrease'],
+                [
+                  ColorSchemeEnum.Green,
+                  t('Green for increase, red for decrease'),
+                ],
+                [
+                  ColorSchemeEnum.Red,
+                  t('Red for increase, green for decrease'),
+                ],
               ],
               visibility: ({ controls }) =>
                 controls?.comparison_color_enabled?.value === true,

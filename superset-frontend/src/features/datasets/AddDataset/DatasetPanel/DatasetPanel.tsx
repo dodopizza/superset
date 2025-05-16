@@ -1,29 +1,13 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { t, styled, useTheme } from '@superset-ui/core';
 import Icons from 'src/components/Icons';
 import Alert from 'src/components/Alert';
 import Table, { ColumnsType, TableSize } from 'src/components/Table';
 import { alphabeticalSort } from 'src/components/Table/sorters';
 // @ts-ignore
-import LOADING_GIF from 'src/assets/images/loading.gif';
+// import LOADING_GIF from 'src/assets/images/loading.gif'; // DODO commented out 45047288
 import { DatasetObject } from 'src/features/datasets/AddDataset/types';
+import Loading from 'src/components/Loading';
 import { ITableColumn } from './types';
 import MessageContent from './MessageContent';
 
@@ -48,9 +32,11 @@ interface StyledHeaderProps {
   position: EPosition;
 }
 
-const LOADER_WIDTH = 200;
-const SPINNER_WIDTH = 120;
-const HALF = 0.5;
+// DODO commented out start 45047288
+// const LOADER_WIDTH = 200;
+// const SPINNER_WIDTH = 120;
+// const HALF = 0.5;
+// DODO commented out stop 45047288
 const MARGIN_MULTIPLIER = 3;
 
 const StyledHeader = styled.div<StyledHeaderProps>`
@@ -91,6 +77,7 @@ const LoaderContainer = styled.div`
     ${theme.gridUnit * 6}px;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column; // DODO added 45047288
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -102,26 +89,27 @@ const LoaderContainer = styled.div`
   `}
 `;
 
-const StyledLoader = styled.div`
-  ${({ theme }) => `
-  max-width: 50%;
-  width: ${LOADER_WIDTH}px;
+// DODO commented out 45047288
+// const StyledLoader = styled.div`
+//   ${({ theme }) => `
+//   max-width: 50%;
+//   width: ${LOADER_WIDTH}px;
 
-  img {
-    width: ${SPINNER_WIDTH}px;
-    margin-left: ${(LOADER_WIDTH - SPINNER_WIDTH) * HALF}px;
-  }
+//   img {
+//     width: ${SPINNER_WIDTH}px;
+//     margin-left: ${(LOADER_WIDTH - SPINNER_WIDTH) * HALF}px;
+//   }
 
-  div {
-    width: 100%;
-    margin-top: ${theme.gridUnit * MARGIN_MULTIPLIER}px;
-    text-align: center;
-    font-weight: ${theme.typography.weights.normal};
-    font-size: ${theme.typography.sizes.l}px;
-    color: ${theme.colors.grayscale.light1};
-  }
-  `}
-`;
+//   div {
+//     width: 100%;
+//     margin-top: ${theme.gridUnit * MARGIN_MULTIPLIER}px;
+//     text-align: center;
+//     font-weight: ${theme.typography.weights.normal};
+//     font-size: ${theme.typography.sizes.l}px;
+//     color: ${theme.colors.grayscale.light1};
+//   }
+//   `}
+// `;
 
 const TableContainerWithBanner = styled.div`
   ${({ theme }) => `
@@ -272,10 +260,14 @@ const DatasetPanel = ({
   if (loading) {
     loader = (
       <LoaderContainer>
-        <StyledLoader>
-          <img alt={ALT_LOADING} src={LOADING_GIF} />
-          <div>{REFRESHING}</div>
-        </StyledLoader>
+        {/* DODO commented out start 45047288 */}
+        {/* <StyledLoader> */}
+        {/* <img alt={ALT_LOADING} src={LOADING_GIF} /> */}
+        {/* DODO commented out stop 45047288 */}
+        {/* DODO added 45047288 */}
+        <Loading position="inline-centered" />
+        <div>{REFRESHING}</div>
+        {/* </StyledLoader> */}
       </LoaderContainer>
     );
   }

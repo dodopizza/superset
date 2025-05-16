@@ -125,7 +125,7 @@ const LoadingDiv = styled.div`
 const MessageSpan = styled.span`
   display: block;
   text-align: center;
-  margin: ${({ theme }) => theme.gridUnit * 4}px auto;
+  margin: 0 auto ${({ theme }) => theme.gridUnit * 4}px; // DODO changed
   width: fit-content;
   color: ${({ theme }) => theme.colors.grayscale.base};
 `;

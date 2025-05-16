@@ -45,6 +45,9 @@ const CONFIG_MAP: Record<string, IFirebaseConfig> = {
 
   'superset-spr.d.yandex.dodois': DEV_CONFIG,
   'superset-fof.d.yandex.dodois': DEV_CONFIG,
+  'spr.d.yandex.dodois': DEV_CONFIG,
+  'superset.d.yandex.dodois': DEV_CONFIG,
+
   localhost: DEV_CONFIG,
 };
 const DOMAIN_ARRAY = Object.keys(CONFIG_MAP);
