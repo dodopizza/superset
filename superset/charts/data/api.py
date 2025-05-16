@@ -390,13 +390,16 @@ class ChartDataRestApi(ChartRestApi):
                 if result_df.empty:
                     result_df = data
                     continue
-                result_df = pd.merge(
-                    result_df,
-                    data,
-                    on=result_df.columns[0],
-                    how="outer",
-                    suffixes=("", "_extra"),
-                )
+                try:
+                    result_df = pd.merge(
+                        result_df,
+                        data,
+                        on=result_df.columns[0],
+                        how="outer",
+                        suffixes=("", "_extra"),
+                    )
+                except KeyError:
+                    pass
 
                 result_df = format_data_for_export(  # dodo added
                     result_df, form_data
