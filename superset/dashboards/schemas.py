@@ -190,11 +190,27 @@ class DashboardJSONMetadataSchema(Schema):
         return data
 
 
+class UserInfo(Schema):
+    country_name = fields.String()
+
+
 class UserSchema(Schema):
     id = fields.Int()
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    email = fields.String()
+    country_name = fields.String()
+
+    user_info = fields.Nested(UserInfo)
+
+    # pylint: disable=unused-argument
+    @post_dump()
+    def post_dump(self, serialized: dict[str, Any], **kwargs: Any) -> dict[str, Any]:
+        if user_info := serialized["user_info"]:
+            serialized["country_name"] = user_info["country_name"]
+        del serialized["user_info"]
+        return serialized
 
 
 class RolesSchema(Schema):
