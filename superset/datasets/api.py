@@ -26,7 +26,6 @@ from flask_appbuilder.api import expose, protect, rison, safe
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import ngettext
 from marshmallow import ValidationError
-from requests_cache import Dict
 
 from superset import event_logger, security_manager
 from superset.commands.dataset.create import CreateDatasetCommand
@@ -301,7 +300,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
     list_outer_default_load = True
     show_outer_default_load = True
 
-    def pre_get(self, data: Dict[str, Any]) -> None:
+    def pre_get(self, data: dict[str, Any]) -> None:
         """
         Add country name to owners
         """

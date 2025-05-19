@@ -3,7 +3,7 @@
 import logging
 from datetime import datetime
 from io import BytesIO
-from typing import Any, cast, Dict, Optional
+from typing import Any, cast, Optional
 from zipfile import is_zipfile, ZipFile
 
 from flask import redirect, request, Response, send_file, url_for
@@ -280,7 +280,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "owners": ["email", "user_info.country_name", "active"]
     }
 
-    def pre_get(self, data: Dict[str, Any]) -> None:
+    def pre_get(self, data: dict[str, Any]) -> None:
         """
         Add country name to owners
         """
