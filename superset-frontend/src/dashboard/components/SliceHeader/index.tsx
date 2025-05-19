@@ -197,6 +197,15 @@ const SliceHeader: FC<SliceHeaderProps> = ({
 
   return (
     <ChartHeaderStyles data-test="slice-header" ref={innerRef}>
+      {/* DODO added 44728892 */}
+      {!editMode && metricDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={metricDescription}
+          placement="topLeft"
+          iconsStyle={{ marginRight: '2px' }}
+          staticInfoIcon
+        />
+      )}
       <div className="header-title" ref={headerRef}>
         {/* <Tooltip title={headerTooltip}>
           <EditableTitle
@@ -212,14 +221,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             url={canExplore ? exploreUrl : undefined}
           />
         </Tooltip> */}
-        {/* DODO added 44728892 */}
-        {!editMode && metricDescription && (
-          <InfoTooltipWithTrigger
-            tooltip={metricDescription}
-            placement="topLeft"
-            iconsStyle={{ marginRight: '2px', marginTop: '4px' }}
-          />
-        )}
         {/* DODO changed start 44120742 */}
         {editMode && (
           <>
