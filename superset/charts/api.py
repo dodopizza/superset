@@ -3,7 +3,7 @@
 import logging
 from datetime import datetime
 from io import BytesIO
-from typing import Any, cast, Optional
+from typing import Any, cast, Dict, Optional
 from zipfile import is_zipfile, ZipFile
 
 from flask import redirect, request, Response, send_file, url_for
@@ -15,7 +15,12 @@ from marshmallow import ValidationError
 from werkzeug.wrappers import Response as WerkzeugResponse
 from werkzeug.wsgi import FileWrapper
 
-from superset import app, is_feature_enabled, thumbnail_cache
+from superset import (
+    app,
+    is_feature_enabled,
+    security_manager,
+    thumbnail_cache,
+)
 from superset.charts.filters import (
     ChartAllTextFilter,
     ChartCertifiedFilter,
@@ -128,6 +133,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "owners.first_name",
         "owners.id",
         "owners.last_name",
+        "owners.email",
         "dashboards.id",
         "dashboards.dashboard_title",
         "params",
@@ -176,6 +182,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "owners.first_name",
         "owners.id",
         "owners.last_name",
+        "owners.email",
         "dashboards.id",
         "dashboards.dashboard_title",
         "params",
@@ -272,6 +279,16 @@ class ChartRestApi(BaseSupersetModelRestApi):
     extra_fields_rel_fields: dict[str, list[str]] = {
         "owners": ["email", "user_info.country_name", "active"]
     }
+
+    def pre_get(self, data: Dict[str, Any]) -> None:
+        """
+        Add country name to owners
+        """
+        if result := data.get("result"):
+            for owner in result.get("owners", []):
+                user = security_manager.get_user_by_id(owner["id"])
+                if user and user.user_info:
+                    owner["country_name"] = user.user_info.country_name
 
     @expose("/", methods=("POST",))
     @protect()
