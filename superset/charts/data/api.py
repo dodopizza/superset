@@ -401,9 +401,9 @@ class ChartDataRestApi(ChartRestApi):
                 except KeyError:
                     pass
 
-                result_df = format_data_for_export(  # dodo added
-                    result_df, form_data
-                )
+            result_df = format_data_for_export(  # dodo added
+                result_df, form_data
+            )
             if result_format == ChartDataResultFormat.CSV:
                 include_index = not isinstance(result_df.index, pd.RangeIndex)
                 return CsvResponse(
