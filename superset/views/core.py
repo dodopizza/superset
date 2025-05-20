@@ -25,6 +25,7 @@ from urllib import parse
 
 from flask import abort, flash, g, redirect, request, Response
 from flask_appbuilder import expose
+from flask_appbuilder.api import protect
 from flask_appbuilder.security.decorators import (
     has_access,
     has_access_api,
@@ -128,6 +129,8 @@ class Superset(BaseSupersetView):
     """The base views for Superset!"""
 
     logger = logging.getLogger(__name__)
+
+    allow_browser_login = False
 
     @has_access
     @event_logger.log_this
@@ -251,6 +254,7 @@ class Superset(BaseSupersetView):
             return json_error_response(utils.error_msg_from_exception(ex), 400)
 
     @api
+    @protect(allow_browser_login=True)
     @has_access_api
     @handle_api_exception
     @event_logger.log_this
