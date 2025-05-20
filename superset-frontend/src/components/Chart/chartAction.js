@@ -148,9 +148,9 @@ const legacyChartDataRequest = async (
     body: { form_data: formData },
     requestParams,
     // parseMethod,
-  }).then(({ json, response }) => ({
-    response,
-    json: { result: [json] },
+  }).then(resp => ({
+    response: resp,
+    json: { result: [resp] },
   }));
 };
 
@@ -477,7 +477,7 @@ export function exploreJSON(
           );
         }
         // DODO added 44611022
-        return resp.result;
+        return resp.result || resp.json?.result;
       })
       .then(queriesResponse => {
         queriesResponse.forEach(resultItem =>
