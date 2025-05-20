@@ -19,7 +19,7 @@ import {
   // DODO added stop 45525377
 } from '@superset-ui/core';
 import { EchartsBubbleChartProps, EchartsBubbleFormData } from './types';
-import { DEFAULT_FORM_DATA, MINIMUM_BUBBLE_SIZE } from './constants';
+import { DEFAULT_FORM_DATA } from './constants';
 import { defaultGrid } from '../defaults';
 import { getLegendProps, getMinAndMaxFromBounds } from '../utils/series';
 import { Refs } from '../types';
@@ -33,6 +33,7 @@ import { getDateFormatter } from '../utils/getDateFormatter'; // DODO added 4552
 function normalizeSymbolSize(
   nodes: ScatterSeriesOption[],
   maxBubbleValue: number,
+  minBubbleSize: string, // DODO added 46246682
 ) {
   const [bubbleMinValue, bubbleMaxValue] = extent(nodes, x => x.data![0][2]);
   const nodeSpread = bubbleMaxValue - bubbleMinValue;
@@ -40,7 +41,7 @@ function normalizeSymbolSize(
     // eslint-disable-next-line no-param-reassign
     node.symbolSize =
       (((node.data![0][2] - bubbleMinValue) / nodeSpread) *
-        (maxBubbleValue * 2) || 0) + MINIMUM_BUBBLE_SIZE;
+        (maxBubbleValue * 2) || 0) + Number(minBubbleSize); // DODO changed 46246682
   });
 }
 
@@ -115,6 +116,7 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
     size,
     entity,
     maxBubbleSize,
+    minBubbleSize, // DODO added 46246682
     colorScheme,
     series: bubbleSeries,
     xAxisLabel: bubbleXAxisTitle,
@@ -191,7 +193,7 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
     legends.add(name);
   });
 
-  normalizeSymbolSize(series, maxBubbleSize);
+  normalizeSymbolSize(series, maxBubbleSize, minBubbleSize); // DODO changed 46246682
 
   // DODO added start 45525377
   let xMetricEntry: Metric | undefined;

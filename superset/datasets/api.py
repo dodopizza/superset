@@ -27,7 +27,7 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import ngettext
 from marshmallow import ValidationError
 
-from superset import event_logger
+from superset import event_logger, security_manager
 from superset.commands.dataset.create import CreateDatasetCommand
 from superset.commands.dataset.delete import DeleteDatasetCommand
 from superset.commands.dataset.duplicate import DuplicateDatasetCommand
@@ -119,6 +119,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "owners.id",
         "owners.first_name",
         "owners.last_name",
+        "owners.email",
         "catalog",
         "schema",
         "sql",
@@ -156,6 +157,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "owners.id",
         "owners.first_name",
         "owners.last_name",
+        "owners.email",
         "columns.advanced_data_type",
         "columns.changed_on",
         "columns.column_name",
@@ -297,6 +299,16 @@ class DatasetRestApi(BaseSupersetModelRestApi):
 
     list_outer_default_load = True
     show_outer_default_load = True
+
+    def pre_get(self, data: dict[str, Any]) -> None:
+        """
+        Add country name to owners
+        """
+        if result := data.get("result"):
+            for owner in result.get("owners", []):
+                user = security_manager.get_user_by_id(owner["id"])
+                if user and user.user_info:
+                    owner["country_name"] = user.user_info.country_name
 
     @expose("/", methods=("POST",))
     @protect()

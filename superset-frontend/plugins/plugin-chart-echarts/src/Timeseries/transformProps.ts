@@ -30,6 +30,7 @@ import {
   getOriginalSeries,
   isDerivedSeries,
   getTimeOffset,
+  InfoIcon,
 } from '@superset-ui/chart-controls';
 import type { EChartsCoreOption } from 'echarts/core';
 import type { LineStyleOption } from 'echarts/types/src/util/types';
@@ -642,7 +643,7 @@ export default function transformProps(
             icon: {
               height: 14,
               backgroundColor: {
-                image: '/static/assets/images/icons/info-grayscale-dark1.svg',
+                image: InfoIcon,
               },
             },
           },

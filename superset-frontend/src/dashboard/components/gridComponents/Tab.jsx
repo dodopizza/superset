@@ -21,6 +21,8 @@ import {
   LanguageIndicatorWrapper,
 } from 'src/DodoExtensions/Common';
 
+const isStandalone = process.env.type === undefined; // DODO added
+
 export const RENDER_TAB = 'RENDER_TAB';
 export const RENDER_TAB_CONTENT = 'RENDER_TAB_CONTENT';
 
@@ -220,7 +222,7 @@ class Tab extends PureComponent {
                 </span>
               ))
             }
-            image="chart.svg"
+            image={isStandalone ? 'chart.svg' : undefined} // DODO changed
           />
         )}
         {tabComponent.children.map((componentId, componentIndex) => (
@@ -343,7 +345,8 @@ class Tab extends PureComponent {
                 editing={editMode && isFocused}
               />
             )}
-            {!editMode && (
+            {/* DODO changed */}
+            {!editMode && isStandalone && (
               <AnchorLink
                 id={component.id}
                 dashboardId={this.props.dashboardId}

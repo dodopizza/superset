@@ -676,7 +676,7 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
     isCached = [],
   } = props;
   const isTable = slice.viz_type === 'table';
-  const isPivotTable = slice.viz_type === 'pivot_table_v2';
+  // const isPivotTable = slice.viz_type === 'pivot_table_v2'; // DODO commented out
   const cachedWhen = (cachedDttm || []).map(itemCachedDttm =>
     moment.utc(itemCachedDttm).fromNow(),
   );
@@ -868,14 +868,15 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           >
             {t('Export to .CSV')}
           </Menu.Item>
-          {isPivotTable && (
+          {/* DODO commented out */}
+          {/* {isPivotTable && (
             <Menu.Item
               key={MenuKeys.ExportPivotCsv}
               icon={<Icons.FileOutlined css={dropdownIconsStyles} />}
             >
               {t('Export to Pivoted .CSV')}
             </Menu.Item>
-          )}
+          )} */}
           <Menu.Item
             key={MenuKeys.ExportXlsx}
             icon={<Icons.FileOutlined css={dropdownIconsStyles} />}

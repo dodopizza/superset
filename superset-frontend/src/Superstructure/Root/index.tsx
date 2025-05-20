@@ -43,6 +43,7 @@ import {
 import {
   ContentWrapper,
   DashboardComponentWrapper,
+  MainWrapper,
   RootComponentWrapper,
 } from './styles';
 
@@ -334,7 +335,11 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       parameters = {
         ...parameters,
         basename: '/',
-        originUrl: `https://superset-${devStand}.d.yandex.dodois.dev`,
+        // originUrl: `https://superset-${devStand}.d.yandex.dodois.dev`,
+        originUrl:
+          devStand === 'spr'
+            ? 'https://superset.d.yandex.dodois.dev'
+            : 'https://spr.d.yandex.dodois.dev',
         frontendLogger: true,
       };
     }
@@ -542,14 +547,16 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
                     {!isVisible && <Icons.Collapse />}
                   </StyledCollapseBtn>
                 )}
-                <Main
-                  routes={FULL_CONFIG.routes}
-                  store={store}
-                  basename={FULL_CONFIG.basename}
-                  stylesConfig={stylesConfig}
-                  annotationMessages={annotationsObjects}
-                  startDashboardId={startDashboard}
-                />
+                <MainWrapper>
+                  <Main
+                    routes={FULL_CONFIG.routes}
+                    store={store}
+                    basename={FULL_CONFIG.basename}
+                    stylesConfig={stylesConfig}
+                    annotationMessages={annotationsObjects}
+                    startDashboardId={startDashboard}
+                  />
+                </MainWrapper>
               </DashboardComponentWrapper>
             </Router>
           </RootComponentWrapper>

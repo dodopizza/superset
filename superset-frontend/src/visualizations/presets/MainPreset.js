@@ -31,6 +31,7 @@ import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
   EchartsBarChartPluginDodo,
+  EchartsBubbleChartDodoPlugin, // DODO added 45525377
   EchartsPieChartPlugin,
   EchartsBoxPlotChartPlugin,
   EchartsAreaChartPlugin,
@@ -174,11 +175,16 @@ export default class MainPreset extends Preset {
         }),
         // DODO added 44211759
         new SelectByIdWithTranslationFilterPlugin().configure({
-          key: 'filter_select_by_id_with_translation',
+          key: FilterPlugins.SelectByIdWithTranslation,
         }),
         ...experimentalPlugins,
+        // DODO added 45525377
         new EchartsBarChartPluginDodo().configure({
           key: 'echarts_bar_dodo',
+        }),
+        // DODO added 45525377
+        new EchartsBubbleChartDodoPlugin().configure({
+          key: 'echarts_bubble_dodo',
         }),
       ],
     });

@@ -207,6 +207,7 @@ export const buildV1ChartDataPayload = ({
   resultType,
   setDataMask,
   ownState,
+  language, // DODO added 44126075
   datasourceMetrics, // DODO added 44136746
 }) => {
   const buildQuery =
@@ -242,6 +243,7 @@ export const buildV1ChartDataPayload = ({
         datasource_metrics: datasourceMetrics,
       }),
     },
+    language, // DODO added 44126075
   };
 };
 

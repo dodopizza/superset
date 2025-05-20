@@ -1,22 +1,5 @@
 /* eslint-disable camelcase */
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 
 /**
  * This file exports all controls available for use in chart plugins internal to Superset.
@@ -244,8 +227,8 @@ const order_desc: SharedControlConfig<'CheckboxControl'> = {
   ),
   visibility: ({ controls }) =>
     Boolean(
-      controls?.timeseries_limit_metric.value &&
-        !isEmpty(controls?.timeseries_limit_metric.value),
+      controls?.series_limit_metric?.value &&
+        !isEmpty(controls?.series_limit_metric?.value),
     ),
 };
 
@@ -367,6 +350,29 @@ const sort_by_metric: SharedControlConfig<'CheckboxControl'> = {
   ),
 };
 
+// DODO added 45525377
+const size_format: SharedControlConfig<'SelectControl', SelectDefaultOption> = {
+  type: 'SelectControl',
+  freeForm: true,
+  label: t('Size format'),
+  renderTrigger: true,
+  default: DEFAULT_NUMBER_FORMAT,
+  choices: D3_FORMAT_OPTIONS,
+  description: D3_FORMAT_DOCS,
+  tokenSeparators: ['\n', '\t', ';'],
+  filterOption: ({ data: option }, search) =>
+    option.label.includes(search) || option.value.includes(search),
+  mapStateToProps: state => {
+    const isPercentage =
+      state.controls?.comparison_type?.value === ComparisonType.Percentage;
+    return {
+      choices: isPercentage
+        ? D3_FORMAT_OPTIONS.filter(option => option[0].includes('%'))
+        : D3_FORMAT_OPTIONS,
+    };
+  },
+};
+
 export default {
   metrics: dndAdhocMetricsControl,
   metric: dndAdhocMetricControl,
@@ -406,4 +412,5 @@ export default {
   temporal_columns_lookup,
   currency_format,
   sort_by_metric,
+  size_format, // DODO added 45525377
 };

@@ -21,6 +21,8 @@ import {
   TitleWrapper,
 } from 'src/DodoExtensions/Common';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const extensionsRegistry = getExtensionsRegistry();
 
 type SliceHeaderPropsDodoExtended = {
@@ -172,27 +174,38 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     ({ dashboardInfo }) => dashboardInfo.crossFiltersEnabled,
   );
 
-  const canExplore = !editMode && supersetCanExplore;
+  const canExplore = !editMode && supersetCanExplore && isStandalone; // DODO changed 44611022
+
+  const localisedSliceName = locale === 'ru' ? sliceNameRU : sliceName; // DODO added 44120742
 
   useEffect(() => {
     const headerElement = headerRef.current;
     if (canExplore) {
-      setHeaderTooltip(getSliceHeaderTooltip(sliceName));
+      setHeaderTooltip(getSliceHeaderTooltip(localisedSliceName)); // DODO changed 44120742
     } else if (
       headerElement &&
       (headerElement.scrollWidth > headerElement.offsetWidth ||
         headerElement.scrollHeight > headerElement.offsetHeight)
     ) {
-      setHeaderTooltip(sliceName ?? null);
+      setHeaderTooltip(localisedSliceName ?? null); // DODO changed 44120742
     } else {
       setHeaderTooltip(null);
     }
-  }, [sliceName, width, height, canExplore]);
+  }, [localisedSliceName, width, height, canExplore]); // DODO changed 44120742
 
   const exploreUrl = `/explore/?dashboard_page_id=${dashboardPageId}&slice_id=${slice.slice_id}`;
 
   return (
     <ChartHeaderStyles data-test="slice-header" ref={innerRef}>
+      {/* DODO added 44728892 */}
+      {!editMode && metricDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={metricDescription}
+          placement="topLeft"
+          iconsStyle={{ marginRight: '2px' }}
+          staticInfoIcon
+        />
+      )}
       <div className="header-title" ref={headerRef}>
         {/* <Tooltip title={headerTooltip}>
           <EditableTitle
@@ -208,14 +221,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             url={canExplore ? exploreUrl : undefined}
           />
         </Tooltip> */}
-        {/* DODO added 44728892 */}
-        {!editMode && metricDescription && (
-          <InfoTooltipWithTrigger
-            tooltip={metricDescription}
-            placement="topLeft"
-            iconsStyle={{ marginRight: '2px', marginTop: '4px' }}
-          />
-        )}
         {/* DODO changed start 44120742 */}
         {editMode && (
           <>

@@ -2908,7 +2908,7 @@ const ru = {
       Summary: ['Итого'],
       'Show total aggregations of selected metrics. Note that row limit does not apply to the result.':
         [
-          'Показать общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату.',
+          'Показывает общие итоговые значения выбранных показателей. Обратите внимание, что ограничение количества строк не применяется к результату.',
         ],
       'Current day': ['Текущий день'],
       'Current week': ['Текущая неделя'],
@@ -2935,6 +2935,7 @@ const ru = {
       'Show values': ['Показать значения'],
       'Hide values': ['Скрыть значения'],
       'Total (%(aggregatorName)s)': ['Итого (%(aggregatorName)s)'],
+      Subtotal: ['Подытог'],
       Sum: ['Сумма'],
       Average: ['Среднее'],
       Median: ['Медиана'],
@@ -2955,6 +2956,29 @@ const ru = {
         'В этой вкладке нет компонентов',
       ],
       'Processing file export...': ['Экспорт файла обрабатывается...'],
+      'Content with navigation': ['Содержимое с навигацией'],
+      'Reset view (Esc)': ['Сбросить вид (Esc)'],
+      Reset: ['Сбросить'],
+      'Double-click to reset zoom. Use +/- keys to zoom in/out': [
+        'Двойной щелчок позволяет сбросить масштаб. Используйте кнопки +/- для увеличения/уменьшения масштаба.',
+      ],
+      'Chart Navigation Features': ['Возможности навигации по графику'],
+      'This chart supports interactive navigation:': [
+        'Этот график поддерживает интерактивную навигацию:',
+      ],
+      'Pan the chart:': ['Панорамируйте график:'],
+      Hold: ['Держите'],
+      'while dragging with the mouse': ['при перетаскивании с помощью мыши'],
+      'Zoom in/out:': ['Увеличение/уменьшение масштаба:'],
+      'while scrolling the mouse wheel, or use': [
+        'прокручивая колесико мыши, или используйте',
+      ],
+      keys: ['клавиши'],
+      'Reset view:': ['Сбросить вид:'],
+      Press: ['Зажать'],
+      Esc: ['Esc'],
+      'or click the Reset button': ['или нажмите кнопку Сброс'],
+      'Got it!': ['Понятно!'],
     },
   },
 };

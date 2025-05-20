@@ -1041,6 +1041,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
                     tooltip={headerDescription}
                     placement="top"
                     iconsStyle={{ marginRight: '4px', marginBottom: '2px' }}
+                    staticInfoIcon
                   />
                 )}
                 <span data-column-name={col.id}>{label}</span>

@@ -1,7 +1,7 @@
 // DODO was here
 /* eslint-env browser */
 import moment from 'moment';
-import { PureComponent } from 'react';
+import { lazy, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   styled,
@@ -38,7 +38,14 @@ import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
 import DashboardEmbedModal from '../EmbeddedModal';
 import OverwriteConfirm from '../OverwriteConfirm';
-import MetricColorConfiguration from 'src/DodoExtensions/dashboard/components/MetricColorConfiguration'; // DODO added 45320801
+
+// DODO added 45320801
+const MetricColorConfiguration = lazy(
+  () =>
+    import(
+      '../../../DodoExtensions/dashboard/components/MetricColorConfiguration'
+    ),
+);
 
 const locale = bootstrapData?.common?.locale || 'en';
 
@@ -78,6 +85,7 @@ const propTypes = {
   hasUnsavedChanges: PropTypes.bool.isRequired,
   maxUndoHistoryExceeded: PropTypes.bool.isRequired,
   lastModifiedTime: PropTypes.number.isRequired,
+  datasources: PropTypes.object, // Добавлено для поддержки переводов метрик и колонок
 
   // redux
   onRefresh: PropTypes.func.isRequired,
@@ -658,6 +666,8 @@ class Header extends PureComponent {
                           dashboardInfo?.metadata?.color_scheme ||
                           this.props.colorScheme
                         }
+                        datasources={this.props.datasources}
+                        dashboardLayout={this.props.layout}
                       />
                     </>
                   )}

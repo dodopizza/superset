@@ -1,9 +1,15 @@
 // DODO was here
 import Owner from 'src/types/Owner';
 
-export default function getOwnerName(owner?: Owner): string {
+export default function getOwnerName(
+  owner?: Owner & { label?: string },
+): string {
   if (!owner) {
     return '';
+  }
+
+  if (owner.label) {
+    return owner.label;
   }
   // DODO changed 44211759
   let name = owner.full_name || `${owner.first_name} ${owner.last_name}`;
