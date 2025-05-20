@@ -25,8 +25,9 @@ from urllib import parse
 
 import simplejson as json
 from flask import abort, flash, g, redirect, render_template,\
-    request, Response, send_file
+    request, Response
 from flask_appbuilder import expose
+from flask_appbuilder.api import protect
 from flask_appbuilder.security.decorators import (
     has_access,
     has_access_api,
@@ -148,6 +149,8 @@ SqlResults = dict[str, Any]
 class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
     """The base views for Superset!"""
     logger = logging.getLogger(__name__)
+
+    allow_browser_login=False
 
     @has_access
     @event_logger.log_this
@@ -273,6 +276,7 @@ class Superset(BaseSupersetView):  # pylint: disable=too-many-public-methods
         EXPLORE_JSON_METHODS.append("GET")
 
     @api
+    @protect(allow_browser_login=True)
     @has_access_api
     @handle_api_exception
     @event_logger.log_this
