@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-13 11:28+0300\n"
+"POT-Creation-Date: 2025-05-20 14:28+0300\n"
 "PO-Revision-Date: 2025-03-20 16:37+0300\n"
 "Last-Translator: Daniel Checheta\n"
 "Language: ru\n"
@@ -559,7 +559,7 @@ msgstr[0] "Удалалена %(num)d аннотация"
 msgstr[1] "Удалалены %(num)d аннотации"
 msgstr[2] "Удалалено %(num)d аннотаций"
 
-#: superset/charts/api.py:529
+#: superset/charts/api.py:546
 #, python-format
 msgid "Deleted %(num)d chart"
 msgid_plural "Deleted %(num)d charts"
@@ -1192,15 +1192,15 @@ msgstr "Мера датасета не найдена."
 msgid "Dataset metric delete failed."
 msgstr "Не удалось удалить меру датасета."
 
-#: superset/commands/explore/get.py:86 superset/views/core.py:470
+#: superset/commands/explore/get.py:86 superset/views/core.py:474
 msgid "Form data not found in cache, reverting to chart metadata."
 msgstr "Данные формы не найдены в кэше, возвращение к метаданным графика."
 
-#: superset/commands/explore/get.py:94 superset/views/core.py:477
+#: superset/commands/explore/get.py:94 superset/views/core.py:481
 msgid "Form data not found in cache, reverting to dataset metadata."
 msgstr "Данные формы не найдены в кэше, возвращение к метаданным датасета."
 
-#: superset/commands/explore/get.py:119 superset/views/core.py:504
+#: superset/commands/explore/get.py:119 superset/views/core.py:508
 msgid "[Missing Dataset]"
 msgstr "[отсутствующий датасет]"
 
@@ -1770,8 +1770,8 @@ msgstr "Формат даты и времени"
 #: superset-frontend/src/explore/components/controls/TimeSeriesColumnControl/index.jsx:278
 #: superset-frontend/src/pages/ChartList/index.tsx:353
 #: superset-frontend/src/pages/ChartList/index.tsx:562
-#: superset-frontend/src/pages/DatasetList/index.tsx:365
-#: superset-frontend/src/pages/DatasetList/index.tsx:554
+#: superset-frontend/src/pages/DatasetList/index.tsx:371
+#: superset-frontend/src/pages/DatasetList/index.tsx:560
 #: superset/connectors/sqla/views.py:169 superset/connectors/sqla/views.py:260
 msgid "Type"
 msgstr "Тип"
@@ -1970,8 +1970,8 @@ msgstr "Кем изменено"
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:668
 #: superset-frontend/src/features/datasets/DatasetSelectLabel/index.tsx:109
 #: superset-frontend/src/pages/DatabaseList/index.tsx:317
-#: superset-frontend/src/pages/DatasetList/index.tsx:372
-#: superset-frontend/src/pages/DatasetList/index.tsx:574
+#: superset-frontend/src/pages/DatasetList/index.tsx:378
+#: superset-frontend/src/pages/DatasetList/index.tsx:580
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:257
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:365
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:290
@@ -1994,8 +1994,8 @@ msgstr "Включите выбор фильтра"
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:229
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:685
 #: superset-frontend/src/features/datasets/DatasetSelectLabel/index.tsx:112
-#: superset-frontend/src/pages/DatasetList/index.tsx:377
-#: superset-frontend/src/pages/DatasetList/index.tsx:590
+#: superset-frontend/src/pages/DatasetList/index.tsx:383
+#: superset-frontend/src/pages/DatasetList/index.tsx:596
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:266
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:300
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:474
@@ -2043,7 +2043,7 @@ msgstr "Значения получения предиката"
 #: superset-frontend/src/pages/AlertReportList/index.tsx:315
 #: superset-frontend/src/pages/ChartList/index.tsx:412
 #: superset-frontend/src/pages/DashboardList/index.tsx:409
-#: superset-frontend/src/pages/DatasetList/index.tsx:392
+#: superset-frontend/src/pages/DatasetList/index.tsx:398
 #: superset/connectors/sqla/views.py:416 superset/views/chart/mixin.py:82
 #: superset/views/dashboard/mixin.py:81
 msgid "Owners"
@@ -2172,7 +2172,7 @@ msgstr "Расширение файла не допускается."
 msgid "File size exceeds the maximum allowed size."
 msgstr "Размер файла превышает максимально допустимый размер."
 
-#: superset/datasets/api.py:804
+#: superset/datasets/api.py:816
 #, python-format
 msgid "Deleted %(num)d dataset"
 msgid_plural "Deleted %(num)d datasets"
@@ -2328,11 +2328,39 @@ msgstr ""
 "%(dialect)s не может использоваться в качестве источника данных по "
 "соображениям безопасности."
 
-#: superset/security/manager.py:2283
+#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
+#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
+#: superset/security/manager.py:223
+msgid "Country"
+msgstr "Страна"
+
+#: superset-frontend/src/DodoExtensions/onBoarding/components/ConfirmCreateTeamModal/ConfirmCreateTeamModal.tsx:55
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:63
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/UpdateUser.tsx:61
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:58
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:47
+#: superset/security/manager.py:224 superset/views/statement/mixin.py:23
+#: superset/views/team/mixin.py:5
+msgid "Team"
+msgstr "Команда"
+
+#: superset/security/manager.py:230 superset/security/manager.py:263
+msgid "User info"
+msgstr "Данные пользователя"
+
+#: superset/security/manager.py:234 superset/security/manager.py:267
+msgid "Personal Info"
+msgstr "Персональные данные"
+
+#: superset/security/manager.py:246
+msgid "Audit Info"
+msgstr "Аудит данные"
+
+#: superset/security/manager.py:2368
 msgid "Guest user cannot modify chart payload"
 msgstr "Гость не может изменить отправляемые данные графика"
 
-#: superset/security/manager.py:2703
+#: superset/security/manager.py:2788
 #, python-format
 msgid "You don't have the rights to alter %(resource)s"
 msgstr "Недостаточно прав для изменения %(resource)s"
@@ -2406,8 +2434,8 @@ msgstr "Исполнитель регулярных отчетов не найд
 #: superset-frontend/src/pages/DashboardList/index.tsx:548
 #: superset-frontend/src/pages/DatabaseList/index.tsx:346
 #: superset-frontend/src/pages/DatabaseList/index.tsx:505
-#: superset-frontend/src/pages/DatasetList/index.tsx:356
-#: superset-frontend/src/pages/DatasetList/index.tsx:547
+#: superset-frontend/src/pages/DatasetList/index.tsx:362
+#: superset-frontend/src/pages/DatasetList/index.tsx:553
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:133
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:258
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:282
@@ -2642,61 +2670,61 @@ msgstr "Неожиданный диапазон времени: %(error)s"
 msgid "Is favorite"
 msgstr "В избранном"
 
-#: superset/views/core.py:304
+#: superset/views/core.py:308
 msgid "You don't have the rights to download as csv"
 msgstr "Недостаточно прав для скачивания в CSV"
 
-#: superset/views/core.py:453
+#: superset/views/core.py:457
 msgid "Error: permalink state not found"
 msgstr "Ошибка: состояние постоянной ссылки не найдено"
 
-#: superset/views/core.py:542
+#: superset/views/core.py:546
 msgid "You don't have the rights to alter this chart"
 msgstr "Недостаточно прав для изменения графика"
 
-#: superset/views/core.py:548
+#: superset/views/core.py:552
 msgid "You don't have the rights to create a chart"
 msgstr "Недостаточно прав для создания графика"
 
-#: superset/views/core.py:603
+#: superset/views/core.py:607
 #, python-format
 msgid "Explore - %(table)s"
 msgstr "Исследовать - %(table)s"
 
 #: superset-frontend/src/SqlLab/components/ExploreCtasResultsButton/index.tsx:90
-#: superset/views/core.py:605
+#: superset/views/core.py:609
 msgid "Explore"
 msgstr "Исследовать"
 
-#: superset/views/core.py:655
+#: superset/views/core.py:659
 #, python-brace-format
 msgid "Chart [{}] has been saved"
 msgstr "График [{}] сохранен"
 
-#: superset/views/core.py:660
+#: superset/views/core.py:664
 #, python-brace-format
 msgid "Chart [{}] has been overwritten"
 msgstr "График [{}] перезаписан"
 
-#: superset/views/core.py:680
+#: superset/views/core.py:684
 msgid "You don't have the rights to alter this dashboard"
 msgstr "Недостаточно прав для изменения дашборда"
 
-#: superset/views/core.py:685
+#: superset/views/core.py:689
 #, python-brace-format
 msgid "Chart [{}] was added to dashboard [{}]"
 msgstr "График [{}] добавлен в дашборд [{}]"
 
-#: superset/views/core.py:696
+#: superset/views/core.py:700
 msgid "You don't have the rights to create a dashboard"
 msgstr "Недостаточно прав для создания дашборда"
 
-#: superset/views/core.py:706
+#: superset/views/core.py:710
 #, python-brace-format
 msgid "Dashboard [{}] just got created and chart [{}] was added to it"
 msgstr "Дашборд [{}] был только что создан и график [{}] был добавлен в него"
 
-#: superset/views/core.py:874
+#: superset/views/core.py:878
 msgid "permalink state not found"
 msgstr "состояние постоянной ссылки не найдено"
 
@@ -3189,15 +3217,6 @@ msgstr "Редактировать заявление"
 msgid "is_external"
 msgstr "is_external"
 
-#: superset-frontend/src/DodoExtensions/onBoarding/components/ConfirmCreateTeamModal/ConfirmCreateTeamModal.tsx:55
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:63
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/UpdateUser.tsx:61
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:58
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:47
-#: superset/views/statement/mixin.py:23 superset/views/team/mixin.py:5
-msgid "Team"
-msgstr "Команда"
-
 #: superset/views/statement/mixin.py:24
 msgid "is_new_team"
 msgstr "is_new_team"
@@ -3426,7 +3445,8 @@ msgstr "болт"
 msgid "Changing this control takes effect instantly"
 msgstr "Изменение этого элемента применяется сразу"
 
-#: superset-frontend/packages/superset-ui-chart-controls/src/components/InfoTooltipWithTrigger.tsx:52
+#: superset-frontend/packages/superset-ui-chart-controls/src/components/InfoTooltipWithTrigger.tsx:59
+#: superset-frontend/packages/superset-ui-chart-controls/src/components/InfoTooltipWithTrigger.tsx:80
 msgid "Show info tooltip"
 msgstr "Показать информационную подсказку"
 
@@ -3527,7 +3547,7 @@ msgstr "Скользящая средняя"
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx:32
 #: superset-frontend/src/dashboard/components/Header/index.jsx:447
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/ScopeRow.tsx:78
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:180
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:184
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:703
 #: superset-frontend/src/explore/components/controls/ConditionalFormattingControl/FormattingPopoverContent.tsx:37
 #: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/DashboardsSubMenu.tsx:138
@@ -4008,7 +4028,7 @@ msgstr "Заглавная позиция оси Y"
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:35
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controlPanel.ts:28
@@ -4073,7 +4093,7 @@ msgstr "по умолчанию"
 #: superset-frontend/src/pages/DashboardList/index.tsx:611
 #: superset-frontend/src/pages/DatabaseList/index.tsx:519
 #: superset-frontend/src/pages/DatabaseList/index.tsx:539
-#: superset-frontend/src/pages/DatasetList/index.tsx:634
+#: superset-frontend/src/pages/DatasetList/index.tsx:640
 msgid "Yes"
 msgstr "Да"
 
@@ -4090,7 +4110,7 @@ msgstr "Да"
 #: superset-frontend/src/pages/DashboardList/index.tsx:612
 #: superset-frontend/src/pages/DatabaseList/index.tsx:520
 #: superset-frontend/src/pages/DatabaseList/index.tsx:540
-#: superset-frontend/src/pages/DatasetList/index.tsx:635
+#: superset-frontend/src/pages/DatasetList/index.tsx:641
 msgid "No"
 msgstr "Нет"
 
@@ -5321,11 +5341,6 @@ msgstr "Пропорция"
 msgid "Relational"
 msgstr "Относительный"
 
-#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
-#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
-msgid "Country"
-msgstr "Страна"
-
 #: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:42
 msgid "Which country to plot the map for?"
 msgstr "Выбор страны для графика"
@@ -6292,7 +6307,7 @@ msgstr "Таблицы"
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:49
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:61
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:36
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:69
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:162
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:260
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:367
@@ -10721,7 +10736,96 @@ msgstr "Waterfall Chart"
 msgid "page_size.all"
 msgstr "все"
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:70
+
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
+msgid "Content with navigation"
+msgstr "Содержимое с навигацией"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:369
+msgid "Reset view (Esc)"
+msgstr "Сбросить вид (Esc)"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:370
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
+#: superset-frontend/src/components/Table/index.tsx:219
+msgid "Reset"
+msgstr "Сбросить"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:375
+msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
+msgstr ""
+"Двойной щелчок позволяет сбросить масштаб. Используйте кнопки +/- для "
+"увеличения/уменьшения масштаба."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:126
+msgid "Chart Navigation Features"
+msgstr "Возможности навигации по графику"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:128
+msgid "This chart supports interactive navigation:"
+msgstr "Этот график поддерживает интерактивную навигацию:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:134
+msgid "Pan the chart:"
+msgstr "Панорамируйте график:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:134
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:139
+msgid "Hold"
+msgstr "Держите"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:135
+msgid "while dragging with the mouse"
+msgstr "при перетаскивании с помощью мыши"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:139
+msgid "Zoom in/out:"
+msgstr "Увеличение/уменьшение масштаба:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:141
+msgid "while scrolling the mouse wheel, or use"
+msgstr "прокручивая колесико мыши, или используйте"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:142
+msgid "and"
+msgstr "и"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:142
+msgid "keys"
+msgstr "клавиши"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Reset view:"
+msgstr "Сбросить вид:"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Press"
+msgstr "Зажать"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:147
+msgid "or click the Reset button"
+msgstr "или нажмите кнопку Сброс"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:153
+msgid "Got it!"
+msgstr "Понятно!"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
+msgid "Allow navigation tools"
+msgstr "Разрешить инструменты навигации"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:10
+msgid ""
+"Enable navigation tools for the handlebars template. Allows panning with "
+"middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse "
+"wheel."
+msgstr ""
+"Включить инструменты навигации для handlebars. Позволяет панорамировать с"
+" помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью"
+" Cmd/Alt+колесико "
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:75
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
@@ -10729,81 +10833,6 @@ msgstr "все"
 #: superset-frontend/src/explore/components/RowCountLabel/index.tsx:43
 msgid "Loading..."
 msgstr "Загрузка..."
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
-msgid "Content with navigation"
-msgstr "Содержимое с навигацией"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:356
-msgid "Reset view (Esc)"
-msgstr "Сбросить вид (Esc)"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:357
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
-#: superset-frontend/src/components/Table/index.tsx:219
-msgid "Reset"
-msgstr "Сбросить"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:362
-msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
-msgstr "Двойной щелчок позволяет сбросить масштаб. Используйте кнопки +/- для увеличения/уменьшения масштаба."
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:124
-msgid "Chart Navigation Features"
-msgstr "Возможности навигации по графику"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:126
-msgid "This chart supports interactive navigation:"
-msgstr "Этот график поддерживает интерактивную навигацию:"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
-msgid "Pan the chart:"
-msgstr "Панорамируйте график:"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
-msgid "Hold"
-msgstr "Держите"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:134
-msgid "while dragging with the mouse"
-msgstr "при перетаскивании с помощью мыши"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
-msgid "Zoom in/out:"
-msgstr "Увеличение/уменьшение масштаба:"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:140
-msgid "while scrolling the mouse wheel, or use"
-msgstr "прокручивая колесико мыши, или используйте"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
-msgid "and"
-msgstr "и"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
-msgid "keys"
-msgstr "клавиши"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
-msgid "Reset view:"
-msgstr "Сбросить вид:"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
-msgid "Press"
-msgstr "Зажать"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
-msgid "Esc"
-msgstr "Esc"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
-msgid "or click the Reset button"
-msgstr "или нажмите кнопку Сброс"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:152
-msgid "Got it!"
-msgstr "Понятно!"
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/index.ts:40
 msgid "Write a handlebars template to render the data"
@@ -10858,7 +10887,7 @@ msgid "Show summary"
 msgstr "Показать итоги"
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/metrics.tsx:107
-#: superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx:1067
+#: superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx:1068
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:356
 msgid ""
 "Show total aggregations of selected metrics. Note that row limit does not"
@@ -10866,19 +10895,6 @@ msgid ""
 msgstr ""
 "Показывает общие итоговые значения выбранных показателей. Обратите "
 "внимание, что ограничение количества строк не применяется к результату."
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:26
-msgid "Allow navigation tools"
-msgstr "Разрешить инструменты навигации"
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:27
-msgid ""
-"Enable navigation tools for the handlebars template. Allows panning with "
-"middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse "
-"wheel."
-msgstr ""
-"Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью "
-"левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:284
@@ -11162,19 +11178,19 @@ msgstr "Сводная таблица"
 msgid "metric"
 msgstr "мера"
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:578
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:854
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:579
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:855
 msgid "Subtotal"
 msgstr "Подытог"
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:604
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:720
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:979
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:605
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:721
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:980
 #, python-format
 msgid "Total (%(aggregatorName)s)"
 msgstr "Итого (%(aggregatorName)s)"
 
-#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:996
+#: superset-frontend/plugins/plugin-chart-pivot-table/src/react-pivottable/TableRenderers.jsx:997
 #, python-format
 msgid "Value has own aggregation: %(aggregation)s"
 msgstr "Значение имеет собственную агрегацию: %(aggregation)s"
@@ -11229,7 +11245,7 @@ msgstr "Выберите столбцы, которые будут отобра�
 msgid "Shift + Click to sort by multiple columns"
 msgstr "Shift + Нажать для сортировки по нескольким столбцам"
 
-#: superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx:1065
+#: superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx:1066
 msgid "Summary"
 msgstr "Итого"
 
@@ -11251,8 +11267,8 @@ msgstr "Форматирование чисел"
 #: superset-frontend/src/pages/DashboardList/index.tsx:473
 #: superset-frontend/src/pages/DashboardList/index.tsx:751
 #: superset-frontend/src/pages/DatabaseList/index.tsx:456
-#: superset-frontend/src/pages/DatasetList/index.tsx:477
-#: superset-frontend/src/pages/DatasetList/index.tsx:844
+#: superset-frontend/src/pages/DatasetList/index.tsx:483
+#: superset-frontend/src/pages/DatasetList/index.tsx:889
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:573
 msgid "Export"
 msgstr "Экспортировать"
@@ -11470,7 +11486,7 @@ msgstr "Набор фильтров уже существует"
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/CrossFilters/ScopingModal/ScopingModal.tsx:304
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/Footer/Footer.tsx:71
 #: superset-frontend/src/explore/components/DatasourcePanel/index.tsx:385
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:252
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:256
 #: superset-frontend/src/explore/components/ExploreChartPanel/index.jsx:460
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:290
 #: superset-frontend/src/explore/components/SaveModal.tsx:474
@@ -11513,7 +11529,7 @@ msgstr "Этот набор фильтров идентичен \"%s\""
 #: superset-frontend/src/pages/ChartList/index.tsx:496
 #: superset-frontend/src/pages/DashboardList/index.tsx:489
 #: superset-frontend/src/pages/DatabaseList/index.tsx:472
-#: superset-frontend/src/pages/DatasetList/index.tsx:495
+#: superset-frontend/src/pages/DatasetList/index.tsx:501
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:206
 #: superset-frontend/src/pages/Tags/index.tsx:217
 msgid "Edit"
@@ -11554,8 +11570,8 @@ msgstr "Обновить"
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:289
 #: superset-frontend/src/pages/DashboardList/index.tsx:455
 #: superset-frontend/src/pages/DashboardList/index.tsx:743
-#: superset-frontend/src/pages/DatasetList/index.tsx:461
-#: superset-frontend/src/pages/DatasetList/index.tsx:836
+#: superset-frontend/src/pages/DatasetList/index.tsx:467
+#: superset-frontend/src/pages/DatasetList/index.tsx:881
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:188
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:343
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:565
@@ -11682,7 +11698,7 @@ msgstr "Нет на дашборде"
 #: superset-frontend/src/pages/DatabaseList/index.tsx:517
 #: superset-frontend/src/pages/DatabaseList/index.tsx:537
 #: superset-frontend/src/pages/DatabaseList/index.tsx:549
-#: superset-frontend/src/pages/DatasetList/index.tsx:644
+#: superset-frontend/src/pages/DatasetList/index.tsx:650
 #: superset-frontend/src/pages/Home/index.tsx:194
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
@@ -12179,7 +12195,7 @@ msgstr "Новые роли"
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:176
 #: superset-frontend/src/pages/DashboardList/index.tsx:505
 #: superset-frontend/src/pages/DatabaseList/index.tsx:489
-#: superset-frontend/src/pages/DatasetList/index.tsx:531
+#: superset-frontend/src/pages/DatasetList/index.tsx:537
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:343
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:222
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:428
@@ -12204,7 +12220,7 @@ msgstr "Произошла ошибка при извлечении операт
 #: superset-frontend/src/pages/DashboardList/index.tsx:536
 #: superset-frontend/src/pages/DashboardList/index.tsx:560
 #: superset-frontend/src/pages/DashboardList/index.tsx:609
-#: superset-frontend/src/pages/DatasetList/index.tsx:632
+#: superset-frontend/src/pages/DatasetList/index.tsx:638
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:270
 msgid "Any"
 msgstr "Любой"
@@ -12544,7 +12560,7 @@ msgstr "Исполненный SQL"
 #: superset-frontend/src/SqlLab/components/QueryTable/index.tsx:85
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1207
 #: superset-frontend/src/features/home/commonMenuData.ts:22
-#: superset-frontend/src/pages/DatasetList/index.tsx:413
+#: superset-frontend/src/pages/DatasetList/index.tsx:419
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:328
 msgid "SQL"
 msgstr "SQL"
@@ -13175,7 +13191,7 @@ msgid "Untitled query"
 msgstr "Безымянный запрос"
 
 #: superset-frontend/src/SqlLab/utils/newQueryTabName.ts:43
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:133
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:134
 #, python-format
 msgid "%s%s"
 msgstr "%s%s"
@@ -13466,7 +13482,7 @@ msgstr "Скопировать в буфер обмена"
 
 #: superset-frontend/src/components/CopyToClipboard/index.tsx:76
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:74
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:198
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:199
 msgid "Copied to clipboard!"
 msgstr "Скопировано в буфер обмена!"
 
@@ -13771,8 +13787,8 @@ msgstr ""
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:123
 #: superset-frontend/src/dashboard/components/SliceAdder.jsx:75
 #: superset-frontend/src/features/datasets/AddDataset/Footer/index.tsx:60
-#: superset-frontend/src/pages/DatasetList/index.tsx:159
-#: superset-frontend/src/pages/DatasetList/index.tsx:910
+#: superset-frontend/src/pages/DatasetList/index.tsx:165
+#: superset-frontend/src/pages/DatasetList/index.tsx:955
 msgid "dataset"
 msgstr "датасет"
 
@@ -14144,8 +14160,8 @@ msgstr ""
 "группировки и фильтрации."
 
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1234
-#: superset-frontend/src/pages/DatasetList/index.tsx:364
-#: superset-frontend/src/pages/DatasetList/index.tsx:562
+#: superset-frontend/src/pages/DatasetList/index.tsx:370
+#: superset-frontend/src/pages/DatasetList/index.tsx:568
 msgid "Physical"
 msgstr "Физический"
 
@@ -14605,7 +14621,7 @@ msgstr "Выберите значение"
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:143
 #: superset-frontend/src/pages/DashboardList/index.tsx:423
 #: superset-frontend/src/pages/DatabaseList/index.tsx:421
-#: superset-frontend/src/pages/DatasetList/index.tsx:406
+#: superset-frontend/src/pages/DatasetList/index.tsx:412
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:158
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:373
 #: superset-frontend/src/pages/Tags/index.tsx:176
@@ -14618,7 +14634,7 @@ msgstr "Последнее изменение"
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:231
 #: superset-frontend/src/pages/DashboardList/index.tsx:616
 #: superset-frontend/src/pages/DatabaseList/index.tsx:544
-#: superset-frontend/src/pages/DatasetList/index.tsx:639
+#: superset-frontend/src/pages/DatasetList/index.tsx:645
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:284
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:504
 #: superset-frontend/src/pages/Tags/index.tsx:255
@@ -15042,7 +15058,7 @@ msgstr "Тип визуализации"
 #: superset-frontend/src/pages/ChartCreation/index.tsx:337
 #: superset-frontend/src/pages/ChartList/index.tsx:366
 #: superset-frontend/src/pages/ChartList/index.tsx:588
-#: superset-frontend/src/pages/DatasetList/index.tsx:682
+#: superset-frontend/src/pages/DatasetList/index.tsx:688
 msgid "Dataset"
 msgstr "Датасет"
 
@@ -15100,6 +15116,7 @@ msgstr ""
 "на панель \\ n: %s"
 
 #: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:762
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:277
 msgid "Processing file export..."
 msgstr "Экспорт файла обрабатывается..."
 
@@ -15207,8 +15224,8 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/index.jsx:439
 #: superset-frontend/src/dashboard/components/Header/index.jsx:443
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:175
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:179
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:183
 #: superset-frontend/src/features/datasets/metadataBar/useDatasetMetadataBar.tsx:72
 msgid "Not available"
 msgstr "Не доступно"
@@ -15275,7 +15292,7 @@ msgstr "Редактировать CSS"
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:260
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:861
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:321
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:327
 msgid "Download"
 msgstr "Скачать"
 
@@ -15289,14 +15306,14 @@ msgstr "Скачать как изображение"
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:275
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:836
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:369
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:376
 #: superset-frontend/src/features/home/SavedQueries.tsx:208
 msgid "Share"
 msgstr "Поделиться"
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:279
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:844
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:371
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:378
 msgid "Copy permalink to clipboard"
 msgstr "Скопировать ссылку в буфер обмена"
 
@@ -15309,7 +15326,7 @@ msgid "Embed dashboard"
 msgstr "Встроить дашборд"
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:302
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:399
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:406
 msgid "Manage email report"
 msgstr "Управление рассылкой по почте"
 
@@ -15502,15 +15519,15 @@ msgstr "Дашборд опубликован. Нажмите, чтобы сде
 msgid "Draft"
 msgstr "Черновик"
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:48
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:50
 msgid "Annotation layers are still loading."
 msgstr "Слои аннотаций загружаются."
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:49
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:51
 msgid "One ore more annotation layers failed loading."
 msgstr "Один или несколько слоев аннотации не удалось загрузить."
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:343
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:346
 msgid ""
 "This chart applies cross-filters to charts whose datasets contain columns"
 " with the same name."
@@ -15557,8 +15574,8 @@ msgstr "Область распространения кроссфильтров
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:778
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:780
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:425
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:427
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:432
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:434
 msgid "View query"
 msgstr "Показать SQL запрос"
 
@@ -15572,7 +15589,7 @@ msgid "Chart Data: %s"
 msgstr "Данные графика: %s"
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:845
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:374
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:381
 msgid "Share chart by email"
 msgstr "Поделиться графиком по email"
 
@@ -15581,7 +15598,7 @@ msgid "Check out this chart: "
 msgstr "Посмотреть график: "
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:869
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:345
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:352
 msgid "Export to .CSV"
 msgstr "Скачать .CSV файл"
 
@@ -15594,16 +15611,16 @@ msgstr "Скачать Pivoted .CSV"
 msgid "Export to Excel"
 msgstr "Скачать Excel файл"
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:894
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:895
 msgid "Export to full .CSV"
 msgstr "Экспорт в целый .CSV"
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:900
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:901
 msgid "Export to full Excel"
 msgstr "Экспорт в полный Excel"
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:909
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:359
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:910
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:366
 msgid "Download as image"
 msgstr "Сохранить как изображение"
 
@@ -15740,8 +15757,8 @@ msgstr "Предпросмотр"
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:77
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:90
 #: superset-frontend/src/explore/components/EmbedCodeContent.jsx:58
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:136
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:200
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:137
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:201
 msgid "Sorry, something went wrong. Try again later."
 msgstr "Извините, что-то пошло не так. Попробуйте еще раз позже."
 
@@ -16843,33 +16860,33 @@ msgstr "Создать датасет"
 msgid " to edit or add columns and metrics."
 msgstr " для редактирования или добавления столбцов и мер."
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:99
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:102
 msgid "Unable to retrieve dashboard colors"
 msgstr "Не удалось получать цветовую схему дашборда"
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:158
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:162
 msgid "Added to 1 dashboard"
 msgstr "Добавлено к 1 дашборд"
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:164
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:168
 msgid "Not added to any dashboard"
 msgstr "Не добавлен ни в один дашборд"
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:167
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:171
 msgid "You can preview the list of dashboards in the chart settings dropdown."
 msgstr ""
 "Вы можете предварительно просмотреть список панелей мониторинга в "
 "раскрывающемся списке настройки графика."
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:203
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:207
 msgid "Add the name of the chart"
 msgstr "Задайте имя графика"
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:204
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:208
 msgid "Chart title"
 msgstr "Название графика"
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:238
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:242
 msgid "Add required control values to save chart"
 msgstr "Добавьте обязательные значения для сохранения графика"
 
@@ -17600,7 +17617,7 @@ msgid "Edit dataset"
 msgstr "Редактировать датасет"
 
 #: superset-frontend/src/explore/components/controls/DatasourceControl/index.jsx:313
-#: superset-frontend/src/pages/DatasetList/index.tsx:496
+#: superset-frontend/src/pages/DatasetList/index.tsx:502
 msgid ""
 "You must be a dataset owner in order to edit. Please reach out to a "
 "dataset owner to request modifications or edit access."
@@ -18281,24 +18298,24 @@ msgstr "Выберите тип визуализации"
 msgid "No results found"
 msgstr "Записи не найдены"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:131
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:132
 msgid "Superset Chart"
 msgstr "График Superset"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:255
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:261
 msgid "New chart"
 msgstr "Новый график"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:307
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:313
 msgid "Edit chart properties"
 msgstr "Редактировать свойства графика"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:311
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:317
 #: superset-frontend/src/pages/ChartList/index.tsx:377
 msgid "On dashboards"
 msgstr "На дашбордах"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:329
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:335
 msgid "Export to original .CSV"
 msgstr "Экспорт исходных данных в .CSV"
 
@@ -18310,12 +18327,12 @@ msgstr "Экспорт сводной таблицы в .CSV"
 msgid "Export to .JSON"
 msgstr "Экспорт в .JSON"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:380
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:382
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:387
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:389
 msgid "Embed code"
 msgstr "Встроенный код"
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:438
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:445
 msgid "Run in SQL Lab"
 msgstr "Открыть в SQL редакторе"
 
@@ -18851,7 +18868,7 @@ msgstr "Дополнительная информация"
 #: superset-frontend/src/pages/DashboardList/index.tsx:443
 #: superset-frontend/src/pages/DashboardList/index.tsx:732
 #: superset-frontend/src/pages/DashboardList/index.tsx:787
-#: superset-frontend/src/pages/DatasetList/index.tsx:825
+#: superset-frontend/src/pages/DatasetList/index.tsx:870
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:176
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:334
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:556
@@ -19983,7 +20000,7 @@ msgid "Duplicate dataset"
 msgstr "Дублировать датасет"
 
 #: superset-frontend/src/features/datasets/DuplicateDatasetModal.tsx:64
-#: superset-frontend/src/pages/DatasetList/index.tsx:515
+#: superset-frontend/src/pages/DatasetList/index.tsx:521
 msgid "Duplicate"
 msgstr "Дублировать"
 
@@ -20386,7 +20403,7 @@ msgstr "запрос"
 #: superset-frontend/src/pages/AnnotationList/index.tsx:122
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:94
 #: superset-frontend/src/pages/DatabaseList/index.tsx:195
-#: superset-frontend/src/pages/DatasetList/index.tsx:727
+#: superset-frontend/src/pages/DatasetList/index.tsx:733
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:241
 #: superset-frontend/src/views/CRUD/utils.tsx:314
 #: superset-frontend/src/views/CRUD/utils.tsx:353
@@ -20400,7 +20417,7 @@ msgstr "Удалено: %s"
 #: superset-frontend/src/pages/AnnotationList/index.tsx:126
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:98
 #: superset-frontend/src/pages/DatabaseList/index.tsx:209
-#: superset-frontend/src/pages/DatasetList/index.tsx:731
+#: superset-frontend/src/pages/DatasetList/index.tsx:737
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:100
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:244
 #: superset-frontend/src/views/CRUD/utils.tsx:357
@@ -20600,7 +20617,7 @@ msgstr ""
 "видеть, если к ним не применяются фильтры RLS в группе фильтров."
 
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:396
-#: superset-frontend/src/pages/DatasetList/index.tsx:664
+#: superset-frontend/src/pages/DatasetList/index.tsx:670
 msgid "Datasets"
 msgstr "Датасеты"
 
@@ -20944,7 +20961,7 @@ msgstr "Пока нет %s"
 #: superset-frontend/src/pages/AlertReportList/index.tsx:457
 #: superset-frontend/src/pages/ChartList/index.tsx:611
 #: superset-frontend/src/pages/DashboardList/index.tsx:580
-#: superset-frontend/src/pages/DatasetList/index.tsx:606
+#: superset-frontend/src/pages/DatasetList/index.tsx:612
 msgid "Owner"
 msgstr "Владелец"
 
@@ -20965,7 +20982,7 @@ msgstr "Статус"
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:241
 #: superset-frontend/src/pages/DashboardList/index.tsx:626
 #: superset-frontend/src/pages/DatabaseList/index.tsx:554
-#: superset-frontend/src/pages/DatasetList/index.tsx:649
+#: superset-frontend/src/pages/DatasetList/index.tsx:655
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:294
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:464
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:514
@@ -21158,7 +21175,7 @@ msgstr "Произошла ошибка при получении владель
 
 #: superset-frontend/src/pages/ChartList/index.tsx:645
 #: superset-frontend/src/pages/DashboardList/index.tsx:603
-#: superset-frontend/src/pages/DatasetList/index.tsx:626
+#: superset-frontend/src/pages/DatasetList/index.tsx:632
 msgid "Certified"
 msgstr "Утверждено"
 
@@ -21314,73 +21331,100 @@ msgstr ""
 msgid "Delete Database?"
 msgstr "Удалить базу данных?"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:201
+#: superset-frontend/src/pages/DatasetList/index.tsx:207
 msgid "Dataset imported"
 msgstr "Импортирован датасет"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:237
+#: superset-frontend/src/pages/DatasetList/index.tsx:243
 msgid "An error occurred while fetching dataset related data"
 msgstr "Произошла ошибка при получении метаданных датасета"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:257
+#: superset-frontend/src/pages/DatasetList/index.tsx:263
 #, python-format
 msgid "An error occurred while fetching dataset related data: %s"
 msgstr "Произошла ошибка при получении данных о датасете: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:288
+#: superset-frontend/src/pages/DatasetList/index.tsx:294
 msgid "Physical dataset"
 msgstr "Физический датасет"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:296
+#: superset-frontend/src/pages/DatasetList/index.tsx:302
 msgid "Virtual dataset"
 msgstr "Виртуальный датасет"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:364
-#: superset-frontend/src/pages/DatasetList/index.tsx:561
+#: superset-frontend/src/pages/DatasetList/index.tsx:370
+#: superset-frontend/src/pages/DatasetList/index.tsx:567
 msgid "Virtual"
 msgstr "Виртуальный"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:567
+#: superset-frontend/src/pages/DatasetList/index.tsx:573
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:426
 msgid "Search by query text"
 msgstr "Поиск по тексту запроса"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:584
+#: superset-frontend/src/pages/DatasetList/index.tsx:590
 #, python-format
 msgid "An error occurred while fetching datasets: %s"
 msgstr "Произошла ошибка при получении датасетов: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:600
+#: superset-frontend/src/pages/DatasetList/index.tsx:606
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:394
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:485
 #, python-format
 msgid "An error occurred while fetching schema values: %s"
 msgstr "Произошла ошибка при извлечении значений схемы: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:616
+#: superset-frontend/src/pages/DatasetList/index.tsx:622
 #, python-format
 msgid "An error occurred while fetching dataset owner values: %s"
 msgstr "Произошла ошибка при получении владельца датасета: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:695
+#: superset-frontend/src/pages/DatasetList/index.tsx:701
 msgid "Import datasets"
 msgstr "Импортировать датасеты"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:749
+#: superset-frontend/src/pages/DatasetList/index.tsx:755
 #, python-format
 msgid "There was an issue deleting the selected datasets: %s"
 msgstr "Произошла ошибка при удалении выбранных датасетов: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:757
+#: superset-frontend/src/pages/DatasetList/index.tsx:763
 msgid "There was an issue duplicating the dataset."
 msgstr "Произошла ошибка при дублировании датасета."
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:773
+#: superset-frontend/src/pages/DatasetList/index.tsx:779
 #, python-format
 msgid "There was an issue duplicating the selected datasets: %s"
 msgstr "Произошла ошибка при дублировании выбранных датасетов: %s"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:787
+#: superset-frontend/src/pages/DatasetList/index.tsx:796
+#, python-format
+msgid "The dataset %s is linked to"
+msgstr "Датасет %s привязан к"
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:804
+#, python-format
+msgid "%s charts"
+msgstr "%s графику(-ам) "
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:806
+msgid "that appear on"
+msgstr ", который(-ые) используется(-ются) в"
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:808
+#, python-format
+msgid "%s dashboards."
+msgstr "%s дашборде(-ах)."
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:816
+#, python-format
+msgid ""
+"Are you sure you want to continue? Deleting the dataset will break those "
+"objects."
+msgstr ""
+"Вы уверены, что хотите продолжить? Удаление датасета приведёт к неработоспособности этих объектов."
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:823
 #, python-format
 msgid ""
 "The dataset %s is linked to %s charts that appear on %s dashboards. Are "
@@ -21391,29 +21435,41 @@ msgstr ""
 " %s дашборде(-ах). Вы уверены, что хотите продолжить? Удаление датасета "
 "приведёт к неработоспособности этих объектов."
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:808
+#: superset-frontend/src/pages/DatasetList/index.tsx:838
+msgid "It will also affect"
+msgstr "Это также повлияет на"
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:840
+msgid "the dashboard filters"
+msgstr "фильтры дашборда"
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:842
+msgid "tied to this dataset if any."
+msgstr ",привязанные к этому набору данных, если таковые имеются."
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:853
 msgid "Delete Dataset?"
 msgstr "Удалить датасет?"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:826
+#: superset-frontend/src/pages/DatasetList/index.tsx:871
 msgid "Are you sure you want to delete the selected datasets?"
 msgstr "Вы уверены, что хотите удалить выбранные датасеты?"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:879
+#: superset-frontend/src/pages/DatasetList/index.tsx:924
 msgid "0 Selected"
 msgstr "0 выбрано"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:882
+#: superset-frontend/src/pages/DatasetList/index.tsx:927
 #, python-format
 msgid "%s Selected (Virtual)"
 msgstr "%s Выбрано (Виртуальные)"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:889
+#: superset-frontend/src/pages/DatasetList/index.tsx:934
 #, python-format
 msgid "%s Selected (Physical)"
 msgstr "%s Выбрано (Физические)"
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:896
+#: superset-frontend/src/pages/DatasetList/index.tsx:941
 #, python-format
 msgid "%s Selected (%s Physical, %s Virtual)"
 msgstr "%s Выбрано (%s Физические, %s Виртуальные)"
