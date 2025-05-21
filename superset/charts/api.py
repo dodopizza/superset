@@ -138,6 +138,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "dashboards.dashboard_title",
         "params",
         "slice_name",
+        "slice_name_ru",
         "thumbnail_url",
         "url",
         "viz_type",
