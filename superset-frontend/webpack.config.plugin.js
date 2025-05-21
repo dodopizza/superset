@@ -462,7 +462,14 @@ const config = {
         test: /\.less$/,
         include: ROOT_DIR,
         use: [
-          isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          // isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'style-loader',
+            options: {
+              injectType: 'singletonStyleTag',
+              insert: 'head',
+            },
+          },
           {
             loader: 'css-loader',
             options: {
