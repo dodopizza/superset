@@ -8,7 +8,7 @@ try:
     # Define reusable buckets
     BUCKETS = [5000, 15000, 30000, 45000, 60000, 90000, 120000, 150000, 180000]
 
-    class PrometheusStatsLogger(BaseStatsLogger):
+    class PrometheusStatsLogger(BaseStatsLogger):  # pylint: disable=W0223
         def __init__(self, prefix: str = "superset") -> None:
             super().__init__(prefix)
 
@@ -31,7 +31,7 @@ try:
                 labelnames=["key"],
             )
 
-            self._dashboard_load_duration_milliseconds = Histogram(
+            self._dashboard_load_duration_milliseconds = Histogram(  # pylint: disable=C0103
                 f"{self.prefix}_dashboard_load_duration_milliseconds",
                 "Histogram of dashboard load durations in milliseconds",
                 labelnames=["dashboard_id", "is_plugin"],
