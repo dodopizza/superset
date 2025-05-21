@@ -78,6 +78,7 @@ const output = {
   chunkFilename: 'chunk-[name].[chunkhash].js',
   library: '[name]',
   libraryTarget: 'this',
+  globalObject: 'this',
 };
 
 // if (isDevMode) {
