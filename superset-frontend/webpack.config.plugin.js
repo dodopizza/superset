@@ -74,8 +74,8 @@ const getPublicPath = (isProdMode, path) =>
 const output = {
   path: BUILD_DIR,
   publicPath: getPublicPath(isProdMode, publicPath),
-  filename: '[name].[hash].js',
-  chunkFilename: 'chunk-[name].[hash].js',
+  filename: '[name].[chunkhash].js',
+  chunkFilename: 'chunk-[name].[chunkhash].js',
   library: '[name]',
   libraryTarget: 'this',
 };
