@@ -17,8 +17,8 @@
 """rename to snake_case
 
 Revision ID: 2684073d82a4
-Revises: 48cbb571fa3a
-Create Date: 2025-02-14 12:54:58.589533
+Revises: 24505e69a987
+Create Date: 2023-11-01 11:00:00.000000
 
 """
 
