@@ -43,8 +43,14 @@ const getScriptText = (hash, name, path) => `
     link.rel = 'stylesheet';
     link.href = '${path}/${name}.${hash}.entry.css';
     link.id = 'superset-dashboard-plugin_manual_addon';
-
     document.body.appendChild(link);
+
+    var linkMap = document.createElement('link');
+    linkMap.rel = 'stylesheet/source-map';
+    linkMap.href = '${path}/${name}.${hash}.entry.css.map';
+    linkMap.id = 'superset-dashboard-plugin_manual_addon_css_map';
+    document.head.appendChild(linkMap);
+
   }
 
   addCssFile();
