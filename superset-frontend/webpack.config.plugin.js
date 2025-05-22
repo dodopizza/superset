@@ -297,12 +297,12 @@ const config = {
       minChunks: 2,
       cacheGroups: {
         automaticNamePrefix: 'chunk',
-        // styles: {
-        //   name: 'supersetDashboardPlugin',
-        //   type: 'css/mini-extract',
-        //   chunks: 'all',
-        //   enforce: true,
-        // },
+        styles: {
+          name: 'supersetDashboardPlugin',
+          type: 'css/mini-extract',
+          chunks: 'all',
+          enforce: true,
+        },
         // basic stable dependencies
         vendors: {
           priority: 50,
@@ -338,12 +338,12 @@ const config = {
           ),
         },
         // viz thumbnails are used in `addSlice` and `explore` page
-        thumbnail: {
-          name: 'thumbnail',
-          test: /thumbnail(Large)?\.(png|jpg)/i,
-          priority: 20,
-          enforce: true,
-        },
+        // thumbnail: {
+        //   name: 'thumbnail',
+        //   test: /thumbnail(Large)?\.(png|jpg)/i,
+        //   priority: 20,
+        //   enforce: true,
+        // },
       },
     },
     usedExports: 'global',
@@ -461,7 +461,14 @@ const config = {
         test: /\.less$/,
         include: ROOT_DIR,
         use: [
-          isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          // isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'style-loader',
+            options: {
+              injectType: 'singletonStyleTag',
+              insert: 'head',
+            },
+          },
           {
             loader: 'css-loader',
             options: {
