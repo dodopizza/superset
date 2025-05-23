@@ -565,6 +565,11 @@
       "Screenshot width must be between %(min)spx and %(max)spx": [""],
       "Value must be 0 or greater": [""],
       "%(dialect)s cannot be used as a data source for security reasons.": [""],
+      "Country": [""],
+      "Team": [""],
+      "User info": [""],
+      "Personal Info": [""],
+      "Audit Info": [""],
       "Guest user cannot modify chart payload": [""],
       "You don't have the rights to alter %(resource)s": [""],
       "Failed to execute %(query)s": [""],
@@ -763,7 +768,6 @@
       "Add Statement": [""],
       "Edit Statement": [""],
       "is_external": [""],
-      "Team": [""],
       "is_new_team": [""],
       "Team slug": [""],
       "Finished": [""],
@@ -1155,7 +1159,6 @@
       "Legacy": [""],
       "Proportional": [""],
       "Relational": [""],
-      "Country": [""],
       "Which country to plot the map for?": [""],
       "ISO 3166-2 Codes": [""],
       "Column containing ISO 3166-2 codes of region/province/department in your table.": [
@@ -2380,7 +2383,6 @@
       ],
       "Waterfall Chart": [""],
       "page_size.all": [""],
-      "Loading...": [""],
       "Content with navigation": [""],
       "Reset view (Esc)": [""],
       "Reset": [""],
@@ -2396,9 +2398,13 @@
       "keys": [""],
       "Reset view:": [""],
       "Press": [""],
-      "Esc": [""],
       "or click the Reset button": [""],
       "Got it!": [""],
+      "Allow navigation tools": [""],
+      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
+        ""
+      ],
+      "Loading...": [""],
       "Write a handlebars template to render the data": [""],
       "Handlebars": [""],
       "must have a value": [""],
@@ -2414,10 +2420,6 @@
       ],
       "Show summary": [""],
       "Show total aggregations of selected metrics. Note that row limit does not apply to the result.": [
-        ""
-      ],
-      "Allow navigation tools": [""],
-      "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         ""
       ],
       "Ordering": [""],
@@ -3486,7 +3488,6 @@
       "Share chart by email": [""],
       "Check out this chart: ": [""],
       "Export to .CSV": [""],
-      "Export to Pivoted .CSV": [""],
       "Export to Excel": [""],
       "Export to full .CSV": [""],
       "Export to full Excel": [""],
@@ -3826,7 +3827,6 @@
       "Chart Source": [""],
       "Open Datasource tab": [""],
       "Original": [""],
-      "Pivoted": [""],
       "You do not have permission to edit this chart": [""],
       "Chart properties updated": [""],
       "Edit Chart Properties": [""],
@@ -4174,7 +4174,6 @@
       "New chart": [""],
       "Edit chart properties": [""],
       "Export to original .CSV": [""],
-      "Export to pivoted .CSV": [""],
       "Export to .JSON": [""],
       "Embed code": [""],
       "Run in SQL Lab": [""],
@@ -4917,9 +4916,19 @@
       "There was an issue deleting the selected datasets: %s": [""],
       "There was an issue duplicating the dataset.": [""],
       "There was an issue duplicating the selected datasets: %s": [""],
+      "The dataset %s is linked to": [""],
+      "%s charts": [""],
+      "that appear on": [""],
+      "%s dashboards.": [""],
+      "Are you sure you want to continue? Deleting the dataset will break those objects.": [
+        ""
+      ],
       "The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.": [
         ""
       ],
+      "It will also affect": [""],
+      "the dashboard filters": [""],
+      "tied to this dataset if any.": [""],
       "Delete Dataset?": [""],
       "Are you sure you want to delete the selected datasets?": [""],
       "0 Selected": [""],
