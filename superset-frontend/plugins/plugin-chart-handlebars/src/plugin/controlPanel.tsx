@@ -27,6 +27,7 @@ import {
 } from './controls/pagination';
 import { queryModeControlSetItem } from './controls/queryMode';
 import { styleControlSetItem } from './controls/style';
+import { jsExecuteCodeControlSetItem } from '../DodoExtensions/plugin/controls/jsExecuteCode'; // DODO added 49751291
 import { allowNavigationToolsControlSetItem } from '../DodoExtensions/plugin/controls/navigationTools'; // DODO added 49751291
 
 const config: ControlPanelConfig = {
@@ -55,6 +56,7 @@ const config: ControlPanelConfig = {
         [allowNavigationToolsControlSetItem], // DODO added 49751291
         [handlebarsTemplateControlSetItem],
         [styleControlSetItem],
+        [jsExecuteCodeControlSetItem], // DODO added 49751291
       ],
     },
   ],

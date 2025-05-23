@@ -128,7 +128,7 @@ class TextAreaControl extends Component {
           onChange={this.onAreaEditorChange.bind(this)}
           // DODO added start 45047288
           height={this.state.height}
-          hasVerticalResize={this.hasVerticalResize}
+          hasVerticalResize={inModal ? true : this.hasVerticalResize}
           onLoad={editor => {
             if (editor.renderer.container) {
               this.editorContainerRef.current = editor.renderer.container;
