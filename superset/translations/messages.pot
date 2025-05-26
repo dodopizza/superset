@@ -10236,7 +10236,7 @@ msgid "This JavaScript code will be executed after the template is rendered."
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:27
-msgid "You can use it to add event handlers, manipulate DOM elements, etc."
+msgid "You can use it to add event handlers, manipulate DOM elements inside container, etc."
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:66
@@ -10245,7 +10245,7 @@ msgid "Define JavaScript code to execute after the template is rendered"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
-msgid "JavaScript Execute Code"
+msgid "JavaScript Code"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9

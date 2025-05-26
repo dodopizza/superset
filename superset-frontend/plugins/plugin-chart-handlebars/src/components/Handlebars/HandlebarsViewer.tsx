@@ -74,10 +74,10 @@ export const HandlebarsViewer = ({
         if (typeof jsFunction === 'function') {
           jsFunction(containerRef.current, data);
         } else {
-          console.error('JavaScript execute code must be a function');
+          console.warn('JavaScript execute code must be a function');
         }
       } catch (error) {
-        console.error('Error executing JavaScript code:', error);
+        console.warn('Error executing JavaScript code:', error);
       }
     }
   }, [renderedTemplate, jsExecuteCode, data]);

@@ -10256,7 +10256,7 @@ msgid "Define JavaScript code to execute after the template is rendered"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
-msgid "JavaScript Execute Code"
+msgid "JavaScript Code"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
