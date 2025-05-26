@@ -3366,6 +3366,16 @@
       "Press": ["Зажать"],
       "or click the Reset button": ["или нажмите кнопку Сброс"],
       "Got it!": ["Понятно!"],
+      "This JavaScript code will be executed after the template is rendered.": [
+        "Этот код JavaScript будет выполнен после отрисовки шаблона."
+      ],
+      "You can use it to add event handlers, manipulate DOM elements inside container, etc.": [
+        "Можно использовать, чтобы добавлять обработчики событий, манипулировать элементами DOM внутри контейнера графика и т.д."
+      ],
+      "Define JavaScript code to execute after the template is rendered": [
+        "Укажите код JavaScript, который будет выполняться после отрисовки шаблона"
+      ],
+      "JavaScript Code": ["JavaScript код"],
       "Allow navigation tools": ["Разрешить инструменты навигации"],
       "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         "Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "

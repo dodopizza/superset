@@ -2400,6 +2400,14 @@
       "Press": [""],
       "or click the Reset button": [""],
       "Got it!": [""],
+      "This JavaScript code will be executed after the template is rendered.": [
+        ""
+      ],
+      "You can use it to add event handlers, manipulate DOM elements inside container, etc.": [
+        ""
+      ],
+      "Define JavaScript code to execute after the template is rendered": [""],
+      "JavaScript Code": [""],
       "Allow navigation tools": [""],
       "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         ""

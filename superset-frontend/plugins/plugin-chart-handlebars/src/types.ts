@@ -12,7 +12,13 @@ export interface HandlebarsStylesProps {
   width: number;
 }
 
-interface HandlebarsCustomizeProps {
+interface HandlebarsCustomizePropsDodoExtended {
+  allowNavigationTools?: boolean; // DODO added 49751291
+  jsExecuteCode?: string; // DODO added 49751291
+}
+
+interface HandlebarsCustomizeProps
+  extends HandlebarsCustomizePropsDodoExtended {
   handlebarsTemplate?: string;
   styleTemplate?: string;
 }
@@ -24,7 +30,6 @@ export type HandlebarsQueryFormData = QueryFormData &
     color_pn?: boolean;
     include_time?: boolean;
     include_search?: boolean;
-    allow_navigation_tools?: boolean; // DODO added 49751291
     query_mode?: QueryMode;
     page_length?: string | number | null; // null means auto-paginate
     metrics?: QueryFormMetric[] | null;

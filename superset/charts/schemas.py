@@ -23,7 +23,6 @@ from typing import Any, TYPE_CHECKING
 from flask_babel import gettext as _
 from marshmallow import EXCLUDE, fields, post_load, Schema, validate
 from marshmallow.validate import Length, Range
-from marshmallow_enum import EnumField
 
 from superset import app
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
@@ -1360,7 +1359,7 @@ class ChartDataQueryContextSchema(Schema):
         required=False,
         allow_none=True,
     )
-    language = EnumField(Language, by_value=True)
+    language = fields.Enum(Language, by_value=True)
 
     force = fields.Boolean(
         metadata={

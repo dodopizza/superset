@@ -42,7 +42,7 @@ team_users = Table(
 )
 
 
-class Team(Model):  # pylint: disable=too-few-public-methods
+class Team(Model):
     """Dodo teams for Superset"""
 
     __tablename__ = "teams"

@@ -138,6 +138,7 @@ class ChartRestApi(BaseSupersetModelRestApi):
         "dashboards.dashboard_title",
         "params",
         "slice_name",
+        "slice_name_ru",
         "thumbnail_url",
         "url",
         "viz_type",
@@ -286,8 +287,11 @@ class ChartRestApi(BaseSupersetModelRestApi):
         """
         if result := data.get("result"):
             for owner in result.get("owners", []):
-                user = security_manager.get_user_by_id(owner["id"])
-                if user and user.user_info:
+                if (
+                    owner.get("id")
+                    and (user := security_manager.get_user_by_id(owner["id"]))
+                    and user.user_info
+                ):
                     owner["country_name"] = user.user_info.country_name
 
     @expose("/", methods=("POST",))

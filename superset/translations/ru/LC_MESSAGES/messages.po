@@ -2350,7 +2350,6 @@ msgstr "Данные пользователя"
 
 #: superset/security/manager.py:234 superset/security/manager.py:267
 msgid "Personal Info"
-msgstr "Персональные данные"
 
 #: superset/security/manager.py:246
 msgid "Audit Info"
@@ -7458,6 +7457,7 @@ msgid " source code of Superset's sandboxed parser"
 msgstr " исходный код sandboxed парсера Суперсета"
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/utilities/Shared_DeckGL.jsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:86
 msgid "This functionality is disabled in your environment for security reasons."
 msgstr "Эта функция отключена в вашей среде по соображениям безопасности."
 
@@ -10736,8 +10736,6 @@ msgstr "Waterfall Chart"
 msgid "page_size.all"
 msgstr "все"
 
-
-
 #: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
 msgid "Content with navigation"
 msgstr "Содержимое с навигацией"
@@ -10811,6 +10809,23 @@ msgstr "или нажмите кнопку Сброс"
 msgid "Got it!"
 msgstr "Понятно!"
 
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:25
+msgid "This JavaScript code will be executed after the template is rendered."
+msgstr "Этот код JavaScript будет выполнен после отрисовки шаблона."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:27
+msgid "You can use it to add event handlers, manipulate DOM elements inside container, etc."
+msgstr "Можно использовать, чтобы добавлять обработчики событий, манипулировать элементами DOM внутри контейнера графика и т.д."
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:66
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:102
+msgid "Define JavaScript code to execute after the template is rendered"
+msgstr "Укажите код JavaScript, который будет выполняться после отрисовки шаблона"
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
+msgid "JavaScript Code"
+msgstr "JavaScript код"
+
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
 msgid "Allow navigation tools"
 msgstr "Разрешить инструменты навигации"
@@ -10825,7 +10840,7 @@ msgstr ""
 " помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью"
 " Cmd/Alt+колесико "
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:105
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
@@ -15527,7 +15542,8 @@ msgstr "Слои аннотаций загружаются."
 msgid "One ore more annotation layers failed loading."
 msgstr "Один или несколько слоев аннотации не удалось загрузить."
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:346
+
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:345
 msgid ""
 "This chart applies cross-filters to charts whose datasets contain columns"
 " with the same name."

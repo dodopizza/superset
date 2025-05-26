@@ -3828,7 +3828,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:35
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:36
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controlPanel.ts:28
@@ -5973,7 +5973,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:49
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:61
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:36
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:53
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:162
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:260
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:367
@@ -7082,6 +7082,7 @@ msgid " source code of Superset's sandboxed parser"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/utilities/Shared_DeckGL.jsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:86
 msgid "This functionality is disabled in your environment for security reasons."
 msgstr ""
 
@@ -10231,6 +10232,23 @@ msgstr ""
 msgid "Got it!"
 msgstr ""
 
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:25
+msgid "This JavaScript code will be executed after the template is rendered."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:27
+msgid "You can use it to add event handlers, manipulate DOM elements inside container, etc."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:66
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:102
+msgid "Define JavaScript code to execute after the template is rendered"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
+msgid "JavaScript Code"
+msgstr ""
+
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
 msgid "Allow navigation tools"
 msgstr ""
@@ -10242,7 +10260,7 @@ msgid ""
 "wheel."
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:105
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
@@ -14744,7 +14762,7 @@ msgstr ""
 msgid "One ore more annotation layers failed loading."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:346
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:345
 msgid ""
 "This chart applies cross-filters to charts whose datasets contain columns"
 " with the same name."
