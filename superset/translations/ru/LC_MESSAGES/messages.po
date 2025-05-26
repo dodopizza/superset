@@ -2354,7 +2354,7 @@ msgstr "Личные данные"
 
 #: superset/security/manager.py:246
 msgid "Audit Info"
-msgstr "Аудит информации"
+msgstr "Аудит информация"
 
 #: superset/security/manager.py:2368
 msgid "Guest user cannot modify chart payload"
