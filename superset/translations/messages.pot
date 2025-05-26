@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-13 11:56+0300\n"
+"POT-Creation-Date: 2025-05-16 12:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2205,11 +2205,39 @@ msgstr[1] ""
 msgid "%(dialect)s cannot be used as a data source for security reasons."
 msgstr ""
 
-#: superset/security/manager.py:2283
+#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
+#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
+#: superset/security/manager.py:223
+msgid "Country"
+msgstr ""
+
+#: superset-frontend/src/DodoExtensions/onBoarding/components/ConfirmCreateTeamModal/ConfirmCreateTeamModal.tsx:55
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:63
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/UpdateUser.tsx:61
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:58
+#: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:47
+#: superset/security/manager.py:224 superset/views/statement/mixin.py:23
+#: superset/views/team/mixin.py:5
+msgid "Team"
+msgstr ""
+
+#: superset/security/manager.py:230 superset/security/manager.py:263
+msgid "User info"
+msgstr ""
+
+#: superset/security/manager.py:234 superset/security/manager.py:267
+msgid "Personal Info"
+msgstr ""
+
+#: superset/security/manager.py:246
+msgid "Audit Info"
+msgstr ""
+
+#: superset/security/manager.py:2368
 msgid "Guest user cannot modify chart payload"
 msgstr ""
 
-#: superset/security/manager.py:2703
+#: superset/security/manager.py:2788
 #, python-format
 msgid "You don't have the rights to alter %(resource)s"
 msgstr ""
@@ -3011,15 +3039,6 @@ msgstr ""
 msgid "is_external"
 msgstr ""
 
-#: superset-frontend/src/DodoExtensions/onBoarding/components/ConfirmCreateTeamModal/ConfirmCreateTeamModal.tsx:55
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/RequestData.tsx:63
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Request/components/UpdateUser.tsx:61
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/RequestList/consts.tsx:58
-#: superset-frontend/src/DodoExtensions/onBoarding/pages/Team/TeamPage.tsx:47
-#: superset/views/statement/mixin.py:23 superset/views/team/mixin.py:5
-msgid "Team"
-msgstr ""
-
 #: superset/views/statement/mixin.py:24
 msgid "is_new_team"
 msgstr ""
@@ -3345,7 +3364,7 @@ msgstr ""
 #: superset-frontend/src/DodoExtensions/explore/components/controls/ConditionalFormattingControlDodoWrapper/FormattingPopoverContentDodoWrapper.tsx:32
 #: superset-frontend/src/dashboard/components/Header/index.jsx:447
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterCard/ScopeRow.tsx:78
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:180
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:184
 #: superset-frontend/src/explore/components/controls/AnnotationLayerControl/AnnotationLayer.jsx:703
 #: superset-frontend/src/explore/components/controls/ConditionalFormattingControl/FormattingPopoverContent.tsx:37
 #: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/DashboardsSubMenu.tsx:138
@@ -3808,7 +3827,7 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:52
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:36
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
 #: superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controlPanel.ts:28
@@ -5037,11 +5056,6 @@ msgstr ""
 msgid "Relational"
 msgstr ""
 
-#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
-#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
-msgid "Country"
-msgstr ""
-
 #: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:42
 msgid "Which country to plot the map for?"
 msgstr ""
@@ -5958,7 +5972,7 @@ msgstr ""
 #: superset-frontend/plugins/legacy-plugin-chart-partition/src/controlPanel.tsx:49
 #: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:61
 #: superset-frontend/plugins/plugin-chart-echarts/src/BigNumber/BigNumberWithTrendline/controlPanel.tsx:36
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:69
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:53
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:162
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:260
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:367
@@ -7067,6 +7081,7 @@ msgid " source code of Superset's sandboxed parser"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/utilities/Shared_DeckGL.jsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:86
 msgid "This functionality is disabled in your environment for security reasons."
 msgstr ""
 
@@ -10145,88 +10160,112 @@ msgstr ""
 msgid "page_size.all"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:70
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:364
+msgid "Content with navigation"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:369
+msgid "Reset view (Esc)"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:370
+#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
+#: superset-frontend/src/components/Table/index.tsx:219
+msgid "Reset"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:375
+msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:126
+msgid "Chart Navigation Features"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:128
+msgid "This chart supports interactive navigation:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:134
+msgid "Pan the chart:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:134
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:139
+msgid "Hold"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:135
+msgid "while dragging with the mouse"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:139
+msgid "Zoom in/out:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:141
+msgid "while scrolling the mouse wheel, or use"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:142
+msgid "and"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:142
+msgid "keys"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Reset view:"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:146
+msgid "Press"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:147
+msgid "or click the Reset button"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/NavigableOnboarding.tsx:153
+msgid "Got it!"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:25
+msgid "This JavaScript code will be executed after the template is rendered."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:27
+msgid "You can use it to add event handlers, manipulate DOM elements inside container, etc."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:66
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:102
+msgid "Define JavaScript code to execute after the template is rendered"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
+msgid "JavaScript Code"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
+msgid "Allow navigation tools"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:10
+msgid ""
+"Enable navigation tools for the handlebars template. Allows panning with "
+"middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse "
+"wheel."
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Handlebars/HandlebarsViewer.tsx:105
 #: superset-frontend/src/components/Select/AsyncSelect.tsx:613
 #: superset-frontend/src/components/Select/Select.tsx:624
 #: superset-frontend/src/components/Select/utils.tsx:160
 #: superset-frontend/src/dashboard/components/gridComponents/DynamicComponent.tsx:165
 #: superset-frontend/src/explore/components/RowCountLabel/index.tsx:43
 msgid "Loading..."
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:351
-msgid "Content with navigation"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:356
-msgid "Reset view (Esc)"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:357
-#: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
-#: superset-frontend/src/components/Table/index.tsx:219
-msgid "Reset"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/Navigable.tsx:362
-msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:124
-msgid "Chart Navigation Features"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:126
-msgid "This chart supports interactive navigation:"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
-msgid "Pan the chart:"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:132
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
-msgid "Hold"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:134
-msgid "while dragging with the mouse"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:138
-msgid "Zoom in/out:"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:140
-msgid "while scrolling the mouse wheel, or use"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
-msgid "and"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:141
-msgid "keys"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
-msgid "Reset view:"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:145
-msgid "Press"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
-msgid "Esc"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:146
-msgid "or click the Reset button"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/components/Navigable/NavigableOnboarding.tsx:152
-msgid "Got it!"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/index.ts:40
@@ -10283,17 +10322,6 @@ msgstr ""
 msgid ""
 "Show total aggregations of selected metrics. Note that row limit does not"
 " apply to the result."
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:26
-msgid "Allow navigation tools"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/navigationTools.ts:27
-msgid ""
-"Enable navigation tools for the handlebars template. Allows panning with "
-"middle mouse button or Cmd/Ctrl+drag, and zooming with Cmd/Ctrl+mouse "
-"wheel."
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/orderBy.tsx:11
@@ -10861,7 +10889,7 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/CrossFilters/ScopingModal/ScopingModal.tsx:304
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/Footer/Footer.tsx:71
 #: superset-frontend/src/explore/components/DatasourcePanel/index.tsx:385
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:252
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:256
 #: superset-frontend/src/explore/components/ExploreChartPanel/index.jsx:460
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:290
 #: superset-frontend/src/explore/components/SaveModal.tsx:474
@@ -12511,7 +12539,7 @@ msgid "Untitled query"
 msgstr ""
 
 #: superset-frontend/src/SqlLab/utils/newQueryTabName.ts:43
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:133
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:134
 #, python-format
 msgid "%s%s"
 msgstr ""
@@ -12792,7 +12820,7 @@ msgstr ""
 
 #: superset-frontend/src/components/CopyToClipboard/index.tsx:76
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:74
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:198
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:199
 msgid "Copied to clipboard!"
 msgstr ""
 
@@ -14344,6 +14372,7 @@ msgid ""
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:762
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:277
 msgid "Processing file export..."
 msgstr ""
 
@@ -14443,8 +14472,8 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/index.jsx:439
 #: superset-frontend/src/dashboard/components/Header/index.jsx:443
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:175
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:179
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:183
 #: superset-frontend/src/features/datasets/metadataBar/useDatasetMetadataBar.tsx:72
 msgid "Not available"
 msgstr ""
@@ -14511,7 +14540,7 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:260
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:861
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:321
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:327
 msgid "Download"
 msgstr ""
 
@@ -14525,14 +14554,14 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:275
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:836
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:369
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:376
 #: superset-frontend/src/features/home/SavedQueries.tsx:208
 msgid "Share"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:279
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:844
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:371
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:378
 msgid "Copy permalink to clipboard"
 msgstr ""
 
@@ -14545,7 +14574,7 @@ msgid "Embed dashboard"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:302
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:399
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:406
 msgid "Manage email report"
 msgstr ""
 
@@ -14724,15 +14753,15 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:48
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:50
 msgid "Annotation layers are still loading."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:49
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:51
 msgid "One ore more annotation layers failed loading."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:343
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:345
 msgid ""
 "This chart applies cross-filters to charts whose datasets contain columns"
 " with the same name."
@@ -14777,8 +14806,8 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:778
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:780
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:425
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:427
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:432
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:434
 msgid "View query"
 msgstr ""
 
@@ -14792,7 +14821,7 @@ msgid "Chart Data: %s"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:845
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:374
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:381
 msgid "Share chart by email"
 msgstr ""
 
@@ -14801,29 +14830,25 @@ msgid "Check out this chart: "
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:869
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:345
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:352
 msgid "Export to .CSV"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:876
-msgid "Export to Pivoted .CSV"
-msgstr ""
-
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:883
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:366
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:884
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:373
 msgid "Export to Excel"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:894
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:895
 msgid "Export to full .CSV"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:900
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:901
 msgid "Export to full Excel"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:909
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:359
+#: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:910
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:366
 msgid "Download as image"
 msgstr ""
 
@@ -14958,8 +14983,8 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:77
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:90
 #: superset-frontend/src/explore/components/EmbedCodeContent.jsx:58
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:136
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:200
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:137
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:201
 msgid "Sorry, something went wrong. Try again later."
 msgstr ""
 
@@ -15991,31 +16016,31 @@ msgstr ""
 msgid " to edit or add columns and metrics."
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:99
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:102
 msgid "Unable to retrieve dashboard colors"
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:158
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:162
 msgid "Added to 1 dashboard"
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:164
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:168
 msgid "Not added to any dashboard"
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:167
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:171
 msgid "You can preview the list of dashboards in the chart settings dropdown."
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:203
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:207
 msgid "Add the name of the chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:204
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:208
 msgid "Chart title"
 msgstr ""
 
-#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:238
+#: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:242
 msgid "Add required control values to save chart"
 msgstr ""
 
@@ -16066,10 +16091,6 @@ msgstr ""
 
 #: superset-frontend/src/explore/components/ExportToCSVDropdown/index.tsx:76
 msgid "Original"
-msgstr ""
-
-#: superset-frontend/src/explore/components/ExportToCSVDropdown/index.tsx:82
-msgid "Pivoted"
 msgstr ""
 
 #: superset-frontend/src/explore/components/PropertiesModal/index.tsx:83
@@ -17365,41 +17386,37 @@ msgstr ""
 msgid "No results found"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:131
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:132
 msgid "Superset Chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:255
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:261
 msgid "New chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:307
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:313
 msgid "Edit chart properties"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:311
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:317
 #: superset-frontend/src/pages/ChartList/index.tsx:377
 msgid "On dashboards"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:329
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:335
 msgid "Export to original .CSV"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:336
-msgid "Export to pivoted .CSV"
-msgstr ""
-
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:353
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:360
 msgid "Export to .JSON"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:380
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:382
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:387
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:389
 msgid "Embed code"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:438
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:445
 msgid "Run in SQL Lab"
 msgstr ""
 
