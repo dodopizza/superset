@@ -62,6 +62,12 @@ const DatasetDeleteRelatedExtension = extensionsRegistry.get(
   'dataset.delete.related',
 );
 
+// DODO added
+const WarningHighlighting = styled.span`
+  color: ${({ theme }) => theme.colors.error.base};
+  font-weight: ${({ theme }) => theme.typography.weights.bold};
+`;
+
 const FlexRowContainer = styled.div`
   align-items: center;
   display: flex;
@@ -783,19 +789,58 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         <DeleteModal
           description={
             <>
-              <p>
-                {t(
-                  'The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.',
-                  datasetCurrentlyDeleting.table_name,
-                  datasetCurrentlyDeleting.chart_count,
-                  datasetCurrentlyDeleting.dashboard_count,
-                )}
-              </p>
+              {/* DODO changed */}
+              {datasetCurrentlyDeleting.chart_count ? (
+                <>
+                  <p>
+                    {t(
+                      'The dataset %s is linked to',
+                      datasetCurrentlyDeleting.table_name,
+                    )}
+                  </p>
+                  <br />
+                  <p>
+                    <WarningHighlighting>
+                      {t('%s charts', datasetCurrentlyDeleting.chart_count)}{' '}
+                    </WarningHighlighting>
+                    {t('that appear on')}{' '}
+                    <WarningHighlighting>
+                      {t(
+                        '%s dashboards.',
+                        datasetCurrentlyDeleting.dashboard_count,
+                      )}{' '}
+                    </WarningHighlighting>
+                  </p>
+                  <br />
+                  <p>
+                    {t(
+                      'Are you sure you want to continue? Deleting the dataset will break those objects.',
+                    )}
+                  </p>
+                </>
+              ) : (
+                <p>
+                  {t(
+                    'The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.',
+                    datasetCurrentlyDeleting.table_name,
+                    datasetCurrentlyDeleting.chart_count,
+                    datasetCurrentlyDeleting.dashboard_count,
+                  )}
+                </p>
+              )}
               {DatasetDeleteRelatedExtension && (
                 <DatasetDeleteRelatedExtension
                   dataset={datasetCurrentlyDeleting}
                 />
               )}
+              {/* DODO added */}
+              <p>
+                {t('It will also affect')}{' '}
+                <WarningHighlighting>
+                  {t('the dashboard filters')}
+                </WarningHighlighting>{' '}
+                {t('tied to this dataset if any.')}
+              </p>
             </>
           }
           onConfirm={() => {

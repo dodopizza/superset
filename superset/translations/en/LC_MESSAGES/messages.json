@@ -4924,9 +4924,19 @@
       "There was an issue deleting the selected datasets: %s": [""],
       "There was an issue duplicating the dataset.": [""],
       "There was an issue duplicating the selected datasets: %s": [""],
+      "The dataset %s is linked to": [""],
+      "%s charts": [""],
+      "that appear on": [""],
+      "%s dashboards.": [""],
+      "Are you sure you want to continue? Deleting the dataset will break those objects.": [
+        ""
+      ],
       "The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.": [
         ""
       ],
+      "It will also affect": [""],
+      "the dashboard filters": [""],
+      "tied to this dataset if any.": [""],
       "Delete Dataset?": [""],
       "Are you sure you want to delete the selected datasets?": [""],
       "0 Selected": [""],
