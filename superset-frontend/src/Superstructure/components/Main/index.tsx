@@ -16,6 +16,7 @@ export default function Main({
     [FeatureFlag.GlobalAsyncQueries]: true,
     [FeatureFlag.DashboardNativeFiltersSet]: true,
     [FeatureFlag.TaggingSystem]: false,
+    [FeatureFlag.DashboardCrossFilters]: true,
   };
   window.htmlSanitization = false; // for handlebars viz
 
