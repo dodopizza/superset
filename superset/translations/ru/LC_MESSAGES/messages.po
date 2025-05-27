@@ -15829,11 +15829,11 @@ msgstr "Очистить"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/CrossFilters/CrossFilterTitle.tsx:81
 msgid "Locate the chart"
-msgstr "Установите график"
+msgstr "Навестись на график"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/CrossFilters/VerticalCollapse.tsx:82
 msgid "Cross-filters"
-msgstr "Кроссфильтерные фильмы"
+msgstr "Кросс-фильтры"
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FilterBar/CrossFilters/ScopingModal/ChartsScopingListPanel.tsx:127
 msgid "Add custom scoping"
