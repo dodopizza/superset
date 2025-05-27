@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint camelcase: 0 */
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import rison from 'rison';
@@ -76,6 +59,8 @@ import {
   getLabelsColorMapEntries,
   getFreshSharedLabels,
 } from '../../utils/colorScheme';
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 export const SET_UNSAVED_CHANGES = 'SET_UNSAVED_CHANGES';
 export function setUnsavedChanges(hasUnsavedChanges) {
@@ -286,6 +271,7 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details,
       css,
       dashboard_title,
+      dashboard_title_ru, // DODO added 44120742
       owners,
       roles,
       slug,
@@ -304,7 +290,9 @@ export function saveDashboardRequest(data, id, saveType) {
       certification_details:
         certified_by && certification_details ? certification_details : '',
       css: css || '',
-      dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
+      // dashboard_title: dashboard_title || t('[ untitled dashboard ]'),
+      dashboard_title: dashboard_title || '[ untitled dashboard ]', // DODO changed 44120742
+      dashboard_title_ru: dashboard_title_ru || '[ безымянный дашборд ]', // DODO added 44120742
       owners: ensureIsArray(owners).map(o => (hasId(o) ? o.id : o)),
       roles: !isFeatureEnabled(FeatureFlag.DashboardRbac)
         ? undefined
@@ -445,6 +433,7 @@ export function saveDashboardRequest(data, id, saveType) {
               certification_details: cleanedData.certification_details,
               css: cleanedData.css,
               dashboard_title: cleanedData.dashboard_title,
+              dashboard_title_ru: cleanedData.dashboard_title_ru, // DODO added 44120742
               slug: cleanedData.slug,
               owners: cleanedData.owners,
               roles: cleanedData.roles,
@@ -519,6 +508,7 @@ export function saveDashboardRequest(data, id, saveType) {
     cleanedData.metadata.filter_scopes = serializedFilterScopes;
     const copyPayload = {
       dashboard_title: cleanedData.dashboard_title,
+      dashboard_title_ru: cleanedData.dashboard_title_ru, // DODO added 44120742
       css: cleanedData.css,
       duplicate_slices: cleanedData.duplicate_slices,
       json_metadata: JSON.stringify(cleanedData.metadata),
@@ -719,12 +709,20 @@ export function setDatasetsStatus(status) {
   };
 }
 
+// DODO added 48951211
+export const TOGGLE_IS_EXPORTING_DATA = 'TOGGLE_IS_EXPORTING_DATA';
+export function toggleIsExportingData() {
+  return { type: TOGGLE_IS_EXPORTING_DATA };
+}
+
 const storeDashboardMetadata = async (id, metadata) =>
-  SupersetClient.put({
-    endpoint: `/api/v1/dashboard/${id}`,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
-  });
+  isStandalone
+    ? SupersetClient.put({
+        endpoint: `/api/v1/dashboard/${id}`,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ json_metadata: JSON.stringify(metadata) }),
+      })
+    : null;
 
 /**
  *

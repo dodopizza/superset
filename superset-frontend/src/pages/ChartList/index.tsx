@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   isFeatureEnabled,
   FeatureFlag,
@@ -149,6 +132,7 @@ interface ChartListProps {
     userId: string | number;
     firstName: string;
     lastName: string;
+    email: string;
   };
 }
 
@@ -299,7 +283,7 @@ function ChartList(props: ChartListProps) {
         dashboard_title: string;
         id: number;
       }) => ({
-        label: dashboardTitle,
+        label: `[${id}] ${dashboardTitle}`, // DODO changed 44211759
         value: id,
       }),
     );
@@ -405,7 +389,10 @@ function ChartList(props: ChartListProps) {
           <TagsList
             tags={tags.filter((tag: Tag) =>
               tag.type
-                ? tag.type === 1 || tag.type === 'TagTypes.custom'
+                ? tag.type === 1 ||
+                  tag.type === 'TagTypes.custom' || // DODO added 44211792
+                  tag.type === 5 || // DODO added 44211792
+                  tag.type === 'TagTypes.team' // DODO added 44211792
                 : true,
             )}
             maxTags={3}
@@ -651,6 +638,7 @@ function ChartList(props: ChartListProps) {
         unfilteredLabel: t('All'),
         fetchSelects: fetchDashboards,
         paginate: true,
+        width: 300, // DODO added 44211759
       },
       ...(userId ? [favoritesFilter] : []),
       {
@@ -744,14 +732,15 @@ function ChartList(props: ChartListProps) {
   );
 
   const subMenuButtons: SubMenuProps['buttons'] = [];
-  if (canDelete || canExport) {
-    subMenuButtons.push({
-      name: t('Bulk select'),
-      buttonStyle: 'secondary',
-      'data-test': 'bulk-select',
-      onClick: toggleBulkSelect,
-    });
-  }
+  // DODO commented out 45047288
+  // if (canDelete || canExport) {
+  //   subMenuButtons.push({
+  //     name: t('Bulk select'),
+  //     buttonStyle: 'secondary',
+  //     'data-test': 'bulk-select',
+  //     onClick: toggleBulkSelect,
+  //   });
+  // }
   if (canCreate) {
     subMenuButtons.push({
       name: (

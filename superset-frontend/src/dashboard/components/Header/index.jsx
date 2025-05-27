@@ -1,24 +1,7 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-env browser */
 import moment from 'moment';
-import { PureComponent } from 'react';
+import { lazy, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   styled,
@@ -29,6 +12,7 @@ import {
   getExtensionsRegistry,
 } from '@superset-ui/core';
 import { Global } from '@emotion/react';
+import { bootstrapData } from 'src/preamble';
 import {
   LOG_ACTIONS_PERIODIC_RENDER_DASHBOARD,
   LOG_ACTIONS_FORCE_REFRESH_DASHBOARD,
@@ -46,11 +30,7 @@ import UndoRedoKeyListeners from 'src/dashboard/components/UndoRedoKeyListeners'
 import PropertiesModal from 'src/dashboard/components/PropertiesModal';
 import { chartPropShape } from 'src/dashboard/util/propShapes';
 import getOwnerName from 'src/utils/getOwnerName';
-import {
-  UNDO_LIMIT,
-  SAVE_TYPE_OVERWRITE,
-  DASHBOARD_POSITION_DATA_LIMIT,
-} from 'src/dashboard/util/constants';
+import * as constants from 'src/dashboard/util/constants';
 import setPeriodicRunner, {
   stopPeriodicRender,
 } from 'src/dashboard/util/setPeriodicRunner';
@@ -58,6 +38,16 @@ import { PageHeaderWithActions } from 'src/components/PageHeaderWithActions';
 import MetadataBar, { MetadataType } from 'src/components/MetadataBar';
 import DashboardEmbedModal from '../EmbeddedModal';
 import OverwriteConfirm from '../OverwriteConfirm';
+
+// DODO added 45320801
+const MetricColorConfiguration = lazy(
+  () =>
+    import(
+      '../../../DodoExtensions/dashboard/components/MetricColorConfiguration'
+    ),
+);
+
+const locale = bootstrapData?.common?.locale || 'en';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -95,6 +85,7 @@ const propTypes = {
   hasUnsavedChanges: PropTypes.bool.isRequired,
   maxUndoHistoryExceeded: PropTypes.bool.isRequired,
   lastModifiedTime: PropTypes.number.isRequired,
+  datasources: PropTypes.object, // Добавлено для поддержки переводов метрик и колонок
 
   // redux
   onRefresh: PropTypes.func.isRequired,
@@ -109,6 +100,9 @@ const propTypes = {
   setRefreshFrequency: PropTypes.func.isRequired,
   dashboardInfoChanged: PropTypes.func.isRequired,
   dashboardTitleChanged: PropTypes.func.isRequired,
+
+  // Dodo extended
+  dashboardTitleRU: PropTypes.string, // DODO added 44120742
 };
 
 const defaultProps = {
@@ -214,14 +208,14 @@ class Header extends PureComponent {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
-      UNDO_LIMIT - nextProps.undoLength <= 0 &&
+      constants.UNDO_LIMIT - nextProps.undoLength <= 0 &&
       !this.state.didNotifyMaxUndoHistoryToast
     ) {
       this.setState(() => ({ didNotifyMaxUndoHistoryToast: true }));
       this.props.maxUndoHistoryToast();
     }
     if (
-      nextProps.undoLength > UNDO_LIMIT &&
+      nextProps.undoLength > constants.UNDO_LIMIT &&
       !this.props.maxUndoHistoryExceeded
     ) {
       this.props.setMaxUndoHistoryExceeded();
@@ -294,7 +288,8 @@ class Header extends PureComponent {
       const { dashboardInfo } = this.props;
       const periodicRefreshOptions =
         dashboardInfo.common?.conf?.DASHBOARD_AUTO_REFRESH_INTERVALS;
-      const predefinedValue = periodicRefreshOptions.find(
+      // DODO changed 44611022
+      const predefinedValue = periodicRefreshOptions?.find(
         option => Number(option[0]) === interval / 1000,
       );
 
@@ -357,6 +352,7 @@ class Header extends PureComponent {
   overwriteDashboard() {
     const {
       dashboardTitle,
+      dashboardTitleRU, // DODO added 44120742
       layout: positions,
       colorScheme,
       colorNamespace,
@@ -383,6 +379,7 @@ class Header extends PureComponent {
       certification_details: dashboardInfo.certification_details,
       css: customCss,
       dashboard_title: dashboardTitle,
+      dashboard_title_ru: dashboardTitleRU, // DODO added 44120742
       last_modified_time: lastModifiedTime,
       owners: dashboardInfo.owners,
       roles: dashboardInfo.roles,
@@ -400,7 +397,7 @@ class Header extends PureComponent {
     const positionJSONLength = safeStringify(positions).length;
     const limit =
       dashboardInfo.common.conf.SUPERSET_DASHBOARD_POSITION_DATA_LIMIT ||
-      DASHBOARD_POSITION_DATA_LIMIT;
+      constants.DASHBOARD_POSITION_DATA_LIMIT;
     if (positionJSONLength >= limit) {
       this.props.addDangerToast(
         t(
@@ -412,7 +409,7 @@ class Header extends PureComponent {
         this.props.addWarningToast('Your dashboard is near the size limit.');
       }
 
-      this.props.onSave(data, dashboardInfo.id, SAVE_TYPE_OVERWRITE);
+      this.props.onSave(data, dashboardInfo.id, constants.SAVE_TYPE_OVERWRITE);
     }
   }
 
@@ -456,6 +453,7 @@ class Header extends PureComponent {
   render() {
     const {
       dashboardTitle,
+      dashboardTitleRU, // DODO added 44120742
       layout,
       expandedSlices,
       customCss,
@@ -509,7 +507,8 @@ class Header extends PureComponent {
         roles: updates.roles,
       });
       setUnsavedChanges(true);
-      dashboardTitleChanged(updates.title);
+      // dashboardTitleChanged(updates.title);
+      dashboardTitleChanged(updates.title, updates.titleRU); // DODO changed 44120742
     };
 
     const NavExtension = extensionsRegistry.get('dashboard.nav.right');
@@ -523,7 +522,12 @@ class Header extends PureComponent {
       >
         <PageHeaderWithActions
           editableTitleProps={{
-            title: dashboardTitle,
+            // title: dashboardTitle,
+            // DODO changed 44120742
+            title:
+              locale === 'ru'
+                ? dashboardTitleRU || dashboardTitle
+                : dashboardTitle,
             canEdit: userCanEdit && editMode,
             onSave: this.handleChangeText,
             placeholder: t('Add the name of the dashboard'),
@@ -644,16 +648,28 @@ class Header extends PureComponent {
                 <div css={actionButtonsStyle}>
                   {NavExtension && <NavExtension />}
                   {userCanEdit && (
-                    <Button
-                      buttonStyle="secondary"
-                      onClick={this.toggleEditMode}
-                      data-test="edit-dashboard-button"
-                      className="action-button"
-                      css={editButtonStyle}
-                      aria-label={t('Edit dashboard')}
-                    >
-                      {t('Edit dashboard')}
-                    </Button>
+                    <>
+                      <Button
+                        buttonStyle="secondary"
+                        onClick={this.toggleEditMode}
+                        data-test="edit-dashboard-button"
+                        className="action-button"
+                        css={editButtonStyle}
+                        aria-label={t('Edit dashboard')}
+                      >
+                        {t('Edit dashboard')}
+                      </Button>
+                      <MetricColorConfiguration
+                        charts={this.props.charts}
+                        labelColors={dashboardInfo.metadata?.label_colors}
+                        colorScheme={
+                          dashboardInfo?.metadata?.color_scheme ||
+                          this.props.colorScheme
+                        }
+                        datasources={this.props.datasources}
+                        dashboardLayout={this.props.layout}
+                      />
+                    </>
                   )}
                 </div>
               )}
@@ -661,7 +677,8 @@ class Header extends PureComponent {
           }
           menuDropdownProps={{
             getPopupContainer: triggerNode =>
-              triggerNode.closest('.header-with-actions'),
+              // triggerNode.closest('.header-with-actions'),
+              triggerNode.closest('.dashboard-wrapper'), // DODO changed 47089618
             visible: this.state.isDropdownVisible,
             onVisibleChange: this.setIsDropdownVisible,
           }}
@@ -671,6 +688,7 @@ class Header extends PureComponent {
               addDangerToast={this.props.addDangerToast}
               dashboardId={dashboardInfo.id}
               dashboardTitle={dashboardTitle}
+              dashboardTitleRU={dashboardTitleRU} // DODO added 44120742
               dashboardInfo={dashboardInfo}
               dataMask={dataMask}
               layout={layout}
@@ -711,6 +729,7 @@ class Header extends PureComponent {
             dashboardId={dashboardInfo.id}
             dashboardInfo={dashboardInfo}
             dashboardTitle={dashboardTitle}
+            dashboardTitleRU={dashboardTitleRU} // DODO added 44120742
             show={this.state.showingPropertiesModal}
             onHide={this.hidePropertiesModal}
             colorScheme={this.props.colorScheme}

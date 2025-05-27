@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { isFeatureEnabled, FeatureFlag, Preset } from '@superset-ui/core';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
@@ -47,6 +30,8 @@ import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
+  EchartsBarChartPluginDodo,
+  EchartsBubbleChartDodoPlugin, // DODO added 45525377
   EchartsPieChartPlugin,
   EchartsBoxPlotChartPlugin,
   EchartsAreaChartPlugin,
@@ -72,7 +57,10 @@ import {
   EchartsHeatmapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
+  SelectByIdFilterPlugin, // DODO added 44211759
+  SelectByIdWithTranslationFilterPlugin, // DODO added 44211759
   SelectFilterPlugin,
+  SelectWithTranslationFilterPlugin, // DODO added 44211759
   RangeFilterPlugin,
   TimeFilterPlugin,
   TimeColumnFilterPlugin,
@@ -165,6 +153,10 @@ export default class MainPreset extends Preset {
         new EchartsHeatmapChartPlugin().configure({ key: 'heatmap_v2' }),
         new EchartsHistogramChartPlugin().configure({ key: 'histogram_v2' }),
         new SelectFilterPlugin().configure({ key: FilterPlugins.Select }),
+        // DODO added 44211759
+        new SelectWithTranslationFilterPlugin().configure({
+          key: FilterPlugins.SelectWithTranslation,
+        }),
         new RangeFilterPlugin().configure({ key: FilterPlugins.Range }),
         new TimeFilterPlugin().configure({ key: FilterPlugins.Time }),
         new TimeColumnFilterPlugin().configure({
@@ -177,7 +169,23 @@ export default class MainPreset extends Preset {
         new EchartsSunburstChartPlugin().configure({ key: 'sunburst_v2' }),
         new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         new EchartsBubbleChartPlugin().configure({ key: 'bubble_v2' }),
+        // DODO added 44211759
+        new SelectByIdFilterPlugin().configure({
+          key: FilterPlugins.SelectById,
+        }),
+        // DODO added 44211759
+        new SelectByIdWithTranslationFilterPlugin().configure({
+          key: FilterPlugins.SelectByIdWithTranslation,
+        }),
         ...experimentalPlugins,
+        // DODO added 45525377
+        new EchartsBarChartPluginDodo().configure({
+          key: 'echarts_bar_dodo',
+        }),
+        // DODO added 45525377
+        new EchartsBubbleChartDodoPlugin().configure({
+          key: 'echarts_bubble_dodo',
+        }),
       ],
     });
   }

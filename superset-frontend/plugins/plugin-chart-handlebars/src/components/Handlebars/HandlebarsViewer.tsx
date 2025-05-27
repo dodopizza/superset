@@ -1,36 +1,30 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { SafeMarkdown, styled, t } from '@superset-ui/core';
 import Handlebars from 'handlebars';
 import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { isPlainObject } from 'lodash';
 import Helpers from 'just-handlebars-helpers';
+import Navigable from '../../DodoExtensions/components/Navigable'; // DODO added 49751291
 
-export interface HandlebarsViewerProps {
+interface HandlebarsViewerPropsDodoExtended {
+  allowNavigationTools?: boolean; // DODO added 49751291
+}
+export interface HandlebarsViewerProps
+  extends HandlebarsViewerPropsDodoExtended {
   templateSource: string;
   data: any;
 }
 
+// DODO added 49751291
+const ErrorStyled = styled.pre`
+  white-space: pre-wrap;
+`;
+
 export const HandlebarsViewer = ({
   templateSource,
   data,
+  allowNavigationTools = false, // DODO added 49751291
 }: HandlebarsViewerProps) => {
   const [renderedTemplate, setRenderedTemplate] = useState('');
   const [error, setError] = useState('');
@@ -38,7 +32,9 @@ export const HandlebarsViewer = ({
   const { common } = JSON.parse(
     appContainer?.getAttribute('data-bootstrap') || '{}',
   );
-  const htmlSanitization = common?.conf?.HTML_SANITIZATION ?? true;
+  // DODO changed 44611022
+  const htmlSanitization =
+    common?.conf?.HTML_SANITIZATION ?? window.htmlSanitization ?? true;
   const htmlSchemaOverrides =
     common?.conf?.HTML_SANITIZATION_SCHEMA_EXTENSIONS || {};
 
@@ -50,20 +46,25 @@ export const HandlebarsViewer = ({
       setError('');
     } catch (error) {
       setRenderedTemplate('');
-      setError(error.message);
+      setError((error as Error).message);
     }
   }, [templateSource, data]);
 
-  const Error = styled.pre`
-    white-space: pre-wrap;
-  `;
-
   if (error) {
-    return <Error>{error}</Error>;
+    return <ErrorStyled>{error}</ErrorStyled>; // DODO changed 49751291
   }
 
   if (renderedTemplate) {
-    return (
+    // DODO changed 49751291
+    return allowNavigationTools ? (
+      <Navigable>
+        <SafeMarkdown
+          source={renderedTemplate}
+          htmlSanitization={htmlSanitization}
+          htmlSchemaOverrides={htmlSchemaOverrides}
+        />
+      </Navigable>
+    ) : (
       <SafeMarkdown
         source={renderedTemplate}
         htmlSanitization={htmlSanitization}

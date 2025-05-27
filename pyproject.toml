@@ -68,7 +68,7 @@ dependencies = [
     "nh3>=0.2.11, <0.3",
     "numpy==1.23.5",
     "packaging",
-    "pandas[performance]>=2.0.3, <2.1",
+    "pandas[excel,performance]>=2.0.3, <2.1",
     "parsedatetime",
     "paramiko>=3.4.0",
     "pgsanity",
@@ -140,7 +140,7 @@ hive = [
     "thrift_sasl>=0.4.3, < 1.0.0",
 ]
 impala = ["impyla>0.16.2, <0.17"]
-kusto = ["sqlalchemy-kusto>=2.0.0, <3"]
+kusto = ["sqlalchemy-kusto>=3, <4"]
 kylin = ["kylinpy>=2.8.1, <2.9"]
 mssql = ["pymssql>=2.2.8, <3"]
 mysql = ["mysqlclient>=2.1.0, <3"]

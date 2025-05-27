@@ -1,19 +1,4 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
+# dodo was here
 from __future__ import annotations
 
 import contextlib
@@ -137,6 +122,9 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         )
         from superset.css_templates.api import CssTemplateRestApi
         from superset.dashboards.api import DashboardRestApi
+        from superset.dashboards.filter_sets.api import (
+            FilterSetRestApi,  # dodo added 44211751
+        )
         from superset.dashboards.filter_state.api import DashboardFilterStateRestApi
         from superset.dashboards.permalink.api import DashboardPermalinkRestApi
         from superset.databases.api import DatabaseRestApi
@@ -150,6 +138,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.explore.form_data.api import ExploreFormDataRestApi
         from superset.explore.permalink.api import ExplorePermalinkRestApi
         from superset.importexport.api import ImportExportRestApi
+        from superset.onboarding.api import OnboardingRestApi
         from superset.queries.api import QueryRestApi
         from superset.queries.saved_queries.api import SavedQueryRestApi
         from superset.reports.api import ReportScheduleRestApi
@@ -157,7 +146,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.row_level_security.api import RLSRestApi
         from superset.security.api import SecurityRestApi
         from superset.sqllab.api import SqlLabRestApi
+        from superset.statement.api import StatementRestApi
         from superset.tags.api import TagRestApi
+        from superset.team.api import TeamRestApi
+        from superset.user.api import DodoUserRestApi
         from superset.views.alerts import AlertView, ReportView
         from superset.views.all_entities import TaggedObjectsModelView
         from superset.views.annotations import AnnotationLayerView
@@ -188,7 +180,9 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             TabStateView,
         )
         from superset.views.sqllab import SqllabView
+        from superset.views.statement.views import StatementModelView
         from superset.views.tags import TagModelView, TagView
+        from superset.views.team.views import TeamModelView
         from superset.views.users.api import CurrentUserRestApi, UserRestApi
 
         set_app_error_handlers(self.superset_app)
@@ -219,6 +213,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_api(ExploreRestApi)
         appbuilder.add_api(ExploreFormDataRestApi)
         appbuilder.add_api(ExplorePermalinkRestApi)
+        appbuilder.add_api(FilterSetRestApi)  # dodo added 44211751
         appbuilder.add_api(ImportExportRestApi)
         appbuilder.add_api(QueryRestApi)
         appbuilder.add_api(ReportScheduleRestApi)
@@ -227,6 +222,10 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         appbuilder.add_api(SavedQueryRestApi)
         appbuilder.add_api(TagRestApi)
         appbuilder.add_api(SqlLabRestApi)
+        appbuilder.add_api(OnboardingRestApi)
+        appbuilder.add_api(TeamRestApi)
+        appbuilder.add_api(DodoUserRestApi)
+        appbuilder.add_api(StatementRestApi)
         #
         # Setup regular views
         #
@@ -289,6 +288,23 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             icon="fa-css3",
             category="Manage",
             category_label=__("Manage"),
+            category_icon="",
+        )
+
+        appbuilder.add_view(
+            StatementModelView,
+            "Statements",
+            label=__("Statements"),
+            icon="fa-statement",
+            category="",
+            category_icon="",
+        )
+        appbuilder.add_view(
+            TeamModelView,
+            "Team",
+            label=__("Team"),
+            icon="fa-team",
+            category="",
             category_icon="",
         )
 

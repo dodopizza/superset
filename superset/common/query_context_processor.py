@@ -48,7 +48,7 @@ from superset.exceptions import (
 from superset.extensions import cache_manager, security_manager
 from superset.models.helpers import QueryResult
 from superset.models.sql_lab import Query
-from superset.utils import csv, excel
+from superset.utils import excel
 from superset.utils.cache import generate_cache_key, set_and_log_cache
 from superset.utils.core import (
     DatasourceType,
@@ -646,21 +646,40 @@ class QueryContextProcessor:
         self, df: pd.DataFrame, coltypes: list[GenericDataType]
     ) -> str | list[dict[str, Any]]:
         if self._query_context.result_format in ChartDataResultFormat.table_like():
-            include_index = not isinstance(df.index, pd.RangeIndex)
+            # include_index = not isinstance(df.index, pd.RangeIndex)
             columns = list(df.columns)
+            new_columns = []
+            column_rename_indexes: dict[str, int] = {}
             verbose_map = self._qc_datasource.data.get("verbose_map", {})
             if verbose_map:
-                df.columns = [verbose_map.get(column, column) for column in columns]
+                for column in columns:
+                    new_column_name = verbose_map.get(column, column)
+                    if columns.count(column) == 1:
+                        if new_column_name in new_columns:
+                            i = column_rename_indexes.get(new_column_name)
+                            new_columns.append(f"{new_column_name}_{i}")
+                            column_rename_indexes[new_column_name] += 1
+                        else:
+                            new_columns.append(new_column_name)
+                            column_rename_indexes[new_column_name] = 1
+                    else:
+                        new_columns.append(new_column_name)
 
-            result = None
-            if self._query_context.result_format == ChartDataResultFormat.CSV:
-                result = csv.df_to_escaped_csv(
-                    df, index=include_index, **config["CSV_EXPORT"]
-                )
-            elif self._query_context.result_format == ChartDataResultFormat.XLSX:
+                df.columns = new_columns
+
+            # result = None
+
+            # dodo added
+            # for merge some queries to single csv/xlsx file
+
+            # if self._query_context.result_format == ChartDataResultFormat.CSV:
+            #     result = csv.df_to_escaped_csv(
+            #         df, index=include_index, **config["CSV_EXPORT"]
+            #     )
+            if self._query_context.result_format == ChartDataResultFormat.XLSX:
                 excel.apply_column_types(df, coltypes)
-                result = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
-            return result or ""
+                # result = excel.df_to_excel(df, **config["EXCEL_EXPORT"])
+            # return result or ""
 
         return df.to_dict(orient="records")
 

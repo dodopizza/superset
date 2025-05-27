@@ -310,7 +310,7 @@ AUTH_RATE_LIMIT = "5 per second"
 APP_NAME = "Superset"
 
 # Specify the App icon
-APP_ICON = "/static/assets/images/superset-logo-horiz.png"
+APP_ICON = "/static/assets/images/dodo-logo-horiz.png"
 
 # Specify where clicking the logo would take the user'
 # Default value of None will take you to '/superset/welcome'
@@ -394,7 +394,10 @@ LANGUAGES = {
 }
 # Turning off i18n by default as translation in most languages are
 # incomplete and not well maintained.
-LANGUAGES = {}
+LANGUAGES = {
+    "en": {"flag": "us", "name": "English"},
+    "ru": {"flag": "ru", "name": "Russian"},
+}
 
 
 # Override the default d3 locale format
@@ -447,7 +450,8 @@ class D3TimeFormat(TypedDict, total=False):
 
 D3_TIME_FORMAT: D3TimeFormat = {}
 
-CURRENCIES = ["USD", "EUR", "GBP", "INR", "MXN", "JPY", "CNY"]
+# CURRENCIES = ["USD", "EUR", "GBP", "INR", "MXN", "JPY", "CNY"]
+CURRENCIES = ["USD", "RUB", "EUR"]  # dodo changed 44728517
 
 # ---------------------------------------------------
 # Feature flags
@@ -487,12 +491,13 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     # It is dependent on ENABLE_DASHBOARD_SCREENSHOT_ENDPOINT being enabled.
     "ENABLE_DASHBOARD_DOWNLOAD_WEBDRIVER_SCREENSHOT": False,
     "SHARE_QUERIES_VIA_KV_STORE": False,
-    "TAGGING_SYSTEM": False,
+    "TAGGING_SYSTEM": False,  # должен стоять True, но поставили False для тестов
     "SQLLAB_BACKEND_PERSISTENCE": True,
     "LISTVIEWS_DEFAULT_CARD_VIEW": False,
     # When True, this escapes HTML (rather than rendering it) in Markdown components
     "ESCAPE_MARKDOWN_HTML": False,
     "DASHBOARD_CROSS_FILTERS": True,  # deprecated
+    "DASHBOARD_NATIVE_FILTERS_SET": True,
     "DASHBOARD_VIRTUALIZATION": True,
     "GLOBAL_ASYNC_QUERIES": False,
     "EMBEDDED_SUPERSET": False,
@@ -512,7 +517,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     # Allow users to export full CSV of table viz type.
     # This could cause the server to run out of memory or compute.
     "ALLOW_FULL_CSV_EXPORT": False,
-    "ALLOW_ADHOC_SUBQUERY": False,
+    "ALLOW_ADHOC_SUBQUERY": True,
     "USE_ANALAGOUS_COLORS": False,
     # Apply RLS rules to SQL Lab queries. This requires parsing and manipulating the
     # query, and might break queries and/or allow users to bypass RLS. Use with care!
@@ -553,7 +558,7 @@ DEFAULT_FEATURE_FLAGS: dict[str, bool] = {
     # Enabling this feature flag requires installing "playwright" pip package
     "PLAYWRIGHT_REPORTS_AND_THUMBNAILS": False,
     # Set to True to enable experimental chart plugins
-    "CHART_PLUGINS_EXPERIMENTAL": False,
+    "CHART_PLUGINS_EXPERIMENTAL": True,
     # Regardless of database configuration settings, force SQLLAB to run async using Celery
     "SQLLAB_FORCE_RUN_ASYNC": False,
     # Set to True to to enable factory resent CLI command
@@ -669,7 +674,50 @@ EXTRA_CATEGORICAL_COLOR_SCHEMES: list[dict[str, Any]] = []
 #   }
 # }
 
-THEME_OVERRIDES: dict[str, Any] = {}
+# DODO added 45047288
+THEME_OVERRIDES: dict[str, Any] = {
+    "colors": {
+        "primary": {
+            "base": "#ff6900",
+            "dark1": "#e86100",
+            "dark2": "#d15700",
+            "light1": "#fa9349",
+            "light2": "#ffcdb0",
+            "light3": "#ffe1cd",
+            "light4": "#fff0e5",
+            "light5": "#fff0eb",
+        },
+        "secondary": {
+            "base": "#000",
+            "dark2": "#3f220d",
+            "dark3": "#3e130e",
+            "light4": "#fff0e6",
+        },
+        "grayscale": {
+            "base": "#454545",
+            "dark1": "#171717",
+            "light1": "#b9b9b9",
+        },
+        "error": {
+            "base": "#ff6262",
+            "dark1": "#d33f45",
+            "dark2": "#3e130e",
+            "light1": "#ff6262",
+            "light2": "#fbafa5",
+        },
+        "alert": {
+            "light1": "#fff5a0",
+            "light2": "#fffce3",
+        },
+        "success": {
+            "base": "#65d46b",
+            "dark1": "#409a5c",
+            "dark2": "#27523b",
+            "light1": "#a2dcb2",
+            "light2": "#ebfaf0",
+        },
+    },
+}
 
 # EXTRA_SEQUENTIAL_COLOR_SCHEMES is used for adding custom sequential color schemes
 # EXTRA_SEQUENTIAL_COLOR_SCHEMES =  [
@@ -810,7 +858,7 @@ CORS_OPTIONS: dict[Any, Any] = {}
 # Disabling this option is not recommended for security reasons. If you wish to allow
 # valid safe elements that are not included in the default sanitization schema, use the
 # HTML_SANITIZATION_SCHEMA_EXTENSIONS configuration.
-HTML_SANITIZATION = True
+HTML_SANITIZATION = False
 
 # Use this configuration to extend the HTML sanitization schema.
 # By default we use the GitHub schema defined in
@@ -1569,6 +1617,7 @@ TALISMAN_CONFIG = {
             "data:",
             "https://apachesuperset.gateway.scarf.sh",
             "https://static.scarf.sh/",
+            "https://www.googletagmanager.com",
             # "https://avatars.slack-edge.com", # Uncomment when SLACK_ENABLE_AVATARS is True
         ],
         "worker-src": ["'self'", "blob:"],
@@ -1576,13 +1625,35 @@ TALISMAN_CONFIG = {
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://firebase.googleapis.com",
+            "https://firestore.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://www.googleapis.com",
+            "https://firebaseinstallations.googleapis.com",
+            "https://www.googletagmanager.com",
+            "https://www.google-analytics.com",  # Added Google Analytics
+            "https://*.firebaseapp.com",
+            "https://firebasedatabase.googleapis.com",
+            "https://identitytoolkit.googleapis.com",
+            "https://api.rollbar.com",
         ],
         "object-src": "'none'",
         "style-src": [
             "'self'",
             "'unsafe-inline'",
         ],
-        "script-src": ["'self'", "'strict-dynamic'"],
+        "script-src": [
+            "'self'",
+            "'strict-dynamic'",
+            "'unsafe-eval'",
+            "https://apis.google.com",
+            "https://www.gstatic.com",
+            "https://www.firebase.com",
+            "https://www.firebaseapp.com",
+            "https://www.googleapis.com",
+            "https://cdn.firebase.com",
+            "https://www.googletagmanager.com",  # Google Tag Manager script
+        ],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
@@ -1600,19 +1671,36 @@ TALISMAN_DEV_CONFIG = {
             "https://apachesuperset.gateway.scarf.sh",
             "https://static.scarf.sh/",
             "https://avatars.slack-edge.com",
+            "https://www.googletagmanager.com",
         ],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://firebase.googleapis.com",
+            "https://firestore.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://www.googleapis.com",
+            "https://firebaseinstallations.googleapis.com",
+            "https://www.googletagmanager.com",
+            "https://www.google-analytics.com",  # Added Google Analytics
+            "https://*.firebaseapp.com",
+            "https://firebasedatabase.googleapis.com",
+            "https://identitytoolkit.googleapis.com",
+            "https://api.rollbar.com",
         ],
         "object-src": "'none'",
         "style-src": [
             "'self'",
             "'unsafe-inline'",
         ],
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "script-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "https://www.googletagmanager.com",
+        ],
     },
     "content_security_policy_nonce_in": ["script-src"],
     "force_https": False,
@@ -1726,6 +1814,17 @@ GUEST_TOKEN_JWT_AUDIENCE: Callable[[], str] | str | None = None
 # Return False from the callable to return a HTTP 400 to the user.
 
 GUEST_TOKEN_VALIDATOR_HOOK = None
+
+KAFKA_TOPIC = "superset.log.v1"
+KAFKA_CONFIG = {
+    "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVER"),
+    "security.protocol": "SASL_SSL",
+    "ssl.ca.location": "/path/to/ca-certificate.crt",
+    "sasl.mechanism": "PLAIN",
+    "sasl.username": "$ConnectionString",
+    "sasl.password": "",
+    "client.id": "superset",
+}
 
 # A SQL dataset health check. Note if enabled it is strongly advised that the callable
 # be memoized to aid with performance, i.e.,
@@ -1890,3 +1989,40 @@ elif importlib.util.find_spec("superset_config") and not is_test():
     except Exception:
         logger.exception("Found but failed to import local superset_config")
         raise
+
+CONTENT_SECURITY_POLICY = {
+    "default-src": ["'self'"],
+    "script-src": [
+        "'self'",
+        "'unsafe-inline'",  # Required for analytics initialization
+        "'unsafe-eval'",  # Required for some Firebase JS libraries
+        "https://apis.google.com",
+        "https://www.googletagmanager.com",  # For GTM/Analytics
+        "https://www.gstatic.com",  # Firebase scripts
+        "https://www.firebase.com",  # Firebase core JS
+        "https://www.firebaseapp.com",  # Firebase app
+        "https://www.googleapis.com",  # Firebase APIs
+        "https://cdn.firebase.com",  # Firebase CDN
+    ],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    "img-src": ["'self'", "data:", "https://www.gstatic.com"],
+    "connect-src": [
+        "'self'",
+        "https://api.mapbox.com",
+        "https://events.mapbox.com",
+        "https://firebase.googleapis.com",  # Firebase API
+        "https://firestore.googleapis.com",  # Firestore API
+        "https://securetoken.googleapis.com",  # Firebase authentication
+        "https://www.googleapis.com",  # General Google API
+        "https://firebaseinstallations.googleapis.com",  # Firebase installations
+        "https://www.googletagmanager.com",  # Google Tag Manager for analytics
+        "https://*.firebaseapp.com",  # Firebase app URL
+        "https://firebasedatabase.googleapis.com",  # Firebase Realtime Database API (if using Realtime DB)
+        "https://identitytoolkit.googleapis.com",  # Firebase Auth API
+    ],
+    "font-src": ["'self'", "data:"],
+    "frame-src": [
+        "'self'",
+        "https://*.firebaseapp.com",  # Allow Firebase-related frames
+    ],
+}

@@ -62,7 +62,12 @@ class DatasetColumnsPutSchema(Schema):
         validate=Length(1, 255),
     )
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    verbose_name_ru = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    verbose_name_en = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     description = fields.String(allow_none=True)
+    # dodo added 44728914
+    description_ru = fields.String(allow_none=True)
+    description_en = fields.String(allow_none=True)
     expression = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
     filterable = fields.Boolean()
@@ -79,12 +84,20 @@ class DatasetMetricsPutSchema(Schema):
     id = fields.Integer()
     expression = fields.String(required=True)
     description = fields.String(allow_none=True)
+    # dodo added 44728914
+    description_ru = fields.String(allow_none=True)
+    description_en = fields.String(allow_none=True)
     extra = fields.String(allow_none=True)
     metric_name = fields.String(required=True, validate=Length(1, 255))
     metric_type = fields.String(allow_none=True, validate=Length(1, 32))
+    number_format = fields.String(
+        allow_none=True, metadata={Length: (1, 1024)}
+    )  # dodo added 44728517
     d3format = fields.String(allow_none=True, validate=Length(1, 128))
     currency = fields.String(allow_none=True, required=False, validate=Length(1, 128))
     verbose_name = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    verbose_name_ru = fields.String(allow_none=True, metadata={Length: (1, 1024)})
+    verbose_name_en = fields.String(allow_none=True, metadata={Length: (1, 1024)})
     warning_text = fields.String(allow_none=True)
     uuid = fields.UUID(allow_none=True)
 

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import {
   ReactNode,
   DetailedHTMLProps,
@@ -27,9 +10,11 @@ import { nanoid } from 'nanoid';
 
 import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls';
 import { t, styled } from '@superset-ui/core';
+import { SearchOutlined } from '@ant-design/icons'; // DODO added 48532456
 
 import Button from 'src/components/Button';
 import Icons from 'src/components/Icons';
+import { Input } from 'src/components/Input'; // DODO added 48532456
 import Fieldset from './Fieldset';
 import { recurseReactClone } from './utils';
 
@@ -61,6 +46,8 @@ interface CRUDCollectionProps {
   tableColumns: Array<any>;
   sortColumns: Array<string>;
   stickyHeader?: boolean;
+  searchableColumns?: Array<string>; // DODO added 48532456
+  extraHeaderButton?: ReactNode; // DODO added 48532456
 }
 
 type Sort = number | string | boolean | any;
@@ -77,6 +64,7 @@ interface CRUDCollectionState {
   expandedColumns: object;
   sortColumn: string;
   sort: SortOrder;
+  searchTerm: string; // DODO added 48532456
 }
 
 function createCollectionArray(collection: object) {
@@ -104,7 +92,7 @@ const CrudTableWrapper = styled.div<{ stickyHeader?: boolean }>`
   ${({ stickyHeader }) =>
     stickyHeader &&
     `
-      height: 350px;
+      height: calc(100vh - 360px); // DODO changed 48532456
       overflow-y: auto;
       overflow-x: auto;
 
@@ -144,13 +132,22 @@ const CrudTableWrapper = styled.div<{ stickyHeader?: boolean }>`
 `;
 
 const CrudButtonWrapper = styled.div`
-  text-align: right;
+  // DODO added start 48532456
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // DODO added stop 48532456
   ${({ theme }) => `margin-bottom: ${theme.gridUnit * 2}px`}
+`;
+
+// DODO added 48532456
+const StyledSearch = styled(Input)`
+  width: 230px;
 `;
 
 const StyledButtonWrapper = styled.span`
   ${({ theme }) => `
-    margin-top: ${theme.gridUnit * 3}px;
+    // margin-top: ${theme.gridUnit * 3}px; // DODO commented out 48532456
     margin-left: ${theme.gridUnit * 3}px;
   `}
 `;
@@ -171,6 +168,7 @@ export default class CRUDCollection extends PureComponent<
       collectionArray,
       sortColumn: '',
       sort: 0,
+      searchTerm: '', // DODO added 48532456
     };
     this.renderItem = this.renderItem.bind(this);
     this.onAddItem = this.onAddItem.bind(this);
@@ -181,6 +179,7 @@ export default class CRUDCollection extends PureComponent<
     this.changeCollection = this.changeCollection.bind(this);
     this.sortColumn = this.sortColumn.bind(this);
     this.renderSortIcon = this.renderSortIcon.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this); // DODO added 48532456
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: CRUDCollectionProps) {
@@ -463,8 +462,35 @@ export default class CRUDCollection extends PureComponent<
     );
   }
 
+  // DODO added 48532456
+  handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const cleanedValue = e.target.value.trim();
+    this.setState({ searchTerm: cleanedValue });
+  }
+
+  // DODO added 48532456
+  getFilteredData() {
+    const { collectionArray, searchTerm } = this.state;
+    const { searchableColumns } = this.props;
+
+    if (!searchTerm || !searchableColumns || searchableColumns?.length === 0) {
+      return collectionArray;
+    }
+
+    const searchTermLower = searchTerm.toLowerCase();
+    return collectionArray.filter((item: any) =>
+      searchableColumns.some(column => {
+        const value = item[column];
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchTermLower);
+        }
+        return false;
+      }),
+    );
+  }
+
   renderTableBody() {
-    const data = this.state.collectionArray;
+    const data = this.getFilteredData();
     const content = data.length
       ? data.map(d => this.renderItem(d))
       : this.renderEmptyCell();
@@ -475,6 +501,17 @@ export default class CRUDCollection extends PureComponent<
     return (
       <>
         <CrudButtonWrapper>
+          {/* DODO added 48532456 */}
+          {this.props.searchableColumns &&
+            this.props.searchableColumns.length > 0 && (
+              <StyledSearch
+                prefix={<SearchOutlined />}
+                placeholder={t('Search')}
+                value={this.state.searchTerm}
+                onChange={this.handleSearchChange}
+                data-test="collection-search"
+              />
+            )}
           {this.props.allowAddItem && (
             <StyledButtonWrapper>
               <Button
@@ -488,6 +525,8 @@ export default class CRUDCollection extends PureComponent<
               </Button>
             </StyledButtonWrapper>
           )}
+          {/* DODO added 48532456 */}
+          {this.props.extraHeaderButton}
         </CrudButtonWrapper>
         <CrudTableWrapper
           className="CRUD"

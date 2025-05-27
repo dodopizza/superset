@@ -1,33 +1,31 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { Filter, t } from '@superset-ui/core';
+// DODO was here
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { Filter, t } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { Layout, LayoutItem, RootState } from 'src/dashboard/types';
 import { useChartIds } from 'src/dashboard/util/charts/useChartIds';
 import { CHART_TYPE } from 'src/dashboard/util/componentTypes';
 import { DASHBOARD_ROOT_ID } from 'src/dashboard/util/constants';
 
+// DODO added start 44120742
+const locale = bootstrapData?.common?.locale || 'en';
+const localisedSliceNameOverrideField =
+  locale === 'en' ? 'sliceNameOverride' : 'sliceNameOverrideRU';
+const localisedSliceNameField = locale === 'en' ? 'sliceName' : 'sliceNameRU';
+// DODO added stop 44120742
+
 const extractTabLabel = (tab?: LayoutItem) =>
   tab?.meta?.text || tab?.meta?.defaultText || '';
 const extractChartLabel = (chart?: LayoutItem) =>
-  chart?.meta?.sliceNameOverride || chart?.meta?.sliceName || chart?.id || '';
+  chart?.meta?.[localisedSliceNameOverrideField] || // DODO added 44120742
+  chart?.meta?.[localisedSliceNameField] || // DODO added 44120742
+  chart?.meta?.sliceNameOverride ||
+  chart?.meta?.sliceNameOverrideRU || // DODO added 44120742
+  chart?.meta?.sliceName ||
+  chart?.meta?.sliceNameRU || // DODO added 44120742
+  chart?.id ||
+  '';
 
 export const useFilterScope = (filter: Filter) => {
   const layout = useSelector<RootState, Layout>(

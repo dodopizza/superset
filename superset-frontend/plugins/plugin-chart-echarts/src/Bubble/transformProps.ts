@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import type { EChartsCoreOption } from 'echarts/core';
 import type { ScatterSeriesOption } from 'echarts/charts';
 import { extent } from 'd3-array';
@@ -26,9 +9,17 @@ import {
   getMetricLabel,
   NumberFormatter,
   tooltipHtml,
+  // DODO added start 45525377
+  Metric,
+  Locale,
+  isSavedMetric,
+  extractTimegrain,
+  QueryFormData,
+  TimeFormatter,
+  // DODO added stop 45525377
 } from '@superset-ui/core';
 import { EchartsBubbleChartProps, EchartsBubbleFormData } from './types';
-import { DEFAULT_FORM_DATA, MINIMUM_BUBBLE_SIZE } from './constants';
+import { DEFAULT_FORM_DATA } from './constants';
 import { defaultGrid } from '../defaults';
 import { getLegendProps, getMinAndMaxFromBounds } from '../utils/series';
 import { Refs } from '../types';
@@ -37,10 +28,12 @@ import { getDefaultTooltip } from '../utils/tooltip';
 import { getPadding } from '../Timeseries/transformers';
 import { convertInteger } from '../utils/convertInteger';
 import { NULL_STRING } from '../constants';
+import { getDateFormatter } from '../utils/getDateFormatter'; // DODO added 45525377
 
 function normalizeSymbolSize(
   nodes: ScatterSeriesOption[],
   maxBubbleValue: number,
+  minBubbleSize: string, // DODO added 46246682
 ) {
   const [bubbleMinValue, bubbleMaxValue] = extent(nodes, x => x.data![0][2]);
   const nodeSpread = bubbleMaxValue - bubbleMinValue;
@@ -48,17 +41,43 @@ function normalizeSymbolSize(
     // eslint-disable-next-line no-param-reassign
     node.symbolSize =
       (((node.data![0][2] - bubbleMinValue) / nodeSpread) *
-        (maxBubbleValue * 2) || 0) + MINIMUM_BUBBLE_SIZE;
+        (maxBubbleValue * 2) || 0) + Number(minBubbleSize); // DODO changed 46246682
   });
 }
+
+// DODO added 45525377
+const getTooltipLabel = (
+  metric: any,
+  metrics: Metric[],
+  defaultLabel: string,
+  locale: Locale = 'en',
+): string => {
+  const upperCasedLocale = locale.toUpperCase();
+  if (isSavedMetric(metric)) {
+    const foundMetric = metrics.find(item => item.metric_name === metric);
+    if (foundMetric) {
+      const key = `verbose_name_${locale}` as
+        | 'verbose_name_en'
+        | 'verbose_name_ru';
+      const label = foundMetric[key] ?? foundMetric.verbose_name;
+      if (label) return label as string;
+    }
+  } else {
+    const key = `label${upperCasedLocale}`;
+    const label = metric?.[key] ?? metric?.label;
+    if (label) return label;
+  }
+
+  return defaultLabel;
+};
 
 export function formatTooltip(
   params: any,
   xAxisLabel: string,
   yAxisLabel: string,
   sizeLabel: string,
-  xAxisFormatter: NumberFormatter,
-  yAxisFormatter: NumberFormatter,
+  xAxisFormatter: NumberFormatter | TimeFormatter, // DODO changed 45525377
+  yAxisFormatter: NumberFormatter | TimeFormatter, // DODO changed 45525377
   tooltipSizeFormatter: NumberFormatter,
 ) {
   const title = params.data[4]
@@ -76,8 +95,19 @@ export function formatTooltip(
 }
 
 export default function transformProps(chartProps: EchartsBubbleChartProps) {
-  const { height, width, hooks, queriesData, formData, inContextMenu, theme } =
-    chartProps;
+  const {
+    height,
+    width,
+    hooks,
+    datasource: { metrics }, // DODO added 45525377
+    queriesData,
+    formData,
+    rawFormData, // DODO added 45525377
+    inContextMenu,
+    theme,
+    // @ts-ignore
+    locale, // DODO added 45525377
+  } = chartProps;
 
   const { data = [] } = queriesData[0];
   const {
@@ -86,6 +116,7 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
     size,
     entity,
     maxBubbleSize,
+    minBubbleSize, // DODO added 46246682
     colorScheme,
     series: bubbleSeries,
     xAxisLabel: bubbleXAxisTitle,
@@ -109,6 +140,11 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
     legendMargin,
     legendType,
     sliceId,
+    // DODO added start 45525377
+    xForceTimestampFormatting,
+    yForceTimestampFormatting,
+    xTimeFormat,
+    yTimeFormat, // DODO added stop 45525377
   }: EchartsBubbleFormData = { ...DEFAULT_FORM_DATA, ...formData };
   const colorFn = CategoricalColorNamespace.getScale(colorScheme as string);
 
@@ -118,6 +154,17 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
   const xAxisLabel: string = getMetricLabel(x);
   const yAxisLabel: string = getMetricLabel(y);
   const sizeLabel: string = getMetricLabel(size);
+
+  // DODO added start 45525377
+  const xAxisTooltipLabel: string = getTooltipLabel(x, metrics, 'x', locale);
+  const yAxisTooltipLabel: string = getTooltipLabel(y, metrics, 'y', locale);
+  const sizeTooltipLabel: string = getTooltipLabel(
+    size,
+    metrics,
+    'size',
+    locale,
+  );
+  // DODO added stop 45525377
 
   const refs: Refs = {};
 
@@ -146,10 +193,40 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
     legends.add(name);
   });
 
-  normalizeSymbolSize(series, maxBubbleSize);
+  normalizeSymbolSize(series, maxBubbleSize, minBubbleSize); // DODO changed 46246682
 
-  const xAxisFormatter = getNumberFormatter(xAxisFormat);
-  const yAxisFormatter = getNumberFormatter(yAxisFormat);
+  // DODO added start 45525377
+  let xMetricEntry: Metric | undefined;
+  let yMetricEntry: Metric | undefined;
+  if (metrics) {
+    xMetricEntry = chartProps.datasource.metrics.find(
+      metricItem => metricItem.metric_name === x,
+    );
+    yMetricEntry = chartProps.datasource.metrics.find(
+      metricItem => metricItem.metric_name === y,
+    );
+  }
+  const granularity = extractTimegrain(rawFormData as QueryFormData);
+  const xTimeFormatter = getDateFormatter(
+    xTimeFormat,
+    granularity,
+    xMetricEntry?.d3format,
+  );
+  const yTimeFormatter = getDateFormatter(
+    yTimeFormat,
+    granularity,
+    yMetricEntry?.d3format,
+  );
+  // DODO added stop 45525377
+
+  // DODO changed 45525377
+  const xAxisFormatter = xForceTimestampFormatting
+    ? xTimeFormatter
+    : getNumberFormatter(xAxisFormat);
+  // DODO changed 45525377
+  const yAxisFormatter = yForceTimestampFormatting
+    ? yTimeFormatter
+    : getNumberFormatter(yAxisFormat);
   const tooltipSizeFormatter = getNumberFormatter(tooltipSizeFormat);
 
   const [xAxisMin, xAxisMax] = (xAxisBounds || []).map(parseAxisBound);
@@ -217,9 +294,9 @@ export default function transformProps(chartProps: EchartsBubbleChartProps) {
       formatter: (params: any): string =>
         formatTooltip(
           params,
-          xAxisLabel,
-          yAxisLabel,
-          sizeLabel,
+          xAxisTooltipLabel, // DODO changed 45525377
+          yAxisTooltipLabel, // DODO changed 45525377
+          sizeTooltipLabel, // DODO changed 45525377
           xAxisFormatter,
           yAxisFormatter,
           tooltipSizeFormatter,

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import rison from 'rison';
 import { PureComponent, useCallback } from 'react';
 import PropTypes from 'prop-types';
@@ -54,6 +37,8 @@ import SpatialControl from 'src/explore/components/controls/SpatialControl';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import Icons from 'src/components/Icons';
 import CurrencyControl from 'src/explore/components/controls/CurrencyControl';
+import NumberFormatControl from 'src/DodoExtensions/explore/components/controls/NumberFormatControl'; // DODO added 44211769
+import getOwnerName from 'src/utils/getOwnerName'; // DODO added 44211759
 import CollectionTable from './CollectionTable';
 import Fieldset from './Fieldset';
 import Field from './Field';
@@ -110,10 +95,11 @@ const EditLockContainer = styled.div`
   }
 `;
 
-const ColumnButtonWrapper = styled.div`
-  text-align: right;
-  ${({ theme }) => `margin-bottom: ${theme.gridUnit * 2}px`}
-`;
+// DODO commented out 48532456
+// const ColumnButtonWrapper = styled.div`
+//   text-align: right;
+//   ${({ theme }) => `margin-bottom: ${theme.gridUnit * 2}px`}
+// `;
 
 const StyledLabelWrapper = styled.div`
   display: flex;
@@ -133,12 +119,13 @@ const StyledColumnsTabWrapper = styled.div`
   }
 `;
 
-const StyledButtonWrapper = styled.span`
-  ${({ theme }) => `
-    margin-top: ${theme.gridUnit * 3}px;
-    margin-left: ${theme.gridUnit * 3}px;
-  `}
-`;
+// DODO commented out 48532456
+// const StyledButtonWrapper = styled.span`
+//   ${({ theme }) => `
+//     margin-top: ${theme.gridUnit * 3}px;
+//     margin-left: ${theme.gridUnit * 3}px;
+//   `}
+// `;
 
 const checkboxGenerator = (d, onChange) => (
   <CheckboxControl value={d} onChange={onChange} />
@@ -187,9 +174,13 @@ function ColumnCollectionTable({
   allowEditDataType,
   itemGenerator,
   columnLabelTooltips,
+  searchableColumns, // DODO added 48532456
+  extraHeaderButton, // DODO added 48532456
 }) {
   return (
     <CollectionTable
+      searchableColumns={searchableColumns} // DODO added 48532456
+      extraHeaderButton={extraHeaderButton} // DODO added 48532456
       tableColumns={
         isFeatureEnabled(FeatureFlag.EnableAdvancedDataTypes)
           ? [
@@ -254,21 +245,53 @@ function ColumnCollectionTable({
             )}
             <Field
               fieldKey="verbose_name"
-              label={t('Label')}
+              // label={t('Label')}
+              // DODO changed 44120742
+              label={
+                <div className="f16">
+                  {t('Label (Eng)')} <i className="flag gb" />
+                </div>
+              }
               control={
                 <TextControl
                   controlId="verbose_name"
-                  placeholder={t('Label')}
+                  placeholder={t('Label (Eng)')} // DODO changed 44120742
+                />
+              }
+            />
+            {/* DODO added 44120742 */}
+            <Field
+              fieldKey="verbose_name_ru"
+              label={
+                <div className="f16">
+                  {t('Label (Rus)')} <i className="flag ru" />
+                </div>
+              }
+              control={
+                <TextControl
+                  controlId="verbose_name_ru"
+                  placeholder={t('Label (Rus)')}
                 />
               }
             />
             <Field
               fieldKey="description"
-              label={t('Description')}
+              label={`${t('Description')} (Eng)`} // DODO changed 44728892
               control={
                 <TextControl
                   controlId="description"
                   placeholder={t('Description')}
+                />
+              }
+            />
+            {/* DODO added 44728892 */}
+            <Field
+              fieldKey="description_ru"
+              label={`${t('Description')} (Rus)`}
+              control={
+                <TextControl
+                  controlId="description_ru"
+                  placeholder={`${t('Description')} (Rus)`}
                 />
               }
             />
@@ -554,10 +577,18 @@ function OwnersSelector({ datasource, onChange }) {
     }).then(response => ({
       data: response.json.result
         .filter(item => item.extra.active)
-        .map(item => ({
-          value: item.value,
-          label: item.text,
-        })),
+        .map(item => {
+          // DODO added start 44211759
+          const { country_name: countryName, email } = item.extra;
+          let label = item.text;
+          label += ` (${countryName || 'no country'})`;
+          if (email) label += ` ${email}`;
+          // DODO added stop 44211759
+          return {
+            value: item.value,
+            label,
+          };
+        }),
       totalCount: response.json.count,
     }));
   }, []);
@@ -584,7 +615,7 @@ class DatasourceEditor extends PureComponent {
         ...props.datasource,
         owners: props.datasource.owners.map(owner => ({
           value: owner.value || owner.id,
-          label: owner.label || `${owner.first_name} ${owner.last_name}`,
+          label: owner.label || getOwnerName(owner), // DODO changed 44211759
         })),
         metrics: props.datasource.metrics?.map(metric => {
           const {
@@ -664,13 +695,29 @@ class DatasourceEditor extends PureComponent {
   onDatasourcePropChange(attr, value) {
     if (value === undefined) return; // if value is undefined do not update state
     const datasource = { ...this.state.datasource, [attr]: value };
+    // DODO added 44120742
+    const alteredDatasource = {
+      ...datasource,
+      metrics: datasource.metrics.map(v => ({
+        ...v,
+        verbose_name_en: v.verbose_name || null,
+        description_en: v.description || null,
+      })),
+    };
     this.setState(
       prevState => ({
         datasource: { ...prevState.datasource, [attr]: value },
       }),
       attr === 'table_name'
-        ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
-        : this.onDatasourceChange(datasource, this.validateAndChange),
+        ? // ? this.onDatasourceChange(datasource, this.tableChangeAndSyncMetadata)
+          // : this.onDatasourceChange(datasource, this.validateAndChange),
+          // DODO changed start 44120742
+          this.onDatasourceChange(
+            alteredDatasource,
+            this.tableChangeAndSyncMetadata,
+          )
+        : this.onDatasourceChange(alteredDatasource, this.validateAndChange),
+      // DODO changed stop 44120742
     );
   }
 
@@ -680,7 +727,30 @@ class DatasourceEditor extends PureComponent {
 
   setColumns(obj) {
     // update calculatedColumns or databaseColumns
-    this.setState(obj, this.validateAndChange);
+    // this.setState(obj, this.validateAndChange);
+    let alteredObj = {
+      ...obj,
+    };
+    if (alteredObj && alteredObj.databaseColumns) {
+      alteredObj = {
+        ...alteredObj,
+        databaseColumns: alteredObj.databaseColumns.map(c => ({
+          ...c,
+          verbose_name_en: c.verbose_name || null,
+        })),
+      };
+    }
+    if (alteredObj && alteredObj.calculatedColumns) {
+      alteredObj = {
+        ...alteredObj,
+        calculatedColumns: alteredObj.calculatedColumns.map(c => ({
+          ...c,
+          verbose_name_en: c.verbose_name || null,
+        })),
+      };
+    }
+
+    this.setState(alteredObj, this.validateAndChange);
   }
 
   validateAndChange() {
@@ -888,6 +958,7 @@ class DatasourceEditor extends PureComponent {
               language="markdown"
               offerEditInModal={false}
               resize="vertical"
+              height={50} // DODO added 45047288
             />
           }
         />
@@ -923,6 +994,7 @@ class DatasourceEditor extends PureComponent {
                 controlId="fetch_values_predicate"
                 minLines={5}
                 resize="vertical"
+                height={50} // DODO added 45047288
               />
             }
           />
@@ -943,6 +1015,7 @@ class DatasourceEditor extends PureComponent {
                 language="json"
                 offerEditInModal={false}
                 resize="vertical"
+                height={50} // DODO added 45047288
               />
             }
           />
@@ -1145,6 +1218,7 @@ class DatasourceEditor extends PureComponent {
                         maxLines={Infinity}
                         readOnly={!this.state.isEditMode}
                         resize="both"
+                        height={0.7 * window.innerHeight} // DODO added 45047288
                       />
                     }
                   />
@@ -1244,11 +1318,23 @@ class DatasourceEditor extends PureComponent {
     const sortedMetrics = metrics?.length ? this.sortMetrics(metrics) : [];
     return (
       <CollectionTable
-        tableColumns={['metric_name', 'verbose_name', 'expression']}
-        sortColumns={['metric_name', 'verbose_name', 'expression']}
+        searchableColumns={['metric_name', 'verbose_name', 'verbose_name_ru']} // DODO added 48532456
+        tableColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_ru', // DODO added 44120742
+          'expression',
+        ]}
+        sortColumns={[
+          'metric_name',
+          'verbose_name',
+          'verbose_name_ru', // DODO added 44120742
+          'expression',
+        ]}
         columnLabels={{
-          metric_name: t('Metric Key'),
-          verbose_name: t('Label'),
+          metric_name: t('Metric'),
+          verbose_name: t('Label (Eng)'), // DODO changed 44120742
+          verbose_name_ru: t('Label (Rus)'), // DODO added 44120742
           expression: t('SQL expression'),
         }}
         columnLabelTooltips={{
@@ -1263,11 +1349,22 @@ class DatasourceEditor extends PureComponent {
             <Fieldset compact>
               <Field
                 fieldKey="description"
-                label={t('Description')}
+                label={`${t('Description')} (Eng)`} // DODO changed 44728892
                 control={
                   <TextControl
                     controlId="description"
-                    placeholder={t('Description')}
+                    placeholder={`${t('Description')} (Eng)`} // DODO changed 44728892
+                  />
+                }
+              />
+              {/* DODO added 44728892 */}
+              <Field
+                fieldKey="description_ru"
+                label={`${t('Description')} (Rus)`}
+                control={
+                  <TextControl
+                    controlId="description_ru"
+                    placeholder={`${t('Description')} (Rus)`}
                   />
                 }
               />
@@ -1291,6 +1388,12 @@ class DatasourceEditor extends PureComponent {
                     `}
                   />
                 }
+              />
+              {/* DODO added 44211769 */}
+              <Field
+                fieldKey="number_format"
+                label={t('Number format')}
+                control={<NumberFormatControl />}
               />
               <Field
                 label={t('Certified by')}
@@ -1326,6 +1429,7 @@ class DatasourceEditor extends PureComponent {
                     language="markdown"
                     offerEditInModal={false}
                     resize="vertical"
+                    height={50} // DODO added 45047288
                   />
                 }
               />
@@ -1338,11 +1442,12 @@ class DatasourceEditor extends PureComponent {
         itemGenerator={() => ({
           metric_name: t('<new metric>'),
           verbose_name: '',
+          verbose_name_ru: '', // DODO added 44120742
           expression: '',
         })}
         itemCellProps={{
           expression: () => ({
-            width: '240px',
+            width: '40%',
           }),
         }}
         itemRenderers={{
@@ -1365,6 +1470,10 @@ class DatasourceEditor extends PureComponent {
           verbose_name: (v, onChange) => (
             <TextControl canEdit value={v} onChange={onChange} />
           ),
+          // DODO added 44120742
+          verbose_name_ru: (v, onChange) => (
+            <TextControl canEdit value={v} onChange={onChange} />
+          ),
           expression: (v, onChange) => (
             <TextAreaControl
               canEdit
@@ -1374,8 +1483,9 @@ class DatasourceEditor extends PureComponent {
               language="sql"
               offerEditInModal={false}
               minLines={5}
-              textAreaStyles={{ minWidth: '200px', maxWidth: '450px' }}
+              textAreaStyles={{ minWidth: '200px' }} // DODO changed 45047288
               resize="both"
+              height={150} // DODO added 45047288
             />
           ),
           description: (v, onChange, label) => (
@@ -1450,7 +1560,8 @@ class DatasourceEditor extends PureComponent {
             key={2}
           >
             <StyledColumnsTabWrapper>
-              <ColumnButtonWrapper>
+              {/* DODO commented out 48532456 */}
+              {/* <ColumnButtonWrapper>
                 <StyledButtonWrapper>
                   <Button
                     buttonSize="small"
@@ -1463,8 +1574,14 @@ class DatasourceEditor extends PureComponent {
                     {t('Sync columns from source')}
                   </Button>
                 </StyledButtonWrapper>
-              </ColumnButtonWrapper>
+              </ColumnButtonWrapper> */}
               <ColumnCollectionTable
+                // DODO added 48532456
+                searchableColumns={[
+                  'column_name',
+                  'verbose_name',
+                  'verbose_name_ru',
+                ]}
                 className="columns-table"
                 columns={this.state.databaseColumns}
                 datasource={datasource}
@@ -1472,6 +1589,19 @@ class DatasourceEditor extends PureComponent {
                   this.setColumns({ databaseColumns })
                 }
                 onDatasourceChange={this.onDatasourceChange}
+                // DODO added 48532456
+                extraHeaderButton={
+                  <Button
+                    buttonSize="small"
+                    buttonStyle="tertiary"
+                    onClick={this.syncMetadata}
+                    className="sync-from-source"
+                    disabled={this.state.isEditMode}
+                  >
+                    <i className="fa fa-database" />{' '}
+                    {t('Sync columns from source')}
+                  </Button>
+                }
               />
               {this.state.metadataLoading && <Loading />}
             </StyledColumnsTabWrapper>
@@ -1487,6 +1617,12 @@ class DatasourceEditor extends PureComponent {
           >
             <StyledColumnsTabWrapper>
               <ColumnCollectionTable
+                // DODO added 48532456
+                searchableColumns={[
+                  'column_name',
+                  'verbose_name',
+                  'verbose_name_ru',
+                ]}
                 columns={this.state.calculatedColumns}
                 onColumnsChange={calculatedColumns =>
                   this.setColumns({ calculatedColumns })

@@ -1,30 +1,22 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { GenericDataType, SMART_DATE_ID, t } from '@superset-ui/core';
+// DODO was here
+import { SMART_DATE_ID, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   D3_FORMAT_DOCS,
   D3_TIME_FORMAT_OPTIONS,
-  Dataset,
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
-import { headerFontSize, subheaderFontSize } from '../sharedControls';
+import {
+  headerFontSize,
+  subheaderFontSize,
+  yAxisFormatOverrides, // DODO added 44211769
+} from '../sharedControls';
+// DODO added 45525377
+import {
+  Alignment,
+  conditionalMessageFontSize,
+} from '../../DodoExtensions/BigNumber/sharedControls';
+import { BigNumberControlPanelConditionalFormatting } from '../../DodoExtensions/BigNumber/BigNumberTotal/controlPanelDodo'; // DODO added 45525377
 
 export default {
   controlPanelSections: [
@@ -57,8 +49,10 @@ export default {
       label: t('Chart Options'),
       expanded: true,
       controlSetRows: [
+        [Alignment], // DODO added 45525377
         [headerFontSize],
         [subheaderFontSize],
+        [conditionalMessageFontSize], // DODO added 45525377
         ['y_axis_format'],
         ['currency_format'],
         [
@@ -89,52 +83,65 @@ export default {
             },
           },
         ],
+        // DODO added 44136746
         [
           {
-            name: 'conditional_formatting',
+            name: 'export_as_time',
             config: {
-              type: 'ConditionalFormattingControl',
-              renderTrigger: true,
-              label: t('Conditional Formatting'),
-              description: t('Apply conditional color formatting to metric'),
-              shouldMapStateToProps() {
-                return true;
-              },
-              mapStateToProps(explore, _, chart) {
-                const verboseMap = explore?.datasource?.hasOwnProperty(
-                  'verbose_map',
-                )
-                  ? (explore?.datasource as Dataset)?.verbose_map
-                  : explore?.datasource?.columns ?? {};
-                const { colnames, coltypes } =
-                  chart?.queriesResponse?.[0] ?? {};
-                const numericColumns =
-                  Array.isArray(colnames) && Array.isArray(coltypes)
-                    ? colnames
-                        .filter(
-                          (colname: string, index: number) =>
-                            coltypes[index] === GenericDataType.Numeric,
-                        )
-                        .map(colname => ({
-                          value: colname,
-                          label: verboseMap[colname] ?? colname,
-                        }))
-                    : [];
-                return {
-                  columnOptions: numericColumns,
-                  verboseMap,
-                };
-              },
+              type: 'CheckboxControl',
+              label: t('Export as time'),
+              renderTrigger: false,
+              default: false,
+              description: t('Export a numeric value as number of days'),
             },
           },
         ],
+        // DODO commented out 45525377
+        // [
+        //   {
+        //     name: 'conditional_formatting',
+        //     config: {
+        //       type: 'ConditionalFormattingControl',
+        //       renderTrigger: true,
+        //       label: t('Conditional Formatting'),
+        //       description: t('Apply conditional color formatting to metric'),
+        //       shouldMapStateToProps() {
+        //         return true;
+        //       },
+        //       mapStateToProps(explore, _, chart) {
+        //         const verboseMap = explore?.datasource?.hasOwnProperty(
+        //           'verbose_map',
+        //         )
+        //           ? (explore?.datasource as Dataset)?.verbose_map
+        //           : explore?.datasource?.columns ?? {};
+        //         const { colnames, coltypes } =
+        //           chart?.queriesResponse?.[0] ?? {};
+        //         const numericColumns =
+        //           Array.isArray(colnames) && Array.isArray(coltypes)
+        //             ? colnames
+        //                 .filter(
+        //                   (colname: string, index: number) =>
+        //                     coltypes[index] === GenericDataType.Numeric,
+        //                 )
+        //                 .map(colname => ({
+        //                   value: colname,
+        //                   label: verboseMap[colname] ?? colname,
+        //                 }))
+        //             : [];
+        //         return {
+        //           columnOptions: numericColumns,
+        //           verboseMap,
+        //         };
+        //       },
+        //     },
+        //   },
+        // ],
       ],
     },
+    { ...BigNumberControlPanelConditionalFormatting }, // DODO added 45525377
   ],
   controlOverrides: {
-    y_axis_format: {
-      label: t('Number format'),
-    },
+    y_axis_format: yAxisFormatOverrides, // DODO changed 44211769
   },
   formDataOverrides: formData => ({
     ...formData,

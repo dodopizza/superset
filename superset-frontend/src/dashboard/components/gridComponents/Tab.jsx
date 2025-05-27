@@ -1,27 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import { styled, t } from '@superset-ui/core';
-import classNames from 'classnames';
+// DODO was here
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Fragment, PureComponent } from 'react';
-import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { styled, t } from '@superset-ui/core';
 
 import EditableTitle from 'src/components/EditableTitle';
 import { EmptyStateMedium } from 'src/components/EmptyState';
@@ -33,6 +16,12 @@ import DragDroppable, {
 import DashboardComponent from 'src/dashboard/containers/DashboardComponent';
 import { TAB_TYPE } from 'src/dashboard/util/componentTypes';
 import { componentShape } from 'src/dashboard/util/propShapes';
+import {
+  LanguageIndicator,
+  LanguageIndicatorWrapper,
+} from 'src/DodoExtensions/Common';
+
+const isStandalone = process.env.type === undefined; // DODO added
 
 export const RENDER_TAB = 'RENDER_TAB';
 export const RENDER_TAB_CONTENT = 'RENDER_TAB_CONTENT';
@@ -104,15 +93,29 @@ class Tab extends PureComponent {
     this.props.setDirectPathToChild(pathToTabIndex);
   }
 
-  handleChangeText(nextTabText) {
+  // handleChangeText(nextTabText) {
+  //   const { updateComponents, component } = this.props;
+  //   if (nextTabText && nextTabText !== component.meta.text) {
+  //     updateComponents({
+  //       [component.id]: {
+  //         ...component,
+  //         meta: {
+  //           ...component.meta,
+  //           text: nextTabText,
+  //         },
+  //       },
+  //     });
+  //   }
+  // }
+  handleChangeText(nextTabText, property) {
     const { updateComponents, component } = this.props;
-    if (nextTabText && nextTabText !== component.meta.text) {
+    if (nextTabText && nextTabText !== component.meta[property]) {
       updateComponents({
         [component.id]: {
           ...component,
           meta: {
             ...component.meta,
-            text: nextTabText,
+            [property]: nextTabText,
           },
         },
       });
@@ -220,7 +223,7 @@ class Tab extends PureComponent {
                 </span>
               ))
             }
-            image="chart.svg"
+            image={isStandalone ? 'chart.svg' : undefined} // DODO changed
           />
         )}
         {tabComponent.children.map((componentId, componentIndex) => (
@@ -239,6 +242,7 @@ class Tab extends PureComponent {
               onResizeStop={onResizeStop}
               isComponentVisible={isComponentVisible}
               onChangeTab={this.handleChangeTab}
+              toggleIsExportingData={this.props.toggleIsExportingData} // DODO added 48951211
             />
             {/* Make bottom of tab droppable */}
             {editMode && (
@@ -270,6 +274,7 @@ class Tab extends PureComponent {
       isFocused,
       isHighlighted,
       embeddedMode,
+      locale,
     } = this.props;
 
     return (
@@ -290,16 +295,60 @@ class Tab extends PureComponent {
             className="dragdroppable-tab"
             ref={dragSourceRef}
           >
-            <EditableTitle
-              title={component.meta.text}
-              defaultTitle={component.meta.defaultText}
-              placeholder={component.meta.placeholder}
-              canEdit={editMode && isFocused}
-              onSaveTitle={this.handleChangeText}
-              showTooltip={false}
-              editing={editMode && isFocused}
-            />
-            {!editMode && !embeddedMode && (
+            {/* DODO changed 44120742 */}
+            {editMode && !embeddedMode && (
+              <LanguageIndicatorWrapper>
+                <LanguageIndicator language="gb" />
+                <EditableTitle
+                  title={component.meta.text}
+                  defaultTitle={component.meta.defaultText}
+                  placeholder={component.meta.placeholder}
+                  canEdit={editMode && isFocused}
+                  onSaveTitle={nextTabText =>
+                    this.handleChangeText(nextTabText, 'text')
+                  }
+                  showTooltip={false}
+                  editing={editMode && isFocused}
+                />
+              </LanguageIndicatorWrapper>
+            )}
+            {/* DODO added 44120742 */}
+            {editMode && !embeddedMode && (
+              <LanguageIndicatorWrapper>
+                <LanguageIndicator language="ru" />
+                <EditableTitle
+                  title={component.meta.textRU || component.meta.text}
+                  defaultTitle={component.meta.defaultText}
+                  placeholder={component.meta.placeholder}
+                  canEdit={editMode && isFocused}
+                  onSaveTitle={nextTabText =>
+                    this.handleChangeText(nextTabText, 'textRU')
+                  }
+                  showTooltip={false}
+                  editing={editMode && isFocused}
+                />
+              </LanguageIndicatorWrapper>
+            )}
+            {!editMode && (
+              <EditableTitle
+                // DODO changed 44120742
+                title={
+                  locale === 'ru'
+                    ? component.meta.textRU || component.meta.text
+                    : component.meta.text
+                }
+                defaultTitle={component.meta.defaultText}
+                placeholder={component.meta.placeholder}
+                canEdit={editMode && isFocused}
+                onSaveTitle={nextTabText =>
+                  this.handleChangeText(nextTabText, 'text')
+                }
+                showTooltip={false}
+                editing={editMode && isFocused}
+              />
+            )}
+            {/* DODO changed */}
+            {!editMode && isStandalone && (
               <AnchorLink
                 id={component.id}
                 dashboardId={this.props.dashboardId}

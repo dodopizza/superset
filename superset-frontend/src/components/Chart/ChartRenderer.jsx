@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { snakeCase, isEqual, cloneDeep } from 'lodash';
 import PropTypes from 'prop-types';
 import { createRef, Component } from 'react';
@@ -28,10 +11,20 @@ import {
   FeatureFlag,
   getChartMetadataRegistry,
 } from '@superset-ui/core';
+import { bootstrapData } from 'src/preamble'; // DODO added 44728892
 import { Logger, LOG_ACTIONS_RENDER_CHART } from 'src/logger/LogUtils';
-import { EmptyStateBig, EmptyStateSmall } from 'src/components/EmptyState';
+// import { EmptyStateBig, EmptyStateSmall } from 'src/components/EmptyState'; // DODO commented out 44611022
+// DODO added 44611022
+import {
+  EmptyStateBig,
+  EmptyStateBig as EmptyStateBigPlugin,
+  EmptyStateSmall,
+  EmptyStateSmall as EmptyStateSmallPlugin,
+} from 'src/Superstructure/components/EmptyState';
 import { ChartSource } from 'src/types/ChartSource';
 import ChartContextMenu from './ChartContextMenu/ChartContextMenu';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44728892
 
 const propTypes = {
   annotationData: PropTypes.object,
@@ -64,6 +57,8 @@ const propTypes = {
   source: PropTypes.oneOf([ChartSource.Dashboard, ChartSource.Explore]),
   emitCrossFilters: PropTypes.bool,
 };
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 const BLANK = {};
 
@@ -119,12 +114,17 @@ class ChartRenderer extends Component {
       setDataMask: dataMask => {
         this.props.actions?.updateDataMask(this.props.chartId, dataMask);
       },
+      // DODO added 44136746
+      addToExtraFormData: (value, sliceId) => {
+        this.props.actions?.addToExtraFormData(value, sliceId);
+      },
     };
 
     // TODO: queriesResponse comes from Redux store but it's being edited by
     // the plugins, hence we need to clone it to avoid state mutation
     // until we change the reducers to use Redux Toolkit with Immer
     this.mutableQueriesResponse = cloneDeep(this.props.queriesResponse);
+    this.locale = locale; // DODO added 44728892
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -302,16 +302,26 @@ class ChartRenderer extends Component {
         : undefined;
     const noResultImage = 'chart.svg';
     if (width > BIG_NO_RESULT_MIN_WIDTH && height > BIG_NO_RESULT_MIN_HEIGHT) {
-      noResultsComponent = (
+      // DODO changed 44611022
+      noResultsComponent = isStandalone ? (
         <EmptyStateBig
+          title={noResultTitle}
+          description={noResultDescription}
+          image={noResultImage}
+        />
+      ) : (
+        <EmptyStateBigPlugin
           title={noResultTitle}
           description={noResultDescription}
           image={noResultImage}
         />
       );
     } else {
-      noResultsComponent = (
+      // DODO changed 44611022
+      noResultsComponent = isStandalone ? (
         <EmptyStateSmall title={noResultTitle} image={noResultImage} />
+      ) : (
+        <EmptyStateSmallPlugin title={noResultTitle} image={noResultImage} />
       );
     }
 
@@ -362,6 +372,7 @@ class ChartRenderer extends Component {
             postTransformProps={postTransformProps}
             emitCrossFilters={emitCrossFilters}
             legendState={this.state.legendState}
+            locale={this.locale} // DODO added 44728892
             {...drillToDetailProps}
           />
         </div>

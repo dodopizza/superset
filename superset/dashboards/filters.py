@@ -19,7 +19,7 @@ from typing import Any, Optional
 from flask import g
 from flask_appbuilder.security.sqla.models import Role
 from flask_babel import lazy_gettext as _
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, cast, or_, String
 from sqlalchemy.orm.query import Query
 
 from superset import db, is_feature_enabled, security_manager
@@ -48,6 +48,8 @@ class DashboardTitleOrSlugFilter(BaseFilter):  # pylint: disable=too-few-public-
             or_(
                 Dashboard.dashboard_title.ilike(ilike_value),
                 Dashboard.slug.ilike(ilike_value),
+                Dashboard.dashboard_title_ru.ilike(ilike_value),  # dodo added 44120742
+                cast(Dashboard.id, String).ilike(ilike_value),  # dodo added 44120742
             )
         )
 

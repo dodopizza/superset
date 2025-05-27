@@ -1,24 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { Dispatch } from 'redux';
-import { makeApi, t, getErrorText } from '@superset-ui/core';
-import { addDangerToast } from 'src/components/MessageToasts/actions';
+import { makeApi, t, getErrorText, PlainObject } from '@superset-ui/core';
+import {
+  addDangerToast,
+  addSuccessToast,
+} from 'src/components/MessageToasts/actions';
 import {
   ChartConfiguration,
   DashboardInfo,
@@ -26,6 +12,7 @@ import {
   GlobalChartCrossFilterConfig,
   RootState,
 } from 'src/dashboard/types';
+import { applyColors } from 'src/utils/colorScheme'; // DODO added 45320801
 import { onSave } from './dashboardState';
 
 export const DASHBOARD_INFO_UPDATED = 'DASHBOARD_INFO_UPDATED';
@@ -176,3 +163,39 @@ export function saveCrossFiltersSetting(crossFiltersEnabled: boolean) {
     }
   };
 }
+
+// DODO added 45320801
+export const saveLabelColorsSettings =
+  (labelColors: PlainObject) =>
+  async (dispatch: Dispatch, getState: () => RootState) => {
+    const { id, metadata } = getState().dashboardInfo;
+
+    const updateDashboard = makeApi<
+      Partial<DashboardInfo>,
+      { result: DashboardInfo }
+    >({
+      method: 'PUT',
+      endpoint: `/api/v1/dashboard/${id}`,
+    });
+
+    try {
+      const response = await updateDashboard({
+        json_metadata: JSON.stringify({
+          ...metadata,
+          label_colors: labelColors,
+        }),
+      });
+      const newMetadata = JSON.parse(response.result.json_metadata);
+
+      applyColors(newMetadata);
+      dispatch(
+        dashboardInfoChanged({
+          metadata: newMetadata,
+        }),
+      );
+
+      dispatch(addSuccessToast(t('Dashboard label colors updated')));
+    } catch (err) {
+      dispatch(addDangerToast(t('Failed to save dashboard label colors')));
+    }
+  };

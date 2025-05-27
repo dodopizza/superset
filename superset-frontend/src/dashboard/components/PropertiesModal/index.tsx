@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { omit } from 'lodash';
 import { Input } from 'src/components/Input';
@@ -42,7 +25,7 @@ import ColorSchemeControlWrapper from 'src/dashboard/components/ColorSchemeContr
 import FilterScopeModal from 'src/dashboard/components/filterscope/FilterScopeModal';
 import withToasts from 'src/components/MessageToasts/withToasts';
 import TagType from 'src/types/TagType';
-import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
+// import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags'; // DODO commented out 48160107
 import { loadTags } from 'src/components/Tags/utils';
 import {
   applyColors,
@@ -67,6 +50,15 @@ const StyledJsonEditor = styled(JsonEditor)`
   border: 1px solid ${({ theme }) => theme.colors.secondary.light2};
 `;
 
+type PropertiesModalPropsDodoExtended = {
+  dashboardTitleRU?: string; // DODO added 44120742
+};
+// DODO added 44211759
+interface IExtra {
+  email: string;
+  country_name: string;
+}
+
 type PropertiesModalProps = {
   dashboardId: number;
   dashboardTitle?: string;
@@ -78,7 +70,7 @@ type PropertiesModalProps = {
   addSuccessToast: (message: string) => void;
   addDangerToast: (message: string) => void;
   onlyApply?: boolean;
-};
+} & PropertiesModalPropsDodoExtended;
 
 type Roles = { id: number; name: string }[];
 type Owners = {
@@ -87,6 +79,10 @@ type Owners = {
   first_name?: string;
   last_name?: string;
 }[];
+
+type DashboardInfoDodoExtended = {
+  titleRU: string; // DODO added 44120742
+};
 type DashboardInfo = {
   id: number;
   title: string;
@@ -95,7 +91,7 @@ type DashboardInfo = {
   certificationDetails: string;
   isManagedExternally: boolean;
   metadata: Record<string, any>;
-};
+} & DashboardInfoDodoExtended;
 
 const PropertiesModal = ({
   addSuccessToast,
@@ -165,10 +161,21 @@ const PropertiesModal = ({
           .filter((item: { extra: { active: boolean } }) =>
             item.extra.active !== undefined ? item.extra.active : true,
           )
-          .map((item: { value: number; text: string }) => ({
-            value: item.value,
-            label: item.text,
-          })),
+          .map(
+            (item: { value: number; text: string; extra: Partial<IExtra> }) => {
+              // DODO added start 44211759
+              const { country_name, email } = item.extra;
+              let label = item.text;
+              if (accessType === 'owners')
+                label += ` (${country_name || 'no country'})`;
+              if (email) label += ` ${email}`;
+              // DODO added stop 44211759
+              return {
+                value: item.value,
+                label,
+              };
+            },
+          ),
         totalCount: response.json.count,
       }));
     },
@@ -180,6 +187,7 @@ const PropertiesModal = ({
       const {
         id,
         dashboard_title,
+        dashboard_title_ru, // DODO added 44120742
         slug,
         certified_by,
         certification_details,
@@ -187,10 +195,12 @@ const PropertiesModal = ({
         roles,
         metadata,
         is_managed_externally,
+        tags, // DODO added 48160107
       } = dashboardData;
       const dashboardInfo = {
         id,
         title: dashboard_title,
+        titleRU: dashboard_title_ru || '[ Безымянный Дашборд ]', // DODO added 44120742
         slug: slug || '',
         certifiedBy: certified_by || '',
         certificationDetails: certification_details || '',
@@ -203,6 +213,10 @@ const PropertiesModal = ({
       setOwners(owners);
       setRoles(roles);
       setCurrentColorScheme(metadata.color_scheme);
+
+      // DODO added 48160107
+      if (isFeatureEnabled(FeatureFlag.TaggingSystem))
+        setTags(tags?.filter((tag: TagType) => tag.type === 1) || []);
 
       const metaDataCopy = omit(metadata, [
         'positions',
@@ -318,8 +332,9 @@ const PropertiesModal = ({
   };
 
   const onFinish = () => {
-    const { title, slug, certifiedBy, certificationDetails } =
-      form.getFieldsValue();
+    // const { title, slug, certifiedBy, certificationDetails } =
+    const { title, titleRU, slug, certifiedBy, certificationDetails } =
+      form.getFieldsValue(); // DODO changed 44120742
     let currentJsonMetadata = jsonMetadata;
 
     // validate currentJsonMetadata
@@ -392,6 +407,7 @@ const PropertiesModal = ({
     const onSubmitProps = {
       id: dashboardId,
       title,
+      titleRU, // DODO added 44120742
       slug,
       jsonMetadata: currentJsonMetadata,
       owners,
@@ -411,6 +427,7 @@ const PropertiesModal = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           dashboard_title: title,
+          dashboard_title_ru: titleRU, // DODO added 44120742
           slug: slug || null,
           json_metadata: currentJsonMetadata || null,
           owners: (owners || []).map(o => o.id),
@@ -565,24 +582,25 @@ const PropertiesModal = ({
     }
   }, [dashboardInfo, dashboardTitle, form]);
 
-  useEffect(() => {
-    if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
-    try {
-      fetchTags(
-        {
-          objectType: OBJECT_TYPES.DASHBOARD,
-          objectId: dashboardId,
-          includeTypes: false,
-        },
-        (tags: TagType[]) => setTags(tags),
-        (error: Response) => {
-          addDangerToast(`Error fetching tags: ${error.text}`);
-        },
-      );
-    } catch (error) {
-      handleErrorResponse(error);
-    }
-  }, [dashboardId]);
+  // DODO commented out 48160107
+  // useEffect(() => {
+  //   if (!isFeatureEnabled(FeatureFlag.TaggingSystem)) return;
+  //   try {
+  //     fetchTags(
+  //       {
+  //         objectType: OBJECT_TYPES.DASHBOARD,
+  //         objectId: dashboardId,
+  //         includeTypes: false,
+  //       },
+  //       (tags: TagType[]) => setTags(tags),
+  //       (error: Response) => {
+  //         addDangerToast(`Error fetching tags: ${error.text}`);
+  //       },
+  //     );
+  //   } catch (error) {
+  //     handleErrorResponse(error);
+  //   }
+  // }, [dashboardId]);
 
   const handleChangeTags = (tags: { label: string; value: number }[]) => {
     const parsedTags: TagType[] = ensureIsArray(tags).map(r => ({
@@ -644,9 +662,21 @@ const PropertiesModal = ({
         </Row>
         <Row gutter={16}>
           <Col xs={24} md={12}>
-            <FormItem label={t('Name')} name="title">
+            {/* <FormItem label={t('Name')} name="title"> */}
+            {/* DODO changed 44120742 */}
+            <FormItem label={t('Title (Eng)')} name="title">
               <Input
                 data-test="dashboard-title-input"
+                type="text"
+                disabled={isLoading}
+              />
+            </FormItem>
+          </Col>
+          {/* DODO added 44120742 */}
+          <Col xs={24} md={12}>
+            <FormItem label={t('Title (Rus)')} name="titleRU">
+              <Input
+                data-test="dashboard-title-ru-input"
                 type="text"
                 disabled={isLoading}
               />
@@ -732,6 +762,12 @@ const PropertiesModal = ({
             </h3>
             {isAdvancedOpen && (
               <>
+                {/* DODO added 45320801 */}
+                <p className="help-block">
+                  {t(
+                    'You can now edit the colors of the metrics in a separate modal window on the dashboard by clicking on the ‘Edit label colours’ button.',
+                  )}
+                </p>
                 <StyledFormItem label={t('JSON metadata')}>
                   <StyledJsonEditor
                     showLoadingForImport

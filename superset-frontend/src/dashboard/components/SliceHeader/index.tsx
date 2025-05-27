@@ -1,23 +1,7 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { FC, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { css, getExtensionsRegistry, styled, t } from '@superset-ui/core';
+import { InfoTooltipWithTrigger } from '@superset-ui/chart-controls'; // DODO added 44728892
 import { useUiConfig } from 'src/components/UiConfigContext';
 import { Tooltip } from 'src/components/Tooltip';
 import { useSelector } from 'react-redux';
@@ -30,22 +14,38 @@ import Icons from 'src/components/Icons';
 import { RootState } from 'src/dashboard/types';
 import { getSliceHeaderTooltip } from 'src/dashboard/util/getSliceHeaderTooltip';
 import { DashboardPageIdContext } from 'src/dashboard/containers/DashboardPage';
+// DODO added 44120742
+import {
+  StyledFlag,
+  TitleLabel,
+  TitleWrapper,
+} from 'src/DodoExtensions/Common';
+
+const isStandalone = process.env.type === undefined; // DODO added 44611022
 
 const extensionsRegistry = getExtensionsRegistry();
 
-type SliceHeaderProps = SliceHeaderControlsProps & {
-  innerRef?: string;
-  updateSliceName?: (arg0: string) => void;
-  editMode?: boolean;
-  annotationQuery?: object;
-  annotationError?: object;
-  sliceName?: string;
-  filters: object;
-  handleToggleFullSize: () => void;
-  formData: object;
-  width: number;
-  height: number;
+type SliceHeaderPropsDodoExtended = {
+  updateSliceNameRU?: (arg0: string) => void; // DODO added 44120742
+  sliceNameRU?: string; // DODO added 44120742
+  locale: string; // DODO added 44120742
+  metricDescription?: string; // DODO added 44728892
 };
+
+type SliceHeaderProps = SliceHeaderControlsProps &
+  SliceHeaderPropsDodoExtended & {
+    innerRef?: string;
+    updateSliceName?: (arg0: string) => void;
+    editMode?: boolean;
+    annotationQuery?: object;
+    annotationError?: object;
+    sliceName?: string;
+    filters: object;
+    handleToggleFullSize: () => void;
+    formData: object;
+    width: number;
+    height: number;
+  };
 
 const annotationsLoading = t('Annotation layers are still loading.');
 const annotationsError = t('One ore more annotation layers failed loading.');
@@ -126,6 +126,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   innerRef = null,
   forceRefresh = () => ({}),
   updateSliceName = () => ({}),
+  updateSliceNameRU = () => ({}), // DODO added 44120742
   toggleExpandSlice = () => ({}),
   logExploreChart = () => ({}),
   logEvent,
@@ -139,6 +140,7 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   isCached = [],
   isExpanded = false,
   sliceName = '',
+  sliceNameRU = '', // DODO added 44120742
   supersetCanExplore = false,
   supersetCanShare = false,
   supersetCanCSV = false,
@@ -156,6 +158,8 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   formData,
   width,
   height,
+  locale, // DODO added 44120742
+  metricDescription, // DODO added 44728892
 }) => {
   const SliceHeaderExtension = extensionsRegistry.get('dashboard.slice.header');
   const uiConfig = useUiConfig();
@@ -170,29 +174,40 @@ const SliceHeader: FC<SliceHeaderProps> = ({
     ({ dashboardInfo }) => dashboardInfo.crossFiltersEnabled,
   );
 
-  const canExplore = !editMode && supersetCanExplore;
+  const canExplore = !editMode && supersetCanExplore && isStandalone; // DODO changed 44611022
+
+  const localisedSliceName = locale === 'ru' ? sliceNameRU : sliceName; // DODO added 44120742
 
   useEffect(() => {
     const headerElement = headerRef.current;
     if (canExplore) {
-      setHeaderTooltip(getSliceHeaderTooltip(sliceName));
+      setHeaderTooltip(getSliceHeaderTooltip(localisedSliceName)); // DODO changed 44120742
     } else if (
       headerElement &&
       (headerElement.scrollWidth > headerElement.offsetWidth ||
         headerElement.scrollHeight > headerElement.offsetHeight)
     ) {
-      setHeaderTooltip(sliceName ?? null);
+      setHeaderTooltip(localisedSliceName ?? null); // DODO changed 44120742
     } else {
       setHeaderTooltip(null);
     }
-  }, [sliceName, width, height, canExplore]);
+  }, [localisedSliceName, width, height, canExplore]); // DODO changed 44120742
 
   const exploreUrl = `/explore/?dashboard_page_id=${dashboardPageId}&slice_id=${slice.slice_id}`;
 
   return (
     <ChartHeaderStyles data-test="slice-header" ref={innerRef}>
+      {/* DODO added 44728892 */}
+      {!editMode && metricDescription && (
+        <InfoTooltipWithTrigger
+          tooltip={metricDescription}
+          placement="topLeft"
+          iconsStyle={{ marginRight: '2px' }}
+          staticInfoIcon
+        />
+      )}
       <div className="header-title" ref={headerRef}>
-        <Tooltip title={headerTooltip}>
+        {/* <Tooltip title={headerTooltip}>
           <EditableTitle
             title={
               sliceName ||
@@ -205,7 +220,90 @@ const SliceHeader: FC<SliceHeaderProps> = ({
             showTooltip={false}
             url={canExplore ? exploreUrl : undefined}
           />
-        </Tooltip>
+        </Tooltip> */}
+        {/* DODO changed start 44120742 */}
+        {editMode && (
+          <>
+            <TitleWrapper>
+              <TitleLabel>
+                <div className="f16">
+                  <StyledFlag language="gb" />
+                </div>
+              </TitleLabel>
+              <Tooltip title={headerTooltip}>
+                <EditableTitle
+                  title={
+                    sliceName ||
+                    (editMode
+                      ? '---' // this makes an empty title clickable
+                      : '')
+                  }
+                  canEdit={editMode}
+                  emptyText=""
+                  onSaveTitle={updateSliceName}
+                  showTooltip={false}
+                />
+              </Tooltip>
+            </TitleWrapper>
+            <TitleWrapper>
+              <TitleLabel>
+                <div className="f16">
+                  <StyledFlag language="ru" />
+                </div>
+              </TitleLabel>
+              <Tooltip title={headerTooltip}>
+                <EditableTitle
+                  title={
+                    sliceNameRU ||
+                    (editMode
+                      ? '---' // this makes an empty title clickable
+                      : '')
+                  }
+                  canEdit={editMode}
+                  emptyText=""
+                  onSaveTitle={updateSliceNameRU}
+                  showTooltip={false}
+                />
+              </Tooltip>
+            </TitleWrapper>
+          </>
+        )}
+        {!editMode && locale !== 'ru' && (
+          <Tooltip title={headerTooltip}>
+            <EditableTitle
+              title={
+                sliceName ||
+                (editMode
+                  ? '---' // this makes an empty title clickable
+                  : '')
+              }
+              canEdit={editMode}
+              emptyText=""
+              onSaveTitle={updateSliceName}
+              showTooltip={false}
+              url={canExplore ? exploreUrl : undefined}
+            />
+          </Tooltip>
+        )}
+        {!editMode && locale === 'ru' && (
+          <Tooltip title={headerTooltip}>
+            <EditableTitle
+              title={
+                sliceNameRU ||
+                sliceName ||
+                (editMode
+                  ? 'RU ---' // this makes an empty title clickable
+                  : '')
+              }
+              canEdit={editMode}
+              emptyText=""
+              onSaveTitle={updateSliceNameRU}
+              showTooltip={false}
+              url={canExplore ? exploreUrl : undefined}
+            />
+          </Tooltip>
+        )}
+        {/* DODO changed stop 44120742 */}
         {!!Object.values(annotationQuery).length && (
           <Tooltip
             id="annotations-loading-tooltip"

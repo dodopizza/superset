@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { ReactNode, useState, useEffect, useMemo } from 'react';
 import {
   css,
@@ -26,6 +9,7 @@ import {
   SupersetTheme,
   useCSSTextTruncation,
   fetchTimeRange,
+  TimeRangeEndType, // DODO added 44211759
 } from '@superset-ui/core';
 import Button from 'src/components/Button';
 import ControlHeader from 'src/explore/components/ControlHeader';
@@ -55,6 +39,8 @@ import {
 } from './components';
 import { CurrentCalendarFrame } from './components/CurrentCalendarFrame';
 
+const isStandalone = process.env.type === undefined; // DODO added 44611022
+
 const StyledRangeType = styled(Select)`
   width: 272px;
 `;
@@ -82,7 +68,7 @@ const ContentStyleWrapper = styled.div`
     .control-label {
       font-size: 11px;
       font-weight: ${theme.typography.weights.medium};
-      color: ${theme.colors.grayscale.light2};
+      color: ${theme.colors.grayscale.base}; // DODO changed 44211759
       line-height: 16px;
       text-transform: uppercase;
       margin: 8px 0;
@@ -151,6 +137,16 @@ const getTooltipTitle = (
     range || null
   );
 
+// DODO added 44611022
+// For superset dashboard plugin we need to retranslate the labels
+const retranslateConstants = (opts: { value: string; label: string }[]) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => ({
+        value: opt.value,
+        label: t(opt.label),
+      }));
+
 export default function DateFilterLabel(props: DateFilterControlProps) {
   const {
     onChange,
@@ -174,6 +170,11 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
   const [tooltipTitle, setTooltipTitle] = useState<ReactNode | null>(value);
   const theme = useTheme();
   const [labelRef, labelIsTruncated] = useCSSTextTruncation<HTMLSpanElement>();
+  // DODO added 44211759
+  const timeRangeEndType =
+    frame === 'CustomUntilInclude'
+      ? TimeRangeEndType.Included
+      : TimeRangeEndType.Excluded;
 
   useEffect(() => {
     if (value === NO_TIME_RANGE) {
@@ -182,13 +183,15 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       setValidTimeRange(true);
       return;
     }
-    fetchTimeRange(value).then(({ value: actualRange, error }) => {
-      if (error) {
-        setEvalResponse(error || '');
-        setValidTimeRange(false);
-        setTooltipTitle(value || null);
-      } else {
-        /*
+    // DODO changed 44211759
+    fetchTimeRange(value, timeRangeEndType).then(
+      ({ value: actualRange, error }) => {
+        if (error) {
+          setEvalResponse(error || '');
+          setValidTimeRange(false);
+          setTooltipTitle(value || null);
+        } else {
+          /*
           HRT == human readable text
           ADR == actual datetime range
           +--------------+------+----------+--------+----------+-----------+
@@ -199,28 +202,29 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
           | tooltip      | ADR  | ADR      | HRT    | HRT      |   ADR     |
           +--------------+------+----------+--------+----------+-----------+
         */
-        if (
-          guessedFrame === 'Common' ||
-          guessedFrame === 'Calendar' ||
-          guessedFrame === 'Current' ||
-          guessedFrame === 'No filter'
-        ) {
-          setActualTimeRange(value);
-          setTooltipTitle(
-            getTooltipTitle(labelIsTruncated, value, actualRange),
-          );
-        } else {
-          setActualTimeRange(actualRange || '');
-          setTooltipTitle(
-            getTooltipTitle(labelIsTruncated, actualRange, value),
-          );
+          if (
+            guessedFrame === 'Common' ||
+            guessedFrame === 'Calendar' ||
+            guessedFrame === 'Current' ||
+            guessedFrame === 'No filter'
+          ) {
+            setActualTimeRange(value);
+            setTooltipTitle(
+              getTooltipTitle(labelIsTruncated, value, actualRange),
+            );
+          } else {
+            setActualTimeRange(actualRange || '');
+            setTooltipTitle(
+              getTooltipTitle(labelIsTruncated, actualRange, value),
+            );
+          }
+          setValidTimeRange(true);
         }
-        setValidTimeRange(true);
-      }
-      setLastFetchedTimeRange(value);
-      setEvalResponse(actualRange || value);
-    });
-  }, [guessedFrame, labelIsTruncated, labelRef, value]);
+        setLastFetchedTimeRange(value);
+        setEvalResponse(actualRange || value);
+      },
+    );
+  }, [guessedFrame, labelIsTruncated, labelRef, timeRangeEndType, value]);
 
   useDebouncedEffect(
     () => {
@@ -231,16 +235,19 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
         return;
       }
       if (lastFetchedTimeRange !== timeRangeValue) {
-        fetchTimeRange(timeRangeValue).then(({ value: actualRange, error }) => {
-          if (error) {
-            setEvalResponse(error || '');
-            setValidTimeRange(false);
-          } else {
-            setEvalResponse(actualRange || '');
-            setValidTimeRange(true);
-          }
-          setLastFetchedTimeRange(timeRangeValue);
-        });
+        // DODO changed 44211759
+        fetchTimeRange(timeRangeValue, timeRangeEndType).then(
+          ({ value: actualRange, error }) => {
+            if (error) {
+              setEvalResponse(error || '');
+              setValidTimeRange(false);
+            } else {
+              setEvalResponse(actualRange || '');
+              setValidTimeRange(true);
+            }
+            setLastFetchedTimeRange(timeRangeValue);
+          },
+        );
       }
     },
     SLOW_DEBOUNCE,
@@ -248,7 +255,7 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
   );
 
   function onSave() {
-    onChange(timeRangeValue);
+    onChange(timeRangeValue, timeRangeEndType); // DODO changed 44211759
     setShow(false);
     onClosePopover();
   }
@@ -287,7 +294,8 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       <div className="control-label">{t('RANGE TYPE')}</div>
       <StyledRangeType
         ariaLabel={t('RANGE TYPE')}
-        options={FRAME_OPTIONS}
+        // options={FRAME_OPTIONS}
+        options={retranslateConstants(FRAME_OPTIONS)} // DODO changed 44611022
         value={frame}
         onChange={onChangeFrame}
       />
@@ -309,6 +317,15 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       )}
       {frame === 'Custom' && (
         <CustomFrame value={timeRangeValue} onChange={setTimeRangeValue} />
+      )}
+      {/* DODO added 44211759 */}
+      {frame === 'CustomUntilInclude' && (
+        <CustomFrame
+          value={timeRangeValue}
+          onChange={setTimeRangeValue}
+          withTime={false}
+          untilInclude
+        />
       )}
       {frame === 'No filter' && <div data-test={DateFilterTestKey.NoFilter} />}
       <Divider />

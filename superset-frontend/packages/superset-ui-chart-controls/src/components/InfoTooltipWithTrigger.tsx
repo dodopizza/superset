@@ -21,8 +21,13 @@ import { kebabCase } from 'lodash';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import { t } from '@superset-ui/core';
 import { Tooltip, TooltipProps } from './Tooltip';
+import InfoIcon from '../DodoExtensions/components/InfoIcon';
 
-export interface InfoTooltipWithTriggerProps {
+interface InfoTooltipWithTriggerPropsDodoExtended {
+  staticInfoIcon?: boolean;
+}
+export interface InfoTooltipWithTriggerProps
+  extends InfoTooltipWithTriggerPropsDodoExtended {
   label?: string;
   tooltip?: TooltipProps['title'];
   icon?: string;
@@ -42,11 +47,34 @@ export function InfoTooltipWithTrigger({
   className = 'text-muted',
   placement = 'right',
   iconsStyle = {},
+  staticInfoIcon,
 }: InfoTooltipWithTriggerProps) {
   const iconClass = `fa fa-${icon} ${className} ${
     bsStyle ? `text-${bsStyle}` : ''
   }`;
-  const iconEl = (
+  // DODO changed
+  const iconEl = staticInfoIcon ? (
+    <span
+      role="button"
+      aria-label={t('Show info tooltip')}
+      tabIndex={0}
+      style={{
+        cursor: onClick ? 'pointer' : undefined,
+        ...iconsStyle,
+      }}
+      onClick={onClick}
+      onKeyPress={
+        onClick &&
+        (event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            onClick();
+          }
+        })
+      }
+    >
+      <img src={InfoIcon} alt="Info icon" width={13} />
+    </span>
+  ) : (
     <i
       role="button"
       aria-label={t('Show info tooltip')}

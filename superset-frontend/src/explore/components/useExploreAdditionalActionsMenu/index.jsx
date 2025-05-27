@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -122,6 +105,8 @@ export const useExploreAdditionalActionsMenu = (
   onOpenPropertiesModal,
   ownState,
   dashboards,
+  datasourceMetrics, // DODO added 44136746
+  toggleIsExportingData, // DODO added 48951211
   ...rest
 ) => {
   const theme = useTheme();
@@ -134,6 +119,13 @@ export const useExploreAdditionalActionsMenu = (
   );
 
   const { datasource } = latestQueryFormData;
+  // DODO added start 44136746
+  const { extraFormData } = chart;
+  const formDataForExport = {
+    ...latestQueryFormData,
+    ...(extraFormData || {}),
+  };
+  // DODO added stop 44136746
 
   const shareByEmail = useCallback(async () => {
     try {
@@ -150,49 +142,52 @@ export const useExploreAdditionalActionsMenu = (
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 44136746
+            datasourceMetrics, // DODO added 44136746
             ownState,
             resultType: 'full',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, formDataForExport, datasourceMetrics], // DODO changed 44136746
   );
 
   const exportCSVPivoted = useCallback(
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 44136746
+            datasourceMetrics, // DODO added 44136746
             resultType: 'post_processed',
             resultFormat: 'csv',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, formDataForExport, datasourceMetrics], // DODO changed 44136746
   );
 
   const exportJson = useCallback(
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 44136746
             resultType: 'results',
             resultFormat: 'json',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, formDataForExport], // DODO changed 44136746
   );
 
   const exportExcel = useCallback(
     () =>
       canDownloadCSV
         ? exportChart({
-            formData: latestQueryFormData,
+            formData: formDataForExport, // DODO changed 44136746
+            datasourceMetrics, // DODO added 44136746
             resultType: 'results',
             resultFormat: 'xlsx',
           })
         : null,
-    [canDownloadCSV, latestQueryFormData],
+    [canDownloadCSV, formDataForExport, datasourceMetrics], // DODO changed 44136746
   );
 
   const copyLink = useCallback(async () => {
@@ -215,7 +210,8 @@ export const useExploreAdditionalActionsMenu = (
           setIsDropdownVisible(false);
           break;
         case MENU_KEYS.EXPORT_TO_CSV:
-          exportCSV();
+          toggleIsExportingData(); // DODO added 48951211
+          exportCSV().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV, {
@@ -225,7 +221,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_CSV_PIVOTED:
-          exportCSVPivoted();
+          toggleIsExportingData(); // DODO added 48951211
+          exportCSVPivoted().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV_PIVOTED, {
@@ -235,7 +232,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_JSON:
-          exportJson();
+          toggleIsExportingData(); // DODO added 48951211
+          exportJson().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_JSON, {
@@ -245,7 +243,8 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.EXPORT_TO_XLSX:
-          exportExcel();
+          toggleIsExportingData(); // DODO added 48951211
+          exportExcel().then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_XLS, {
@@ -255,12 +254,13 @@ export const useExploreAdditionalActionsMenu = (
           );
           break;
         case MENU_KEYS.DOWNLOAD_AS_IMAGE:
+          toggleIsExportingData(); // DODO added 48951211
           downloadAsImage(
             '.panel-body .chart-container',
             // eslint-disable-next-line camelcase
             slice?.slice_name ?? t('New chart'),
             true,
-          )(domEvent);
+          )(domEvent).then(() => toggleIsExportingData()); // DODO changed 48951211
           setIsDropdownVisible(false);
           dispatch(
             logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE, {
@@ -334,13 +334,14 @@ export const useExploreAdditionalActionsMenu = (
               >
                 {t('Export to original .CSV')}
               </Menu.Item>
-              <Menu.Item
+              {/* DODO commented out */}
+              {/* <Menu.Item
                 key={MENU_KEYS.EXPORT_TO_CSV_PIVOTED}
                 icon={<Icons.FileOutlined css={iconReset} />}
                 disabled={!canDownloadCSV}
               >
                 {t('Export to pivoted .CSV')}
-              </Menu.Item>
+              </Menu.Item> */}
             </>
           ) : (
             <Menu.Item

@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 /* eslint-disable camelcase */
 import { invert } from 'lodash';
 import {
@@ -42,7 +25,11 @@ import {
   tooltipHtml,
   ValueFormatter,
 } from '@superset-ui/core';
-import { getOriginalSeries } from '@superset-ui/chart-controls';
+import {
+  getOriginalSeries,
+  extractDatasourceDescriptions, // DODO added 44728892
+  InfoIcon, // DODO added 44728892
+} from '@superset-ui/chart-controls';
 import type { EChartsCoreOption } from 'echarts/core';
 import type { SeriesOption } from 'echarts';
 import {
@@ -96,6 +83,8 @@ import {
   getXAxisFormatter,
   getYAxisFormatter,
 } from '../utils/formatters';
+import { LabelPositionDodo } from '../DodoExtensions/types'; // DODO added 45525377
+import { extendDatasourceDescriptions } from '../DodoExtensions/utils/extendDatasourceDescriptions'; // DODO added 44728892
 
 const getFormatter = (
   customFormatters: Record<string, ValueFormatter>,
@@ -127,6 +116,7 @@ export default function transformProps(
     theme,
     inContextMenu,
     emitCrossFilters,
+    locale, // DODO added 44728892
   } = chartProps;
 
   let focusedSeries: string | null = null;
@@ -135,6 +125,8 @@ export default function transformProps(
     verboseMap = {},
     currencyFormats = {},
     columnFormats = {},
+    metrics: datasourceMetrics = [], // DODO added 44728892
+    columns: datasourceColumns = [], // DODO added 44728892
   } = datasource;
   const { label_map: labelMap } =
     queriesData[0] as TimeseriesChartDataResponseResult;
@@ -204,6 +196,9 @@ export default function transformProps(
     percentageThreshold,
     metrics = [],
     metricsB = [],
+    columnConfig, // DODO added 44211769
+    valueAlign = LabelPositionDodo.Top, // DODO added 45525377
+    valueAlignB = LabelPositionDodo.Top, // DODO added 45525377
   }: EchartsMixedTimeseriesFormData = { ...DEFAULT_FORM_DATA, ...formData };
 
   const refs: Refs = {};
@@ -256,6 +251,8 @@ export default function transformProps(
     columnFormats,
     yAxisFormat,
     currencyFormat,
+    datasourceMetrics, // DODO added 44211769
+    columnConfig, // DODO added 44211769
   );
   const customFormattersSecondary = buildCustomFormatters(
     [...ensureIsArray(metrics), ...ensureIsArray(metricsB)],
@@ -263,8 +260,14 @@ export default function transformProps(
     columnFormats,
     yAxisFormatSecondary,
     currencyFormatSecondary,
+    datasourceMetrics, // DODO added 44211769
+    columnConfig, // DODO added 44211769
   );
 
+  // DODO added 44211769
+  const rawSeriesASet = new Set(
+    rawSeriesA.map(seriesOption => seriesOption.id),
+  );
   const primarySeries = new Set<string>();
   const secondarySeries = new Set<string>();
   const mapSeriesIdToAxis = (
@@ -407,6 +410,7 @@ export default function transformProps(
         showValueIndexes: showValueIndexesA,
         totalStackedValues,
         thresholdValues,
+        valueAlign, // DODO added 45525377
       },
     );
     if (transformedSeries) series.push(transformedSeries);
@@ -456,6 +460,7 @@ export default function transformProps(
         showValueIndexes: showValueIndexesB,
         totalStackedValues: totalStackedValuesB,
         thresholdValues: thresholdValuesB,
+        valueAlign: valueAlignB, // DODO added 45525377
       },
     );
     if (transformedSeries) series.push(transformedSeries);
@@ -495,6 +500,20 @@ export default function transformProps(
 
   const { setDataMask = () => {}, onContextMenu } = hooks;
   const alignTicks = yAxisIndex !== yAxisIndexB;
+
+  // DODO added start 44728892
+  const datasourceDescriptions = extractDatasourceDescriptions(
+    [...metrics, ...metricsB],
+    datasourceMetrics,
+    datasourceColumns,
+    locale,
+  );
+  const extendedDatasourceDescriptions = extendDatasourceDescriptions(
+    datasourceDescriptions,
+    [...groupby, ...groupbyB],
+    series,
+  );
+  // DODO added stop 44728892
 
   const echartOptions: EChartsCoreOption = {
     useUTC: true,
@@ -603,12 +622,18 @@ export default function transformProps(
             // if there are no dimensions, key is a verbose name of a metric,
             // otherwise it is a comma separated string where the first part is metric name
             let formatterKey;
-            if (primarySeries.has(key)) {
+            // if (primarySeries.has(key)) {
+            // DODO changed 44211769
+            if (rawSeriesASet.has(key)) {
               formatterKey =
-                groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
+                // groupby.length === 0 ? inverted[key] : labelMap[key]?.[0];
+                // DODO changed 44211769
+                inverted[key] || labelMap[key]?.[0];
             } else {
               formatterKey =
-                groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
+                // groupbyB.length === 0 ? inverted[key] : labelMapB[key]?.[0];
+                // DODO changed 44211769
+                inverted[key] || labelMapB[key]?.[0];
             }
             const tooltipFormatter = getFormatter(
               customFormatters,
@@ -627,7 +652,8 @@ export default function transformProps(
             const row = formatForecastTooltipSeries({
               ...value,
               seriesName: key,
-              formatter: primarySeries.has(key)
+              // formatter: primarySeries.has(key)
+              formatter: rawSeriesASet.has(key)
                 ? tooltipFormatter
                 : tooltipFormatterSecondary,
             });
@@ -646,6 +672,8 @@ export default function transformProps(
         showLegend,
         theme,
         zoomable,
+        undefined, // DODO added 44728892
+        extendedDatasourceDescriptions, // DODO added 44728892
       ),
       // @ts-ignore
       data: rawSeriesA
@@ -656,7 +684,21 @@ export default function transformProps(
             ForecastSeriesEnum.Observation,
         )
         .map(entry => entry.name || '')
-        .concat(extractAnnotationLabels(annotationLayers, annotationData)),
+        .concat(extractAnnotationLabels(annotationLayers, annotationData))
+        // DODO added 44728892
+        .map(option => ({
+          name: option,
+          textStyle: {
+            rich: {
+              icon: {
+                height: 14,
+                backgroundColor: {
+                  image: InfoIcon,
+                },
+              },
+            },
+          },
+        })),
     },
     series: dedupSeries(series),
     toolbox: {

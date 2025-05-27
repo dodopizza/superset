@@ -27,7 +27,7 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_babel import ngettext
 from marshmallow import ValidationError
 
-from superset import event_logger
+from superset import event_logger, security_manager
 from superset.commands.dataset.create import CreateDatasetCommand
 from superset.commands.dataset.delete import DeleteDatasetCommand
 from superset.commands.dataset.duplicate import DuplicateDatasetCommand
@@ -119,6 +119,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "owners.id",
         "owners.first_name",
         "owners.last_name",
+        "owners.email",
         "catalog",
         "schema",
         "sql",
@@ -156,11 +157,14 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "owners.id",
         "owners.first_name",
         "owners.last_name",
+        "owners.email",
         "columns.advanced_data_type",
         "columns.changed_on",
         "columns.column_name",
         "columns.created_on",
         "columns.description",
+        "columns.description_en",  # dodo added 44728914
+        "columns.description_ru",  # dodo added 44728914
         "columns.expression",
         "columns.filterable",
         "columns.groupby",
@@ -172,17 +176,24 @@ class DatasetRestApi(BaseSupersetModelRestApi):
         "columns.type",
         "columns.uuid",
         "columns.verbose_name",
+        "columns.verbose_name_ru",
+        "columns.verbose_name_en",
         "metrics.changed_on",
         "metrics.created_on",
         "metrics.d3format",
         "metrics.currency",
         "metrics.description",
+        "metrics.description_en",  # dodo added 44728914
+        "metrics.description_ru",  # dodo added 44728914
         "metrics.expression",
         "metrics.extra",
         "metrics.id",
+        "metrics.number_format",  # dodo added 44728517
         "metrics.metric_name",
         "metrics.metric_type",
         "metrics.verbose_name",
+        "metrics.verbose_name_ru",
+        "metrics.verbose_name_en",
         "metrics.warning_text",
         "datasource_type",
         "url",
@@ -268,6 +279,10 @@ class DatasetRestApi(BaseSupersetModelRestApi):
     allowed_rel_fields = {"database", "owners", "created_by", "changed_by"}
     allowed_distinct_fields = {"catalog", "schema"}
 
+    extra_fields_rel_fields: dict[str, list[str]] = {
+        "owners": ["email", "user_info.country_name", "active"]
+    }
+
     apispec_parameter_schemas = {
         "get_export_ids_schema": get_export_ids_schema,
     }
@@ -284,6 +299,16 @@ class DatasetRestApi(BaseSupersetModelRestApi):
 
     list_outer_default_load = True
     show_outer_default_load = True
+
+    def pre_get(self, data: dict[str, Any]) -> None:
+        """
+        Add country name to owners
+        """
+        if result := data.get("result"):
+            for owner in result.get("owners", []):
+                user = security_manager.get_user_by_id(owner["id"])
+                if user and user.user_info:
+                    owner["country_name"] = user.user_info.country_name
 
     @expose("/", methods=("POST",))
     @protect()

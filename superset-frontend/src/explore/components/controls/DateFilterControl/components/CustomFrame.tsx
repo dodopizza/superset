@@ -1,27 +1,11 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { useSelector } from 'react-redux';
-import { t, customTimeRangeDecode } from '@superset-ui/core';
-import { Moment } from 'moment';
+import { t, customTimeRangeDecode, dttmToMoment } from '@superset-ui/core';
+import moment, { Moment } from 'moment';
 import { isInteger } from 'lodash';
 // @ts-ignore
 import { locales } from 'antd/dist/antd-with-locales';
+import { bootstrapData } from 'src/preamble';
 import { Col, Row } from 'src/components';
 import { InputNumber } from 'src/components/Input';
 import { DatePicker } from 'src/components/DatePicker';
@@ -36,7 +20,7 @@ import {
   MOMENT_FORMAT,
   MIDNIGHT,
   customTimeRangeEncode,
-  dttmToMoment,
+  // dttmToMoment,
   LOCALE_MAPPING,
 } from 'src/explore/components/controls/DateFilterControl/utils';
 import {
@@ -44,9 +28,70 @@ import {
   FrameComponentProps,
 } from 'src/explore/components/controls/DateFilterControl/types';
 import { ExplorePageState } from 'src/explore/types';
+import { MOMENT_FORMAT_UI_DODO } from 'src/explore/constants'; // DODO added 44211759
+
+// DODO added start 44611022
+const isStandalone = process.env.type === undefined;
+
+// For superset dashboard plugin we need to retranslate the labels
+const retranslateConstants = (opts: { value: string; label: string }[]) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => ({
+        value: opt.value,
+        label: t(opt.label),
+      }));
+
+const retranslateConstantsComposed = (
+  opts: { value: string; label: string }[],
+  splitWord: string,
+) =>
+  isStandalone
+    ? opts
+    : opts.map(opt => {
+        const mainString = `${opt.label.split(splitWord)[0].trim()} %s`;
+        return {
+          ...opt,
+          label: `${t(mainString)} ${t(splitWord)}`.split(' %s').join(''),
+        };
+      });
+// DODO added stop 44611022
+
+// DODO added start
+const locale = bootstrapData?.common?.locale || 'en';
+if (locale === 'en') {
+  moment.updateLocale('en', {
+    week: {
+      dow: 1, // Monday is the first day of the week
+    },
+  });
+}
+// DODO added stop
 
 export function CustomFrame(props: FrameComponentProps) {
+  const { withTime = true, untilInclude = false } = props; // DODO added 44211759
   const { customRange, matchedFlag } = customTimeRangeDecode(props.value);
+
+  // DODO added 44211759
+  if (customRange.untilMode === 'specific' && customRange.untilDatetime) {
+    if (untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .endOf('date')
+        .format(MOMENT_FORMAT);
+    } else if (!untilInclude) {
+      customRange.untilDatetime = dttmToMoment(customRange.untilDatetime)
+        .startOf('date')
+        .format(MOMENT_FORMAT);
+    }
+
+    props.onChange(
+      customTimeRangeEncode({
+        ...customRange,
+        untilDatetime: customRange.untilDatetime,
+      }),
+    );
+  }
+
   if (!matchedFlag) {
     props.onChange(customTimeRangeEncode(customRange));
   }
@@ -132,14 +177,17 @@ export function CustomFrame(props: FrameComponentProps) {
           </div>
           <Select
             ariaLabel={t('START (INCLUSIVE)')}
-            options={SINCE_MODE_OPTIONS}
+            // options={SINCE_MODE_OPTIONS}
+            options={retranslateConstants(SINCE_MODE_OPTIONS)} // DODO changed 44611022
             value={sinceMode}
             onChange={(value: string) => onChange('sinceMode', value)}
           />
           {sinceMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                // showTime
+                showTime={withTime} // DODO changed 44211759
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO added 44211759
                 defaultValue={dttmToMoment(sinceDatetime)}
                 onChange={(datetime: Moment) =>
                   onChange('sinceDatetime', datetime.format(MOMENT_FORMAT))
@@ -167,7 +215,12 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={SINCE_GRAIN_OPTIONS}
+                  // options={SINCE_GRAIN_OPTIONS}
+                  // DODO changed 44611022
+                  options={retranslateConstantsComposed(
+                    SINCE_GRAIN_OPTIONS,
+                    'Before',
+                  )}
                   value={sinceGrain}
                   onChange={(value: string) => onChange('sinceGrain', value)}
                 />
@@ -177,11 +230,25 @@ export function CustomFrame(props: FrameComponentProps) {
         </Col>
         <Col span={12}>
           <div className="control-label">
-            {t('END (EXCLUSIVE)')}{' '}
-            <InfoTooltipWithTrigger
-              tooltip={t('End date excluded from time range')}
-              placement="right"
-            />
+            {/* DODO changed start 44211759 */}
+            {untilInclude ? (
+              <>
+                {t('END (INCLUSIVE)')}{' '}
+                <InfoTooltipWithTrigger
+                  tooltip={t('End date included to time range')}
+                  placement="right"
+                />
+              </>
+            ) : (
+              <>
+                {t('END (EXCLUSIVE)')}{' '}
+                <InfoTooltipWithTrigger
+                  tooltip={t('End date excluded from time range')}
+                  placement="right"
+                />
+              </>
+            )}
+            {/* DODO changed stop 44211759 */}
           </div>
           <Select
             ariaLabel={t('END (EXCLUSIVE)')}
@@ -192,11 +259,22 @@ export function CustomFrame(props: FrameComponentProps) {
           {untilMode === 'specific' && (
             <Row>
               <DatePicker
-                showTime
+                // showTime
+                showTime={withTime} // DODO changed 44211759
+                format={withTime ? MOMENT_FORMAT_UI_DODO : 'DD-MM-YYYY'} // DODO added 44211759
                 defaultValue={dttmToMoment(untilDatetime)}
-                onChange={(datetime: Moment) =>
-                  onChange('untilDatetime', datetime.format(MOMENT_FORMAT))
-                }
+                // onChange={(datetime: Moment) =>
+                //   onChange('untilDatetime', datetime.format(MOMENT_FORMAT))
+                // }
+                // DODO changed 44211759
+                onChange={(datetime: Moment) => {
+                  onChange(
+                    'untilDatetime',
+                    untilInclude
+                      ? datetime.endOf('date').format(MOMENT_FORMAT)
+                      : datetime.format(MOMENT_FORMAT),
+                  );
+                }}
                 allowClear={false}
                 locale={datePickerLocale}
               />
@@ -219,7 +297,12 @@ export function CustomFrame(props: FrameComponentProps) {
               <Col span={13}>
                 <Select
                   ariaLabel={t('Relative period')}
-                  options={UNTIL_GRAIN_OPTIONS}
+                  // options={UNTIL_GRAIN_OPTIONS}
+                  // DODO changed 44611022
+                  options={retranslateConstantsComposed(
+                    UNTIL_GRAIN_OPTIONS,
+                    'After',
+                  )}
                   value={untilGrain}
                   onChange={(value: string) => onChange('untilGrain', value)}
                 />

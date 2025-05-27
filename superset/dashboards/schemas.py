@@ -45,6 +45,7 @@ screenshot_query_schema = {
     },
 }
 dashboard_title_description = "A title for the dashboard."
+dashboard_title_ru_description = "A title RU for the dashboard."  # dodo added 44120742
 slug_description = "Unique identifying part for the web address of the dashboard."
 owners_description = (
     "Owner are users ids allowed to delete or change this dashboard. "
@@ -146,6 +147,8 @@ class DashboardJSONMetadataSchema(Schema):
     # global_chart_configuration keeps data about global cross-filter scoping
     # for charts - can be overridden by chart_configuration for each chart
     global_chart_configuration = fields.Dict()
+    # filter_sets_configuration is for dashboard-native filters
+    filter_sets_configuration = fields.List(fields.Dict(), allow_none=True)
     timed_refresh_immune_slices = fields.List(fields.Integer())
     # deprecated wrt dashboard-native filters
     filter_scopes = fields.Dict()
@@ -187,11 +190,27 @@ class DashboardJSONMetadataSchema(Schema):
         return data
 
 
+class UserInfo(Schema):
+    country_name = fields.String()
+
+
 class UserSchema(Schema):
     id = fields.Int()
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
+    email = fields.String()
+    country_name = fields.String()
+
+    user_info = fields.Nested(UserInfo)
+
+    # pylint: disable=unused-argument
+    @post_dump()
+    def post_dump(self, serialized: dict[str, Any], **kwargs: Any) -> dict[str, Any]:
+        if user_info := serialized["user_info"]:
+            serialized["country_name"] = user_info["country_name"]
+        del serialized["user_info"]
+        return serialized
 
 
 class RolesSchema(Schema):
@@ -211,6 +230,10 @@ class DashboardGetResponseSchema(Schema):
     url = fields.String()
     dashboard_title = fields.String(
         metadata={"description": dashboard_title_description}
+    )
+    # dodo added 44120742
+    dashboard_title_ru = fields.String(
+        metadata={"description": dashboard_title_ru_description}
     )
     thumbnail_url = fields.String()
     published = fields.Boolean()
@@ -375,11 +398,22 @@ class DashboardCopySchema(Schema):
             "description": "Whether or not to also copy all charts on the dashboard"
         }
     )
+    dashboard_title_ru = fields.String(
+        metadata={"description": dashboard_title_description},
+        allow_none=True,
+        validate=Length(0, 500),
+    )
 
 
 class DashboardPutSchema(BaseDashboardSchema):
     dashboard_title = fields.String(
         metadata={"description": dashboard_title_description},
+        allow_none=True,
+        validate=Length(0, 500),
+    )
+    # dodo added 44120742
+    dashboard_title_ru = fields.String(
+        metadata={"description": dashboard_title_ru_description},
         allow_none=True,
         validate=Length(0, 500),
     )

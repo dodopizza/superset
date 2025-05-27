@@ -1,21 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import cx from 'classnames';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -23,6 +6,7 @@ import { styled, t, logging } from '@superset-ui/core';
 import { debounce, isEqual } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
+import { bootstrapData } from 'src/preamble'; // DODO added 44728892
 import { exportChart, mountExploreUrl } from 'src/explore/exploreUtils';
 import ChartContainer from 'src/components/Chart/ChartContainer';
 import {
@@ -35,10 +19,13 @@ import {
 import { areObjectsEqual } from 'src/reduxUtils';
 import { postFormData } from 'src/explore/exploreUtils/formData';
 import { URL_PARAMS } from 'src/constants';
+import { getMetricDescription } from 'src/DodoExtensions/dashboard/utils/getMetricDescription'; // DODO added 44728892
 
 import SliceHeader from '../SliceHeader';
 import MissingChart from '../MissingChart';
 import { slicePropShape, chartPropShape } from '../../util/propShapes';
+
+const locale = bootstrapData?.common?.locale || 'en'; // DODO added 44728892
 
 const propTypes = {
   id: PropTypes.number.isRequired,
@@ -83,6 +70,10 @@ const propTypes = {
   datasetsStatus: PropTypes.oneOf(['loading', 'error', 'complete']),
   isInView: PropTypes.bool,
   emitCrossFilters: PropTypes.bool,
+
+  // DODO extended
+  updateSliceNameRU: PropTypes.func.isRequired, // DODO added 44120742
+  toggleIsExportingData: PropTypes.func.isRequired, // DODO added 48951211
 };
 
 const defaultProps = {
@@ -360,15 +351,28 @@ class Chart extends Component {
       slice_id: this.props.slice.slice_id,
       is_cached: this.props.isCached,
     });
+    // DODO added start 44136746
+    const extraFormData = this.props.chart.extraFormData || {};
+    const formDataForExport = {
+      ...this.props.formData,
+      ...(isFullCSV && { row_limit: this.props.maxRows }),
+      ...extraFormData,
+    };
+    // DODO added stop 44136746
+
+    this.props.toggleIsExportingData(); // DODO added 48951211
     exportChart({
-      formData: isFullCSV
-        ? { ...this.props.formData, row_limit: this.props.maxRows }
-        : this.props.formData,
+      // formData: isFullCSV
+      //  ? { ...this.props.formData, row_limit: this.props.maxRows }
+      //  : this.props.formData,
+      formData: formDataForExport, // DODO changed 44136746
       resultType: isPivot ? 'post_processed' : 'full',
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
-    });
+      language: locale, // DODO added 44136746
+      datasourceMetrics: this.props.datasource.metrics, // DODO added 44136746
+    }).finally(this.props.toggleIsExportingData); // DODO added 48951211
   }
 
   forceRefresh() {
@@ -398,7 +402,9 @@ class Chart extends Component {
       labelsColor,
       labelsColorMap,
       updateSliceName,
+      updateSliceNameRU, // DODO added 44120742
       sliceName,
+      sliceNameRU, // DODO added 44120742
       toggleExpandSlice,
       timeout,
       supersetCanExplore,
@@ -416,6 +422,7 @@ class Chart extends Component {
       isInView,
       emitCrossFilters,
       logEvent,
+      locale, // DODO added 44120742
     } = this.props;
 
     const { width } = this.state;
@@ -433,6 +440,13 @@ class Chart extends Component {
       // eslint-disable-next-line camelcase
       queriesResponse?.map(({ cached_dttm }) => cached_dttm) || [];
     const initialValues = {};
+
+    // DODO added 44728892
+    const metricDescription = getMetricDescription(
+      formData,
+      datasource,
+      locale,
+    );
 
     return (
       <SliceContainer
@@ -462,7 +476,9 @@ class Chart extends Component {
           exportFullCSV={this.exportFullCSV}
           exportFullXLSX={this.exportFullXLSX}
           updateSliceName={updateSliceName}
+          updateSliceNameRU={updateSliceNameRU} // DODO added 44120742
           sliceName={sliceName}
+          sliceNameRU={sliceNameRU} // DODO added 44120742
           supersetCanExplore={supersetCanExplore}
           supersetCanShare={supersetCanShare}
           supersetCanCSV={supersetCanCSV}
@@ -477,6 +493,8 @@ class Chart extends Component {
           formData={formData}
           width={width}
           height={this.getHeaderHeight()}
+          locale={locale} // DODO added 44120742
+          metricDescription={metricDescription} // DODO added 44728892
         />
 
         {/*

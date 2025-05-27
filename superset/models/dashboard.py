@@ -1,19 +1,3 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
 from __future__ import annotations
 
 import logging
@@ -44,6 +28,7 @@ from sqlalchemy.sql.elements import BinaryExpression
 from superset import app, db, is_feature_enabled, security_manager
 from superset.connectors.sqla.models import BaseDatasource, SqlaTable
 from superset.daos.datasource import DatasourceDAO
+from superset.models.filter_set import FilterSet  # dodo added 44211751
 from superset.models.helpers import AuditMixinNullable, ImportExportMixin
 from superset.models.slice import Slice
 from superset.models.user_attributes import UserAttribute
@@ -51,6 +36,7 @@ from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.thumbnails.digest import get_dashboard_digest
 from superset.utils import core as utils, json
+from superset.utils.core import get_user_id  # dodo added 44211751
 
 metadata = Model.metadata  # pylint: disable=no-member
 config = app.config
@@ -133,6 +119,7 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
     __tablename__ = "dashboards"
     id = Column(Integer, primary_key=True)
     dashboard_title = Column(String(500))
+    dashboard_title_ru = Column(String(500))  # dodo added 44120746
     position_json = Column(utils.MediumText())
     description = Column(Text)
     css = Column(utils.MediumText())
@@ -165,6 +152,10 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
         "EmbeddedDashboard",
         back_populates="dashboard",
         cascade="all, delete-orphan",
+    )
+    # dodo added 44211751
+    _filter_sets = relationship(
+        "FilterSet", back_populates="dashboard", cascade="all, delete"
     )
     export_fields = [
         "dashboard_title",
@@ -207,6 +198,30 @@ class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
             for datasource in db.session.query(cls_model)
             .filter(cls_model.id.in_(datasource_ids))
             .all()
+        }
+
+    # dodo added 44211751
+    @property
+    def filter_sets(self) -> dict[int, FilterSet]:
+        return {fs.id: fs for fs in self._filter_sets}
+
+    # dodo added 44211751
+    @property
+    def filter_sets_lst(self) -> dict[int, FilterSet]:
+        if security_manager.is_admin():
+            return self._filter_sets
+        filter_sets_by_owner_type: dict[str, list[Any]] = {"Dashboard": [], "User": []}
+        for fs in self._filter_sets:
+            filter_sets_by_owner_type[fs.owner_type].append(fs)
+        user_filter_sets = list(
+            filter(
+                lambda filter_set: filter_set.owner_id == get_user_id(),
+                filter_sets_by_owner_type["User"],
+            )
+        )
+        return {
+            fs.id: fs
+            for fs in user_filter_sets + filter_sets_by_owner_type["Dashboard"]
         }
 
     @property

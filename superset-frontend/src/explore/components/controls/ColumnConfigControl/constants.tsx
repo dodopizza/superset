@@ -1,23 +1,7 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+// DODO was here
 import { GenericDataType, t, validateNumber } from '@superset-ui/core';
 import {
+  AGGREGATE_FUNCTION_OPTIONS, // DODO added 45525377
   ControlFormItemSpec,
   D3_FORMAT_DOCS,
   D3_FORMAT_OPTIONS,
@@ -38,18 +22,28 @@ export type SharedColumnConfigProp =
   | 'horizontalAlign'
   | 'truncateLongCells'
   | 'showCellBars'
-  | 'currencyFormat';
+  | 'currencyFormat'
+  | 'exportAsTime' // DODO added 44136746
+  // DODO added start 45525377
+  | 'pinColumn'
+  | 'aggregation'
+  | 'hideValueInTotal';
+// DODO added stop 45525377
 
 const d3NumberFormat: ControlFormItemSpec<'Select'> = {
   allowNewOptions: true,
   controlType: 'Select',
   label: t('D3 format'),
   description: D3_FORMAT_DOCS,
-  options: D3_FORMAT_OPTIONS.map(option => ({
+  // options: D3_FORMAT_OPTIONS.map(option => ({
+  // DODO changed 44211769
+  options: [['', t('Default')], ...D3_FORMAT_OPTIONS].map(option => ({
     value: option[0],
     label: option[1],
   })),
-  defaultValue: D3_FORMAT_OPTIONS[0][0],
+  // defaultValue: D3_FORMAT_OPTIONS[0][0],
+  // DODO changed 44211769
+  defaultValue: '',
   creatable: true,
   minWidth: '14em',
   debounceDelay: 500,
@@ -144,6 +138,38 @@ const truncateLongCells: ControlFormItemSpec<'Checkbox'> = {
   debounceDelay: 400,
 };
 
+// DODO added start 45525377
+const pinColumn: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Pin column'),
+  description: t('Pin column with horizontal scroll'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+
+const aggregation: ControlFormItemSpec<'Select'> = {
+  controlType: 'Select',
+  label: t('Select aggregate options'),
+  placeholder: t('%s aggregates(s)', AGGREGATE_FUNCTION_OPTIONS.length),
+  description: t('Select aggregate options'),
+  options: [['', t('Default')], ...AGGREGATE_FUNCTION_OPTIONS].map(option => ({
+    value: option[0],
+    label: option[1],
+  })),
+  defaultValue: '',
+  minWidth: '10em',
+  debounceDelay: 500,
+};
+
+const hideValueInTotal: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Hide value in Total'),
+  description: t('Hide value in Total'),
+  defaultValue: false,
+  debounceDelay: 400,
+};
+// DODO added stop 45525377
+
 const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
   controlType: 'CurrencyControl',
   label: t('Currency format'),
@@ -151,6 +177,15 @@ const currencyFormat: ControlFormItemSpec<'CurrencyControl'> = {
     'Customize chart metrics or columns with currency symbols as prefixes or suffixes. Choose a symbol from dropdown or type your own.',
   ),
   debounceDelay: 200,
+};
+
+// DODO added 44136746
+const exportAsTime: ControlFormItemSpec<'Checkbox'> = {
+  controlType: 'Checkbox',
+  label: t('Export as time'),
+  description: t('Export a numeric value as number of days'),
+  defaultValue: false,
+  debounceDelay: 400,
 };
 /**
  * All configurable column formatting properties.
@@ -174,6 +209,12 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
+  exportAsTime, // DODO added 44136746
+  // DODO added start 45525377
+  pinColumn,
+  aggregation,
+  hideValueInTotal,
+  // DODO added stop 45525377
 };
 
 export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {

@@ -20,15 +20,20 @@ import contextlib
 import logging
 from typing import Any, TYPE_CHECKING
 
+import pandas as pd
 from flask import current_app, g, make_response, request, Response
 from flask_appbuilder.api import expose, protect
 from flask_babel import gettext as _
 from marshmallow import ValidationError
 
-from superset import is_feature_enabled, security_manager
+from superset import app, is_feature_enabled, security_manager
 from superset.async_events.async_query_manager import AsyncQueryTokenException
 from superset.charts.api import ChartRestApi
 from superset.charts.data.query_context_cache_loader import QueryContextCacheLoader
+from superset.charts.data.utils import (
+    revert_translate,
+    translate_chart_to_russian,
+)
 from superset.charts.post_processing import apply_post_process
 from superset.charts.schemas import ChartDataQueryContextSchema
 from superset.commands.chart.data.create_async_job_command import (
@@ -40,12 +45,14 @@ from superset.commands.chart.exceptions import (
     ChartDataQueryFailedError,
 )
 from superset.common.chart_data import ChartDataResultFormat, ChartDataResultType
+from superset.common.utils.dataframe_utils import format_data_for_export
 from superset.connectors.sqla.models import BaseDatasource
+from superset.constants import Language
 from superset.daos.exceptions import DatasourceNotFound
 from superset.exceptions import QueryObjectValidationError
 from superset.extensions import event_logger
 from superset.models.sql_lab import Query
-from superset.utils import json
+from superset.utils import csv, excel, json
 from superset.utils.core import (
     create_zip,
     DatasourceType,
@@ -58,6 +65,7 @@ from superset.views.base_api import statsd_metrics
 if TYPE_CHECKING:
     from superset.common.query_context import QueryContext
 
+config = app.config
 logger = logging.getLogger(__name__)
 
 
@@ -257,9 +265,19 @@ class ChartDataRestApi(ChartRestApi):
             return self._run_async(json_body, command)
 
         form_data = json_body.get("form_data")
-        return self._get_data_response(
-            command, form_data=form_data, datasource=query_context.datasource
-        )
+        language = json_body.get("language")
+        if language == Language.RU:
+            translate_chart_to_russian(query_context)
+            response = self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
+            revert_translate(query_context)
+        else:
+            response = self._get_data_response(
+                command, form_data=form_data, datasource=query_context.datasource
+            )
+
+        return response
 
     @expose("/data/<cache_key>", methods=("GET",))
     @protect()
@@ -366,15 +384,39 @@ class ChartDataRestApi(ChartRestApi):
             if not result["queries"]:
                 return self.response_400(_("Empty query result"))
 
-            is_csv_format = result_format == ChartDataResultFormat.CSV
+            result_df = pd.DataFrame()
+            for query in result["queries"]:
+                data = pd.DataFrame(query["data"])
+                if result_df.empty:
+                    result_df = data
+                    continue
+                try:
+                    result_df = pd.merge(
+                        result_df,
+                        data,
+                        on=result_df.columns[0],
+                        how="outer",
+                        suffixes=("", "_extra"),
+                    )
+                except KeyError:
+                    pass
 
-            if len(result["queries"]) == 1:
-                # return single query results
-                data = result["queries"][0]["data"]
-                if is_csv_format:
-                    return CsvResponse(data, headers=generate_download_headers("csv"))
-
-                return XlsxResponse(data, headers=generate_download_headers("xlsx"))
+            result_df = format_data_for_export(  # dodo added
+                result_df, form_data
+            )
+            if result_format == ChartDataResultFormat.CSV:
+                include_index = not isinstance(result_df.index, pd.RangeIndex)
+                return CsvResponse(
+                    csv.df_to_escaped_csv(
+                        result_df, index=include_index, **config["CSV_EXPORT"]
+                    ),
+                    headers=generate_download_headers("csv"),
+                )
+            if result_format == ChartDataResultFormat.XLSX:
+                return XlsxResponse(
+                    excel.df_to_excel(result_df, **config["EXCEL_EXPORT"]),
+                    headers=generate_download_headers("xlsx"),
+                )
 
             # return multi-query results bundled as a zip file
             def _process_data(query_data: Any) -> Any:
