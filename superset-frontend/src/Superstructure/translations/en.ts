@@ -2003,7 +2003,6 @@ const en = {
       'This chart applies cross-filters to charts whose datasets contain columns with the same name.':
         [''],
       'Cross-filters': [''],
-      '': [''],
       'Locate the chart': [''],
     },
   },
