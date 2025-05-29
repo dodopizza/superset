@@ -13,7 +13,7 @@ import DeleteComponentButton from '../DeleteComponentButton';
 import HoverMenu from '../menu/HoverMenu';
 import findTabIndexByComponentId from '../../util/findTabIndexByComponentId';
 import getDirectPathToTabIndex from '../../util/getDirectPathToTabIndex';
-import getLeafComponentIdFromPath from '../../util/getLeafComponentIdFromPath';
+// import getLeafComponentIdFromPath from '../../util/getLeafComponentIdFromPath'; // DODO commented out
 import { componentShape } from '../../util/propShapes';
 import { NEW_TAB_ID } from '../../util/constants';
 import { RENDER_TAB, RENDER_TAB_CONTENT } from './Tab';
@@ -94,11 +94,12 @@ const StyledTabsContainer = styled.div`
 export class Tabs extends PureComponent {
   constructor(props) {
     super(props);
-    const { tabIndex, activeKey } = this.getTabInfo(props);
+    // const { tabIndex, activeKey } = this.getTabInfo(props); // DODO commented out
 
+    // DODO changed
     this.state = {
-      tabIndex,
-      activeKey,
+      tabIndex: 0,
+      activeKey: props.component.children[0],
     };
     this.handleClickTab = this.handleClickTab.bind(this);
     this.handleDeleteComponent = this.handleDeleteComponent.bind(this);
@@ -119,8 +120,8 @@ export class Tabs extends PureComponent {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const maxIndex = Math.max(0, nextProps.component.children.length - 1);
-    const currTabsIds = this.props.component.children;
-    const nextTabsIds = nextProps.component.children;
+    // const currTabsIds = this.props.component.children; // DODO commented out
+    // const nextTabsIds = nextProps.component.children; // DODO commented out
 
     if (this.state.tabIndex > maxIndex) {
       this.setState(() => ({ tabIndex: maxIndex }));
@@ -135,36 +136,37 @@ export class Tabs extends PureComponent {
       }));
     }
 
-    if (nextProps.isComponentVisible) {
-      const nextFocusComponent = getLeafComponentIdFromPath(
-        nextProps.directPathToChild,
-      );
-      const currentFocusComponent = getLeafComponentIdFromPath(
-        this.props.directPathToChild,
-      );
+    // DODO commented out
+    // if (nextProps.isComponentVisible) {
+    //   const nextFocusComponent = getLeafComponentIdFromPath(
+    //     nextProps.directPathToChild,
+    //   );
+    //   const currentFocusComponent = getLeafComponentIdFromPath(
+    //     this.props.directPathToChild,
+    //   );
 
-      // If the currently selected component is different than the new one,
-      // or the tab length/order changed, calculate the new tab index and
-      // replace it if it's different than the current one
-      if (
-        nextFocusComponent !== currentFocusComponent ||
-        (nextFocusComponent === currentFocusComponent &&
-          currTabsIds !== nextTabsIds)
-      ) {
-        const nextTabIndex = findTabIndexByComponentId({
-          currentComponent: nextProps.component,
-          directPathToChild: nextProps.directPathToChild,
-        });
+    //   // If the currently selected component is different than the new one,
+    //   // or the tab length/order changed, calculate the new tab index and
+    //   // replace it if it's different than the current one
+    //   if (
+    //     nextFocusComponent !== currentFocusComponent ||
+    //     (nextFocusComponent === currentFocusComponent &&
+    //       currTabsIds !== nextTabsIds)
+    //   ) {
+    //     const nextTabIndex = findTabIndexByComponentId({
+    //       currentComponent: nextProps.component,
+    //       directPathToChild: nextProps.directPathToChild,
+    //     });
 
-        // make sure nextFocusComponent is under this tabs component
-        if (nextTabIndex > -1 && nextTabIndex !== this.state.tabIndex) {
-          this.setState(() => ({
-            tabIndex: nextTabIndex,
-            activeKey: nextTabsIds[nextTabIndex],
-          }));
-        }
-      }
-    }
+    //     // make sure nextFocusComponent is under this tabs component
+    //     if (nextTabIndex > -1 && nextTabIndex !== this.state.tabIndex) {
+    //       this.setState(() => ({
+    //         tabIndex: nextTabIndex,
+    //         activeKey: nextTabsIds[nextTabIndex],
+    //       }));
+    //     }
+    //   }
+    // }
   }
 
   getTabInfo = props => {
