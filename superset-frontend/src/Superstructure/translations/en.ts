@@ -2000,6 +2000,10 @@ const en = {
       Esc: [''],
       'or click the Reset button': [''],
       'Got it!': [''],
+      'This chart applies cross-filters to charts whose datasets contain columns with the same name.':
+        [''],
+      'Cross-filters': [''],
+      'Locate the chart': [''],
     },
   },
 };

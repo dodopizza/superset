@@ -8,6 +8,12 @@ const ZOOM_STEP_TOUCHPAD = 0.01;
 const ZOOM_STEP_MOUSE = 0.05;
 const PAN_MULTIPLIER = 1;
 
+const Container = styled.div`
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+`;
+
 // Контейнер для элементов управления навигацией
 const NavigationControls = styled.div`
   position: absolute;
@@ -27,7 +33,6 @@ const ZoomIndicator = styled.div`
   font-size: 11px;
   opacity: 0.8;
   transition: opacity 0.3s ease;
-  cursor: pointer;
   user-select: none;
 
   &:hover {
@@ -71,7 +76,6 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
   const [startY, setStartY] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
-  const [cursor, setCursor] = useState<string>('auto');
   const [scale, setScale] = useState(1);
   const [hasScrolled, setHasScrolled] = useState(false);
 
@@ -82,12 +86,13 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       e.preventDefault();
 
       if (contentRef.current) {
+        contentRef.current.style.userSelect = 'none';
+        contentRef.current.style.cursor = 'grab';
         setIsDragging(true);
         setStartX(e.pageX - contentRef.current.offsetLeft);
         setStartY(e.pageY - contentRef.current.offsetTop);
         setScrollLeft(contentRef.current.scrollLeft);
         setScrollTop(contentRef.current.scrollTop);
-        setCursor('grabbing');
       }
     }
   };
@@ -114,25 +119,14 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
     }
   };
 
-  // Функция для обработки окончания перетаскивания
-  const handleMouseUp = () => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-    setCursor('auto');
+  // Функция для обработки окончания перетаскивания и выхода мыши за пределы контейнера
+  const handleStopDragging = () => {
     if (contentRef.current) {
       contentRef.current.style.cursor = 'auto';
+      contentRef.current.style.userSelect = 'auto';
     }
-  };
-
-  // Функция для обработки выхода мыши за пределы контейнера
-  const handleMouseLeave = () => {
     if (isDragging) {
       setIsDragging(false);
-    }
-    setCursor('auto');
-    if (contentRef.current) {
-      contentRef.current.style.cursor = 'auto';
     }
   };
 
@@ -233,15 +227,15 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
   // Добавляем обработчики событий для клавиатуры
   useEffect(() => {
-    // Флаг для отслеживания, была ли нажата клавиша Alt/Command/Space
+    // Флаг для отслеживания, была ли нажата клавиша Alt/Command
     let keyPressed = false;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // Используем пробел или Command (для Mac) или Alt (для Windows/Linux)
-      if ((e.code === 'Space' || e.metaKey || e.altKey) && !keyPressed) {
+      if ((e.metaKey || e.altKey) && !keyPressed) {
         keyPressed = true;
         if (contentRef.current && !isDragging) {
-          setCursor('grab');
+          contentRef.current.style.userSelect = 'none';
           contentRef.current.style.cursor = 'grab';
         }
       }
@@ -270,8 +264,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       if (
         (e.key === '+' || e.key === '=' || e.code === 'Equal') &&
         !e.altKey &&
-        !e.metaKey &&
-        !e.altKey
+        !e.metaKey
       ) {
         e.preventDefault();
 
@@ -290,10 +283,9 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
       // Уменьшение масштаба по клавише "-"
       if (
-        (e.key === '-' || e.code === 'Minus') &&
+        (e.key === '-' || e.key === '_' || e.code === 'Minus') &&
         !e.altKey &&
-        !e.metaKey &&
-        !e.altKey
+        !e.metaKey
       ) {
         e.preventDefault();
 
@@ -313,13 +305,11 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
 
     const handleKeyUp = (e: KeyboardEvent) => {
       // Используем пробел или Command (для Mac) или Alt (для Windows/Linux)
-      if (e.code === 'Space' || e.metaKey || e.altKey) {
+      if (e.code.startsWith('Meta') || e.code.startsWith('Alt')) {
         keyPressed = false;
-        if (!isDragging) {
-          setCursor('auto');
-          if (contentRef.current) {
-            contentRef.current.style.cursor = 'auto';
-          }
+        if (contentRef.current) {
+          contentRef.current.style.cursor = 'auto';
+          contentRef.current.style.userSelect = 'auto';
         }
       }
     };
@@ -333,15 +323,6 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
     };
   }, [isDragging, scale, hasScrolled]);
 
-  // Стили для контейнера
-  const containerStyle: React.CSSProperties = {
-    overflow: 'auto',
-    cursor,
-    userSelect: isDragging ? 'none' : 'auto',
-    height: '100%',
-    width: '100%',
-  };
-
   // Стили для масштабируемого контента
   const contentStyle: React.CSSProperties = {
     transform: `scale(${scale})`,
@@ -352,13 +333,12 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
   };
 
   return (
-    <div
+    <Container
       ref={contentRef}
-      style={containerStyle}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleStopDragging}
+      onMouseLeave={handleStopDragging}
       onWheel={handleWheel}
       role="presentation"
       aria-label={t('Content with navigation')}
@@ -382,7 +362,7 @@ const Navigable: React.FC<NavigableSafeMarkdownProps> = ({ children }) => {
       </NavigationControls>
 
       <NavigableOnboarding />
-    </div>
+    </Container>
   );
 };
 

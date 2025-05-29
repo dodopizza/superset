@@ -43,5 +43,5 @@ def apply_column_types(
                 df[column] = df[column].astype(str)
         elif pd.api.types.is_datetime64tz_dtype(df[column]):
             # timezones are not supported
-            df[column] = df[column].astype(str)
+            df[column] = df[column].dt.tz_localize(None)  # dodo added
     return df
