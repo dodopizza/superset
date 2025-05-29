@@ -108,6 +108,11 @@ def format_data_for_export(
         for m in form_data.get("datasource_metrics", [])
     }
 
+    for column in df.columns:
+        if pd.api.types.is_datetime64tz_dtype(df[column]):
+            # timezones are not supported
+            df[column] = df[column].dt.tz_localize(None)
+
     for k, v in column_config.items():  # экспорт в формате времени
         if v.get("exportAsTime"):
             if isinstance(df.get(k), pd.Series):
