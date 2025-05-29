@@ -214,26 +214,39 @@ class ExtendedUserModelView(UserModelView):
     """
     Extended UserModelView
     С дополнительными данными
-    User.teams, User.user_info.country_name
+    User.id, User.teams, User.user_info.dodo_role, User.user_info.country_name
     """
 
     label_columns = UserModelView.label_columns.copy()
     label_columns.update(
         {
-            "user_info.country_name": _("Country"),
+            "id": _("ID"),
             "teams": _("Team"),
+            "user_info.dodo_role": _("Dodo role"),
+            "user_info.country_name": _("Country"),
         }
     )
 
     show_fieldsets = [
         (
             _("User info"),
-            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+            {
+                "fields": [
+                    "id",
+                    "username",
+                    "active",
+                    "roles",
+                    "teams",
+                    "user_info.dodo_role",
+                    "login_count",
+                ]
+            },
         ),
         (
             _("Personal Info"),
             {
                 "fields": [
+                    "id",
                     "first_name",
                     "last_name",
                     "email",
@@ -261,7 +274,17 @@ class ExtendedUserModelView(UserModelView):
     user_show_fieldsets = [
         (
             _("User info"),
-            {"fields": ["username", "active", "roles", "teams", "login_count"]},
+            {
+                "fields": [
+                    "id",
+                    "username",
+                    "active",
+                    "roles",
+                    "teams",
+                    "user_info.dodo_role",
+                    "login_count",
+                ]
+            },
         ),
         (
             _("Personal Info"),
