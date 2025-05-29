@@ -8,6 +8,8 @@ import controlPanel from './controlPanel';
 import transformProps from './transformProps';
 import thumbnail from './images/thumbnail.png';
 
+const isStandalone = process.env.type === undefined;
+
 const panel = cloneDeep(controlPanel);
 
 for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
@@ -51,7 +53,12 @@ export default class FilterSelectByIdWithTranslationPlugin extends ChartPlugin {
     super({
       buildQuery,
       controlPanel: panel,
-      loadChart: () => import('./SelectFilterPluginWithTranslations'),
+      loadChart: () =>
+        isStandalone
+          ? import('./SelectFilterPluginWithTranslations')
+          : import(
+              /* webpackPreload: true */ './SelectFilterPluginWithTranslations'
+            ),
       metadata,
       transformProps,
     });

@@ -335,11 +335,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
       parameters = {
         ...parameters,
         basename: '/',
-        // originUrl: `https://superset-${devStand}.d.yandex.dodois.dev`,
-        originUrl:
-          devStand === 'spr'
-            ? 'https://superset.d.yandex.dodois.dev'
-            : 'https://spr.d.yandex.dodois.dev',
+        originUrl: `https://superset-${devStand}.d.yandex.dodois.dev`,
         frontendLogger: true,
       };
     }

@@ -8,6 +8,8 @@ import controlPanel from './controlPanel';
 import transformProps from './transformProps';
 import thumbnail from './images/thumbnail.png';
 
+const isStandalone = process.env.type === undefined;
+
 const panel = cloneDeep(controlPanel);
 
 for (let i = 0; i < panel.controlPanelSections.length; i += 1) {
@@ -39,7 +41,10 @@ export default class FilterSelectPlugin extends ChartPlugin {
     super({
       buildQuery,
       controlPanel: panel,
-      loadChart: () => import('./SelectFilterPlugin'),
+      loadChart: () =>
+        isStandalone
+          ? import('./SelectFilterPlugin')
+          : import(/* webpackPreload: true */ './SelectFilterPlugin'),
       metadata,
       transformProps,
     });
