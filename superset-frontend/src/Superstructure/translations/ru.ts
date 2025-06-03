@@ -2979,6 +2979,12 @@ const ru = {
       Esc: ['Esc'],
       'or click the Reset button': ['или нажмите кнопку Сброс'],
       'Got it!': ['Понятно!'],
+      'This chart applies cross-filters to charts whose datasets contain columns with the same name.':
+        [
+          'Этот график применяет кроссфильтры к графикам, датасеты которых содержат, столбцы с тем же именем.',
+        ],
+      'Cross-filters': ['Кросс-фильтры'],
+      'Locate the chart': ['Навестись на график'],
     },
   },
 };
