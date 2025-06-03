@@ -92,6 +92,7 @@ SQLGLOT_DIALECTS = {
     "teradatasql": Dialects.TERADATA,
     "trino": Dialects.TRINO,
     "vertica": Dialects.POSTGRES,
+    "yql": Dialects.CLICKHOUSE,
 }
 
 

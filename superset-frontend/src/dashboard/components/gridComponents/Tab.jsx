@@ -6,16 +6,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { styled, t } from '@superset-ui/core';
 
-import { EmptyStateMedium } from 'src/components/EmptyState';
 import EditableTitle from 'src/components/EditableTitle';
+import { EmptyStateMedium } from 'src/components/EmptyState';
 import { setEditMode } from 'src/dashboard/actions/dashboardState';
-import DashboardComponent from 'src/dashboard/containers/DashboardComponent';
 import AnchorLink from 'src/dashboard/components/AnchorLink';
 import DragDroppable, {
   Droppable,
 } from 'src/dashboard/components/dnd/DragDroppable';
-import { componentShape } from 'src/dashboard/util/propShapes';
+import DashboardComponent from 'src/dashboard/containers/DashboardComponent';
 import { TAB_TYPE } from 'src/dashboard/util/componentTypes';
+import { componentShape } from 'src/dashboard/util/propShapes';
 import {
   LanguageIndicator,
   LanguageIndicatorWrapper,
@@ -39,6 +39,7 @@ const propTypes = {
   onHoverTab: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   canEdit: PropTypes.bool.isRequired,
+  embeddedMode: PropTypes.bool,
 
   // grid related
   availableColumnCount: PropTypes.number,
@@ -272,6 +273,7 @@ class Tab extends PureComponent {
       editMode,
       isFocused,
       isHighlighted,
+      embeddedMode,
       locale,
     } = this.props;
 
@@ -294,7 +296,7 @@ class Tab extends PureComponent {
             ref={dragSourceRef}
           >
             {/* DODO changed 44120742 */}
-            {editMode && (
+            {editMode && !embeddedMode && (
               <LanguageIndicatorWrapper>
                 <LanguageIndicator language="gb" />
                 <EditableTitle
@@ -311,7 +313,7 @@ class Tab extends PureComponent {
               </LanguageIndicatorWrapper>
             )}
             {/* DODO added 44120742 */}
-            {editMode && (
+            {editMode && !embeddedMode && (
               <LanguageIndicatorWrapper>
                 <LanguageIndicator language="ru" />
                 <EditableTitle

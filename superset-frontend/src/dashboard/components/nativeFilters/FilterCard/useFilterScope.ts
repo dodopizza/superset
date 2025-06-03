@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import { Filter, t } from '@superset-ui/core';
 import { bootstrapData } from 'src/preamble'; // DODO added 44120742
 import { Layout, LayoutItem, RootState } from 'src/dashboard/types';
-import { DASHBOARD_ROOT_ID } from 'src/dashboard/util/constants';
-import { CHART_TYPE } from 'src/dashboard/util/componentTypes';
 import { useChartIds } from 'src/dashboard/util/charts/useChartIds';
+import { CHART_TYPE } from 'src/dashboard/util/componentTypes';
+import { DASHBOARD_ROOT_ID } from 'src/dashboard/util/constants';
 
 // DODO added start 44120742
 const locale = bootstrapData?.common?.locale || 'en';
@@ -93,10 +93,11 @@ export const useFilterScope = (filter: Filter) => {
     if (topLevelTabs) {
       // We start assuming that all charts are in scope for all tabs in the root path
       const topLevelTabsInFullScope = [...filter.scope.rootPath];
-      const layoutChartElementsInTabsInScope = layoutCharts.filter(element =>
-        element.parents.some(parent =>
-          topLevelTabsInFullScope.includes(parent),
-        ),
+      const layoutChartElementsInTabsInScope = layoutCharts.filter(
+        element =>
+          element.parents?.some(parent =>
+            topLevelTabsInFullScope.includes(parent),
+          ),
       );
       // Exclude the tabs that contain excluded charts
       filter.scope.excluded.forEach(chartId => {
@@ -104,7 +105,7 @@ export const useFilterScope = (filter: Filter) => {
           tabId =>
             layoutChartElementsInTabsInScope
               .find(chart => chart.meta.chartId === chartId)
-              ?.parents.includes(tabId),
+              ?.parents?.includes(tabId),
         );
         if (excludedIndex > -1) {
           topLevelTabsInFullScope.splice(excludedIndex, 1);
@@ -118,7 +119,7 @@ export const useFilterScope = (filter: Filter) => {
             layoutChartElementsInTabsInScope.find(
               element =>
                 element.meta.chartId === chartId &&
-                element.parents.every(
+                element.parents?.every(
                   parent => !topLevelTabsInFullScope.includes(parent),
                 ),
             );

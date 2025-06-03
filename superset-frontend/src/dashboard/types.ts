@@ -171,7 +171,7 @@ type MetaDodoExtended = {
 };
 export type LayoutItem = {
   children: string[];
-  parents: string[];
+  parents?: string[];
   type: ComponentType;
   id: string;
   meta: {
