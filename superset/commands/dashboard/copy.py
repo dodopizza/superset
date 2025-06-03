@@ -18,6 +18,8 @@ import logging
 from functools import partial
 from typing import Any
 
+from flask import g
+
 from superset import is_feature_enabled, security_manager
 from superset.commands.base import BaseCommand
 from superset.commands.dashboard.exceptions import (
@@ -28,6 +30,7 @@ from superset.commands.dashboard.exceptions import (
 from superset.daos.dashboard import DashboardDAO
 from superset.models.dashboard import Dashboard
 from superset.utils.decorators import on_error, transaction
+from superset.views.utils import get_permissions
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +50,12 @@ class CopyDashboardCommand(BaseCommand):
             "json_metadata"
         ):
             raise DashboardInvalidError()
-        if is_feature_enabled("DASHBOARD_RBAC") and not security_manager.is_owner(
-            self._original_dash
+        # DODO was here
+        user = g.user
+        roles, _ = get_permissions(user)
+        if (
+            is_feature_enabled("DASHBOARD_RBAC")
+            and not security_manager.is_owner(self._original_dash)
+            and not (roles.get("Gamma") or roles.get("Alpha"))
         ):
             raise DashboardForbiddenError()
