@@ -40,7 +40,6 @@ import {
   RootState,
 } from 'src/dashboard/types';
 import {
-  setActiveTabs, // DODO added
   setDirectPathToChild,
   setEditMode,
   toggleIsExportingData, // DODO added 48951211
@@ -494,16 +493,6 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
       observer?.disconnect();
     };
   }, []);
-
-  // DODO added
-  // Reseting directPathToChild and activeTabs on umount to open first tab when reopen dashboard
-  useEffect(
-    () => () => {
-      dispatch(setDirectPathToChild([]));
-      dispatch(setActiveTabs([]));
-    },
-    [],
-  );
 
   const {
     showDashboard,
