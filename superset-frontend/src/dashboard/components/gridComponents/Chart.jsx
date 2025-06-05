@@ -370,6 +370,7 @@ class Chart extends Component {
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
+      slice: this.props.slice, // DODO added 44611022
       language: locale, // DODO added 44136746
       datasourceMetrics: this.props.datasource.metrics, // DODO added 44136746
     }).finally(this.props.toggleIsExportingData); // DODO added 48951211
