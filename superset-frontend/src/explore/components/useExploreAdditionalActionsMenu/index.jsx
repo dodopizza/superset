@@ -145,6 +145,7 @@ export const useExploreAdditionalActionsMenu = (
             formData: formDataForExport, // DODO changed 44136746
             datasourceMetrics, // DODO added 44136746
             ownState,
+            slice, // DODO added 44611022
             resultType: 'full',
             resultFormat: 'csv',
           })
@@ -158,6 +159,7 @@ export const useExploreAdditionalActionsMenu = (
         ? exportChart({
             formData: formDataForExport, // DODO changed 44136746
             datasourceMetrics, // DODO added 44136746
+            slice, // DODO added 44611022
             resultType: 'post_processed',
             resultFormat: 'csv',
           })
@@ -170,6 +172,7 @@ export const useExploreAdditionalActionsMenu = (
       canDownloadCSV
         ? exportChart({
             formData: formDataForExport, // DODO changed 44136746
+            slice, // DODO added 44611022
             resultType: 'results',
             resultFormat: 'json',
           })
@@ -183,6 +186,7 @@ export const useExploreAdditionalActionsMenu = (
         ? exportChart({
             formData: formDataForExport, // DODO changed 44136746
             datasourceMetrics, // DODO added 44136746
+            slice, // DODO added 44611022
             resultType: 'results',
             resultFormat: 'xlsx',
           })

@@ -35,7 +35,11 @@ import injectCustomCss from 'src/dashboard/util/injectCustomCss';
 import { LocalStorageKeys, setItem } from 'src/utils/localStorageHelpers';
 import { URL_PARAMS } from 'src/constants';
 import { getUrlParam } from 'src/utils/urlUtils';
-import { setDatasetsStatus } from 'src/dashboard/actions/dashboardState';
+import {
+  setDatasetsStatus,
+  setDirectPathToChild, // DODO added
+  setActiveTabs, // DODO added
+} from 'src/dashboard/actions/dashboardState';
 import {
   getFilterValue,
   getPermalinkValue,
@@ -165,6 +169,13 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     dispatch(setDatasetsStatus(status));
   }, [dispatch, status]);
 
+  // DODO added
+  // Reset directPathToChild and activeTabs on umount to open first tab when reopen dashboard
+  useEffect(() => {
+    dispatch(setDirectPathToChild([]));
+    dispatch(setActiveTabs([]));
+  }, [dispatch, idOrSlug]);
+
   useEffect(() => {
     // eslint-disable-next-line consistent-return
     async function getDataMaskApplied() {
@@ -186,6 +197,10 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
         // DODO added 44211751
       } else if (primaryFilterSetDataMask) {
         dataMask = primaryFilterSetDataMask;
+      } else {
+        // DODO added
+        // This ensures first tab is always opened by default
+        activeTabs = [];
       }
       if (isOldRison) {
         dataMask = isOldRison;

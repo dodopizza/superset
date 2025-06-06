@@ -333,7 +333,7 @@ const generateFileName = (filename, extension) =>
 
 const getExportedChartName = (slice = {}, extension) => {
   const sliceName = slice?.slice_name || 'viz_type';
-  const vizType = slice?.viz_type || 'viz_type';
+  const vizType = slice?.viz_type || slice?.form_data?.viz_type || 'viz_type';
   const timeGrain =
     slice?.form_data?.time_grain_sqla ||
     slice?.form_data?.time_range ||
