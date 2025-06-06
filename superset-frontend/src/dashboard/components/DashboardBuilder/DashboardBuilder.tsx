@@ -538,6 +538,11 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
   // If a new tab was added, update the directPathToChild to reflect it
   const currentTopLevelTabs = useRef(topLevelTabs);
   useEffect(() => {
+    currentTopLevelTabs.current = topLevelTabs;
+
+    // DODO added
+    if (!editMode) return;
+
     const currentTabsLength = currentTopLevelTabs.current?.children?.length;
     const newTabsLength = topLevelTabs?.children?.length;
 
@@ -552,9 +557,7 @@ const DashboardBuilder: FC<DashboardBuilderProps> = () => {
       );
       dispatch(setDirectPathToChild(lastTab));
     }
-
-    currentTopLevelTabs.current = topLevelTabs;
-  }, [topLevelTabs]);
+  }, [topLevelTabs, editMode]); // DODO changed
 
   const renderDraggableContent = useCallback(
     ({ dropIndicatorProps }: { dropIndicatorProps: JsonObject }) => (
