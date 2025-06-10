@@ -203,6 +203,9 @@ class ApiHandler {
     if (useFormData) {
       const formData = new FormData();
       Object.entries(body || {}).forEach(([key, value]) => {
+        if (value === undefined) {
+          return;
+        }
         formData.append(key, JSON.stringify(value));
       });
       finalBody = formData;
