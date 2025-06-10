@@ -154,32 +154,55 @@ const buildQuery: BuildQuery<TableChartFormData> = (
         postProcessing.push(timeCompareOperator(formData, baseQueryObject));
       }
 
+      const hasTimeCompare = formData?.time_compare; // DODO added
       const temporalColumnsLookup = formData?.temporal_columns_lookup;
       // Filter out the column if needed and prepare the temporal column object
+      if (hasTimeCompare) {
+        columns = columns.filter(col => {
+          const shouldBeAdded =
+            isPhysicalColumn(col) &&
+            time_grain_sqla &&
+            temporalColumnsLookup?.[col];
 
-      columns = columns.filter(col => {
-        const shouldBeAdded =
-          isPhysicalColumn(col) &&
-          time_grain_sqla &&
-          temporalColumnsLookup?.[col];
+          if (shouldBeAdded && !temporalColumnAdded) {
+            temporalColumn = {
+              timeGrain: time_grain_sqla,
+              columnType: 'BASE_AXIS',
+              sqlExpression: col,
+              label: col,
+              expressionType: 'SQL',
+            } as AdhocColumn;
+            temporalColumnAdded = true;
+            return false; // Do not include this in the output; it's added separately
+          }
+          return true;
+        });
 
-        if (shouldBeAdded && !temporalColumnAdded) {
-          temporalColumn = {
-            timeGrain: time_grain_sqla,
-            columnType: 'BASE_AXIS',
-            sqlExpression: col,
-            label: col,
-            expressionType: 'SQL',
-          } as AdhocColumn;
-          temporalColumnAdded = true;
-          return false; // Do not include this in the output; it's added separately
+        // So we ensure the temporal column is added first
+        if (temporalColumn) {
+          columns = [temporalColumn, ...columns];
         }
-        return true;
-      });
+      } else {
+        // DODO added: Keep the order of the temporal column
+        columns = columns.map(col => {
+          const shouldBeAdded =
+            isPhysicalColumn(col) &&
+            time_grain_sqla &&
+            temporalColumnsLookup?.[col];
 
-      // So we ensure the temporal column is added first
-      if (temporalColumn) {
-        columns = [temporalColumn, ...columns];
+          if (shouldBeAdded && !temporalColumnAdded) {
+            temporalColumn = {
+              timeGrain: time_grain_sqla,
+              columnType: 'BASE_AXIS',
+              sqlExpression: col,
+              label: col,
+              expressionType: 'SQL',
+            } as AdhocColumn;
+            temporalColumnAdded = true;
+            return temporalColumn;
+          }
+          return col;
+        });
       }
     }
 
