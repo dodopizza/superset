@@ -175,6 +175,7 @@ class ApiHandler {
     url,
     body,
     jsonPayload,
+    useFormData,
     headers,
     responseType,
   }: {
@@ -182,9 +183,14 @@ class ApiHandler {
     url: AxiosRequestConfig['url'];
     body?: Record<string, any> | string;
     jsonPayload?: Payload;
+    useFormData?: boolean;
     headers?: AxiosRequestHeaders;
     responseType?: ResponseType;
   }) {
+    if (!url) {
+      throw new Error('The URL was not provided in SupersetClient');
+    }
+
     const { ORIGIN_URL } = this.config;
     let finalBody = body;
     const finalHeaders = new AxiosHeaders(headers);
@@ -194,8 +200,12 @@ class ApiHandler {
       finalHeaders.set('Content-Type', 'application/json');
     }
 
-    if (!url) {
-      throw new Error('The URL was not provided in SupersetClient');
+    if (useFormData) {
+      const formData = new FormData();
+      Object.entries(body || {}).forEach(([key, value]) => {
+        formData.append(key, JSON.stringify(value));
+      });
+      finalBody = formData;
     }
 
     const cleanedUrl = url.replace(/https?:\/\/\//, '/'); // for /explore_json
