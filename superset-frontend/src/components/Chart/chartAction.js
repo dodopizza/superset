@@ -146,6 +146,7 @@ const legacyChartDataRequest = async (
     method: 'post',
     url,
     body: { form_data: formData },
+    useFormData: true,
     requestParams,
     // parseMethod,
   }).then(resp => ({
