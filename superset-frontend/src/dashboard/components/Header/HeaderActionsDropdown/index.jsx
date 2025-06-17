@@ -19,6 +19,7 @@ import getDashboardUrl from 'src/dashboard/util/getDashboardUrl';
 import { getActiveFilters } from 'src/dashboard/util/activeDashboardFilters';
 import { getUrlParam } from 'src/utils/urlUtils';
 import { MenuKeys } from 'src/dashboard/types';
+import CSIConfigurationModal from 'src/DodoExtensions/dashboard/components/CSIConfigurationModal'; // DODO added 51127740
 
 const isStandalone = process.env.type === undefined; // DODO added 44611022
 
@@ -335,18 +336,28 @@ export class HeaderActionsDropdown extends PureComponent {
           )}
 
         {isStandalone && (
-          <Menu.Item key={MenuKeys.AutorefreshModal}>
-            <RefreshIntervalModal
-              addSuccessToast={this.props.addSuccessToast}
-              refreshFrequency={refreshFrequency}
-              refreshLimit={refreshLimit}
-              refreshWarning={refreshWarning}
-              onChange={this.changeRefreshInterval}
-              editMode={editMode}
-              refreshIntervalOptions={refreshIntervalOptions}
-              triggerNode={<span>{t('Set auto-refresh interval')}</span>}
-            />
-          </Menu.Item>
+          <>
+            <Menu.Item key={MenuKeys.AutorefreshModal}>
+              <RefreshIntervalModal
+                addSuccessToast={this.props.addSuccessToast}
+                refreshFrequency={refreshFrequency}
+                refreshLimit={refreshLimit}
+                refreshWarning={refreshWarning}
+                onChange={this.changeRefreshInterval}
+                editMode={editMode}
+                refreshIntervalOptions={refreshIntervalOptions}
+                triggerNode={<span>{t('Set auto-refresh interval')}</span>}
+              />
+            </Menu.Item>
+            {/* DODO added 51127740 */}
+            <Menu.Item key={MenuKeys.EnableCSI}>
+              <CSIConfigurationModal
+                dashboardId={dashboardId}
+                dashboardTitle={dashboardTitle}
+                dashboardTitleRU={dashboardTitleRU}
+              />
+            </Menu.Item>
+          </>
         )}
       </Menu>
     );

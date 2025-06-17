@@ -262,4 +262,5 @@ export enum MenuKeys {
   ToggleFullscreen = 'toggle_fullscreen',
   ManageEmbedded = 'manage_embedded',
   ManageEmailReports = 'manage_email_reports',
+  EnableCSI = 'enable_csi', // DODO added 51127740
 }

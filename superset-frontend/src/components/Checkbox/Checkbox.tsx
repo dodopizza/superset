@@ -14,6 +14,7 @@ export interface CheckboxProps extends CheckboxPropsDodoExtended {
 }
 
 const Styles = styled.span`
+  height: 18px; // DODO added 51127740
   &,
   & svg {
     vertical-align: top;
@@ -31,7 +32,7 @@ export default function Checkbox({
     <Styles
       style={style}
       onClick={() => {
-        onChange(!checked);
+        if (!disabled) onChange(!checked); // DODO changed 51127740
       }}
       role="checkbox"
       tabIndex={0}
