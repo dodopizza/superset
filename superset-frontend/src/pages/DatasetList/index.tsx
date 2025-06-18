@@ -309,6 +309,17 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         size: 'xs',
         id: 'id',
       },
+      // DODO added 51192827
+      {
+        Cell: ({
+          row: {
+            original: { id },
+          },
+        }: any) => id,
+        Header: 'ID',
+        disableSortBy: true,
+        size: 'xs',
+      },
       {
         Cell: ({
           row: {
