@@ -764,6 +764,7 @@ class DatasetRestApi(BaseSupersetModelRestApi):
             200,
             charts={"count": len(charts), "result": charts},
             dashboards={"count": len(dashboards), "result": dashboards},
+            filters_count=data["filters_count"],
         )
 
     @expose("/", methods=("DELETE",))

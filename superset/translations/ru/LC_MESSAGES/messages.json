@@ -1012,8 +1012,10 @@
       "%(dialect)s cannot be used as a data source for security reasons.": [
         "%(dialect)s не может использоваться в качестве источника данных по соображениям безопасности."
       ],
-      "Country": ["Страна"],
+      "ID": ["ID"],
       "Team": ["Команда"],
+      "Dodo role": ["DODO роль"],
+      "Country": ["Страна"],
       "User info": ["Данные пользователя"],
       "Personal Info": ["Персональные данные"],
       "Audit Info": ["Аудит данные"],
@@ -3372,10 +3374,10 @@
       "You can use it to add event handlers, manipulate DOM elements inside container, etc.": [
         "Можно использовать, чтобы добавлять обработчики событий, манипулировать элементами DOM внутри контейнера графика и т.д."
       ],
+      "JavaScript Code": ["JavaScript код"],
       "Define JavaScript code to execute after the template is rendered": [
         "Укажите код JavaScript, который будет выполняться после отрисовки шаблона"
       ],
-      "JavaScript Code": ["JavaScript код"],
       "Allow navigation tools": ["Разрешить инструменты навигации"],
       "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         "Включить инструменты навигации для handlebars. Позволяет панорамировать с помощью левой кнопкой мыши или Cmd/Alt+drag, и масштабирование с помощью Cmd/Alt+колесико "
@@ -3418,9 +3420,6 @@
       "Query mode": ["Режим запроса"],
       "Group By, Metrics or Percentage Metrics must have a value": [
         "Измерения, Меры или Процентные меры должны иметь значение"
-      ],
-      "You need to configure HTML sanitization to use CSS": [
-        "Вам необходимо настроить санитазацию HTML для использования CSS"
       ],
       "CSS Styles": ["CSS стили"],
       "CSS applied to the chart": ["CSS, примененный к графику"],
@@ -6772,6 +6771,8 @@
       "There was an issue duplicating the selected datasets: %s": [
         "Произошла ошибка при дублировании выбранных датасетов: %s"
       ],
+      "Also the dataset is linked to": ["Также датасет привязан к"],
+      "%s dashboard filters.": ["%s дашборд фильтру(-ам)."],
       "The dataset %s is linked to": ["Датасет %s привязан к"],
       "%s charts": ["%s графику(-ам) "],
       "that appear on": [", который(-ые) используется(-ются) в"],
@@ -6781,11 +6782,6 @@
       ],
       "The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.": [
         "Датасет %s привязан к %s графику(-ам), который(-ые) используется(-ются) в %s дашборде(-ах). Вы уверены, что хотите продолжить? Удаление датасета приведёт к неработоспособности этих объектов."
-      ],
-      "It will also affect": ["Это также повлияет на"],
-      "the dashboard filters": ["фильтры дашборда"],
-      "tied to this dataset if any.": [
-        ",привязанные к этому набору данных, если таковые имеются."
       ],
       "Delete Dataset?": ["Удалить датасет?"],
       "Are you sure you want to delete the selected datasets?": [
