@@ -38,7 +38,7 @@ const {
   nameChunks = false,
   env = '.env',
 } = parsedArgs;
-console.log('parsedArgs', parsedArgs);
+console.log('webpack DODO_VERSION', DODO_VERSION);
 const isDevMode = mode !== 'production';
 const isProdMode = !isDevMode;
 const isDevServer = process.argv[1].includes('webpack-dev-server');
