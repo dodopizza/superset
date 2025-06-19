@@ -17,8 +17,8 @@ const parsedArgs = require('yargs').argv;
 const Dotenv = require('dotenv');
 // const getProxyConfig = require('./webpack.proxy-config');
 const packageConfig = require('./package');
-const BASE_VERSION = require('./src/version/base');
-const CHANGE_VERSION = require('./src/version/change');
+const BASE_VERSION = packageConfig.version;
+const DODO_VERSION = process.env.DODO_VERSION;
 
 const {
   PROD_OUTPUT_FOLDER,
@@ -26,7 +26,7 @@ const {
   getHtmlTemplate,
 } = require('./src/Superstructure/webpackUtils/constants');
 
-const APP_VERSION = `${BASE_VERSION}_${CHANGE_VERSION}`;
+const APP_VERSION = `${BASE_VERSION}_${DODO_VERSION || 'local'}`;
 
 const {
   mode = 'development',
@@ -37,6 +37,7 @@ const {
   nameChunks = false,
   env = '.env',
 } = parsedArgs;
+console.log('parsedArgs', parsedArgs);
 const isDevMode = mode !== 'production';
 const isProdMode = !isDevMode;
 const isDevServer = process.argv[1].includes('webpack-dev-server');

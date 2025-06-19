@@ -93,7 +93,10 @@ export interface BrandProps {
   text: string;
 }
 
-export interface NavBarProps {
+interface NavBarPropsDodoExtended {
+  dodo_version_string?: string;
+}
+export interface NavBarProps extends NavBarPropsDodoExtended {
   show_watermark: boolean;
   bug_report_url?: string;
   bug_report_text?: string;

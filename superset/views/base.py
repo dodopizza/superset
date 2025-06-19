@@ -278,6 +278,7 @@ def menu_data(user: User) -> dict[str, Any]:
             "documentation_icon": appbuilder.app.config["DOCUMENTATION_ICON"],
             "documentation_text": appbuilder.app.config["DOCUMENTATION_TEXT"],
             "version_string": appbuilder.app.config["VERSION_STRING"],
+            "dodo_version_string": appbuilder.app.config["DODO_VERSION_STRING"],
             "version_sha": appbuilder.app.config["VERSION_SHA"],
             "build_number": appbuilder.app.config["BUILD_NUMBER"],
             "languages": languages,

@@ -66,6 +66,8 @@ if (typeof window !== 'undefined') {
   configure();
 }
 
+export const APP_VERSION = `${bootstrapData.common?.menu_data?.navbar_right?.version_string}_${bootstrapData.common?.menu_data?.navbar_right?.dodo_version_string}`;
+
 // Configure feature flags
 initFeatureFlags(bootstrapData.common.feature_flags);
 

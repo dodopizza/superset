@@ -7,11 +7,6 @@ import {
 
 import { BootstrapData, CommonBootstrapData } from './types/bootstrapTypes';
 
-import BASE_VERSION from './version/base'; // DODO added 45047288
-import CHANGE_VERSION from './version/change'; // DODO added 45047288
-
-export const APP_VERSION = `${BASE_VERSION}_${CHANGE_VERSION}`; // DODO added 45047288
-
 export const DATETIME_WITH_TIME_ZONE = 'YYYY-MM-DD HH:mm:ssZ';
 export const TIME_WITH_MS = 'HH:mm:ss.SSS';
 

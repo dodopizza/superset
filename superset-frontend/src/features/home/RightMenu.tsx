@@ -38,7 +38,7 @@ import { getIsOnboardingFinished } from 'src/DodoExtensions/onBoarding/model/sel
 import { setInitByUserStorageInfo } from 'src/DodoExtensions/onBoarding/utils/localStorageUtils';
 // DODO added stop 44211792
 import { Version } from 'src/DodoExtensions/components/Version'; // DODO added 45047288
-import { APP_VERSION } from 'src/constants'; // DODO added 45047288
+import { APP_VERSION } from 'src/preamble'; // DODO added 45047288
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -565,9 +565,9 @@ const RightMenu = ({
                     </div>
                   )}
                   {/* DODO added 45047288 */}
-                  {APP_VERSION && (
+                  {navbarRight.dodo_version_string && (
                     <div css={versionInfoStyles}>
-                      DODO Version: {APP_VERSION}
+                      DODO {t('Version')}: {navbarRight.dodo_version_string}
                     </div>
                   )}
                   {navbarRight.version_sha && (
