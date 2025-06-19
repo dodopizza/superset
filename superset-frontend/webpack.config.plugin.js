@@ -17,8 +17,9 @@ const parsedArgs = require('yargs').argv;
 const Dotenv = require('dotenv');
 // const getProxyConfig = require('./webpack.proxy-config');
 const packageConfig = require('./package');
+
 const BASE_VERSION = packageConfig.version;
-const DODO_VERSION = process.env.DODO_VERSION;
+const { DODO_VERSION } = process.env;
 
 const {
   PROD_OUTPUT_FOLDER,
