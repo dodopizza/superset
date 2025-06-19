@@ -565,9 +565,9 @@ const RightMenu = ({
                     </div>
                   )}
                   {/* DODO added 45047288 */}
-                  {navbarRight.dodo_version_string && (
+                  {navbarRight.dodo_version && (
                     <div css={versionInfoStyles}>
-                      DODO {t('Version')}: {navbarRight.dodo_version_string}
+                      DODO {t('Version')}: {navbarRight.dodo_version}
                     </div>
                   )}
                   {navbarRight.version_sha && (

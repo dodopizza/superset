@@ -94,7 +94,7 @@ export interface BrandProps {
 }
 
 interface NavBarPropsDodoExtended {
-  dodo_version_string?: string;
+  dodo_version?: string;
 }
 export interface NavBarProps extends NavBarPropsDodoExtended {
   show_watermark: boolean;
