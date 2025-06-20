@@ -9,7 +9,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { UAParser } from 'ua-parser-js';
-import { APP_VERSION } from '../constants';
+import { APP_VERSION } from 'src/DodoExtensions/components/Version';
 import { IFirebaseConfig } from './constants';
 
 interface IGenericData {

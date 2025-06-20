@@ -10,14 +10,12 @@ import { InfoPanelInner } from 'src/Superstructure/components/InfoPanel/InfoPane
 import { RowWrapper } from 'src/Superstructure/components/Wrappers/RowWrapper';
 import { ColumnWrapper } from 'src/Superstructure/components/Wrappers/ColumnWrapper';
 import { ServiceNotAvailable } from 'src/Superstructure/components/ServiceNotAvailable';
-import { Version } from './Version';
 
 export {
   GlobalError,
   LimitWarning,
   InfoPanel,
   InfoPanelInner,
-  Version,
   Loading,
   InfoIcon,
   RowWrapper,

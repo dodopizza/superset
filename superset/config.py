@@ -141,6 +141,7 @@ ALEMBIC_SKIP_LOG_CONFIG = False
 VERSION_STRING = _try_json_readversion(VERSION_INFO_FILE) or _try_json_readversion(
     PACKAGE_JSON_FILE
 )
+DODO_VERSION = "local"
 
 VERSION_SHA_LENGTH = 8
 VERSION_SHA = _try_json_readsha(VERSION_INFO_FILE, VERSION_SHA_LENGTH)
