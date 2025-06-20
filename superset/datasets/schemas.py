@@ -188,6 +188,7 @@ class DatasetRelatedDashboards(Schema):
 class DatasetRelatedObjectsResponse(Schema):
     charts = fields.Nested(DatasetRelatedCharts)
     dashboards = fields.Nested(DatasetRelatedDashboards)
+    filters_count = fields.Integer(metadata={"description": "Filters count"})
 
 
 class ImportV1ColumnSchema(Schema):

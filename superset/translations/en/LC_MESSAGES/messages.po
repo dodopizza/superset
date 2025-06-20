@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-16 12:50+0300\n"
+"POT-Creation-Date: 2025-06-18 12:38+0300\n"
 "PO-Revision-Date: 2016-05-02 08:49-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -532,7 +532,7 @@ msgid_plural "Deleted %(num)d annotations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: superset/charts/api.py:546
+#: superset/charts/api.py:550
 #, python-format
 msgid "Deleted %(num)d chart"
 msgid_plural "Deleted %(num)d charts"
@@ -556,35 +556,35 @@ msgstr ""
 msgid "Owned Created or Favored"
 msgstr ""
 
-#: superset/charts/schemas.py:643
+#: superset/charts/schemas.py:642
 msgid "`confidence_interval` must be between 0 and 1 (exclusive)"
 msgstr ""
 
-#: superset/charts/schemas.py:725
+#: superset/charts/schemas.py:724
 msgid ""
 "lower percentile must be greater than 0 and less than 100. Must be lower "
 "than upper percentile."
 msgstr ""
 
-#: superset/charts/schemas.py:740
+#: superset/charts/schemas.py:739
 msgid ""
 "upper percentile must be greater than 0 and less than 100. Must be higher"
 " than lower percentile."
 msgstr ""
 
-#: superset/charts/schemas.py:1097
+#: superset/charts/schemas.py:1096
 msgid "`width` must be greater or equal to 0"
 msgstr ""
 
-#: superset/charts/schemas.py:1270
+#: superset/charts/schemas.py:1269
 msgid "`row_limit` must be greater than or equal to 0"
 msgstr ""
 
-#: superset/charts/schemas.py:1277
+#: superset/charts/schemas.py:1276
 msgid "`row_offset` must be greater than or equal to 0"
 msgstr ""
 
-#: superset/charts/schemas.py:1299
+#: superset/charts/schemas.py:1298
 msgid "orderby column must be populated"
 msgstr ""
 
@@ -1701,8 +1701,8 @@ msgstr ""
 #: superset-frontend/src/explore/components/controls/TimeSeriesColumnControl/index.jsx:278
 #: superset-frontend/src/pages/ChartList/index.tsx:353
 #: superset-frontend/src/pages/ChartList/index.tsx:562
-#: superset-frontend/src/pages/DatasetList/index.tsx:371
-#: superset-frontend/src/pages/DatasetList/index.tsx:560
+#: superset-frontend/src/pages/DatasetList/index.tsx:388
+#: superset-frontend/src/pages/DatasetList/index.tsx:577
 #: superset/connectors/sqla/views.py:169 superset/connectors/sqla/views.py:260
 msgid "Type"
 msgstr ""
@@ -1879,8 +1879,8 @@ msgstr ""
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:668
 #: superset-frontend/src/features/datasets/DatasetSelectLabel/index.tsx:109
 #: superset-frontend/src/pages/DatabaseList/index.tsx:317
-#: superset-frontend/src/pages/DatasetList/index.tsx:378
-#: superset-frontend/src/pages/DatasetList/index.tsx:580
+#: superset-frontend/src/pages/DatasetList/index.tsx:395
+#: superset-frontend/src/pages/DatasetList/index.tsx:597
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:257
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:365
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:290
@@ -1903,8 +1903,8 @@ msgstr ""
 #: superset-frontend/src/components/Datasource/ChangeDatasourceModal.tsx:229
 #: superset-frontend/src/features/databases/UploadDataModel/index.tsx:685
 #: superset-frontend/src/features/datasets/DatasetSelectLabel/index.tsx:112
-#: superset-frontend/src/pages/DatasetList/index.tsx:383
-#: superset-frontend/src/pages/DatasetList/index.tsx:596
+#: superset-frontend/src/pages/DatasetList/index.tsx:400
+#: superset-frontend/src/pages/DatasetList/index.tsx:613
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:266
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:300
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:474
@@ -1952,7 +1952,7 @@ msgstr ""
 #: superset-frontend/src/pages/AlertReportList/index.tsx:315
 #: superset-frontend/src/pages/ChartList/index.tsx:412
 #: superset-frontend/src/pages/DashboardList/index.tsx:409
-#: superset-frontend/src/pages/DatasetList/index.tsx:398
+#: superset-frontend/src/pages/DatasetList/index.tsx:415
 #: superset/connectors/sqla/views.py:416 superset/views/chart/mixin.py:82
 #: superset/views/dashboard/mixin.py:81
 msgid "Owners"
@@ -2068,7 +2068,7 @@ msgstr ""
 msgid "File size exceeds the maximum allowed size."
 msgstr ""
 
-#: superset/datasets/api.py:816
+#: superset/datasets/api.py:820
 #, python-format
 msgid "Deleted %(num)d dataset"
 msgid_plural "Deleted %(num)d datasets"
@@ -2216,10 +2216,8 @@ msgstr[1] ""
 msgid "%(dialect)s cannot be used as a data source for security reasons."
 msgstr ""
 
-#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
-#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
 #: superset/security/manager.py:223
-msgid "Country"
+msgid "ID"
 msgstr ""
 
 #: superset-frontend/src/DodoExtensions/onBoarding/components/ConfirmCreateTeamModal/ConfirmCreateTeamModal.tsx:55
@@ -2232,23 +2230,33 @@ msgstr ""
 msgid "Team"
 msgstr ""
 
-#: superset/security/manager.py:230 superset/security/manager.py:263
+#: superset/security/manager.py:225
+msgid "Dodo role"
+msgstr ""
+
+#: superset-frontend/plugins/legacy-plugin-chart-country-map/src/controlPanel.ts:39
+#: superset-frontend/plugins/legacy-plugin-chart-world-map/src/controlPanel.ts:107
+#: superset/security/manager.py:226
+msgid "Country"
+msgstr ""
+
+#: superset/security/manager.py:232 superset/security/manager.py:276
 msgid "User info"
 msgstr ""
 
-#: superset/security/manager.py:234 superset/security/manager.py:267
+#: superset/security/manager.py:246 superset/security/manager.py:290
 msgid "Personal Info"
 msgstr ""
 
-#: superset/security/manager.py:246
+#: superset/security/manager.py:259
 msgid "Audit Info"
 msgstr ""
 
-#: superset/security/manager.py:2368
+#: superset/security/manager.py:2391
 msgid "Guest user cannot modify chart payload"
 msgstr ""
 
-#: superset/security/manager.py:2788
+#: superset/security/manager.py:2811
 #, python-format
 msgid "You don't have the rights to alter %(resource)s"
 msgstr ""
@@ -2321,8 +2329,8 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:548
 #: superset-frontend/src/pages/DatabaseList/index.tsx:346
 #: superset-frontend/src/pages/DatabaseList/index.tsx:505
-#: superset-frontend/src/pages/DatasetList/index.tsx:362
-#: superset-frontend/src/pages/DatasetList/index.tsx:553
+#: superset-frontend/src/pages/DatasetList/index.tsx:379
+#: superset-frontend/src/pages/DatasetList/index.tsx:570
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:133
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:258
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:282
@@ -3839,7 +3847,6 @@ msgstr ""
 #: superset-frontend/plugins/plugin-chart-echarts/src/Tree/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-echarts/src/Treemap/controlPanel.tsx:37
 #: superset-frontend/plugins/plugin-chart-echarts/src/Waterfall/controlPanel.tsx:33
-
 #: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controlPanel.tsx:36
 #: superset-frontend/plugins/plugin-chart-pivot-table/src/plugin/controlPanel.tsx:41
 #: superset-frontend/plugins/plugin-chart-table/src/controlPanel.tsx:161
@@ -3905,7 +3912,7 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:611
 #: superset-frontend/src/pages/DatabaseList/index.tsx:519
 #: superset-frontend/src/pages/DatabaseList/index.tsx:539
-#: superset-frontend/src/pages/DatasetList/index.tsx:640
+#: superset-frontend/src/pages/DatasetList/index.tsx:657
 msgid "Yes"
 msgstr ""
 
@@ -3922,7 +3929,7 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:612
 #: superset-frontend/src/pages/DatabaseList/index.tsx:520
 #: superset-frontend/src/pages/DatabaseList/index.tsx:540
-#: superset-frontend/src/pages/DatasetList/index.tsx:641
+#: superset-frontend/src/pages/DatasetList/index.tsx:658
 msgid "No"
 msgstr ""
 
@@ -7094,7 +7101,6 @@ msgid " source code of Superset's sandboxed parser"
 msgstr ""
 
 #: superset-frontend/plugins/legacy-preset-chart-deckgl/src/utilities/Shared_DeckGL.jsx:75
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:86
 msgid "This functionality is disabled in your environment for security reasons."
 msgstr ""
 
@@ -10173,21 +10179,21 @@ msgstr ""
 msgid "page_size.all"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:364
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:344
 msgid "Content with navigation"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:369
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:349
 msgid "Reset view (Esc)"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:370
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:350
 #: superset-frontend/src/DodoExtensions/dashboard/components/MetricColorConfiguration/index.tsx:436
 #: superset-frontend/src/components/Table/index.tsx:219
 msgid "Reset"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:375
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/components/Navigable/Navigable.tsx:355
 msgid "Double-click to reset zoom. Use +/- keys to zoom in/out"
 msgstr ""
 
@@ -10244,21 +10250,22 @@ msgstr ""
 msgid "Got it!"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:25
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:11
 msgid "This JavaScript code will be executed after the template is rendered."
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:27
-msgid "You can use it to add event handlers, manipulate DOM elements, etc."
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:13
+msgid ""
+"You can use it to add event handlers, manipulate DOM elements inside "
+"container, etc."
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:66
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:102
-msgid "Define JavaScript code to execute after the template is rendered"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:101
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:24
 msgid "JavaScript Code"
+msgstr ""
+
+#: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/jsExecuteCode.tsx:25
+msgid "Define JavaScript code to execute after the template is rendered"
 msgstr ""
 
 #: superset-frontend/plugins/plugin-chart-handlebars/src/DodoExtensions/plugin/controls/navigationTools.ts:9
@@ -10294,11 +10301,11 @@ msgstr ""
 msgid "must have a value"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/handlebarTemplate.tsx:59
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/handlebarTemplate.tsx:46
 msgid "Handlebars Template"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/handlebarTemplate.tsx:60
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/handlebarTemplate.tsx:47
 msgid "A handlebars template that is applied to the data"
 msgstr ""
 
@@ -10384,15 +10391,11 @@ msgstr ""
 msgid "Group By, Metrics or Percentage Metrics must have a value"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/style.tsx:52
-msgid "You need to configure HTML sanitization to use CSS"
-msgstr ""
-
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/style.tsx:74
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/style.tsx:69
 msgid "CSS Styles"
 msgstr ""
 
-#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/style.tsx:75
+#: superset-frontend/plugins/plugin-chart-handlebars/src/plugin/controls/style.tsx:70
 msgid "CSS applied to the chart"
 msgstr ""
 
@@ -10694,8 +10697,8 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:473
 #: superset-frontend/src/pages/DashboardList/index.tsx:751
 #: superset-frontend/src/pages/DatabaseList/index.tsx:456
-#: superset-frontend/src/pages/DatasetList/index.tsx:483
-#: superset-frontend/src/pages/DatasetList/index.tsx:889
+#: superset-frontend/src/pages/DatasetList/index.tsx:500
+#: superset-frontend/src/pages/DatasetList/index.tsx:919
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:573
 msgid "Export"
 msgstr ""
@@ -10945,7 +10948,7 @@ msgstr ""
 #: superset-frontend/src/pages/ChartList/index.tsx:496
 #: superset-frontend/src/pages/DashboardList/index.tsx:489
 #: superset-frontend/src/pages/DatabaseList/index.tsx:472
-#: superset-frontend/src/pages/DatasetList/index.tsx:501
+#: superset-frontend/src/pages/DatasetList/index.tsx:518
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:206
 #: superset-frontend/src/pages/Tags/index.tsx:217
 msgid "Edit"
@@ -10986,8 +10989,8 @@ msgstr ""
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:289
 #: superset-frontend/src/pages/DashboardList/index.tsx:455
 #: superset-frontend/src/pages/DashboardList/index.tsx:743
-#: superset-frontend/src/pages/DatasetList/index.tsx:467
-#: superset-frontend/src/pages/DatasetList/index.tsx:881
+#: superset-frontend/src/pages/DatasetList/index.tsx:484
+#: superset-frontend/src/pages/DatasetList/index.tsx:911
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:188
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:343
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:565
@@ -11113,7 +11116,7 @@ msgstr ""
 #: superset-frontend/src/pages/DatabaseList/index.tsx:517
 #: superset-frontend/src/pages/DatabaseList/index.tsx:537
 #: superset-frontend/src/pages/DatabaseList/index.tsx:549
-#: superset-frontend/src/pages/DatasetList/index.tsx:650
+#: superset-frontend/src/pages/DatasetList/index.tsx:667
 #: superset-frontend/src/pages/Home/index.tsx:194
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:370
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:289
@@ -11607,7 +11610,7 @@ msgstr ""
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:176
 #: superset-frontend/src/pages/DashboardList/index.tsx:505
 #: superset-frontend/src/pages/DatabaseList/index.tsx:489
-#: superset-frontend/src/pages/DatasetList/index.tsx:537
+#: superset-frontend/src/pages/DatasetList/index.tsx:554
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:343
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:222
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:428
@@ -11632,7 +11635,7 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:536
 #: superset-frontend/src/pages/DashboardList/index.tsx:560
 #: superset-frontend/src/pages/DashboardList/index.tsx:609
-#: superset-frontend/src/pages/DatasetList/index.tsx:638
+#: superset-frontend/src/pages/DatasetList/index.tsx:655
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:270
 msgid "Any"
 msgstr ""
@@ -11934,7 +11937,7 @@ msgstr ""
 #: superset-frontend/src/SqlLab/components/QueryTable/index.tsx:85
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1207
 #: superset-frontend/src/features/home/commonMenuData.ts:22
-#: superset-frontend/src/pages/DatasetList/index.tsx:419
+#: superset-frontend/src/pages/DatasetList/index.tsx:436
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:328
 msgid "SQL"
 msgstr ""
@@ -12645,11 +12648,11 @@ msgid ""
 "contains data for the selected time range"
 msgstr ""
 
-#: superset-frontend/src/components/Chart/chartAction.js:600
+#: superset-frontend/src/components/Chart/chartAction.js:601
 msgid "An error occurred while loading the SQL"
 msgstr ""
 
-#: superset-frontend/src/components/Chart/chartAction.js:661
+#: superset-frontend/src/components/Chart/chartAction.js:662
 #: superset-frontend/src/explore/components/DataTablesPane/components/useResultsPane.tsx:91
 msgid "Sorry, an error occurred"
 msgstr ""
@@ -12835,7 +12838,7 @@ msgstr ""
 
 #: superset-frontend/src/components/CopyToClipboard/index.tsx:76
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:74
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:199
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:203
 msgid "Copied to clipboard!"
 msgstr ""
 
@@ -13134,7 +13137,7 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/SliceAdder.jsx:75
 #: superset-frontend/src/features/datasets/AddDataset/Footer/index.tsx:60
 #: superset-frontend/src/pages/DatasetList/index.tsx:165
-#: superset-frontend/src/pages/DatasetList/index.tsx:955
+#: superset-frontend/src/pages/DatasetList/index.tsx:985
 msgid "dataset"
 msgstr ""
 
@@ -13473,8 +13476,8 @@ msgid ""
 msgstr ""
 
 #: superset-frontend/src/components/Datasource/DatasourceEditor.jsx:1234
-#: superset-frontend/src/pages/DatasetList/index.tsx:370
-#: superset-frontend/src/pages/DatasetList/index.tsx:568
+#: superset-frontend/src/pages/DatasetList/index.tsx:387
+#: superset-frontend/src/pages/DatasetList/index.tsx:585
 msgid "Physical"
 msgstr ""
 
@@ -13909,7 +13912,7 @@ msgstr ""
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:143
 #: superset-frontend/src/pages/DashboardList/index.tsx:423
 #: superset-frontend/src/pages/DatabaseList/index.tsx:421
-#: superset-frontend/src/pages/DatasetList/index.tsx:412
+#: superset-frontend/src/pages/DatasetList/index.tsx:429
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:158
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:373
 #: superset-frontend/src/pages/Tags/index.tsx:176
@@ -13922,7 +13925,7 @@ msgstr ""
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:231
 #: superset-frontend/src/pages/DashboardList/index.tsx:616
 #: superset-frontend/src/pages/DatabaseList/index.tsx:544
-#: superset-frontend/src/pages/DatasetList/index.tsx:645
+#: superset-frontend/src/pages/DatasetList/index.tsx:662
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:284
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:504
 #: superset-frontend/src/pages/Tags/index.tsx:255
@@ -14167,7 +14170,7 @@ msgstr ""
 msgid "You can add the components in the edit mode."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:703
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:706
 #: superset-frontend/src/dashboard/components/DashboardGrid.jsx:237
 #, fuzzy
 msgid "Edit the dashboard"
@@ -14335,7 +14338,7 @@ msgstr ""
 #: superset-frontend/src/pages/ChartCreation/index.tsx:337
 #: superset-frontend/src/pages/ChartList/index.tsx:366
 #: superset-frontend/src/pages/ChartList/index.tsx:588
-#: superset-frontend/src/pages/DatasetList/index.tsx:688
+#: superset-frontend/src/pages/DatasetList/index.tsx:705
 msgid "Dataset"
 msgstr ""
 
@@ -14364,24 +14367,24 @@ msgstr ""
 msgid "Live CSS editor"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:577
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:580
 msgid "Collapse tab content"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:696
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:699
 msgid "There are no charts added to this dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:699
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:702
 msgid "Go to the edit mode to configure the dashboard and add charts"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:732
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:735
 #, fuzzy
 msgid "Unable to load dashboard"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:737
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:740
 #, python-format
 msgid ""
 "The following filters have the 'Select first filter value by default'\n"
@@ -14390,7 +14393,7 @@ msgid ""
 "                    from rendering: %s"
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:762
+#: superset-frontend/src/dashboard/components/DashboardBuilder/DashboardBuilder.tsx:765
 #: superset-frontend/src/explore/components/ExploreChartHeader/index.jsx:277
 msgid "Processing file export..."
 msgstr ""
@@ -14560,7 +14563,7 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:260
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:861
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:327
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:331
 msgid "Download"
 msgstr ""
 
@@ -14574,14 +14577,14 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:275
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:836
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:376
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:380
 #: superset-frontend/src/features/home/SavedQueries.tsx:208
 msgid "Share"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:279
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:844
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:378
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:382
 msgid "Copy permalink to clipboard"
 msgstr ""
 
@@ -14595,7 +14598,7 @@ msgid "Embed dashboard"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/Header/HeaderActionsDropdown/index.jsx:302
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:406
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:410
 msgid "Manage email report"
 msgstr ""
 
@@ -14782,7 +14785,7 @@ msgstr ""
 msgid "One ore more annotation layers failed loading."
 msgstr ""
 
-#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:345
+#: superset-frontend/src/dashboard/components/SliceHeader/index.tsx:346
 msgid ""
 "This chart applies cross-filters to charts whose datasets contain columns"
 " with the same name."
@@ -14827,8 +14830,8 @@ msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:778
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:780
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:432
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:434
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:436
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:438
 msgid "View query"
 msgstr ""
 
@@ -14842,7 +14845,7 @@ msgid "Chart Data: %s"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:845
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:381
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:385
 msgid "Share chart by email"
 msgstr ""
 
@@ -14851,12 +14854,12 @@ msgid "Check out this chart: "
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:869
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:352
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:356
 msgid "Export to .CSV"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:884
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:373
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:377
 msgid "Export to Excel"
 msgstr ""
 
@@ -14869,7 +14872,7 @@ msgid "Export to full Excel"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/SliceHeaderControls/index.tsx:910
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:366
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:370
 msgid "Download as image"
 msgstr ""
 
@@ -15005,7 +15008,7 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/menu/ShareMenuItems/index.tsx:90
 #: superset-frontend/src/explore/components/EmbedCodeContent.jsx:58
 #: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:137
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:201
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:205
 msgid "Sorry, something went wrong. Try again later."
 msgstr ""
 
@@ -15260,12 +15263,12 @@ msgid "Filter Settings"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:327
-#: superset-frontend/src/filters/components/Select/index.ts:28
+#: superset-frontend/src/filters/components/Select/index.ts:13
 msgid "Select filter"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:328
-#: superset-frontend/src/filters/components/Range/index.ts:28
+#: superset-frontend/src/filters/components/Range/index.ts:13
 msgid "Range filter"
 msgstr ""
 
@@ -15274,7 +15277,7 @@ msgid "Numerical range"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:329
-#: superset-frontend/src/filters/components/Time/index.ts:27
+#: superset-frontend/src/filters/components/Time/index.ts:12
 msgid "Time filter"
 msgstr ""
 
@@ -15288,13 +15291,13 @@ msgstr ""
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:330
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:793
 #: superset-frontend/src/explore/constants.ts:115
-#: superset-frontend/src/filters/components/TimeColumn/index.ts:28
+#: superset-frontend/src/filters/components/TimeColumn/index.ts:13
 msgid "Time column"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:331
 #: superset-frontend/src/explore/constants.ts:116
-#: superset-frontend/src/filters/components/TimeGrain/index.ts:28
+#: superset-frontend/src/filters/components/TimeGrain/index.ts:13
 msgid "Time grain"
 msgstr ""
 
@@ -15307,7 +15310,7 @@ msgid "Group by"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:333
-#: superset-frontend/src/filters/components/Select/index-by-id.ts:31
+#: superset-frontend/src/filters/components/Select/index-by-id.ts:33
 msgid "Select by id filter"
 msgstr ""
 
@@ -15316,7 +15319,7 @@ msgid "Filter by ID"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:334
-#: superset-frontend/src/filters/components/Select/index-with-translation.ts:35
+#: superset-frontend/src/filters/components/Select/index-with-translation.ts:37
 msgid "Select with translation"
 msgstr ""
 
@@ -15325,7 +15328,7 @@ msgid "Value with translation"
 msgstr ""
 
 #: superset-frontend/src/dashboard/components/nativeFilters/FiltersConfigModal/FiltersConfigForm/FiltersConfigForm.tsx:335
-#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:43
+#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:45
 msgid "Select by id with translation"
 msgstr ""
 
@@ -15552,11 +15555,11 @@ msgstr ""
 msgid "Are you sure you want to cancel?"
 msgstr ""
 
-#: superset-frontend/src/dashboard/containers/DashboardPage.tsx:252
+#: superset-frontend/src/dashboard/containers/DashboardPage.tsx:267
 msgid "Error loading chart datasources. Filters may not work correctly."
 msgstr ""
 
-#: superset-frontend/src/dashboard/containers/DashboardPage.tsx:263
+#: superset-frontend/src/dashboard/containers/DashboardPage.tsx:278
 msgid "Error loading chart filter sets. Primary filter set won't be applied."
 msgstr ""
 
@@ -16744,7 +16747,7 @@ msgid "Edit dataset"
 msgstr ""
 
 #: superset-frontend/src/explore/components/controls/DatasourceControl/index.jsx:313
-#: superset-frontend/src/pages/DatasetList/index.tsx:502
+#: superset-frontend/src/pages/DatasetList/index.tsx:519
 msgid ""
 "You must be a dataset owner in order to edit. Please reach out to a "
 "dataset owner to request modifications or edit access."
@@ -17420,34 +17423,34 @@ msgstr ""
 msgid "Superset Chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:261
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:265
 msgid "New chart"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:313
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:317
 msgid "Edit chart properties"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:317
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:321
 #: superset-frontend/src/pages/ChartList/index.tsx:377
 #, fuzzy
 msgid "On dashboards"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:335
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:339
 msgid "Export to original .CSV"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:360
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:364
 msgid "Export to .JSON"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:387
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:389
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:391
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:393
 msgid "Embed code"
 msgstr ""
 
-#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:445
+#: superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.jsx:449
 msgid "Run in SQL Lab"
 msgstr ""
 
@@ -17982,7 +17985,7 @@ msgstr ""
 #: superset-frontend/src/pages/DashboardList/index.tsx:443
 #: superset-frontend/src/pages/DashboardList/index.tsx:732
 #: superset-frontend/src/pages/DashboardList/index.tsx:787
-#: superset-frontend/src/pages/DatasetList/index.tsx:870
+#: superset-frontend/src/pages/DatasetList/index.tsx:900
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:176
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:334
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:556
@@ -19025,7 +19028,7 @@ msgid "Duplicate dataset"
 msgstr ""
 
 #: superset-frontend/src/features/datasets/DuplicateDatasetModal.tsx:64
-#: superset-frontend/src/pages/DatasetList/index.tsx:521
+#: superset-frontend/src/pages/DatasetList/index.tsx:538
 msgid "Duplicate"
 msgstr ""
 
@@ -19412,7 +19415,7 @@ msgstr ""
 #: superset-frontend/src/pages/AnnotationList/index.tsx:122
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:94
 #: superset-frontend/src/pages/DatabaseList/index.tsx:195
-#: superset-frontend/src/pages/DatasetList/index.tsx:733
+#: superset-frontend/src/pages/DatasetList/index.tsx:750
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:241
 #: superset-frontend/src/views/CRUD/utils.tsx:314
 #: superset-frontend/src/views/CRUD/utils.tsx:353
@@ -19426,7 +19429,7 @@ msgstr ""
 #: superset-frontend/src/pages/AnnotationList/index.tsx:126
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:98
 #: superset-frontend/src/pages/DatabaseList/index.tsx:209
-#: superset-frontend/src/pages/DatasetList/index.tsx:737
+#: superset-frontend/src/pages/DatasetList/index.tsx:754
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:100
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:244
 #: superset-frontend/src/views/CRUD/utils.tsx:357
@@ -19614,7 +19617,7 @@ msgid ""
 msgstr ""
 
 #: superset-frontend/src/features/rls/RowLevelSecurityModal.tsx:396
-#: superset-frontend/src/pages/DatasetList/index.tsx:670
+#: superset-frontend/src/pages/DatasetList/index.tsx:687
 msgid "Datasets"
 msgstr ""
 
@@ -19774,18 +19777,18 @@ msgstr ""
 msgid "Use only a single value."
 msgstr ""
 
-#: superset-frontend/src/filters/components/Range/index.ts:29
+#: superset-frontend/src/filters/components/Range/index.ts:14
 msgid "Range filter plugin using AntD"
 msgstr ""
 
-#: superset-frontend/src/filters/components/Range/index.ts:31
-#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:47
-#: superset-frontend/src/filters/components/Select/index-by-id.ts:35
-#: superset-frontend/src/filters/components/Select/index-with-translation.ts:39
-#: superset-frontend/src/filters/components/Select/index.ts:32
-#: superset-frontend/src/filters/components/Time/index.ts:31
-#: superset-frontend/src/filters/components/TimeColumn/index.ts:31
-#: superset-frontend/src/filters/components/TimeGrain/index.ts:31
+#: superset-frontend/src/filters/components/Range/index.ts:16
+#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:49
+#: superset-frontend/src/filters/components/Select/index-by-id.ts:37
+#: superset-frontend/src/filters/components/Select/index-with-translation.ts:41
+#: superset-frontend/src/filters/components/Select/index.ts:17
+#: superset-frontend/src/filters/components/Time/index.ts:16
+#: superset-frontend/src/filters/components/TimeColumn/index.ts:16
+#: superset-frontend/src/filters/components/TimeGrain/index.ts:16
 msgid "Experimental"
 msgstr ""
 
@@ -19838,23 +19841,23 @@ msgid ""
 " add stress to your database)."
 msgstr ""
 
-#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:44
+#: superset-frontend/src/filters/components/Select/index-by-id-with-translation.ts:46
 msgid "Select by id with translation filter plugin using AntD'"
 msgstr ""
 
-#: superset-frontend/src/filters/components/Select/index-by-id.ts:32
+#: superset-frontend/src/filters/components/Select/index-by-id.ts:34
 msgid "Select by id filter plugin using AntD'"
 msgstr ""
 
-#: superset-frontend/src/filters/components/Select/index-with-translation.ts:36
+#: superset-frontend/src/filters/components/Select/index-with-translation.ts:38
 msgid "Select with translation filter plugin using AntD'"
 msgstr ""
 
-#: superset-frontend/src/filters/components/Select/index.ts:29
+#: superset-frontend/src/filters/components/Select/index.ts:14
 msgid "Select filter plugin using AntD"
 msgstr ""
 
-#: superset-frontend/src/filters/components/Time/index.ts:28
+#: superset-frontend/src/filters/components/Time/index.ts:13
 msgid "Custom time filter plugin"
 msgstr ""
 
@@ -19862,11 +19865,11 @@ msgstr ""
 msgid "No time columns"
 msgstr ""
 
-#: superset-frontend/src/filters/components/TimeColumn/index.ts:29
+#: superset-frontend/src/filters/components/TimeColumn/index.ts:14
 msgid "Time column filter plugin"
 msgstr ""
 
-#: superset-frontend/src/filters/components/TimeGrain/index.ts:29
+#: superset-frontend/src/filters/components/TimeGrain/index.ts:14
 msgid "Time grain filter plugin"
 msgstr ""
 
@@ -19933,7 +19936,7 @@ msgstr ""
 #: superset-frontend/src/pages/AlertReportList/index.tsx:457
 #: superset-frontend/src/pages/ChartList/index.tsx:611
 #: superset-frontend/src/pages/DashboardList/index.tsx:580
-#: superset-frontend/src/pages/DatasetList/index.tsx:612
+#: superset-frontend/src/pages/DatasetList/index.tsx:629
 msgid "Owner"
 msgstr ""
 
@@ -19954,7 +19957,7 @@ msgstr ""
 #: superset-frontend/src/pages/CssTemplateList/index.tsx:241
 #: superset-frontend/src/pages/DashboardList/index.tsx:626
 #: superset-frontend/src/pages/DatabaseList/index.tsx:554
-#: superset-frontend/src/pages/DatasetList/index.tsx:655
+#: superset-frontend/src/pages/DatasetList/index.tsx:672
 #: superset-frontend/src/pages/RowLevelSecurityList/index.tsx:294
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:464
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:514
@@ -20139,7 +20142,7 @@ msgstr ""
 
 #: superset-frontend/src/pages/ChartList/index.tsx:645
 #: superset-frontend/src/pages/DashboardList/index.tsx:603
-#: superset-frontend/src/pages/DatasetList/index.tsx:632
+#: superset-frontend/src/pages/DatasetList/index.tsx:649
 msgid "Certified"
 msgstr ""
 
@@ -20282,98 +20285,107 @@ msgstr ""
 msgid "Delete Database?"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:207
+#: superset-frontend/src/pages/DatasetList/index.tsx:212
 msgid "Dataset imported"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:243
+#: superset-frontend/src/pages/DatasetList/index.tsx:248
 msgid "An error occurred while fetching dataset related data"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:263
+#: superset-frontend/src/pages/DatasetList/index.tsx:269
 #, python-format
 msgid "An error occurred while fetching dataset related data: %s"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:294
+#: superset-frontend/src/pages/DatasetList/index.tsx:300
 msgid "Physical dataset"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:302
+#: superset-frontend/src/pages/DatasetList/index.tsx:308
 msgid "Virtual dataset"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:370
-#: superset-frontend/src/pages/DatasetList/index.tsx:567
+#: superset-frontend/src/pages/DatasetList/index.tsx:387
+#: superset-frontend/src/pages/DatasetList/index.tsx:584
 msgid "Virtual"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:573
+#: superset-frontend/src/pages/DatasetList/index.tsx:590
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:426
 msgid "Search by query text"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:590
+#: superset-frontend/src/pages/DatasetList/index.tsx:607
 #, python-format
 msgid "An error occurred while fetching datasets: %s"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:606
+#: superset-frontend/src/pages/DatasetList/index.tsx:623
 #: superset-frontend/src/pages/QueryHistoryList/index.tsx:394
 #: superset-frontend/src/pages/SavedQueryList/index.tsx:485
 #, python-format
 msgid "An error occurred while fetching schema values: %s"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:622
+#: superset-frontend/src/pages/DatasetList/index.tsx:639
 #, python-format
 msgid "An error occurred while fetching dataset owner values: %s"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:701
+#: superset-frontend/src/pages/DatasetList/index.tsx:718
 msgid "Import datasets"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:755
+#: superset-frontend/src/pages/DatasetList/index.tsx:772
 #, python-format
 msgid "There was an issue deleting the selected datasets: %s"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:763
+#: superset-frontend/src/pages/DatasetList/index.tsx:780
 msgid "There was an issue duplicating the dataset."
-msgstr ""
-
-#: superset-frontend/src/pages/DatasetList/index.tsx:779
-#, python-format
-msgid "There was an issue duplicating the selected datasets: %s"
 msgstr ""
 
 #: superset-frontend/src/pages/DatasetList/index.tsx:796
 #, python-format
-msgid "The dataset %s is linked to"
+msgid "There was an issue duplicating the selected datasets: %s"
 msgstr ""
 
 #: superset-frontend/src/pages/DatasetList/index.tsx:804
+msgid "Also the dataset is linked to"
+msgstr ""
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:807
+#, python-format
+msgid "%s dashboard filters."
+msgstr ""
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:826
+#, python-format
+msgid "The dataset %s is linked to"
+msgstr ""
+
+#: superset-frontend/src/pages/DatasetList/index.tsx:834
 #, python-format
 msgid "%s charts"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:806
+#: superset-frontend/src/pages/DatasetList/index.tsx:836
 msgid "that appear on"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:808
+#: superset-frontend/src/pages/DatasetList/index.tsx:838
 #, python-format
 msgid "%s dashboards."
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:816
+#: superset-frontend/src/pages/DatasetList/index.tsx:850
 msgid ""
 "Are you sure you want to continue? Deleting the dataset will break those "
 "objects."
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:823
+#: superset-frontend/src/pages/DatasetList/index.tsx:859
 #, python-format
 msgid ""
 "The dataset %s is linked to %s charts that appear on %s dashboards. Are "
@@ -20381,41 +20393,29 @@ msgid ""
 "objects."
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:838
-msgid "It will also affect"
-msgstr ""
-
-#: superset-frontend/src/pages/DatasetList/index.tsx:840
-msgid "the dashboard filters"
-msgstr ""
-
-#: superset-frontend/src/pages/DatasetList/index.tsx:842
-msgid "tied to this dataset if any."
-msgstr ""
-
-#: superset-frontend/src/pages/DatasetList/index.tsx:853
+#: superset-frontend/src/pages/DatasetList/index.tsx:883
 msgid "Delete Dataset?"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:871
+#: superset-frontend/src/pages/DatasetList/index.tsx:901
 msgid "Are you sure you want to delete the selected datasets?"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:924
+#: superset-frontend/src/pages/DatasetList/index.tsx:954
 msgid "0 Selected"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:927
+#: superset-frontend/src/pages/DatasetList/index.tsx:957
 #, python-format
 msgid "%s Selected (Virtual)"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:934
+#: superset-frontend/src/pages/DatasetList/index.tsx:964
 #, python-format
 msgid "%s Selected (Physical)"
 msgstr ""
 
-#: superset-frontend/src/pages/DatasetList/index.tsx:941
+#: superset-frontend/src/pages/DatasetList/index.tsx:971
 #, python-format
 msgid "%s Selected (%s Physical, %s Virtual)"
 msgstr ""
