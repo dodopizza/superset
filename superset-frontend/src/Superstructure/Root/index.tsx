@@ -6,14 +6,9 @@ import { styled } from '@superset-ui/core';
 import Icons from 'src/components/Icons';
 
 import setupPlugins from 'src/setup/setupPlugins';
-import { APP_VERSION } from 'src/DodoExtensions/appVersion';
+import { Version } from 'src/DodoExtensions/components/Version';
 import setupClient from '../setupClient';
-import {
-  GlobalError,
-  Loading,
-  ServiceNotAvailable,
-  Version,
-} from '../components';
+import { GlobalError, Loading, ServiceNotAvailable } from '../components';
 import {
   AnnotationLayer,
   Dashboard,
@@ -502,7 +497,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
   if (isError) {
     return (
       <>
-        <Version appVersion={APP_VERSION} />
+        <Version />
         <GlobalError
           title={errorObject.title}
           body={errorObject.msg}
@@ -514,7 +509,7 @@ export const RootComponent = (incomingParams: MicrofrontendParams) => {
 
   return (
     <>
-      <Version appVersion={APP_VERSION} />
+      <Version />
       <ContentWrapper>
         {!isLoaded || !isFullConfigReady ? (
           <Loading />

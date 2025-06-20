@@ -38,7 +38,6 @@ import { getIsOnboardingFinished } from 'src/DodoExtensions/onBoarding/model/sel
 import { setInitByUserStorageInfo } from 'src/DodoExtensions/onBoarding/utils/localStorageUtils';
 // DODO added stop 44211792
 import { Version } from 'src/DodoExtensions/components/Version'; // DODO added 45047288
-import { APP_VERSION } from 'src/DodoExtensions/appVersion'; // DODO added 45047288
 import LanguagePicker from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -367,7 +366,8 @@ const RightMenu = ({
 
   return (
     <StyledDiv align={align}>
-      <Version appVersion={APP_VERSION} /> {/* DODO added 45047288 */}
+      {/* DODO added 45047288 */}
+      <Version />
       {canDatabase && (
         <DatabaseModal
           onHide={handleOnHideModal}

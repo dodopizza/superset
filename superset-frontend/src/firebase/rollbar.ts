@@ -1,5 +1,5 @@
 import type { Configuration } from 'rollbar';
-import { APP_VERSION } from 'src/DodoExtensions/appVersion';
+import { APP_VERSION } from 'src/DodoExtensions/components/Version';
 
 type Env = 'production' | 'development' | 'local';
 const ENV_MAP: Record<string, Env> = {
