@@ -52,6 +52,7 @@ import {
   getPrimaryFilterSetDataMask,
   transformFilterSetFullData,
 } from 'src/DodoExtensions/FilterSets/utils';
+import FeedbackForm from 'src/DodoExtensions/dashboard/components/FeedbackForm'; // DODO added 51127740
 import { RootState } from '../types';
 import {
   chartContextMenuStyles,
@@ -303,6 +304,9 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
           <DashboardBuilder />
         </DashboardContainer>
       </DashboardPageIdContext.Provider>
+
+      {/* DODO added 51127740 */}
+      <FeedbackForm dashboardId={dashboard?.id} />
     </Suspense>
   );
 };
