@@ -6,6 +6,7 @@ import { styled } from '@superset-ui/core';
 import Icons from 'src/components/Icons';
 
 import setupPlugins from 'src/setup/setupPlugins';
+import { APP_VERSION } from 'src/DodoExtensions/appVersion';
 import setupClient from '../setupClient';
 import {
   GlobalError,
@@ -47,7 +48,6 @@ import {
   RootComponentWrapper,
 } from './styles';
 
-import { APP_VERSION } from '../parseEnvFile';
 import { serializeValue } from '../parseEnvFile/utils';
 import { addSlash, logConfigs } from './helpers';
 
