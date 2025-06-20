@@ -565,8 +565,10 @@
       "Screenshot width must be between %(min)spx and %(max)spx": [""],
       "Value must be 0 or greater": [""],
       "%(dialect)s cannot be used as a data source for security reasons.": [""],
-      "Country": [""],
+      "ID": [""],
       "Team": [""],
+      "Dodo role": [""],
+      "Country": [""],
       "User info": [""],
       "Personal Info": [""],
       "Audit Info": [""],
@@ -2406,8 +2408,8 @@
       "You can use it to add event handlers, manipulate DOM elements inside container, etc.": [
         ""
       ],
-      "Define JavaScript code to execute after the template is rendered": [""],
       "JavaScript Code": [""],
+      "Define JavaScript code to execute after the template is rendered": [""],
       "Allow navigation tools": [""],
       "Enable navigation tools for the handlebars template. Allows panning with middle mouse button or Cmd/Alt+drag, and zooming with Cmd/Alt+mouse wheel.": [
         ""
@@ -2439,7 +2441,6 @@
       "Rows per page, 0 means no pagination": [""],
       "Query mode": [""],
       "Group By, Metrics or Percentage Metrics must have a value": [""],
-      "You need to configure HTML sanitization to use CSS": [""],
       "CSS Styles": [""],
       "CSS applied to the chart": [""],
       "Columns to group by on the columns": [""],
@@ -4924,6 +4925,8 @@
       "There was an issue deleting the selected datasets: %s": [""],
       "There was an issue duplicating the dataset.": [""],
       "There was an issue duplicating the selected datasets: %s": [""],
+      "Also the dataset is linked to": [""],
+      "%s dashboard filters.": [""],
       "The dataset %s is linked to": [""],
       "%s charts": [""],
       "that appear on": [""],
@@ -4934,9 +4937,6 @@
       "The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.": [
         ""
       ],
-      "It will also affect": [""],
-      "the dashboard filters": [""],
-      "tied to this dataset if any.": [""],
       "Delete Dataset?": [""],
       "Are you sure you want to delete the selected datasets?": [""],
       "0 Selected": [""],
