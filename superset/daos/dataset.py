@@ -30,6 +30,7 @@ from superset.models.core import Database
 from superset.models.dashboard import Dashboard
 from superset.models.slice import Slice
 from superset.sql_parse import Table
+from superset.utils import json
 from superset.utils.core import DatasourceType
 from superset.views.base import DatasourceFilter
 
@@ -68,7 +69,30 @@ class DatasetDAO(BaseDAO[SqlaTable]):
             .distinct()
             .all()
         )
-        return {"charts": charts, "dashboards": dashboards}
+
+        filters_count = 0
+        all_dashboards = db.session.query(Dashboard).all()
+
+        for dashboard in all_dashboards:
+            if not dashboard.json_metadata:
+                continue
+            try:
+                metadata = json.loads(dashboard.json_metadata)
+                native_filters = metadata.get("native_filter_configuration", [])
+
+                for filter_config in native_filters:
+                    for target in filter_config.get("targets", []):
+                        if target.get("datasetId") == int(database_id):
+                            filters_count += 1
+                            break
+            except (json.JSONDecodeError, AttributeError):
+                continue
+
+        return {
+            "charts": charts,
+            "dashboards": dashboards,
+            "filters_count": filters_count,
+        }
 
     @staticmethod
     def validate_table_exists(

@@ -165,7 +165,12 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   } = useListViewResource<Dataset>('dataset', t('dataset'), addDangerToast);
 
   const [datasetCurrentlyDeleting, setDatasetCurrentlyDeleting] = useState<
-    (Dataset & { chart_count: number; dashboard_count: number }) | null
+    | (Dataset & {
+        chart_count: number;
+        dashboard_count: number;
+        filter_count: number; // DODO added 51374126
+      })
+    | null
   >(null);
 
   const [datasetCurrentlyEditing, setDatasetCurrentlyEditing] =
@@ -256,6 +261,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
           ...dataset,
           chart_count: json.charts.count,
           dashboard_count: json.dashboards.count,
+          filter_count: json.filters_count, // DODO added 51374126
         });
       })
       .catch(
@@ -308,6 +314,17 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         disableSortBy: true,
         size: 'xs',
         id: 'id',
+      },
+      // DODO added 51192827
+      {
+        Cell: ({
+          row: {
+            original: { id },
+          },
+        }: any) => id,
+        Header: 'ID',
+        disableSortBy: true,
+        size: 'xs',
       },
       {
         Cell: ({
@@ -782,14 +799,27 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
     );
   };
 
+  const dashboardFiltersDeleteMessage = (
+    <p>
+      {t('Also the dataset is linked to')}{' '}
+      {datasetCurrentlyDeleting?.filter_count ? (
+        <WarningHighlighting>
+          {t('%s dashboard filters.', datasetCurrentlyDeleting.filter_count)}
+        </WarningHighlighting>
+      ) : (
+        t('%s dashboard filters.', datasetCurrentlyDeleting?.filter_count || 0)
+      )}
+    </p>
+  );
+
   return (
     <>
       <SubMenu {...menuData} />
       {datasetCurrentlyDeleting && (
         <DeleteModal
           description={
+            // DODO added start
             <>
-              {/* DODO changed */}
               {datasetCurrentlyDeleting.chart_count ? (
                 <>
                   <p>
@@ -812,6 +842,10 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
                     </WarningHighlighting>
                   </p>
                   <br />
+
+                  {dashboardFiltersDeleteMessage}
+                  <br />
+
                   <p>
                     {t(
                       'Are you sure you want to continue? Deleting the dataset will break those objects.',
@@ -819,28 +853,24 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
                   </p>
                 </>
               ) : (
-                <p>
-                  {t(
-                    'The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.',
-                    datasetCurrentlyDeleting.table_name,
-                    datasetCurrentlyDeleting.chart_count,
-                    datasetCurrentlyDeleting.dashboard_count,
-                  )}
-                </p>
+                // DODO added stop
+                <>
+                  <p>
+                    {t(
+                      'The dataset %s is linked to %s charts that appear on %s dashboards. Are you sure you want to continue? Deleting the dataset will break those objects.',
+                      datasetCurrentlyDeleting.table_name,
+                      datasetCurrentlyDeleting.chart_count,
+                      datasetCurrentlyDeleting.dashboard_count,
+                    )}
+                  </p>
+                  {dashboardFiltersDeleteMessage}
+                </>
               )}
               {DatasetDeleteRelatedExtension && (
                 <DatasetDeleteRelatedExtension
                   dataset={datasetCurrentlyDeleting}
                 />
               )}
-              {/* DODO added */}
-              <p>
-                {t('It will also affect')}{' '}
-                <WarningHighlighting>
-                  {t('the dashboard filters')}
-                </WarningHighlighting>{' '}
-                {t('tied to this dataset if any.')}
-              </p>
             </>
           }
           onConfirm={() => {
